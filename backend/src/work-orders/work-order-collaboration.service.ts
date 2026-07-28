@@ -3,7 +3,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { TenancyContext } from '../common/tenancy.context';
 import { NotificationsGateway } from '../notifications/notifications.gateway';
 import { AddWorkOrderCommentDto } from './dto/add-comment.dto';
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID } from 'crypto';
 
 @Injectable()
 export class WorkOrderCollaborationService {
@@ -44,7 +44,7 @@ export class WorkOrderCollaborationService {
 
   async share(id: string) {
     const organizationId = TenancyContext.organizationId || '';
-    const shareToken = uuidv4();
+    const shareToken = randomUUID();
 
     return this.prisma.workOrder.update({
       where: { id, organizationId },
