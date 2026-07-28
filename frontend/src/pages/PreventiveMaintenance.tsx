@@ -253,7 +253,7 @@ export const PreventiveMaintenancePage = () => {
             result = result.filter((s: PMSchedule) => s.categoryId && selectedCategoryIds.includes(s.categoryId));
         }
         if (selectedTeamIds.length > 0) {
-            result = result.filter((s: PMSchedule) => s.teamId && selectedTeamIds.includes(s.teamId));
+            result = result.filter((s: PMSchedule) => (s as any).teamId && selectedTeamIds.includes((s as any).teamId));
         }
 
         // Advanced Filters

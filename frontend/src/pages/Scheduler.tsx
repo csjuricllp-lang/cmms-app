@@ -442,7 +442,6 @@ export const Scheduler = () => {
                         }}
                         onSelectWo={setSelectedWo}
                         onEditWo={setEditingWo}
-                        onOpenSavedViews={() => setIsSavedViewsOpen(true)}
                     />
 
                     {/* Team Schedule Section */}
