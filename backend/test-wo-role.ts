@@ -1,0 +1,1 @@
+import { PrismaClient } from '@prisma/client'; const prisma = new PrismaClient(); async function main() { const uos = await prisma.userOrganization.findMany({ include: { role: true } }); console.log(uos[0].role); } main().finally(() => prisma.$disconnect());

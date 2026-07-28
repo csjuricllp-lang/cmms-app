@@ -1,0 +1,1 @@
+import { PrismaClient } from '@prisma/client'; const prisma = new PrismaClient(); async function main() { const orgs = await prisma.userOrganization.findMany(); console.log(orgs.length); } main().finally(() => prisma.$disconnect());

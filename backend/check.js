@@ -1,0 +1,1 @@
+const { PrismaClient } = require('@prisma/client'); const prisma = new PrismaClient(); async function main() { const wos = await prisma.workOrder.findFirst({ where: { workOrderNo: 1005 }}); console.log(wos.status, wos.lotoVerified); } main().catch(console.error).finally(() => prisma.$disconnect());

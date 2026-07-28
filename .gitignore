@@ -1,0 +1,37 @@
+# Dependencies
+node_modules/
+
+# Environment Variables
+.env
+.env.*
+!.env.example
+
+# Build outputs
+dist/
+build/
+dist-ssr/
+
+# Temporary files & debug scratch scripts
+scratch/
+backend/scratch/
+frontend/scratch/
+tmp/
+*.log
+ts_errors*.txt
+tsc_output.txt
+errors*.txt
+prisma_err*.txt
+local_lint*.txt
+lint_*.txt
+out.txt
+
+# Uploads
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# OS / Editor clutter
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+.idea/

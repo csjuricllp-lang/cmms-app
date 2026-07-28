@@ -1,0 +1,1 @@
+const { PrismaClient } = require('@prisma/client'); const prisma = new PrismaClient(); async function main() { const logs = await prisma.workOrderTimeLog.findMany({ where: { workOrder: { workOrderNo: 1005 } } }); console.log(logs); } main().catch(console.error).finally(() => prisma.$disconnect());

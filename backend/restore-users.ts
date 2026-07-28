@@ -1,0 +1,1 @@
+import { PrismaClient } from '@prisma/client'; const prisma = new PrismaClient(); async function main() { await prisma.user.updateMany({ data: { deletedAt: null } }); console.log('Restored users'); } main().finally(() => prisma.$disconnect());

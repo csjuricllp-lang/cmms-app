@@ -1,0 +1,1 @@
+const { PrismaClient } = require('@prisma/client'); const prisma = new PrismaClient(); async function main() { const s = await prisma.setting.findFirst({ where: { key: 'wo.autoUpdateTimer' } }); console.log(s); } main().catch(console.error).finally(() => prisma.$disconnect());

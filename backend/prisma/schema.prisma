@@ -1,0 +1,1694 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Organization {
+  id                    String                 @id @default(uuid())
+  name                  String
+  plan                  String                 @default("FREE")
+  featureFlags          Json?
+  businessHours         Json?
+  subscriptionEndsAt    DateTime?
+  teamSize              String?
+  deletedAt             DateTime?
+  createdAt             DateTime               @default(now())
+  updatedAt             DateTime               @updatedAt
+  apiKeys               ApiKey[]
+  approvalChains        ApprovalChain[]
+  assets                Asset[]
+  assetFields           AssetField[]
+  assetParts            AssetPart[]
+  assetSchedules        AssetSchedule[]
+  assetTemplates        AssetTemplate[]
+  auditLogs             AuditLog[]
+  categories            Category[]
+  changeLog             ChangeLog[]
+  failureCodes          FailureCode[]
+  checklists            Checklist[]
+  customStatuses        CustomStatus[]
+  customers             Customer[]
+  featureFlagsRelation  FeatureFlag[]
+  inventoryLines        InventoryLine[]
+  inventoryTransactions InventoryTransaction[]
+  invitations           Invitation[]
+  locations             Location[]
+  maintenanceRequests   MaintenanceRequest[]
+  meters                Meter[]
+  notifications         Notification[]
+  notificationTemplates NotificationTemplate[]
+  pmSchedules           PMSchedule[]
+  pushSubscriptions     PushSubscription[]
+  pmTemplates           PMScheduleTemplate[]
+  parts                 Part[]
+  partTemplates         PartTemplate[]
+  purchaseOrders        PurchaseOrder[]
+  roles                 Role[]
+  savedViews            SavedView[]
+  scheduledReports      ScheduledReport[]
+  settings              Setting[]
+  shifts                Shift[]
+  syncConflicts         SyncConflict[]
+  syncQueue             SyncQueue[]
+  syncState             SyncState[]
+  tags                  Tag[]
+  teams                 Team[]
+  members               UserOrganization[]
+  vendors               Vendor[]
+  webhookSubscriptions  WebhookSubscription[]
+  workOrders            WorkOrder[]
+  workflowRules         WorkflowRule[]
+  ssoConfig             SsoConfig?
+}
+
+model AuditLog {
+  id             String       @id @default(uuid())
+  action         String
+  model          String
+  entityId       String
+  userId         String?
+  organizationId String
+  oldData        Json?
+  newData        Json?
+  ipAddress      String?
+  userAgent      String?
+  createdAt      DateTime     @default(now())
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  user           User?        @relation(fields: [userId], references: [id])
+}
+
+model User {
+  id                String             @id @default(uuid())
+  email             String             @unique
+  password          String?
+  firstName         String?
+  lastName          String?
+  name              String
+  phone             String?
+  jobTitle          String?
+  department        String?
+  avatarUrl         String?
+  ssoProvider       String?
+  ssoId             String?            @unique
+  isActive          Boolean            @default(true)
+  invitationToken   String?            @unique
+  lastLoginAt       DateTime?
+  lastLoginIp       String?
+  lastActiveAt      DateTime?          @default(now())
+  deletedAt         DateTime?
+  deactivatedById    String?
+  deactivatedAt      DateTime?
+  deactivationReason String?
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  auditLogs         AuditLog[]
+  invitationsIssued Invitation[]
+  refreshTokens     RefreshToken[]
+  organizations     UserOrganization[]
+}
+
+model Role {
+  id                String             @id @default(uuid())
+  name              String
+  description       String?
+  externalId        String?
+  isSystem          Boolean            @default(false)
+  organizationId    String
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  approvalSteps     ApprovalStep[]
+  invitations       Invitation[]
+  organization      Organization       @relation(fields: [organizationId], references: [id])
+  userOrganizations UserOrganization[] @relation("RoleMembership")
+  permissions       Permission[]       @relation("RolePermissions")
+
+  @@unique([name, organizationId])
+}
+
+model Permission {
+  id          String   @id @default(uuid())
+  key         String   @unique
+  name        String
+  description String?
+  priority    Int      @default(100)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  roles       Role[]   @relation("RolePermissions")
+}
+
+model UserOrganization {
+  id                      String                       @id @default(uuid())
+  userId                  String
+  organizationId          String
+  roleId                  String?
+  hourlyRate              Decimal?
+  skills                  String[]
+  customPermissions       String[]                     @default([])
+  subscriptionEndsAt      DateTime?
+  notificationSettings    Json?
+  assignedLocationIds     String[]
+  shiftId                 String?
+  companyRate             Decimal?
+  approvals               ApprovalRecord[]
+  custodianOf             Asset[]                      @relation("AssetCustodian")
+  inventoryTransactions   InventoryTransaction[]       @relation("InventoryTransactionUser")
+  requests                MaintenanceRequest[]         @relation("UserRequests")
+  assignedMeters          Meter[]                      @relation("AssignedMeters")
+  pmSchedules             PMSchedule[]                 @relation("AssignedPMSchedules")
+  uploadedPMScheduleFiles PMScheduleFile[]
+  managedParts            Part[]                       @relation("PartManager")
+  organization            Organization                 @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  role                    Role?                        @relation("RoleMembership", fields: [roleId], references: [id])
+  shift                   Shift?                       @relation(fields: [shiftId], references: [id])
+  user                    User                         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  teams                   UsersOnTeams[]
+  workOrders              WorkOrder[]                  @relation("AssignedWorkOrders")
+  signedWorkOrders        WorkOrder[]                  @relation("WorkOrderSignature")
+  closedWorkOrders        WorkOrder[]                  @relation("WorkOrderClosedBy")
+  checklistResponses      WorkOrderChecklistResponse[] @relation("WorkOrderChecklistResponder")
+  workOrderComments       WorkOrderComment[]           @relation("WorkOrderComments")
+  expenses                WorkOrderExpense[]           @relation("WorkOrderExpenses")
+  lotoLocked              WorkOrderLOTO[]              @relation("WorkOrderLOTOLock")
+  lotoUnlocked            WorkOrderLOTO[]              @relation("WorkOrderLOTOUnlock")
+  partsAssigned           WorkOrderPart[]              @relation("WorkOrderPartAssignedBy")
+  technicianOf            WorkOrderTechnician[]        @relation("AssignedWorkOrderTechnicians")
+  timeLogs                WorkOrderTimeLog[]           @relation("WorkOrderTimeLogs")
+  locationRefs            Location[]                   @relation("LocationWorkers")
+
+  @@unique([userId, organizationId])
+}
+
+model Team {
+  id             String         @id @default(uuid())
+  name           String
+  description    String?
+  isActive       Boolean        @default(true)
+  organizationId String
+  deletedAt      DateTime?
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  assets         Asset[]
+  parts          Part[]
+  organization   Organization   @relation(fields: [organizationId], references: [id])
+  users          UsersOnTeams[]
+  workOrders     WorkOrder[]
+  locations      Location[]     @relation("LocationTeams")
+}
+
+model Shift {
+  id             String             @id @default(uuid())
+  name           String
+  startTime      String
+  endTime        String
+  workDays       Int[]
+  organizationId String
+  createdAt      DateTime           @default(now())
+  updatedAt      DateTime           @updatedAt
+  organization   Organization       @relation(fields: [organizationId], references: [id])
+  users          UserOrganization[]
+}
+
+model UsersOnTeams {
+  userOrgId String
+  teamId    String
+  team      Team             @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  userOrg   UserOrganization @relation(fields: [userOrgId], references: [id], onDelete: Cascade)
+
+  @@id([userOrgId, teamId])
+}
+
+model RefreshToken {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  userId    String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Location {
+  id             String               @id @default(uuid())
+  name           String
+  description    String?
+  address        String?
+  type           LocationType         @default(SITE)
+  parentId       String?
+  organizationId String
+  latitude       Float?
+  longitude      Float?
+  deletedAt      DateTime?
+  createdAt      DateTime             @default(now())
+  updatedAt      DateTime             @updatedAt
+  imageUrl       String?
+  timezone       String?              @default("Asia/Kolkata")
+  priority       String?
+  status         String               @default("Active")
+  assets         Asset[]
+  inventoryLines InventoryLine[]
+  organization   Organization         @relation(fields: [organizationId], references: [id])
+  parent         Location?            @relation("LocationHierarchy", fields: [parentId], references: [id])
+  children       Location[]           @relation("LocationHierarchy")
+  requests       MaintenanceRequest[]
+  meters         Meter[]
+  parts          Part[]
+  workOrders     WorkOrder[]
+  customers      Customer[]           @relation("LocationCustomers")
+  teams          Team[]               @relation("LocationTeams")
+  vendors        Vendor[]             @relation("LocationVendors")
+  workers        UserOrganization[]   @relation("LocationWorkers")
+  files          LocationFile[]
+}
+
+model LocationFile {
+  id           String   @id @default(uuid())
+  locationId   String
+  filename     String
+  url          String
+  mimeType     String?
+  size         Int?
+  uploadedById String
+  createdAt    DateTime @default(now())
+  location     Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
+
+  @@index([locationId])
+}
+
+
+model Asset {
+  id                   String               @id @default(uuid())
+  name                 String
+  description          String?
+  status               AssetStatus          @default(OPERATIONAL)
+  version              Int                  @default(1)
+  updatedByDeviceId    String?
+  criticality          Criticality          @default(MEDIUM)
+  brand                String?
+  model                String?
+  serialNumber         String?
+  qrCode               String?              @unique
+  barCode              String?              @unique
+  category             String?
+  categoryId           String?
+  purchasePrice        Decimal?
+  purchaseDate         DateTime?
+  warrantyExpiry       DateTime?
+  downtimeStartedAt    DateTime?
+  totalDowntimeMinutes Int                  @default(0)
+  parentAssetId        String?
+  assignedToId         String?
+  replacementCost      Decimal?
+  expectedLifeYears    Int?
+  annualBudget         Decimal?               @default(0)
+  specifications       Json?
+  tags                 String[]
+  notes                String?
+  locationId           String
+  vendorId             String?
+  customerId           String?
+  organizationId       String
+  isMobile             Boolean              @default(false)
+  requiresLOTO         Boolean              @default(false)
+  lockoutProcedure     String?
+  residualValue        Decimal?
+  depreciationMethod   String?              @default("STRAIGHT_LINE")
+  usefulLifeYears      Int?                 @default(10)
+  placedInServiceDate  DateTime?
+  teamId               String?
+  additionalWorkerIds  String[]
+  deletedAt            DateTime?
+  createdAt            DateTime             @default(now())
+  updatedAt            DateTime             @updatedAt
+  imageUrl             String?
+  custodian            UserOrganization?    @relation("AssetCustodian", fields: [assignedToId], references: [id])
+  categoryRef          Category?            @relation(fields: [categoryId], references: [id])
+  customer             Customer?            @relation(fields: [customerId], references: [id])
+  location             Location             @relation(fields: [locationId], references: [id])
+  organization         Organization         @relation(fields: [organizationId], references: [id])
+  parent               Asset?               @relation("AssetHierarchy", fields: [parentAssetId], references: [id])
+  children             Asset[]              @relation("AssetHierarchy")
+  team                 Team?                @relation(fields: [teamId], references: [id])
+  vendor               Vendor?              @relation(fields: [vendorId], references: [id])
+  attachments          AssetFile[]
+  spareParts           AssetPart[]
+  statusHistory        AssetStatusHistory[]
+  requests             MaintenanceRequest[]
+  meters               Meter[]
+  pmSchedules          PMSchedule[]
+  workOrders           WorkOrder[]
+
+  @@index([organizationId])
+  @@index([organizationId, categoryId])
+  @@index([organizationId, locationId])
+  @@index([organizationId, deletedAt])
+  @@index([organizationId, createdAt])
+}
+
+model AssetPart {
+  id              String         @id @default(uuid())
+  assetId         String
+  partId          String
+  inventoryLineId String?
+  organizationId  String
+  quantityNeeded  Int            @default(1)
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  asset           Asset          @relation(fields: [assetId], references: [id], onDelete: Cascade)
+  inventoryLine   InventoryLine? @relation(fields: [inventoryLineId], references: [id])
+  organization    Organization   @relation(fields: [organizationId], references: [id])
+  part            Part           @relation(fields: [partId], references: [id], onDelete: Cascade)
+
+  @@unique([assetId, partId])
+}
+
+model AssetTemplate {
+  id             String       @id @default(uuid())
+  name           String
+  description    String?
+  category       String?
+  criticality    Criticality  @default(MEDIUM)
+  specifications Json?
+  organizationId String
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  organization   Organization @relation(fields: [organizationId], references: [id])
+}
+
+/// Tracks every status change on an asset — powers MTTR and reliability reports
+model AssetStatusHistory {
+  id          String       @id @default(uuid())
+  assetId     String
+  fromStatus  AssetStatus?
+  toStatus    AssetStatus
+  changedById String
+  reason      String?
+  createdAt   DateTime     @default(now())
+  asset       Asset        @relation(fields: [assetId], references: [id], onDelete: Cascade)
+
+  @@index([assetId])
+}
+
+/// Links uploaded files to a specific asset
+model AssetFile {
+  id           String   @id @default(uuid())
+  assetId      String
+  filename     String
+  url          String
+  mimeType     String?
+  size         Int?
+  uploadedById String
+  version      Int      @default(1)
+  parentId     String?
+  annotations  Json?
+  scanMetadata Json?
+  createdAt    DateTime @default(now())
+  asset        Asset    @relation(fields: [assetId], references: [id], onDelete: Cascade)
+
+  @@index([assetId])
+}
+
+model WorkOrder {
+  id                   String                       @id @default(uuid())
+  workOrderNo          Int                          @default(autoincrement())
+  title                String
+  version              Int                          @default(1)
+  updatedByDeviceId    String?
+  description          String?
+  status               WorkOrderStatus              @default(OPEN)
+  priority             Priority                     @default(MEDIUM)
+  maintenanceType      MaintenanceType              @default(REACTIVE)
+  category             String?
+  categoryId           String?
+  dueDate              DateTime?
+  endDueDate           DateTime?
+  startDate            DateTime?
+  completedAt          DateTime?
+  estimatedHours       Decimal?
+  actualHours          Decimal?                       @default(0)
+  completedOnTime      Boolean?                     @default(true)
+  laborCost            Decimal                        @default(0)
+  partsCost            Decimal                        @default(0)
+  additionalCost       Decimal                        @default(0)
+  estimatedCost        Decimal                        @default(0)
+  totalCost            Decimal                        @default(0)
+  onHoldReason         String?
+  resolutionNotes      String?
+  closeoutNotes        String?
+  closedAt             DateTime?
+  closedById           String?
+  signatureUrl         String?
+  signedById           String?
+  requiresLOTO         Boolean                      @default(false)
+  lotoVerified         Boolean                      @default(false)
+  isDowntimeEvent      Boolean                      @default(false)
+  downtimeMinutes      Int?                         @default(0)
+  signatureRequired    Boolean                      @default(false)
+  customFields         Json?
+  problemCode          String?
+  rootCause            String?
+  rootCauseDetails     String?
+  rootCauseCode        String?
+  actionCode           String?
+  failureCodeId        String?
+  parentWorkOrderId    String?
+  pmScheduleId         String?
+  assetId              String?
+  locationId           String?
+  assignedToId         String?
+  assignedTeamId       String?
+  vendorId             String?
+  invoiceNumber        String?
+  checklistId          String?
+  predecessorId        String?
+  responseTimeTarget   DateTime?
+  resolutionTimeTarget DateTime?
+  escalatedAt          DateTime?
+  isEscalated          Boolean                      @default(false)
+  organizationId       String
+  deletedAt            DateTime?
+  createdAt            DateTime                     @default(now())
+  updatedAt            DateTime                     @updatedAt
+  shareToken           String?                      @unique
+  isShared             Boolean                      @default(false)
+  isBookmarked         Boolean                      @default(false)
+  isRepeating          Boolean                      @default(false)
+  customStatusId       String?
+  approvalChainId      String?
+  currentApprovalStep  Int                          @default(0)
+  approvals            ApprovalRecord[]
+  request              MaintenanceRequest?
+  purchaseOrders       PurchaseOrder[]
+  asset                Asset?                       @relation(fields: [assetId], references: [id])
+  assignedTeam         Team?                        @relation(fields: [assignedTeamId], references: [id])
+  assignedTo           UserOrganization?            @relation("AssignedWorkOrders", fields: [assignedToId], references: [id])
+  categoryRef          Category?                    @relation(fields: [categoryId], references: [id])
+  checklist            Checklist?                   @relation(fields: [checklistId], references: [id])
+  customStatus         CustomStatus?                @relation(fields: [customStatusId], references: [id])
+  failureCode          FailureCode?                 @relation(fields: [failureCodeId], references: [id])
+  location             Location?                    @relation(fields: [locationId], references: [id])
+  organization         Organization                 @relation(fields: [organizationId], references: [id])
+  parentWorkOrder      WorkOrder?                   @relation("WorkOrderHierarchy", fields: [parentWorkOrderId], references: [id])
+  childWorkOrders      WorkOrder[]                  @relation("WorkOrderHierarchy")
+  pmSchedule           PMSchedule?                  @relation(fields: [pmScheduleId], references: [id])
+  predecessor          WorkOrder?                   @relation("WorkOrderDependency", fields: [predecessorId], references: [id])
+  successors           WorkOrder[]                  @relation("WorkOrderDependency")
+  signedBy             UserOrganization?            @relation("WorkOrderSignature", fields: [signedById], references: [id])
+  closedBy             UserOrganization?            @relation("WorkOrderClosedBy", fields: [closedById], references: [id])
+  vendor               Vendor?                      @relation(fields: [vendorId], references: [id])
+  checklistResponses   WorkOrderChecklistResponse[]
+  comments             WorkOrderComment[]
+  expenses             WorkOrderExpense[]
+  files                WorkOrderFile[]
+  lotoAudit            WorkOrderLOTO?
+  linkedWorkOrders     WorkOrderLink[]              @relation("LinkedWorkOrdersSource")
+  linkedFromOrders     WorkOrderLink[]              @relation("LinkedWorkOrdersTarget")
+  partsUsed            WorkOrderPart[]
+  plannedParts         WorkOrderPlannedPart[]
+  statusHistory        WorkOrderStatusHistory[]
+  technicians          WorkOrderTechnician[]
+  timeLogs             WorkOrderTimeLog[]
+
+  @@index([organizationId])
+  @@index([organizationId, status])
+  @@index([organizationId, priority])
+  @@index([organizationId, categoryId])
+  @@index([organizationId, assetId])
+  @@index([organizationId, locationId])
+  @@index([organizationId, assignedToId])
+  @@index([organizationId, assignedTeamId])
+  @@index([organizationId, deletedAt])
+  @@index([organizationId, createdAt])
+  @@index([organizationId, completedAt])
+  @@index([organizationId, dueDate])
+}
+
+model WorkOrderLink {
+  id              String    @id @default(uuid())
+  sourceId        String
+  targetId        String
+  linkType        String    @default("RELATED")
+  organizationId  String
+  createdAt       DateTime  @default(now())
+  sourceWorkOrder WorkOrder @relation("LinkedWorkOrdersSource", fields: [sourceId], references: [id], onDelete: Cascade)
+  targetWorkOrder WorkOrder @relation("LinkedWorkOrdersTarget", fields: [targetId], references: [id], onDelete: Cascade)
+
+  @@unique([sourceId, targetId])
+}
+
+model WorkOrderTechnician {
+  workOrderId String
+  userId      String
+  assignedAt  DateTime         @default(now())
+  user        UserOrganization @relation("AssignedWorkOrderTechnicians", fields: [userId], references: [id], onDelete: Cascade)
+  workOrder   WorkOrder        @relation(fields: [workOrderId], references: [id], onDelete: Cascade)
+
+  @@id([workOrderId, userId])
+}
+
+/// Safety Audit Log: Requirements for Lock-Out-Tag-Out procedures
+model WorkOrderLOTO {
+  id             String            @id @default(uuid())
+  workOrderId    String            @unique
+  lockVerified   Boolean           @default(false)
+  tagVerified    Boolean           @default(false)
+  energyVerified Boolean           @default(false)
+  lockedById     String?
+  lockedAt       DateTime?
+  unlockedById   String?
+  unlockedAt     DateTime?
+  organizationId String
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+  lockedBy       UserOrganization? @relation("WorkOrderLOTOLock", fields: [lockedById], references: [id])
+  unlockedBy     UserOrganization? @relation("WorkOrderLOTOUnlock", fields: [unlockedById], references: [id])
+  workOrder      WorkOrder         @relation(fields: [workOrderId], references: [id], onDelete: Cascade)
+}
+
+model FeatureFlag {
+  id             String       @id @default(uuid())
+  organizationId String
+  key            String
+  enabled        Boolean      @default(false)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@unique([organizationId, key])
+}
+
+/// Tracks internal team chat and updates on a work order
+model WorkOrderComment {
+  id          String           @id @default(uuid())
+  workOrderId String
+  userId      String
+  text        String
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  user        UserOrganization @relation("WorkOrderComments", fields: [userId], references: [id])
+  workOrder   WorkOrder        @relation(fields: [workOrderId], references: [id], onDelete: Cascade)
+}
+
+/// Tracks exact time spent by multiple technicians with their specific hourly rates
+model WorkOrderTimeLog {
+  id          String           @id @default(uuid())
+  workOrderId String
+  userId      String
+  category    String?
+  hoursLogged Decimal
+  hourlyRate  Decimal
+  totalCost   Decimal
+  startTime   DateTime?
+  endTime     DateTime?
+  description String?
+  createdAt   DateTime         @default(now())
+  user        UserOrganization @relation("WorkOrderTimeLogs", fields: [userId], references: [id])
+  workOrder   WorkOrder        @relation(fields: [workOrderId], references: [id], onDelete: Cascade)
+}
+
+/// Miscellaneous expenses (travel, equipment rental, etc.) for the work order
+model WorkOrderExpense {
+  id          String            @id @default(uuid())
+  workOrderId String
+  description String
+  category    String
+  cost        Decimal
+  userId      String?
+  date        DateTime          @default(now())
+  createdAt   DateTime          @default(now())
+  user        UserOrganization? @relation("WorkOrderExpenses", fields: [userId], references: [id])
+  workOrder   WorkOrder         @relation(fields: [workOrderId], references: [id], onDelete: Cascade)
+}
+
+/// Attachments (before/after photos, manuals) for the work order
+model WorkOrderFile {
+  id           String    @id @default(uuid())
+  workOrderId  String
+  filename     String
+  url          String
+  mimeType     String?
+  size         Int?
+  uploadedById String
+  version      Int       @default(1)
+  parentId     String?
+  annotations  Json?
+  isVoiceNote  Boolean   @default(false)
+  duration     Int?
+  createdAt    DateTime  @default(now())
+  workOrder    WorkOrder @relation(fields: [workOrderId], references: [id], onDelete: Cascade)
+}
+
+/// Inventory consumed by this Work Order
+model WorkOrderPart {
+  id              String            @id @default(uuid())
+  workOrderId     String
+  partId          String
+  inventoryLineId String?
+  quantity        Decimal
+  unitCost        Decimal
+  totalCost       Decimal
+  assignedById    String?
+  createdAt       DateTime          @default(now())
+  assignedBy      UserOrganization? @relation("WorkOrderPartAssignedBy", fields: [assignedById], references: [id])
+  inventoryLine   InventoryLine?    @relation(fields: [inventoryLineId], references: [id])
+  part            Part              @relation(fields: [partId], references: [id], onDelete: Cascade)
+  workOrder       WorkOrder         @relation(fields: [workOrderId], references: [id], onDelete: Cascade)
+}
+
+/// Full audit trail of work order states (e.g., OPEN -> IN_PROGRESS) for SLA and response time reports
+model WorkOrderStatusHistory {
+  id          String           @id @default(uuid())
+  workOrderId String
+  fromStatus  WorkOrderStatus?
+  toStatus    WorkOrderStatus
+  changedById String
+  reason      String?
+  createdAt   DateTime         @default(now())
+  workOrder   WorkOrder        @relation(fields: [workOrderId], references: [id], onDelete: Cascade)
+
+  @@index([workOrderId])
+}
+
+model Setting {
+  id             String       @id @default(uuid())
+  key            String
+  value          String
+  organizationId String
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  organization   Organization @relation(fields: [organizationId], references: [id])
+
+  @@unique([key, organizationId])
+}
+
+model Meter {
+  id             String            @id @default(uuid())
+  name           String
+  unit           String
+  assetId        String
+  currentValue   Decimal?            @default(0)
+  threshold      Decimal?
+  triggerPM      Boolean           @default(false)
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+  assignedToId   String?
+  categoryId     String?
+  frequency      Int?              @default(1)
+  imageUrl       String?
+  locationId     String?
+  organizationId String?
+  asset          Asset             @relation(fields: [assetId], references: [id])
+  assignedTo     UserOrganization? @relation("AssignedMeters", fields: [assignedToId], references: [id])
+  category       Category?         @relation(fields: [categoryId], references: [id])
+  location       Location?         @relation(fields: [locationId], references: [id])
+  organization   Organization?     @relation(fields: [organizationId], references: [id])
+  readings       MeterReading[]
+  pmSchedules    PMSchedule[]
+}
+
+model MeterReading {
+  id           String   @id @default(uuid())
+  value        Decimal
+  meterId      String
+  recordedById String?
+  notes        String?
+  createdAt    DateTime @default(now())
+  meter        Meter    @relation(fields: [meterId], references: [id])
+}
+
+model Vendor {
+  id                 String          @id @default(uuid())
+  name               String
+  email              String?
+  phone              String?
+  address            String?
+  website            String?
+  contactName        String?
+  type               String?
+  description        String?
+  hourlyRate         Decimal?
+  isLocationBased    Boolean         @default(false)
+  organizationId     String
+  deletedAt          DateTime?
+  createdAt          DateTime        @default(now())
+  updatedAt          DateTime        @updatedAt
+  slaResponseHours   Int?
+  slaResolutionHours Int?
+  rating             Float?          @default(5.0)
+  isPreferred        Boolean         @default(false)
+  
+  // New profile fields matching the screenshots
+  isFavorite         Boolean         @default(false)
+  verificationStatus String          @default("Unverified")
+  specialties        String[]        @default([])
+  services           String[]        @default([])
+  serviceRadius      Int             @default(25)
+  licenses           Json?
+  insurances         Json?
+  certifications     Json?
+
+  assets             Asset[]
+  parts              Part[]
+  purchaseOrders     PurchaseOrder[]
+  organization       Organization    @relation(fields: [organizationId], references: [id])
+  workOrders         WorkOrder[]
+  locations          Location[]      @relation("LocationVendors")
+  files              VendorFile[]
+}
+
+model VendorFile {
+  id           String   @id @default(uuid())
+  vendorId     String
+  filename     String
+  url          String
+  mimeType     String?
+  size         Int?
+  uploadedById String
+  createdAt    DateTime @default(now())
+  vendor       Vendor   @relation(fields: [vendorId], references: [id], onDelete: Cascade)
+}
+
+model Customer {
+  id             String       @id @default(uuid())
+  name           String
+  email          String?
+  phone          String?
+  address        String?
+  website        String?
+  type           String?
+  description    String?
+  hourlyRate     Float?
+  isVip          Boolean      @default(false)
+  billingName    String?
+  billingAddress String?
+  addressLine2   String?
+  addressLine3   String?
+  currency       String?      @default("USD")
+  organizationId String
+  deletedAt      DateTime?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  assets         Asset[]
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  parts          Part[]
+  locations      Location[]   @relation("LocationCustomers")
+}
+
+model Part {
+  id                String                  @id @default(uuid())
+  name              String
+  description       String?
+  partNumber        String?
+  barcode           String?                 @unique
+  category          String?
+  tags              String?
+  manufacturer      String?
+  quantity          Int                     @default(0)
+  minQuantity       Int                     @default(0)
+  maxQuantity       Int?
+  allocatedQuantity Int                     @default(0)
+  cost              Decimal?
+  criticality       Criticality             @default(MEDIUM)
+  status            PartStatus              @default(ACTIVE)
+  assignedToId      String?
+  locationId        String?
+  binLocation       String?
+  vendorId          String?
+  teamId            String?
+  customerId        String?
+  organizationId    String
+  deletedAt         DateTime?
+  createdAt         DateTime                @default(now())
+  updatedAt         DateTime                @updatedAt
+  categoryId        String?
+  assetParts        AssetPart[]
+  inventoryLines    InventoryLine[]
+  transactions      InventoryTransaction[]
+  pmPlannedParts    PMSchedulePlannedPart[]
+  assignedTo        UserOrganization?       @relation("PartManager", fields: [assignedToId], references: [id])
+  categoryRef       Category?               @relation(fields: [categoryId], references: [id])
+  customer          Customer?               @relation(fields: [customerId], references: [id])
+  location          Location?               @relation(fields: [locationId], references: [id])
+  organization      Organization            @relation(fields: [organizationId], references: [id])
+  team              Team?                   @relation(fields: [teamId], references: [id])
+  vendor            Vendor?                 @relation(fields: [vendorId], references: [id])
+  attachments       PartFile[]
+  poItems           PurchaseOrderItem[]
+  workOrderParts    WorkOrderPart[]
+  plannedParts      WorkOrderPlannedPart[]
+}
+
+model InventoryLine {
+  id             String          @id @default(uuid())
+  partId         String
+  locationId     String?
+  area           String?
+  availableQty   Int             @default(0)
+  minQty         Int             @default(0)
+  maxQty         Int?
+  barcode        String?
+  cost           Decimal?
+  organizationId String
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  assetParts     AssetPart[]
+  location       Location?       @relation(fields: [locationId], references: [id])
+  organization   Organization    @relation(fields: [organizationId], references: [id])
+  part           Part            @relation(fields: [partId], references: [id], onDelete: Cascade)
+  workOrderParts WorkOrderPart[]
+}
+
+model PartFile {
+  id           String   @id @default(uuid())
+  partId       String
+  filename     String
+  url          String
+  mimeType     String?
+  size         Int?
+  uploadedById String
+  createdAt    DateTime @default(now())
+  part         Part     @relation(fields: [partId], references: [id], onDelete: Cascade)
+}
+
+model PartTemplate {
+  id             String       @id @default(uuid())
+  name           String
+  description    String?
+  category       String?
+  specifications Json?
+  version        Int          @default(1)
+  organizationId String
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  organization   Organization @relation(fields: [organizationId], references: [id])
+}
+
+model InventoryTransaction {
+  id             String                   @id @default(uuid())
+  partId         String
+  quantity       Int
+  type           InventoryTransactionType
+  referenceId    String?
+  userId         String
+  organizationId String
+  createdAt      DateTime                 @default(now())
+  organization   Organization             @relation(fields: [organizationId], references: [id])
+  part           Part                     @relation(fields: [partId], references: [id], onDelete: Cascade)
+  user           UserOrganization         @relation("InventoryTransactionUser", fields: [userId], references: [id])
+}
+
+model PurchaseOrder {
+  id                   String              @id @default(uuid())
+  number               String
+  status               PurchaseOrderStatus @default(DRAFT)
+  vendorId             String
+  totalCost            Decimal               @default(0)
+  expectedDeliveryDate DateTime?
+  shippingCost         Decimal?              @default(0)
+  taxAmount            Decimal?              @default(0)
+  organizationId       String
+  deletedAt            DateTime?
+  createdAt            DateTime            @default(now())
+  updatedAt            DateTime            @updatedAt
+  workOrderId          String?
+  additionalDetails    String?
+  billingAddressType   String?             @default("COMPANY_PROFILE")
+  billingCompanyName   String?
+  billingAddress       String?
+  billingCity          String?
+  billingState         String?
+  billingZip           String?
+  billingPhone         String?
+  billingFax           String?
+  writeShippingDetailsManually Boolean     @default(false)
+  company              String?
+  invoiceNumber        String?
+  currency             String              @default("INR")
+  fob                  String?
+  includeTaxOnPdf      Boolean             @default(false)
+  notes                String?
+  purchaseDate         DateTime?           @default(now())
+  shippingAddressType  String?             @default("SAME_AS_BILLING")
+  shippingCompanyName  String?
+  shippingAddress      String?
+  shippingCity         String?
+  shippingState        String?
+  shippingZip          String?
+  shippingPhone        String?
+  shippingFax          String?
+  shippingMethod       String?
+  shippingUserName     String?
+  printBackupSignToPdf Boolean             @default(false)
+  tags                 String[]            @default([])
+  terms                String?
+  title                String?
+  type                 String?
+  organization         Organization        @relation(fields: [organizationId], references: [id])
+  vendor               Vendor              @relation(fields: [vendorId], references: [id])
+  workOrder            WorkOrder?          @relation(fields: [workOrderId], references: [id])
+  files                PurchaseOrderFile[]
+  items                PurchaseOrderItem[]
+
+  @@unique([number, organizationId])
+}
+
+model PurchaseOrderFile {
+  id              String        @id @default(uuid())
+  purchaseOrderId String
+  filename        String
+  url             String
+  mimeType        String?
+  size            Int?
+  uploadedById    String
+  createdAt       DateTime      @default(now())
+  purchaseOrder   PurchaseOrder @relation(fields: [purchaseOrderId], references: [id], onDelete: Cascade)
+}
+
+model PurchaseOrderItem {
+  id                String        @id @default(uuid())
+  purchaseOrderId   String
+  partId            String
+  quantity          Int
+  fulfilledQuantity Int           @default(0)
+  unitCost          Decimal
+  part              Part          @relation(fields: [partId], references: [id])
+  purchaseOrder     PurchaseOrder @relation(fields: [purchaseOrderId], references: [id])
+}
+
+model Checklist {
+  id             String               @id @default(uuid())
+  title          String
+  description    String?
+  isSystem       Boolean              @default(false)
+  organizationId String
+  deletedAt      DateTime?
+  createdAt      DateTime             @default(now())
+  updatedAt      DateTime             @updatedAt
+  organization   Organization         @relation(fields: [organizationId], references: [id])
+  items          ChecklistItem[]
+  pmSchedules    PMSchedule[]
+  pmTemplates    PMScheduleTemplate[]
+  workOrders     WorkOrder[]
+}
+
+model ChecklistItem {
+  id            String                       @id @default(uuid())
+  checklistId   String
+  task          String
+  dataType      ChecklistItemType            @default(CHECKBOX)
+  options       String[]
+  isRequired    Boolean                      @default(true)
+  failTriggerWO Boolean                      @default(false)
+  order         Int                          @default(0)
+  checklist     Checklist                    @relation(fields: [checklistId], references: [id], onDelete: Cascade)
+  responses     WorkOrderChecklistResponse[]
+}
+
+model WorkOrderChecklistResponse {
+  id              String           @id @default(uuid())
+  workOrderId     String
+  checklistItemId String
+  responseValue   String?
+  passed          Boolean?
+  userId          String
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  checklistItem   ChecklistItem    @relation(fields: [checklistItemId], references: [id], onDelete: Cascade)
+  user            UserOrganization @relation("WorkOrderChecklistResponder", fields: [userId], references: [id])
+  workOrder       WorkOrder        @relation(fields: [workOrderId], references: [id], onDelete: Cascade)
+  notes           String?
+  photoUrl        String?
+  url             String?
+
+  @@unique([workOrderId, checklistItemId])
+}
+
+model PMSchedule {
+  id                String                     @id @default(uuid())
+  name              String
+  description       String?
+  woTitle           String?
+  woDescription     String?
+  imageUrl          String?
+  isActive          Boolean                    @default(true)
+  advanceNoticeDays Int                        @default(7)
+  assetId           String
+  checklistId       String?
+  assignedToId      String?
+  categoryId        String?
+  priority          Priority                   @default(MEDIUM)
+  organizationId    String
+  deletedAt         DateTime?
+  frequencyType     FrequencyType?
+  frequencyValue    Int?
+  isFloating        Boolean                    @default(false)
+  lastGenerated     DateTime?
+  nextDueDate       DateTime?
+  meterId           String?
+  meterInterval     Decimal?
+  lastMeterReading  Decimal?
+  nextMeterReading  Decimal?
+  status            PMScheduleStatus           @default(ACTIVE)
+  version           Int                        @default(1)
+  isSeasonal        Boolean                    @default(false)
+  startMonth        Int?
+  endMonth          Int?
+  overdueCount      Int                        @default(0)
+  createdAt         DateTime                   @default(now())
+  updatedAt         DateTime                   @updatedAt
+  durationHours     Decimal?
+  requiresSignature Boolean                    @default(false)
+  dueDateTime       String?
+  createWOType      String?                    @default("AHEAD")
+  meterWODueValue   Int?
+  meterWODueUnit    String?
+  meterTriggerType  String                     @default("INTERVAL")
+  asset             Asset                      @relation(fields: [assetId], references: [id])
+  assignedTo        UserOrganization?          @relation("AssignedPMSchedules", fields: [assignedToId], references: [id])
+  category          Category?                  @relation(fields: [categoryId], references: [id])
+  checklist         Checklist?                 @relation(fields: [checklistId], references: [id])
+  meter             Meter?                     @relation(fields: [meterId], references: [id])
+  organization      Organization               @relation(fields: [organizationId], references: [id])
+  files             PMScheduleFile[]
+  inactivePeriods   PMScheduleInactivePeriod[]
+  plannedParts      PMSchedulePlannedPart[]
+  plannedTasks      PMScheduleTask[]
+  workOrders        WorkOrder[]
+}
+
+model PMScheduleInactivePeriod {
+  id           String     @id @default(uuid())
+  pmScheduleId String
+  startDate    DateTime
+  endDate      DateTime
+  reason       String?
+  createdAt    DateTime   @default(now())
+  pmSchedule   PMSchedule @relation(fields: [pmScheduleId], references: [id], onDelete: Cascade)
+}
+
+model PMScheduleFile {
+  id           String           @id @default(uuid())
+  pmScheduleId String
+  filename     String
+  url          String
+  mimeType     String
+  size         Int
+  uploadedById String
+  createdAt    DateTime         @default(now())
+  pmSchedule   PMSchedule       @relation(fields: [pmScheduleId], references: [id], onDelete: Cascade)
+  uploadedBy   UserOrganization @relation(fields: [uploadedById], references: [id])
+}
+
+model PMSchedulePlannedPart {
+  id             String     @id @default(uuid())
+  pmScheduleId   String
+  partId         String
+  quantity       Decimal
+  organizationId String
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+  part           Part       @relation(fields: [partId], references: [id], onDelete: Cascade)
+  pmSchedule     PMSchedule @relation(fields: [pmScheduleId], references: [id], onDelete: Cascade)
+
+  @@unique([pmScheduleId, partId])
+}
+
+model PMScheduleTask {
+  id             String     @id @default(uuid())
+  pmScheduleId   String
+  task           String
+  order          Int        @default(0)
+  organizationId String
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+  pmSchedule     PMSchedule @relation(fields: [pmScheduleId], references: [id], onDelete: Cascade)
+}
+
+model PMScheduleTemplate {
+  id             String        @id @default(uuid())
+  name           String
+  description    String?
+  frequencyType  FrequencyType
+  frequencyValue Int
+  checklistId    String?
+  version        Int           @default(1)
+  isSystem       Boolean       @default(false)
+  organizationId String
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  checklist      Checklist?    @relation(fields: [checklistId], references: [id])
+  organization   Organization  @relation(fields: [organizationId], references: [id])
+}
+
+model MaintenanceRequest {
+  id             String            @id @default(uuid())
+  title          String
+  description    String?
+  imageUrl       String?
+  status         RequestStatus     @default(PENDING)
+  locationId     String?
+  assetId        String?
+  workOrderId    String?           @unique
+  requesterId    String?
+  guestName      String?
+  guestEmail     String?
+  guestPhone     String?
+  organizationId String
+  deletedAt      DateTime?
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+  priority       Priority          @default(NONE)
+  asset          Asset?            @relation(fields: [assetId], references: [id])
+  location       Location?         @relation(fields: [locationId], references: [id])
+  organization   Organization      @relation(fields: [organizationId], references: [id])
+  requester      UserOrganization? @relation("UserRequests", fields: [requesterId], references: [id])
+  workOrder      WorkOrder?        @relation(fields: [workOrderId], references: [id])
+
+  @@index([organizationId])
+  @@index([organizationId, status])
+  @@index([organizationId, createdAt])
+}
+
+model Invitation {
+  id             String       @id @default(uuid())
+  email          String
+  roleId         String
+  organizationId String
+  token          String       @unique
+  expiresAt      DateTime
+  invitedById    String
+  teamIds        String[]
+  hourlyRate     Decimal?
+  skills         String[]
+  locationIds    String[]
+  createdAt      DateTime     @default(now())
+  companyRate    Decimal?
+  jobTitle       String?
+  name           String?
+  phone          String?
+  invitedBy      User         @relation(fields: [invitedById], references: [id], onDelete: Cascade)
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  role           Role         @relation(fields: [roleId], references: [id])
+
+  @@index([email])
+}
+
+model Notification {
+  id             String       @id @default(uuid())
+  type           String
+  title          String
+  content        String
+  userId         String?
+  isRead         Boolean      @default(false)
+  metaData       Json?
+  organizationId String
+  createdAt      DateTime     @default(now())
+  organization   Organization @relation(fields: [organizationId], references: [id])
+}
+
+model PushSubscription {
+  id             String   @id @default(uuid())
+  endpoint       String   @unique
+  p256dh         String
+  auth           String
+  userId         String
+  deviceId       String?
+  organizationId String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization   Organization @relation(fields: [organizationId], references: [id])
+}
+
+model NotificationTemplate {
+  id             String       @id @default(uuid())
+  slug           String       @unique
+  name           String
+  subject        String?
+  body           String
+  active         Boolean      @default(true)
+  organizationId String
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  organization   Organization @relation(fields: [organizationId], references: [id])
+}
+
+model Category {
+  id             String       @id @default(uuid())
+  name           String
+  color          String       @default("#2196F3")
+  type           CategoryType
+  isSystem       Boolean      @default(false)
+  organizationId String
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  assets         Asset[]
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  meters         Meter[]
+  pmSchedules    PMSchedule[]
+  parts          Part[]
+  workOrders     WorkOrder[]
+
+  @@unique([name, organizationId, type])
+}
+
+model WorkflowRule {
+  id             String       @id @default(uuid())
+  name           String
+  description    String?
+  entity         String
+  trigger        String
+  conditions     Json
+  actions        Json
+  isActive       Boolean      @default(true)
+  organizationId String
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  organization   Organization @relation(fields: [organizationId], references: [id])
+
+  @@index([organizationId, entity, trigger])
+}
+
+model ScheduledReport {
+  id             String       @id @default(uuid())
+  name           String
+  dashboardId    String
+  recipients     String[]
+  frequency      String
+  deliveryTime   String
+  format         String       @default("PDF")
+  lastSentAt     DateTime?
+  nextRunAt      DateTime?
+  isActive       Boolean      @default(true)
+  organizationId String
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  organization   Organization @relation(fields: [organizationId], references: [id])
+
+  @@index([organizationId, nextRunAt])
+}
+
+model ApiKey {
+  id             String       @id @default(uuid())
+  name           String
+  key            String       @unique
+  prefix         String
+  scopes         String[]
+  organizationId String
+  lastUsedAt     DateTime?
+  expiresAt      DateTime?
+  createdAt      DateTime     @default(now())
+  deletedAt      DateTime?
+  organization   Organization @relation(fields: [organizationId], references: [id])
+
+  @@index([organizationId])
+}
+
+model WebhookSubscription {
+  id             String       @id @default(uuid())
+  url            String
+  event          String
+  secret         String?
+  isActive       Boolean      @default(true)
+  organizationId String
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  organization   Organization @relation(fields: [organizationId], references: [id])
+
+  @@index([organizationId, event])
+}
+
+model SyncState {
+  id             String       @id @default(uuid())
+  userId         String
+  deviceId       String
+  lastSyncAt     DateTime     @default(now())
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id])
+
+  @@unique([userId, deviceId])
+  @@index([organizationId, userId])
+}
+
+model SyncQueue {
+  id              String       @id @default(uuid())
+  entityType      String
+  entityId        String
+  operation       String
+  payload         Json
+  clientVersion   Int
+  clientUpdatedAt DateTime
+  deviceId        String
+  userId          String
+  requestId       String       @unique
+  status          SyncStatus   @default(PENDING)
+  error           String?
+  organizationId  String
+  createdAt       DateTime     @default(now())
+  processedAt     DateTime?
+  organization    Organization @relation(fields: [organizationId], references: [id])
+
+  @@index([organizationId, status])
+}
+
+model ChangeLog {
+  id             String       @id @default(uuid())
+  entityType     String
+  entityId       String
+  operation      String
+  version        Int
+  changedFields  String[]
+  organizationId String
+  changedAt      DateTime     @default(now())
+  organization   Organization @relation(fields: [organizationId], references: [id])
+
+  @@index([organizationId, changedAt])
+  @@index([entityType, entityId])
+}
+
+model SyncConflict {
+  id             String         @id @default(uuid())
+  entityType     String
+  entityId       String
+  field          String
+  clientValue    Json?
+  serverValue    Json?
+  resolvedValue  Json?
+  status         ConflictStatus @default(PENDING)
+  organizationId String
+  createdAt      DateTime       @default(now())
+  resolvedAt     DateTime?
+  organization   Organization   @relation(fields: [organizationId], references: [id])
+
+  @@index([organizationId, status])
+}
+
+model CustomStatus {
+  id             String          @id @default(uuid())
+  label          String
+  color          String          @default("#2196F3")
+  systemStatus   WorkOrderStatus
+  isSystem       Boolean         @default(false)
+  organizationId String
+  organization   Organization    @relation(fields: [organizationId], references: [id])
+  workOrders     WorkOrder[]
+
+  @@unique([label, organizationId])
+}
+
+model ApprovalChain {
+  id             String         @id @default(uuid())
+  name           String
+  description    String?
+  entityType     String         @default("WORK_ORDER")
+  minCost        Decimal?       @default(0)
+  organizationId String
+  isActive       Boolean        @default(true)
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  organization   Organization   @relation(fields: [organizationId], references: [id])
+  steps          ApprovalStep[]
+}
+
+model FailureCode {
+  id             String       @id @default(uuid())
+  code           String
+  name           String
+  description    String?
+  organizationId String
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  workOrders     WorkOrder[]
+
+  @@unique([code, organizationId])
+}
+
+model ApprovalStep {
+  id              String        @id @default(uuid())
+  approvalChainId String
+  roleId          String
+  order           Int           @default(0)
+  chain           ApprovalChain @relation(fields: [approvalChainId], references: [id], onDelete: Cascade)
+  role            Role          @relation(fields: [roleId], references: [id])
+}
+
+model ApprovalRecord {
+  id             String            @id @default(uuid())
+  workOrderId    String
+  userId         String?
+  status         ApprovalStatus    @default(PENDING)
+  notes          String?
+  stepOrder      Int               @default(0)
+  organizationId String
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+  user           UserOrganization? @relation(fields: [userId], references: [id])
+  workOrder      WorkOrder         @relation(fields: [workOrderId], references: [id], onDelete: Cascade)
+
+  @@index([workOrderId])
+}
+
+model WorkOrderPlannedPart {
+  id             String            @id @default(uuid())
+  workOrderId    String
+  partId         String
+  quantity       Decimal
+  status         PlannedPartStatus @default(PLANNED)
+  organizationId String
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+  part           Part              @relation(fields: [partId], references: [id], onDelete: Cascade)
+  workOrder      WorkOrder         @relation(fields: [workOrderId], references: [id], onDelete: Cascade)
+
+  @@unique([workOrderId, partId])
+}
+
+model Tag {
+  id             String       @id @default(uuid())
+  name           String
+  model          String
+  organizationId String
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  organization   Organization @relation(fields: [organizationId], references: [id])
+
+  @@unique([name, model, organizationId])
+}
+
+model SavedView {
+  id             String       @id @default(uuid())
+  name           String
+  entityType     String
+  config         Json
+  userId         String
+  organizationId String
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  organization   Organization @relation(fields: [organizationId], references: [id])
+
+  @@unique([name, entityType, organizationId, userId])
+}
+
+model AssetField {
+  id             String       @id @default(uuid())
+  label          String
+  type           String
+  options        String[]     @default([])
+  precision      Int?
+  isSystem       Boolean      @default(false)
+  organizationId String
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  entityType     String       @default("ASSET")
+  organization   Organization @relation(fields: [organizationId], references: [id])
+
+  @@unique([label, entityType, organizationId])
+}
+
+model AssetSchedule {
+  id             String       @id @default(uuid())
+  name           String
+  config         Json
+  organizationId String
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  organization   Organization @relation(fields: [organizationId], references: [id])
+
+  @@unique([name, organizationId])
+}
+
+enum LocationType {
+  SITE
+  BUILDING
+  FLOOR
+  AREA
+  ROOM
+  EQUIPMENT_GROUP
+}
+
+enum Criticality {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum MaintenanceType {
+  PREVENTIVE
+  REACTIVE
+  INSPECTION
+  SAFETY
+  CORRECTIVE
+  OTHER
+}
+
+enum InventoryTransactionType {
+  RESTOCK
+  CONSUME
+  RETURN
+  AUDIT
+  SHRINKAGE
+}
+
+enum ChecklistItemType {
+  CHECKBOX
+  PASS_FAIL
+  TEXT_INPUT
+  NUMBER
+  METER_READING
+  SELECT
+}
+
+enum FrequencyType {
+  DAYS
+  WEEKS
+  MONTHS
+  YEARS
+  METER
+  HYBRID
+}
+
+enum UserRole {
+  ADMIN
+  LIMITED_ADMIN
+  TECHNICIAN
+  LIMITED_TECHNICIAN
+  REQUESTER
+  VIEW_ONLY
+}
+
+enum AssetStatus {
+  OPERATIONAL
+  DOWN
+  PENDING_APPROVAL
+  MAINTENANCE
+  STANDBY
+  DECOMMISSIONED
+  DISPOSED
+}
+
+enum WorkOrderStatus {
+  OPEN
+  IN_PROGRESS
+  ON_HOLD
+  COMPLETED
+  CLOSED
+  CANCELLED
+  PENDING_APPROVAL
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+  NONE
+}
+
+enum PurchaseOrderStatus {
+  DRAFT
+  PENDING_APPROVAL
+  APPROVED
+  ORDERED
+  RECEIVED
+  DENIED
+  COMPLETED
+  CANCELLED
+}
+
+enum RequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  CANCELLED
+}
+
+enum PMScheduleStatus {
+  DRAFT
+  PENDING_APPROVAL
+  ACTIVE
+  PAUSED
+}
+
+enum PartStatus {
+  DRAFT
+  PENDING_APPROVAL
+  ACTIVE
+  DISCONTINUED
+  OBSOLETE
+}
+
+enum CategoryType {
+  ASSET
+  WORK_ORDER
+  PART
+  INVENTORY
+  PURCHASE_ORDER
+  METER
+}
+
+enum SyncStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  CONFLICT
+}
+
+enum ConflictStatus {
+  PENDING
+  RESOLVED
+  IGNORED
+}
+
+enum ApprovalStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  CANCELLED
+}
+
+enum PlannedPartStatus {
+  PLANNED
+  ALLOCATED
+  CONSUMED
+  CANCELLED
+}
+
+model SsoConfig {
+  id               String       @id @default(uuid())
+  organizationId   String       @unique
+  provider         String       // "okta" | "google" | "custom"
+  isEnabled        Boolean      @default(false)
+  entryPoint       String       // IdP SSO URL
+  issuer           String       // SP Entity ID / Audience URI
+  cert             String       // IdP x509 certificate (PEM, no headers)
+  attributeMapping Json?        // { email, firstName, lastName field names from SAML assertion }
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+  organization     Organization @relation(fields: [organizationId], references: [id])
+}
+

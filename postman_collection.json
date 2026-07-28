@@ -1,0 +1,394 @@
+{
+	"info": {
+		"_postman_id": "77492931-893c-4a37-9759-3a32f91e1755",
+		"name": "CMMS Juric API",
+		"description": "Enterprise-grade CMMS API Collection matching Juric Pro/Enterprise features. Built for high-security multi-tenant maintenance at scale.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "0. Authentication & Login Flow",
+			"item": [
+				{
+					"name": "Login (Flowchart Compliant)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"admin@company.com\",\n    \"password\": \"password123\",\n    \"organizationId\": \"{{organizationId}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						},
+						"description": "Strict multi-tenant login following provided security flowchart. Returns access_token and feature flags."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "1. Asset Management (Pro)",
+			"item": [
+				{
+					"name": "List Assets",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/assets",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"assets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Asset (with Financials)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/assets/{{assetId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"assets",
+								"{{assetId}}"
+							]
+						},
+						"description": "Returns full asset details including MTTR/MTBF and Financial Depreciation (Book Value)."
+					},
+					"response": []
+				},
+				{
+					"name": "Log Meter Reading",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"value\": 5000,\n    \"notes\": \"Quarterly reading\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/assets/{{assetId}}/meters/{{meterId}}/readings",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"assets",
+								"{{assetId}}",
+								"meters",
+								"{{meterId}}",
+								"readings"
+							]
+						},
+						"description": "Logs meter value. Auto-triggers PM Work Order if threshold is exceeded."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "2. Work Order Action Flow",
+			"item": [
+				{
+					"name": "Update Status (Guarded Transition)",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"IN_PROGRESS\",\n    \"statusChangeReason\": \"Starting shift\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/work-orders/{{workOrderId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"work-orders",
+								"{{workOrderId}}"
+							]
+						},
+						"description": "Moving to IN_PROGRESS auto-starts the labor timer."
+					},
+					"response": []
+				},
+				{
+					"name": "Complete Work Order (RCA & Checklist)",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"COMPLETED\",\n    \"resolutionNotes\": \"Replaced motor belts\",\n    \"rootCauseCode\": \"WEAR_AND_TEAR\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/work-orders/{{workOrderId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"work-orders",
+								"{{workOrderId}}"
+							]
+						},
+						"description": "Requires Resolution Notes and RCA Code (Reactive flow) to complete."
+					},
+					"response": []
+				},
+				{
+					"name": "Add Checklist Response (Smart Trigger)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"checklistItemId\": \"{{checklistItemId}}\",\n    \"responseValue\": \"Safety Issue Found\",\n    \"passed\": false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/work-orders/{{workOrderId}}/checklist-responses",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"work-orders",
+								"{{workOrderId}}",
+								"checklist-responses"
+							]
+						},
+						"description": "If 'passed' is false and item has 'failTriggerWO', a corrective WO is auto-created."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "3. Inventory & Supply",
+			"item": [
+				{
+					"name": "Consume Part",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"partId\": \"{{partId}}\",\n    \"quantity\": 2\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/work-orders/{{workOrderId}}/parts",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"work-orders",
+								"{{workOrderId}}",
+								"parts"
+							]
+						},
+						"description": "Deducts stock and records part cost on Work Order. Triggers low-stock alarm if below minQuantity."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "4. Analytics & Reports",
+			"item": [
+				{
+					"name": "Get Executive Dashboard",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/analytics/dashboard",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"analytics",
+								"dashboard"
+							]
+						},
+						"description": "Returns PM Compliance Rate, Asset Availability %, Total Stock Value, and Cost Breakdown."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "5. Enterprise Settings",
+			"item": [
+				{
+					"name": "Create Category",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Emergency Maintenance\",\n    \"color\": \"#FF0000\",\n    \"type\": \"WORK_ORDER\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/settings/categories",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"settings",
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Shift",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Night Shift\",\n    \"startTime\": \"22:00\",\n    \"endTime\": \"06:00\",\n    \"workDays\": [0, 1, 2, 3, 4]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/settings/shifts",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"settings",
+								"shifts"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{accessToken}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:3000",
+			"type": "string"
+		},
+		{
+			"key": "accessToken",
+			"value": "your_token_here",
+			"type": "string"
+		},
+		{
+			"key": "organizationId",
+			"value": "your_org_id_here",
+			"type": "string"
+		},
+		{
+			"key": "assetId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "workOrderId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "partId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "meterId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "checklistItemId",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

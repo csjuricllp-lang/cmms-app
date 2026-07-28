@@ -1,0 +1,1 @@
+import { PrismaClient } from '@prisma/client'; const prisma = new PrismaClient(); async function main() { const orgs = await prisma.organization.findMany(); for (const org of orgs) { const count = await prisma.workOrder.count({ where: { organizationId: org.id } }); console.log(org.name, count); } } main().finally(() => prisma.$disconnect());

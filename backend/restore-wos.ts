@@ -1,0 +1,1 @@
+import { PrismaClient } from '@prisma/client'; const prisma = new PrismaClient(); async function main() { await prisma.workOrder.updateMany({ data: { deletedAt: null } }); console.log('Work orders restored'); } main().finally(() => prisma.$disconnect());

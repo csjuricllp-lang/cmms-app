@@ -1,0 +1,1 @@
+import { PrismaClient } from '@prisma/client'; const prisma = new PrismaClient(); async function main() { await prisma.organization.updateMany({ data: { deletedAt: null } }); console.log('Restored organizations'); } main().finally(() => prisma.$disconnect());
