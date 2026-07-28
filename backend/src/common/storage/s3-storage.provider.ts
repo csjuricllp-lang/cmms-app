@@ -6,7 +6,7 @@ import {
   DeleteObjectCommand,
 } from '@aws-sdk/client-s3';
 import { StorageProvider } from './storage-provider.interface';
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID } from 'crypto';
 import { extname } from 'path';
 
 @Injectable()
@@ -40,7 +40,7 @@ export class S3StorageProvider extends StorageProvider {
   }
 
   async uploadFile(file: Express.Multer.File, folder: string): Promise<string> {
-    const fileName = `${uuidv4()}${extname(file.originalname)}`;
+    const fileName = `${randomUUID()}${extname(file.originalname)}`;
     const fileKey = `${folder}/${fileName}`;
 
     await this.s3Client.send(
