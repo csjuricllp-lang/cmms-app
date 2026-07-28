@@ -3,10 +3,11 @@ import { StorageProvider } from './storage-provider.interface';
 import { writeFileSync, unlinkSync, existsSync, mkdirSync } from 'fs';
 import { join, extname } from 'path';
 import { randomUUID } from 'crypto';
+import { tmpdir } from 'os';
 
 @Injectable()
 export class LocalStorageProvider extends StorageProvider {
-  private readonly uploadPath = join(process.cwd(), 'uploads');
+  private readonly uploadPath = join(tmpdir(), 'cmms-uploads');
 
   constructor() {
     super();
