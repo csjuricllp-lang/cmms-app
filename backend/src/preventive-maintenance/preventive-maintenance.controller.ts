@@ -21,6 +21,7 @@ import { RequirePermissions } from '../auth/decorators/permissions.decorator';
 import { Permission } from '../auth/permissions/permission.enum';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
+import * as os from 'os';
 import { extname } from 'path';
 
 @UseGuards(AuthGuard('jwt'), PermissionsGuard)
@@ -66,7 +67,7 @@ export class PreventiveMaintenanceController {
   @UseInterceptors(
     FileInterceptor('file', {
       storage: diskStorage({
-        destination: './uploads',
+        destination: os.tmpdir(),
         filename: (req, file, cb) => {
           const uniqueSuffix =
             Date.now() + '-' + Math.round(Math.random() * 1e9);

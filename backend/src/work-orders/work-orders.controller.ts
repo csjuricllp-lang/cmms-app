@@ -14,6 +14,7 @@ import {
 import { WorkOrderQueryDto } from './dto/work-order-query.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
+import * as os from 'os';
 import { extname } from 'path';
 import { WorkOrdersService } from './work-orders.service';
 import { CreateWorkOrderDto, UpdateWorkOrderDto } from './dto/work-order.dto';
@@ -167,7 +168,7 @@ export class WorkOrdersController {
   @UseInterceptors(
     FileInterceptor('file', {
       storage: diskStorage({
-        destination: './uploads',
+        destination: os.tmpdir(),
         filename: (req, file, cb) => {
           const uniqueSuffix =
             Date.now() + '-' + Math.round(Math.random() * 1e9);
