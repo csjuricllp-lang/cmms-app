@@ -84,6 +84,16 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
     const [requiresLOTO, setRequiresLOTO] = useState(false);
     const [isDowntimeEvent, setIsDowntimeEvent] = useState(false);
     
+    // Auto-fill Location when an Asset is selected
+    useEffect(() => {
+        if (selectedAssetId && assets) {
+            const asset = assets.find(a => a.id === selectedAssetId);
+            if (asset && asset.locationId) {
+                setSelectedLocationId(asset.locationId);
+            }
+        }
+    }, [selectedAssetId, assets]);
+
     const [tasks, setTasks] = useState<any[]>([]);
     const [parts, setParts] = useState<any[]>([]);
     const [selectedPartForInspector, setSelectedPartForInspector] = useState<any | null>(null);

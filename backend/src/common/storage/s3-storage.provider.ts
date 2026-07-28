@@ -20,14 +20,23 @@ export class S3StorageProvider extends StorageProvider {
     this.region = this.configService.get<string>('AWS_REGION') || 'us-east-1';
     this.bucket = this.configService.get<string>('AWS_S3_BUCKET') || '';
     
-    this.s3Client = new S3Client({
+    const endpoint = this.configService.get<string>('AWS_ENDPOINT');
+
+    const s3Config: any = {
       region: this.region,
       credentials: {
         accessKeyId: this.configService.get<string>('AWS_ACCESS_KEY_ID') || '',
         secretAccessKey:
           this.configService.get<string>('AWS_SECRET_ACCESS_KEY') || '',
       },
-    });
+    };
+
+    if (endpoint) {
+      s3Config.endpoint = endpoint;
+      s3Config.forcePathStyle = true; // Often required for Supabase/MinIO/S3-compatible endpoints
+    }
+
+    this.s3Client = new S3Client(s3Config);
   }
 
   async uploadFile(file: Express.Multer.File, folder: string): Promise<string> {

@@ -5,6 +5,7 @@ import {
   ForbiddenException,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { MailService } from '../mail/mail.service';
 import {
   CreatePurchaseOrderDto,
   UpdatePurchaseOrderDto,
@@ -26,7 +27,10 @@ export type PurchaseOrderWithRelations = Prisma.PurchaseOrderGetPayload<{
 
 @Injectable()
 export class PurchaseOrdersService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private mailService: MailService,
+  ) {}
 
   async create(dto: CreatePurchaseOrderDto): Promise<PurchaseOrderWithRelations> {
     const organizationId = TenancyContext.organizationId || '';
@@ -188,6 +192,47 @@ export class PurchaseOrdersService {
       where: { id },
       data: { status: 'APPROVED' },
     });
+  }
+
+  async sendToVendor(id: string): Promise<{ success: boolean; message: string }> {
+    const organizationId = TenancyContext.organizationId || '';
+    const po = await this.prisma.purchaseOrder.findFirst({
+      where: { id, organizationId },
+      include: PO_INCLUDES,
+    });
+
+    if (!po) {
+      throw new NotFoundException('Purchase order not found');
+    }
+
+    if (!po.vendor || !po.vendor.email) {
+      throw new BadRequestException('The selected vendor does not have an email address on file.');
+    }
+
+    const org = await this.prisma.organization.findUnique({
+      where: { id: organizationId },
+    });
+
+    await this.mailService.sendPurchaseOrderEmail(
+      po.vendor.email,
+      po,
+      org?.name || 'Your Company',
+    );
+
+    // Create an audit log for sending PO
+    await this.prisma.auditLog.create({
+      data: {
+        action: 'SENT_PO_TO_VENDOR',
+        model: 'PurchaseOrder',
+        entityId: po.id,
+        userId: TenancyContext.userId || '',
+        organizationId: organizationId,
+        ipAddress: '127.0.0.1',
+        userAgent: `Vendor PO Sent: ${po.vendor.email}`,
+      },
+    });
+
+    return { success: true, message: `Successfully sent Purchase Order to ${po.vendor.email}` };
   }
 
   async deny(id: string): Promise<PurchaseOrder> {

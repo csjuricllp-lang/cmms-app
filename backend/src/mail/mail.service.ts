@@ -160,4 +160,60 @@ export class MailService {
       this.logger.log(`[MAIL MOCK] Link: ${url}`);
     }
   }
+
+  async sendPurchaseOrderEmail(
+    vendorEmail: string,
+    po: any,
+    orgName: string,
+  ) {
+    const title = `Purchase Order from ${orgName} - ${po.number || 'New Order'}`;
+    const itemsHtml = po.items && po.items.length > 0
+      ? po.items.map((i: any) => `<li>${i.quantity}x ${i.part?.name || 'Part'} (₹${i.unitCost})</li>`).join('')
+      : '<li>No specific items listed</li>';
+
+    const content = `Please find our purchase order details below:
+      PO Number: ${po.number || 'N/A'}
+      Type: ${po.type || 'N/A'}
+      Procuring Company: ${orgName}
+      Total Items: ${po.items ? po.items.length : 0}
+    `;
+
+    if (this.useRealEmail && this.transporter) {
+      const from = this.configService.get<string>('SMTP_FROM') || '"CMMS App Alert" <no-reply@example.com>';
+      try {
+        await this.transporter.sendMail({
+          from,
+          to: vendorEmail,
+          subject: title,
+          text: content,
+          html: `
+            <div style="font-family: sans-serif; padding: 20px; color: #333; max-width: 600px; margin: 0 auto; border: 1px solid #eee; border-radius: 8px;">
+              <h2 style="color: #4f46e5; border-bottom: 2px solid #4f46e5; padding-bottom: 10px; margin-top: 0;">${title}</h2>
+              <p style="font-size: 16px; line-height: 1.5; color: #555;">Hello,</p>
+              <p style="font-size: 16px; line-height: 1.5; color: #555;">Please find the details for our recent purchase order:</p>
+              <ul>
+                <li><strong>PO Number:</strong> ${po.number || 'N/A'}</li>
+                <li><strong>Purchase Date:</strong> ${po.purchaseDate ? new Date(po.purchaseDate).toLocaleDateString() : 'N/A'}</li>
+                <li><strong>Procuring Company:</strong> ${orgName}</li>
+              </ul>
+              <h3 style="color: #4f46e5;">Items Ordered</h3>
+              <ul style="line-height: 1.5; color: #555;">
+                ${itemsHtml}
+              </ul>
+              <br/><br/>
+              <hr style="border: 0; border-top: 1px solid #eee;"/>
+              <p style="font-size: 12px; color: #999; text-align: center;">This is an automated purchase order from ${orgName} via CMMS Engine.</p>
+            </div>
+          `,
+        });
+        this.logger.log(`Real PO email sent successfully to ${vendorEmail} (Subject: ${title})`);
+      } catch (error) {
+        this.logger.error(`Failed to send real PO email to ${vendorEmail}: ${error.message}`);
+      }
+    } else {
+      this.logger.log(`[MAIL MOCK] Sending PO to Vendor ${vendorEmail}`);
+      this.logger.log(`[MAIL MOCK] Subject: ${title}`);
+      this.logger.log(`[MAIL MOCK] Content: ${content}`);
+    }
+  }
 }

@@ -933,13 +933,13 @@ export const AssetDetailPage = () => {
                             <div className="space-y-4">
                                 <h3 className="text-[13px] font-black text-slate-900 uppercase tracking-[0.2em]">Assigned To</h3>
                                 <div className="flex items-center gap-3 pl-2">
-                                    <div className="w-8 h-8 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-[11px] font-black text-primary uppercase">
-                                        {asset.assignedTo?.user?.name?.[0] || 'T'}
+                                    <div className="w-8 h-8 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-[11px] font-black text-slate-400 uppercase">
+                                        {asset.custodian?.user?.name?.[0] || '?'}
                                     </div>
                                     <div>
                                         <p className="text-[13px] font-bold text-slate-700 italic">
-                                            {asset.assignedTo?.user?.name || 'tester kannappan'}
-                                            <span className="text-slate-400 ml-1">(Primary)</span>
+                                            {asset.custodian?.user?.name || 'Unassigned'}
+                                            {asset.custodian && <span className="text-slate-400 ml-1">(Primary)</span>}
                                         </p>
                                     </div>
                                 </div>

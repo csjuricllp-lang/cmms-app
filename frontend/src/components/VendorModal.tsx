@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { X, Loader2 } from 'lucide-react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '../lib/api';
+import toast from 'react-hot-toast';
 
 interface VendorModalProps {
     onClose: () => void;
@@ -31,10 +32,17 @@ export const VendorModal = ({ onClose, vendor }: VendorModalProps) => {
         mutationFn: async (data: typeof formData) => {
             const payload = {
                 ...data,
+                email: data.email || undefined,
+                phone: data.phone || undefined,
+                website: data.website || undefined,
+                address: data.address || undefined,
+                contactName: data.contactName || undefined,
+                description: data.description || undefined,
+                type: data.type || undefined,
                 hourlyRate: data.hourlyRate ? parseFloat(data.hourlyRate) : undefined,
                 serviceRadius: data.serviceRadius ? parseInt(String(data.serviceRadius), 10) : 25,
-                specialties: data.specialties.split(',').map((s: string) => s.trim()).filter(Boolean),
-                services: data.services.split(',').map((s: string) => s.trim()).filter(Boolean),
+                specialties: data.specialties ? data.specialties.split(',').map((s: string) => s.trim()).filter(Boolean) : [],
+                services: data.services ? data.services.split(',').map((s: string) => s.trim()).filter(Boolean) : [],
             };
             if (vendor?.id) {
                 return api.patch(`/vendors/${vendor.id}`, payload);
@@ -42,11 +50,17 @@ export const VendorModal = ({ onClose, vendor }: VendorModalProps) => {
             return api.post('/vendors', payload);
         },
         onSuccess: () => {
+            toast.success(vendor?.id ? 'Provider updated successfully' : 'Provider created successfully');
             queryClient.invalidateQueries({ queryKey: ['vendors'] });
             if (vendor?.id) {
                 queryClient.invalidateQueries({ queryKey: ['vendor', vendor.id] });
             }
             onClose();
+        },
+        onError: (error: any) => {
+            const msg = error?.response?.data?.message || error.message || 'Failed to save provider';
+            toast.error(Array.isArray(msg) ? msg[0] : msg);
+            console.error('Provider save error:', error);
         }
     });
 

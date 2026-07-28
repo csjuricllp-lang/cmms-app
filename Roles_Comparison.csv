@@ -1,0 +1,17 @@
+App Feature / Permission,Maintenance Manager (Administrator),Customer Dept Manager (Requester)
+Submit Maintenance Requests,Yes,Yes
+View Own Submitted Requests,Yes,Yes
+View the Dashboard,Yes,Yes
+View Locations & Floorplans,Yes,Yes
+View Assets & Equipment,Yes,Yes
+Edit or Delete Assets & Locations,Yes,No
+View ALL Work Orders in the Company,Yes,No
+Create & Assign Work Orders,Yes,No
+Approve Completed Work Orders,Yes,No
+View or Edit Preventive Maintenance (PMs),Yes,No
+View and Manage Parts & Inventory,Yes,No
+View and Manage Purchase Orders & Vendors,Yes,No
+View Deep Analytics - Budgets & Costs,Yes,No
+Invite New Users & Technicians,Yes,No
+Change User Roles,Yes,No
+Access System Settings & Workflows,Yes,No

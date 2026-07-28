@@ -172,6 +172,10 @@ export const CreateAssetModal: React.FC<CreateAssetModalProps> = ({ isOpen, onCl
             toast.error('Asset Name is required');
             return;
         }
+        if (!selectedLocationId) {
+            toast.error('Location is required. Please select a Location from the right sidebar.');
+            return;
+        }
         const payload = {
             name, 
             description, 
@@ -586,7 +590,7 @@ export const CreateAssetModal: React.FC<CreateAssetModalProps> = ({ isOpen, onCl
                                     <textarea value={notes} onChange={(e) => setNotes(e.target.value)} rows={6} className="w-full bg-white border border-slate-100 rounded-[32px] p-8 text-[15px] font-bold outline-none focus:border-blue-400 resize-none" placeholder="Extended tactical specifications..." />
                                 </div>
 
-                                <button className="flex items-center gap-2 text-[12px] font-bold text-orange-500 hover:scale-[1.02] transition-all bg-orange-50/50 p-6 rounded-[24px] border border-orange-100/50 w-full justify-center">
+                                <button onClick={() => toast.info('Please create the Asset first to attach warranty files.')} className="flex items-center gap-2 text-[12px] font-bold text-orange-500 hover:scale-[1.02] transition-all bg-orange-50/50 p-6 rounded-[24px] border border-orange-100/50 w-full justify-center">
                                     <ShieldCheck className="w-5 h-5" /> Add warranty file
                                 </button>
                             </div>
@@ -599,7 +603,7 @@ export const CreateAssetModal: React.FC<CreateAssetModalProps> = ({ isOpen, onCl
                                     <h3 className="text-[20px] font-black text-slate-900 tracking-tight">Parts</h3>
                                     <p className="text-[13px] text-slate-400 font-medium">BOM associations for technical maintenance.</p>
                                 </div>
-                                <button className="h-10 px-6 bg-slate-50 border border-slate-100 rounded-xl text-[12px] font-black uppercase tracking-widest text-slate-600 hover:bg-white transition-all">Add Parts</button>
+                                <button onClick={() => toast.info('Please create the Asset first. You can link parts from the Asset Dashboard.')} className="h-10 px-6 bg-slate-50 border border-slate-100 rounded-xl text-[12px] font-black uppercase tracking-widest text-slate-600 hover:bg-white transition-all">Add Parts</button>
                             </div>
                             <div className="p-20 flex flex-col items-center justify-center text-center space-y-4 bg-slate-50/20 rounded-[40px] border-4 border-dotted border-slate-50">
                                 <div className="w-16 h-16 rounded-full bg-slate-50 flex items-center justify-center"><Package className="w-7 h-7 text-slate-200" /></div>
@@ -616,11 +620,11 @@ export const CreateAssetModal: React.FC<CreateAssetModalProps> = ({ isOpen, onCl
                                 </div>
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 min-h-[120px] md:min-h-[160px]">
-                                <div className="border-4 border-dashed border-slate-50 rounded-[40px] flex flex-col items-center justify-center gap-2 group hover:bg-slate-50/50 transition-all cursor-pointer">
+                                <div onClick={() => toast.info('Please create the Asset first. You can upload files from the Asset Dashboard.')} className="border-4 border-dashed border-slate-50 rounded-[40px] flex flex-col items-center justify-center gap-2 group hover:bg-slate-50/50 transition-all cursor-pointer">
                                     <FileText className="w-8 h-8 text-slate-200 group-hover:text-blue-300 transition-all" />
                                     <p className="text-[11px] font-black text-slate-300 uppercase tracking-widest"><span className="text-blue-400">Upload</span> or Drop Files</p>
                                 </div>
-                                <div className="border-4 border-dashed border-slate-50 rounded-[40px] flex flex-col items-center justify-center gap-2 group hover:bg-slate-50/50 transition-all cursor-pointer">
+                                <div onClick={() => toast.info('Please create the Asset first. You can attach files from the Asset Dashboard.')} className="border-4 border-dashed border-slate-50 rounded-[40px] flex flex-col items-center justify-center gap-2 group hover:bg-slate-50/50 transition-all cursor-pointer">
                                     <Link className="w-8 h-8 text-slate-200 group-hover:text-indigo-300 transition-all" />
                                     <p className="text-[11px] font-black text-slate-300 uppercase tracking-widest">Add from Saved Files</p>
                                 </div>

@@ -193,7 +193,7 @@ export const POModal = ({ onClose, initialData }: POModalProps) => {
     const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
-            // In a real scenario, you'd upload this to S3/Cloudinary and store the URL
+            toast.info("Please create the Purchase Order first. You can attach files from the PO Dashboard.");
             console.log("Staging file for upload:", file.name);
         }
     };
@@ -461,7 +461,7 @@ export const POModal = ({ onClose, initialData }: POModalProps) => {
                             <button
                                 type="button"
                                 className="text-[13px] font-bold text-indigo-600 hover:text-indigo-800 hover:underline flex items-center gap-1"
-                                onClick={() => toast.success("Saved files modal placeholder")}
+                                onClick={() => toast.info("Please create the Purchase Order first. You can attach saved files from the PO Dashboard.")}
                             >
                                 Add from External Link
                             </button>

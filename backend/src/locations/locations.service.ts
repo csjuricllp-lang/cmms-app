@@ -9,16 +9,32 @@ export class LocationsService {
   constructor(private prisma: PrismaService) {}
 
   async create(createLocationDto: CreateLocationDto) {
-    const { workerIds, teamIds, vendorIds, customerId, ...rest } = createLocationDto;
+    const { workerIds, teamIds, vendorIds, customerId, parentId, ...rest } = createLocationDto;
     const organizationId = TenancyContext.organizationId;
     
+    console.log("CreateLocationDto: ", JSON.stringify(createLocationDto, null, 2));
+
+    // Map User IDs to UserOrganization IDs since Location.workers relates to UserOrganization
+    let userOrgIds: string[] = [];
+    if (workerIds && workerIds.length > 0) {
+      const userOrgs = await this.prisma.userOrganization.findMany({
+        where: {
+          organizationId,
+          userId: { in: workerIds }
+        },
+        select: { id: true }
+      });
+      userOrgIds = userOrgs.map(uo => uo.id);
+    }
+
     return this.prisma.location.create({
       data: { 
         ...rest, 
         organizationId,
-        workers: workerIds ? { connect: workerIds.map(id => ({ id })) } : undefined,
-        teams: teamIds ? { connect: teamIds.map(id => ({ id })) } : undefined,
-        vendors: vendorIds ? { connect: vendorIds.map(id => ({ id })) } : undefined,
+        parentId: parentId || undefined,
+        workers: userOrgIds.length > 0 ? { connect: userOrgIds.map(id => ({ id })) } : undefined,
+        teams: teamIds && teamIds.length > 0 ? { connect: teamIds.map(id => ({ id })) } : undefined,
+        vendors: vendorIds && vendorIds.length > 0 ? { connect: vendorIds.map(id => ({ id })) } : undefined,
         customers: customerId ? { connect: { id: customerId } } : undefined,
       } as any,
       include: { parent: true },
@@ -159,18 +175,36 @@ export class LocationsService {
 
   async update(id: string, updateLocationDto: UpdateLocationDto) {
     await this.findOne(id);
+    const { workerIds, teamIds, vendorIds, customerId, parentId, ...rest } = updateLocationDto;
     const organizationId = TenancyContext.organizationId;
-    const { workerIds, teamIds, vendorIds, customerId, ...rest } = updateLocationDto;
+    
+    // Map User IDs to UserOrganization IDs
+    let userOrgIds: string[] = [];
+    if (workerIds && workerIds.length > 0) {
+      const userOrgs = await this.prisma.userOrganization.findMany({
+        where: {
+          organizationId,
+          userId: { in: workerIds }
+        },
+        select: { id: true }
+      });
+      userOrgIds = userOrgs.map(uo => uo.id);
+    }
 
     return this.prisma.location.update({
-      where: { id, organizationId },
+      where: { 
+        id,
+        organizationId 
+      },
       data: {
         ...rest,
-        workers: workerIds ? { set: workerIds.map(id => ({ id })) } : undefined,
-        teams: teamIds ? { set: teamIds.map(id => ({ id })) } : undefined,
-        vendors: vendorIds ? { set: vendorIds.map(id => ({ id })) } : undefined,
-        customers: customerId ? { set: [{ id: customerId }] } : (customerId === null ? { set: [] } : undefined),
+        parentId: parentId || undefined,
+        workers: workerIds !== undefined ? { set: userOrgIds.map(id => ({ id })) } : undefined,
+        teams: teamIds !== undefined ? { set: teamIds.map(id => ({ id })) } : undefined,
+        vendors: vendorIds !== undefined ? { set: vendorIds.map(id => ({ id })) } : undefined,
+        customers: customerId !== undefined ? (customerId ? { set: [{ id: customerId }] } : { set: [] }) : undefined,
       } as any,
+      include: { parent: true },
     });
   }
 

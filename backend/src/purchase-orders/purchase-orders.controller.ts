@@ -91,6 +91,12 @@ export class PurchaseOrdersController {
     return this.purchaseOrdersService.syncQuickBooks(id);
   }
 
+  @RequirePermissions(Permission.UPDATE_PO)
+  @Post(':id/send')
+  sendToVendor(@Param('id') id: string) {
+    return this.purchaseOrdersService.sendToVendor(id);
+  }
+
   @RequirePermissions(Permission.DELETE_PO)
   @Delete(':id')
   remove(@Param('id') id: string) {

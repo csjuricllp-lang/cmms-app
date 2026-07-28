@@ -31,6 +31,16 @@ export const CustomerModal = ({ onClose, customer }: CustomerModalProps) => {
         mutationFn: async (data: typeof formData) => {
             const payload = {
                 ...data,
+                email: data.email || undefined,
+                phone: data.phone || undefined,
+                website: data.website || undefined,
+                address: data.address || undefined,
+                description: data.description || undefined,
+                type: data.type || undefined,
+                billingName: data.billingName || undefined,
+                billingAddress: data.billingAddress || undefined,
+                addressLine2: data.addressLine2 || undefined,
+                addressLine3: data.addressLine3 || undefined,
                 hourlyRate: data.hourlyRate ? parseFloat(data.hourlyRate) : undefined
             };
             if (customer?.id) {
@@ -40,7 +50,15 @@ export const CustomerModal = ({ onClose, customer }: CustomerModalProps) => {
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['customers'] });
+            if (customer?.id) {
+                queryClient.invalidateQueries({ queryKey: ['customer', customer.id] });
+            }
             onClose();
+        },
+        onError: (error: any) => {
+            const msg = error?.response?.data?.message || error.message || 'Failed to save customer';
+            console.error('Customer save error:', error);
+            alert(Array.isArray(msg) ? msg[0] : msg);
         }
     });
 

@@ -400,6 +400,7 @@ export const WorkOrdersPage = () => {
     // Staging states for multi-select with Apply/Cancel
     const [stagedPriorities, setStagedPriorities] = useState<string[]>([]);
     const [stagedLocationIds, setStagedLocationIds] = useState<string[]>([]);
+    const [expandedLocationIds, setExpandedLocationIds] = useState<string[]>([]);
     const [stagedAssigneeIds, setStagedAssigneeIds] = useState<string[]>([]);
     const [stagedDateFilter, setStagedDateFilter] = useState<string>('Any Day');
     const [isAssetDropdownOpen, setIsAssetDropdownOpen] = useState(false);
@@ -1368,24 +1369,67 @@ export const WorkOrdersPage = () => {
                         onClear={() => setStagedLocationIds([])}
                     >
                         <div className="p-2 max-h-64 overflow-y-auto custom-scrollbar bg-white">
-                            {locations.map(l => (
-                                <button
-                                    key={l.id}
-                                    onClick={() => {
-                                        const next = stagedLocationIds.includes(l.id) 
-                                            ? stagedLocationIds.filter(x => x !== l.id)
-                                            : [...stagedLocationIds, l.id];
-                                        setStagedLocationIds(next);
-                                    }}
-                                    className={cn(
-                                        "w-full flex items-center justify-between px-4 py-2.5 hover:bg-slate-50 transition-colors text-left rounded-xl",
-                                        stagedLocationIds.includes(l.id) ? "text-primary bg-primary/5 font-black" : "text-slate-700 font-bold"
-                                    )}
-                                >
-                                    <span className="text-[13px]">{l.name}</span>
-                                    {stagedLocationIds.includes(l.id) && <Check className="w-4 h-4 text-primary" />}
-                                </button>
-                            ))}
+                            {(() => {
+                                // Build location tree
+                                const map: Record<string, any> = {};
+                                const roots: any[] = [];
+                                locations.forEach(l => { map[l.id] = { ...l, children: [] }; });
+                                locations.forEach(l => {
+                                    if (l.parentId && map[l.parentId]) {
+                                        map[l.parentId].children.push(map[l.id]);
+                                    } else {
+                                        roots.push(map[l.id]);
+                                    }
+                                });
+
+                                const renderNode = (node: any, level: number) => {
+                                    const hasChildren = node.children && node.children.length > 0;
+                                    const isExpanded = expandedLocationIds.includes(node.id);
+                                    
+                                    return (
+                                        <div key={node.id}>
+                                            <div 
+                                                className={cn(
+                                                    "w-full flex items-center justify-between px-4 py-2 hover:bg-slate-50 transition-colors text-left rounded-xl",
+                                                    stagedLocationIds.includes(node.id) ? "text-primary bg-primary/5 font-black" : "text-slate-700 font-bold"
+                                                )}
+                                                style={{ paddingLeft: `${(level * 16) + 16}px` }}
+                                            >
+                                                <div className="flex items-center gap-2 flex-1">
+                                                    {hasChildren ? (
+                                                        <button 
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                setExpandedLocationIds(prev => prev.includes(node.id) ? prev.filter(id => id !== node.id) : [...prev, node.id]);
+                                                            }}
+                                                            className="p-1 hover:bg-slate-200 rounded-md transition-colors text-slate-400"
+                                                        >
+                                                            <ChevronDown className={cn("w-3.5 h-3.5 transition-transform", !isExpanded && "-rotate-90")} />
+                                                        </button>
+                                                    ) : (
+                                                        <div className="w-5" />
+                                                    )}
+                                                    <button
+                                                        className="flex-1 text-left py-0.5"
+                                                        onClick={() => {
+                                                            const next = stagedLocationIds.includes(node.id) 
+                                                                ? stagedLocationIds.filter(x => x !== node.id)
+                                                                : [...stagedLocationIds, node.id];
+                                                            setStagedLocationIds(next);
+                                                        }}
+                                                    >
+                                                        <span className="text-[13px]">{node.name}</span>
+                                                    </button>
+                                                </div>
+                                                {stagedLocationIds.includes(node.id) && <Check className="w-4 h-4 text-primary shrink-0" />}
+                                            </div>
+                                            {isExpanded && node.children.map((child: any) => renderNode(child, level + 1))}
+                                        </div>
+                                    );
+                                };
+                                
+                                return roots.map(root => renderNode(root, 0));
+                            })()}
                         </div>
                     </FilterDropdown>
 

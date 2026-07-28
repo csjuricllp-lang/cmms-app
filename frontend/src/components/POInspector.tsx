@@ -14,7 +14,8 @@ import {
     MapPin,
     Printer,
     Edit2,
-    Globe
+    Globe,
+    Send
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
@@ -258,6 +259,18 @@ export const POInspector = ({ order: initialOrder, onClose }: POInspectorProps) 
         }
     });
 
+    const sendToVendorMutation = useMutation({
+        mutationFn: async () => api.post(`/purchase-orders/${order.id}/send`),
+        onSuccess: (res: any) => {
+            toast.success(res.data?.message || 'Successfully sent Purchase Order to vendor');
+            queryClient.invalidateQueries({ queryKey: ['purchase-orders'] });
+            queryClient.invalidateQueries({ queryKey: ['purchase-order', order.id] });
+        },
+        onError: (err: any) => {
+            toast.error(err.response?.data?.message || 'Failed to send Purchase Order to vendor');
+        }
+    });
+
     const formatDate = (dateStr: any) => {
         if (!dateStr) return 'None';
         const d = new Date(dateStr);
@@ -436,6 +449,18 @@ export const POInspector = ({ order: initialOrder, onClose }: POInspectorProps) 
                                 {order.tags?.includes('QuickBooks Synced') ? 'Synced to QuickBooks' : 'Sync to QuickBooks'}
                             </button>
                         )}
+                        <button 
+                            onClick={() => sendToVendorMutation.mutate()}
+                            disabled={sendToVendorMutation.isPending}
+                            className="px-5 py-2 bg-indigo-50 border border-indigo-200 rounded-xl hover:bg-indigo-100 transition-all font-bold text-[13px] text-indigo-700 shadow-sm flex items-center gap-1.5"
+                        >
+                            {sendToVendorMutation.isPending ? (
+                                <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                            ) : (
+                                <Send className="w-3.5 h-3.5" />
+                            )}
+                            Send to Vendor
+                        </button>
                         <button 
                             onClick={() => setIsEditModalOpen(true)}
                             className="px-5 py-2 bg-card border border-border rounded-xl hover:bg-muted transition-all font-bold text-[13px] text-foreground/80 shadow-sm flex items-center gap-1.5"

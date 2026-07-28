@@ -285,13 +285,18 @@ export const VendorsPage = () => {
 
                 <div className="flex items-center gap-3">
                     <button 
-                        onClick={() => setIsCreateModalOpen(true)}
+                        type="button"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            setIsCreateModalOpen(true);
+                        }}
                         className="h-9 px-4 bg-[#3B82F6] hover:bg-blue-600 text-white rounded-lg font-bold text-[13px] transition-all flex items-center gap-1.5 shadow-sm active:scale-95"
                     >
                         <Plus className="w-4 h-4" />
                         Create Provider
                     </button>
-                    <button className="h-9 w-9 flex items-center justify-center border border-slate-200 bg-white text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-50 transition-colors shadow-sm">
+                    <button type="button" className="h-9 w-9 flex items-center justify-center border border-slate-200 bg-white text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-50 transition-colors shadow-sm">
                         <MoreHorizontal className="w-5 h-5" />
                     </button>
                 </div>
@@ -635,6 +640,11 @@ export const VendorsPage = () => {
                     </div>
                 )}
             </AnimatePresence>
+
+            {/* Create Provider Modal */}
+            {isCreateModalOpen && (
+                <VendorModal onClose={() => setIsCreateModalOpen(false)} />
+            )}
 
             {/* Confirm Delete Modal */}
             {deleteVendorId && (

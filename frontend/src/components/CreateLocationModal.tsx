@@ -111,7 +111,7 @@ export const CreateLocationModal: React.FC<CreateLocationModalProps> = ({ isOpen
         }
 
         try {
-            const payload = {
+            const payload: any = {
                 name: formData.name,
                 address: formData.address,
                 parentId: formData.parentId || undefined,

@@ -7,9 +7,11 @@ import { SyncStatus } from '../SyncStatus';
 import { Outlet } from 'react-router-dom';
 import { useThemeStore } from '../../store/useThemeStore';
 import { cn } from '../../lib/utils';
+import { useInactivityTimeout } from '../../hooks/useInactivityTimeout';
 
 export const Layout = () => {
     const { sidebarCollapsed, toggleSidebar } = useThemeStore();
+    useInactivityTimeout(24 * 60 * 60 * 1000); // 24 hours timeout
 
     useEffect(() => {
         // Enforce visible sidebar on desktop viewports on initial mount, and collapsed on mobile viewports.
