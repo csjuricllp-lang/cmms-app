@@ -74,9 +74,10 @@ export const Sidebar = () => {
     const { role, hasPermission } = useUserRole();
     const navigate = useNavigate();
     const userStr = localStorage.getItem('user');
-    const user = userStr ? JSON.parse(userStr) : { name: "Guest User", email: "guest@example.com" };
+    const user = userStr && userStr !== 'undefined' ? JSON.parse(userStr) : { name: "Guest User", email: "guest@example.com" };
 
-    const initials = user.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().substring(0, 2);
+    const userName = user?.name || "Guest User";
+    const initials = userName.split(' ').map((n: string) => n[0]).join('').toUpperCase().substring(0, 2);
 
     let userRole = (role || user.roleName || '').toUpperCase();
     if (!userRole && user.organizations?.[0]?.role) {
