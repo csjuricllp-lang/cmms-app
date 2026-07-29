@@ -640,6 +640,6 @@ export class AuthService {
           name: organization.name,
         },
       };
-    });
+    }, { timeout: 30000 });
   }
 }
