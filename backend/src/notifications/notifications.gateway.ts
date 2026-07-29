@@ -10,9 +10,13 @@ import { Injectable, Logger, Inject, forwardRef } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { NotificationsService } from './notifications.service';
 
+const allowedOrigins = process.env.CORS_ORIGINS
+  ? process.env.CORS_ORIGINS.split(',').map((o) => o.trim())
+  : ['http://localhost:5173', 'http://localhost:5178', 'http://127.0.0.1:5173'];
+
 @WebSocketGateway({
   cors: {
-    origin: ['http://localhost:5173', 'http://localhost:5178', 'http://127.0.0.1:5173'],
+    origin: allowedOrigins,
     credentials: true,
   },
 })

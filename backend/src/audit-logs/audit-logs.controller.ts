@@ -3,6 +3,7 @@ import { AuditLogsService } from './audit-logs.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { PermissionsGuard } from '../auth/guards/permissions.guard';
 import { RequirePermissions } from '../auth/decorators/permissions.decorator';
+import { AllowAnyRole } from '../auth/decorators/allow-any-role.decorator';
 import { Permission } from '../auth/permissions/permission.enum';
 
 @UseGuards(JwtAuthGuard, PermissionsGuard)
@@ -10,6 +11,7 @@ import { Permission } from '../auth/permissions/permission.enum';
 export class AuditLogsController {
   constructor(private readonly auditLogsService: AuditLogsService) {}
 
+  @RequirePermissions(Permission.MANAGE_SETTINGS)
   @Get()
   findAll(
     @Query('model') model?: string,
@@ -19,7 +21,7 @@ export class AuditLogsController {
     return this.auditLogsService.findAll(model, userId, action);
   }
 
-  @RequirePermissions() // Allow any authenticated user to see historical entity activity
+  @AllowAnyRole() // Allow any authenticated user to see historical entity activity
   @Get('entity')
   findByEntity(@Query('model') model: string, @Query('id') id: string) {
     return this.auditLogsService.findByEntity(model, id);

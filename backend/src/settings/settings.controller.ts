@@ -27,11 +27,13 @@ export class SettingsController {
     return this.settingsService.create(createSettingDto);
   }
 
+  @RequirePermissions(Permission.MANAGE_SETTINGS)
   @Get()
   findAll() {
     return this.settingsService.findAll();
   }
 
+  @RequirePermissions(Permission.MANAGE_SETTINGS)
   @Get(':key')
   findOne(@Param('key') key: string) {
     return this.settingsService.findOne(key);
