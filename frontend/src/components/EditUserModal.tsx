@@ -3,6 +3,8 @@ import { X, Loader2 } from 'lucide-react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '../lib/api';
 
+import toast from 'react-hot-toast';
+
 interface EditUserModalProps {
     user: any;
     onClose: () => void;
@@ -28,8 +30,12 @@ export const EditUserModal = ({ user, onClose }: EditUserModalProps) => {
             return api.patch(`/users/${user.id}`, payload);
         },
         onSuccess: () => {
+            toast.success("Profile updated successfully");
             queryClient.invalidateQueries({ queryKey: ['users'] });
             onClose();
+        },
+        onError: (error: any) => {
+            toast.error(error?.response?.data?.message || "Failed to update profile");
         }
     });
 
