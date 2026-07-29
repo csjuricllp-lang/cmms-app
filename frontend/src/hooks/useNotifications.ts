@@ -55,7 +55,8 @@ export const useNotifications = () => {
         const newSocket = io(SOCKET_URL, {
             auth: { token },
             reconnection: true,
-            reconnectionAttempts: 10
+            reconnectionAttempts: 10,
+            transports: ['websocket']
         });
 
         newSocket.on('connect', () => {
