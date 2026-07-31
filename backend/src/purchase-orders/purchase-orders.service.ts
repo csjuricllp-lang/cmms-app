@@ -389,7 +389,7 @@ export class PurchaseOrdersService {
         });
 
         // 3. Log Audit Trail for Warehouse
-        await tx.inventoryTransaction.create({
+        await this.prisma.inventoryTransaction.create({
           data: {
             partId: poItem.partId,
             quantity: item.quantityReceived,

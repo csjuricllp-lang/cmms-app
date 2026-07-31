@@ -81,15 +81,16 @@ export class InventoryService {
         });
 
         if (!updatedPart) throw new NotFoundException('Part not found');
+        console.log('adjustStock: updatedPart found', updatedPart.quantity);
 
         // 4. Create Audit Transaction
-        await tx.inventoryTransaction.create({
+        const newTx = await tx.inventoryTransaction.create({
           data: {
             partId,
             quantity: quantityDelta,
             type,
             referenceId,
-            userId,
+            userId: TenancyContext.userOrgId || '',
             organizationId,
           },
         });
@@ -101,18 +102,13 @@ export class InventoryService {
               action: `INVENTORY_${type}`,
               model: 'Part',
               entityId: partId,
-              userId,
+              userId: TenancyContext.userId || null,
               organizationId,
-              newData: {
-                partName: updatedPart.name,
-                delta: quantityDelta,
-                newQuantity: updatedPart.quantity,
-                type,
-                referenceId,
-              },
+              oldData: { quantity: updatedPart.quantity - quantityDelta },
+              newData: { quantity: updatedPart.quantity },
             },
           })
-          .catch(() => {});
+          .catch((e: Error) => this.logger.warn(`Failed to create CTO audit log: ${e.message}`));
 
         // 5. Trigger Low Stock Check Check (Background)
         if (updatedPart.quantity <= updatedPart.minQuantity) {
@@ -124,7 +120,7 @@ export class InventoryService {
           });
         }
 
-        return updatedPart;
+        return { newTx, updatedPart };
       });
     } catch (error) {
       this.logger.error(`Error adjusting stock for part ${partId}: ${error.message}`, error.stack);

@@ -13,8 +13,14 @@ export class MetersService {
   ) {}
 
   async create(createMeterDto: CreateMeterDto) {
+    const data = { ...createMeterDto };
+    if (data.assignedToId === '') delete data.assignedToId;
+    if (data.locationId === '') delete data.locationId;
+    if (data.categoryId === '') delete data.categoryId;
+    if (data.imageUrl === '') delete data.imageUrl;
+
     return this.prisma.meter.create({
-      data: createMeterDto,
+      data,
     });
   }
 

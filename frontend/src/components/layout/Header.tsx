@@ -104,7 +104,7 @@ export const Header = () => {
                         const isLast = idx === crumbs.length - 1;
                         // On mobile: only show the last (current) crumb
                         return (
-                            <div key={crumb.path} className={cn("flex items-center space-x-2", !isLast && "hidden md:flex", isLast && "shrink-0")}>
+                            <div key={crumb.path} className={cn("flex items-center space-x-2", !isLast && "hidden md:flex", isLast && "min-w-0")}>
                                 {idx > 0 && (
                                     <ChevronRight className="w-3.5 h-3.5 text-muted-foreground/30 shrink-0 mx-0.5" />
                                 )}

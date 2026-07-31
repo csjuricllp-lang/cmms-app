@@ -40,7 +40,6 @@ export const multiTenancyModels = [
   'Part',
   'PartTemplate',
   'InventoryLine',
-  'InventoryTransaction',
   'PurchaseOrder',
   'Checklist',
   'ChecklistResponse',
@@ -73,6 +72,10 @@ export const getExtendedClient = (prisma: PrismaClient) => {
     query: {
       $allModels: {
         async $allOperations({ model, operation, args, query }: any) {
+          if (model === 'InventoryTransaction') {
+            return query(args);
+          }
+
           const organizationId = TenancyContext.organizationId;
           const userId = TenancyContext.userId;
           const userOrgId = TenancyContext.userOrgId;

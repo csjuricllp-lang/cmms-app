@@ -309,7 +309,6 @@ export class WorkOrdersService {
               task: typeof t === 'string' ? t : t.text,
               isRequired: true,
               dataType: 'PASS_FAIL',
-              organizationId,
             })),
           },
         },

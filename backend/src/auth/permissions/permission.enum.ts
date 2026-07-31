@@ -65,6 +65,7 @@ export enum Permission {
   // Work Order Permissions
   CREATE_WORK_ORDER = 'work-orders.create',
   READ_WORK_ORDER = 'work-orders.read',
+  READ_ALL_WORK_ORDERS = 'work-orders.read-all',
   UPDATE_WORK_ORDER = 'work-orders.update',
   DELETE_WORK_ORDER = 'work-orders.delete',
 

@@ -62,7 +62,7 @@ const AssetItem = ({
                     isSelected ? "bg-white" : "hover:bg-white"
                 )}
             >
-                <td className="px-6 py-5 border-r border-slate-100 sticky left-0 bg-white z-10 w-[300px] min-w-[300px]">
+                <td className="px-6 py-4 border-r border-slate-100 sticky left-0 bg-white z-10 max-w-[250px]">
                     <div className="flex items-center gap-3" style={{ paddingLeft: `${level * 24}px` }}>
                         <div 
                             onClick={(e) => {
@@ -78,25 +78,25 @@ const AssetItem = ({
                                 isExpanded ? <ChevronDown className="w-4 h-4 text-slate-400" /> : <ChevronRight className="w-4 h-4 text-slate-400" />
                             )}
                         </div>
-                        <span className={cn("text-[14px] font-bold truncate", isSelected ? "text-blue-600" : "text-slate-700")}>
+                        <span className={cn("text-[13px] font-bold truncate", isSelected ? "text-blue-600" : "text-slate-700")} title={asset.name}>
                             {asset.name}
                         </span>
                     </div>
                 </td>
-                <td className="px-8 py-5 min-w-[150px]">
-                    <span className="text-[14px] font-medium text-slate-400 font-mono tracking-tighter tabular-nums">{asset.id}</span>
+                <td className="px-6 py-4">
+                    <span className="text-[13px] font-medium text-slate-400 font-mono tracking-tighter tabular-nums">{asset.id}</span>
                 </td>
-                <td className="px-8 py-5 min-w-[180px]">
-                    <span className="text-[14px] font-medium text-slate-600">{asset.location?.name || "-"}</span>
+                <td className="px-6 py-4">
+                    <span className="text-[13px] font-medium text-slate-600">{asset.location?.name || "-"}</span>
                 </td>
-                <td className="px-8 py-5 min-w-[180px]">
-                    <span className="text-[14px] font-medium text-slate-600 tabular-nums">{asset.barCode || "-"}</span>
+                <td className="px-6 py-4">
+                    <span className="text-[13px] font-medium text-slate-600 tabular-nums">{asset.barCode || "-"}</span>
                 </td>
-                <td className="px-8 py-5 min-w-[250px]">
-                    <span className="text-[14px] font-medium text-slate-500 line-clamp-1">{asset.description || "-"}</span>
+                <td className="px-6 py-4 max-w-[200px]">
+                    <span className="text-[13px] font-medium text-slate-500 truncate block" title={asset.description}>{asset.description || "-"}</span>
                 </td>
-                <td className="px-8 py-5 min-w-[120px]">
-                    <span className="text-[14px] font-medium text-slate-600">{asset.status || "-"}</span>
+                <td className="px-6 py-4">
+                    <span className="text-[13px] font-medium text-slate-600">{asset.status || "-"}</span>
                 </td>
             </tr>
             {hasChildren && isExpanded && asset.children?.map(child => (
@@ -154,18 +154,18 @@ export const AssetSelectionModal: React.FC<AssetSelectionModalProps> = ({
 
     return (
         <div className="fixed inset-0 z-[1000] flex items-center justify-center p-8 bg-slate-900/40 animate-in fade-in duration-300">
-            <div className="bg-white w-full max-w-[1100px] rounded-[32px] shadow-2xl overflow-hidden flex flex-col max-h-[90vh] animate-in zoom-in-95 duration-200 border border-slate-200">
+            <div className="bg-white w-full max-w-[1000px] rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] animate-in zoom-in-95 duration-200 border border-slate-200">
                 {/* Header */}
-                <div className="px-10 py-8 flex items-center justify-between border-b border-slate-100">
-                    <h2 className="text-[24px] font-black text-slate-800 tracking-tight">Choose Assets</h2>
+                <div className="px-8 py-6 flex items-center justify-between border-b border-slate-100">
+                    <h2 className="text-[20px] font-bold text-slate-800 tracking-tight">Choose Assets</h2>
                     <button onClick={onClose} className="p-2 hover:bg-slate-50 rounded-full transition-colors group">
-                        <X className="w-6 h-6 text-slate-400 group-hover:text-slate-600" />
+                        <X className="w-5 h-5 text-slate-400 group-hover:text-slate-600" />
                     </button>
                 </div>
 
                 {/* Search Bar */}
-                <div className="px-10 py-6">
-                    <div className="relative max-w-[280px] group">
+                <div className="px-8 py-4">
+                    <div className="relative max-w-[300px] group">
                         <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                         <input
                             type="text"
@@ -179,15 +179,15 @@ export const AssetSelectionModal: React.FC<AssetSelectionModalProps> = ({
 
                 {/* Table Container */}
                 <div className="flex-1 overflow-auto custom-scrollbar">
-                    <table className="w-full text-left border-collapse min-w-max">
+                    <table className="w-full text-left border-collapse table-fixed">
                         <thead className="sticky top-0 bg-white z-20 border-b border-slate-100">
                             <tr>
-                                <th className="px-10 py-5 text-[14px] font-bold text-slate-700 border-r border-slate-100 sticky left-0 bg-white z-30 w-[300px] min-w-[300px]">Name</th>
-                                <th className="px-8 py-5 text-[14px] font-bold text-slate-700">ID</th>
-                                <th className="px-8 py-5 text-[14px] font-bold text-slate-700">Location</th>
-                                <th className="px-8 py-5 text-[14px] font-bold text-slate-700">Barcode</th>
-                                <th className="px-8 py-5 text-[14px] font-bold text-slate-700">Description</th>
-                                <th className="px-8 py-5 text-[14px] font-bold text-slate-700">Status</th>
+                                <th className="px-6 py-4 text-[13px] font-bold text-slate-700 border-r border-slate-100 sticky left-0 bg-white z-30 w-1/3">Name</th>
+                                <th className="px-6 py-4 text-[13px] font-bold text-slate-700 w-[15%]">ID</th>
+                                <th className="px-6 py-4 text-[13px] font-bold text-slate-700 w-[20%]">Location</th>
+                                <th className="px-6 py-4 text-[13px] font-bold text-slate-700 w-[15%]">Barcode</th>
+                                <th className="px-6 py-4 text-[13px] font-bold text-slate-700 w-[17%]">Description</th>
+                                <th className="px-6 py-4 text-[13px] font-bold text-slate-700 w-[10%]">Status</th>
                             </tr>
                         </thead>
                         <tbody>

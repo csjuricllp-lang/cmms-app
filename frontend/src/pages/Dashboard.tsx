@@ -87,14 +87,14 @@ export const Dashboard = () => {
     const getTrendClass = (trendType: string) => {
         switch (trendType) {
             case 'up':
-                return 'text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 border-emerald-100/80 dark:border-emerald-900/30';
+                return 'text-emerald-700 bg-emerald-50';
             case 'down':
-                return 'text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/40 border-amber-100/80 dark:border-amber-900/30';
+                return 'text-[#D97706] bg-[#FFF8EB]';
             case 'secure':
             case 'elite':
-                return 'text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/40 border-rose-100/80 dark:border-rose-900/30';
+                return 'text-rose-700 bg-rose-50';
             default:
-                return 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/40 border-blue-100/80 dark:border-blue-900/30';
+                return 'text-blue-700 bg-blue-50';
         }
     };
 
@@ -105,7 +105,7 @@ export const Dashboard = () => {
             trend: "+8%", 
             trendType: "up",
             icon: Activity, 
-            iconBg: "bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 border border-blue-100/80 dark:border-blue-900/30", 
+            iconBg: "bg-[#EFF6FF] text-blue-600", 
             path: "/work-orders" 
         },
         { 
@@ -114,7 +114,7 @@ export const Dashboard = () => {
             trend: "-12%", 
             trendType: "down",
             icon: Clock, 
-            iconBg: "bg-violet-50 dark:bg-violet-950/40 text-violet-600 dark:text-violet-400 border border-violet-100/80 dark:border-violet-900/30", 
+            iconBg: "bg-[#F5F3FF] text-violet-600", 
             path: "/analytics" 
         },
         { 
@@ -123,7 +123,7 @@ export const Dashboard = () => {
             trend: "Secure", 
             trendType: "secure",
             icon: ShieldCheck, 
-            iconBg: "bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 border border-rose-100/80 dark:border-rose-900/30", 
+            iconBg: "bg-[#FFF1F2] text-rose-600", 
             path: "/checklists" 
         },
         { 
@@ -132,17 +132,35 @@ export const Dashboard = () => {
             trend: "+0.5%", 
             trendType: "up",
             icon: TrendingUp, 
-            iconBg: "bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 border border-amber-100/80 dark:border-amber-900/30", 
+            iconBg: "bg-[#FFFbeb] text-amber-600", 
             path: "/pm" 
         },
     ] : [
         { 
-            label: "Active Missions", 
+            label: "Completed", 
+            value: myTasks?.filter((w: any) => w.status === 'COMPLETED').length || 0, 
+            trend: "Done", 
+            trendType: "up",
+            icon: CheckCircle2, 
+            iconBg: "bg-[#F0FDF4] text-emerald-600", 
+            path: "/work-orders?status=COMPLETED" 
+        },
+        { 
+            label: "Total Logged", 
             value: myTasks?.length || 0, 
+            trend: "All", 
+            trendType: "blue",
+            icon: Clock, 
+            iconBg: "bg-[#F5F3FF] text-violet-600", 
+            path: "/work-orders" 
+        },
+        { 
+            label: "Active Missions", 
+            value: myTasks?.filter((w: any) => w.status === 'OPEN' || w.status === 'IN_PROGRESS').length || 0, 
             trend: "Priority", 
             trendType: "default",
             icon: Activity, 
-            iconBg: "bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 border border-blue-100/80 dark:border-blue-900/30", 
+            iconBg: "bg-[#EFF6FF] text-blue-600", 
             path: "/work-orders" 
         },
         { 
@@ -151,7 +169,7 @@ export const Dashboard = () => {
             trend: "Status", 
             trendType: "neutral",
             icon: AlertCircle, 
-            iconBg: "bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 border border-indigo-100/80 dark:border-indigo-900/30", 
+            iconBg: "bg-[#EEF2FF] text-indigo-600", 
             path: "/requests" 
         },
         { 
@@ -160,7 +178,7 @@ export const Dashboard = () => {
             trend: "Health", 
             trendType: "up",
             icon: Boxes, 
-            iconBg: "bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 border border-emerald-100/80 dark:border-emerald-900/30", 
+            iconBg: "bg-[#F0FDF4] text-emerald-600", 
             path: "/assets" 
         },
         { 
@@ -169,7 +187,7 @@ export const Dashboard = () => {
             trend: "Elite", 
             trendType: "elite",
             icon: ShieldCheck, 
-            iconBg: "bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 border border-rose-100/80 dark:border-rose-900/30", 
+            iconBg: "bg-[#FFF1F2] text-rose-600", 
             path: "/checklists" 
         },
     ];
@@ -230,22 +248,19 @@ export const Dashboard = () => {
                         <div 
                             key={stat.label} 
                             onClick={() => navigate(stat.path)}
-                            className="glass-card-cold p-8 group relative overflow-hidden transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+                            className="bg-white border border-slate-200/60 rounded-[32px] p-8 group relative overflow-hidden transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] active:scale-[0.98] cursor-pointer"
                         >
-                            <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                                <stat.icon className="w-16 h-16 text-foreground/5 dark:text-white/5" />
-                            </div>
                             <div className="flex items-start justify-between relative z-10">
-                                <div className={cn("p-4 rounded-2xl shadow-sm border transition-colors", stat.iconBg)}>
-                                    <stat.icon className="w-6 h-6 animate-pulse" />
+                                <div className={cn("w-[68px] h-[68px] flex items-center justify-center rounded-[24px] transition-colors", stat.iconBg)}>
+                                    <stat.icon className="w-8 h-8" strokeWidth={2.5} />
                                 </div>
-                                <div className={cn("flex items-center gap-1 text-[10px] font-black px-3 py-1.5 rounded-full border uppercase tracking-tighter shadow-sm transition-all duration-300", getTrendClass(stat.trendType))}>
+                                <div className={cn("flex items-center gap-1 text-[14px] font-black px-5 py-2.5 rounded-full uppercase tracking-tight transition-all duration-300", getTrendClass(stat.trendType))}>
                                     {stat.trend}
                                 </div>
                             </div>
-                            <div className="mt-8 relative z-10">
-                                <p className="text-5xl font-black tracking-tighter text-foreground">{statsLoading ? '...' : stat.value}</p>
-                                <p className="text-[10px] font-black text-muted-foreground/80 mt-2 uppercase tracking-[0.15em] italic">{stat.label}</p>
+                            <div className="mt-10 relative z-10">
+                                <p className="text-[72px] leading-[0.9] font-black tracking-tighter text-slate-900">{statsLoading ? '...' : stat.value}</p>
+                                <p className="text-[13px] font-black text-slate-400 mt-5 uppercase tracking-[0.2em] italic">{stat.label}</p>
                             </div>
                         </div>
                     ))}

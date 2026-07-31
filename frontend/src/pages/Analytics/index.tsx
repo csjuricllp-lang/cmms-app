@@ -232,13 +232,23 @@ export const AnalyticsPage = () => {
                     <div className="flex items-center gap-2">
                         <div className="w-7 h-7 bg-indigo-600 rounded-lg flex items-center justify-center shadow-lg shadow-indigo-200"><TrendingUp className="w-4 h-4 text-white" /></div>
                         <h1 className="text-[16px] font-black text-slate-800 tracking-tight italic uppercase">{companyName} Analytics</h1>
+                        {/* Live badge */}
+                        <div className="flex items-center gap-1.5 px-2 py-0.5 bg-emerald-50 border border-emerald-200 rounded-full">
+                            <span className={`w-1.5 h-1.5 rounded-full ${isFetching ? 'bg-amber-400 animate-pulse' : 'bg-emerald-500 animate-pulse'}`} />
+                            <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-700">
+                                {isFetching ? 'Updating...' : 'Live'}
+                            </span>
+                        </div>
+                        <span className="text-[11px] text-slate-400 flex items-center gap-1">
+                            <Clock className="w-3 h-3" /> Updated {lastSyncedText}
+                        </span>
                     </div>
                 </div>
                 <button 
                     onClick={() => setActiveTab('CustomReport')}
                     className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl text-[12px] font-bold shadow-lg shadow-indigo-100 transition-all active:scale-95"
                 >
-                    <Plus className="w-3.5 h-3.5" /> Ad-Hoc Report Builder
+                    <Plus className="w-3.5 h-3.5" /> Create Custom Dashboard
                 </button>
             </div>
 

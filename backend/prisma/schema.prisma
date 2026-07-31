@@ -28,10 +28,10 @@ model Organization {
   auditLogs             AuditLog[]
   categories            Category[]
   changeLog             ChangeLog[]
-  failureCodes          FailureCode[]
   checklists            Checklist[]
   customStatuses        CustomStatus[]
   customers             Customer[]
+  failureCodes          FailureCode[]
   featureFlagsRelation  FeatureFlag[]
   inventoryLines        InventoryLine[]
   inventoryTransactions InventoryTransaction[]
@@ -42,16 +42,17 @@ model Organization {
   notifications         Notification[]
   notificationTemplates NotificationTemplate[]
   pmSchedules           PMSchedule[]
-  pushSubscriptions     PushSubscription[]
   pmTemplates           PMScheduleTemplate[]
   parts                 Part[]
   partTemplates         PartTemplate[]
   purchaseOrders        PurchaseOrder[]
+  pushSubscriptions     PushSubscription[]
   roles                 Role[]
   savedViews            SavedView[]
   scheduledReports      ScheduledReport[]
   settings              Setting[]
   shifts                Shift[]
+  ssoConfig             SsoConfig?
   syncConflicts         SyncConflict[]
   syncQueue             SyncQueue[]
   syncState             SyncState[]
@@ -62,7 +63,6 @@ model Organization {
   webhookSubscriptions  WebhookSubscription[]
   workOrders            WorkOrder[]
   workflowRules         WorkflowRule[]
-  ssoConfig             SsoConfig?
 }
 
 model AuditLog {
@@ -82,33 +82,33 @@ model AuditLog {
 }
 
 model User {
-  id                String             @id @default(uuid())
-  email             String             @unique
-  password          String?
-  firstName         String?
-  lastName          String?
-  name              String
-  phone             String?
-  jobTitle          String?
-  department        String?
-  avatarUrl         String?
-  ssoProvider       String?
-  ssoId             String?            @unique
-  isActive          Boolean            @default(true)
-  invitationToken   String?            @unique
-  lastLoginAt       DateTime?
-  lastLoginIp       String?
-  lastActiveAt      DateTime?          @default(now())
-  deletedAt         DateTime?
-  deactivatedById    String?
+  id                 String             @id @default(uuid())
+  email              String             @unique
+  password           String?
+  firstName          String?
+  lastName           String?
+  name               String
+  phone              String?
+  jobTitle           String?
+  department         String?
+  avatarUrl          String?
+  ssoProvider        String?
+  ssoId              String?            @unique
+  isActive           Boolean            @default(true)
+  invitationToken    String?            @unique
+  lastLoginAt        DateTime?
+  lastLoginIp        String?
+  lastActiveAt       DateTime?          @default(now())
+  deletedAt          DateTime?
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
   deactivatedAt      DateTime?
+  deactivatedById    String?
   deactivationReason String?
-  createdAt         DateTime           @default(now())
-  updatedAt         DateTime           @updatedAt
-  auditLogs         AuditLog[]
-  invitationsIssued Invitation[]
-  refreshTokens     RefreshToken[]
-  organizations     UserOrganization[]
+  auditLogs          AuditLog[]
+  invitationsIssued  Invitation[]
+  refreshTokens      RefreshToken[]
+  organizations      UserOrganization[]
 }
 
 model Role {
@@ -167,8 +167,8 @@ model UserOrganization {
   user                    User                         @relation(fields: [userId], references: [id], onDelete: Cascade)
   teams                   UsersOnTeams[]
   workOrders              WorkOrder[]                  @relation("AssignedWorkOrders")
-  signedWorkOrders        WorkOrder[]                  @relation("WorkOrderSignature")
   closedWorkOrders        WorkOrder[]                  @relation("WorkOrderClosedBy")
+  signedWorkOrders        WorkOrder[]                  @relation("WorkOrderSignature")
   checklistResponses      WorkOrderChecklistResponse[] @relation("WorkOrderChecklistResponder")
   workOrderComments       WorkOrderComment[]           @relation("WorkOrderComments")
   expenses                WorkOrderExpense[]           @relation("WorkOrderExpenses")
@@ -186,11 +186,11 @@ model Team {
   id             String         @id @default(uuid())
   name           String
   description    String?
-  isActive       Boolean        @default(true)
   organizationId String
   deletedAt      DateTime?
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @updatedAt
+  isActive       Boolean        @default(true)
   assets         Asset[]
   parts          Part[]
   organization   Organization   @relation(fields: [organizationId], references: [id])
@@ -252,6 +252,7 @@ model Location {
   organization   Organization         @relation(fields: [organizationId], references: [id])
   parent         Location?            @relation("LocationHierarchy", fields: [parentId], references: [id])
   children       Location[]           @relation("LocationHierarchy")
+  files          LocationFile[]
   requests       MaintenanceRequest[]
   meters         Meter[]
   parts          Part[]
@@ -260,7 +261,6 @@ model Location {
   teams          Team[]               @relation("LocationTeams")
   vendors        Vendor[]             @relation("LocationVendors")
   workers        UserOrganization[]   @relation("LocationWorkers")
-  files          LocationFile[]
 }
 
 model LocationFile {
@@ -276,7 +276,6 @@ model LocationFile {
 
   @@index([locationId])
 }
-
 
 model Asset {
   id                   String               @id @default(uuid())
@@ -302,7 +301,7 @@ model Asset {
   assignedToId         String?
   replacementCost      Decimal?
   expectedLifeYears    Int?
-  annualBudget         Decimal?               @default(0)
+  annualBudget         Decimal?             @default(0)
   specifications       Json?
   tags                 String[]
   notes                String?
@@ -427,18 +426,15 @@ model WorkOrder {
   startDate            DateTime?
   completedAt          DateTime?
   estimatedHours       Decimal?
-  actualHours          Decimal?                       @default(0)
+  actualHours          Decimal?                     @default(0)
   completedOnTime      Boolean?                     @default(true)
-  laborCost            Decimal                        @default(0)
-  partsCost            Decimal                        @default(0)
-  additionalCost       Decimal                        @default(0)
-  estimatedCost        Decimal                        @default(0)
-  totalCost            Decimal                        @default(0)
+  laborCost            Decimal                      @default(0)
+  partsCost            Decimal                      @default(0)
+  additionalCost       Decimal                      @default(0)
+  estimatedCost        Decimal                      @default(0)
+  totalCost            Decimal                      @default(0)
   onHoldReason         String?
   resolutionNotes      String?
-  closeoutNotes        String?
-  closedAt             DateTime?
-  closedById           String?
   signatureUrl         String?
   signedById           String?
   requiresLOTO         Boolean                      @default(false)
@@ -452,7 +448,6 @@ model WorkOrder {
   rootCauseDetails     String?
   rootCauseCode        String?
   actionCode           String?
-  failureCodeId        String?
   parentWorkOrderId    String?
   pmScheduleId         String?
   assetId              String?
@@ -478,6 +473,10 @@ model WorkOrder {
   customStatusId       String?
   approvalChainId      String?
   currentApprovalStep  Int                          @default(0)
+  failureCodeId        String?
+  closedAt             DateTime?
+  closedById           String?
+  closeoutNotes        String?
   approvals            ApprovalRecord[]
   request              MaintenanceRequest?
   purchaseOrders       PurchaseOrder[]
@@ -486,6 +485,7 @@ model WorkOrder {
   assignedTo           UserOrganization?            @relation("AssignedWorkOrders", fields: [assignedToId], references: [id])
   categoryRef          Category?                    @relation(fields: [categoryId], references: [id])
   checklist            Checklist?                   @relation(fields: [checklistId], references: [id])
+  closedBy             UserOrganization?            @relation("WorkOrderClosedBy", fields: [closedById], references: [id])
   customStatus         CustomStatus?                @relation(fields: [customStatusId], references: [id])
   failureCode          FailureCode?                 @relation(fields: [failureCodeId], references: [id])
   location             Location?                    @relation(fields: [locationId], references: [id])
@@ -496,7 +496,6 @@ model WorkOrder {
   predecessor          WorkOrder?                   @relation("WorkOrderDependency", fields: [predecessorId], references: [id])
   successors           WorkOrder[]                  @relation("WorkOrderDependency")
   signedBy             UserOrganization?            @relation("WorkOrderSignature", fields: [signedById], references: [id])
-  closedBy             UserOrganization?            @relation("WorkOrderClosedBy", fields: [closedById], references: [id])
   vendor               Vendor?                      @relation(fields: [vendorId], references: [id])
   checklistResponses   WorkOrderChecklistResponse[]
   comments             WorkOrderComment[]
@@ -688,7 +687,7 @@ model Meter {
   name           String
   unit           String
   assetId        String
-  currentValue   Decimal?            @default(0)
+  currentValue   Decimal?          @default(0)
   threshold      Decimal?
   triggerPM      Boolean           @default(false)
   createdAt      DateTime          @default(now())
@@ -738,8 +737,6 @@ model Vendor {
   slaResolutionHours Int?
   rating             Float?          @default(5.0)
   isPreferred        Boolean         @default(false)
-  
-  // New profile fields matching the screenshots
   isFavorite         Boolean         @default(false)
   verificationStatus String          @default("Unverified")
   specialties        String[]        @default([])
@@ -748,14 +745,13 @@ model Vendor {
   licenses           Json?
   insurances         Json?
   certifications     Json?
-
   assets             Asset[]
   parts              Part[]
   purchaseOrders     PurchaseOrder[]
   organization       Organization    @relation(fields: [organizationId], references: [id])
+  files              VendorFile[]
   workOrders         WorkOrder[]
   locations          Location[]      @relation("LocationVendors")
-  files              VendorFile[]
 }
 
 model VendorFile {
@@ -900,56 +896,56 @@ model InventoryTransaction {
 }
 
 model PurchaseOrder {
-  id                   String              @id @default(uuid())
-  number               String
-  status               PurchaseOrderStatus @default(DRAFT)
-  vendorId             String
-  totalCost            Decimal               @default(0)
-  expectedDeliveryDate DateTime?
-  shippingCost         Decimal?              @default(0)
-  taxAmount            Decimal?              @default(0)
-  organizationId       String
-  deletedAt            DateTime?
-  createdAt            DateTime            @default(now())
-  updatedAt            DateTime            @updatedAt
-  workOrderId          String?
-  additionalDetails    String?
-  billingAddressType   String?             @default("COMPANY_PROFILE")
-  billingCompanyName   String?
-  billingAddress       String?
-  billingCity          String?
-  billingState         String?
-  billingZip           String?
-  billingPhone         String?
-  billingFax           String?
-  writeShippingDetailsManually Boolean     @default(false)
-  company              String?
-  invoiceNumber        String?
-  currency             String              @default("INR")
-  fob                  String?
-  includeTaxOnPdf      Boolean             @default(false)
-  notes                String?
-  purchaseDate         DateTime?           @default(now())
-  shippingAddressType  String?             @default("SAME_AS_BILLING")
-  shippingCompanyName  String?
-  shippingAddress      String?
-  shippingCity         String?
-  shippingState        String?
-  shippingZip          String?
-  shippingPhone        String?
-  shippingFax          String?
-  shippingMethod       String?
-  shippingUserName     String?
-  printBackupSignToPdf Boolean             @default(false)
-  tags                 String[]            @default([])
-  terms                String?
-  title                String?
-  type                 String?
-  organization         Organization        @relation(fields: [organizationId], references: [id])
-  vendor               Vendor              @relation(fields: [vendorId], references: [id])
-  workOrder            WorkOrder?          @relation(fields: [workOrderId], references: [id])
-  files                PurchaseOrderFile[]
-  items                PurchaseOrderItem[]
+  id                           String              @id @default(uuid())
+  number                       String
+  status                       PurchaseOrderStatus @default(DRAFT)
+  vendorId                     String
+  totalCost                    Decimal             @default(0)
+  expectedDeliveryDate         DateTime?
+  shippingCost                 Decimal?            @default(0)
+  taxAmount                    Decimal?            @default(0)
+  organizationId               String
+  deletedAt                    DateTime?
+  createdAt                    DateTime            @default(now())
+  updatedAt                    DateTime            @updatedAt
+  workOrderId                  String?
+  additionalDetails            String?
+  billingAddressType           String?             @default("COMPANY_PROFILE")
+  billingCompanyName           String?
+  billingAddress               String?
+  billingCity                  String?
+  billingState                 String?
+  billingZip                   String?
+  billingPhone                 String?
+  billingFax                   String?
+  writeShippingDetailsManually Boolean             @default(false)
+  company                      String?
+  invoiceNumber                String?
+  currency                     String              @default("INR")
+  fob                          String?
+  includeTaxOnPdf              Boolean             @default(false)
+  notes                        String?
+  purchaseDate                 DateTime?           @default(now())
+  shippingAddressType          String?             @default("SAME_AS_BILLING")
+  shippingCompanyName          String?
+  shippingAddress              String?
+  shippingCity                 String?
+  shippingState                String?
+  shippingZip                  String?
+  shippingPhone                String?
+  shippingFax                  String?
+  shippingMethod               String?
+  shippingUserName             String?
+  printBackupSignToPdf         Boolean             @default(false)
+  tags                         String[]            @default([])
+  terms                        String?
+  title                        String?
+  type                         String?
+  organization                 Organization        @relation(fields: [organizationId], references: [id])
+  vendor                       Vendor              @relation(fields: [vendorId], references: [id])
+  workOrder                    WorkOrder?          @relation(fields: [workOrderId], references: [id])
+  files                        PurchaseOrderFile[]
+  items                        PurchaseOrderItem[]
 
   @@unique([number, organizationId])
 }
@@ -1015,12 +1011,12 @@ model WorkOrderChecklistResponse {
   userId          String
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
-  checklistItem   ChecklistItem    @relation(fields: [checklistItemId], references: [id], onDelete: Cascade)
-  user            UserOrganization @relation("WorkOrderChecklistResponder", fields: [userId], references: [id])
-  workOrder       WorkOrder        @relation(fields: [workOrderId], references: [id], onDelete: Cascade)
   notes           String?
   photoUrl        String?
   url             String?
+  checklistItem   ChecklistItem    @relation(fields: [checklistItemId], references: [id], onDelete: Cascade)
+  user            UserOrganization @relation("WorkOrderChecklistResponder", fields: [userId], references: [id])
+  workOrder       WorkOrder        @relation(fields: [workOrderId], references: [id], onDelete: Cascade)
 
   @@unique([workOrderId, checklistItemId])
 }
@@ -1209,16 +1205,15 @@ model Notification {
 }
 
 model PushSubscription {
-  id             String   @id @default(uuid())
-  endpoint       String   @unique
+  id             String       @id @default(uuid())
+  endpoint       String       @unique
   p256dh         String
   auth           String
   userId         String
   deviceId       String?
   organizationId String
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
   organization   Organization @relation(fields: [organizationId], references: [id])
 }
 
@@ -1520,6 +1515,20 @@ model AssetSchedule {
   @@unique([name, organizationId])
 }
 
+model SsoConfig {
+  id               String       @id @default(uuid())
+  organizationId   String       @unique
+  provider         String
+  isEnabled        Boolean      @default(false)
+  entryPoint       String
+  issuer           String
+  cert             String
+  attributeMapping Json?
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+  organization     Organization @relation(fields: [organizationId], references: [id])
+}
+
 enum LocationType {
   SITE
   BUILDING
@@ -1677,18 +1686,3 @@ enum PlannedPartStatus {
   CONSUMED
   CANCELLED
 }
-
-model SsoConfig {
-  id               String       @id @default(uuid())
-  organizationId   String       @unique
-  provider         String       // "okta" | "google" | "custom"
-  isEnabled        Boolean      @default(false)
-  entryPoint       String       // IdP SSO URL
-  issuer           String       // SP Entity ID / Audience URI
-  cert             String       // IdP x509 certificate (PEM, no headers)
-  attributeMapping Json?        // { email, firstName, lastName field names from SAML assertion }
-  createdAt        DateTime     @default(now())
-  updatedAt        DateTime     @updatedAt
-  organization     Organization @relation(fields: [organizationId], references: [id])
-}
-

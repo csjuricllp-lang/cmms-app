@@ -126,7 +126,13 @@ export const MetersPage = () => {
         }
 
         try {
-            await api.post('/meters', newMeter);
+            const payload = { ...newMeter };
+            if (!payload.assignedToId) delete payload.assignedToId;
+            if (!payload.locationId) delete payload.locationId;
+            if (!payload.categoryId) delete payload.categoryId;
+            if (!payload.imageUrl) delete payload.imageUrl;
+            
+            await api.post('/meters', payload);
             toast.success('Meter created successfully');
             setIsCreateModalOpen(false);
             setNewMeter({
@@ -340,7 +346,7 @@ export const MetersPage = () => {
                                                 >
                                                     <option value="">Select Worker</option>
                                                     {users?.map(u => (
-                                                        <option key={u.id} value={u.id}>{u.name || 'Unknown'}</option>
+                                                        <option key={(u as any).userOrgId || u.id} value={(u as any).userOrgId || u.id}>{u.name || 'Unknown'}</option>
                                                     ))}
                                                 </select>
                                                 <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />

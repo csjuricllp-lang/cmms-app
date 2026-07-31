@@ -61,4 +61,25 @@ export class ImportController {
     });
     res.end(buffer);
   }
+
+  @RequirePermissions(Permission.MANAGE_DATA_IMPORT_EXPORT)
+  @Post('checklists')
+  @UseInterceptors(FileInterceptor('file'))
+  async importChecklists(@UploadedFile() file: Express.Multer.File) {
+    if (!file) {
+      throw new BadRequestException('No file uploaded');
+    }
+    return this.importService.processChecklists(file);
+  }
+
+  @Post('download-checklists-template')
+  async downloadChecklistsTemplate(@Res() res: express.Response) {
+    const buffer = await this.importService.generateChecklistsTemplate();
+    res.set({
+      'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'Content-Disposition': 'attachment; filename="checklist_import_template.xlsx"',
+      'Content-Length': buffer.length,
+    });
+    res.end(buffer);
+  }
 }

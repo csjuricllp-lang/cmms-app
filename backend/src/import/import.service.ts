@@ -336,4 +336,151 @@ export class ImportService {
 
     return results;
   }
+
+  async processChecklists(file: Express.Multer.File) {
+    const organizationId = TenancyContext.organizationId;
+    if (!organizationId) {
+      throw new BadRequestException('Organization context missing');
+    }
+
+    let workbook;
+    try {
+      workbook = XLSX.read(file.buffer, { type: 'buffer' });
+    } catch (e) {
+      throw new BadRequestException('Failed to read Excel/CSV file');
+    }
+
+    const firstSheetName = workbook.SheetNames[0];
+    const worksheet = workbook.Sheets[firstSheetName];
+    const data: any[] = XLSX.utils.sheet_to_json(worksheet);
+
+    if (data.length === 0) {
+      throw new BadRequestException('The uploaded file is empty');
+    }
+
+    const results = {
+      checklistsCreated: 0,
+      errors: [] as string[],
+    };
+
+    // Group rows by Checklist Title
+    const checklistGroups = new Map<string, { description: string, items: any[] }>();
+
+    for (let i = 0; i < data.length; i++) {
+      const row = data[i];
+      const titleRaw = row['Checklist Title'] || row['checklist title'] || row['Title'] || row['title'] || row['Template Name'] || row['Name'] || row['name'];
+      if (!titleRaw) {
+        results.errors.push(`Row ${i + 2} skipped: Missing Checklist Title`);
+        continue;
+      }
+      const title = String(titleRaw);
+
+      const descRaw = row['Description'] || row['description'] || row['Template Description'];
+      const description = descRaw ? String(descRaw) : '';
+      
+      const taskRaw = row['Task'] || row['task'] || row['Task Name'] || row['Item Name'] || row['item name'] || row['Name'] || row['name'];
+      const task = taskRaw ? String(taskRaw) : '';
+      
+      let type = String(row['Type'] || row['type'] || row['Item Type'] || row['item type'] || 'CHECKBOX').toUpperCase();
+      if (type === 'MULTIPLE_CHOICE') type = 'SELECT';
+      if (!['CHECKBOX', 'TEXT_INPUT', 'NUMBER', 'METER_READING', 'PASS_FAIL', 'SELECT'].includes(type)) {
+        type = 'CHECKBOX';
+      }
+
+      let isRequired = false;
+      const reqVal = String(row['Required'] || row['required'] || 'false').toLowerCase();
+      if (reqVal === 'true' || reqVal === 'yes' || reqVal === '1' || reqVal === 'y') {
+        isRequired = true;
+      }
+
+      if (!checklistGroups.has(title)) {
+        checklistGroups.set(title, { description, items: [] });
+      }
+
+      if (task) {
+        checklistGroups.get(title)!.items.push({
+          task,
+          dataType: type,
+          isRequired,
+          order: checklistGroups.get(title)!.items.length
+        });
+      }
+    }
+
+    for (const [title, groupData] of checklistGroups.entries()) {
+      try {
+        await this.prisma.checklist.create({
+          data: {
+            title,
+            description: groupData.description,
+            organizationId,
+            items: {
+              create: groupData.items
+            }
+          }
+        });
+        results.checklistsCreated++;
+      } catch (err: any) {
+        results.errors.push(`Error creating checklist "${title}": ${err.message}`);
+      }
+    }
+
+    return results;
+  }
+
+  async generateChecklistsTemplate() {
+    const exportData = [
+      {
+        'Checklist Title': 'Monthly HVAC Inspection',
+        'Description': 'Routine check of all HVAC systems',
+        'Task': 'Inspect air filters',
+        'Type': 'PASS_FAIL',
+        'Required': 'YES'
+      },
+      {
+        'Checklist Title': 'Monthly HVAC Inspection',
+        'Description': 'Routine check of all HVAC systems',
+        'Task': 'Record refrigerant pressure',
+        'Type': 'METER_READING',
+        'Required': 'YES'
+      },
+      {
+        'Checklist Title': 'Monthly HVAC Inspection',
+        'Description': 'Routine check of all HVAC systems',
+        'Task': 'Clean condensate drain',
+        'Type': 'CHECKBOX',
+        'Required': 'NO'
+      },
+      {
+        'Checklist Title': 'Vehicle Pre-Trip Inspection',
+        'Description': 'Mandatory check before driving fleet vehicles',
+        'Task': 'Check tire pressure',
+        'Type': 'PASS_FAIL',
+        'Required': 'YES'
+      },
+      {
+        'Checklist Title': 'Vehicle Pre-Trip Inspection',
+        'Description': 'Mandatory check before driving fleet vehicles',
+        'Task': 'Current mileage',
+        'Type': 'NUMBER',
+        'Required': 'YES'
+      }
+    ];
+
+    const worksheet = XLSX.utils.json_to_sheet(exportData);
+    
+    // Auto-size columns for better readability
+    worksheet['!cols'] = [
+      { wch: 30 }, // Checklist Title
+      { wch: 40 }, // Description
+      { wch: 35 }, // Task
+      { wch: 15 }, // Type
+      { wch: 10 }  // Required
+    ];
+
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Checklists Import Template');
+
+    return XLSX.write(workbook, { type: 'buffer', bookType: 'xlsx' });
+  }
 }

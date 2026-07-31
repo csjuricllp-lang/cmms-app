@@ -457,6 +457,8 @@ export const useWorkOrders = (params?: {
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['work-orders'] });
+            queryClient.invalidateQueries({ queryKey: ['parts'] });
+            queryClient.invalidateQueries({ queryKey: ['inventory'] });
         }
     });
 

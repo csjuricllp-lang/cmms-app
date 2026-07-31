@@ -4,7 +4,7 @@ import { getExtendedClient, ExtendedPrismaClient } from './prisma-extension';
 
 const ExtendedClient = class {
   constructor() {
-    return getExtendedClient(new PrismaClient()) as any;
+    return getExtendedClient(new PrismaClient({ log: ['query', 'info', 'warn', 'error'] })) as any;
   }
 } as unknown as { new (): ExtendedPrismaClient };
 

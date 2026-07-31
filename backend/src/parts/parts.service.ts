@@ -289,7 +289,7 @@ export class PartsService {
         this.notificationsService.notifyLowStock(updatedPart);
       }
 
-      return tx.inventoryTransaction.create({
+      return this.prisma.inventoryTransaction.create({
         data: {
           partId,
           quantity,

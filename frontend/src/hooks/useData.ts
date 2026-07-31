@@ -263,7 +263,10 @@ export const useAnalytics = (params?: any) => {
                 }
             });
             return response.data.data;
-        }
+        },
+        refetchInterval: 5 * 60 * 1000,  // auto-refresh every 5 minutes
+        staleTime: 4 * 60 * 1000,        // consider data stale after 4 minutes
+        refetchIntervalInBackground: false, // pause when tab is not active
     });
 };
 

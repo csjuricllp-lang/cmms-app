@@ -10,6 +10,7 @@ import { cn } from '../lib/utils';
 import toast from 'react-hot-toast';
 import { useMediaQuery } from '../hooks/useMediaQuery';
 import { MobileChecklists } from './MobileChecklists';
+import { TemplateLibrary } from './Checklists/components/TemplateLibrary';
 
 type Tab = 'your' | 'library';
 
@@ -65,8 +66,14 @@ export const ChecklistsPage = () => {
                 </div>
             </div>
 
-            {/* Action Bar 1 (Count & Search & Add) */}
-            <div className="flex items-center justify-between px-8 py-3 bg-white border-b border-gray-50">
+            {activeTab === 'library' ? (
+                <div className="flex-1 overflow-hidden">
+                    <TemplateLibrary onChecklistCreated={() => setActiveTab('your')} />
+                </div>
+            ) : (
+                <>
+                    {/* Action Bar 1 (Count & Search & Add) */}
+                    <div className="flex items-center justify-between px-8 py-3 bg-white border-b border-gray-50">
                 <div className="flex items-center gap-2">
                     <span className="text-[14px] font-bold text-gray-500">
                         {filteredChecklists.length} {filteredChecklists.length === 1 ? 'Checklist' : 'Checklists'}
@@ -202,6 +209,8 @@ export const ChecklistsPage = () => {
                     </table>
                 </div>
             </div>
+            </>
+            )}
 
             {/* Template Creation Modal */}
             <CreateChecklistModal 

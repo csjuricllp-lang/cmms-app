@@ -18,20 +18,20 @@ async function main() {
     const userOrg = user.organizations[0];
     const orgId = userOrg.organizationId;
 
-    // Find or create 'Maintenance Manager' role
+    // Find or create 'ADMIN' role
     let role = await prisma.role.findFirst({
         where: {
             organizationId: orgId,
-            name: { equals: 'Maintenance Manager', mode: 'insensitive' }
+            name: { equals: 'ADMIN', mode: 'insensitive' }
         }
     });
 
     if (!role) {
-        console.log('Creating Maintenance Manager role...');
+        console.log('Creating ADMIN role...');
         role = await prisma.role.create({
             data: {
-                name: 'Maintenance Manager',
-                description: 'Maintenance Manager has full access to manage maintenance operations, work orders, assets, and teams',
+                name: 'ADMIN',
+                description: 'Administrator has full access to manage everything',
                 isSystem: true,
                 organizationId: orgId
             }

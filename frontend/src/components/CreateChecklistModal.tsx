@@ -6,13 +6,14 @@ import {
     Camera, Link as LinkIcon, AlertTriangle,
     Type, Hash, List, Activity, PenTool, CheckSquare,
     CheckCircle2, ListChecks, Trash2,
-    CheckCircle, Settings
+    CheckCircle, Settings, Loader2, ArrowRight, Save, Wand2, Check
 } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { api } from '../lib/api';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import { AssetSelectionModal } from './AssetSelectionModal';
+import { ImportChecklistsModal } from './ImportChecklistsModal';
 
 interface CreateChecklistModalProps {
     isOpen: boolean;
@@ -46,6 +47,7 @@ export const CreateChecklistModal: React.FC<CreateChecklistModalProps> = ({ isOp
     const [prompt, setPrompt] = useState('');
     const [selectedAsset, setSelectedAsset] = useState<any>(null);
     const [showAssetPicker, setShowAssetPicker] = useState(false);
+    const [showImportModal, setShowImportModal] = useState(false);
     const [isGenerating, setIsGenerating] = useState(false);
 
     const { data: assetsResponse } = useQuery({
@@ -150,7 +152,7 @@ export const CreateChecklistModal: React.FC<CreateChecklistModalProps> = ({ isOp
 
     if (step === 'blank') {
         return (
-            <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-300">
+            <div className="fixed inset-0 z-[200] flex items-center justify-center bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-300">
                 <div className="bg-[#FBFCFE] w-full h-full flex flex-col overflow-hidden">
                     <div className="flex items-center justify-between px-10 py-5 border-b border-gray-100 bg-white">
                         <div className="flex items-center gap-4 text-[15px] font-bold">
@@ -175,13 +177,13 @@ export const CreateChecklistModal: React.FC<CreateChecklistModalProps> = ({ isOp
                     </div>
 
                     <div className="flex-1 flex overflow-hidden">
-                        <div className="flex-1 overflow-y-auto p-16 bg-white flex flex-col items-center">
-                            <div className="max-w-4xl w-full space-y-10 pb-40">
-                                <div className="space-y-4">
+                        <div className="flex-1 overflow-y-auto p-8 bg-white flex flex-col items-center">
+                            <div className="max-w-3xl w-full space-y-6 pb-20">
+                                <div className="space-y-3">
                                     <input 
                                         type="text" 
                                         placeholder="Untitled Checklist *"
-                                        className="w-full text-[40px] font-bold text-gray-900 placeholder:text-gray-200 outline-none"
+                                        className="w-full text-[28px] font-bold text-gray-900 placeholder:text-gray-200 outline-none"
                                         value={title}
                                         onChange={(e) => setTitle(e.target.value)}
                                     />
@@ -197,7 +199,7 @@ export const CreateChecklistModal: React.FC<CreateChecklistModalProps> = ({ isOp
                                     </button>
                                 </div>
 
-                                <div className="flex justify-end pt-10">
+                                <div className="flex justify-end pt-6">
                                     <div className="flex items-center gap-4">
                                         <span className="text-[14px] font-bold text-gray-700">Mark All Tasks as Required</span>
                                         <div className="w-10 h-5 bg-gray-200 rounded-full relative cursor-pointer p-1">
@@ -206,13 +208,13 @@ export const CreateChecklistModal: React.FC<CreateChecklistModalProps> = ({ isOp
                                     </div>
                                 </div>
 
-                                <div className="space-y-6">
+                                <div className="space-y-4">
                                     {tasks.map((task, index) => (
                                         <div key={task.id} className="relative group/task flex items-start gap-4">
-                                            <div className="pt-8 opacity-0 group-hover/task:opacity-100 transition-opacity">
-                                                <GripVertical className="w-6 h-6 text-slate-200" />
+                                            <div className="pt-6 opacity-0 group-hover/task:opacity-100 transition-opacity">
+                                                <GripVertical className="w-5 h-5 text-slate-200" />
                                             </div>
-                                            <div className="flex-1 bg-white rounded-[32px] border border-slate-200 p-10 space-y-8 hover:border-blue-400 transition-all shadow-sm relative overflow-hidden group/card">
+                                            <div className="flex-1 bg-white rounded-[24px] border border-slate-200 p-6 space-y-5 hover:border-blue-400 transition-all shadow-sm relative overflow-hidden group/card">
                                                 <div className="flex items-center justify-between">
                                                     <div className="flex items-center gap-3">
                                                         <div className="w-8 h-8 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600 font-bold text-[13px]">
@@ -225,10 +227,10 @@ export const CreateChecklistModal: React.FC<CreateChecklistModalProps> = ({ isOp
                                                     </button>
                                                 </div>
                                                 
-                                                <div className="space-y-6">
+                                                <div className="space-y-4">
                                                     <div className="relative group/input">
                                                         <input 
-                                                            className="w-full px-6 py-4 bg-slate-50 border-2 border-slate-200 rounded-[20px] text-[15px] font-bold text-slate-800 outline-none focus:bg-white focus:border-blue-500 transition-all placeholder:text-slate-300"
+                                                            className="w-full px-4 py-3 bg-slate-50 border-2 border-slate-200 rounded-xl text-[14px] font-bold text-slate-800 outline-none focus:bg-white focus:border-blue-500 transition-all placeholder:text-slate-300"
                                                             placeholder="Describe the specialized inspection protocol..."
                                                             value={task.label}
                                                             onChange={(e) => updateTask(task.id, { label: e.target.value })}
@@ -241,7 +243,7 @@ export const CreateChecklistModal: React.FC<CreateChecklistModalProps> = ({ isOp
                                                     <div className="relative">
                                                         <div 
                                                             onClick={() => updateTask(task.id, { showStatusMenu: !task.showStatusMenu })}
-                                                            className="flex items-center justify-between px-6 py-4 bg-white border border-slate-100 rounded-[20px] cursor-pointer hover:bg-slate-50 transition-all shadow-inner"
+                                                            className="flex items-center justify-between px-4 py-3 bg-white border border-slate-100 rounded-xl cursor-pointer hover:bg-slate-50 transition-all shadow-inner"
                                                         >
                                                             <div className="flex items-center gap-3">
                                                                 <Settings className="w-4 h-4 text-slate-400" />
@@ -318,17 +320,17 @@ export const CreateChecklistModal: React.FC<CreateChecklistModalProps> = ({ isOp
                                     
                                     <button 
                                         onClick={handleAddTask}
-                                        className="w-full py-6 bg-blue-50/20 hover:bg-blue-50 text-blue-600 rounded-[32px] border-2 border-dashed border-blue-100 text-[15px] font-black flex items-center justify-center gap-3 transition-all shadow-sm active:scale-[0.99] uppercase tracking-widest mt-4"
+                                        className="w-full py-4 bg-blue-50/20 hover:bg-blue-50 text-blue-600 rounded-[24px] border-2 border-dashed border-blue-100 text-[14px] font-black flex items-center justify-center gap-2 transition-all shadow-sm active:scale-[0.99] uppercase tracking-widest mt-4"
                                     >
-                                        <Plus className="w-6 h-6 stroke-[3px]" />
+                                        <Plus className="w-5 h-5 stroke-[3px]" />
                                         Add Protocol Step
                                     </button>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="w-80 border-l border-gray-100 bg-white p-10 space-y-12">
-                            <div className="space-y-6">
+                        <div className="w-72 border-l border-gray-100 bg-white p-6 space-y-8 overflow-y-auto">
+                            <div className="space-y-4">
                                 <h4 className="text-[11px] font-black text-gray-300 uppercase tracking-widest">Add Items</h4>
                                 <div className="space-y-4">
                                     <button onClick={handleAddTask} className="flex items-center gap-4 text-[14px] font-bold text-blue-600">
@@ -362,8 +364,9 @@ export const CreateChecklistModal: React.FC<CreateChecklistModalProps> = ({ isOp
     }
 
     return (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-300">
-            <div className="bg-[#FBFCFE] w-full h-full flex flex-col overflow-hidden">
+        <>
+            <div className="fixed inset-0 z-[200] flex items-center justify-center bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-300">
+                <div className="bg-[#FBFCFE] w-full h-full flex flex-col overflow-hidden">
                 <div className="flex items-center justify-between px-10 py-5 border-b border-gray-100 bg-white">
                     <div className="flex items-center gap-4 text-[15px] font-bold">
                         <span className="text-gray-400">Checklists</span>
@@ -376,35 +379,35 @@ export const CreateChecklistModal: React.FC<CreateChecklistModalProps> = ({ isOp
                     </div>
                 </div>
 
-                <div className="flex-1 overflow-y-auto p-20 flex flex-col items-center">
-                    <div className="max-w-4xl w-full space-y-16">
-                        <div className="text-center space-y-4">
-                            <h2 className="text-[32px] font-bold text-gray-900">Smart Checklist Builder</h2>
-                            <p className="text-[16px] text-gray-500 font-medium">Create professional maintenance checklists in seconds.</p>
+                <div className="flex-1 overflow-y-auto p-10 flex flex-col items-center">
+                    <div className="max-w-3xl w-full space-y-10">
+                        <div className="text-center space-y-3">
+                            <h2 className="text-[24px] font-bold text-gray-900">Smart Checklist Builder</h2>
+                            <p className="text-[14px] text-gray-500 font-medium">Create professional maintenance checklists in seconds.</p>
                         </div>
 
-                        <div className="bg-white rounded-[24px] border border-blue-100 p-10 space-y-8 ring-4 ring-blue-500/5 shadow-sm">
+                        <div className="bg-white rounded-[20px] border border-blue-100 p-6 space-y-6 ring-4 ring-blue-500/5 shadow-sm">
                             <textarea 
                                 placeholder="What kind of checklist would you like to build?"
-                                className="w-full h-32 bg-transparent text-[18px] font-medium outline-none resize-none placeholder:text-gray-300"
+                                className="w-full h-24 bg-transparent text-[15px] font-medium outline-none resize-none placeholder:text-gray-300"
                                 value={prompt}
                                 onChange={(e) => setPrompt(e.target.value)}
                             />
-                            <div className="flex items-center justify-between pt-6 border-t border-gray-50">
+                            <div className="flex items-center justify-between pt-4 border-t border-gray-50">
                                 <button 
                                     onClick={() => setShowAssetPicker(true)}
-                                    className="px-6 py-3 border border-blue-200 rounded-xl text-[14px] font-bold text-blue-600 flex items-center gap-3 hover:bg-blue-50 transition-all"
+                                    className="px-4 py-2 border border-blue-200 rounded-lg text-[13px] font-bold text-blue-600 flex items-center gap-2 hover:bg-blue-50 transition-all"
                                 >
                                     {selectedAsset ? selectedAsset.name : 'Select Asset'}
                                     <ChevronDown className="w-4 h-4" />
                                 </button>
-                                <div className="flex items-center gap-6">
-                                    <Mic className="w-5 h-5 text-blue-400 cursor-pointer hover:text-blue-600" />
-                                    <Paperclip className="w-5 h-5 text-blue-400 cursor-pointer hover:text-blue-600" />
+                                <div className="flex items-center gap-4">
+                                    <Mic className="w-4 h-4 text-blue-400 cursor-pointer hover:text-blue-600" />
+                                    <Paperclip className="w-4 h-4 text-blue-400 cursor-pointer hover:text-blue-600" />
                                     <button 
                                         onClick={handleGenerate}
                                         disabled={isGenerating}
-                                        className="px-10 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-[15px] font-bold shadow-lg shadow-blue-500/20 active:scale-95 transition-all disabled:opacity-50 flex items-center gap-2"
+                                        className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-[14px] font-bold shadow-md active:scale-95 transition-all disabled:opacity-50 flex items-center gap-2"
                                     >
                                         {isGenerating ? (
                                             <>
@@ -427,23 +430,23 @@ export const CreateChecklistModal: React.FC<CreateChecklistModalProps> = ({ isOp
                             }}
                         />
 
-                        <div className="pt-8 space-y-10">
-                            <p className="text-[14px] text-gray-400 font-bold text-center">or create a checklist another way</p>
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                                <button onClick={() => setStep('blank')} className="flex flex-col items-start p-10 bg-white border border-gray-100 rounded-3xl hover:border-blue-400 transition-all text-left shadow-sm hover:shadow-xl group">
-                                    <div className="w-14 h-14 rounded-2xl bg-gray-50 flex items-center justify-center mb-8 border border-gray-100 group-hover:bg-blue-50 group-hover:text-blue-600 transition-all"><Plus className="w-6 h-6" /></div>
-                                    <h3 className="text-[18px] font-bold text-gray-900 mb-2">Create from blank</h3>
-                                    <p className="text-[14px] text-gray-500 font-medium">Write your checklist from scratch</p>
+                        <div className="pt-6 space-y-6">
+                            <p className="text-[13px] text-gray-400 font-bold text-center">or create a checklist another way</p>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <button onClick={() => setStep('blank')} className="flex flex-col items-start p-6 bg-white border border-gray-100 rounded-2xl hover:border-blue-400 transition-all text-left shadow-sm hover:shadow-md group">
+                                    <div className="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center mb-4 border border-gray-100 group-hover:bg-blue-50 group-hover:text-blue-600 transition-all"><Plus className="w-5 h-5" /></div>
+                                    <h3 className="text-[15px] font-bold text-gray-900 mb-1">Create from blank</h3>
+                                    <p className="text-[13px] text-gray-500 font-medium leading-relaxed">Write your checklist from scratch</p>
                                 </button>
-                                <button className="flex flex-col items-start p-10 bg-white border border-gray-100 rounded-3xl hover:border-blue-400 transition-all text-left shadow-sm hover:shadow-xl group">
-                                    <div className="w-14 h-14 rounded-2xl bg-gray-50 flex items-center justify-center mb-8 border border-gray-100 group-hover:bg-blue-50 group-hover:text-blue-600 transition-all"><Layout className="w-6 h-6" /></div>
-                                    <h3 className="text-[18px] font-bold text-gray-900 mb-2">Use a template</h3>
-                                    <p className="text-[14px] text-gray-500 font-medium">Search the checklist library</p>
+                                <button className="flex flex-col items-start p-6 bg-white border border-gray-100 rounded-2xl hover:border-blue-400 transition-all text-left shadow-sm hover:shadow-md group">
+                                    <div className="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center mb-4 border border-gray-100 group-hover:bg-blue-50 group-hover:text-blue-600 transition-all"><Layout className="w-5 h-5" /></div>
+                                    <h3 className="text-[15px] font-bold text-gray-900 mb-1">Use a template</h3>
+                                    <p className="text-[13px] text-gray-500 font-medium leading-relaxed">Search the checklist library</p>
                                 </button>
-                                <button className="flex flex-col items-start p-10 bg-white border border-gray-100 rounded-3xl hover:border-blue-400 transition-all text-left shadow-sm hover:shadow-xl group">
-                                    <div className="w-14 h-14 rounded-2xl bg-gray-50 flex items-center justify-center mb-8 border border-gray-100 group-hover:bg-blue-50 group-hover:text-blue-600 transition-all"><FileSpreadsheet className="w-6 h-6" /></div>
-                                    <h3 className="text-[18px] font-bold text-gray-900 mb-2">Bulk Data Import</h3>
-                                    <p className="text-[14px] text-gray-500 font-medium">Import checklists in bulk with our CSV templates</p>
+                                <button onClick={() => setShowImportModal(true)} className="flex flex-col items-start p-6 bg-white border border-gray-100 rounded-2xl hover:border-blue-400 transition-all text-left shadow-sm hover:shadow-md group">
+                                    <div className="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center mb-4 border border-gray-100 group-hover:bg-blue-50 group-hover:text-blue-600 transition-all"><FileSpreadsheet className="w-5 h-5" /></div>
+                                    <h3 className="text-[15px] font-bold text-gray-900 mb-1">Bulk Data Import</h3>
+                                    <p className="text-[13px] text-gray-500 font-medium leading-relaxed">Import checklists in bulk with our CSV templates</p>
                                 </button>
                             </div>
                         </div>
@@ -451,5 +454,16 @@ export const CreateChecklistModal: React.FC<CreateChecklistModalProps> = ({ isOp
                 </div>
             </div>
         </div>
+
+            <ImportChecklistsModal 
+                isOpen={showImportModal} 
+                onClose={() => setShowImportModal(false)}
+                onSuccess={() => {
+                    setShowImportModal(false);
+                    onClose(); // Close the main modal after successful import
+                    // Checklists page will auto-refresh due to its own hooks or can be triggered
+                }}
+            />
+        </>
     );
 };
