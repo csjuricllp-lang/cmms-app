@@ -4,7 +4,25 @@ import { db } from '../lib/db';
 import toast from 'react-hot-toast';
 import type { Location, Asset, Team, User, Vendor, Customer, Checklist, PurchaseOrder, Part, Category, PMSchedule, Meter, MeterReading, AuditLog, Request } from '../types';
 
+const getUserRole = () => {
+    const userJson = localStorage.getItem('user');
+    if (!userJson) return '';
+    try {
+        const user = JSON.parse(userJson);
+        let userRole = (user?.roleName || '').toUpperCase();
+        if (!userRole && user?.organizations?.[0]?.role) {
+            userRole = user.organizations[0].role.toUpperCase();
+        }
+        return userRole;
+    } catch {
+        return '';
+    }
+};
+
 export const useDashboardStats = () => {
+    const role = getUserRole();
+    const isManager = ['OWNER', 'ADMINISTRATOR', 'MANAGER', 'ADMIN', 'MISSION SPECIALIST', 'MAINTENANCE MANAGER'].includes(role);
+
     return useQuery({
         queryKey: ['dashboard-stats'],
         queryFn: async () => {
@@ -16,10 +34,14 @@ export const useDashboardStats = () => {
             return response.data;
         },
         refetchInterval: 30000,
+        enabled: isManager
     });
 };
 
 export const useAuditLogs = () => {
+    const role = getUserRole();
+    const isManager = ['OWNER', 'ADMINISTRATOR', 'MANAGER', 'ADMIN', 'MISSION SPECIALIST', 'MAINTENANCE MANAGER'].includes(role);
+
     return useQuery<AuditLog[]>({
         queryKey: ['audit-logs'],
         queryFn: async () => {
@@ -27,6 +49,7 @@ export const useAuditLogs = () => {
             return response.data;
         },
         refetchInterval: 15000,
+        enabled: isManager
     });
 };
 
@@ -445,6 +468,9 @@ export const useChecklists = () => {
 
 
 export const usePurchaseOrders = (params?: { search?: string; tags?: string; status?: string }) => {
+    const role = getUserRole();
+    const isManager = ['OWNER', 'ADMINISTRATOR', 'MANAGER', 'ADMIN', 'MISSION SPECIALIST', 'MAINTENANCE MANAGER'].includes(role);
+
     return useQuery<PurchaseOrder[]>({
         queryKey: ['purchase-orders', params],
         queryFn: async () => {
@@ -454,7 +480,8 @@ export const usePurchaseOrders = (params?: { search?: string; tags?: string; sta
             if (params?.status) queryParams.append('status', params.status);
             const response = await api.get(`/purchase-orders?${queryParams.toString()}`);
             return Array.isArray(response.data) ? response.data : response.data.items || [];
-        }
+        },
+        enabled: isManager
     });
 };
 
