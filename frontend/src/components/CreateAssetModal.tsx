@@ -190,14 +190,14 @@ export const CreateAssetModal: React.FC<CreateAssetModalProps> = ({ isOpen, onCl
             purchaseDate: purchaseDate ? new Date(purchaseDate).toISOString() : undefined,
             residualValue: Number(residualValue) || undefined,
             expectedLifeYears: Number(usefulLife) || undefined,
-            assignedToId: assignedToId || null,
-            teamId: teamId || null,
+            assignedToId: assignedToId || undefined,
+            teamId: teamId || undefined,
             additionalWorkerIds,
-            placedInServiceDate: placedInServiceDate ? new Date(placedInServiceDate).toISOString() : null,
-            warrantyExpiry: warrantyExpiry ? new Date(warrantyExpiry).toISOString() : null,
+            placedInServiceDate: placedInServiceDate ? new Date(placedInServiceDate).toISOString() : undefined,
+            warrantyExpiry: warrantyExpiry ? new Date(warrantyExpiry).toISOString() : undefined,
             notes,
             specifications: { vendors, customers, area, ...customFieldValues },
-            parentAssetId: parentAssetId || null,
+            parentAssetId: parentAssetId || undefined,
             isMobile: trackCheckInOut
         };
 
