@@ -481,7 +481,7 @@ export class WorkOrdersService {
     // --- PERMISSION-BASED DATA ISOLATION (RLS) ---
     // If the user lacks 'READ_ALL' permission, strictly limit them to their own assignments.
     // This allows for granular security without hard-coded role names (ADMIN/TECHNICIAN).
-    const hasReadAll = TenancyContext.permissions.includes(Permissions.WORK_ORDERS.READ_ALL);
+    const hasReadAll = TenancyContext.hasPermission(Permissions.WORK_ORDERS.READ_ALL);
 
     if (!hasReadAll) {
       const isolation = {
@@ -699,7 +699,7 @@ export class WorkOrdersService {
     const where: Prisma.WorkOrderWhereInput = { id, organizationId };
 
     // Secondary RBAC: further restrict to work orders the user is involved in
-    const hasReadAll = TenancyContext.permissions.includes(Permissions.WORK_ORDERS.READ_ALL);
+    const hasReadAll = TenancyContext.hasPermission(Permissions.WORK_ORDERS.READ_ALL);
 
     if (!hasReadAll) {
       where.OR = [
@@ -855,7 +855,7 @@ export class WorkOrdersService {
     }
 
     // Check if user has permission to manage financial data
-    const canManageCosts = TenancyContext.permissions.includes(Permissions.WORK_ORDERS.MANAGE_COSTS);
+    const canManageCosts = TenancyContext.hasPermission(Permissions.WORK_ORDERS.MANAGE_COSTS);
 
     // --- Field-Level Permissions: Cost Restrictions ---
     if (

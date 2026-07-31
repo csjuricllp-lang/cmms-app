@@ -58,4 +58,9 @@ export class TenancyContext {
   static get permissions(): string[] {
     return this.storage.getStore()?.permissions || [];
   }
+
+  static hasPermission(permission: string): boolean {
+    const perms = this.permissions;
+    return perms.includes('ALL') || perms.includes(permission);
+  }
 }
