@@ -213,7 +213,7 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
             id: displayOrder.id, 
             status: 'COMPLETED', 
             resolutionNotes: data.resolutionNotes,
-            failureCodeId: data.rcaCode,
+            rootCauseCode: data.rcaCode,
             signatureUrl: data.signature
         });
         setIsCompletionWizardOpen(false);

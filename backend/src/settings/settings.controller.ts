@@ -14,6 +14,7 @@ import { UpdateSettingDto } from './dto/update-setting.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { PermissionsGuard } from '../auth/guards/permissions.guard';
 import { RequirePermissions } from '../auth/decorators/permissions.decorator';
+import { AllowAnyRole } from '../auth/decorators/allow-any-role.decorator';
 import { Permission } from '../auth/permissions/permission.enum';
 
 @UseGuards(AuthGuard('jwt'), PermissionsGuard)
@@ -27,11 +28,13 @@ export class SettingsController {
     return this.settingsService.create(createSettingDto);
   }
 
+  @AllowAnyRole()
   @Get()
   findAll() {
     return this.settingsService.findAll();
   }
 
+  @AllowAnyRole()
   @Get(':key')
   findOne(@Param('key') key: string) {
     return this.settingsService.findOne(key);
