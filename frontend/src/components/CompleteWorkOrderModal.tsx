@@ -39,7 +39,8 @@ export const CompleteWorkOrderModal = ({ workOrderId, onClose, onSuccess }: Comp
             }
             return api.patch(`/work-orders/${workOrderId}`, {
                 status: 'COMPLETED',
-                resolutionNotes: notes
+                resolutionNotes: notes,
+                rootCauseCode: 'MAINTENANCE_COMPLETED'
             });
         },
         onSuccess: () => {

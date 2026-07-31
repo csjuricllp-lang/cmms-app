@@ -306,7 +306,7 @@ export const MobileWorkOrderDetail: React.FC<MobileWorkOrderDetailProps> = ({ id
         id,
         status: 'COMPLETED',
         resolutionNotes,
-        rcaCode: 'MAINTENANCE_COMPLETED',
+        rootCauseCode: 'MAINTENANCE_COMPLETED',
         // Note: signature parameter matches endpoint
         signature: signatureUrl || undefined
       } as any);
