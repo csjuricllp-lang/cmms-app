@@ -98,8 +98,7 @@ export const CreatePartModal = ({ isOpen, onClose, part }: CreatePartModalProps)
                 customerId: data.customerId || undefined,
                 teamId: data.teamId || undefined,
                 assignedToId: data.assignedToId || undefined,
-                manufacturer: data.manufacturer || undefined,
-                organizationId: user.organizationId
+                manufacturer: data.manufacturer || undefined
             };
 
             if (part?.id) {

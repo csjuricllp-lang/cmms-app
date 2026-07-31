@@ -80,6 +80,10 @@ export class CreatePartDto {
 
   @IsString()
   @IsOptional()
+  assignedToId?: string;
+
+  @IsString()
+  @IsOptional()
   barcode?: string;
 }
 
