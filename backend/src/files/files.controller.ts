@@ -193,7 +193,7 @@ export class FilesController {
       throw new ForbiddenException('File not found or access denied.');
     }
 
-    const filePath = path.join(process.cwd(), 'uploads', safeKey);
+    const filePath = path.join(os.tmpdir(), 'cmms-uploads', safeKey);
     if (!fs.existsSync(filePath)) {
       throw new NotFoundException('File on disk not found.');
     }
