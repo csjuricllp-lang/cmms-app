@@ -27,7 +27,7 @@ export class WorkOrderEventsListener {
           entityId: payload.id,
           userId: payload.userId,
           organizationId: payload.organizationId,
-          newData: payload,
+          newData: JSON.parse(JSON.stringify(payload)),
         },
       })
       .catch((err) => this.logger.error('Failed to create audit log', err));
@@ -77,7 +77,7 @@ export class WorkOrderEventsListener {
           entityId: payload.id,
           userId: payload.userId,
           organizationId: payload.organizationId,
-          newData: payload,
+          newData: JSON.parse(JSON.stringify(payload)),
         },
       })
       .catch((err) =>

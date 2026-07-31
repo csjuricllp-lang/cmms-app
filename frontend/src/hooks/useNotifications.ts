@@ -108,8 +108,11 @@ export const useNotifications = () => {
             setTimeout(() => setLastAlert(null), 10000);
         });
 
-        newSocket.on('notification_created', () => {
+        newSocket.on('notification_created', (notification: any) => {
             playSound(false);
+            if (notification?.type === 'WORK_ORDER_COMPLETED' || notification?.type === 'WORK_ORDER_STATUS_CHANGED') {
+                queryClient.invalidateQueries({ queryKey: ['work-orders'] });
+            }
         });
 
         setSocket(newSocket);
