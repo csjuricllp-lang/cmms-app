@@ -967,7 +967,10 @@ export const WorkOrdersPage = () => {
 
     const bulkUpdateMutation = useMutation({
         mutationFn: async ({ status, ids }: { status?: string, ids: string[] }) => {
-            const promises = ids.map(id => api.patch(`/work-orders/${id}`, { status }));
+            const promises = ids.map(id => api.patch(`/work-orders/${id}`, { 
+                status,
+                ...(status === 'COMPLETED' ? { rootCauseCode: 'MAINTENANCE_COMPLETED' } : {})
+            }));
             return Promise.all(promises);
         },
         onSuccess: () => {
