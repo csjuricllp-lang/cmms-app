@@ -122,8 +122,8 @@ export const CreateLocationModal: React.FC<CreateLocationModalProps> = ({ isOpen
                 vendorIds: formData.vendorIds,
                 customerId: formData.customerId || undefined,
                 timezone: formData.timezone,
-                latitude: formData.includeMap && formData.latitude ? parseFloat(formData.latitude) : null,
-                longitude: formData.includeMap && formData.longitude ? parseFloat(formData.longitude) : null
+                latitude: formData.includeMap && formData.latitude ? parseFloat(formData.latitude) : undefined,
+                longitude: formData.includeMap && formData.longitude ? parseFloat(formData.longitude) : undefined
             };
 
             if (location?.id) {
