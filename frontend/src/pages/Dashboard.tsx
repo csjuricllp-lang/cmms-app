@@ -16,7 +16,8 @@ import {
     Hammer,
     LayoutGrid,
     Search,
-    CheckCircle2
+    CheckCircle2,
+    BarChart2
 } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { CreateWorkOrderModal } from '../components/CreateWorkOrderModal';
