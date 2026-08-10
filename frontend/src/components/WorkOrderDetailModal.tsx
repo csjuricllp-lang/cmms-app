@@ -1,7 +1,7 @@
 import { 
     X, ChevronDown, DollarSign, Edit3, 
     MoreHorizontal, Plus, Clock, Package, Bookmark, Link, ImageIcon, Send,
-    CheckCircle2, Circle, Type, FileText, 
+    CircleCheck, Circle, Type, FileText, 
     FileSignature, Barcode, Gauge, Trash2, Paperclip, Sparkles, Link2, Info,
     Check, RotateCcw, AlertTriangle, Printer, Copy, CalendarClock
 } from 'lucide-react';
@@ -305,7 +305,7 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                             <div className="px-8 py-4 bg-emerald-50 border-b border-emerald-100 flex items-center justify-between">
                                 <div className="flex items-center gap-4">
                                     <div className="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-600">
-                                        <CheckCircle2 className="w-5 h-5" />
+                                        <CircleCheck className="w-5 h-5" />
                                     </div>
                                     <div>
                                         <h4 className="text-[14px] font-black text-emerald-900 uppercase tracking-tight">Manager Closeout Review</h4>
@@ -313,23 +313,23 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                                     </div>
                                     <div className="ml-6 flex items-center gap-4 hidden md:flex">
                                         <div className="flex items-center gap-1.5" title={hasPhotos ? "Photos attached" : "No photos attached"}>
-                                            {hasPhotos ? <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> : <Circle className="w-3.5 h-3.5 text-slate-300" />}
+                                            {hasPhotos ? <CircleCheck className="w-3.5 h-3.5 text-emerald-500" /> : <Circle className="w-3.5 h-3.5 text-slate-300" />}
                                             <span className={cn("text-[10px] font-black uppercase tracking-wider", hasPhotos ? "text-slate-700" : "text-slate-400 opacity-60")}>Photos</span>
                                         </div>
                                         <div className="flex items-center gap-1.5" title={hasNotes ? "Closeout notes documented" : "No closeout notes"}>
-                                            {hasNotes ? <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> : <Circle className="w-3.5 h-3.5 text-slate-300" />}
+                                            {hasNotes ? <CircleCheck className="w-3.5 h-3.5 text-emerald-500" /> : <Circle className="w-3.5 h-3.5 text-slate-300" />}
                                             <span className={cn("text-[10px] font-black uppercase tracking-wider", hasNotes ? "text-slate-700" : "text-slate-400 opacity-60")}>Notes</span>
                                         </div>
                                         <div className="flex items-center gap-1.5" title={hasParts ? "Parts logged" : "No parts logged"}>
-                                            {hasParts ? <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> : <Circle className="w-3.5 h-3.5 text-slate-300" />}
+                                            {hasParts ? <CircleCheck className="w-3.5 h-3.5 text-emerald-500" /> : <Circle className="w-3.5 h-3.5 text-slate-300" />}
                                             <span className={cn("text-[10px] font-black uppercase tracking-wider", hasParts ? "text-slate-700" : "text-slate-400 opacity-60")}>Parts</span>
                                         </div>
                                         <div className="flex items-center gap-1.5" title={hasTime ? "Labor hours recorded" : "No time recorded"}>
-                                            {hasTime ? <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> : <Circle className="w-3.5 h-3.5 text-slate-300" />}
+                                            {hasTime ? <CircleCheck className="w-3.5 h-3.5 text-emerald-500" /> : <Circle className="w-3.5 h-3.5 text-slate-300" />}
                                             <span className={cn("text-[10px] font-black uppercase tracking-wider", hasTime ? "text-slate-700" : "text-slate-400 opacity-60")}>Time</span>
                                         </div>
                                         <div className="flex items-center gap-1.5" title={hasChecklist ? "Checklist tasks present" : "No checklist tasks"}>
-                                            {hasChecklist ? <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> : <Circle className="w-3.5 h-3.5 text-slate-300" />}
+                                            {hasChecklist ? <CircleCheck className="w-3.5 h-3.5 text-emerald-500" /> : <Circle className="w-3.5 h-3.5 text-slate-300" />}
                                             <span className={cn("text-[10px] font-black uppercase tracking-wider", hasChecklist ? "text-slate-700" : "text-slate-400 opacity-60")}>Checklist</span>
                                         </div>
                                     </div>
@@ -716,7 +716,7 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                                                 <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 inline-block w-fit">
                                                     <img src={(order as any).signatureUrl} alt="Technician Signature" className="max-h-24 object-contain rounded-lg bg-white p-2 border border-slate-100 shadow-sm" />
                                                     <div className="flex items-center gap-2 mt-2">
-                                                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
+                                                        <CircleCheck className="w-3.5 h-3.5 text-emerald-500" />
                                                         <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest italic">Verified Digital Signature</p>
                                                     </div>
                                                 </div>
@@ -782,7 +782,7 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                                                             "w-10 h-10 rounded-xl flex items-center justify-center transition-all",
                                                             task.status === 'COMPLETED' ? "bg-emerald-500 text-white shadow-lg shadow-emerald-200" : "bg-white border border-slate-200 text-slate-300"
                                                         )}>
-                                                            {task.status === 'COMPLETED' ? <CheckCircle2 className="w-5 h-5" /> : <div className="w-5 h-5 rounded-md border-2 border-slate-200" />}
+                                                            {task.status === 'COMPLETED' ? <CircleCheck className="w-5 h-5" /> : <div className="w-5 h-5 rounded-md border-2 border-slate-200" />}
                                                         </div>
                                                         <div>
                                                             <p className={cn("text-[15px] font-bold italic transition-all", task.status === 'COMPLETED' ? "text-emerald-700 line-through opacity-50" : "text-slate-700 uppercase tracking-tight")}>

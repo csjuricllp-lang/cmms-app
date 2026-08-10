@@ -5,7 +5,7 @@ import {
     FileSpreadsheet, Info, GripVertical,
     Camera, Link as LinkIcon, AlertTriangle,
     Type, Hash, List, Activity, PenTool, CheckSquare,
-    CheckCircle2, ListChecks, Trash2,
+    CircleCheck, ListChecks, Trash2,
     CheckCircle, Settings, Loader2, ArrowRight, Save, Wand2, Check
 } from 'lucide-react';
 import { cn } from '../lib/utils';
@@ -26,7 +26,7 @@ const TASK_TYPES = [
     { name: 'Status', icon: Activity, color: 'text-orange-500' },
     { name: 'Text', icon: Type, color: 'text-blue-500' },
     { name: 'Number', icon: Hash, color: 'text-blue-400' },
-    { name: 'Inspection', icon: CheckCircle2, color: 'text-cyan-500' },
+    { name: 'Inspection', icon: CircleCheck, color: 'text-cyan-500' },
     { name: 'Multiple Choice', icon: ListChecks, color: 'text-emerald-500' },
     { name: 'Meter', icon: Activity, color: 'text-purple-500' },
     { name: 'Signature', icon: PenTool, color: 'text-teal-500' },
@@ -236,7 +236,7 @@ export const CreateChecklistModal: React.FC<CreateChecklistModalProps> = ({ isOp
                                                             onChange={(e) => updateTask(task.id, { label: e.target.value })}
                                                         />
                                                         <div className="absolute right-4 top-1/2 -translate-y-1/2 opacity-0 group-focus-within/input:opacity-100 transition-all text-blue-500">
-                                                            <CheckCircle2 className="w-5 h-5" />
+                                                            <CircleCheck className="w-5 h-5" />
                                                         </div>
                                                     </div>
 

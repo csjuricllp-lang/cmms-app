@@ -3,7 +3,7 @@ import {
     Upload, 
     X, 
     FileText, 
-    CheckCircle2, 
+    CircleCheck, 
     ChevronRight,
     Download,
     Loader2,
@@ -220,7 +220,7 @@ export const ImportWorkOrdersModal = ({ isOpen, onClose }: ImportWorkOrdersModal
                                 className="text-center py-12"
                             >
                                 <div className="w-24 h-24 bg-emerald-50 rounded-[40px] flex items-center justify-center mx-auto mb-8 relative">
-                                    <CheckCircle2 className="w-12 h-12 text-emerald-500" />
+                                    <CircleCheck className="w-12 h-12 text-emerald-500" />
                                     <motion.div 
                                         initial={{ scale: 0 }}
                                         animate={{ scale: 1 }}

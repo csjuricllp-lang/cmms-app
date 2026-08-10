@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { ShieldAlert, Send, Camera, CheckCircle2, AlertCircle } from 'lucide-react';
+import { ShieldAlert, Send, Camera, CircleCheck, AlertCircle } from 'lucide-react';
 import { api } from '../lib/api';
 
 export const PublicRequestPortal: React.FC = () => {
@@ -38,7 +38,7 @@ export const PublicRequestPortal: React.FC = () => {
             <div className="min-h-screen bg-slate-950 flex items-center justify-center p-6 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-slate-900 via-slate-950 to-black">
                 <div className="max-w-md w-full bg-white/5 backdrop-blur-2xl border border-white/10 rounded-[48px] p-12 text-center animate-in zoom-in-95 duration-500">
                     <div className="w-24 h-24 rounded-[40px] bg-emerald-500 shadow-[0_20px_50px_rgba(16,185,129,0.4)] flex items-center justify-center text-white mx-auto mb-10 scale-110">
-                        <CheckCircle2 className="w-12 h-12" />
+                        <CircleCheck className="w-12 h-12" />
                     </div>
                     <h2 className="text-3xl font-black italic uppercase tracking-tight text-white mb-4">Report Received!</h2>
                     <p className="text-slate-400 font-bold italic mb-10">Our maintenance team has been notified. We will stabilize the asset shortly.</p>

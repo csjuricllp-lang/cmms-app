@@ -16,7 +16,7 @@ import {
     Hammer,
     LayoutGrid,
     Search,
-    CheckCircle2,
+    CircleCheck,
     BarChart2
 } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
@@ -152,7 +152,7 @@ export const Dashboard = () => {
             value: myTasks?.filter((w: any) => w.status === 'COMPLETED').length || 0, 
             trend: "Done", 
             trendType: "up",
-            icon: CheckCircle2, 
+            icon: CircleCheck, 
             iconBg: "bg-[#F0FDF4] text-emerald-600", 
             path: "/work-orders?status=COMPLETED" 
         },

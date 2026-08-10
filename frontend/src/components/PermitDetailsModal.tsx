@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, ShieldAlert, FileText, CheckCircle2, Clock } from 'lucide-react';
+import { X, ShieldAlert, FileText, CircleCheck, Clock } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { createPortal } from 'react-dom';
 

@@ -13,7 +13,7 @@ import {
     Plus,
     Search,
     X,
-    CheckCircle2,
+    CircleCheck,
     ArrowUpRight,
     History
 } from 'lucide-react';

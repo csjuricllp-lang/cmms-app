@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Shield, Key, User, CheckCircle2, AlertCircle, Loader2, ArrowRight } from 'lucide-react';
+import { Shield, Key, User, CircleCheck, AlertCircle, Loader2, ArrowRight } from 'lucide-react';
 import { api } from '../lib/api';
 
 export const AcceptInvitationPage = () => {
@@ -104,7 +104,7 @@ export const AcceptInvitationPage = () => {
             <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6">
                 <div className="max-w-md w-full glass-panel p-10 rounded-[2.5rem] border-green-500/20 text-center space-y-8">
                     <div className="w-24 h-24 rounded-[2.5rem] bg-green-500/10 border border-green-500/20 flex items-center justify-center mx-auto animate-bounce">
-                        <CheckCircle2 className="w-12 h-12 text-green-500" />
+                        <CircleCheck className="w-12 h-12 text-green-500" />
                     </div>
                     <div>
                         <h2 className="text-3xl font-black tracking-tight text-white">Welcome Aboard!</h2>

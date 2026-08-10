@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { useWorkOrders } from '../hooks/useWorkOrders';
 import { useUsers } from '../hooks/useData';
 import { 
-  Search, Calendar, MapPin, Box, CheckCircle2, AlertTriangle, RefreshCcw, Loader2, Plus,
+  Search, Calendar, MapPin, Box, CircleCheck, AlertTriangle, RefreshCcw, Loader2, Plus,
   LayoutGrid, ChevronLeft, ChevronRight, ChevronDown, Timer
 } from 'lucide-react';
 import { motion } from 'framer-motion';

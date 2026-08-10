@@ -1,5 +1,5 @@
 import { 
-    CheckCircle2, 
+    CircleCheck, 
     XCircle, 
     Clock, 
     TrendingUp,
@@ -37,7 +37,7 @@ export const RequestsAnalysis = ({ data }: { data: AnalyticsData }) => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 <div className="bg-white p-10 rounded-[32px] border border-slate-100 shadow-sm flex flex-col items-center justify-center text-center min-h-[320px] group hover:border-indigo-100 transition-all cursor-default">
                     <div className="w-16 h-16 bg-indigo-50 rounded-[24px] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                        <CheckCircle2 className="w-8 h-8 text-indigo-600" />
+                        <CircleCheck className="w-8 h-8 text-indigo-600" />
                     </div>
                     <h2 className="text-[56px] font-black text-slate-900 tracking-tighter mb-4">
                         {approvedCount.toFixed(2)}

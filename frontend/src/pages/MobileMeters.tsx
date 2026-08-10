@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Search, MapPin, Box, AlertTriangle, CheckCircle2, Thermometer, Gauge, Zap, Timer, Activity, Plus, Loader2 } from 'lucide-react';
+import { Search, MapPin, Box, AlertTriangle, CircleCheck, Thermometer, Gauge, Zap, Timer, Activity, Plus, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { cn } from '../lib/utils';
 
@@ -163,7 +163,7 @@ export const MobileMeters = ({
                         </span>
                       ) : (
                         <span className="flex items-center gap-1 bg-emerald-50 text-[10px] font-bold text-emerald-700 border border-emerald-100 px-2 py-0.5 rounded-full shrink-0">
-                          <CheckCircle2 className="w-3 h-3 shrink-0" /> Normal
+                          <CircleCheck className="w-3 h-3 shrink-0" /> Normal
                         </span>
                       )}
                     </div>

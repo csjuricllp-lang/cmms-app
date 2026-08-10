@@ -6,7 +6,7 @@ import {
     FileText, ShieldCheck, Trash2, AlertCircle,
     Package, Info, Clock, ExternalLink,
     ShieldAlert, TrendingUp, Camera, ImageIcon, Upload, Paperclip, File,
-    Type, Box, Link as LinkIcon, FileSignature, Barcode, Gauge, CheckCircle2, Edit3, GripVertical
+    Type, Box, Link as LinkIcon, FileSignature, Barcode, Gauge, CircleCheck, Edit3, GripVertical
 } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { useAssets, useLocations, useUsers, useTeams, useChecklists, usePurchaseOrders, useLinkPoToWorkOrder, useParts } from '../hooks/useData';
@@ -1032,7 +1032,7 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                                                         onChange={(e) => updateTask(task.id, { text: e.target.value })}
                                                                     />
                                                                     <div className="absolute right-4 top-1/2 -translate-y-1/2 opacity-30 group-focus-within/input:opacity-100 transition-opacity">
-                                                                        <CheckCircle2 className="w-5 h-5 text-primary" />
+                                                                        <CircleCheck className="w-5 h-5 text-primary" />
                                                                     </div>
                                                                 </div>
                                                                 

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { usePublicWorkOrder } from '../hooks/useWorkOrders';
 import { 
-    CheckCircle2, 
+    CircleCheck, 
     AlertTriangle, 
     MessageSquare, 
     Camera,
@@ -145,7 +145,7 @@ export const VendorWorkOrderView = () => {
                             onClick={() => updateStatus.mutate('COMPLETED')}
                             className="w-full py-6 bg-slate-900 text-white rounded-[32px] text-[15px] font-black uppercase tracking-widest italic shadow-xl shadow-slate-900/20 active:scale-95 transition-all flex items-center justify-center gap-4"
                         >
-                            Mark Completed <CheckCircle2 className="w-5 h-5" />
+                            Mark Completed <CircleCheck className="w-5 h-5" />
                         </button>
                     )}
 

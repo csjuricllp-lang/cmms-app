@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, CheckCircle2, AlertTriangle, ShieldCheck, MessageSquare, ClipboardCheck, ArrowRight, PenTool } from 'lucide-react';
+import { X, CircleCheck, AlertTriangle, ShieldCheck, MessageSquare, ClipboardCheck, ArrowRight, PenTool } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { SignaturePad } from './SignaturePad';
 
@@ -44,7 +44,7 @@ export const CompletionWizard: React.FC<Props> = ({ isOpen, onClose, onComplete,
                     
                     <div className="flex items-center gap-4 mb-4">
                         <div className="w-12 h-12 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center">
-                            <CheckCircle2 className="w-7 h-7 text-emerald-400" />
+                            <CircleCheck className="w-7 h-7 text-emerald-400" />
                         </div>
                         <div className="px-4 py-1.5 rounded-full bg-white/10 border border-white/10 text-[10px] font-black uppercase tracking-[0.2em]">
                             Mission Completion Protocol
@@ -216,7 +216,7 @@ export const CompletionWizard: React.FC<Props> = ({ isOpen, onClose, onComplete,
                                     className="flex-1 py-6 bg-emerald-500 hover:bg-emerald-600 text-white rounded-[24px] text-[15px] font-black uppercase tracking-widest italic flex items-center justify-center gap-3 transition-all active:scale-95 disabled:opacity-20 shadow-2xl shadow-emerald-500/20"
                                 >
                                     Finalize Mission
-                                    <CheckCircle2 className="w-5 h-5" />
+                                    <CircleCheck className="w-5 h-5" />
                                 </button>
                             </div>
                         </div>

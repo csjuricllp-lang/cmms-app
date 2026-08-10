@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, ShieldAlert, CheckCircle2, Lock, Tag, ZapOff, ArrowRight } from 'lucide-react';
+import { X, ShieldAlert, CircleCheck, Lock, Tag, ZapOff, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface Props {
@@ -138,7 +138,7 @@ export const LOTOWizard: React.FC<Props> = ({ isOpen, onClose, onComplete, workO
                                     ? "bg-emerald-500 text-white" 
                                     : "bg-white text-slate-200 border-4 border-slate-50 group-hover:border-slate-100"
                                 }`}>
-                                    <CheckCircle2 className="w-8 h-8" />
+                                    <CircleCheck className="w-8 h-8" />
                                 </div>
                                 <span className={`text-[14px] font-black uppercase tracking-[0.2em] italic ${
                                     verification[currentStep.field] ? "text-emerald-600" : "text-slate-400"

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { 
-    X, ShoppingCart, AlertTriangle, ArrowRight, CheckCircle2, 
+    X, ShoppingCart, AlertTriangle, ArrowRight, CircleCheck, 
     Box, Truck, RefreshCcw, PackageCheck, Zap 
 } from 'lucide-react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -144,7 +144,7 @@ export const InventoryPlanningHub: React.FC<InventoryPlanningHubProps> = ({ isOp
                                                 "w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all",
                                                 isSelected ? "bg-primary border-primary text-white" : "border-slate-200"
                                             )}>
-                                                {isSelected && <CheckCircle2 className="w-4 h-4" />}
+                                                {isSelected && <CircleCheck className="w-4 h-4" />}
                                             </div>
 
                                             <div className="flex-1 space-y-1">

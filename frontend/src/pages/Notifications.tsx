@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Bell, Clock, ShieldAlert, Workflow, Package, CheckCircle2 } from 'lucide-react';
+import { Bell, Clock, ShieldAlert, Workflow, Package, CircleCheck } from 'lucide-react';
 import { api } from '../lib/api';
 import { useNotifications } from '../hooks/useNotifications';
 import type { AppNotification } from '../types/notification';
@@ -55,7 +55,7 @@ export const NotificationsPage = () => {
         switch (type) {
             case 'WORK_ORDER_ASSIGNED': return <Workflow className="w-5 h-5 text-blue-500" />;
             case 'WORK_ORDER_COMPLETED':
-            case 'WORK_ORDER_APPROVED': return <CheckCircle2 className="w-5 h-5 text-emerald-500" />;
+            case 'WORK_ORDER_APPROVED': return <CircleCheck className="w-5 h-5 text-emerald-500" />;
             case 'WORK_ORDER_REJECTED': return <Clock className="w-5 h-5 text-rose-500" />;
             case 'LOW_STOCK': return <Package className="w-5 h-5 text-amber-500" />;
             case 'OVERDUE_ALERT': return <Clock className="w-5 h-5 text-rose-500" />;
@@ -113,7 +113,7 @@ export const NotificationsPage = () => {
                         className="p-3 bg-white/5 hover:bg-white/10 text-white/40 hover:text-white rounded-2xl border border-white/10 transition-all group"
                         title="Mark all as read"
                     >
-                        <CheckCircle2 className="w-5 h-5 group-active:scale-90 transition-transform" />
+                        <CircleCheck className="w-5 h-5 group-active:scale-90 transition-transform" />
                     </button>
                 </div>
             </div>

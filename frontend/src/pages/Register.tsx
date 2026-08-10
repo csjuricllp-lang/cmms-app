@@ -13,7 +13,7 @@ import {
     Users, 
     Phone,
     Loader2,
-    CheckCircle2,
+    CircleCheck,
     AlertCircle
 } from 'lucide-react';
 import { authApi } from '../api/auth';
@@ -133,7 +133,7 @@ export const RegisterPage = () => {
                             ].map((feature, i) => (
                                 <div key={i} className="flex items-center gap-4 group">
                                     <div className="p-1 rounded-full bg-primary/20 text-primary group-hover:bg-primary group-hover:text-black transition-colors">
-                                        <CheckCircle2 className="w-5 h-5" />
+                                        <CircleCheck className="w-5 h-5" />
                                     </div>
                                     <span className="font-bold italic uppercase tracking-wider text-sm opacity-70 group-hover:opacity-100 transition-opacity">
                                         {feature}
@@ -185,7 +185,7 @@ export const RegisterPage = () => {
                                     className="p-8 rounded-[32px] bg-primary/10 border border-primary/20 flex flex-col items-center text-center gap-6 relative z-10"
                                 >
                                     <div className="p-4 rounded-full bg-primary/20 text-primary animate-bounce">
-                                        <CheckCircle2 className="w-10 h-10" />
+                                        <CircleCheck className="w-10 h-10" />
                                     </div>
                                     <div>
                                         <h3 className="text-2xl font-black italic uppercase tracking-tight text-white mb-2">Tenant Deployed</h3>

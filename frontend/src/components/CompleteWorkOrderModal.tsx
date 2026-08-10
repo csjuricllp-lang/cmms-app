@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query';
-import { CheckCircle2, AlertCircle, X, MessageSquare } from 'lucide-react';
+import { CircleCheck, AlertCircle, X, MessageSquare } from 'lucide-react';
 import { api } from '../lib/api';
 
 interface CompleteWorkOrderModalProps {
@@ -64,7 +64,7 @@ export const CompleteWorkOrderModal = ({ workOrderId, onClose, onSuccess }: Comp
                 <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center text-primary">
-                            <CheckCircle2 className="w-6 h-6" />
+                            <CircleCheck className="w-6 h-6" />
                         </div>
                         <h3 className="text-xl font-bold">Complete Work Order</h3>
                     </div>

@@ -15,7 +15,7 @@ import {
     Plus,
     Trash2,
     Upload,
-    CheckCircle2,
+    CircleCheck,
     AlertCircle,
     Info
 } from 'lucide-react';
@@ -507,7 +507,7 @@ export const VendorDetailPage = () => {
                     
                     {/* Provider Profile Info header card */}
                     <div className="bg-[#EEF2FF] border border-[#C7D2FE]/50 rounded-2xl p-5 flex items-start gap-4">
-                        <CheckCircle2 className="w-5 h-5 text-indigo-600 shrink-0 mt-0.5" />
+                        <CircleCheck className="w-5 h-5 text-indigo-600 shrink-0 mt-0.5" />
                         <div>
                             <h4 className="text-[13px] font-bold text-slate-800">Provider Profile</h4>
                             <p className="text-[12px] text-slate-500 mt-1">Submitted via the Provider Portal — only the vendor can update this information directly.</p>

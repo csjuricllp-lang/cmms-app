@@ -11,7 +11,7 @@ import {
     Search,
     AlertCircle,
     MoreVertical,
-    CheckCircle2,
+    CircleCheck,
     Zap,
     ActivitySquare,
     QrCode,
@@ -375,7 +375,7 @@ export const AssetDetailPage = () => {
                                                         className={cn("w-full flex items-center justify-between px-4 py-2.5 hover:bg-slate-50 rounded-xl", stagedStatus.includes(s) ? "text-primary bg-primary/5 font-black" : "text-slate-600 font-bold")}
                                                     >
                                                         {s}
-                                                        {stagedStatus.includes(s) && <CheckCircle2 className="w-4 h-4 text-primary" />}
+                                                        {stagedStatus.includes(s) && <CircleCheck className="w-4 h-4 text-primary" />}
                                                     </button>
                                                 ))}
                                             </div>

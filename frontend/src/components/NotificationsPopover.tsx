@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
-import { Bell, Clock, ShieldAlert, Workflow, Package, ChevronRight, CheckCircle2 } from 'lucide-react';
+import { Bell, Clock, ShieldAlert, Workflow, Package, ChevronRight, CircleCheck } from 'lucide-react';
 import { useNotifications } from '../hooks/useNotifications';
 import { api } from '../lib/api';
 import type { AppNotification } from '../types/notification';
@@ -75,7 +75,7 @@ export const NotificationsPopover = () => {
         switch (type) {
             case 'WORK_ORDER_ASSIGNED': return <Workflow className="w-4 h-4 text-blue-500" />;
             case 'WORK_ORDER_COMPLETED':
-            case 'WORK_ORDER_APPROVED': return <CheckCircle2 className="w-4 h-4 text-emerald-500" />;
+            case 'WORK_ORDER_APPROVED': return <CircleCheck className="w-4 h-4 text-emerald-500" />;
             case 'WORK_ORDER_REJECTED': return <Clock className="w-4 h-4 text-rose-500" />;
             case 'LOW_STOCK': return <Package className="w-4 h-4 text-amber-500" />;
             case 'OVERDUE_ALERT': return <Clock className="w-4 h-4 text-rose-500" />;

@@ -15,7 +15,7 @@ import {
     Columns,
     AlertCircle,
     MoreVertical,
-    CheckCircle2,
+    CircleCheck,
     ArrowUpRight,
     Trash2,
     Check
@@ -285,7 +285,7 @@ export const PreventiveMaintenanceDetailPage = () => {
                                                         "w-4 h-4 rounded border flex items-center justify-center transition-all",
                                                         visibleColumns.includes(col) ? "bg-primary border-primary" : "border-border"
                                                     )}>
-                                                        {visibleColumns.includes(col) && <CheckCircle2 className="w-3 h-3 text-white stroke-[3px]" />}
+                                                        {visibleColumns.includes(col) && <CircleCheck className="w-3 h-3 text-white stroke-[3px]" />}
                                                     </div>
                                                     <span className={cn("text-[13px] font-bold", visibleColumns.includes(col) ? "text-foreground" : "text-muted-foreground")}>{col}</span>
                                                 </button>
@@ -329,7 +329,7 @@ export const PreventiveMaintenanceDetailPage = () => {
                                     className={cn("w-full flex items-center justify-between px-4 py-3 hover:bg-white/5 transition-colors text-left rounded-xl", stagedLocationIds.includes(l.id) ? "text-primary bg-primary/5 font-black" : "text-foreground/80 font-bold")}
                                 >
                                     <span className="text-[14px]">{l.name}</span>
-                                    {stagedLocationIds.includes(l.id) && <CheckCircle2 className="w-4 h-4 text-primary" />}
+                                    {stagedLocationIds.includes(l.id) && <CircleCheck className="w-4 h-4 text-primary" />}
                                 </button>
                             ))}
                         </div>
@@ -355,7 +355,7 @@ export const PreventiveMaintenanceDetailPage = () => {
                                         <div className="w-6 h-6 rounded-full bg-muted flex items-center justify-center text-[10px] font-black text-muted-foreground">{u.name[0]}</div>
                                         <span className="text-[14px]">{u.name}</span>
                                     </div>
-                                    {stagedAssigneeIds.includes(u.id) && <CheckCircle2 className="w-4 h-4 text-primary" />}
+                                    {stagedAssigneeIds.includes(u.id) && <CircleCheck className="w-4 h-4 text-primary" />}
                                 </button>
                             ))}
                         </div>
@@ -900,7 +900,7 @@ export const PreventiveMaintenanceDetailPage = () => {
                                                     <td className="px-6 py-4">
                                                         {wo.completedAt ? (
                                                             <div className="flex items-center gap-1.5 text-emerald-500 font-bold text-[13px]">
-                                                                <CheckCircle2 className="w-3.5 h-3.5" />
+                                                                <CircleCheck className="w-3.5 h-3.5" />
                                                                 {format(new Date(wo.completedAt), 'MM/dd/yy')}
                                                             </div>
                                                         ) : <span className="text-muted-foreground/40">—</span>}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { CheckCircle2, X } from 'lucide-react';
+import { CircleCheck, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface SuccessModalProps {
@@ -34,7 +34,7 @@ export const SuccessModal: React.FC<SuccessModalProps> = ({
                         className="relative w-full max-w-sm bg-white rounded-[40px] shadow-2xl overflow-hidden border border-emerald-100 p-10 text-center"
                     >
                         <div className="w-20 h-20 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                            <CheckCircle2 className="w-10 h-10" />
+                            <CircleCheck className="w-10 h-10" />
                         </div>
                         
                         <h3 className="text-[22px] font-black text-gray-900 tracking-tight mb-2">

@@ -1,4 +1,4 @@
-import { Activity, CheckCircle2, ShieldAlert } from 'lucide-react';
+import { Activity, CircleCheck, ShieldAlert } from 'lucide-react';
 import { ResponsiveContainer, BarChart, XAxis, YAxis, Tooltip, Bar } from 'recharts';
 import { cn } from '../../../lib/utils';
 import { Widget } from './Widget';
@@ -22,7 +22,7 @@ export const AssetDowntime = ({ data }: { data: AnalyticsData }) => {
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     {[
                         { label: 'Utilization', value: `${status.utilization}%`, color: 'text-emerald-500', icon: Activity },
-                        { label: 'Operational', value: status.operational, color: 'text-emerald-600', icon: CheckCircle2 },
+                        { label: 'Operational', value: status.operational, color: 'text-emerald-600', icon: CircleCheck },
                         { label: 'Non-operational', value: status.nonOperational, color: 'text-rose-500', icon: ShieldAlert }
                     ].map((item, i) => (
                         <div key={i} className="bg-white rounded-xl border border-slate-200 p-8 flex flex-col items-center justify-center text-center shadow-sm">

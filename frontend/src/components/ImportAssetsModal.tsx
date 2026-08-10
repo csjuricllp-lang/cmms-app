@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Upload, Loader2, AlertCircle, CheckCircle2 } from 'lucide-react';
+import { X, Upload, Loader2, AlertCircle, CircleCheck } from 'lucide-react';
 import { api } from '../lib/api';
 import toast from 'react-hot-toast';
 
@@ -137,7 +137,7 @@ export const ImportAssetsModal: React.FC<ImportAssetsModalProps> = ({
                     {result && (
                         <div className="space-y-6">
                             <div className="flex items-center gap-3 p-4 bg-emerald-50 border border-emerald-100 rounded-2xl">
-                                <CheckCircle2 className="w-6 h-6 text-emerald-600 shrink-0" />
+                                <CircleCheck className="w-6 h-6 text-emerald-600 shrink-0" />
                                 <div>
                                     <h4 className="text-[14px] font-bold text-emerald-800">Successfully Imported</h4>
                                     <p className="text-[13px] text-emerald-600 font-medium">{result.assetsCreated} assets added to registry.</p>

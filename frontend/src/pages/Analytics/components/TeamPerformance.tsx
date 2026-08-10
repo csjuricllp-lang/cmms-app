@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { CheckCircle2, RefreshCcw, MapPin } from 'lucide-react';
+import { CircleCheck, RefreshCcw, MapPin } from 'lucide-react';
 import { ResponsiveContainer, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Bar, PieChart, Pie, Cell } from 'recharts';
 import { Widget, StatBox } from './Widget';
 import type { AnalyticsData } from '../types';
@@ -22,7 +22,7 @@ export const TeamPerformance = ({ data }: { data: AnalyticsData }) => {
             <Widget title="Work Order Completion Rate" data={monthlyTrend}>
                 <div className="flex flex-col h-full">
                     <div className="flex items-center gap-2 mb-4">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+                        <CircleCheck className="w-4 h-4 text-emerald-500" />
                         <span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Efficiency Metrics</span>
                     </div>
                     <div className="flex items-center gap-12 mb-8">
