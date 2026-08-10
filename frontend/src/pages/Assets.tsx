@@ -238,7 +238,7 @@ export const AssetsPage = () => {
                 <div className="flex items-center gap-4">
                     <h1 className="text-2xl font-bold text-gray-900">Assets</h1>
                     <span className="text-sm font-medium text-gray-500 bg-gray-100 px-2.5 py-0.5 rounded-full">
-                        {filteredAssets?.length || 0} Results Returned
+                        {assets?.length || 0} Results Returned
                     </span>
                 </div>
                 <div className="flex items-center gap-4">
