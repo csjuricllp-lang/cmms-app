@@ -15,6 +15,11 @@ export default defineConfig({
       filename: 'sw.ts',
       registerType: 'autoUpdate',
       injectRegister: 'auto',
+      workbox: {
+        cleanupOutdatedCaches: true,
+        skipWaiting: true,
+        clientsClaim: true,
+      },
       injectManifest: {
         maximumFileSizeToCacheInBytes: 5 * 1024 * 1024
       },

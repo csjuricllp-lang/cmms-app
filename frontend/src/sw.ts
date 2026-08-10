@@ -1,4 +1,4 @@
-import { precacheAndRoute } from 'workbox-precaching';
+import { precacheAndRoute, cleanupOutdatedCaches } from 'workbox-precaching';
 import { clientsClaim } from 'workbox-core';
 import { registerRoute } from 'workbox-routing';
 import { CacheFirst, StaleWhileRevalidate } from 'workbox-strategies';
@@ -6,8 +6,21 @@ import { ExpirationPlugin } from 'workbox-expiration';
 
 declare let self: ServiceWorkerGlobalScope;
 
+// Take control of all clients immediately on install/activate
 clientsClaim();
 (self as any).skipWaiting();
+
+// ─── CLEANUP OLD CACHES ON ACTIVATE ──────────────────────────────────────────
+// This deletes stale precache entries from old builds so users never get
+// served a broken old JS bundle after a new deployment.
+cleanupOutdatedCaches();
+
+// Listen for SKIP_WAITING message from the app to force an immediate update
+(self as any).addEventListener('message', (event: any) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    (self as any).skipWaiting();
+  }
+});
 
 precacheAndRoute(self.__WB_MANIFEST);
 
