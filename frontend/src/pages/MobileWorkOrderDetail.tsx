@@ -16,7 +16,8 @@ import { HoldReasonModal } from '../components/HoldReasonModal';
 import AddTimeModal from '../components/AddTimeModal';
 import AddCostModal from '../components/AddCostModal';
 import AddPartModal from '../components/AddPartModal';
-import AddSavedFileModal from '../components/AddSavedFileModal';
+import { AddSavedFileModal } from '../components/AddSavedFileModal';
+import { DeferWorkOrderModal } from '../components/DeferWorkOrderModal';
 import { EditWorkOrderModal } from '../components/EditWorkOrderModal';
 import { LinkWorkOrderModal } from '../components/LinkWorkOrderModal';
 
@@ -53,7 +54,9 @@ export const MobileWorkOrderDetail: React.FC<MobileWorkOrderDetailProps> = ({ id
     updateWorkOrder,
     share,
     unshare,
-    removeLink
+    removeLink,
+    deferWorkOrder,
+    resumeWorkOrder
   } = useWorkOrders();
 
   const { data: usersData } = useUsers();
@@ -75,6 +78,7 @@ export const MobileWorkOrderDetail: React.FC<MobileWorkOrderDetailProps> = ({ id
   const [isLinkModalOpen, setIsLinkModalOpen] = useState(false);
   const [isAddSavedFileModalOpen, setIsAddSavedFileModalOpen] = useState(false);
   const [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
+  const [isDeferModalOpen, setIsDeferModalOpen] = useState(false);
 
   // Timer states
   const [elapsedTime, setElapsedTime] = useState<string>('');
@@ -377,6 +381,13 @@ export const MobileWorkOrderDetail: React.FC<MobileWorkOrderDetailProps> = ({ id
 
       {/* Secondary Status & Action Row */}
       <div className="bg-card px-4 py-3 border-b border-white/5 flex flex-col gap-3">
+        {(order as any).deferredUntilDate && (
+          <div className="flex items-center gap-2 px-3 py-2 bg-orange-50 border border-orange-200 rounded-xl">
+            <span className="text-[12px] font-black text-orange-700 uppercase tracking-tight">
+              Deferred to {new Date((order as any).deferredUntilDate).toLocaleDateString()}
+            </span>
+          </div>
+        )}
         <div className="flex items-center justify-between gap-3">
           {/* Status selector */}
           <div className="relative">
@@ -402,6 +413,23 @@ export const MobileWorkOrderDetail: React.FC<MobileWorkOrderDetailProps> = ({ id
               <option value="COMPLETED">⚫ COMPLETED</option>
             </select>
           </div>
+
+          {/* Defer or Resume Action */}
+          {(order as any).deferredUntilDate ? (
+            <button 
+              onClick={() => resumeWorkOrder.mutate(id)}
+              className="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl text-[12px] font-black uppercase tracking-widest shadow-lg shadow-emerald-500/20 active:scale-95 transition-all"
+            >
+              Resume
+            </button>
+          ) : (
+            <button 
+              onClick={() => setIsDeferModalOpen(true)}
+              className="px-4 py-2 bg-white border border-orange-200 text-orange-600 hover:bg-orange-50 rounded-xl text-[12px] font-black uppercase tracking-widest shadow-sm active:scale-95 transition-all"
+            >
+              Defer
+            </button>
+          )}
 
           {/* Start/Stop Timer button */}
           <button
@@ -1312,6 +1340,13 @@ export const MobileWorkOrderDetail: React.FC<MobileWorkOrderDetailProps> = ({ id
               toast.success(`Status updated to ON_HOLD`);
             }
           });
+        }}
+      />
+      <DeferWorkOrderModal
+        isOpen={isDeferModalOpen}
+        onClose={() => setIsDeferModalOpen(false)}
+        onSubmit={(data) => {
+          deferWorkOrder.mutate({ id, data });
         }}
       />
 

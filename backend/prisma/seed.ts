@@ -243,7 +243,7 @@ async function main() {
         });
     }
 
-    // 5. Global Asset Fields
+    // 6. Global Asset Fields
     const globalAssetFields = [
         { label: 'Brand', type: 'TEXT' },
         { label: 'Model', type: 'TEXT' },
@@ -262,6 +262,38 @@ async function main() {
                 type: field.type,
                 organizationId: orgId,
                 isSystem: true
+            }
+        });
+    }
+
+    // 6. Default Demo User
+    const demoEmail = 'verify@example.com';
+    const demoPasswordHash = '$2b$10$EpRnTzVlqHIj0H9bWn86uO/Z4g3mK5VvG.sP7.t2aZz1b9a1HnCzi'; // 'Password123!'
+    const ownerRole = await prisma.role.findFirst({ where: { name: 'OWNER', organizationId: orgId } });
+    
+    if (ownerRole) {
+        const demoUser = await prisma.user.upsert({
+            where: { email: demoEmail },
+            update: { password: demoPasswordHash },
+            create: {
+                email: demoEmail,
+                password: demoPasswordHash,
+                firstName: 'Demo',
+                lastName: 'User',
+                name: 'Demo User',
+                phone: '555-0199',
+                isActive: true,
+            }
+        });
+
+        await prisma.userOrganization.upsert({
+            where: { userId_organizationId: { userId: demoUser.id, organizationId: orgId } },
+            update: { roleId: ownerRole.id },
+            create: {
+                userId: demoUser.id,
+                organizationId: orgId,
+                roleId: ownerRole.id,
+                customPermissions: ['ALL'],
             }
         });
     }

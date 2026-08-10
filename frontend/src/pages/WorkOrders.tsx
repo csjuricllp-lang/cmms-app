@@ -6,6 +6,8 @@ import {
     Plus,
     ChevronDown,
     ArrowUpDown,
+    ArrowUp,
+    ArrowDown,
     Columns,
     RefreshCcw,
     Calendar,
@@ -62,7 +64,6 @@ import { AdvancedFiltersModal } from '../components/AdvancedFiltersModal';
 import { WorkOrderDetailModal } from '../components/WorkOrderDetailModal';
 import AddTimeModal from '../components/AddTimeModal';
 import { EmptyState } from '../components/EmptyState';
-import { ImportWorkOrdersModal } from '../components/ImportWorkOrdersModal';
 import { useMediaQuery } from '../hooks/useMediaQuery';
 import { MobileWorkOrders } from './MobileWorkOrders';
 
@@ -425,7 +426,6 @@ export const WorkOrdersPage = () => {
         'Closeout Notes',
         'Source Type'
     ];
-    const [isColumnsDropdownOpen, setIsColumnsDropdownOpen] = useState(false);
     const [visibleColumns, setVisibleColumns] = useState<string[]>(allColumns);
 
     // Sort states
@@ -445,6 +445,7 @@ export const WorkOrdersPage = () => {
     ];
     const [isSortDropdownOpen, setIsSortDropdownOpen] = useState(false);
     const [sortBy, setSortBy] = useState('Date Created');
+    const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
 
     const [currentView, setCurrentView] = useState<'Table' | 'Column' | 'Calendar'>('Table');
     const [isViewDropdownOpen, setIsViewDropdownOpen] = useState(false);
@@ -505,7 +506,7 @@ export const WorkOrdersPage = () => {
         isBookmarked: isBookmarkedOnly || undefined,
         isRepeating: showAllReactiveRepeating === 'Repeating Only' ? true : undefined,
         sortBy: getSortByField(sortBy),
-        sortOrder: 'desc',
+        sortOrder: sortOrder,
         ...getDateParams()
     });
 
@@ -546,11 +547,7 @@ export const WorkOrdersPage = () => {
     const [calendarDate, setCalendarDate] = useState(new Date()); 
     const [isWorkOrderOptionsOpen, setIsWorkOrderOptionsOpen] = useState(false);
     const [showExportSubmenu, setShowExportSubmenu] = useState(false);
-    const [isSaveFilterModalOpen, setIsSaveFilterModalOpen] = useState(false);
-    const [quickFilterName, setQuickFilterName] = useState('');
     const [isSavedViewsOpen, setIsSavedViewsOpen] = useState(false);
-    const [isImportModalOpen, setIsImportModalOpen] = useState(false);
-
     // Create Modal State
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const [isAdvancedFiltersModalOpen, setIsAdvancedFiltersModalOpen] = useState(false);
@@ -668,12 +665,37 @@ export const WorkOrdersPage = () => {
 
 
 
-    const handleExportCSV = () => {
-        if (!filteredWorkOrders.length) return;
+    const fetchExportData = async () => {
+        try {
+            const params = {
+                limit: 1000, // Large limit for exports
+                search: debouncedSearchQuery,
+                status: activeStatuses.length > 0 ? activeStatuses.map(mapStatusToBackend).join(',') : undefined,
+                priority: selectedPriorities.length > 0 ? selectedPriorities.map(p => p.toUpperCase()).join(',') : undefined,
+                assignedToId: selectedAssigneeIds.length > 0 ? selectedAssigneeIds.join(',') : undefined,
+                locationId: selectedLocationIds.length > 0 ? selectedLocationIds.join(',') : undefined,
+                assetId: selectedAssetIds.length > 0 ? selectedAssetIds.join(',') : undefined,
+                isBookmarked: isBookmarkedOnly || undefined,
+                isRepeating: showAllReactiveRepeating === 'Repeating Only' ? true : undefined,
+                sortBy: getSortByField(sortBy),
+                sortOrder: sortOrder,
+                ...getDateParams()
+            };
+            const response = await api.get('/work-orders', { params });
+            return response.data?.items || [];
+        } catch (error) {
+            console.error('Error fetching export data:', error);
+            return [];
+        }
+    };
+
+    const handleExportCSV = async () => {
+        const dataToExport = await fetchExportData();
+        if (!dataToExport.length) return;
         const headers = ['WO #', 'Title', 'Status', 'Priority', 'Location', 'Asset', 'Due Date'];
         const csvContent = [
             headers.join(','),
-            ...filteredWorkOrders.map(wo => [
+            ...dataToExport.map((wo: any) => [
                 `"${wo.id.slice(0, 8)}"`,
                 `"${wo.title}"`,
                 `"${wo.status}"`,
@@ -697,10 +719,11 @@ export const WorkOrdersPage = () => {
         setIsWorkOrderOptionsOpen(false);
     };
 
-    const handleExportExcel = () => {
-        if (!filteredWorkOrders.length) return;
+    const handleExportExcel = async () => {
+        const dataToExport = await fetchExportData();
+        if (!dataToExport.length) return;
         
-        const data = filteredWorkOrders.map(wo => ({
+        const data = dataToExport.map((wo: any) => ({
             'WO #': wo.id.slice(0, 8),
             'Title': wo.title,
             'Status': wo.status,
@@ -741,26 +764,6 @@ export const WorkOrdersPage = () => {
                     <div className="absolute top-full right-0 mt-2 w-64 popover-solid rounded-2xl z-[120] overflow-hidden py-2 animate-in fade-in slide-in-from-top-2 duration-200">
                         {!showExportSubmenu ? (
                             <>
-                                <button
-                                    className="w-full flex items-center gap-3 px-5 py-3.5 hover:bg-gray-50 transition-colors text-gray-700 text-left"
-                                    onClick={() => {
-                                        navigate('/workflows');
-                                        setIsWorkOrderOptionsOpen(false);
-                                    }}
-                                >
-                                    <Workflow className="w-5 h-5 text-gray-400" />
-                                    <span className="text-[16px] font-medium text-foreground">Automate Workflows</span>
-                                </button>
-                                <button
-                                    className="w-full flex items-center gap-3 px-5 py-3.5 hover:bg-gray-50 transition-colors text-gray-700 text-left"
-                                    onClick={() => {
-                                        setIsImportModalOpen(true);
-                                        setIsWorkOrderOptionsOpen(false);
-                                    }}
-                                >
-                                    <Download className="w-5 h-5 text-gray-400" />
-                                    <span className="text-[16px] font-medium text-foreground">Import Data</span>
-                                </button>
                                 <button
                                     className="w-full flex items-center justify-between px-5 py-3.5 hover:bg-gray-50 transition-colors text-gray-700 text-left"
                                     onClick={() => setShowExportSubmenu(true)}
@@ -1600,12 +1603,6 @@ export const WorkOrdersPage = () => {
                     Reset Filters
                 </button>
                 <button 
-                    onClick={() => setIsSaveFilterModalOpen(true)}
-                    className="text-[13px] font-black text-primary hover:underline transition-all underline-offset-4 decoration-primary/30 whitespace-nowrap"
-                >
-                    Save View
-                </button>
-                <button 
                     onClick={() => queryClient.invalidateQueries({ queryKey: ['work-orders'] })}
                     className="p-1.5 hover:bg-slate-100 rounded-lg transition-colors text-slate-400 hover:text-primary animate-none"
                 >
@@ -1669,16 +1666,24 @@ export const WorkOrdersPage = () => {
             
             <div className="flex items-center gap-4">
                 <div className="flex items-center gap-6">
-                    <div className="relative">
-                        <button 
+                    <div className="relative flex items-center gap-2">
+                        <button
                             onClick={() => setIsSortDropdownOpen(!isSortDropdownOpen)}
                             className={cn(
-                                "flex items-center gap-2 px-4 py-1.5 rounded-lg text-[13px] font-bold transition-all",
-                                isSortDropdownOpen ? "bg-primary/20 text-primary" : "bg-primary/10 text-primary hover:bg-primary/20"
+                                "flex items-center gap-2 text-[13px] font-bold transition-colors hover:text-primary",
+                                isSortDropdownOpen ? "text-primary" : "text-gray-600"
                             )}
                         >
                             <ArrowUpDown className="w-4 h-4" />
                             Sort: {sortBy}
+                        </button>
+                        
+                        <button
+                            onClick={() => setSortOrder(prev => prev === 'desc' ? 'asc' : 'desc')}
+                            className="p-1 rounded-md text-gray-400 hover:text-primary hover:bg-primary/10 transition-colors"
+                            title={`Toggle sort order (currently ${sortOrder === 'desc' ? 'Descending' : 'Ascending'})`}
+                        >
+                            {sortOrder === 'desc' ? <ArrowDown className="w-4 h-4" /> : <ArrowUp className="w-4 h-4" />}
                         </button>
 
                         {isSortDropdownOpen && (
@@ -1708,66 +1713,6 @@ export const WorkOrdersPage = () => {
                                                 {sortBy === option && <Check className="w-4 h-4 text-primary stroke-[3px]" />}
                                             </button>
                                         ))}
-                                    </div>
-                                </div>
-                            </>
-                        )}
-                    </div>
-
-                    <div className="relative">
-                        <button
-                            onClick={() => setIsColumnsDropdownOpen(!isColumnsDropdownOpen)}
-                            className={cn(
-                                "flex items-center gap-2 text-[13px] font-bold transition-colors hover:text-primary",
-                                isColumnsDropdownOpen ? "text-primary" : "text-gray-600"
-                            )}
-                        >
-                            <Columns className="w-4 h-4" />
-                            Columns
-                        </button>
-
-                        {isColumnsDropdownOpen && (
-                            <>
-                                <div className="fixed inset-0 z-[110]" onClick={() => setIsColumnsDropdownOpen(false)} />
-                                <div className="absolute top-full left-0 mt-3 w-64 popover-solid rounded-2xl z-[120] overflow-hidden animate-in fade-in zoom-in-95 duration-200 shadow-2xl">
-                                    <div className="flex items-center justify-between px-5 py-4 border-b border-gray-50 bg-white">
-                                        <span className="text-[15px] font-bold text-foreground">Columns</span>
-                                        <button onClick={() => setIsColumnsDropdownOpen(false)} className="p-1.5 hover:bg-gray-100 rounded-lg transition-colors text-slate-400">
-                                            <XIcon className="w-4 h-4" />
-                                        </button>
-                                    </div>
-                                    <div className="py-2 px-1 max-h-[400px] overflow-y-auto custom-scrollbar bg-white">
-                                        {allColumns.map((col) => {
-                                            const isVisible = visibleColumns.includes(col);
-                                            return (
-                                                <div
-                                                    key={col}
-                                                    onClick={() => setVisibleColumns(prev =>
-                                                        prev.includes(col) ? prev.filter(c => c !== col) : [...prev, col]
-                                                    )}
-                                                    className="flex items-center justify-between px-4 py-2.5 hover:bg-slate-50 transition-colors cursor-pointer group rounded-xl mx-1"
-                                                >
-                                                    <span className="text-[13px] font-semibold text-gray-700">{col}</span>
-                                                    <div className={cn(
-                                                        "w-9 h-5 rounded-full transition-all duration-200 relative flex-shrink-0",
-                                                        isVisible ? "bg-primary" : "bg-gray-200"
-                                                    )}>
-                                                        <div className={cn(
-                                                            "absolute top-0.5 w-4 h-4 bg-white rounded-full shadow-sm transition-all duration-200",
-                                                            isVisible ? "left-[18px]" : "left-0.5"
-                                                        )} />
-                                                    </div>
-                                                </div>
-                                            );
-                                        })}
-                                    </div>
-                                    <div className="px-5 py-3 border-t border-gray-50 bg-gray-50/50">
-                                        <button
-                                            onClick={() => setVisibleColumns(allColumns)}
-                                            className="text-[13px] font-bold text-primary hover:text-primary/80 transition-colors"
-                                        >
-                                            Reset to default
-                                        </button>
                                     </div>
                                 </div>
                             </>
@@ -1851,6 +1796,12 @@ export const WorkOrdersPage = () => {
                             {/* 2. Assignee Grouped Kanban Boards */}
                             <div className="space-y-6">
                                 {(() => {
+                                    const baseStatuses = ['Open', 'PENDING_APPROVAL', 'In Progress', 'On Hold', 'Complete'];
+                                    const allDynamicStatuses = Array.from(new Set([
+                                        ...baseStatuses,
+                                        ...filteredWorkOrders.map(wo => wo.status).filter(Boolean)
+                                    ]));
+
                                     const groupedByAssignee = filteredWorkOrders.reduce((acc: Record<string, typeof filteredWorkOrders>, wo) => {
                                         const assignee = wo.assignee || 'No Assignee';
                                         if (!acc[assignee]) acc[assignee] = [];
@@ -1913,8 +1864,8 @@ export const WorkOrdersPage = () => {
                                                 </button>
 
                                                 {!isCollapsed && (
-                                                    <div className="p-4 grid grid-cols-5 gap-6 bg-white border-t border-slate-50">
-                                                        {['Open', 'PENDING_APPROVAL', 'In Progress', 'On Hold', 'Complete'].map(status => {
+                                                    <div className="p-4 grid gap-6 bg-white border-t border-slate-50 overflow-x-auto custom-scrollbar" style={{ gridTemplateColumns: `repeat(${allDynamicStatuses.length}, minmax(320px, 1fr))` }}>
+                                                        {allDynamicStatuses.map(status => {
                                                             const columnOrders = userOrders.filter(o => o.status === status);
                                                             return (
                                                                 <KanbanColumn 
@@ -2278,54 +2229,9 @@ export const WorkOrdersPage = () => {
                             </div>
                         )}
                     </div>
-
-                        {/* Pagination Footer - Optimized for space and persistence */}
-                        {meta && meta.totalPages > 1 && (
-                            <div className="flex items-center justify-between px-6 py-2 border-t border-gray-100 bg-white rounded-b-2xl">
-                                <div className="text-[10px] font-black italic text-muted-foreground uppercase tracking-widest opacity-40">
-                                    {(meta.page - 1) * meta.limit + 1}-{Math.min(meta.page * meta.limit, meta.total)} OF {meta.total} MISSION RECORDS
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <button 
-                                        onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
-                                        disabled={meta.page === 1}
-                                        className="px-3 py-1.5 bg-gray-50 border border-gray-100 rounded-xl text-[10px] font-black uppercase tracking-widest italic text-foreground hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed transition-all active:scale-95 flex items-center gap-2"
-                                    >
-                                        <ChevronLeft className="w-3 h-3" />
-                                        PREV
-                                    </button>
-                                    
-                                    <div className="flex items-center gap-1">
-                                        {[...Array(Math.min(5, meta.totalPages))].map((_, i) => {
-                                            const pageNum = i + 1;
-                                            return (
-                                                <button
-                                                    key={pageNum}
-                                                    onClick={() => setCurrentPage(pageNum)}
-                                                    className={cn(
-                                                        "w-8 h-8 rounded-xl text-[11px] font-black italic transition-all",
-                                                        meta.page === pageNum ? "bg-primary text-white shadow-lg shadow-primary/20 rotate-6" : "text-muted-foreground hover:text-foreground hover:bg-gray-50"
-                                                    )}
-                                                >
-                                                    {pageNum}
-                                                </button>
-                                            );
-                                        })}
-                                    </div>
-                                    <button 
-                                        onClick={() => setCurrentPage(prev => Math.min(meta.totalPages || 1, prev + 1))}
-                                        disabled={meta.page === meta.totalPages}
-                                        className="px-3 py-1.5 bg-gray-50 border border-gray-100 rounded-xl text-[10px] font-black uppercase tracking-widest italic text-foreground hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed transition-all active:scale-95 flex items-center gap-2"
-                                    >
-                                        NEXT
-                                        <ChevronRight className="w-3 h-3" />
-                                    </button>
-                                </div>
-                            </div>
-                        )}
-                    </div>
                 </div>
-            )}
+            </div>
+        )}
 
                 {currentView === 'Calendar' && (
                     <div className="flex flex-col flex-1 overflow-hidden bg-slate-50 dark:bg-slate-950 animate-in fade-in duration-700">
@@ -2348,23 +2254,6 @@ export const WorkOrdersPage = () => {
                                 </div>
 
                                 <div className="h-12 w-px bg-white/5" />
-
-                                <div className="flex items-center gap-8">
-                                    <div className="space-y-1">
-                                        <p className="text-[9px] font-black text-muted-foreground uppercase tracking-widest opacity-40 italic">Asset Availability</p>
-                                        <div className="flex items-center gap-2">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.6)]" />
-                                            <p className="text-[15px] font-black italic text-white tracking-tight uppercase">94.2% Optimal</p>
-                                        </div>
-                                    </div>
-                                    <div className="space-y-1">
-                                        <p className="text-[9px] font-black text-muted-foreground uppercase tracking-widest opacity-40 italic">Scheduled vs Reactive</p>
-                                        <div className="flex items-center gap-2">
-                                            <TrendingUp className="w-3.5 h-3.5 text-primary" />
-                                            <p className="text-[15px] font-black italic text-white tracking-tight uppercase">78% PM Accuracy</p>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
 
                             <div className="flex items-center gap-4">
@@ -2461,71 +2350,52 @@ export const WorkOrdersPage = () => {
                         </div>
                     </div>
                 )}
-            </div>
-            {/* Save Filter Modal */}
-            {isSaveFilterModalOpen && (
-                <div className="fixed inset-0 z-[300] flex items-center justify-center p-4">
-                    <div className="fixed inset-0 bg-black/40 backdrop-blur-[2px]" onClick={() => setIsSaveFilterModalOpen(false)} />
-                    <div className="relative w-full max-w-[480px] bg-white rounded-[24px] shadow-[0_32px_80px_rgba(0,0,0,0.25)] border border-white/5 p-8 animate-in fade-in zoom-in-95 duration-300">
-                        <button 
-                            onClick={() => setIsSaveFilterModalOpen(false)}
-                            className="absolute top-6 right-6 p-2 text-gray-400 hover:text-foreground transition-colors"
-                        >
-                            <XIcon className="w-6 h-6" />
-                        </button>
 
-                        <div className="space-y-8">
-                            <h2 className="text-[28px] font-black text-gray-800 tracking-tight leading-none">
-                                Save Quick Filter
-                            </h2>
-
-                            <div className="space-y-2">
-                                <input 
-                                    type="text"
-                                    value={quickFilterName}
-                                    onChange={(e) => setQuickFilterName(e.target.value)}
-                                    placeholder="Quick Filter Name"
-                                    className="w-full px-6 py-4 bg-gray-50 border border-white/5 rounded-[14px] text-[16px] font-medium text-foreground placeholder:text-gray-400 outline-none focus:bg-white focus:border-blue-400 focus:ring-4 focus:ring-blue-100 transition-all shadow-inner"
-                                    autoFocus
-                                />
+                {/* Pagination Footer - Optimized for space and persistence (Visible across all views) */}
+                {meta && meta.totalPages > 1 && (
+                    <div className="flex items-center justify-between px-6 py-2 border-t border-gray-200 bg-white shadow-[0_-4px_20px_rgba(0,0,0,0.05)] z-[100] shrink-0">
+                        <div className="text-[10px] font-black italic text-muted-foreground uppercase tracking-widest opacity-60">
+                            {(meta.page - 1) * meta.limit + 1}-{Math.min(meta.page * meta.limit, meta.total)} OF {meta.total} MISSION RECORDS
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <button 
+                                onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                                disabled={meta.page === 1}
+                                className="px-3 py-1.5 bg-gray-50 border border-gray-200 rounded-xl text-[10px] font-black uppercase tracking-widest italic text-foreground hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed transition-all active:scale-95 flex items-center gap-2"
+                            >
+                                <ChevronLeft className="w-3 h-3" />
+                                PREV
+                            </button>
+                            
+                            <div className="flex items-center gap-1">
+                                {[...Array(Math.min(5, meta.totalPages))].map((_, i) => {
+                                    const pageNum = i + 1;
+                                    return (
+                                        <button
+                                            key={pageNum}
+                                            onClick={() => setCurrentPage(pageNum)}
+                                            className={cn(
+                                                "w-8 h-8 rounded-xl text-[11px] font-black italic transition-all",
+                                                meta.page === pageNum ? "bg-primary text-white shadow-lg shadow-primary/20 rotate-6" : "text-muted-foreground hover:text-foreground hover:bg-gray-50"
+                                            )}
+                                        >
+                                            {pageNum}
+                                        </button>
+                                    );
+                                })}
                             </div>
-
-                            <div className="flex items-center justify-end gap-6 pt-4">
-                                <button 
-                                    onClick={() => setIsSaveFilterModalOpen(false)}
-                                    className="text-[16px] font-bold text-muted-foreground hover:text-foreground transition-colors border-none"
-                                >
-                                    cancel
-                                </button>
-                                <button 
-                                    onClick={() => {
-                                        createView.mutate({
-                                            name: quickFilterName,
-                                            entityType: 'WORK_ORDER',
-                                            config: {
-                                                activeStatuses,
-                                                selectedPriorities,
-                                                selectedAssigneeIds,
-                                                selectedLocationIds,
-                                                selectedAssetIds,
-                                                dateFilter,
-                                                searchQuery,
-                                                sortBy,
-                                                currentView
-                                            }
-                                        });
-                                        setIsSaveFilterModalOpen(false);
-                                        setQuickFilterName('');
-                                    }}
-                                    className="px-8 py-3.5 bg-blue-500 hover:bg-blue-600 text-white rounded-full text-[16px] font-extrabold shadow-lg shadow-blue-100 transition-all active:scale-95"
-                                >
-                                    Save Filter
-                                </button>
-                            </div>
+                            <button 
+                                onClick={() => setCurrentPage(prev => Math.min(meta.totalPages || 1, prev + 1))}
+                                disabled={meta.page === meta.totalPages}
+                                className="px-3 py-1.5 bg-gray-50 border border-gray-200 rounded-xl text-[10px] font-black uppercase tracking-widest italic text-foreground hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed transition-all active:scale-95 flex items-center gap-2"
+                            >
+                                NEXT
+                                <ChevronRight className="w-3 h-3" />
+                            </button>
                         </div>
                     </div>
-                </div>
-            )}
+                )}
+            </div>
 
             {/* Work Order Detail Modal */}
             {selectedWorkOrder && (
@@ -2564,11 +2434,6 @@ export const WorkOrdersPage = () => {
             )}
 
             {renderBulkActions()}
-
-            <ImportWorkOrdersModal 
-                isOpen={isImportModalOpen}
-                onClose={() => setIsImportModalOpen(false)}
-            />
         </div>
     );
 };

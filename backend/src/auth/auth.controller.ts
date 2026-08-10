@@ -119,4 +119,27 @@ export class AuthController {
     res.clearCookie('refresh_token');
     return res.send({ message: 'Logged out successfully' });
   }
+
+  @Public()
+  @Throttle({ default: { limit: 3, ttl: 60000 } })
+  @Post('forgot-password')
+  async forgotPassword(@Body('email') email: string) {
+    if (!email) {
+      return { message: 'If that email exists, a reset link has been sent.' };
+    }
+    await this.authService.forgotPassword(email);
+    return { message: 'If that email exists, a reset link has been sent.' };
+  }
+
+  @Public()
+  @Throttle({ default: { limit: 5, ttl: 60000 } })
+  @Post('reset-password')
+  async resetPassword(@Body() body: any) {
+    const { token, newPassword } = body;
+    if (!token || !newPassword) {
+      return { message: 'Token and new password are required.' };
+    }
+    await this.authService.resetPassword(token, newPassword);
+    return { message: 'Password has been successfully reset.' };
+  }
 }

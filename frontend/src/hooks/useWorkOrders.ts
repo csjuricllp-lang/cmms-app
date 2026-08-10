@@ -1,4 +1,4 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient, useInfiniteQuery } from '@tanstack/react-query';
 import { api } from '../lib/api';
 import { db, type WorkOrderSync } from '../lib/db';
 import toast from 'react-hot-toast';
@@ -53,7 +53,13 @@ export const useWorkOrders = (params?: {
         queryFn: async () => {
             try {
                 // Try to get fresh data from server
-                const response = await api.get('/work-orders', { params });
+                let fetchParams: any = { ...params };
+                if (!isPaginated) {
+                    const thirtyDaysAgo = new Date();
+                    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+                    fetchParams.createdAtStart = thirtyDaysAgo.toISOString();
+                }
+                const response = await api.get('/work-orders', { params: fetchParams });
                 
                 let remoteData: any[] = [];
                 let meta = undefined;
@@ -533,6 +539,22 @@ export const useWorkOrders = (params?: {
         }
     });
 
+    const bulkUnassign = useMutation({
+        mutationFn: async (workOrderIds: string[]) => {
+            const promise = api.post('/work-orders/bulk-unassign', { workOrderIds });
+            toast.promise(promise, {
+                loading: 'Removing assignments...',
+                success: 'Assignments removed successfully!',
+                error: 'Failed to remove assignments.'
+            });
+            const response = await promise;
+            return response.data;
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['work-orders'] });
+        }
+    });
+
     const smartSchedule = useMutation({
         mutationFn: async (payload: string | {
             date?: string;
@@ -614,6 +636,36 @@ export const useWorkOrders = (params?: {
         }
     });
 
+    const deferWorkOrder = useMutation({
+        mutationFn: async ({ id, data }: { id: string; data: any }) => {
+            const response = await api.post(`/work-orders/${id}/defer`, data);
+            return response.data;
+        },
+        onSuccess: (_, { id }) => {
+            queryClient.invalidateQueries({ queryKey: ['work-orders'] });
+            queryClient.invalidateQueries({ queryKey: ['work-orders', id] });
+            toast.success('Work order deferred');
+        },
+        onError: (error: any) => {
+            toast.error(error.response?.data?.message || 'Failed to defer work order');
+        }
+    });
+
+    const resumeWorkOrder = useMutation({
+        mutationFn: async (id: string) => {
+            const response = await api.post(`/work-orders/${id}/resume`);
+            return response.data;
+        },
+        onSuccess: (_, id) => {
+            queryClient.invalidateQueries({ queryKey: ['work-orders'] });
+            queryClient.invalidateQueries({ queryKey: ['work-orders', id] });
+            toast.success('Work order resumed');
+        },
+        onError: (error: any) => {
+            toast.error(error.response?.data?.message || 'Failed to resume work order');
+        }
+    });
+
     const unshare = useMutation({
         mutationFn: async (id: string) => {
             return api.delete(`/work-orders/${id}/share`);
@@ -687,6 +739,7 @@ export const useWorkOrders = (params?: {
         addComment,
         addChecklistResponse,
         bulkUpdate,
+        bulkUnassign,
         smartSchedule,
         uploadFile,
         removeFile,
@@ -695,6 +748,8 @@ export const useWorkOrders = (params?: {
         addLink,
         removeLink,
         toggleBookmark,
+        deferWorkOrder,
+        resumeWorkOrder,
         refetchWorkOrders: refetch
     };
 };
@@ -737,6 +792,49 @@ export const useSharedWorkOrders = () => {
             const items = response.data.items || [];
             // We don't map these strictly for now as they are public views, but keeping it consistent
             return items;
+        }
+    });
+};
+
+export const useInfiniteWorkOrders = (params?: { 
+    limit?: number; 
+    search?: string; 
+    status?: string; 
+    priority?: string;
+    assetId?: string;
+    locationId?: string;
+    assignedToId?: string;
+    assignedTeamId?: string;
+    isBookmarked?: boolean;
+    isRepeating?: boolean;
+    pmScheduleId?: string;
+    sortBy?: string;
+    sortOrder?: string;
+    dueDateStart?: string;
+    dueDateEnd?: string;
+    isScheduled?: string;
+    startDateStart?: string;
+    startDateEnd?: string;
+    category?: string;
+}) => {
+    return useInfiniteQuery({
+        queryKey: ['infinite-work-orders', params],
+        initialPageParam: 1,
+        queryFn: async ({ pageParam = 1 }) => {
+            const response = await api.get('/work-orders', { 
+                params: { ...params, page: pageParam, limit: params?.limit || 20 } 
+            });
+            // Map the data using mapWorkOrder
+            if (response.data && Array.isArray(response.data.items)) {
+                response.data.items = response.data.items.map(mapWorkOrder);
+            }
+            return response.data; // { items: [...], meta: { ... } }
+        },
+        getNextPageParam: (lastPage) => {
+            if (lastPage.meta?.page < lastPage.meta?.totalPages) {
+                return lastPage.meta.page + 1;
+            }
+            return undefined;
         }
     });
 };

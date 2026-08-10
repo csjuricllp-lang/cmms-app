@@ -22,7 +22,16 @@ import {
 } from 'lucide-react';
 import { CreatePMModal } from '../components/CreatePMModal';
 import { PriorityBadge } from '../components/PriorityBadge';
-import { usePreventiveMaintenance, useUsers, useLocations, useAssets, useTeams, useSavedViews, useCategories } from '../hooks/useData';
+import { 
+    useUsers, 
+    useLocations, 
+    usePreventiveMaintenance, 
+    useInfinitePreventiveMaintenance,
+    useAssets, 
+    useTeams, 
+    useSavedViews, 
+    useCategories 
+} from '../hooks/useData';
 import type { PMSchedule } from '../types';
 import { cn } from '../lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -101,7 +110,7 @@ const FilterDropdown = ({ label, icon: Icon, children, isOpen, onToggle, badgeVa
 export const PreventiveMaintenancePage = () => {
     const navigate = useNavigate();
     const isMobile = useMediaQuery('(max-width: 767px)');
-    const { schedules, isLoading, deletePM } = usePreventiveMaintenance();
+    const { bulkDelete, deletePM } = usePreventiveMaintenance();
     const { data: usersData } = useUsers();
     const { data: locationsData } = useLocations();
 
@@ -132,16 +141,32 @@ export const PreventiveMaintenancePage = () => {
     const [isPriorityDropdownOpen, setIsPriorityDropdownOpen] = useState(false);
     const [isLocationDropdownOpen, setIsLocationDropdownOpen] = useState(false);
     const [isAssigneeDropdownOpen, setIsAssigneeDropdownOpen] = useState(false);
-    const [isColumnsDropdownOpen, setIsColumnsDropdownOpen] = useState(false);
+    const [isAssetDropdownOpen, setIsAssetDropdownOpen] = useState(false);
+    const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
+    const [isTeamDropdownOpen, setIsTeamDropdownOpen] = useState(false);
+
+    const { 
+        data: infiniteData, 
+        fetchNextPage, 
+        hasNextPage, 
+        isFetchingNextPage, 
+        isLoading 
+    } = useInfinitePreventiveMaintenance({
+        search: searchQuery || undefined,
+        priority: selectedPriorities.length > 0 ? selectedPriorities.join(',') : undefined,
+        locationId: selectedLocationIds.length > 0 ? selectedLocationIds.join(',') : undefined,
+        assignedToId: selectedAssigneeIds.length > 0 ? selectedAssigneeIds.join(',') : undefined,
+        assetId: selectedAssetIds.length > 0 ? selectedAssetIds.join(',') : undefined,
+        categoryId: selectedCategoryIds.length > 0 ? selectedCategoryIds.join(',') : undefined,
+        assignedTeamId: selectedTeamIds.length > 0 ? selectedTeamIds.join(',') : undefined,
+        limit: 50,
+    });
+
+    const schedules = useMemo(() => infiniteData?.pages.flatMap(p => p.items) || [], [infiniteData]);
     const [isSortDropdownOpen, setIsSortDropdownOpen] = useState(false);
     const [isAdvancedFiltersOpen, setIsAdvancedFiltersOpen] = useState(false);
     const [isAddFieldOpen, setIsAddFieldOpen] = useState(false);
     const [activeFilters, setActiveFilters] = useState<{ field: string; value: any }[]>([]);
-    const [isSaveViewModalOpen, setIsSaveViewModalOpen] = useState(false);
-    const [isSavedViewsOpen, setIsSavedViewsOpen] = useState(false);
-    const [quickViewName, setQuickViewName] = useState('');
-
-    const { views: savedViews, createView, deleteView } = useSavedViews('PREVENTIVE_MAINTENANCE');
 
     // Staging states
     const [stagedPriorities, setStagedPriorities] = useState<string[]>([]);
@@ -159,7 +184,7 @@ export const PreventiveMaintenancePage = () => {
         'Assets & Locations', 'Category', 'Priority', 'Paused', 
         'Checklist', 'Checklist ID', 'Date Created'
     ];
-    const [visibleColumns, setVisibleColumns] = useState<string[]>(['ID', 'Work Order Title', 'Work Order Description', 'Image', 'Assets & Locations', 'Category', 'Priority', 'Paused', 'Checklist', 'Checklist ID', 'Date Created']);
+    const visibleColumns = allColumns;
 
     // --- STATS LOGIC ---
     const activeSchedules = useMemo(() => (schedules || []).filter((s: PMSchedule) => s.status === 'ACTIVE'), [schedules]);
@@ -227,58 +252,7 @@ export const PreventiveMaintenancePage = () => {
     // --- END STATS LOGIC ---
 
     const filteredSchedules = useMemo(() => {
-        let result = (schedules || []).filter((s: PMSchedule) => 
-            (s.name?.toLowerCase() || '').includes(searchQuery.toLowerCase()) ||
-            (s.woTitle?.toLowerCase() || '').includes(searchQuery.toLowerCase()) ||
-            (s.asset?.name?.toLowerCase() || '').includes(searchQuery.toLowerCase())
-        );
-
-
-        if (selectedPriorities.length > 0) {
-            result = result.filter((s: PMSchedule) => {
-                const p = s.priority || 'NONE';
-                return selectedPriorities.includes(p);
-            });
-        }
-        if (selectedLocationIds.length > 0) {
-            result = result.filter((s: PMSchedule) => s.asset?.locationId && selectedLocationIds.includes(s.asset.locationId));
-        }
-        if (selectedAssigneeIds.length > 0) {
-            result = result.filter((s: PMSchedule) => s.assignedToId && selectedAssigneeIds.includes(s.assignedToId));
-        }
-        if (selectedAssetIds.length > 0) {
-            result = result.filter((s: PMSchedule) => s.assetId && selectedAssetIds.includes(s.assetId));
-        }
-        if (selectedCategoryIds.length > 0) {
-            result = result.filter((s: PMSchedule) => s.categoryId && selectedCategoryIds.includes(s.categoryId));
-        }
-        if (selectedTeamIds.length > 0) {
-            result = result.filter((s: PMSchedule) => (s as any).teamId && selectedTeamIds.includes((s as any).teamId));
-        }
-
-        // Advanced Filters
-        if (activeFilters.length > 0) {
-            result = result.filter((s: PMSchedule) => {
-                return activeFilters.every(f => {
-                    if (!f.value) return true;
-                    const val = f.value.toLowerCase();
-                    switch (f.field) {
-                        case 'name': return (s.name || '').toLowerCase().includes(val);
-                        case 'asset': return (s.asset?.name || '').toLowerCase().includes(val);
-                        case 'id': return s.id.toLowerCase().includes(val);
-                        case 'category': return (s.category?.name || '').toLowerCase().includes(val);
-                        case 'priority': return (s.priority || '').toLowerCase().includes(val);
-                        case 'location': return (s.asset?.location?.name || '').toLowerCase().includes(val);
-                        case 'assignee': return (s.assignedTo?.user?.name || '').toLowerCase().includes(val);
-                        case 'team': return ((s as any).team?.name || '').toLowerCase().includes(val);
-                        case 'workers': return ((s as any).additionalWorkers || []).some((w: any) => (w.user?.name || '').toLowerCase().includes(val));
-                        default: return true;
-                    }
-                });
-            });
-        }
-
-        return [...result].sort((a, b) => {
+        return [...schedules].sort((a, b) => {
             if (sortBy === 'Priority') {
                 const weights: Record<string, number> = { 'CRITICAL': 4, 'HIGH': 3, 'MEDIUM': 2, 'LOW': 1, 'NONE': 0 };
                 const weightA = weights[a.priority] || 0;
@@ -298,8 +272,8 @@ export const PreventiveMaintenancePage = () => {
                     valB = (b.woTitle || '').toLowerCase(); 
                     break;
                 case 'Date Created': 
-                    valA = a.createdAt; 
-                    valB = b.createdAt; 
+                    valA = new Date(a.createdAt || 0).getTime(); 
+                    valB = new Date(b.createdAt || 0).getTime(); 
                     break;
                 default: 
                     valA = a.createdAt; 
@@ -309,7 +283,7 @@ export const PreventiveMaintenancePage = () => {
             const res = valA < valB ? -1 : valA > valB ? 1 : 0;
             return sortOrder === 'asc' ? res : -res;
         });
-    }, [schedules, searchQuery, selectedPriorities, selectedLocationIds, selectedAssigneeIds, selectedAssetIds, selectedCategoryIds, selectedTeamIds, sortBy, sortOrder, activeFilters]);
+    }, [schedules, sortBy, sortOrder]);
 
     const toggleRow = (id: string) => {
         setSelectedRows(prev => prev.includes(id) ? prev.filter(r => r !== id) : [...prev, id]);
@@ -324,10 +298,11 @@ export const PreventiveMaintenancePage = () => {
     };
 
     const handleDeleteSelected = async () => {
+        if (selectedRows.length === 0) return;
         if (!window.confirm(`Are you sure you want to PERMANENTLY de-commission these ${selectedRows.length} protocols?`)) return;
         
         try {
-            await Promise.all(selectedRows.map(id => deletePM.mutateAsync(id)));
+            await bulkDelete.mutateAsync(selectedRows);
             setSelectedRows([]);
             toast.success(`${selectedRows.length} protocols removed from mission control.`);
         } catch (error) {
@@ -376,9 +351,6 @@ export const PreventiveMaintenancePage = () => {
                     <Plus className="w-4 h-4" />
                     Create PM
                 </button>
-                <button className="p-2.5 text-slate-400 hover:text-slate-600 transition-colors">
-                    <MoreVertical className="w-5 h-5" />
-                </button>
             </div>
         </div>
     );
@@ -389,51 +361,6 @@ export const PreventiveMaintenancePage = () => {
             <div className="h-12 flex items-center justify-between px-6 border-b border-slate-100/60">
                 <div className="flex items-center gap-2">
                     <span className="text-[13px] font-black text-slate-900">{filteredSchedules.length} Results Returned</span>
-                </div>
-                <div className="flex items-center gap-4">
-                    <div className="relative">
-                        <button 
-                            onClick={() => setIsColumnsDropdownOpen(!isColumnsDropdownOpen)}
-                            className="flex items-center gap-2.5 px-3 py-1.5 rounded-xl text-[13px] font-black text-slate-600 hover:bg-slate-50 transition-all"
-                        >
-                            <Columns className="w-4 h-4 text-slate-400" />
-                            Columns
-                        </button>
-                        <AnimatePresence>
-                            {isColumnsDropdownOpen && (
-                                <>
-                                    <div className="fixed inset-0 z-[110]" onClick={() => setIsColumnsDropdownOpen(false)} />
-                                    <motion.div 
-                                        initial={{ opacity: 0, y: 8, scale: 0.95 }}
-                                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                                        exit={{ opacity: 0, y: 8, scale: 0.95 }}
-                                        className="absolute top-full right-0 mt-2 w-64 bg-white rounded-2xl shadow-2xl ring-1 ring-black/5 z-[120] overflow-hidden"
-                                    >
-                                        <div className="px-4 py-3 border-b border-slate-50 bg-slate-50/50">
-                                            <span className="text-[11px] font-black text-slate-400 uppercase tracking-widest">Toggle Columns</span>
-                                        </div>
-                                        <div className="p-2 max-h-80 overflow-y-auto custom-scrollbar">
-                                            {allColumns.map(col => (
-                                                <button
-                                                    key={col}
-                                                    onClick={() => setVisibleColumns(prev => prev.includes(col) ? prev.filter(c => c !== col) : [...prev, col])}
-                                                    className="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-slate-50 rounded-xl transition-colors text-left"
-                                                >
-                                                    <div className={cn(
-                                                        "w-4 h-4 rounded border flex items-center justify-center transition-all",
-                                                        visibleColumns.includes(col) ? "bg-primary border-primary" : "border-slate-300"
-                                                    )}>
-                                                        {visibleColumns.includes(col) && <Check className="w-3 h-3 text-white stroke-[3px]" />}
-                                                    </div>
-                                                    <span className={cn("text-[13px] font-bold", visibleColumns.includes(col) ? "text-slate-900" : "text-slate-500")}>{col}</span>
-                                                </button>
-                                            ))}
-                                        </div>
-                                    </motion.div>
-                                </>
-                            )}
-                        </AnimatePresence>
-                    </div>
                 </div>
             </div>
 
@@ -540,14 +467,8 @@ export const PreventiveMaintenancePage = () => {
                 </div>
 
                 <div className="flex items-center gap-3">
-                    {renderSavedViews()}
-                    <button 
-                        onClick={() => setIsSaveViewModalOpen(true)}
-                        className="flex items-center gap-2 px-4 py-2 text-[13px] font-black text-slate-700 hover:bg-slate-50 rounded-xl transition-all"
-                    >
-                        Save View
-                    </button>
                     
+
                     <div className="relative ml-2">
                         <button 
                             onClick={() => setIsSortDropdownOpen(!isSortDropdownOpen)}
@@ -868,71 +789,10 @@ export const PreventiveMaintenancePage = () => {
                 </div>
             </div>
 
-            {/* Card 4: Avg Frequency */}
-            <div className="bg-white rounded-xl px-4 py-2 flex-1 min-w-[180px] border border-slate-100 shadow-[0_1px_4px_rgba(0,0,0,0.02)] flex items-center gap-3 transition-all hover:shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
-                <div className="w-8 h-8 rounded-lg bg-amber-50/70 text-amber-600 border border-amber-100/30 flex items-center justify-center shrink-0">
-                    <TrendingUp className="w-4 h-4" />
-                </div>
-                <div className="flex-1 min-w-0">
-                    <div className="text-[9px] font-black text-slate-400 uppercase tracking-[0.1em] leading-none mb-0.5">AVG FREQUENCY</div>
-                    <div className="text-base font-black text-slate-900 leading-none tracking-tight">{statsData.avgFreqStr}</div>
-                    <div className="text-[9px] font-bold text-slate-400 leading-none mt-0.5 truncate">{statsData.avgFreqDesc}</div>
-                </div>
-            </div>
         </div>
     );
 
-    const renderSavedViews = () => (
-        <FilterDropdown 
-            label="Saved Views" 
-            icon={Star} 
-            isOpen={isSavedViewsOpen} 
-            onToggle={() => setIsSavedViewsOpen(!isSavedViewsOpen)}
-            badgeValue={savedViews.length}
-        >
-            <div className="p-2 max-h-64 overflow-y-auto custom-scrollbar bg-white">
-                {savedViews.length === 0 && (
-                    <div className="px-4 py-6 text-center">
-                        <Star className="w-8 h-8 text-slate-200 mx-auto mb-2" />
-                        <p className="text-[11px] font-black text-slate-400 uppercase tracking-widest">No saved views yet</p>
-                    </div>
-                )}
-                {savedViews.map((view: any) => (
-                    <div key={view.id} className="group relative">
-                        <button
-                            onClick={() => {
-                                const config = view.config;
-                                if (config.selectedPriorities) setSelectedPriorities(config.selectedPriorities);
-                                if (config.selectedLocationIds) setSelectedLocationIds(config.selectedLocationIds);
-                                if (config.selectedAssigneeIds) setSelectedAssigneeIds(config.selectedAssigneeIds);
-                                if (config.searchQuery !== undefined) setSearchQuery(config.searchQuery);
-                                if (config.sortBy) setSortBy(config.sortBy);
-                                if (config.visibleColumns) setVisibleColumns(config.visibleColumns);
-                                if (config.activeFilters) setActiveFilters(config.activeFilters);
-                                setIsSavedViewsOpen(false);
-                                toast.success(`View applied: ${view.name}`);
-                            }}
-                            className="w-full flex items-center justify-between px-4 py-3 hover:bg-slate-50 transition-colors text-left rounded-xl pr-10"
-                        >
-                            <div className="flex flex-col gap-0.5">
-                                <span className="text-[14px] font-black text-slate-900">{view.name}</span>
-                                <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Created {new Date(view.createdAt).toLocaleDateString()}</span>
-                            </div>
-                        </button>
-                        <button 
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                deleteView.mutate(view.id);
-                            }}
-                            className="absolute right-2 top-1/2 -translate-y-1/2 p-2 text-slate-300 hover:text-rose-500 opacity-0 group-hover:opacity-100 transition-all"
-                        >
-                            <Trash2 className="w-4 h-4" />
-                        </button>
-                    </div>
-                ))}
-            </div>
-        </FilterDropdown>
-    );
+
 
     if (isMobile) {
         return (
@@ -977,84 +837,7 @@ export const PreventiveMaintenancePage = () => {
             {renderStatsBar()}
             {renderFilterBar()}
 
-            {/* Save View Modal */}
-            <AnimatePresence>
-                {isSaveViewModalOpen && (
-                    <div className="fixed inset-0 z-[300] flex items-center justify-center p-4">
-                        <motion.div 
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            onClick={() => setIsSaveViewModalOpen(false)}
-                            className="absolute inset-0 bg-slate-900/40 backdrop-blur-[2px]"
-                        />
-                        <motion.div 
-                            initial={{ opacity: 0, scale: 0.95, y: 20 }}
-                            animate={{ opacity: 1, scale: 1, y: 0 }}
-                            exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                            className="relative w-full max-w-md bg-white rounded-[32px] shadow-2xl p-8"
-                        >
-                            <button 
-                                onClick={() => setIsSaveViewModalOpen(false)}
-                                className="absolute top-6 right-6 p-2 hover:bg-slate-100 rounded-full transition-colors"
-                            >
-                                <XIcon className="w-5 h-5 text-slate-400" />
-                            </button>
 
-                            <div className="space-y-6">
-                                <div className="space-y-2">
-                                    <h3 className="text-[24px] font-black text-slate-900 tracking-tight leading-none">Save View</h3>
-                                    <p className="text-[13px] font-bold text-slate-400">Preserve your current filters, sorting, and column layout.</p>
-                                </div>
-
-                                <div className="space-y-2">
-                                    <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">View Name</label>
-                                    <input 
-                                        type="text"
-                                        value={quickViewName}
-                                        onChange={(e) => setQuickViewName(e.target.value)}
-                                        placeholder="e.g. Active High Priority"
-                                        className="w-full px-5 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-[15px] font-bold text-slate-900 outline-none focus:bg-white focus:border-primary/30 transition-all shadow-inner"
-                                        autoFocus
-                                    />
-                                </div>
-
-                                <div className="flex items-center justify-end gap-4 pt-4">
-                                    <button 
-                                        onClick={() => setIsSaveViewModalOpen(false)}
-                                        className="px-6 py-2.5 text-[12px] font-black uppercase tracking-widest text-slate-400 hover:text-slate-600 transition-colors"
-                                    >
-                                        Cancel
-                                    </button>
-                                    <button 
-                                        onClick={() => {
-                                            createView.mutate({
-                                                name: quickViewName,
-                                                entityType: 'PREVENTIVE_MAINTENANCE',
-                                                config: {
-                                                    selectedPriorities,
-                                                    selectedLocationIds,
-                                                    selectedAssigneeIds,
-                                                    searchQuery,
-                                                    sortBy,
-                                                    visibleColumns,
-                                                    activeFilters
-                                                }
-                                            });
-                                            setIsSaveViewModalOpen(false);
-                                            setQuickViewName('');
-                                        }}
-                                        disabled={!quickViewName.trim() || createView.isPending}
-                                        className="px-8 py-3 bg-primary text-white rounded-xl text-[13px] font-black uppercase tracking-widest shadow-lg shadow-primary/20 hover:bg-black hover:shadow-black/20 transition-all active:scale-95 disabled:opacity-50"
-                                    >
-                                        {createView.isPending ? 'Saving...' : 'Save View'}
-                                    </button>
-                                </div>
-                            </div>
-                        </motion.div>
-                    </div>
-                )}
-            </AnimatePresence>
 
             <div className="flex-1 overflow-hidden flex flex-col p-6">
                 <div className="flex-1 min-h-0 bg-white rounded-[32px] shadow-sm border border-slate-200 flex flex-col overflow-hidden">
@@ -1073,8 +856,9 @@ export const PreventiveMaintenancePage = () => {
                             />
                         </div>
                     ) : (
-                        <div className="flex-1 overflow-x-auto overflow-y-auto custom-scrollbar">
-                            <table className="w-full text-left border-separate border-spacing-0 min-w-max">
+                        <>
+                            <div className="flex-1 overflow-x-auto overflow-y-auto custom-scrollbar">
+                                <table className="w-full text-left border-separate border-spacing-0 min-w-max">
                                 <thead>
                                     <tr className="bg-white border-b border-slate-200">
                                         <th className="w-[64px] min-w-[64px] max-w-[64px] px-6 py-4 sticky top-0 left-0 z-[40] bg-white border-b border-r border-slate-200">
@@ -1295,7 +1079,20 @@ export const PreventiveMaintenancePage = () => {
                                 </tbody>
                             </table>
                         </div>
-                    )}
+                        
+                        {hasNextPage && (
+                            <div className="py-8 flex justify-center">
+                                <button
+                                    onClick={() => fetchNextPage()}
+                                    disabled={isFetchingNextPage}
+                                    className="px-6 py-2.5 bg-white border border-slate-200 rounded-xl text-[13px] font-black text-slate-600 hover:border-primary hover:text-primary transition-all disabled:opacity-50 shadow-sm"
+                                >
+                                    {isFetchingNextPage ? 'Loading more...' : 'Load More Protocols'}
+                                </button>
+                            </div>
+                        )}
+                    </>
+                )}
                 </div>
             </div>
 

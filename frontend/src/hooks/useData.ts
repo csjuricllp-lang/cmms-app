@@ -1,4 +1,4 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient, useInfiniteQuery } from '@tanstack/react-query';
 import { api } from '../lib/api';
 import { db } from '../lib/db';
 import toast from 'react-hot-toast';
@@ -38,18 +38,26 @@ export const useDashboardStats = () => {
     });
 };
 
-export const useAuditLogs = () => {
+export const useAuditLogs = (params?: { search?: string, limit?: number }) => {
     const role = getUserRole();
     const isManager = ['OWNER', 'ADMINISTRATOR', 'MANAGER', 'ADMIN', 'MISSION SPECIALIST', 'MAINTENANCE MANAGER'].includes(role);
 
-    return useQuery<AuditLog[]>({
-        queryKey: ['audit-logs'],
-        queryFn: async () => {
-            const response = await api.get('/audit-logs');
+    return useInfiniteQuery({
+        queryKey: ['audit-logs', params],
+        queryFn: async ({ pageParam = 1 }) => {
+            const response = await api.get('/audit-logs', { 
+                params: { ...params, page: pageParam, limit: params?.limit || 20 } 
+            });
             return response.data;
         },
+        getNextPageParam: (lastPage) => {
+            if (lastPage.meta.page < lastPage.meta.totalPages) {
+                return lastPage.meta.page + 1;
+            }
+            return undefined;
+        },
+        enabled: isManager,
         refetchInterval: 15000,
-        enabled: isManager
     });
 };
 
@@ -351,6 +359,50 @@ export const useAssets = () => {
     });
 };
 
+export const useInfiniteAssets = (filters?: any) => {
+    return useInfiniteQuery({
+        queryKey: ['assets', 'infinite', filters],
+        queryFn: async ({ pageParam = 1 }) => {
+            const response = await api.get('/assets', {
+                params: {
+                    page: pageParam,
+                    limit: filters?.limit || 50,
+                    search: filters?.search,
+                    status: filters?.status,
+                    locationId: filters?.locationId,
+                    categoryId: filters?.categoryId
+                }
+            });
+            return response.data;
+        },
+        getNextPageParam: (lastPage) => {
+            if (lastPage.meta && lastPage.meta.currentPage < lastPage.meta.totalPages) {
+                return lastPage.meta.currentPage + 1;
+            }
+            return undefined;
+        },
+        initialPageParam: 1,
+    });
+};
+
+export const useAssetMutations = () => {
+    const queryClient = useQueryClient();
+
+    const bulkDelete = useMutation({
+        mutationFn: async (ids: string[]) => {
+            const response = await api.post('/assets/bulk-delete', { ids });
+            return response.data;
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['assets'] });
+        },
+    });
+
+    return {
+        bulkDelete
+    };
+};
+
 export const useTeams = () => {
     return useQuery<Team[]>({
         queryKey: ['teams'],
@@ -553,6 +605,20 @@ export const usePreventiveMaintenance = () => {
         },
     });
 
+    const bulkDelete = useMutation({
+        mutationFn: async (ids: string[]) => {
+            const response = await api.post('/preventive-maintenance/bulk-delete', { ids });
+            return response.data;
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['pm-schedules'] });
+            toast.success('Deleted schedules successfully');
+        },
+        onError: (error: any) => {
+            toast.error(error.response?.data?.message || 'Failed to delete schedules');
+        }
+    });
+
     const updatePM = useMutation({
         mutationFn: async ({ id, ...data }: Partial<PMSchedule> & { id: string }) => {
             const response = await api.patch(`/preventive-maintenance/${id}`, data);
@@ -619,9 +685,29 @@ export const usePreventiveMaintenance = () => {
         createPM,
         updatePM,
         deletePM,
+        bulkDelete,
         uploadAttachment,
         removeAttachment,
     };
+};
+
+export const useInfinitePreventiveMaintenance = (params?: any) => {
+    return useInfiniteQuery({
+        queryKey: ['pm-schedules', 'infinite', params],
+        queryFn: async ({ pageParam = 1 }) => {
+            const response = await api.get('/preventive-maintenance', {
+                params: { ...params, page: pageParam, limit: params?.limit || 50 }
+            });
+            return response.data;
+        },
+        initialPageParam: 1,
+        getNextPageParam: (lastPage) => {
+            if (lastPage.page < lastPage.totalPages) {
+                return lastPage.page + 1;
+            }
+            return undefined;
+        },
+    });
 };
 
 export const usePreventiveMaintenanceDetail = (id: string | undefined) => {

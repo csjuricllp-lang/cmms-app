@@ -83,6 +83,7 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
     const [signatureRequired, setSignatureRequired] = useState(false);
     const [requiresLOTO, setRequiresLOTO] = useState(false);
     const [isDowntimeEvent, setIsDowntimeEvent] = useState(false);
+    const [haltProduction, setHaltProduction] = useState(false);
     
     // Auto-fill Location when an Asset is selected
     useEffect(() => {
@@ -185,6 +186,7 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
         setSignatureRequired(false);
         setRequiresLOTO(false);
         setIsDowntimeEvent(false);
+        setHaltProduction(false);
         setSelectedChecklistId(null);
         setSelectedPoId(null);
         localStorage.removeItem(DRAFT_KEY);
@@ -297,7 +299,7 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
         const maintenanceTypeMap: Record<string, string> = {
             'Preventive': 'PREVENTIVE',
             'Corrective': 'CORRECTIVE',
-            'Emergency': 'REACTIVE',
+            'Emergency': 'EMERGENCY',
             'Inspection': 'INSPECTION',
             'Safety': 'SAFETY',
             'Other': 'OTHER'
@@ -324,6 +326,7 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                 signatureRequired,
                 requiresLOTO,
                 isDowntimeEvent,
+                haltProduction,
                 tasks: tasks.filter(t => t.text.trim() !== '').map(t => ({
                     text: t.text,
                     type: t.type,
@@ -590,6 +593,25 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                                 )}
                                             </div>}
                                         </div>
+                                        {category === 'Emergency' && (
+                                            <div className="mt-4 p-4 rounded-xl border border-red-200 bg-red-50 flex items-center justify-between">
+                                                <div>
+                                                    <h4 className="text-[14px] font-black text-red-900 flex items-center gap-2">
+                                                        <ShieldAlert className="w-4 h-4 text-red-500" />
+                                                        Emergency Stop & Halt Production
+                                                    </h4>
+                                                    <p className="text-[12px] text-red-700 font-medium mt-1 max-w-[80%]">
+                                                        Enabling this will recursively flag this asset and its parent hierarchy as EMERGENCY_STOP and initiate an immediate LOTO tag-out.
+                                                    </p>
+                                                </div>
+                                                <button 
+                                                    onClick={() => setHaltProduction(!haltProduction)}
+                                                    className={cn("relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none", haltProduction ? "bg-red-500" : "bg-red-200")}
+                                                >
+                                                    <span className={cn("pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out", haltProduction ? "translate-x-5" : "translate-x-0")} />
+                                                </button>
+                                            </div>
+                                        )}
                                     </div>
                                 </section>
 

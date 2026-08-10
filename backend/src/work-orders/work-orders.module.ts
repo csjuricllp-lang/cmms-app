@@ -14,9 +14,11 @@ import { SettingsModule } from '../settings/settings.module';
 import { FailureCodesController } from './failure-codes.controller';
 import { FailureCodesService } from './failure-codes.service';
 
+import { DeferredMaintenanceScheduler } from './deferred-maintenance.scheduler';
+
 @Module({
   imports: [SLAModule, EventsModule, NotificationsModule, InventoryModule, ChecklistsModule, SettingsModule],
-  controllers: [WorkOrdersController, FailureCodesController],
+  controllers: [FailureCodesController, WorkOrdersController],
   providers: [
     WorkOrdersService,
     WorkOrderLifecycleService,
@@ -24,6 +26,7 @@ import { FailureCodesService } from './failure-codes.service';
     WorkOrderCollaborationService,
     WorkOrderSchedulerService,
     FailureCodesService,
+    DeferredMaintenanceScheduler,
   ],
   exports: [WorkOrdersService, FailureCodesService],
 })

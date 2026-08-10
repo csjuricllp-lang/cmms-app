@@ -3,10 +3,14 @@ import { PrismaService } from '../prisma/prisma.service';
 import { TenancyContext } from '../common/tenancy.context';
 import { Prisma } from '@prisma/client';
 import { toZonedTime, fromZonedTime } from 'date-fns-tz';
+import { SLAService } from '../sla/sla.service';
 
 @Injectable()
 export class AnalyticsService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private slaService: SLAService,
+  ) {}
 
   async getDashboardStats(organizationId: string, filters?: any) {
     const timezone = filters?.timezone || 'UTC';
@@ -74,6 +78,55 @@ export class AnalyticsService {
             2,
           )
         : 0;
+
+    // --- 0.5 Mean Waiting Time (MWT) ---
+    // Exclude PMs by default as requested.
+    const startedWOs = await this.prisma.workOrder.findMany({
+      where: {
+        ...woWhere,
+        maintenanceType: { not: 'PREVENTIVE' },
+        startDate: { not: null },
+        createdAt: { gte: thirtyDaysAgo },
+      },
+      select: { createdAt: true, startDate: true },
+    });
+
+    const mwtHours = this.slaService.calculateMWT(startedWOs);
+
+    // MWT Trend for the last 6 months
+    const last6MonthsMWT = [0, 1, 2, 3, 4, 5].map(i => {
+      const date = new Date();
+      date.setMonth(date.getMonth() - (5 - i));
+      return {
+        name: date.toLocaleString('default', { month: 'short' }),
+        start: new Date(date.getFullYear(), date.getMonth(), 1),
+        end: new Date(date.getFullYear(), date.getMonth() + 1, 0),
+        workOrders: [] as any[]
+      };
+    });
+
+    const mwtStartedWOsFor6Months = await this.prisma.workOrder.findMany({
+      where: {
+        ...woWhere,
+        maintenanceType: { not: 'PREVENTIVE' },
+        startDate: { not: null },
+        createdAt: { gte: last6MonthsMWT[0].start }
+      },
+      select: { createdAt: true, startDate: true }
+    });
+
+    mwtStartedWOsFor6Months.forEach((wo: any) => {
+      const createdDate = new Date(wo.createdAt);
+      const month = last6MonthsMWT.find(m => createdDate >= m.start && createdDate <= m.end);
+      if (month) {
+        month.workOrders.push(wo);
+      }
+    });
+
+    const mwtTrend = last6MonthsMWT.map(m => ({
+      name: m.name,
+      value: this.slaService.calculateMWT(m.workOrders as any)
+    }));
 
     // --- 1. PM Compliance Rate ---
     const [scheduledPMs, completedPMs] = await Promise.all([
@@ -154,10 +207,12 @@ export class AnalyticsService {
         createdAt: { gte: thirtyDaysAgo },
       },
     });
-    const mtbfHours =
+    const mttfHoursStr =
       totalFailures > 0
         ? (totalUptimeMinutes / 60 / totalFailures).toFixed(2)
-        : 0;
+        : "0.00";
+    const mttfHours = parseFloat(mttfHoursStr);
+    const mtbfHours = mttfHours + parseFloat(mttrHours as string);
 
     // --- 6. Parts Consumption Analytics (NEW) ---
     const topPartsByUsage = await this.prisma.workOrderPart.groupBy({
@@ -284,7 +339,7 @@ export class AnalyticsService {
     // --- 10. Backlog ---
     const openWOs = await this.prisma.workOrder.findMany({
       where: { ...woWhere, status: { in: ['OPEN', 'ON_HOLD', 'IN_PROGRESS'] } },
-      select: { priority: true, maintenanceType: true },
+      select: { priority: true, maintenanceType: true, deferredUntilDate: true },
     });
 
     const backlog = {
@@ -297,6 +352,7 @@ export class AnalyticsService {
         PREVENTIVE: openWOs.filter((wo: any) => wo.maintenanceType === 'PREVENTIVE').length,
         REACTIVE: openWOs.filter((wo: any) => wo.maintenanceType === 'REACTIVE').length,
       },
+      deferred: openWOs.filter((wo: any) => !!wo.deferredUntilDate).length,
       total: openWOs.length,
     };
 
@@ -1062,6 +1118,8 @@ export class AnalyticsService {
         totalUsers, 
         totalLocations, 
         mttrHours, 
+        mwtHours: Number(mwtHours),
+        mttfHours: Number(mttfHours),
         mtbfHours: Number(mtbfHours), 
         pmComplianceRate: Number(pmComplianceRate), 
         lotoComplianceRate: Number(lotoComplianceRate), 
@@ -1081,6 +1139,9 @@ export class AnalyticsService {
       complianceMetrics,
       reliability: {
         mttr: Number(mttrHours),
+        mwt: Number(mwtHours),
+        mwtTrend,
+        mttf: Number(mttfHours),
         mtbf: Number(mtbfHours),
         availability: Number(assetAvailability),
         rca

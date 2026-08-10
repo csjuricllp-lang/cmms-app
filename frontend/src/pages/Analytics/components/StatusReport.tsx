@@ -26,11 +26,12 @@ export const StatusReport = ({ data }: { data: AnalyticsData }) => {
                     <h3 className="text-[18px] font-black text-slate-800 tracking-tight italic uppercase">By the numbers</h3>
                     <Info className="w-4 h-4 text-slate-300" />
                 </div>
-                <div className="grid grid-cols-4 gap-6">
+                <div className="grid grid-cols-5 gap-6">
                     {[
                         { label: 'Count', value: summarySafe.total ?? 0 },
                         { label: 'Complete Count', value: summarySafe.completed ?? 0 },
                         { label: 'Compliant Count', value: summarySafe.compliant ?? 0 },
+                        { label: 'Deferred', value: data?.backlog?.deferred ?? 0, icon: '⏸' },
                         { label: 'Average Cycle Time (days)', value: summarySafe.avgCycleTimeDays ?? 0, icon: 'ø' },
                     ].map((stat, i) => (
                         <div key={i} className="bg-white rounded-2xl border border-slate-100 p-8 flex flex-col items-center justify-center text-center shadow-sm">

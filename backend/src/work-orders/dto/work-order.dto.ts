@@ -97,6 +97,10 @@ export class CreateWorkOrderDto {
 
   @IsBoolean()
   @IsOptional()
+  haltProduction?: boolean;
+
+  @IsBoolean()
+  @IsOptional()
   isBookmarked?: boolean;
 
   @IsBoolean()
@@ -269,6 +273,10 @@ export class UpdateWorkOrderDto {
   @IsNumber()
   @IsOptional()
   downtimeMinutes?: number;
+
+  @IsBoolean()
+  @IsOptional()
+  haltProduction?: boolean;
 
   @IsBoolean()
   @IsOptional()

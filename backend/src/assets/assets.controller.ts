@@ -124,4 +124,10 @@ export class AssetsController {
   remove(@Param('id') id: string) {
     return this.assetsService.remove(id);
   }
+
+  @RequirePermissions(Permission.DELETE_ASSET)
+  @Post('bulk-delete')
+  bulkRemove(@Body('ids') ids: string[]) {
+    return this.assetsService.bulkRemove(ids);
+  }
 }

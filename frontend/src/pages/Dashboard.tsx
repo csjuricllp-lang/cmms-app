@@ -15,7 +15,8 @@ import {
     ChevronRight,
     Hammer,
     LayoutGrid,
-    Search
+    Search,
+    CheckCircle2
 } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { CreateWorkOrderModal } from '../components/CreateWorkOrderModal';
@@ -135,6 +136,15 @@ export const Dashboard = () => {
             iconBg: "bg-[#FFFbeb] text-amber-600", 
             path: "/pm" 
         },
+        { 
+            label: "Wait Time (MWT)", 
+            value: `${overview.mwtHours || 0}h`, 
+            trend: "Active", 
+            trendType: "up",
+            icon: Clock, 
+            iconBg: "bg-[#F0FDF4] text-emerald-600", 
+            path: "/analytics" 
+        },
     ] : [
         { 
             label: "Completed", 
@@ -182,13 +192,22 @@ export const Dashboard = () => {
             path: "/assets" 
         },
         { 
-            label: "Safety Score", 
-            value: "100%", 
-            trend: "Elite", 
-            trendType: "elite",
-            icon: ShieldCheck, 
-            iconBg: "bg-[#FFF1F2] text-rose-600", 
-            path: "/checklists" 
+            label: "SLA Targets", 
+            value: "94%", 
+            trend: "Met", 
+            trendType: "secure",
+            icon: BarChart2, 
+            iconBg: "bg-[#F5F3FF] text-violet-600", 
+            path: "/performance" 
+        },
+        { 
+            label: "Avg Wait Time", 
+            value: `${overview.mwtHours || 0}h`, 
+            trend: "Assigned", 
+            trendType: "up",
+            icon: Clock, 
+            iconBg: "bg-[#F0FDF4] text-emerald-600", 
+            path: "/work-orders" 
         },
     ];
 
@@ -243,24 +262,24 @@ export const Dashboard = () => {
                 />
 
                 {/* Core Metrics Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5 gap-6">
                     {displayStats.map((stat) => (
                         <div 
                             key={stat.label} 
                             onClick={() => navigate(stat.path)}
-                            className="bg-white border border-slate-200/60 rounded-[32px] p-8 group relative overflow-hidden transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] active:scale-[0.98] cursor-pointer"
+                            className="bg-white border border-slate-200/60 rounded-[28px] p-5 xl:p-6 group relative overflow-hidden transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] active:scale-[0.98] cursor-pointer"
                         >
                             <div className="flex items-start justify-between relative z-10">
-                                <div className={cn("w-[68px] h-[68px] flex items-center justify-center rounded-[24px] transition-colors", stat.iconBg)}>
-                                    <stat.icon className="w-8 h-8" strokeWidth={2.5} />
+                                <div className={cn("w-[52px] h-[52px] flex items-center justify-center rounded-[16px] transition-colors", stat.iconBg)}>
+                                    <stat.icon className="w-6 h-6" strokeWidth={2.5} />
                                 </div>
-                                <div className={cn("flex items-center gap-1 text-[14px] font-black px-5 py-2.5 rounded-full uppercase tracking-tight transition-all duration-300", getTrendClass(stat.trendType))}>
+                                <div className={cn("flex items-center gap-1 text-[11px] font-black px-3 py-1.5 rounded-full uppercase tracking-wider transition-all duration-300", getTrendClass(stat.trendType))}>
                                     {stat.trend}
                                 </div>
                             </div>
-                            <div className="mt-10 relative z-10">
-                                <p className="text-[72px] leading-[0.9] font-black tracking-tighter text-slate-900">{statsLoading ? '...' : stat.value}</p>
-                                <p className="text-[13px] font-black text-slate-400 mt-5 uppercase tracking-[0.2em] italic">{stat.label}</p>
+                            <div className="mt-8 relative z-10">
+                                <p className="text-[36px] xl:text-[44px] leading-none font-black tracking-tighter text-slate-900 truncate">{statsLoading ? '...' : stat.value}</p>
+                                <p className="text-[10px] xl:text-[11px] font-black text-slate-400 mt-2 uppercase tracking-widest italic leading-snug">{stat.label}</p>
                             </div>
                         </div>
                     ))}
@@ -456,7 +475,7 @@ export const Dashboard = () => {
                             </div>
 
                             <div className="space-y-6 flex-1 custom-scrollbar overflow-y-auto pr-2 max-h-[600px]">
-                                {activity?.filter((log: any) => 
+                                {activity?.pages?.flatMap(p => p.items)?.filter((log: any) => 
                                     !globalSearch || 
                                     log.action?.toLowerCase().includes(globalSearch.toLowerCase()) ||
                                     log.user?.name?.toLowerCase().includes(globalSearch.toLowerCase()) ||
@@ -477,7 +496,7 @@ export const Dashboard = () => {
                                         </div>
                                     </div>
                                 ))}
-                                {(!activity || activity.length === 0) && (
+                                {(!activity?.pages?.[0]?.items || activity.pages[0].items.length === 0) && (
                                     <div className="text-center py-10 opacity-30 italic font-black text-[10px] uppercase tracking-widest">
                                         Awaiting telemetry...
                                     </div>

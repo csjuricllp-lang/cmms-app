@@ -60,9 +60,10 @@ model Organization {
   teams                 Team[]
   members               UserOrganization[]
   vendors               Vendor[]
-  webhookSubscriptions  WebhookSubscription[]
+  webhooks              WebhookSubscription[]
   workOrders            WorkOrder[]
   workflowRules         WorkflowRule[]
+  permits               Permit[]
 }
 
 model AuditLog {
@@ -96,6 +97,8 @@ model User {
   ssoId              String?            @unique
   isActive           Boolean            @default(true)
   invitationToken    String?            @unique
+  resetPasswordToken String?            @unique
+  resetPasswordExpires DateTime?
   lastLoginAt        DateTime?
   lastLoginIp        String?
   lastActiveAt       DateTime?          @default(now())
@@ -178,6 +181,9 @@ model UserOrganization {
   technicianOf            WorkOrderTechnician[]        @relation("AssignedWorkOrderTechnicians")
   timeLogs                WorkOrderTimeLog[]           @relation("WorkOrderTimeLogs")
   locationRefs            Location[]                   @relation("LocationWorkers")
+  permitsRequested        Permit[]                     @relation("PermitRequester")
+  permitSignatures        PermitSignature[]            @relation("PermitSignatureUser")
+  permitComments          PermitComment[]              @relation("PermitCommentUser")
 
   @@unique([userId, organizationId])
 }
@@ -261,6 +267,7 @@ model Location {
   teams          Team[]               @relation("LocationTeams")
   vendors        Vendor[]             @relation("LocationVendors")
   workers        UserOrganization[]   @relation("LocationWorkers")
+  permits        Permit[]
 }
 
 model LocationFile {
@@ -338,6 +345,7 @@ model Asset {
   meters               Meter[]
   pmSchedules          PMSchedule[]
   workOrders           WorkOrder[]
+  permits              Permit[]
 
   @@index([organizationId])
   @@index([organizationId, categoryId])
@@ -434,6 +442,11 @@ model WorkOrder {
   estimatedCost        Decimal                      @default(0)
   totalCost            Decimal                      @default(0)
   onHoldReason         String?
+  deferredUntilDate    DateTime?
+  deferredById         String?
+  deferredAt           DateTime?
+  deferredRiskLevel    String?
+  deferredComments     String?
   resolutionNotes      String?
   signatureUrl         String?
   signedById           String?
@@ -442,6 +455,7 @@ model WorkOrder {
   isDowntimeEvent      Boolean                      @default(false)
   downtimeMinutes      Int?                         @default(0)
   signatureRequired    Boolean                      @default(false)
+  haltProduction       Boolean                      @default(false)
   customFields         Json?
   problemCode          String?
   rootCause            String?
@@ -509,6 +523,7 @@ model WorkOrder {
   statusHistory        WorkOrderStatusHistory[]
   technicians          WorkOrderTechnician[]
   timeLogs             WorkOrderTimeLog[]
+  permits              Permit[]
 
   @@index([organizationId])
   @@index([organizationId, status])
@@ -564,6 +579,75 @@ model WorkOrderLOTO {
   lockedBy       UserOrganization? @relation("WorkOrderLOTOLock", fields: [lockedById], references: [id])
   unlockedBy     UserOrganization? @relation("WorkOrderLOTOUnlock", fields: [unlockedById], references: [id])
   workOrder      WorkOrder         @relation(fields: [workOrderId], references: [id], onDelete: Cascade)
+}
+
+model Permit {
+  id             String            @id @default(uuid())
+  number         String
+  type           PermitType
+  status         PermitStatus      @default(DRAFT)
+  workOrderId    String?
+  assetId        String?
+  locationId     String?
+  requestedById  String
+  organizationId String
+  expiresAt      DateTime?
+  riskAssessment Json?
+  ppeChecklist   Json?
+  lotoChecklist  Json?
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+  deletedAt      DateTime?
+
+  asset          Asset?            @relation(fields: [assetId], references: [id])
+  location       Location?         @relation(fields: [locationId], references: [id])
+  workOrder      WorkOrder?        @relation(fields: [workOrderId], references: [id], onDelete: Cascade)
+  requestedBy    UserOrganization  @relation("PermitRequester", fields: [requestedById], references: [id])
+  organization   Organization      @relation(fields: [organizationId], references: [id])
+
+  comments       PermitComment[]
+  signatures     PermitSignature[]
+  files          PermitFile[]
+
+  @@unique([number, organizationId])
+  @@index([organizationId])
+  @@index([organizationId, status])
+  @@index([workOrderId])
+}
+
+model PermitComment {
+  id             String           @id @default(uuid())
+  permitId       String
+  userId         String
+  text           String
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  user           UserOrganization @relation("PermitCommentUser", fields: [userId], references: [id])
+  permit         Permit           @relation(fields: [permitId], references: [id], onDelete: Cascade)
+}
+
+model PermitSignature {
+  id             String           @id @default(uuid())
+  permitId       String
+  userId         String
+  role           String?
+  signatureType  String           @default("APPROVAL")
+  notes          String?
+  createdAt      DateTime         @default(now())
+  user           UserOrganization @relation("PermitSignatureUser", fields: [userId], references: [id])
+  permit         Permit           @relation(fields: [permitId], references: [id], onDelete: Cascade)
+}
+
+model PermitFile {
+  id             String   @id @default(uuid())
+  permitId       String
+  filename       String
+  url            String
+  mimeType       String?
+  size           Int?
+  uploadedById   String
+  createdAt      DateTime @default(now())
+  permit         Permit   @relation(fields: [permitId], references: [id], onDelete: Cascade)
 }
 
 model FeatureFlag {
@@ -1551,6 +1635,7 @@ enum MaintenanceType {
   INSPECTION
   SAFETY
   CORRECTIVE
+  EMERGENCY
   OTHER
 }
 
@@ -1597,6 +1682,7 @@ enum AssetStatus {
   STANDBY
   DECOMMISSIONED
   DISPOSED
+  EMERGENCY_STOP
 }
 
 enum WorkOrderStatus {
@@ -1685,4 +1771,23 @@ enum PlannedPartStatus {
   ALLOCATED
   CONSUMED
   CANCELLED
+}
+
+enum PermitStatus {
+  DRAFT
+  PENDING_APPROVAL
+  APPROVED
+  REJECTED
+  EXPIRED
+  CLOSED
+}
+
+enum PermitType {
+  HOT_WORK
+  CONFINED_SPACE
+  ELECTRICAL
+  HIGH_VOLTAGE
+  WORKING_AT_HEIGHT
+  EXCAVATION
+  CUSTOM
 }

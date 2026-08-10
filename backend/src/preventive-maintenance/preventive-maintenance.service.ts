@@ -181,10 +181,69 @@ export class PreventiveMaintenanceService {
     return results;
   }
 
-  async findAll(): Promise<PMSchedule[]> {
-    return this.prisma.pMSchedule.findMany({
-      include: PM_INCLUDES,
-    });
+  async findAll(query?: any) {
+    const {
+      page,
+      limit,
+      search,
+      status,
+      priority,
+      assetId,
+      locationId,
+      assignedToId,
+      assignedTeamId,
+    } = query || {};
+
+    const where: any = {};
+
+    if (status) where.status = status.includes(',') ? { in: status.split(',') } : status;
+    if (priority) where.priority = priority.includes(',') ? { in: priority.split(',') } : priority;
+    if (assetId) where.assetId = assetId.includes(',') ? { in: assetId.split(',') } : assetId;
+    if (locationId) {
+      where.asset = { locationId: locationId.includes(',') ? { in: locationId.split(',') } : locationId };
+    }
+    if (assignedToId) where.assignedToId = assignedToId.includes(',') ? { in: assignedToId.split(',') } : assignedToId;
+    if (assignedTeamId) where.assignedTeamId = assignedTeamId.includes(',') ? { in: assignedTeamId.split(',') } : assignedTeamId;
+
+    if (search) {
+      where.OR = [
+        { name: { contains: search, mode: 'insensitive' } },
+        { woTitle: { contains: search, mode: 'insensitive' } },
+        { asset: { name: { contains: search, mode: 'insensitive' } } }
+      ];
+    }
+
+    if (!page || !limit) {
+      const items = await this.prisma.pMSchedule.findMany({
+        where,
+        include: PM_INCLUDES,
+        orderBy: { createdAt: 'desc' },
+      });
+      return items;
+    }
+
+    const pageNum = parseInt(page as string, 10) || 1;
+    const limitNum = parseInt(limit as string, 10) || 50;
+    const skip = (pageNum - 1) * limitNum;
+
+    const [items, total] = await Promise.all([
+      this.prisma.pMSchedule.findMany({
+        where,
+        include: PM_INCLUDES,
+        skip,
+        take: limitNum,
+        orderBy: { createdAt: 'desc' },
+      }),
+      this.prisma.pMSchedule.count({ where }),
+    ]);
+
+    return {
+      items,
+      total,
+      page: pageNum,
+      limit: limitNum,
+      totalPages: Math.ceil(total / limitNum),
+    };
   }
 
   async findOne(id: string): Promise<PMScheduleWithRelations> {
@@ -250,6 +309,13 @@ export class PreventiveMaintenanceService {
     });
 
     return { message: 'PM Schedule deleted successfully' };
+  }
+
+  async bulkRemove(ids: string[]) {
+    const result = await this.prisma.pMSchedule.deleteMany({
+      where: { id: { in: ids } },
+    });
+    return { message: `${result.count} PM Schedules deleted successfully` };
   }
 
 
@@ -348,7 +414,23 @@ export class PreventiveMaintenanceService {
             : currentMonth >= schedule.startMonth ||
               currentMonth <= schedule.endMonth;
 
-        if (!inSeason) continue;
+        if (!inSeason) {
+          const baseDate = (schedule.isFloating ? now : schedule.nextDueDate) as Date;
+          const timezone = (schedule as any).asset?.location?.timezone || 'UTC';
+          const localizedBase = this.dateService.toTimezone(baseDate, timezone);
+          const localizedNext = this.dateService.calculateNextDueDate(
+            localizedBase,
+            schedule.frequencyType as any,
+            schedule.frequencyValue!,
+          );
+          const nextDueDate = this.applyTime(this.dateService.toUTC(localizedNext, timezone), schedule.dueDateTime);
+          
+          await this.prisma.pMSchedule.update({
+            where: { id: schedule.id },
+            data: { nextDueDate: nextDueDate },
+          });
+          continue;
+        }
       }
 
       // 2. OVERDUE TRACKER

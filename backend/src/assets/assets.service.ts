@@ -281,6 +281,20 @@ export class AssetsService {
     return { message: 'Asset deleted successfully' };
   }
 
+  async bulkRemove(ids: string[]) {
+    const organizationId = TenancyContext.organizationId || '';
+    if (!ids || ids.length === 0) return { message: 'No assets selected' };
+
+    await this.prisma.asset.deleteMany({
+      where: { 
+        id: { in: ids },
+        organizationId 
+      },
+    });
+
+    return { message: `${ids.length} assets deleted successfully` };
+  }
+
   async addAttachment(assetId: string, file: Express.Multer.File) {
     await this.findOne(assetId);
     const userOrgId = TenancyContext.userOrgId;
@@ -354,12 +368,14 @@ export class AssetsService {
       breakdownCount > 0
         ? totalDowntimeMs / (1000 * 60 * 60) / breakdownCount
         : 0;
-    const mtbfHours =
+    const mttfHours =
       breakdownCount > 0
         ? (totalOperationalTimeMs - totalDowntimeMs) /
           (1000 * 60 * 60) /
           breakdownCount
         : 0;
+
+    const mtbfHours = mttfHours + mttrHours;
 
     const uptimePercentage =
       totalOperationalTimeMs > 0
@@ -370,6 +386,7 @@ export class AssetsService {
 
     return {
       mttr: Number(mttrHours.toFixed(2)),
+      mttf: Number(mttfHours.toFixed(2)),
       mtbf: Number(mtbfHours.toFixed(2)),
       uptime: Number(uptimePercentage.toFixed(1)),
       breakdowns: breakdownCount,

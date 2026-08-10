@@ -122,9 +122,9 @@ export const LoginPage = () => {
                                     Remember Me
                                 </span>
                             </label>
-                            <a href="#" className="text-[9px] font-black uppercase tracking-[0.1em] text-primary hover:text-primary/80 transition-colors italic">
+                            <Link to="/forgot-password" className="relative z-50 cursor-pointer text-[9px] font-black uppercase tracking-[0.1em] text-primary hover:text-primary/80 transition-colors italic">
                                 Forgot Passphrase?
-                            </a>
+                            </Link>
                         </div>
 
                         <button 

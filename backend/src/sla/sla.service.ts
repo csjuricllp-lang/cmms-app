@@ -53,4 +53,27 @@ export class SLAService {
 
     return { responseTimeTarget, resolutionTimeTarget };
   }
+
+  /**
+   * Calculate Mean Waiting Time (MWT) from a list of work orders.
+   * Returns the MWT in hours.
+   */
+  calculateMWT(workOrders: { createdAt: Date; startDate: Date | null }[]): number {
+    if (!workOrders || workOrders.length === 0) return 0;
+    
+    let totalWaitTimeMs = 0;
+    let count = 0;
+
+    for (const wo of workOrders) {
+      if (wo.startDate && wo.createdAt) {
+        const created = new Date(wo.createdAt).getTime();
+        const started = new Date(wo.startDate).getTime();
+        totalWaitTimeMs += Math.max(0, started - created);
+        count++;
+      }
+    }
+
+    if (count === 0) return 0;
+    return Number((totalWaitTimeMs / count / (1000 * 60 * 60)).toFixed(2));
+  }
 }

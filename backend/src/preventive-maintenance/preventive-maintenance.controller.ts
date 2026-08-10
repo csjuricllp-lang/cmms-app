@@ -9,6 +9,7 @@ import {
   UseGuards,
   UploadedFile,
   UseInterceptors,
+  Query,
 } from '@nestjs/common';
 import { PreventiveMaintenanceService } from './preventive-maintenance.service';
 import {
@@ -37,8 +38,8 @@ export class PreventiveMaintenanceController {
 
   @RequirePermissions(Permission.READ_PM)
   @Get()
-  findAll() {
-    return this.pmService.findAll();
+  findAll(@Query() query: any) {
+    return this.pmService.findAll(query);
   }
 
   @RequirePermissions(Permission.READ_PM)
@@ -60,6 +61,12 @@ export class PreventiveMaintenanceController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.pmService.remove(id);
+  }
+
+  @RequirePermissions(Permission.DELETE_PM)
+  @Post('bulk-delete')
+  bulkRemove(@Body('ids') ids: string[]) {
+    return this.pmService.bulkRemove(ids);
   }
 
   @RequirePermissions(Permission.UPDATE_PM)

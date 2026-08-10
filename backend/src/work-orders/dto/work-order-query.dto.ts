@@ -98,4 +98,9 @@ export class WorkOrderQueryDto {
   @IsOptional()
   @IsString()
   category?: string;
+
+  /** Filter WOs whose createdAt >= this ISO datetime (for offline sync limiting) */
+  @IsOptional()
+  @IsString()
+  createdAtStart?: string;
 }

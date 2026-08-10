@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react';
 import { 
     RotateCcw 
 } from 'lucide-react';
-import { useWorkOrders } from '../hooks/useWorkOrders';
+import { useWorkOrders, useInfiniteWorkOrders } from '../hooks/useWorkOrders';
 import { useUsers } from '../hooks/useUsers';
 import { useTeams } from '../hooks/useTeams';
 import { useLocations, useAssets, useSavedViews } from '../hooks/useData';
@@ -83,13 +83,19 @@ export const Scheduler = () => {
     const [isSavedViewsOpen, setIsSavedViewsOpen] = useState(false);
     
     // Timeline & Capacity Config
-    const [scheduleConfig, setScheduleConfig] = useState({
-        visibleUnits: 8,
-        timeGranularity: '1h',
-        defaultDailyHours: 8,
-        startTime: 8,
-        endTime: 17,
-        workDays: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']
+    const [scheduleConfig, setScheduleConfig] = useState(() => {
+        const saved = localStorage.getItem('cmms-scheduler-config');
+        if (saved) {
+            try { return JSON.parse(saved); } catch (e) { /* ignore */ }
+        }
+        return {
+            visibleUnits: 8,
+            timeGranularity: '1h',
+            defaultDailyHours: 8,
+            startTime: 8,
+            endTime: 17,
+            workDays: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']
+        };
     });
 
     const timelineStartHour = scheduleConfig.startTime;
@@ -103,8 +109,6 @@ export const Scheduler = () => {
     const [localRole, setLocalRole] = useState('');
     const [localTeam, setLocalTeam] = useState('');
     const [localLocation, setLocalLocation] = useState('');
-
-    const [rowsToShow, setRowsToShow] = useState(2); // Default to 2 rows
 
     // New Work Order Filter States for Scheduler
     const [woSortField, setWoSortField] = useState<string>('Priority');
@@ -172,12 +176,13 @@ export const Scheduler = () => {
     const backendSort  = useMemo(() => sortFieldToBackend(woSortField), [woSortField]);
 
     const {
-        workOrders: rawUnscheduled,
-        isLoading: unscheduledLoading,
         updateAssignment,
+        bulkUnassign,
         smartSchedule,
-        refetchWorkOrders: refetchUnscheduled,
-    } = useWorkOrders({
+        refetchWorkOrders: refetchScheduledOnly,
+    } = useWorkOrders();
+
+    const infiniteUnscheduled = useInfiniteWorkOrders({
         isScheduled:    'false',
         priority:       woPriorityFilter  || undefined,
         status:         woStatusFilter    || undefined,
@@ -188,8 +193,11 @@ export const Scheduler = () => {
         assignedTeamId: woTeamFilter      || undefined,
         ...dueDateRange,
         ...backendSort,
-        limit: 500,
+        limit: 50,
     });
+
+    const rawUnscheduled = useMemo(() => infiniteUnscheduled.data?.pages.flatMap(p => p.items) || [], [infiniteUnscheduled.data]);
+    const unscheduledLoading = infiniteUnscheduled.isLoading;
 
     // For 'Not Set' due-date filter (no dueDate field) — handled client-side
     // since the backend can't easily express "dueDate IS NULL" via the range params
@@ -210,6 +218,18 @@ export const Scheduler = () => {
         return items;
     }, [rawUnscheduled, woDueDateFilter, woSortField]);
 
+    const visibleUsers = useMemo(() => {
+        if (!users) return [];
+        return users.filter((u: any) => {
+            const matchRole = !roleFilter || u.roleName?.includes(roleFilter);
+            const matchLocation = !locationFilter || (u.assignedLocationIds && u.assignedLocationIds.includes(locationFilter));
+            const matchTeam = !teamFilter || (u.teams && u.teams.some((t: any) => t.teamId === teamFilter));
+            return matchRole && matchLocation && matchTeam;
+        });
+    }, [users, roleFilter, locationFilter, teamFilter]);
+
+    const visibleUserIds = useMemo(() => visibleUsers.map((u: any) => u.id), [visibleUsers]);
+
     // ─── Query 2: Scheduled WOs — only those within the current view's date window ─
     const {
         workOrders: scheduledWOs,
@@ -218,12 +238,13 @@ export const Scheduler = () => {
     } = useWorkOrders({
         isScheduled: 'true',
         ...timelineRange,
+        assignedToId: visibleUserIds.length > 0 ? visibleUserIds.join(',') : 'NONE',
         limit: 1000,
     });
 
     const refetchWorkOrders = () => {
-        refetchUnscheduled();
-        refetchScheduled();
+        infiniteUnscheduled.refetch();
+        refetchScheduledOnly();
     };
 
     const woLoading = unscheduledLoading || scheduledLoading;
@@ -307,10 +328,11 @@ export const Scheduler = () => {
     };
 
     const handleRemoveAllOverdue = (ids: string[]) => {
-        // Since we have updateAssignment, we can loop or use a bulk endpoint if available
-        ids.forEach(id => handleRemoveFromSchedule(id));
-        toast.success(`Backlog Recovery: ${ids.length} missions returned to Unscheduled.`);
-        setShowRisksModal(false);
+        bulkUnassign.mutate(ids, {
+            onSuccess: () => {
+                setShowRisksModal(false);
+            }
+        });
     };
 
     const hasActiveFilters = useMemo(() => {
@@ -395,7 +417,6 @@ export const Scheduler = () => {
                 {/* Header */}
                 <SchedulerHeader 
                     onReload={() => window.location.reload()}
-                    onSave={() => toast.success('Quantum Sync: Assignments mirrored to Secure Cloud.')}
                     onSmartSchedule={handleSmartSchedule}
                     isOptimizing={smartSchedule.isPending}
                     onOpenSavedViews={() => setIsSavedViewsOpen(true)}
@@ -405,8 +426,6 @@ export const Scheduler = () => {
                     {/* Unscheduled Section */}
                     <UnscheduledSection 
                         unscheduledWOs={unscheduledWOs}
-                        rowsToShow={rowsToShow}
-                        setRowsToShow={setRowsToShow}
                         showFilters={showFilters}
                         setShowFilters={setShowFilters}
                         woSortField={woSortField}
@@ -415,6 +434,9 @@ export const Scheduler = () => {
                         setWoPriorityFilter={setWoPriorityFilter}
                         woAssigneeFilter={woAssigneeFilter}
                         setWoAssigneeFilter={setWoAssigneeFilter}
+                        fetchNextPage={() => infiniteUnscheduled.fetchNextPage()}
+                        hasNextPage={!!infiniteUnscheduled.hasNextPage}
+                        isFetchingNextPage={infiniteUnscheduled.isFetchingNextPage}
                         woCategoryFilter={woCategoryFilter}
                         setWoCategoryFilter={setWoCategoryFilter}
                         woAssetFilter={woAssetFilter}
@@ -509,6 +531,7 @@ export const Scheduler = () => {
                     currentSettings={scheduleConfig}
                     onSave={(newSettings) => {
                         setScheduleConfig(newSettings);
+                        localStorage.setItem('cmms-scheduler-config', JSON.stringify(newSettings));
                         setShowSettingsModal(false);
                         toast.success('Operational configuration updated.');
                     }}

@@ -17,6 +17,7 @@ import { AddChecklistResponseDto } from './dto/add-checklist-response.dto';
 import { AddLOTODto } from './dto/add-loto.dto';
 import { AddLinkDto } from './dto/add-link.dto';
 import { SmartScheduleDto } from './dto/smart-schedule.dto';
+import { DeferWorkOrderDto } from './dto/defer-work-order.dto';
 import { TenancyContext } from '../common/tenancy.context';
 import { AppEvents, WorkOrderCreatedPayload, WorkOrderStatusUpdatedPayload, WorkOrderCompletedPayload } from '../events/app-events';
 import { PreventiveMaintenanceService } from '../preventive-maintenance/preventive-maintenance.service';
@@ -24,6 +25,7 @@ import { NotificationsGateway } from '../notifications/notifications.gateway';
 import { NotificationsService } from '../notifications/notifications.service';
 import { MailService } from '../mail/mail.service';
 import { Permissions } from '../auth/permissions/permissions.constants';
+import twilio = require('twilio');
 
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { SLAService } from '../sla/sla.service';
@@ -372,6 +374,108 @@ export class WorkOrdersService {
     };
     this.eventEmitter.emit(AppEvents.WORKORDER_CREATED, createdPayload);
 
+    // --- EMERGENCY LOGIC: Paging, Halt Production, and LOTO ---
+    if (workOrder.maintenanceType === 'EMERGENCY' || createWorkOrderDto.haltProduction) {
+      // 1. Halt Production (Recursively set asset and parents to EMERGENCY_STOP)
+      if (workOrder.assetId) {
+        let currentAssetId: string | null = workOrder.assetId;
+        const assetIdsToStop: string[] = [];
+        const visited = new Set<string>();
+
+        while (currentAssetId) {
+          if (visited.has(currentAssetId)) break;
+          visited.add(currentAssetId);
+          assetIdsToStop.push(currentAssetId);
+
+          const asset = await this.prisma.asset.findUnique({
+            where: { id: currentAssetId },
+            select: { parentAssetId: true, parentId: true } as any
+          });
+          currentAssetId = (asset as any)?.parentAssetId || (asset as any)?.parentId || null;
+        }
+
+        if (assetIdsToStop.length > 0) {
+          await this.prisma.asset.updateMany({
+            where: { id: { in: assetIdsToStop } },
+            data: { status: 'EMERGENCY_STOP', downtimeStartedAt: new Date() }
+          });
+
+          // Create status history for each
+          for (const aId of assetIdsToStop) {
+            await this.prisma.assetStatusHistory.create({
+              data: {
+                assetId: aId,
+                toStatus: 'EMERGENCY_STOP',
+                changedById: userId || 'SYSTEM',
+                reason: `Emergency Halt Production triggered by Work Order #${workOrder.workOrderNo}`,
+              }
+            });
+          }
+        }
+
+        // 2. Safety Tag-Out / LOTO
+        await this.prisma.workOrderLOTO.create({
+          data: {
+            workOrderId: workOrder.id,
+            organizationId,
+            lockedVerified: false,
+            tagVerified: false,
+            energyVerified: false,
+          } as any
+        }).catch(() => {}); // ignore if it already exists or schema mismatch
+      }
+
+      // 3. Paging (SMS & In-App Notification)
+      const techIds = technicianIds ? [...technicianIds] : [];
+      if (workOrder.assignedToId && !techIds.includes(workOrder.assignedToId)) {
+        techIds.push(workOrder.assignedToId);
+      }
+
+      if (techIds.length > 0) {
+        // A. In-App Notifications
+        for (const tId of techIds) {
+          await this.notificationsService.create({
+            type: 'EMERGENCY_ALERT' as any,
+            title: `🚨 EMERGENCY: ${workOrder.title}`,
+            content: `Emergency Work Order #${workOrder.workOrderNo} has been assigned. Immediate action required.`,
+            userId: tId,
+            organizationId,
+            metaData: { workOrderId: workOrder.id, actionUrl: `/work-orders?id=${workOrder.id}` },
+          }).catch(err => this.logger.error(`Failed to create in-app emergency notification for ${tId}`, err));
+        }
+
+        // B. Twilio SMS
+        if (process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_TOKEN) {
+          try {
+            const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
+            
+            const techs = await this.prisma.userOrganization.findMany({
+              where: { id: { in: techIds } },
+              include: { user: { select: { phone: true, name: true } } }
+            });
+
+            const fromPhone = process.env.TWILIO_PHONE_NUMBER || '+1234567890';
+            const messageBody = `[URGENT CMMS ALERT]\nEmergency Work Order #${workOrder.workOrderNo}: ${workOrder.title}.\nPlease respond immediately!`;
+
+            for (const tech of techs) {
+              if (tech.user?.phone) {
+                await client.messages.create({
+                  body: messageBody,
+                  from: fromPhone,
+                  to: tech.user.phone
+                }).then(msg => this.logger.log(`SMS Sent to ${tech.user.name}: ${msg.sid}`))
+                  .catch(err => this.logger.error(`Failed to send SMS to ${tech.user.name}:`, err));
+              }
+            }
+          } catch (error) {
+            this.logger.error('Failed to initialize Twilio client or send SMS', error);
+          }
+        } else {
+          this.logger.warn('Emergency Work Order created, but Twilio credentials are missing in .env. SMS Paging skipped.');
+        }
+      }
+    }
+
     if (workOrder.assignedToId) {
       this.notificationsService.notifyAssignment(workOrder);
     }
@@ -472,6 +576,7 @@ export class WorkOrdersService {
       startDateStart,
       startDateEnd,
       category,
+      createdAtStart,
       } = query || {};
 
     this.logger.debug(`[DEBUG] findAll query parameters: ${JSON.stringify(query)}`);
@@ -584,6 +689,12 @@ export class WorkOrdersService {
       where.category = { contains: category, mode: 'insensitive' } as any;
     }
 
+    // --- CreatedAt offline sync limit ---
+    if (createdAtStart) {
+      if (!where.createdAt) where.createdAt = {};
+      (where.createdAt as any).gte = new Date(createdAtStart);
+    }
+
     if (search) {
       const cleanSearch = search.trim();
       // Strip common prefixes like '#' or 'WO-' if followed by number
@@ -642,7 +753,8 @@ export class WorkOrdersService {
       !isScheduled &&
       !startDateStart &&
       !startDateEnd &&
-      !category
+      !category &&
+      !createdAtStart
     ) {
       return this.prisma.workOrder.findMany({
         where,
@@ -947,6 +1059,22 @@ export class WorkOrdersService {
 
     // --- Status Transition Rules: Guards ---
     if (to !== from) {
+      // PERMIT TO WORK GUARD
+      if (to === 'IN_PROGRESS') {
+        const pendingPermits = await this.prisma.permit.count({
+          where: {
+            workOrderId: id,
+            status: { not: 'APPROVED' },
+            deletedAt: null,
+          }
+        });
+        if (pendingPermits > 0) {
+          throw new BadRequestException(
+            'Safety Compliance: Cannot start Work Order. There are pending Permits that require approval.'
+          );
+        }
+      }
+
       // A. SAFETY GUARD: LOTO (Lock-Out Tag-Out) Verification
       const requireLoto = await this.settingsService.getString('wo.requireLoto', 'false');
       if (
@@ -1593,6 +1721,20 @@ export class WorkOrdersService {
     return this.schedulerService.bulkUpdate(updates);
   }
 
+  async bulkUnassign(workOrderIds: string[]) {
+    await this.prisma.workOrder.updateMany({
+      where: {
+        id: { in: workOrderIds },
+        organizationId: TenancyContext.organizationId,
+      },
+      data: {
+        assignedToId: null,
+        startDate: null,
+      }
+    });
+    return { success: true, count: workOrderIds.length };
+  }
+
   async smartSchedule(dto: SmartScheduleDto) {
     return this.schedulerService.smartSchedule(dto);
   }
@@ -1683,5 +1825,96 @@ export class WorkOrdersService {
 
   async removeFile(fileId: string) {
     return this.collaborationService.removeFile(fileId);
+  }
+
+  async deferWorkOrder(id: string, dto: DeferWorkOrderDto) {
+    const userOrgId = TenancyContext.userOrgId;
+    const organizationId = TenancyContext.organizationId || '';
+    if (!userOrgId) throw new ForbiddenException('No user context');
+
+    const workOrder = await this.prisma.workOrder.findUnique({
+      where: { id, organizationId },
+    });
+    if (!workOrder) throw new NotFoundException('Work Order not found');
+
+    const deferredUntil = new Date(dto.deferredUntilDate);
+    if (deferredUntil < new Date()) {
+      throw new BadRequestException('Deferred until date must be in the future.');
+    }
+
+    const updated = await this.prisma.workOrder.update({
+      where: { id },
+      data: {
+        status: 'ON_HOLD',
+        onHoldReason: dto.onHoldReason,
+        deferredUntilDate: deferredUntil,
+        deferredRiskLevel: dto.deferredRiskLevel,
+        deferredComments: dto.deferredComments || null,
+        deferredById: userOrgId,
+        deferredAt: new Date(),
+      },
+      include: WO_INCLUDES,
+    });
+
+    await this.prisma.workOrderStatusHistory.create({
+      data: {
+        workOrderId: id,
+        fromStatus: workOrder.status,
+        toStatus: 'ON_HOLD',
+        changedById: userOrgId,
+        reason: `Deferred: ${dto.onHoldReason}`,
+      } as any,
+    });
+
+    this.eventEmitter.emit(AppEvents.WORKORDER_DEFERRED, {
+      id,
+      userId: userOrgId,
+      organizationId,
+    });
+
+    return updated;
+  }
+
+  async resumeWorkOrder(id: string) {
+    const userOrgId = TenancyContext.userOrgId;
+    const organizationId = TenancyContext.organizationId || '';
+    if (!userOrgId) throw new ForbiddenException('No user context');
+
+    const workOrder = await this.prisma.workOrder.findUnique({
+      where: { id, organizationId },
+    });
+    if (!workOrder) throw new NotFoundException('Work Order not found');
+    if (workOrder.status !== 'ON_HOLD') {
+      throw new BadRequestException('Work Order is not on hold/deferred.');
+    }
+
+    const updated = await this.prisma.workOrder.update({
+      where: { id },
+      data: {
+        status: 'OPEN',
+        deferredUntilDate: null,
+        // We keep deferredRiskLevel and comments for audit trail, or we could clear them. 
+        // We'll keep them but nullify the date so it is no longer actively deferred.
+      },
+      include: WO_INCLUDES,
+    });
+
+    await this.prisma.workOrderStatusHistory.create({
+      data: {
+        workOrderId: id,
+        fromStatus: 'ON_HOLD',
+        toStatus: 'OPEN',
+        changedById: userOrgId,
+        reason: `Resumed from deferred state`,
+      } as any,
+    });
+
+    this.eventEmitter.emit(AppEvents.WORKORDER_RESUMED, {
+      id,
+      userId: userOrgId,
+      organizationId,
+    });
+
+    return updated;
   }
 }

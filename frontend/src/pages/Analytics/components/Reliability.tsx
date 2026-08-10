@@ -22,23 +22,32 @@ export const Reliability = ({ data }: { data: AnalyticsData }) => {
     // Mappings
     const uptimeTrend = assetDowntime?.utilizationOverTime || [];
     const rcaData = reliability?.rca || [];
+    const mwtTrend = reliability?.mwtTrend || [];
 
     return (
         <div className="space-y-12 pb-20">
             {/* Macro Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5 gap-8">
                 <div className="bg-white rounded-[40px] border border-slate-100 p-12 flex flex-col items-center justify-center text-center shadow-sm">
                     <span className="text-[14px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">Uptime Reliability</span>
-                    <span className="text-[100px] font-black text-slate-800 tracking-tighter leading-none">{reliability?.availability || 100}%</span>
+                    <span className="text-[72px] font-black text-slate-800 tracking-tighter leading-none">{reliability?.availability || 100}%</span>
                 </div>
                 <div className="bg-white rounded-[40px] border border-slate-100 p-12 flex flex-col items-center justify-center text-center shadow-sm relative overflow-hidden">
                     <div className="absolute top-0 left-0 right-0 h-1 bg-indigo-600/10" />
                     <span className="text-[14px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">Mean Time to Repair</span>
-                    <span className="text-[100px] font-black text-slate-800 tracking-tighter leading-none">{reliability?.mttr || 0}h</span>
+                    <span className="text-[72px] font-black text-slate-800 tracking-tighter leading-none">{reliability?.mttr || 0}h</span>
+                </div>
+                <div className="bg-white rounded-[40px] border border-slate-100 p-12 flex flex-col items-center justify-center text-center shadow-sm relative overflow-hidden">
+                    <span className="text-[14px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">Mean Waiting Time</span>
+                    <span className="text-[72px] font-black text-slate-800 tracking-tighter leading-none">{reliability?.mwt || 0}h</span>
+                </div>
+                <div className="bg-white rounded-[40px] border border-slate-100 p-12 flex flex-col items-center justify-center text-center shadow-sm relative overflow-hidden">
+                    <span className="text-[14px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">Mean Time To Failure</span>
+                    <span className="text-[72px] font-black text-slate-800 tracking-tighter leading-none">{reliability?.mttf || 0}h</span>
                 </div>
                 <div className="bg-white rounded-[40px] border border-slate-100 p-12 flex flex-col items-center justify-center text-center shadow-sm">
                     <span className="text-[14px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">Mean Time Between Failure</span>
-                    <span className="text-[100px] font-black text-slate-800 tracking-tighter leading-none">{reliability?.mtbf || 0}h</span>
+                    <span className="text-[72px] font-black text-slate-800 tracking-tighter leading-none">{reliability?.mtbf || 0}h</span>
                 </div>
             </div>
 
@@ -132,6 +141,33 @@ export const Reliability = ({ data }: { data: AnalyticsData }) => {
                         <p className="text-white text-[32px] font-black italic">{data?.overview?.pmComplianceRate || 100}%</p>
                     </div>
                 </div>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <Widget title="Mean Waiting Time (6 Months)" icon={Info} data={mwtTrend} className="h-[500px]">
+                    <ResponsiveContainer width="100%" height="100%">
+                        <AreaChart data={mwtTrend} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
+                            <defs>
+                                <linearGradient id="colorMwt" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="5%" stopColor="#10B981" stopOpacity={0.1}/>
+                                    <stop offset="95%" stopColor="#10B981" stopOpacity={0}/>
+                                </linearGradient>
+                            </defs>
+                            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#FAFAFA" />
+                            <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#64748B' }} />
+                            <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#64748B' }} unit="h" />
+                            <Tooltip contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 30px rgba(0,0,0,0.1)' }} />
+                            <Area 
+                                type="monotone" 
+                                dataKey="value" 
+                                stroke="#10B981" 
+                                strokeWidth={3}
+                                fillOpacity={1} 
+                                fill="url(#colorMwt)" 
+                            />
+                        </AreaChart>
+                    </ResponsiveContainer>
+                </Widget>
             </div>
         </div>
     );

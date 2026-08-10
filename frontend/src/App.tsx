@@ -21,6 +21,8 @@ import { VendorDetailPage } from './pages/VendorDetailPage';
 import { CustomersPage } from './pages/Customers';
 import { Scheduler } from './pages/Scheduler';
 import { LoginPage } from './pages/Login';
+import { ForgotPasswordPage } from './pages/ForgotPassword';
+import { ResetPasswordPage } from './pages/ResetPassword';
 import { LocationsPage } from './pages/Locations';
 import { LocationDetailPage } from './pages/LocationDetailPage';
 import { RequestsPage } from './pages/Requests';
@@ -69,6 +71,8 @@ function App() {
         <Toaster position="top-right" reverseOrder={false} />
         <Routes>
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
           <Route path="/sso-callback" element={<SsoCallbackPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/report-issue/:orgId" element={<PublicRequestPortal />} />

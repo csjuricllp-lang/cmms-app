@@ -7,6 +7,8 @@ export enum AppEvents {
   WORKORDER_CREATED = 'workorder.created',
   WORKORDER_STATUS_UPDATED = 'workorder.status.updated',
   WORKORDER_COMPLETED = 'workorder.completed',
+  WORKORDER_DEFERRED = 'workorder.deferred',
+  WORKORDER_RESUMED = 'workorder.resumed',
 }
 
 export interface AssetUpdatedPayload {

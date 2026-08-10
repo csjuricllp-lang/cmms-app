@@ -9,8 +9,9 @@ import { type TagConfig } from './ConfigureTagsModal';
 
 interface UnscheduledSectionProps {
     unscheduledWOs: WorkOrderSync[];
-    rowsToShow: number;
-    setRowsToShow: (rows: number) => void;
+    fetchNextPage: () => void;
+    hasNextPage: boolean;
+    isFetchingNextPage: boolean;
     showFilters: boolean;
     setShowFilters: (show: boolean) => void;
     
@@ -53,8 +54,9 @@ const CARDS_PER_ROW = 4;
 
 export const UnscheduledSection = ({
     unscheduledWOs,
-    rowsToShow,
-    setRowsToShow,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
     showFilters,
     setShowFilters,
     woSortField,
@@ -372,17 +374,9 @@ export const UnscheduledSection = ({
                     </div>
 
                     <div className="flex bg-white border border-gray-100 rounded-xl p-1 shadow-sm items-center relative">
-                        <select 
-                            value={rowsToShow}
-                            onChange={(e) => setRowsToShow(Number(e.target.value))}
-                            className="px-4 py-1.5 bg-transparent text-[13px] font-black text-slate-600 outline-none cursor-pointer appearance-none pr-8 relative"
-                        >
-                            <option value={1}>1 row</option>
-                            <option value={2}>2 rows</option>
-                            <option value={3}>3 rows</option>
-                            <option value={5}>5 rows</option>
-                        </select>
-                        <ChevronDown className="absolute right-3 w-4 h-4 text-slate-400 pointer-events-none" />
+                        <span className="px-4 py-1.5 text-[13px] font-black text-slate-600">
+                            {unscheduledWOs.length} Unscheduled
+                        </span>
                     </div>
                 </div>
             </div>
@@ -394,7 +388,7 @@ export const UnscheduledSection = ({
                             No unscheduled work orders found.
                         </div>
                     ) : (
-                        unscheduledWOs.slice(0, rowsToShow * CARDS_PER_ROW).map((wo: WorkOrderSync) => (
+                        unscheduledWOs.map((wo: WorkOrderSync) => (
                             <DraggableCard 
                                 key={wo.id} 
                                 wo={wo} 
@@ -404,6 +398,18 @@ export const UnscheduledSection = ({
                             />
                         ))
                     )}
+                </div>
+            )}
+            
+            {hasNextPage && !isHidden && (
+                <div className="mt-6 flex justify-center">
+                    <button 
+                        onClick={() => fetchNextPage()}
+                        disabled={isFetchingNextPage}
+                        className="px-6 py-2.5 bg-white border border-gray-200 text-gray-500 font-bold text-[14px] rounded-xl hover:border-gray-300 hover:text-gray-700 hover:bg-gray-50 transition-all active:scale-95 disabled:opacity-50"
+                    >
+                        {isFetchingNextPage ? 'Loading more...' : 'Load More Unscheduled'}
+                    </button>
                 </div>
             )}
         </section>

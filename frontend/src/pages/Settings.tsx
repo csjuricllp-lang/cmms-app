@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { 
     Settings2, Box, Package, Bell, 
     UserCircle, Cpu, ClipboardList, ShoppingCart, Gauge, Tag, 
-    Code2, Lock, Webhook, Clock, ShieldAlert, Globe
+    Code2, Lock, Webhook, Clock, ShieldAlert, Globe, History
 } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { AssetSettingsWorkspace } from '../components/AssetSettingsWorkspace';
@@ -14,15 +14,19 @@ import { SLASettingsWorkspace } from '../components/SLASettingsWorkspace';
 import { ApprovalChainsWorkspace } from '../components/ApprovalChainsWorkspace';
 import { APISettingsWorkspace } from '../components/APISettingsWorkspace';
 import { IntegrationsWorkspace } from '../components/IntegrationsWorkspace';
+import { AuditLogSettingsWorkspace } from '../components/AuditLogSettingsWorkspace';
 import { useMediaQuery } from '../hooks/useMediaQuery';
+import { useUserRole } from '../hooks/useUserRole';
 import { MobileSettings } from './MobileSettings';
 
 type SettingModule = 
     | 'general' | 'automation' | 'roles'
     | 'assets' | 'parts' | 'requests' | 'workorders' | 'purchaseorders' | 'meters' | 'tags'
-    | 'api' | 'auth' | 'webhooks' | 'sla' | 'approvals' | 'integrations';
+    | 'api' | 'auth' | 'webhooks' | 'sla' | 'approvals' | 'integrations' | 'auditlog';
 
 export const SettingsPage = () => {
+    const { role } = useUserRole();
+    const isOwnerOrAdmin = role === 'OWNER' || role === 'ADMIN' || role === 'ADMINISTRATOR';
     const [activeModule, setActiveModule] = useState<SettingModule>('parts');
 
     const sections = [
@@ -55,6 +59,7 @@ export const SettingsPage = () => {
                 { id: 'webhooks', label: 'Webhooks', icon: Webhook },
                 { id: 'approvals', label: 'Approval Chains', icon: ShieldAlert },
                 { id: 'integrations', label: 'Integrations', icon: Globe },
+                ...(isOwnerOrAdmin ? [{ id: 'auditlog', label: 'Audit Log', icon: History }] : []),
             ]
         }
     ];
@@ -121,8 +126,9 @@ export const SettingsPage = () => {
                         {activeModule === 'approvals' && <ApprovalChainsWorkspace />}
                         {activeModule === 'api' && <APISettingsWorkspace />}
                         {activeModule === 'integrations' && <IntegrationsWorkspace />}
+                        {activeModule === 'auditlog' && <AuditLogSettingsWorkspace />}
                         
-                        {!['assets', 'parts', 'workorders', 'roles', 'purchaseorders', 'sla', 'approvals', 'api', 'integrations'].includes(activeModule) && (
+                        {!['assets', 'parts', 'workorders', 'roles', 'purchaseorders', 'sla', 'approvals', 'api', 'integrations', 'auditlog'].includes(activeModule) && (
                             <div className="py-20 flex flex-col items-center justify-center text-center space-y-6">
                                 <div className="w-16 h-16 rounded-2xl bg-slate-50 flex items-center justify-center border border-slate-100 animate-pulse">
                                     <Settings2 className="w-8 h-8 text-slate-200" />

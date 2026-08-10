@@ -71,7 +71,7 @@ export class ApprovalChainsService {
     data: {
       name: string;
       description?: string;
-      module: 'WORK_ORDER' | 'PURCHASE_ORDER';
+      module: 'WORK_ORDER' | 'PURCHASE_ORDER' | 'PERMIT';
       triggerAmount?: number;
       steps: { role: string; order: number }[];
     },
@@ -145,7 +145,7 @@ export class ApprovalChainsService {
     data: {
       name?: string;
       description?: string;
-      module?: 'WORK_ORDER' | 'PURCHASE_ORDER';
+      module?: 'WORK_ORDER' | 'PURCHASE_ORDER' | 'PERMIT';
       triggerAmount?: number;
       steps?: { role: string; order: number }[];
     },

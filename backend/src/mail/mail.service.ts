@@ -216,4 +216,43 @@ export class MailService {
       this.logger.log(`[MAIL MOCK] Content: ${content}`);
     }
   }
+
+  async sendPasswordResetEmail(email: string, token: string) {
+    const frontendUrl = this.configService.get<string>('FRONTEND_URL') || 'http://localhost:3000';
+    const resetUrl = `${frontendUrl}/reset-password/${token}`;
+
+    if (this.useRealEmail && this.transporter) {
+      const from = this.configService.get<string>('SMTP_FROM') || '"CMMS App Alert" <no-reply@example.com>';
+      try {
+        await this.transporter.sendMail({
+          from,
+          to: email,
+          subject: 'Password Reset Request',
+          text: `You requested a password reset. Click here to reset it: ${resetUrl}`,
+          html: `
+            <div style="font-family: sans-serif; padding: 20px; color: #333; max-width: 600px; margin: 0 auto; border: 1px solid #eee; border-radius: 8px;">
+              <h2 style="color: #4f46e5; border-bottom: 2px solid #4f46e5; padding-bottom: 10px; margin-top: 0;">Password Reset Request</h2>
+              <p style="font-size: 16px; line-height: 1.5; color: #555;">You recently requested to reset your password for your CMMS account.</p>
+              <br/>
+              <div style="text-align: center;">
+                <a href="${resetUrl}" style="background-color: #4f46e5; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px; display: inline-block; font-weight: bold;">
+                  Reset Password
+                </a>
+              </div>
+              <br/><br/>
+              <p style="font-size: 14px; color: #555;">If you did not request a password reset, please ignore this email or contact support if you have questions.</p>
+              <hr style="border: 0; border-top: 1px solid #eee;"/>
+              <p style="font-size: 12px; color: #999; text-align: center;">This link will expire in 1 hour.</p>
+            </div>
+          `,
+        });
+        this.logger.log(`Real password reset email sent successfully to ${email}`);
+      } catch (error) {
+        this.logger.error(`Failed to send real password reset email to ${email}: ${error.message}`);
+      }
+    } else {
+      this.logger.log(`[MAIL MOCK] Sending Password Reset to ${email}`);
+      this.logger.log(`[MAIL MOCK] Link: ${resetUrl}`);
+    }
+  }
 }

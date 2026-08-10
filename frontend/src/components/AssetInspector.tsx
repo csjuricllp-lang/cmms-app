@@ -182,7 +182,7 @@ export const AssetInspector = ({ asset, onClose, onIssueWorkOrder }: AssetInspec
                                     <Activity className={`w-3.5 h-3.5 ${metrics?.uptime < 90 ? 'text-amber-400' : 'text-emerald-400'}`} />
                                 </div>
                             </div>
-                            <div className="grid grid-cols-2 gap-6">
+                            <div className="grid grid-cols-3 gap-6">
                                 <div className="p-5 rounded-2xl bg-white/5 border border-white/5 space-y-2 group hover:bg-white/10 transition-all">
                                     <div className="flex items-center gap-2 text-blue-400">
                                         <Clock className="w-4 h-4" />
@@ -191,9 +191,16 @@ export const AssetInspector = ({ asset, onClose, onIssueWorkOrder }: AssetInspec
                                     <p className="text-3xl font-black">{(metrics?.mttr ?? 0).toFixed(1)}h</p>
                                 </div>
                                 <div className="p-5 rounded-2xl bg-white/5 border border-white/5 space-y-2 group hover:bg-white/10 transition-all">
-                                    <div className="flex items-center gap-2 text-orange-400">
+                                    <div className="flex items-center gap-2 text-red-400">
                                         <AlertTriangle className="w-4 h-4" />
-                                        <span className="text-[9px] font-black uppercase tracking-widest italic">MTBF (Failure)</span>
+                                        <span className="text-[9px] font-black uppercase tracking-widest italic">MTTF (To Failure)</span>
+                                    </div>
+                                    <p className="text-3xl font-black">{(metrics?.mttf ?? 0).toLocaleString()}h</p>
+                                </div>
+                                <div className="p-5 rounded-2xl bg-white/5 border border-white/5 space-y-2 group hover:bg-white/10 transition-all">
+                                    <div className="flex items-center gap-2 text-orange-400">
+                                        <Activity className="w-4 h-4" />
+                                        <span className="text-[9px] font-black uppercase tracking-widest italic">MTBF (Between)</span>
                                     </div>
                                     <p className="text-3xl font-black">{(metrics?.mtbf ?? 0).toLocaleString()}h</p>
                                 </div>

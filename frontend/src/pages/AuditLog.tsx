@@ -17,12 +17,21 @@ import { useAuditLogs } from '../hooks/useData';
 import type { AuditLog } from '../types';
 import { formatDistanceToNow } from 'date-fns';
 import { useState } from 'react';
+import { JsonDiffViewer } from '../components/JsonDiffViewer';
 
 export const AuditLogPage = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedLog, setSelectedLog] = useState<AuditLog | null>(null);
 
-    const { data: logs, isLoading } = useAuditLogs();
+    const { 
+        data, 
+        isLoading,
+        fetchNextPage,
+        hasNextPage,
+        isFetchingNextPage
+    } = useAuditLogs({ search: searchTerm });
+
+    const logs = data?.pages.flatMap(page => page.items) || [];
 
     const getActionStyles = (action: string) => {
         if (action.includes('WORK_ORDER')) return { 
@@ -80,8 +89,8 @@ export const AuditLogPage = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {[
                     { 
-                        label: "Today's Events", 
-                        value: logs?.length || 0, 
+                        label: "Total Events", 
+                        value: data?.pages[0]?.meta?.total || logs.length || 0, 
                         icon: Clock, 
                         color: "text-blue-400" 
                     },
@@ -179,13 +188,11 @@ export const AuditLogPage = () => {
 
                                         {/* Payload Visualizer - Theme Optimized */}
                                         {(log.oldData || log.newData) && (
-                                            <div className="mt-10 p-8 rounded-[32px] bg-black/20 border border-white/5">
+                                            <div className="mt-10 p-8 rounded-[32px] bg-slate-50 border border-slate-200/60 shadow-inner">
                                                 <div className="flex items-center justify-between mb-6">
-                                                    <p className="text-[11px] font-black text-muted-foreground uppercase tracking-widest italic opacity-30">Change Vector Protocol</p>
+                                                    <p className="text-[11px] font-black text-slate-400 uppercase tracking-widest italic">Change Vector Protocol</p>
                                                 </div>
-                                                <pre className="text-[13px] font-mono text-primary/80 transition-colors overflow-hidden truncate">
-                                                    {JSON.stringify(log.newData || log.oldData, null, 2)}
-                                                </pre>
+                                                <JsonDiffViewer oldData={log.oldData} newData={log.newData} compact />
                                             </div>
                                         )}
                                     </div>
@@ -197,8 +204,11 @@ export const AuditLogPage = () => {
             </div>
             
             <div className="flex justify-center pt-10">
-                <button className="px-10 py-5 rounded-3xl border border-white/10 text-muted-foreground hover:text-foreground hover:bg-white/5 transition-all font-black text-xs uppercase tracking-[0.2em] italic">
-                    Load Historical Records
+                <button 
+                    onClick={() => fetchNextPage()}
+                    disabled={!hasNextPage || isFetchingNextPage}
+                    className="px-10 py-5 rounded-3xl border border-white/10 text-muted-foreground hover:text-foreground hover:bg-white/5 transition-all font-black text-xs uppercase tracking-[0.2em] italic disabled:opacity-50 disabled:cursor-not-allowed">
+                    {isFetchingNextPage ? 'Loading...' : hasNextPage ? 'Load Historical Records' : 'End of Records'}
                 </button>
             </div>
 
@@ -229,22 +239,10 @@ export const AuditLogPage = () => {
                                 </button>
                             </div>
 
-                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-                                <div className="space-y-4">
-                                    <p className="text-xs font-black uppercase text-muted-foreground italic tracking-widest">Base State (Old Data)</p>
-                                    <div className="bg-black/40 rounded-[32px] p-8 border border-white/5 max-h-[400px] overflow-auto custom-scrollbar">
-                                        <pre className="text-[13px] font-mono text-muted-foreground/60 leading-relaxed">
-                                            {JSON.stringify(selectedLog.oldData, null, 2) || "// No previous state found"}
-                                        </pre>
-                                    </div>
-                                </div>
-                                <div className="space-y-4">
-                                    <p className="text-xs font-black uppercase text-primary italic tracking-widest">Modified State (New Data)</p>
-                                    <div className="bg-primary/5 rounded-[32px] p-8 border border-primary/10 max-h-[400px] overflow-auto custom-scrollbar">
-                                        <pre className="text-[13px] font-mono text-primary/80 leading-relaxed">
-                                            {JSON.stringify(selectedLog.newData, null, 2) || "// No modification data found"}
-                                        </pre>
-                                    </div>
+                            <div className="space-y-4">
+                                <p className="text-xs font-black uppercase text-indigo-600 italic tracking-widest">State Differential Log</p>
+                                <div className="bg-slate-50 rounded-[32px] p-8 border border-slate-200/60 shadow-inner max-h-[500px] overflow-auto custom-scrollbar">
+                                    <JsonDiffViewer oldData={selectedLog.oldData} newData={selectedLog.newData} />
                                 </div>
                             </div>
 

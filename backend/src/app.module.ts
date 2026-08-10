@@ -49,6 +49,7 @@ import { CommonModule } from './common/common.module';
 import { ShiftsModule } from './shifts/shifts.module';
 import { SsoModule } from './sso/sso.module';
 import { ApprovalChainsModule } from './approval-chains/approval-chains.module';
+import { PermitsModule } from './permits/permits.module';
 
 import { ThrottlerModule } from '@nestjs/throttler';
 
@@ -107,6 +108,7 @@ import { PermissionsGuard } from './auth/guards/permissions.guard';
     ShiftsModule,
     ApprovalChainsModule,
     SsoModule,
+    PermitsModule,
   ],
   controllers: [AppController],
   providers: [

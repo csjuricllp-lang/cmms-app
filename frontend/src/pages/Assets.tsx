@@ -6,17 +6,16 @@ import {
     Box, MapPin, Barcode
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useAssets } from '../hooks/useData';
+import { useInfiniteAssets, useAssetMutations } from '../hooks/useData';
 import { CreateAssetModal } from '../components/CreateAssetModal';
 import { LocationFilterModal } from '../components/LocationFilterModal';
 import { ImportAssetsModal } from '../components/ImportAssetsModal';
-import { ColumnPickerPopover } from '../components/ColumnPickerPopover';
 import { AssetHeaderActionsPopover } from '../components/AssetHeaderActionsPopover';
 import { TableEmptyState } from '../components/EmptyState';
 import { format } from 'date-fns';
 import toast from 'react-hot-toast';
 import * as XLSX from 'xlsx';
-import { Download } from 'lucide-react';
+import { Download, Trash2, Loader2 } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { useMediaQuery } from '../hooks/useMediaQuery';
 import { MobileAssets } from './MobileAssets';
@@ -25,32 +24,12 @@ import { MobileAssets } from './MobileAssets';
 const ALL_COLUMNS = [
     { id: 'Name', label: 'Name', isMandatory: true },
     { id: 'Image', label: 'Image' },
-    { id: 'ID', label: 'ID' },
     { id: 'Location', label: 'Location' },
-    { id: 'Area', label: 'Area' },
-    { id: 'Model', label: 'Model' },
     { id: 'Barcode', label: 'Barcode' },
     { id: 'Serial Number', label: 'Serial Number' },
     { id: 'Description', label: 'Description' },
     { id: 'Category', label: 'Category' },
     { id: 'Status', label: 'Status' },
-    { id: 'Worker', label: 'Worker' },
-    { id: 'Additional Workers', label: 'Additional Workers' },
-    { id: 'Assigned Teams', label: 'Assigned Teams' },
-    { id: 'Assigned Vendors', label: 'Assigned Vendors' },
-    { id: 'Assigned Customers', label: 'Assigned Customers' },
-    { id: 'Manufacturer', label: 'Manufacturer' },
-    { id: 'Parent Asset', label: 'Parent Asset' },
-    { id: 'Useful Life', label: 'Useful Life' },
-    { id: 'Created By', label: 'Created By' },
-    { id: 'Date Created', label: 'Date Created' },
-    { id: 'Purchase Date', label: 'Purchase Date' },
-    { id: 'Service Date', label: 'Service Date' },
-    { id: 'Warranty Expiration', label: 'Warranty Expiration' },
-    { id: 'Current Value', label: 'Current Value' },
-    { id: 'Purchase Price', label: 'Purchase Price' },
-    { id: 'Residual Price', label: 'Residual Price' },
-    { id: 'Archived', label: 'Archived' }
 ];
 
 import { useUserRole } from '../hooks/useUserRole';
@@ -62,8 +41,6 @@ export const AssetsPage = () => {
 
     const navigate = useNavigate();
     const [searchTerm, setSearchTerm] = useState('');
-    const [isColumnsMenuOpen, setIsColumnsMenuOpen] = useState(false);
-    const [columnAnchorRect, setColumnAnchorRect] = useState<DOMRect | undefined>();
     const [isHeaderActionsOpen, setIsHeaderActionsOpen] = useState(false);
     const [headerAnchorRect, setHeaderAnchorRect] = useState<DOMRect | undefined>();
     const [isFiltersModalOpen, setIsFiltersModalOpen] = useState(false);
@@ -74,46 +51,61 @@ export const AssetsPage = () => {
     const [isImportModalOpen, setIsImportModalOpen] = useState(false);
 
     // Filters State
-    const [activeFilters, setActiveFilters] = useState<{type: string, value: string}[]>([]);
+    const [activeFilters, setActiveFilters] = useState<{type: string, value: string}[]>([{ type: 'Status', value: 'Hide Archived' }]);
     const [selectedLocationIds, setSelectedLocationIds] = useState<string[]>([]);
     const [includeSubLocations, setIncludeSubLocations] = useState(true);
+    
+    // Bulk Selection State
+    const [selectedAssetIds, setSelectedAssetIds] = useState<string[]>([]);
 
-    const { data: assetsData, isLoading, refetch: refetchAssets } = useAssets();
+    const filtersForApi = {
+        search: searchTerm,
+        status: activeFilters.find(f => f.type === 'Status')?.value,
+        locationId: selectedLocationIds.length > 0 ? selectedLocationIds[0] : undefined, // simplified for now
+        categoryId: activeFilters.find(f => f.type === 'Category')?.value
+    };
 
-    const assets = Array.isArray(assetsData) ? assetsData : (assetsData as any)?.items || [];
+    const { 
+        data: assetsData, 
+        isLoading, 
+        fetchNextPage, 
+        hasNextPage, 
+        isFetchingNextPage,
+        refetch: refetchAssets 
+    } = useInfiniteAssets(filtersForApi);
 
-    const [visibleColumnIds, setVisibleColumnIds] = useState<string[]>(['Name', 'Image', 'Location', 'Barcode', 'Serial Number', 'Description', 'Category', 'Status']);
+    const { bulkDelete } = useAssetMutations();
 
+    const assets = assetsData?.pages.flatMap(page => page.items || page) || [];
 
-
-    const filteredAssets = assets?.filter((asset: any) => {
-        const matchesSearch = (asset.name || '').toLowerCase().includes(searchTerm.toLowerCase()) || 
-                               (asset.serialNumber || '').toLowerCase().includes(searchTerm.toLowerCase());
+    const handleBulkDelete = async () => {
+        if (!selectedAssetIds.length) return;
         
-        const matchesActiveFilters = activeFilters.every((filter: any) => {
-            if (filter.type === 'Status' && filter.value === 'Hide Archived') return asset.status !== 'ARCHIVED';
-            if (filter.type === 'Name') return asset.name.toLowerCase().includes(filter.value.toLowerCase());
-            if (filter.type === 'Category') return (asset.category || '').toLowerCase().includes(filter.value.toLowerCase());
-            if (filter.type === 'Serial Number') return (asset.serialNumber || '').toLowerCase().includes(filter.value.toLowerCase());
-            return true;
-        });
-
-        const matchesLocation = selectedLocationIds.length === 0 || 
-                               (asset.locationId && selectedLocationIds.includes(asset.locationId)) ||
-                               (includeSubLocations && asset.location?.parentId && selectedLocationIds.includes(asset.location.parentId));
-
-        return matchesSearch && matchesActiveFilters && matchesLocation;
-    });
+        // Show confirmation before deleting
+        if (window.confirm(`Are you sure you want to delete ${selectedAssetIds.length} assets? This action cannot be undone.`)) {
+            const loadingToast = toast.loading(`Deleting ${selectedAssetIds.length} assets...`);
+            try {
+                await bulkDelete.mutateAsync(selectedAssetIds);
+                toast.success(`Successfully deleted ${selectedAssetIds.length} assets`, { id: loadingToast });
+                setSelectedAssetIds([]); // Clear selection
+                refetchAssets();
+            } catch (error) {
+                console.error(error);
+                toast.error('Failed to delete assets', { id: loadingToast });
+            }
+        }
+    };
 
     const handleExportCsv = () => {
-        if (!filteredAssets || filteredAssets.length === 0) {
+        if (!assets || assets.length === 0) {
             toast.error('No assets to export');
             return;
         }
 
-        const headers = visibleColumnIds.join(',');
-        const rows = filteredAssets.map((asset: any) => {
-            return visibleColumnIds.map((colId: string) => {
+        const headers = ALL_COLUMNS.map(c => c.id).join(',');
+        const rows = assets.map((asset: any) => {
+            return ALL_COLUMNS.map((col: any) => {
+                const colId = col.id;
                 let val = '-';
                 if (colId === 'Name') val = asset.name;
                 else if (colId === 'Location') val = asset.location?.name || '-';
@@ -186,12 +178,12 @@ export const AssetsPage = () => {
     };
 
     const exportToExcel = () => {
-        if (!filteredAssets || filteredAssets.length === 0) {
+        if (!assets || assets.length === 0) {
             toast.error('No assets to export');
             return;
         }
         
-        const data = filteredAssets.map((asset: any) => ({
+        const data = assets.map((asset: any) => ({
             ID: asset.id,
             Name: asset.name,
             Category: asset.category,
@@ -292,9 +284,6 @@ export const AssetsPage = () => {
                             </button>
                         </div>
                     )}
-                    <button className="p-2 text-gray-400 hover:text-gray-600 rounded-md hover:bg-gray-100 transition-colors">
-                        <ChevronDown className="w-5 h-5 rotate-90" />
-                    </button>
                 </div>
             </div>
 
@@ -319,6 +308,19 @@ export const AssetsPage = () => {
                         Location
                         <ChevronDown className="w-4 h-4 opacity-70" />
                     </button>
+                    {selectedAssetIds.length > 0 && (
+                        <div className="flex items-center gap-2 ml-4 px-2 py-1 bg-blue-50/50 rounded-lg border border-blue-100">
+                            <span className="text-[13px] font-bold text-blue-800 px-2">{selectedAssetIds.length} Selected</span>
+                            <div className="w-[1px] h-4 bg-blue-200 mx-1" />
+                            <button
+                                onClick={handleBulkDelete}
+                                className="flex items-center gap-1.5 px-3 py-1 bg-white hover:bg-red-50 text-red-600 rounded-md text-[13px] font-bold transition-all border border-transparent hover:border-red-200 shadow-sm"
+                            >
+                                <Trash2 className="w-3.5 h-3.5" />
+                                Delete
+                            </button>
+                        </div>
+                    )}
 
                     <LocationFilterModal 
                         isOpen={isLocationModalOpen}
@@ -371,11 +373,22 @@ export const AssetsPage = () => {
                         <thead>
                             <tr className="border-b border-gray-200 bg-white">
                                 <th className="px-5 py-4 w-12 text-center">
-                                    <input type="checkbox" className="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 cursor-pointer" />
+                                    <input 
+                                        type="checkbox" 
+                                        className="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 cursor-pointer"
+                                        checked={selectedAssetIds.length === assets.length && assets.length > 0}
+                                        onChange={() => {
+                                            if (selectedAssetIds.length === assets.length && assets.length > 0) {
+                                                setSelectedAssetIds([]);
+                                            } else {
+                                                setSelectedAssetIds(assets.map((a: any) => a.id));
+                                            }
+                                        }}
+                                    />
                                 </th>
-                                {visibleColumnIds.map((colId: string) => (
-                                    <th key={colId} className="px-5 py-4 text-[13px] font-bold text-gray-900 uppercase tracking-tight whitespace-nowrap">
-                                        {ALL_COLUMNS.find((c: any) => c.id === colId)?.label}
+                                {ALL_COLUMNS.map((col: any) => (
+                                    <th key={col.id} className="px-5 py-4 text-[13px] font-bold text-gray-900 uppercase tracking-tight whitespace-nowrap">
+                                        {col.label}
                                     </th>
                                 ))}
                             </tr>
@@ -385,39 +398,53 @@ export const AssetsPage = () => {
                                 Array(8).fill(0).map((_, i: number) => (
                                     <tr key={i} className="animate-pulse">
                                         <td className="p-5"><div className="h-4 w-4 bg-gray-100 rounded" /></td>
-                                        <td className="p-5" colSpan={visibleColumnIds.length}><div className="h-4 bg-gray-50 rounded w-full" /></td>
+                                        <td className="p-5" colSpan={ALL_COLUMNS.length}><div className="h-4 bg-gray-50 rounded w-full" /></td>
                                     </tr>
                                 ))
-                            ) : filteredAssets.length === 0 ? (
+                            ) : assets.length === 0 ? (
                                 <TableEmptyState
                                     variant="asset"
-                                    colSpan={visibleColumnIds.length + 1}
+                                    colSpan={ALL_COLUMNS.length + 1}
                                     title="No assets found"
                                     description="Try adjusting your filters or search term."
                                 />
-                            ) : filteredAssets.map((asset: any) => (
+                            ) : assets.map((asset: any) => {
+                            const isSelected = selectedAssetIds.includes(asset.id);
+                            return (
                                 <tr 
                                     key={asset.id} 
-                                    className="hover:bg-[#F9FAFB] transition-colors group cursor-pointer"
+                                    className={`transition-colors group cursor-pointer ${isSelected ? 'bg-blue-50/50 hover:bg-blue-50/80' : 'hover:bg-[#F9FAFB]'}`}
                                     onClick={() => navigate(`/assets/${asset.id}`)}
                                 >
-                                    <td className="px-5 py-4 text-center">
-                                        <input type="checkbox" className="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 cursor-pointer" onClick={(e) => e.stopPropagation()} />
+                                    <td className="px-5 py-4 text-center sticky left-0 z-10 border-r border-gray-100 bg-white group-hover:bg-gray-50/50 transition-colors">
+                                        <input 
+                                            type="checkbox" 
+                                            checked={isSelected}
+                                            onChange={(e) => {
+                                                e.stopPropagation();
+                                                setSelectedAssetIds(prev => 
+                                                    prev.includes(asset.id) 
+                                                        ? prev.filter(id => id !== asset.id)
+                                                        : [...prev, asset.id]
+                                                );
+                                            }}
+                                            onClick={(e) => e.stopPropagation()}
+                                            className="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 cursor-pointer" 
+                                        />
                                     </td>
-                                    {visibleColumnIds.map((colId: string) => (
-                                        <td key={colId} className="px-5 py-4">
-                                            {colId === 'Name' && (
+                                    {ALL_COLUMNS.map((col: any) => (
+                                        <td key={col.id} className="px-5 py-4">
+                                            {col.id === 'Name' && (
                                                 <div className="flex items-center gap-3">
                                                     <div className="w-9 h-9 rounded-lg bg-gray-50 border border-gray-100 flex items-center justify-center text-gray-400 group-hover:text-blue-600 transition-colors">
                                                         <Box className="w-5 h-5" />
                                                     </div>
                                                     <div>
                                                         <span className="text-sm font-bold text-gray-900 group-hover:text-blue-600 transition-colors">{asset.name}</span>
-                                                        <div className="text-[11px] font-semibold text-gray-400 mt-0.5">{asset.id.split('-').pop().toUpperCase()}</div>
                                                     </div>
                                                 </div>
                                             )}
-                                            {colId === 'Image' && (
+                                            {col.id === 'Image' && (
                                                 asset.imageUrl ? (
                                                     <img src={asset.imageUrl} className="w-10 h-10 rounded-lg object-cover border border-gray-100" />
                                                 ) : (
@@ -426,73 +453,61 @@ export const AssetsPage = () => {
                                                     </div>
                                                 )
                                             )}
-                                            {colId === 'Location' && (
+                                            {col.id === 'Location' && (
                                                 <div className="flex items-center gap-2 text-sm font-medium text-gray-600">
                                                     <MapPin className="w-3.5 h-3.5 opacity-50" />
                                                     {asset.location?.name || '-'}
                                                 </div>
                                             )}
-                                            {colId === 'Barcode' && (
+                                            {col.id === 'Barcode' && (
                                                 <div className="flex items-center gap-2 text-sm font-medium text-gray-600">
                                                     <Barcode className="w-3.5 h-3.5 opacity-50" />
                                                     {asset.barCode || '-'}
                                                 </div>
                                             )}
-                                            {colId === 'Status' && (
+                                            {col.id === 'Status' && (
                                                 <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[12px] font-bold border ${getStatusStyle(asset.status)}`}>
                                                     <div className={`w-1.5 h-1.5 rounded-full ${asset.status === 'OPERATIONAL' ? 'bg-emerald-500 animate-pulse' : 'bg-current'}`} />
                                                     {asset.status || 'ACTIVE'}
                                                 </span>
                                             )}
-                                            {['Serial Number', 'Description', 'Category', 'ID', 'Area', 'Model', 'Manufacturer'].includes(colId) && (
+                                            {['Serial Number', 'Description', 'Category'].includes(col.id) && (
                                                 <span className="text-sm font-medium text-gray-600 truncate max-w-[200px] block">
-                                                    {asset[colId.charAt(0).toLowerCase() + colId.slice(1).replace(' ', '')] || '-'}
+                                                    {asset[col.id.charAt(0).toLowerCase() + col.id.slice(1).replace(' ', '')] || '-'}
                                                 </span>
-                                            )}
-                                            {['Date Created', 'Purchase Date', 'Service Date', 'Warranty Expiration'].includes(colId) && (
-                                                <span className="text-sm font-medium text-gray-600">
-                                                    {asset[colId.charAt(0).toLowerCase() + colId.slice(1).replace(' ', '')] ? format(new Date(asset[colId.charAt(0).toLowerCase() + colId.slice(1).replace(' ', '')]), 'MM/dd/yy') : '-'}
-                                                </span>
-                                            )}
-                                            {colId === 'Worker' && <span className="text-sm font-medium text-gray-600">{asset.custodian?.user?.name || '-'}</span>}
-                                            {colId === 'Additional Workers' && <span className="text-sm font-medium text-gray-600">{asset.additionalWorkerIds?.length > 0 ? `${asset.additionalWorkerIds.length} Workers` : '-'}</span>}
-                                            {colId === 'Assigned Teams' && <span className="text-sm font-medium text-gray-600">{asset.team?.name || '-'}</span>}
-                                            {colId === 'Assigned Vendors' && <span className="text-sm font-medium text-gray-600">{asset.vendor?.name || '-'}</span>}
-                                            {colId === 'Assigned Customers' && <span className="text-sm font-medium text-gray-600">{asset.customer?.name || '-'}</span>}
-                                            {colId === 'Parent Asset' && <span className="text-sm font-medium text-gray-600">{asset.parent?.name || '-'}</span>}
-                                            {colId === 'Created By' && <span className="text-sm font-medium text-gray-600">{'-'}</span>}
-                                            {colId === 'Archived' && <span className="text-sm font-medium text-gray-600">{asset.status === 'ARCHIVED' ? 'Yes' : 'No'}</span>}
-                                            {colId === 'Current Value' && <span className="text-sm font-bold text-emerald-600">{asset.financials?.currentBookValue ? `$${asset.financials.currentBookValue.toLocaleString()}` : '-'}</span>}
-                                            {colId === 'Purchase Price' && <span className="text-sm font-medium text-gray-600">{asset.purchasePrice ? `$${asset.purchasePrice.toLocaleString()}` : '-'}</span>}
-                                            {colId === 'Residual Price' && <span className="text-sm font-medium text-gray-600">{asset.residualValue ? `$${asset.residualValue.toLocaleString()}` : '-'}</span>}
-                                            {colId === 'Useful Life' && <span className="text-sm font-medium text-gray-600">{asset.usefulLifeYears ? `${asset.usefulLifeYears} Years` : '-'}</span>}
-                                            {!['Name', 'Image', 'Location', 'Barcode', 'Status', 'Serial Number', 'Description', 'Category', 'ID', 'Area', 'Model', 'Manufacturer', 'Date Created', 'Purchase Date', 'Service Date', 'Warranty Expiration', 'Worker', 'Additional Workers', 'Assigned Teams', 'Assigned Vendors', 'Assigned Customers', 'Parent Asset', 'Created By', 'Archived', 'Current Value', 'Purchase Price', 'Residual Price', 'Useful Life'].includes(colId) && (
-                                                <span className="text-sm font-medium text-gray-400">-</span>
                                             )}
                                         </td>
                                     ))}
                                 </tr>
-                            ))}
+                            )})}
                         </tbody>
                     </table>
                 </div>
+
+                {/* Load More Button */}
+                {hasNextPage && (
+                    <div className="py-8 flex justify-center">
+                        <button
+                            onClick={() => fetchNextPage()}
+                            disabled={isFetchingNextPage}
+                            className="px-6 py-2.5 bg-white border border-gray-200 rounded-xl text-[13px] font-black text-gray-600 hover:border-blue-500 hover:text-blue-600 transition-all disabled:opacity-50 shadow-sm flex items-center gap-2"
+                        >
+                            {isFetchingNextPage ? (
+                                <>
+                                    <Loader2 className="w-4 h-4 animate-spin" />
+                                    Loading more...
+                                </>
+                            ) : (
+                                'Load More Assets'
+                            )}
+                        </button>
+                    </div>
+                )}
             </div>
         </div>
     )}
 
-            {/* Modals & Popovers */}
-            <ColumnPickerPopover 
-                isOpen={isColumnsMenuOpen}
-                onClose={() => setIsColumnsMenuOpen(false)}
-                columns={ALL_COLUMNS}
-                visibleColumnIds={visibleColumnIds}
-                onToggle={(id: string) => {
-                    setVisibleColumnIds((prev: string[]) => 
-                        prev.includes(id) ? prev.filter((c: string) => c !== id) : [...prev, id]
-                    );
-                }}
-                anchorRect={columnAnchorRect}
-            />
+
 
             {/* Filters Modal */}
             <AnimatePresence>

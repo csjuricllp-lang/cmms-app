@@ -26,9 +26,11 @@ import { AddExpenseDto } from './dto/add-expense.dto';
 import { AddChecklistResponseDto } from './dto/add-checklist-response.dto';
 import { AddLOTODto } from './dto/add-loto.dto';
 import { BulkUpdateWorkOrdersDto } from './dto/bulk-update.dto';
+import { BulkUnassignDto } from './dto/bulk-unassign.dto';
 import { AddLinkDto } from './dto/add-link.dto';
 import { ProcessApprovalDto } from './dto/process-approval.dto';
 import { SmartScheduleDto } from './dto/smart-schedule.dto';
+import { DeferWorkOrderDto } from './dto/defer-work-order.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { PermissionsGuard } from '../auth/guards/permissions.guard';
 import { RequirePermissions } from '../auth/decorators/require-permissions.decorator';
@@ -217,6 +219,14 @@ export class WorkOrdersController {
   }
 
   @RequirePermissions(Permissions.WORK_ORDERS.UPDATE)
+  @Post('bulk-unassign')
+  bulkUnassign(
+    @Body() dto: BulkUnassignDto,
+  ) {
+    return this.workOrdersService.bulkUnassign(dto.workOrderIds);
+  }
+
+  @RequirePermissions(Permissions.WORK_ORDERS.UPDATE)
   @Post('smart-schedule')
   smartSchedule(@Body() dto: SmartScheduleDto) {
     return this.workOrdersService.smartSchedule(dto);
@@ -238,5 +248,17 @@ export class WorkOrdersController {
   @Post(':id/apply-template')
   applyTemplate(@Param('id') id: string, @Body('templateId') templateId: string) {
     return this.workOrdersService.applyTemplate(id, templateId);
+  }
+
+  @RequirePermissions(Permissions.WORK_ORDERS.UPDATE)
+  @Post(':id/defer')
+  deferWorkOrder(@Param('id') id: string, @Body() dto: DeferWorkOrderDto) {
+    return this.workOrdersService.deferWorkOrder(id, dto);
+  }
+
+  @RequirePermissions(Permissions.WORK_ORDERS.UPDATE)
+  @Post(':id/resume')
+  resumeWorkOrder(@Param('id') id: string) {
+    return this.workOrdersService.resumeWorkOrder(id);
   }
 }

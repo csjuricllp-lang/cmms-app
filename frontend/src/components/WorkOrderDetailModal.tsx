@@ -3,7 +3,7 @@ import {
     MoreHorizontal, Plus, Clock, Package, Bookmark, Link, ImageIcon, Send,
     CheckCircle2, Circle, Type, FileText, 
     FileSignature, Barcode, Gauge, Trash2, Paperclip, Sparkles, Link2, Info,
-    Check, RotateCcw, AlertTriangle, Printer, Copy
+    Check, RotateCcw, AlertTriangle, Printer, Copy, CalendarClock
 } from 'lucide-react';
 import React, { useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
@@ -22,6 +22,7 @@ import { EditWorkOrderModal } from './EditWorkOrderModal';
 import { LinkWorkOrderModal } from './LinkWorkOrderModal';
 import { PartInspector } from './PartInspector';
 import { HoldReasonModal } from './HoldReasonModal';
+import { DeferWorkOrderModal } from './DeferWorkOrderModal';
 
 // Helper to format duration from hours logged decimal
 const formatDuration = (hours: number) => {
@@ -82,7 +83,9 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
         approveWorkOrder,
         reviewWorkOrder,
         startTimer,
-        pauseTimer
+        pauseTimer,
+        deferWorkOrder,
+        resumeWorkOrder
     } = useWorkOrders();
 
     const [isEditingCloseoutNotes, setIsEditingCloseoutNotes] = useState(false);
@@ -98,6 +101,7 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
     const [newComment, setNewComment] = React.useState('');
     const [selectedPartForInspector, setSelectedPartForInspector] = useState<any | null>(null);
     const [isHoldReasonModalOpen, setIsHoldReasonModalOpen] = useState(false);
+    const [isDeferModalOpen, setIsDeferModalOpen] = useState(false);
 
     const [elapsedTime, setElapsedTime] = useState<string>('');
 
@@ -213,7 +217,7 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
             id: displayOrder.id, 
             status: 'COMPLETED', 
             resolutionNotes: data.resolutionNotes,
-            rootCauseCode: data.rcaCode,
+            rootCauseCode: data.rcaCode || 'MAINTENANCE_COMPLETED',
             signatureUrl: data.signature
         });
         setIsCompletionWizardOpen(false);
@@ -371,23 +375,50 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                                     </button>
                                 </div>
                             ) : (
-                                <div className="relative group/status dropdown">
-                                    <button className="flex items-center gap-3 px-5 py-3 bg-white border border-slate-200 rounded-2xl text-[14px] font-black text-slate-800 hover:border-blue-400 transition-all shadow-sm active:scale-95">
-                                        <div className="w-4 h-4 rounded-full border-4 border-slate-100 border-t-blue-600" />
-                                        <span className="uppercase tracking-tight">{displayOrder.status || 'Open'}</span>
-                                        <ChevronDown className="w-4 h-4 text-slate-500" />
-                                    </button>
-                                    <div className="hidden group-focus-within/status:block absolute top-full left-0 mt-2 bg-white border border-gray-100 rounded-xl shadow-xl z-[70] py-2 w-48">
-                                        {['OPEN', 'IN_PROGRESS', 'ON_HOLD', 'COMPLETED'].map(status => (
-                                            <button 
-                                                key={status}
-                                                onClick={() => handleStatusUpdate(status)}
-                                                className="w-full text-left px-4 py-2 text-[14px] font-bold text-gray-600 hover:bg-slate-50 hover:text-primary transition-all uppercase"
-                                            >
-                                                {status.replace('_', ' ')}
-                                            </button>
-                                        ))}
+                                <div className="flex flex-wrap items-center gap-4">
+                                    {(displayOrder as any).deferredUntilDate && (
+                                        <div className="flex items-center gap-2 px-4 py-2 bg-orange-50 border border-orange-200 rounded-xl">
+                                            <CalendarClock className="w-4 h-4 text-orange-500" />
+                                            <span className="text-[12px] font-black text-orange-700 uppercase tracking-tight">
+                                                Deferred to {new Date((displayOrder as any).deferredUntilDate).toLocaleDateString()}
+                                            </span>
+                                        </div>
+                                    )}
+                                    <div className="relative group/status dropdown">
+                                        <button className="flex items-center gap-3 px-5 py-3 bg-white border border-slate-200 rounded-2xl text-[14px] font-black text-slate-800 hover:border-blue-400 transition-all shadow-sm active:scale-95">
+                                            <div className="w-4 h-4 rounded-full border-4 border-slate-100 border-t-blue-600" />
+                                            <span className="uppercase tracking-tight">{displayOrder.status || 'Open'}</span>
+                                            <ChevronDown className="w-4 h-4 text-slate-500" />
+                                        </button>
+                                        <div className="hidden group-focus-within/status:block absolute top-full left-0 mt-2 bg-white border border-gray-100 rounded-xl shadow-xl z-[70] py-2 w-48">
+                                            {['OPEN', 'IN_PROGRESS', 'ON_HOLD', 'COMPLETED'].map(status => (
+                                                <button 
+                                                    key={status}
+                                                    onClick={() => handleStatusUpdate(status)}
+                                                    className="w-full text-left px-4 py-2 text-[14px] font-bold text-gray-600 hover:bg-slate-50 hover:text-primary transition-all uppercase"
+                                                >
+                                                    {status.replace('_', ' ')}
+                                                </button>
+                                            ))}
+                                        </div>
                                     </div>
+                                    
+                                    {(displayOrder as any).deferredUntilDate ? (
+                                        <button 
+                                            onClick={() => resumeWorkOrder.mutate(displayOrder.id)}
+                                            className="px-5 py-3 bg-emerald-500 hover:bg-emerald-600 text-white rounded-2xl text-[14px] font-black uppercase tracking-widest shadow-lg shadow-emerald-500/20 transition-all active:scale-95"
+                                        >
+                                            Resume Work
+                                        </button>
+                                    ) : (
+                                        <button 
+                                            onClick={() => setIsDeferModalOpen(true)}
+                                            className="px-5 py-3 bg-white border border-orange-200 text-orange-600 hover:bg-orange-50 rounded-2xl text-[14px] font-black uppercase tracking-widest transition-all active:scale-95 flex items-center gap-2"
+                                        >
+                                            <CalendarClock className="w-4 h-4" />
+                                            Defer
+                                        </button>
+                                    )}
                                 </div>
                             )}
  
@@ -508,7 +539,7 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
 
                     {/* Tabs Navigation */}
                     <div className="px-8 border-b border-gray-50 flex items-center gap-8 bg-white sticky top-[84px] z-[40] overflow-x-auto scrollbar-hide">
-                        {['Overview', 'Tasks', 'Labor', 'Parts', 'Costs', 'Files', 'Activity', 'Links', 'Provider Portal'].map(tab => (
+                        {['Overview', 'Tasks', 'Labor', 'Parts', 'Costs', 'Files', 'Activity', 'Links', 'Provider Portal', 'Permits'].map(tab => (
                             <button
                                 key={tab}
                                 onClick={() => setActiveTab(tab)}
@@ -1484,6 +1515,32 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                                 </div>
                             </div>
                         )}
+                        {activeTab === 'Permits' && (
+                            <div className="space-y-10 animate-in slide-in-from-bottom-4 duration-500 pb-20">
+                                <div className="flex items-center justify-between px-2">
+                                    <div className="space-y-1">
+                                        <h3 className="text-[20px] font-black italic uppercase tracking-tight text-slate-800">Permit to Work</h3>
+                                        <p className="text-[15px] font-bold text-slate-500">Manage safety permits for this mission.</p>
+                                    </div>
+                                    <button 
+                                        className="px-5 py-2.5 bg-blue-600 text-white rounded-xl text-[14px] font-black hover:bg-blue-700 transition-all shadow-sm flex items-center gap-2"
+                                        onClick={() => {
+                                            toast.success('Permit creation modal to be implemented');
+                                        }}
+                                    >
+                                        <Plus className="w-4 h-4" />
+                                        Request Permit
+                                    </button>
+                                </div>
+                                <div className="p-20 bg-white border border-slate-100 rounded-[32px] shadow-sm flex flex-col items-center justify-center text-center space-y-6">
+                                    <h4 className="text-[18px] font-black text-slate-800">No Permits Linked</h4>
+                                    <div className="space-y-1 max-w-md">
+                                        <p className="text-[14px] font-bold text-slate-400">If this mission requires a Permit to Work (PTW), you must request it here.</p>
+                                        <p className="text-[14px] font-bold text-slate-400">Work cannot begin until required permits are approved.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
@@ -1554,6 +1611,13 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                 onClose={() => setIsHoldReasonModalOpen(false)}
                 onSubmit={(reason) => {
                     updateStatus.mutate({ id: displayOrder.id, status: 'ON_HOLD', onHoldReason: reason });
+                }}
+            />
+            <DeferWorkOrderModal
+                isOpen={isDeferModalOpen}
+                onClose={() => setIsDeferModalOpen(false)}
+                onSubmit={(data) => {
+                    deferWorkOrder.mutate({ id: displayOrder.id, data });
                 }}
             />
         </div>
