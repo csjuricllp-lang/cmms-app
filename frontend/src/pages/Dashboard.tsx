@@ -17,7 +17,7 @@ import {
     LayoutGrid,
     Search,
     CircleCheck,
-    BarChart2
+    BarChart
 } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { CreateWorkOrderModal } from '../components/CreateWorkOrderModal';
@@ -197,7 +197,7 @@ export const Dashboard = () => {
             value: "94%", 
             trend: "Met", 
             trendType: "secure",
-            icon: BarChart2, 
+            icon: BarChart, 
             iconBg: "bg-[#F5F3FF] text-violet-600", 
             path: "/performance" 
         },

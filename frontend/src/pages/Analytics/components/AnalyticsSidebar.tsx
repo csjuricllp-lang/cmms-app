@@ -8,7 +8,7 @@ import {
     ShieldAlert, 
     Box, 
     Package, 
-    BarChart2, 
+    BarChart, 
     Pin,
     ChevronRight,
     Home
@@ -38,7 +38,7 @@ export const AnalyticsSidebar = ({
 
     const categories = [
         { name: 'General', icon: TrendingUp },
-        { name: 'Work Orders', icon: BarChart2 },
+        { name: 'Work Orders', icon: BarChart },
         { name: 'Assets', icon: Box },
         { name: 'Parts', icon: Package },
         { name: 'Meters', icon: Clock },
