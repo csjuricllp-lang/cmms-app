@@ -28,8 +28,8 @@ export const UserInspector = ({ user, onClose }: UserInspectorProps) => {
             queryClient.invalidateQueries({ queryKey: ['users'] });
             onClose();
         },
-        onError: () => {
-            toast.error('Failed to remove user');
+        onError: (error: any) => {
+            toast.error(error.response?.data?.message || 'Failed to remove user');
         }
     });
 

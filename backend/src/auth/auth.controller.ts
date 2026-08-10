@@ -127,7 +127,8 @@ export class AuthController {
     if (!email) {
       return { message: 'If that email exists, a reset link has been sent.' };
     }
-    await this.authService.forgotPassword(email);
+    const formattedEmail = email.trim().toLowerCase();
+    await this.authService.forgotPassword(formattedEmail);
     return { message: 'If that email exists, a reset link has been sent.' };
   }
 
