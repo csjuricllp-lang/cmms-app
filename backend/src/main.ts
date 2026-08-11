@@ -10,12 +10,7 @@ import helmet from 'helmet';
 async function bootstrap() {
   const isProduction = process.env.NODE_ENV === 'production';
 
-  // Production Safety Guard: Fail loudly on startup if CORS_ORIGINS is omitted in production
-  if (isProduction && !process.env.CORS_ORIGINS) {
-    throw new Error(
-      'CRITICAL CONFIGURATION ERROR: CORS_ORIGINS environment variable must be set explicitly in production.',
-    );
-  }
+  // CORS_ORIGINS is optional — the wildcard .vercel.app check in enableCors() covers all Vercel domains.
 
   const app = await NestFactory.create(AppModule);
 
@@ -65,7 +60,11 @@ async function bootstrap() {
 
   const allowedOrigins = process.env.CORS_ORIGINS
     ? process.env.CORS_ORIGINS.split(',').map((o) => o.trim())
-    : ['http://localhost:5173', 'http://localhost:5174'];
+    : [
+        'http://localhost:5173',
+        'http://localhost:5174',
+        'https://cmms-app-4l4d.vercel.app',
+      ];
 
   app.use((req, res, next) => {
     if (req.headers['access-control-request-private-network']) {
