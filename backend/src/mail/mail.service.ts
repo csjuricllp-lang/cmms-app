@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, BadRequestException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as nodemailer from 'nodemailer';
 
@@ -111,7 +111,7 @@ export class MailService {
         this.logger.log(`Real invitation email sent successfully to ${email}`);
       } catch (error) {
         this.logger.error(`Failed to send real invitation email to ${email}: ${error.message}`);
-        throw new import('@nestjs/common').BadRequestException(`SMTP Error: ${error.message}`);
+        throw new BadRequestException(`SMTP Error: ${error.message}`);
       }
     } else {
       this.logger.log(`[MAIL MOCK] Sending invitation to ${email}`);
