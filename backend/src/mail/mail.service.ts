@@ -20,6 +20,7 @@ export class MailService {
         host,
         port: Number(port),
         secure,
+        family: 4, // Force IPv4 to bypass ENETUNREACH on Render's IPv6 network
         auth: {
           user,
           pass,
