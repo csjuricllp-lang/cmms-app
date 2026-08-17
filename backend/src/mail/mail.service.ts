@@ -111,7 +111,7 @@ export class MailService {
         this.logger.log(`Real invitation email sent successfully to ${email}`);
       } catch (error) {
         this.logger.error(`Failed to send real invitation email to ${email}: ${error.message}`);
-        throw new import('@nestjs/common').BadRequestException(\`SMTP Error: \${error.message}\`);
+        throw new import('@nestjs/common').BadRequestException(`SMTP Error: ${error.message}`);
       }
     } else {
       this.logger.log(`[MAIL MOCK] Sending invitation to ${email}`);
