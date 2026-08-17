@@ -645,6 +645,104 @@ export class AuthService {
     }, { timeout: 30000 });
   }
 
+  async registerOpen(data: import('./dto/register.dto').OpenRegisterDto) {
+    const existingUser = await this.usersService.findByEmail(data.email);
+    if (existingUser)
+      throw new ConflictException(
+        'Identity already registered in CMMS network.',
+      );
+
+    return this.prisma.$transaction(async (tx: any) => {
+      // 1. Verify Organization Exists
+      const organization = await tx.organization.findUnique({
+        where: { id: data.organizationId },
+      });
+      if (!organization) {
+        throw new UnauthorizedException('Organization not found.');
+      }
+
+      // 2. Find Requested Role
+      const role = await tx.role.findFirst({
+        where: {
+          organizationId: organization.id,
+          name: {
+            equals: data.roleName,
+            mode: 'insensitive'
+          }
+        },
+      });
+
+      if (!role) {
+        throw new UnauthorizedException(`Role '${data.roleName}' not found in this organization.`);
+      }
+
+      // 3. Create User Account
+      const hashedPassword = await bcrypt.hash(data.password, 10);
+      const user = await tx.user.create({
+        data: {
+          email: data.email,
+          password: hashedPassword,
+          firstName: data.firstName,
+          lastName: data.lastName,
+          name: `${data.firstName} ${data.lastName}`,
+          phone: data.phone,
+          isActive: true,
+        },
+      });
+
+      // 4. Link User to Organization
+      const membership = await tx.userOrganization.create({
+        data: {
+          userId: user.id,
+          organizationId: organization.id,
+          roleId: role.id,
+          customPermissions: [],
+        },
+        include: {
+          organization: true,
+          role: {
+            include: {
+              permissions: true,
+            },
+          },
+        },
+      });
+
+      // 5. Audit Log Entry
+      await tx.auditLog.create({
+        data: {
+          action: 'USER_REGISTERED_OPEN',
+          model: 'User',
+          entityId: user.id,
+          userId: user.id,
+          organizationId: organization.id,
+        },
+      });
+
+      // 6. Generate Session Tokens
+      const payload = this.createTokenPayload(user, membership);
+      const accessToken = this.jwtService.sign(payload, {
+        expiresIn: (process.env.JWT_ACCESS_EXPIRY || '15m') as any,
+      });
+
+      return {
+        accessToken,
+        user: {
+          id: user.id,
+          email: user.email,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          name: user.name,
+          roleName: role.name,
+        },
+        organization: {
+          id: organization.id,
+          name: organization.name,
+        },
+      };
+    }, { timeout: 30000 });
+  }
+
   async forgotPassword(email: string) {
     const user = await this.prisma.user.findUnique({
       where: { email },

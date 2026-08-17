@@ -12,17 +12,20 @@ describe('Medium Security Findings Fixes Verification (M1 - M5)', () => {
         findUnique: jest.fn(),
         delete: jest.fn().mockResolvedValue({}),
         deleteMany: jest.fn().mockResolvedValue({ count: 1 }),
+        create: jest.fn(),
       },
     };
 
     const mockJwt = {
       verify: jest.fn(),
+      sign: jest.fn(),
     };
 
     beforeEach(() => {
       authService = new AuthService(
         mockPrisma as any,
         mockJwt as any,
+        {} as any,
         {} as any,
         {} as any,
       );
@@ -126,7 +129,7 @@ describe('Medium Security Findings Fixes Verification (M1 - M5)', () => {
     };
 
     beforeEach(() => {
-      poService = new PurchaseOrdersService(mockPrisma as any);
+      poService = new PurchaseOrdersService(mockPrisma as any, {} as any);
       jest.clearAllMocks();
     });
 

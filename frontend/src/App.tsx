@@ -37,6 +37,7 @@ import { SsoCallbackPage } from './pages/SsoCallback';
 import { Workflows } from './pages/Settings/Workflows';
 import { CreateAssetPage } from './pages/CreateAsset';
 import { NotificationsPage } from './pages/Notifications';
+import { JoinPage } from './pages/Join';
 import { MobileScanner } from './pages/MobileScanner';
 import { useThemeStore } from './store/useThemeStore';
 import { OfflineSyncProvider } from './contexts/OfflineSyncContext';
@@ -212,6 +213,7 @@ function App() {
 
           {/* Public Onboarding */}
           <Route path="/accept-invitation/:token" element={<AcceptInvitationPage />} />
+          <Route path="/join" element={<JoinPage />} />
 
           {/* Fallback */}
           <Route path="*" element={<Navigate to="/" replace />} />

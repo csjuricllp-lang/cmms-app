@@ -89,6 +89,7 @@ describe('High Security Findings Fixes Verification (H1 - H6)', () => {
         invitationsService.accept({
           token: 'valid-invitation-token',
           password: 'WrongPassword123!',
+          name: 'Existing User',
         }),
       ).rejects.toThrow(UnauthorizedException);
     });
