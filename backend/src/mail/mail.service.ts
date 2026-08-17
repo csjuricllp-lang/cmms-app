@@ -24,6 +24,9 @@ export class MailService {
           user,
           pass,
         },
+        connectionTimeout: 10000, // 10 seconds
+        greetingTimeout: 5000,    // 5 seconds
+        socketTimeout: 10000,     // 10 seconds
       });
       this.useRealEmail = true;
       this.logger.log(`MailService initialized with real SMTP transporter: ${host}:${port}`);
