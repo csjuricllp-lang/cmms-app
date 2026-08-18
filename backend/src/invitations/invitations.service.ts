@@ -97,7 +97,10 @@ export class InvitationsService {
       invitation.organization.name,
     );
 
-    return { message: 'Invitation sent successfully' };
+    return { 
+      message: 'Invitation processed successfully',
+      token: token
+    };
   }
 
   async accept(acceptDto: AcceptInvitationDto) {
