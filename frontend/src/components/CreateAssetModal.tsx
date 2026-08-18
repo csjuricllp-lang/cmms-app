@@ -349,11 +349,22 @@ export const CreateAssetModal: React.FC<CreateAssetModalProps> = ({ isOpen, onCl
                                 type="file" 
                                 id="asset-image-raw" 
                                 className="hidden" 
-                                onChange={(e) => {
+                                onChange={async (e) => {
                                     const file = e.target.files?.[0];
                                     if (file) {
-                                        setImageUrl(`https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&q=80`);
-                                        toast.success('Blueprint captured internally');
+                                        const toastId = toast.loading('Uploading asset image...');
+                                        try {
+                                            const formData = new FormData();
+                                            formData.append('file', file);
+                                            const response = await api.post('/files/upload', formData, {
+                                                headers: { 'Content-Type': 'multipart/form-data' }
+                                            });
+                                            setImageUrl(response.data.path);
+                                            toast.success('Image uploaded successfully', { id: toastId });
+                                        } catch (err: any) {
+                                            console.error(err);
+                                            toast.error(err.response?.data?.message || 'Failed to upload image', { id: toastId });
+                                        }
                                     }
                                 }}
                             />
