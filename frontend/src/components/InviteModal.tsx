@@ -1,4 +1,4 @@
-﻿import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Mail, Trash2, Plus, Loader2, Copy, CheckCircle2 } from 'lucide-react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
@@ -59,7 +59,7 @@ export const InviteModal = ({ isOpen, onClose }: InviteModalProps) => {
             
             const links = results.map(r => ({
                 email: r.email,
-                link: \\/accept-invitation/\\
+                link: `${window.location.origin}/accept-invitation/${r.token}`
             }));
             
             setGeneratedLinks(links);
