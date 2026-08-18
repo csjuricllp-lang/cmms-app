@@ -65,9 +65,17 @@ export class AssetsService {
       parentAssetId,
     } = query || {};
 
-    const where: Prisma.AssetWhereInput = {};
+    const where: Prisma.AssetWhereInput = {
+      organizationId,
+    };
 
-    if (status) where.status = status as any;
+    if (status) {
+      if (status === 'Hide Archived') {
+        where.status = { notIn: ['DECOMMISSIONED', 'DISPOSED'] } as any;
+      } else {
+        where.status = status as any;
+      }
+    }
     if (criticality) where.criticality = criticality as any;
     if (locationId) where.locationId = locationId;
     if (categoryId) where.categoryId = categoryId;
