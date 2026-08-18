@@ -100,12 +100,25 @@ export const Dashboard = () => {
         }
     };
 
+    const woTrend = overview.trends?.workOrders || "+0%";
+    const mttrTrend = overview.trends?.mttr || "0%";
+    const lotoTrend = overview.trends?.loto || "Secure";
+    const pmTrend = overview.trends?.pm || "+0%";
+    const mwtTrend = overview.trends?.mwt || "0%";
+
+    const getTrendType = (val: string, reverse = false) => {
+        if (val === 'Secure') return 'secure';
+        if (val.startsWith('+')) return reverse ? 'down' : 'up';
+        if (val.startsWith('-')) return reverse ? 'up' : 'down';
+        return 'default';
+    };
+
     const displayStats = isManager ? [
         { 
             label: "Fleet Work Orders", 
             value: overview.totalWorkOrders, 
-            trend: "+8%", 
-            trendType: "up",
+            trend: woTrend, 
+            trendType: getTrendType(woTrend),
             icon: Activity, 
             iconBg: "bg-[#EFF6FF] text-blue-600", 
             path: "/work-orders" 
@@ -113,8 +126,8 @@ export const Dashboard = () => {
         { 
             label: "Repair MTTR", 
             value: `${overview.mttrHours}h`, 
-            trend: "-12%", 
-            trendType: "down",
+            trend: mttrTrend, 
+            trendType: getTrendType(mttrTrend, true),
             icon: Clock, 
             iconBg: "bg-[#F5F3FF] text-violet-600", 
             path: "/analytics" 
@@ -122,8 +135,8 @@ export const Dashboard = () => {
         { 
             label: "LOTO Safety", 
             value: `${overview.lotoComplianceRate}%`, 
-            trend: "Secure", 
-            trendType: "secure",
+            trend: lotoTrend, 
+            trendType: getTrendType(lotoTrend),
             icon: ShieldCheck, 
             iconBg: "bg-[#FFF1F2] text-rose-600", 
             path: "/checklists" 
@@ -131,8 +144,8 @@ export const Dashboard = () => {
         { 
             label: "PM Precision", 
             value: `${overview.pmComplianceRate}%`, 
-            trend: "+0.5%", 
-            trendType: "up",
+            trend: pmTrend, 
+            trendType: getTrendType(pmTrend),
             icon: TrendingUp, 
             iconBg: "bg-[#FFFbeb] text-amber-600", 
             path: "/pm" 
@@ -140,8 +153,8 @@ export const Dashboard = () => {
         { 
             label: "Wait Time (MWT)", 
             value: `${overview.mwtHours || 0}h`, 
-            trend: "Active", 
-            trendType: "up",
+            trend: mwtTrend, 
+            trendType: getTrendType(mwtTrend, true),
             icon: Clock, 
             iconBg: "bg-[#F0FDF4] text-emerald-600", 
             path: "/analytics" 
@@ -149,7 +162,7 @@ export const Dashboard = () => {
     ] : [
         { 
             label: "Completed", 
-            value: myTasks?.filter((w: any) => w.status === 'COMPLETED').length || 0, 
+            value: stats?.data?.workOrderStatus?.find((s: any) => s.status === 'COMPLETED')?._count || 0, 
             trend: "Done", 
             trendType: "up",
             icon: CircleCheck, 
@@ -158,7 +171,7 @@ export const Dashboard = () => {
         },
         { 
             label: "Total Logged", 
-            value: myTasks?.length || 0, 
+            value: overview.totalWorkOrders || 0, 
             trend: "All", 
             trendType: "blue",
             icon: Clock, 
@@ -167,7 +180,7 @@ export const Dashboard = () => {
         },
         { 
             label: "Active Missions", 
-            value: myTasks?.filter((w: any) => w.status === 'OPEN' || w.status === 'IN_PROGRESS').length || 0, 
+            value: (stats?.data?.workOrderStatus?.find((s: any) => s.status === 'OPEN')?._count || 0) + (stats?.data?.workOrderStatus?.find((s: any) => s.status === 'IN_PROGRESS')?._count || 0), 
             trend: "Priority", 
             trendType: "default",
             icon: Activity, 
@@ -194,8 +207,8 @@ export const Dashboard = () => {
         },
         { 
             label: "SLA Targets", 
-            value: "94%", 
-            trend: "Met", 
+            value: `${stats?.data?.complianceMetrics?.scheduleCompliance || 0}%`, 
+            trend: stats?.data?.complianceMetrics?.summary?.total > 0 ? "On Time" : "No SLA", 
             trendType: "secure",
             icon: BarChart, 
             iconBg: "bg-[#F5F3FF] text-violet-600", 

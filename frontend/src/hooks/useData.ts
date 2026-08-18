@@ -19,22 +19,36 @@ const getUserRole = () => {
     }
 };
 
+const getUserOrgId = () => {
+    const userJson = localStorage.getItem('user');
+    if (!userJson) return undefined;
+    try {
+        const user = JSON.parse(userJson);
+        return user?.userOrgId || undefined;
+    } catch {
+        return undefined;
+    }
+};
+
 export const useDashboardStats = () => {
     const role = getUserRole();
+    const userOrgId = getUserOrgId();
     const isManager = ['OWNER', 'ADMINISTRATOR', 'MANAGER', 'ADMIN', 'MISSION SPECIALIST', 'MAINTENANCE MANAGER'].includes(role);
 
     return useQuery({
-        queryKey: ['dashboard-stats'],
+        queryKey: ['dashboard-stats', isManager, userOrgId],
         queryFn: async () => {
-            const response = await api.get('/analytics/dashboard', {
-                params: {
-                    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
-                }
-            });
+            const params: any = {
+                timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+            };
+            if (!isManager && userOrgId) {
+                params.worker = userOrgId;
+            }
+            const response = await api.get('/analytics/dashboard', { params });
             return response.data;
         },
         refetchInterval: 30000,
-        enabled: isManager
+        enabled: !!role
     });
 };
 

@@ -966,6 +966,106 @@ export class AnalyticsService {
       ? ((lotoWOs.filter((w: any) => w.lotoVerified).length / lotoWOs.length) * 100).toFixed(1)
       : 100;
 
+    // --- Previous Period Trends Calculation ---
+    const periodDuration = Date.now() - thirtyDaysAgo.getTime();
+    const prevPeriodStart = new Date(thirtyDaysAgo.getTime() - periodDuration);
+    const prevPeriodEnd = thirtyDaysAgo;
+
+    const prevWoWhere = {
+      ...woWhere,
+      createdAt: { gte: prevPeriodStart, lte: prevPeriodEnd }
+    };
+
+    const [
+      prevWorkOrdersCount,
+      prevCompletedWOs,
+      prevScheduledPMs,
+      prevCompletedPMs,
+      prevStartedWOs,
+      prevLotoWOs
+    ] = await Promise.all([
+      this.prisma.workOrder.count({ where: prevWoWhere }),
+      this.prisma.workOrder.findMany({
+        where: {
+          ...woWhere,
+          status: 'COMPLETED',
+          completedAt: { gte: prevPeriodStart, lte: prevPeriodEnd },
+        },
+        select: { createdAt: true, completedAt: true },
+      }),
+      this.prisma.workOrder.count({
+        where: {
+          ...woWhere,
+          maintenanceType: 'PREVENTIVE',
+          createdAt: { gte: prevPeriodStart, lte: prevPeriodEnd },
+        },
+      }),
+      this.prisma.workOrder.count({
+        where: {
+          ...woWhere,
+          maintenanceType: 'PREVENTIVE',
+          status: 'COMPLETED',
+          createdAt: { gte: prevPeriodStart, lte: prevPeriodEnd },
+        },
+      }),
+      this.prisma.workOrder.findMany({
+        where: {
+          ...woWhere,
+          maintenanceType: { not: 'PREVENTIVE' },
+          startDate: { not: null },
+          createdAt: { gte: prevPeriodStart, lte: prevPeriodEnd },
+        },
+        select: { createdAt: true, startDate: true },
+      }),
+      this.prisma.workOrder.findMany({
+        where: {
+          ...woWhere,
+          requiresLOTO: true,
+          createdAt: { gte: prevPeriodStart, lte: prevPeriodEnd }
+        },
+        select: { lotoVerified: true }
+      })
+    ]);
+
+    let prevTotalRepairTimeMs = 0;
+    prevCompletedWOs.forEach((wo: any) => {
+      const start = new Date(wo.createdAt).getTime();
+      const end = new Date(wo.completedAt).getTime();
+      prevTotalRepairTimeMs += end - start;
+    });
+    const prevMTTRHours = prevCompletedWOs.length > 0
+      ? prevTotalRepairTimeMs / prevCompletedWOs.length / (1000 * 60 * 60)
+      : 0;
+
+    const prevPmComplianceRate = prevScheduledPMs > 0 ? (prevCompletedPMs / prevScheduledPMs) * 100 : 100;
+    const prevMWTHours = this.slaService.calculateMWT(prevStartedWOs);
+    const prevLotoComplianceRate = prevLotoWOs.length > 0
+      ? (prevLotoWOs.filter((w: any) => w.lotoVerified).length / prevLotoWOs.length) * 100
+      : 100;
+
+    const calculateTrendString = (curr: number, prev: number, isPercentageDiff = false) => {
+      if (isPercentageDiff) {
+        const diff = curr - prev;
+        if (diff === 0) return '0%';
+        return (diff > 0 ? '+' : '') + diff.toFixed(1) + '%';
+      } else {
+        if (prev === 0) {
+          return curr > 0 ? '+100%' : '0%';
+        }
+        const pct = ((curr - prev) / prev) * 100;
+        if (pct === 0) return '0%';
+        return (pct > 0 ? '+' : '') + pct.toFixed(1) + '%';
+      }
+    };
+
+    const trends = {
+      workOrders: calculateTrendString(totalWorkOrders, prevWorkOrdersCount),
+      mttr: calculateTrendString(Number(mttrHours), prevMTTRHours),
+      loto: Number(lotoComplianceRate) === prevLotoComplianceRate ? 'Secure' : calculateTrendString(Number(lotoComplianceRate), prevLotoComplianceRate, true),
+      pm: calculateTrendString(Number(pmComplianceRate), prevPmComplianceRate, true),
+      mwt: calculateTrendString(Number(mwtHours), prevMWTHours)
+    };
+
     // --- 16. Real-time Parts Analytics ---
     const workOrderParts = await this.prisma.workOrderPart.findMany({
       where: {
@@ -1105,12 +1205,13 @@ export class AnalyticsService {
         ...a,
         incompleteWorkOrdersCount: a._count.workOrders
       })),
-      meterReadings,
+          meterReadings,
       meterStats: {
         avg: meterStats._avg.value || 0,
         max: meterStats._max.value || 0,
         min: meterStats._min.value || 0
       },
+      topAssetsByCost: hydratedAssetBreakout.map(item => ({ name: item.name, totalCost: Number(item.value) })),
       overview: { 
         totalAssets, 
         totalWorkOrders, 
@@ -1129,6 +1230,7 @@ export class AnalyticsService {
         totalPartsCost: costStats.parts,
         uniquePartsCount,
         lowStockCount,
+        trends,
       },
       workOrderStatus,
       assetStatus,
