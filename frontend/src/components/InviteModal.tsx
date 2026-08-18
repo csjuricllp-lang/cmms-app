@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Mail, Trash2, Plus, Loader2, Copy, CheckCircle2 } from 'lucide-react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import api from '../lib/api';
+import { api } from '../lib/api';
 import toast from 'react-hot-toast';
 import { cn } from '../lib/utils';
 import { RoleSelect } from './RoleSelect';

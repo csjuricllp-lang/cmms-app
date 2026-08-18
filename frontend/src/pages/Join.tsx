@@ -1,7 +1,7 @@
-﻿import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Shield, Key, User, ArrowRight, Loader2, AlertCircle, Phone, Mail } from 'lucide-react';
-import { fetchApi } from '../lib/api';
+import { api } from '../lib/api';
 
 export const JoinPage = () => {
     const [searchParams] = useSearchParams();
@@ -47,28 +47,26 @@ export const JoinPage = () => {
             setSubmitting(true);
             setError(null);
             
-            const response = await fetchApi('/auth/register-open', {
-                method: 'POST',
-                body: JSON.stringify({
-                    firstName: formData.firstName,
-                    lastName: formData.lastName,
-                    email: formData.email,
-                    phone: formData.phone || '0000000000',
-                    password: formData.password,
-                    roleName: role,
-                    organizationId: orgId
-                })
+            const response = await api.post('/auth/register-open', {
+                firstName: formData.firstName,
+                lastName: formData.lastName,
+                email: formData.email,
+                phone: formData.phone || '0000000000',
+                password: formData.password,
+                roleName: role,
+                organizationId: orgId
             });
 
-            if (response.error) throw new Error(response.error);
+            const data = response.data;
+            if (data.error) throw new Error(data.error);
             
             // Set token and redirect
-            localStorage.setItem('token', response.accessToken);
-            if (response.user) {
-                localStorage.setItem('user', JSON.stringify(response.user));
+            localStorage.setItem('token', data.accessToken);
+            if (data.user) {
+                localStorage.setItem('user', JSON.stringify(data.user));
             }
-            if (response.organization) {
-                localStorage.setItem('organizationConfig', JSON.stringify(response.organization));
+            if (data.organization) {
+                localStorage.setItem('organizationConfig', JSON.stringify(data.organization));
             }
 
             setSuccess(true);
@@ -77,7 +75,7 @@ export const JoinPage = () => {
             }, 3000);
             
         } catch (err: any) {
-            setError(err.message || 'Failed to complete registration');
+            setError(err.response?.data?.message || err.message || 'Failed to complete registration');
         } finally {
             setSubmitting(false);
         }
