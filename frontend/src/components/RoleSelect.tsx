@@ -65,10 +65,16 @@ export const RoleSelect = ({ value, onChange, roles }: { value: string, onChange
                         left: coords.left,
                         width: coords.width,
                         zIndex: 99999,
+                        backgroundColor: '#ffffff',
+                        borderRadius: '12px',
+                        boxShadow: '0 20px 50px rgba(0,0,0,0.25)',
+                        border: '1px solid #e2e8f0',
+                        overflow: 'hidden',
+                        padding: '8px 0',
+                        color: '#1e293b',
                     }}
-                    className="bg-white rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.25)] border border-slate-100 overflow-hidden py-2"
                 >
-                    <div className="max-h-[260px] overflow-y-auto">
+                    <div style={{ maxHeight: '260px', overflowY: 'auto' }}>
                         {roles.map((role) => (
                             <button
                                 key={role.id}
@@ -77,23 +83,32 @@ export const RoleSelect = ({ value, onChange, roles }: { value: string, onChange
                                     onChange(role.id);
                                     setIsOpen(false);
                                 }}
-                                className={cn(
-                                    "w-full px-4 py-3 text-left hover:bg-slate-50 transition-colors border-b border-slate-50 last:border-0",
-                                    value === role.id && "bg-indigo-50/50"
-                                )}
+                                style={{
+                                    width: '100%',
+                                    padding: '10px 16px',
+                                    textAlign: 'left',
+                                    display: 'block',
+                                    backgroundColor: value === role.id ? '#eef2ff' : 'transparent',
+                                    borderBottom: '1px solid #f8fafc',
+                                    cursor: 'pointer',
+                                    transition: 'background-color 0.15s',
+                                    color: '#1e293b',
+                                }}
+                                onMouseEnter={e => (e.currentTarget.style.backgroundColor = value === role.id ? '#eef2ff' : '#f8fafc')}
+                                onMouseLeave={e => (e.currentTarget.style.backgroundColor = value === role.id ? '#eef2ff' : 'transparent')}
                             >
-                                <div className="flex items-center justify-between mb-0.5">
-                                    <div className="flex items-center gap-2">
-                                        <span className="font-bold text-slate-800 text-[14px]">{role.name}</span>
+                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '2px' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                        <span style={{ fontWeight: 700, fontSize: '14px', color: '#1e293b' }}>{role.name}</span>
                                         {hasDollarBadge(role.name) && (
-                                            <div className="bg-emerald-50 text-emerald-600 px-1.5 py-0.5 rounded text-[10px] font-black flex items-center">
-                                                <DollarSign className="w-3 h-3" />
-                                            </div>
+                                            <span style={{ backgroundColor: '#ecfdf5', color: '#059669', padding: '1px 6px', borderRadius: '4px', fontSize: '10px', fontWeight: 800, display: 'flex', alignItems: 'center' }}>
+                                                $
+                                            </span>
                                         )}
                                     </div>
-                                    {value === role.id && <Check className="w-4 h-4 text-indigo-600" />}
+                                    {value === role.id && <Check className="w-4 h-4" style={{ color: '#4f46e5' }} />}
                                 </div>
-                                <p className="text-[12px] text-slate-500 leading-relaxed font-medium">
+                                <p style={{ fontSize: '12px', color: '#64748b', margin: 0, fontWeight: 500 }}>
                                     {role.description}
                                 </p>
                             </button>
