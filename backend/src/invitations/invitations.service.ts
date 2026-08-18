@@ -90,12 +90,16 @@ export class InvitationsService {
       include: { organization: true },
     });
 
-    // 4. Send Email
-    await this.mailService.sendInvitationEmail(
-      email,
-      token,
-      invitation.organization.name,
-    );
+    // 4. Send Email (non-blocking / error-safe for copy-link fallback)
+    try {
+      await this.mailService.sendInvitationEmail(
+        email,
+        token,
+        invitation.organization.name,
+      );
+    } catch (error) {
+      console.error('Failed to send invitation email, but link was generated:', error);
+    }
 
     return { 
       message: 'Invitation processed successfully',
