@@ -51,6 +51,10 @@ export const AssetsPage = () => {
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const [isImportModalOpen, setIsImportModalOpen] = useState(false);
 
+    const [isColumnsMenuOpen, setIsColumnsMenuOpen] = useState(false);
+    const [columnAnchorRect, setColumnAnchorRect] = useState<DOMRect | undefined>();
+    const [visibleColumnIds, setVisibleColumnIds] = useState<string[]>(ALL_COLUMNS.map(c => c.id));
+
     // Filters State
     const [activeFilters, setActiveFilters] = useState<{type: string, value: string}[]>([{ type: 'Status', value: 'Hide Archived' }]);
     const [selectedLocationIds, setSelectedLocationIds] = useState<string[]>([]);
@@ -387,7 +391,7 @@ export const AssetsPage = () => {
                                         }}
                                     />
                                 </th>
-                                {ALL_COLUMNS.map((col: any) => (
+                                {ALL_COLUMNS.filter((col: any) => visibleColumnIds.includes(col.id)).map((col: any) => (
                                     <th key={col.id} className="px-5 py-4 text-[13px] font-bold text-gray-900 uppercase tracking-tight whitespace-nowrap">
                                         {col.label}
                                     </th>
@@ -399,13 +403,13 @@ export const AssetsPage = () => {
                                 Array(8).fill(0).map((_, i: number) => (
                                     <tr key={i} className="animate-pulse">
                                         <td className="p-5"><div className="h-4 w-4 bg-gray-100 rounded" /></td>
-                                        <td className="p-5" colSpan={ALL_COLUMNS.length}><div className="h-4 bg-gray-50 rounded w-full" /></td>
+                                        <td className="p-5" colSpan={visibleColumnIds.length}><div className="h-4 bg-gray-50 rounded w-full" /></td>
                                     </tr>
                                 ))
                             ) : assets.length === 0 ? (
                                 <TableEmptyState
                                     variant="asset"
-                                    colSpan={ALL_COLUMNS.length + 1}
+                                    colSpan={visibleColumnIds.length + 1}
                                     title="No assets found"
                                     description="Try adjusting your filters or search term."
                                 />
@@ -433,7 +437,7 @@ export const AssetsPage = () => {
                                             className="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 cursor-pointer" 
                                         />
                                     </td>
-                                    {ALL_COLUMNS.map((col: any) => (
+                                    {ALL_COLUMNS.filter((col: any) => visibleColumnIds.includes(col.id)).map((col: any) => (
                                         <td key={col.id} className="px-5 py-4">
                                             {col.id === 'Name' && (
                                                 <div className="flex items-center gap-3">
