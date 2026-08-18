@@ -141,10 +141,12 @@ export const InviteModal = ({ isOpen, onClose }: InviteModalProps) => {
     const [rows, setRows] = useState<InviteRow[]>([
         { id: Math.random().toString(), email: '', roleId: '' }
     ]);
+    const [generatedLinks, setGeneratedLinks] = useState<{email: string, link: string}[] | null>(null);
 
     useEffect(() => {
         if (!isOpen) {
             setRows([{ id: Math.random().toString(), email: '', roleId: '' }]);
+            setGeneratedLinks(null);
         }
     }, [isOpen]);
 
@@ -157,7 +159,7 @@ export const InviteModal = ({ isOpen, onClose }: InviteModalProps) => {
         }
     });
 
-    const mutation = useMutation({
+    const inviteMutation = useMutation({
         mutationFn: async (invites: InviteRow[]) => {
             const validInvites = invites.filter(i => i.email && i.roleId);
             const promises = validInvites.map(invite => 
@@ -176,6 +178,32 @@ export const InviteModal = ({ isOpen, onClose }: InviteModalProps) => {
         },
         onError: (error: any) => {
             toast.error(error.response?.data?.message || 'Failed to dispatch invitations');
+        }
+    });
+
+    const linkMutation = useMutation({
+        mutationFn: async (invites: InviteRow[]) => {
+            const validInvites = invites.filter(i => i.email && i.roleId);
+            const promises = validInvites.map(async invite => {
+                const res = await api.post('/invitations/invite', {
+                    email: invite.email,
+                    roleId: invite.roleId,
+                    name: invite.email.split('@')[0],
+                });
+                return {
+                    email: invite.email,
+                    link: `${window.location.origin}/accept-invitation/${res.data.token}`
+                };
+            });
+            return Promise.all(promises);
+        },
+        onSuccess: (data) => {
+            queryClient.invalidateQueries({ queryKey: ['users'] });
+            toast.success('Links generated successfully');
+            setGeneratedLinks(data);
+        },
+        onError: (error: any) => {
+            toast.error(error.response?.data?.message || 'Failed to generate links');
         }
     });
 
@@ -229,78 +257,130 @@ export const InviteModal = ({ isOpen, onClose }: InviteModalProps) => {
 
                 {/* Body */}
                 <div className="p-8 space-y-4 max-h-[60vh] overflow-y-auto custom-scrollbar">
-                    <AnimatePresence initial={false}>
-                        {rows.map((row) => (
-                            <motion.div 
-                                key={row.id}
-                                initial={{ opacity: 0, x: -10 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                exit={{ opacity: 0, x: 10 }}
-                                className="flex items-center gap-4 group"
-                            >
-                                <div className="flex-1 space-y-1">
-                                    <label className="text-[12px] font-bold text-slate-500 block">Email</label>
-                                    <div className="relative">
-                                        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                    {generatedLinks ? (
+                        <div className="space-y-4">
+                            <p className="text-[13px] text-slate-500 font-medium">
+                                Copy these links and share them with the users directly:
+                            </p>
+                            {generatedLinks.map((item, idx) => (
+                                <div key={idx} className="p-4 bg-slate-50 rounded-xl border border-slate-100 space-y-2">
+                                    <span className="text-[12px] font-bold text-slate-600 block">{item.email}</span>
+                                    <div className="flex items-center gap-2">
                                         <input 
-                                            type="email"
-                                            placeholder="Enter email address"
-                                            className="w-full pl-10 pr-4 py-2.5 border-2 border-slate-100 rounded-lg text-[14px] font-medium focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all"
-                                            value={row.email}
-                                            onChange={(e) => updateRow(row.id, 'email', e.target.value)}
+                                            readOnly 
+                                            value={item.link} 
+                                            className="flex-1 px-4 py-2 border-2 border-slate-100 rounded-lg text-[13px] font-medium outline-none bg-white text-slate-800"
                                         />
+                                        <button 
+                                            onClick={() => {
+                                                navigator.clipboard.writeText(item.link);
+                                                toast.success('Link copied to clipboard');
+                                            }}
+                                            className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-[13px] font-bold transition-all"
+                                        >
+                                            Copy
+                                        </button>
                                     </div>
                                 </div>
-                                
-                                <div className="w-[240px] space-y-1">
-                                    <label className="text-[12px] font-bold text-slate-500 block">Role</label>
-                                    <RoleSelect 
-                                        value={row.roleId} 
-                                        onChange={(id) => updateRow(row.id, 'roleId', id)} 
-                                        roles={roles} 
-                                    />
-                                </div>
-
-                                <div className="pt-5">
-                                    <button 
-                                        onClick={() => removeRow(row.id)}
-                                        disabled={rows.length === 1}
-                                        className="p-2.5 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all disabled:opacity-0"
+                            ))}
+                        </div>
+                    ) : (
+                        <>
+                            <AnimatePresence initial={false}>
+                                {rows.map((row) => (
+                                    <motion.div 
+                                        key={row.id}
+                                        initial={{ opacity: 0, x: -10 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        exit={{ opacity: 0, x: 10 }}
+                                        className="flex items-center gap-4 group"
                                     >
-                                        <Trash2 className="w-5 h-5" />
-                                    </button>
-                                </div>
-                            </motion.div>
-                        ))}
-                    </AnimatePresence>
+                                        <div className="flex-1 space-y-1">
+                                            <label className="text-[12px] font-bold text-slate-500 block">Email</label>
+                                            <div className="relative">
+                                                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                                                <input 
+                                                    type="email"
+                                                    placeholder="Enter email address"
+                                                    className="w-full pl-10 pr-4 py-2.5 border-2 border-slate-100 rounded-lg text-[14px] font-medium focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all"
+                                                    value={row.email}
+                                                    onChange={(e) => updateRow(row.id, 'email', e.target.value)}
+                                                />
+                                            </div>
+                                        </div>
+                                        
+                                        <div className="w-[240px] space-y-1">
+                                            <label className="text-[12px] font-bold text-slate-500 block">Role</label>
+                                            <RoleSelect 
+                                                value={row.roleId} 
+                                                onChange={(id) => updateRow(row.id, 'roleId', id)} 
+                                                roles={roles} 
+                                            />
+                                        </div>
 
-                    <button 
-                        onClick={addRow}
-                        className="flex items-center gap-2 text-indigo-600 font-bold text-[14px] hover:text-indigo-700 transition-colors pt-2"
-                    >
-                        <Plus className="w-4 h-4" />
-                        Add User
-                    </button>
+                                        <div className="pt-5">
+                                            <button 
+                                                onClick={() => removeRow(row.id)}
+                                                disabled={rows.length === 1}
+                                                className="p-2.5 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all disabled:opacity-0"
+                                            >
+                                                <Trash2 className="w-5 h-5" />
+                                            </button>
+                                        </div>
+                                    </motion.div>
+                                ))}
+                            </AnimatePresence>
+
+                            <button 
+                                onClick={addRow}
+                                className="flex items-center gap-2 text-indigo-600 font-bold text-[14px] hover:text-indigo-700 transition-colors pt-2"
+                            >
+                                <Plus className="w-4 h-4" />
+                                Add User
+                            </button>
+                        </>
+                    )}
                 </div>
 
                 {/* Footer */}
                 <div className="px-8 py-6 bg-slate-50 border-t border-slate-100 flex items-center justify-end gap-3">
-                    <button 
-                        onClick={onClose}
-                        className="px-6 py-2.5 border border-slate-200 rounded-lg text-[15px] font-bold text-slate-500 hover:bg-slate-50 transition-colors"
-                    >
-                        Cancel
-                    </button>
-                    <button 
-                        disabled={mutation.isPending || rows.some(r => !r.email || !r.roleId)}
-                        onClick={() => mutation.mutate(rows)}
-                        className={cn(
-                            "px-10 py-2.5 bg-indigo-600 text-white rounded-lg text-[15px] font-bold shadow-lg shadow-indigo-100 transition-all hover:bg-indigo-700 active:scale-95 disabled:opacity-50 disabled:pointer-events-none flex items-center gap-2"
-                        )}
-                    >
-                        {mutation.isPending && <Loader2 className="w-4 h-4 animate-spin" />}
-                        Invite
-                    </button>
+                    {generatedLinks ? (
+                        <button 
+                            onClick={onClose}
+                            className="px-8 py-2.5 bg-indigo-600 text-white rounded-lg text-[15px] font-bold shadow-lg shadow-indigo-100 transition-all hover:bg-indigo-700 active:scale-95"
+                        >
+                            Close
+                        </button>
+                    ) : (
+                        <>
+                            <button 
+                                onClick={onClose}
+                                className="px-6 py-2.5 border border-slate-200 rounded-lg text-[15px] font-bold text-slate-500 hover:bg-slate-50 transition-colors"
+                            >
+                                Cancel
+                            </button>
+                            <button 
+                                disabled={linkMutation.isPending || inviteMutation.isPending || rows.some(r => !r.email || !r.roleId)}
+                                onClick={() => linkMutation.mutate(rows)}
+                                className={cn(
+                                    "px-6 py-2.5 border border-indigo-600 text-indigo-600 rounded-lg text-[15px] font-bold transition-all hover:bg-indigo-50 active:scale-95 disabled:opacity-50 disabled:pointer-events-none flex items-center gap-2"
+                                )}
+                            >
+                                {linkMutation.isPending && <Loader2 className="w-4 h-4 animate-spin" />}
+                                Generate Link
+                            </button>
+                            <button 
+                                disabled={inviteMutation.isPending || linkMutation.isPending || rows.some(r => !r.email || !r.roleId)}
+                                onClick={() => inviteMutation.mutate(rows)}
+                                className={cn(
+                                    "px-10 py-2.5 bg-indigo-600 text-white rounded-lg text-[15px] font-bold shadow-lg shadow-indigo-100 transition-all hover:bg-indigo-700 active:scale-95 disabled:opacity-50 disabled:pointer-events-none flex items-center gap-2"
+                                )}
+                            >
+                                {inviteMutation.isPending && <Loader2 className="w-4 h-4 animate-spin" />}
+                                Invite
+                            </button>
+                        </>
+                    )}
                 </div>
             </motion.div>
         </div>
