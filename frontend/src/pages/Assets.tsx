@@ -19,6 +19,7 @@ import { Download, Trash2, Loader2 } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { useMediaQuery } from '../hooks/useMediaQuery';
 import { MobileAssets } from './MobileAssets';
+import { ColumnPickerPopover } from '../components/ColumnPickerPopover';
 
 
 const ALL_COLUMNS = [
