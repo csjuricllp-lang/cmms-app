@@ -954,11 +954,13 @@ export const PreventiveMaintenancePage = () => {
                                             )}
                                             onClick={() => navigate(`/pm/${row.id}`)}
                                         >
-                                            <td className="w-[64px] min-w-[64px] max-w-[64px] px-6 py-4 sticky left-0 z-[30] bg-white group-hover:bg-slate-50 border-r border-slate-100 transition-colors">
+                                            <td 
+                                                onClick={(e) => { e.stopPropagation(); toggleRow(row.id); }}
+                                                className="w-[64px] min-w-[64px] max-w-[64px] px-6 py-4 sticky left-0 z-[30] bg-white group-hover:bg-slate-50 border-r border-slate-100 transition-colors cursor-pointer"
+                                            >
                                                 <div 
-                                                    onClick={(e) => { e.stopPropagation(); toggleRow(row.id); }}
                                                     className={cn(
-                                                        "w-4 h-4 rounded border flex items-center justify-center transition-all cursor-pointer",
+                                                        "w-4 h-4 rounded border flex items-center justify-center transition-all",
                                                         selectedRows.includes(row.id) ? "bg-primary border-primary" : "border-slate-300 bg-white group-hover:border-slate-400"
                                                     )}
                                                 >
