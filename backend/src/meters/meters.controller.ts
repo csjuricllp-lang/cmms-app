@@ -8,6 +8,7 @@ import {
   Delete,
   UseGuards,
   Request,
+  Query,
 } from '@nestjs/common';
 import { MetersService } from './meters.service';
 import { CreateMeterDto } from './dto/create-meter.dto';
@@ -16,28 +17,28 @@ import { AuthGuard } from '@nestjs/passport';
 import { PermissionsGuard } from '../auth/guards/permissions.guard';
 import { RequirePermissions } from '../auth/decorators/permissions.decorator';
 import { Permission } from '../auth/permissions/permission.enum';
-
+ 
 @UseGuards(AuthGuard('jwt'), PermissionsGuard)
 @Controller('meters')
 export class MetersController {
   constructor(private readonly metersService: MetersService) {}
-
+ 
   @RequirePermissions(Permission.UPDATE_ASSET) // Managing an asset's meters requires asset update perms
   @Post()
   create(@Body() createMeterDto: CreateMeterDto) {
     return this.metersService.create(createMeterDto);
   }
-
+ 
   @RequirePermissions(Permission.READ_ASSET)
   @Get()
-  findAll() {
-    return this.metersService.findAll();
+  findAll(@Query('archived') archived?: string) {
+    return this.metersService.findAll(archived === 'true');
   }
 
   @RequirePermissions(Permission.READ_ASSET)
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.metersService.findOne(id);
+    return this.metersService.findOne(id, true);
   }
 
   @RequirePermissions(Permission.READ_ASSET)

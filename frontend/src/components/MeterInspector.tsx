@@ -18,6 +18,7 @@ export const MeterInspector = ({ meter, onClose }: MeterInspectorProps) => {
     const [activeTab, setActiveTab] = useState<'details' | 'history'>('details');
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isCreateTriggerOpen, setIsCreateTriggerOpen] = useState(false);
+    const [isArchiving, setIsArchiving] = useState(false);
     
     // New Reading State
     const [isAddingReading, setIsAddingReading] = useState(false);
@@ -29,7 +30,8 @@ export const MeterInspector = ({ meter, onClose }: MeterInspectorProps) => {
         queryFn: async () => {
             const response = await api.get(`/meters/${meter.id}`);
             return response.data;
-        }
+        },
+        enabled: !isArchiving
     });
 
     // Fetch PM schedules to get actual triggers
@@ -68,22 +70,30 @@ export const MeterInspector = ({ meter, onClose }: MeterInspectorProps) => {
         }
     ];
 
+    const isAlreadyArchived = !!(displayMeter?.deletedAt);
+
     const deleteMutation = useMutation({
         mutationFn: async () => {
             return api.delete(`/meters/${meter.id}`);
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['meters'] });
-            toast.success('Meter archived successfully');
+            toast.success(isAlreadyArchived ? 'Meter permanently deleted successfully' : 'Meter archived successfully');
             onClose();
         },
         onError: () => {
-            toast.error('Failed to archive meter');
+            setIsArchiving(false);
+            toast.error(isAlreadyArchived ? 'Failed to permanently delete meter' : 'Failed to archive meter');
         }
     });
 
     const handleDelete = () => {
-        if (window.confirm('Are you sure you want to archive this meter? The reading history will be preserved, but it will be hidden from lists and detached from active PM triggers.')) {
+        const confirmMsg = isAlreadyArchived 
+            ? 'Are you sure you want to permanently delete this meter? This action cannot be undone.'
+            : 'Are you sure you want to archive this meter? The reading history will be preserved, but it will be hidden from lists and detached from active PM triggers.';
+        
+        if (window.confirm(confirmMsg)) {
+            setIsArchiving(true);
             deleteMutation.mutate();
         }
     };
@@ -174,7 +184,10 @@ export const MeterInspector = ({ meter, onClose }: MeterInspectorProps) => {
                             disabled={deleteMutation.isPending}
                             className="px-5 py-2 bg-rose-600 text-white rounded-xl hover:bg-rose-700 transition-all font-bold text-[13px] shadow-sm disabled:opacity-50"
                         >
-                            {deleteMutation.isPending ? 'Archiving...' : 'Archive'}
+                            {deleteMutation.isPending 
+                                ? (isAlreadyArchived ? 'Deleting...' : 'Archiving...') 
+                                : (isAlreadyArchived ? 'Delete Permanently' : 'Archive')
+                            }
                         </button>
                         <button 
                             onClick={() => setIsAddingReading(true)}

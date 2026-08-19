@@ -3,7 +3,7 @@ import {
     Activity, Search, 
     Gauge, Zap, 
     Settings2,
-    BarChart3, Thermometer, Timer, GripVertical, Check, X, Plus as PlusIcon, ChevronDown, ChevronRight, MoreHorizontal, Upload
+    BarChart3, Thermometer, Timer, GripVertical, Check, X, Plus as PlusIcon, ChevronDown, ChevronRight, MoreHorizontal, Upload, Archive
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLocations, useAssets, useUsers, useCategories, useMeters } from '../hooks/useData';
@@ -25,6 +25,7 @@ export const MetersPage = () => {
     const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
     const [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
     const [selectedMeter, setSelectedMeter] = useState<any>(null);
+    const [showArchived, setShowArchived] = useState(false);
     
     // Quick Filters
     const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
@@ -69,7 +70,8 @@ export const MetersPage = () => {
     const { data: metersData, isLoading, refetch: refetchMeters } = useMeters({
         sortBy,
         sortOrder,
-        search: searchTerm
+        search: searchTerm,
+        archived: showArchived
     });
     const meters = Array.isArray(metersData) ? metersData : (metersData as any)?.items || [];
 
@@ -496,7 +498,19 @@ export const MetersPage = () => {
 
             {/* Secondary Toolbar */}
             <div className="flex items-center justify-between px-6 py-3 bg-gray-50 border-b border-gray-200 shrink-0 overflow-x-auto no-scrollbar py-2">
-                <div className="flex items-center gap-1 opacity-0"></div>
+                <div className="flex items-center gap-2">
+                    <button
+                        onClick={() => setShowArchived(!showArchived)}
+                        className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border text-sm font-medium transition-all ${
+                            showArchived 
+                                ? 'bg-amber-50 border-amber-200 text-amber-700 font-semibold shadow-xs' 
+                                : 'bg-white border-gray-200 text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+                        }`}
+                    >
+                        <Archive className="w-4 h-4" />
+                        {showArchived ? 'Viewing Archived' : 'Show Archived'}
+                    </button>
+                </div>
                 <div className="flex items-center gap-4">
                     <div className="relative">
                         <button 

@@ -24,10 +24,13 @@ export class MetersService {
     });
   }
 
-  async findAll() {
+  async findAll(archived = false) {
     const organizationId = TenancyContext.organizationId;
     return this.prisma.meter.findMany({
-      where: { organizationId },
+      where: {
+        organizationId,
+        deletedAt: archived ? { not: null } : null,
+      },
       include: { 
         asset: { include: { location: true } },
         location: true,
@@ -37,10 +40,14 @@ export class MetersService {
     });
   }
 
-  async findOne(id: string) {
+  async findOne(id: string, includeArchived = false) {
     const organizationId = TenancyContext.organizationId;
     const meter = await this.prisma.meter.findFirst({
-      where: { id, organizationId },
+      where: {
+        id,
+        organizationId,
+        showArchived: includeArchived ? true : undefined,
+      } as any,
       include: { asset: true, readings: true },
     });
     if (!meter) {
@@ -58,19 +65,34 @@ export class MetersService {
   }
 
   async remove(id: string) {
-    await this.findOne(id);
+    const meter = await this.findOne(id, true);
     
-    await this.prisma.$transaction([
-      this.prisma.pMSchedule.updateMany({
-        where: { meterId: id },
-        data: { meterId: null },
-      }),
-      this.prisma.meter.delete({
-        where: { id },
-      }),
-    ]);
-
-    return { message: 'Meter deleted successfully' };
+    if (meter.deletedAt !== null) {
+      await this.prisma.$transaction([
+        this.prisma.meterReading.deleteMany({
+          where: { meterId: id },
+        }),
+        this.prisma.pMSchedule.updateMany({
+          where: { meterId: id },
+          data: { meterId: null },
+        }),
+        this.prisma.meter.delete({
+          where: { id, forceHardDelete: true } as any,
+        }),
+      ]);
+      return { message: 'Meter permanently deleted successfully' };
+    } else {
+      await this.prisma.$transaction([
+        this.prisma.pMSchedule.updateMany({
+          where: { meterId: id },
+          data: { meterId: null },
+        }),
+        this.prisma.meter.delete({
+          where: { id },
+        }),
+      ]);
+      return { message: 'Meter archived successfully' };
+    }
   }
 
   async getReadings(meterId: string) {

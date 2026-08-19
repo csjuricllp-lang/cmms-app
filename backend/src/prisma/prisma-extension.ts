@@ -123,7 +123,13 @@ export const getExtendedClient = (prisma: PrismaClient) => {
             'groupBy',
             'findUnique', // Note: Prisma 5 might require findFirst for this to work with soft-delete
           ].includes(operation)) {
-            args.where = { ...args.where, deletedAt: null };
+            const showArchived = args.where?.showArchived;
+            if (args.where) {
+              delete args.where.showArchived;
+            }
+            if (args.where?.deletedAt === undefined && !showArchived) {
+              args.where = { ...args.where, deletedAt: null };
+            }
           }
 
           // 2. MULTI-TENANCY: Force organizationId scoping
@@ -208,6 +214,10 @@ export const getExtendedClient = (prisma: PrismaClient) => {
           // 3. SOFT DELETE: Override delete operations to perform updates instead
           if (isSoftDelete) {
             if (operation === 'delete') {
+              if (args.where?.forceHardDelete) {
+                delete args.where.forceHardDelete;
+                return query(args);
+              }
               const result = await (prisma as any)[model].update({
                 where: args.where,
                 data: { deletedAt: new Date() },
@@ -230,6 +240,10 @@ export const getExtendedClient = (prisma: PrismaClient) => {
               return result;
             }
             if (operation === 'deleteMany') {
+              if (args.where?.forceHardDelete) {
+                delete args.where.forceHardDelete;
+                return query(args);
+              }
               return (prisma as any)[model].updateMany({
                 where: args.where,
                 data: { deletedAt: new Date() },

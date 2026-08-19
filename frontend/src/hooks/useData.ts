@@ -748,7 +748,7 @@ export const useAssetMetrics = (id?: string) => {
     });
 };
 
-export const useMeters = (params?: { assetId?: string, sortBy?: string, sortOrder?: string, search?: string }) => {
+export const useMeters = (params?: { assetId?: string, sortBy?: string, sortOrder?: string, search?: string, archived?: boolean }) => {
     return useQuery<Meter[]>({
         queryKey: ['meters', params],
         queryFn: async () => {
