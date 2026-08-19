@@ -8,6 +8,7 @@ import {
   Min,
   IsNumber,
   IsBoolean,
+  ValidateIf,
 } from 'class-validator';
 
 export enum FrequencyType {
@@ -87,13 +88,15 @@ export class CreatePMScheduleDto {
   @IsNotEmpty()
   frequencyType: FrequencyType;
 
+  @ValidateIf(o => o.frequencyType !== FrequencyType.METER)
+  @IsNotEmpty()
   @IsInt()
   @Min(1)
-  @IsOptional()
   frequencyValue?: number;
 
+  @ValidateIf(o => o.frequencyType !== FrequencyType.METER)
+  @IsNotEmpty()
   @IsDateString()
-  @IsOptional()
   nextDueDate?: string;
 
   @IsOptional()
@@ -117,12 +120,15 @@ export class CreatePMScheduleDto {
   @IsOptional()
   endMonth?: number;
 
+  @ValidateIf(o => o.frequencyType === FrequencyType.METER || o.frequencyType === FrequencyType.HYBRID)
+  @IsNotEmpty()
   @IsString()
-  @IsOptional()
   meterId?: string;
 
+  @ValidateIf(o => o.frequencyType === FrequencyType.METER || o.frequencyType === FrequencyType.HYBRID)
+  @IsNotEmpty()
   @IsInt()
-  @IsOptional()
+  @Min(1)
   meterInterval?: number;
 
   @IsOptional()
