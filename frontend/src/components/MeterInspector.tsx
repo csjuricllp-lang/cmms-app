@@ -45,9 +45,11 @@ export const MeterInspector = ({ meter, onClose }: MeterInspectorProps) => {
 
     const displayMeter = fullMeter || meter;
     const unit = displayMeter.unit || 'Units';
-
+ 
     const meterTriggers = (schedules || []).filter((s: any) => s.meterId === meter.id);
-
+ 
+    const isHoursOrTime = unit.toLowerCase().includes('hour') || unit.toLowerCase().includes('time') || unit.toLowerCase() === 'h';
+ 
     // High fidelity template triggers to match screenshot exactly if none configured yet
     const displayTriggers = meterTriggers.length > 0 ? meterTriggers : [
         {
@@ -59,15 +61,17 @@ export const MeterInspector = ({ meter, onClose }: MeterInspectorProps) => {
             createdAt: displayMeter.createdAt || new Date().toISOString(),
             isMock: true
         },
-        {
-            id: 'mock-low',
-            name: `${displayMeter.name} Low`,
-            meterTriggerType: 'THRESHOLD',
-            meterInterval: displayMeter.threshold ? Math.round(Number(displayMeter.threshold) * 0.9) : 72,
-            lastMeterReading: null,
-            createdAt: displayMeter.createdAt || new Date().toISOString(),
-            isMock: true
-        }
+        ...(isHoursOrTime ? [] : [
+            {
+                id: 'mock-low',
+                name: `${displayMeter.name} Low`,
+                meterTriggerType: 'THRESHOLD',
+                meterInterval: displayMeter.threshold ? Math.round(Number(displayMeter.threshold) * 0.9) : 72,
+                lastMeterReading: null,
+                createdAt: displayMeter.createdAt || new Date().toISOString(),
+                isMock: true
+            }
+        ])
     ];
 
     const isAlreadyArchived = !!(displayMeter?.deletedAt);
