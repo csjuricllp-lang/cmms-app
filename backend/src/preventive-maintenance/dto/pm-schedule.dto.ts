@@ -89,12 +89,12 @@ export class CreatePMScheduleDto {
 
   @IsInt()
   @Min(1)
-  @IsNotEmpty()
-  frequencyValue: number;
+  @IsOptional()
+  frequencyValue?: number;
 
   @IsDateString()
-  @IsNotEmpty()
-  nextDueDate: string;
+  @IsOptional()
+  nextDueDate?: string;
 
   @IsOptional()
   isActive?: boolean;
