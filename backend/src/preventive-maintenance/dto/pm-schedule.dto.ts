@@ -120,15 +120,12 @@ export class CreatePMScheduleDto {
   @IsOptional()
   endMonth?: number;
 
-  @ValidateIf(o => o.frequencyType === FrequencyType.METER || o.frequencyType === FrequencyType.HYBRID)
-  @IsNotEmpty()
   @IsString()
+  @IsOptional()
   meterId?: string;
-
-  @ValidateIf(o => o.frequencyType === FrequencyType.METER || o.frequencyType === FrequencyType.HYBRID)
-  @IsNotEmpty()
+ 
   @IsInt()
-  @Min(1)
+  @IsOptional()
   meterInterval?: number;
 
   @IsOptional()
