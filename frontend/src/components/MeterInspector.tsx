@@ -74,16 +74,16 @@ export const MeterInspector = ({ meter, onClose }: MeterInspectorProps) => {
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['meters'] });
-            toast.success('Meter deleted successfully');
+            toast.success('Meter archived successfully');
             onClose();
         },
         onError: () => {
-            toast.error('Failed to delete meter');
+            toast.error('Failed to archive meter');
         }
     });
 
     const handleDelete = () => {
-        if (window.confirm('Are you sure you want to delete this meter? All associated readings will be lost. This cannot be undone.')) {
+        if (window.confirm('Are you sure you want to archive this meter? The reading history will be preserved, but it will be hidden from lists and detached from active PM triggers.')) {
             deleteMutation.mutate();
         }
     };
@@ -174,7 +174,7 @@ export const MeterInspector = ({ meter, onClose }: MeterInspectorProps) => {
                             disabled={deleteMutation.isPending}
                             className="px-5 py-2 bg-rose-600 text-white rounded-xl hover:bg-rose-700 transition-all font-bold text-[13px] shadow-sm disabled:opacity-50"
                         >
-                            {deleteMutation.isPending ? 'Deleting...' : 'Delete'}
+                            {deleteMutation.isPending ? 'Archiving...' : 'Archive'}
                         </button>
                         <button 
                             onClick={() => setIsAddingReading(true)}
