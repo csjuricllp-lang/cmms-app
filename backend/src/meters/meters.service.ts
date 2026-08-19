@@ -59,7 +59,17 @@ export class MetersService {
 
   async remove(id: string) {
     await this.findOne(id);
-    await this.prisma.meter.delete({ where: { id } });
+    
+    await this.prisma.$transaction([
+      this.prisma.pMSchedule.updateMany({
+        where: { meterId: id },
+        data: { meterId: null },
+      }),
+      this.prisma.meter.delete({
+        where: { id },
+      }),
+    ]);
+
     return { message: 'Meter deleted successfully' };
   }
 

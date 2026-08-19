@@ -16,6 +16,7 @@ export const softDeleteModels = [
   'MaintenanceRequest',
   'Team',
   'Organization',
+  'Meter',
 ];
 
 export const multiTenancyModels = [

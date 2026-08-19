@@ -782,6 +782,7 @@ model Meter {
   imageUrl       String?
   locationId     String?
   organizationId String?
+  deletedAt      DateTime?
   asset          Asset             @relation(fields: [assetId], references: [id])
   assignedTo     UserOrganization? @relation("AssignedMeters", fields: [assignedToId], references: [id])
   category       Category?         @relation(fields: [categoryId], references: [id])
