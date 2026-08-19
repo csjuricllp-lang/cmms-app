@@ -447,7 +447,7 @@ export const MetersPage = () => {
     return (
         <div className="flex flex-col h-full bg-[#FAFAFA] animate-in fade-in duration-700 font-sans">
             {/* Header */}
-            <div className="flex items-center justify-between px-6 py-4 bg-white border-b border-gray-200 shrink-0 overflow-x-auto no-scrollbar py-2">
+            <div className="flex items-center justify-between px-6 py-4 bg-white border-b border-gray-200 shrink-0 relative z-40 py-2">
                 <div className="flex items-center gap-4">
                     <div className="p-2 bg-gray-100 rounded-md">
                         <Gauge className="w-5 h-5 text-gray-500" />
@@ -497,7 +497,7 @@ export const MetersPage = () => {
             </div>
 
             {/* Secondary Toolbar */}
-            <div className="flex items-center justify-between px-6 py-3 bg-gray-50 border-b border-gray-200 shrink-0 overflow-x-auto no-scrollbar py-2">
+            <div className="flex items-center justify-between px-6 py-3 bg-gray-50 border-b border-gray-200 shrink-0 relative z-30 py-2">
                 <div className="flex items-center gap-2">
                     <button
                         onClick={() => setShowArchived(!showArchived)}
