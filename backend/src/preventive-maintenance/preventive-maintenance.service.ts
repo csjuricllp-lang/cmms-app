@@ -113,7 +113,7 @@ export class PreventiveMaintenanceService {
           organizationId,
           assetId: assetRow.assetId,
           assignedToId: currentAssignedToId,
-          nextDueDate: currentStartDate ? this.applyTime(new Date(currentStartDate), cleanRest.dueDateTime) : undefined,
+          nextDueDate: currentStartDate ? await this.calculateInitialNextDueDate(assetRow.assetId, currentStartDate, cleanRest.dueDateTime) : undefined,
           plannedParts: plannedParts ? {
             create: plannedParts.map(p => ({ 
               partId: p.partId, 
@@ -266,6 +266,18 @@ export class PreventiveMaintenanceService {
     if (cleanRest.checklistId === '') cleanRest.checklistId = null;
     if (cleanRest.teamId === '') cleanRest.teamId = null;
     if (cleanRest.meterId === '') cleanRest.meterId = null;
+
+    if (cleanRest.nextDueDate) {
+      const existing = await this.prisma.pMSchedule.findUnique({ where: { id } });
+      const assetId = cleanRest.assetId || existing?.assetId;
+      if (assetId) {
+        cleanRest.nextDueDate = await this.calculateInitialNextDueDate(
+          assetId,
+          cleanRest.nextDueDate,
+          cleanRest.dueDateTime || existing?.dueDateTime
+        );
+      }
+    }
 
     // Handle nested updates for parts and tasks
     if (plannedParts) {
@@ -620,5 +632,26 @@ export class PreventiveMaintenanceService {
     }
 
     return workOrder;
+  }
+
+  private async calculateInitialNextDueDate(
+    assetId: string,
+    startDateStr?: string | null,
+    dueDateTimeStr?: string | null,
+  ): Promise<Date | undefined> {
+    if (!startDateStr) return undefined;
+
+    let timezone = 'Asia/Kolkata'; // Default fallback
+    const asset = await this.prisma.asset.findUnique({
+      where: { id: assetId },
+      include: { location: true },
+    });
+    if (asset?.location?.timezone) {
+      timezone = asset.location.timezone;
+    }
+
+    const localizedBase = this.dateService.toTimezone(new Date(startDateStr), timezone);
+    const localizedWithTime = this.applyTime(localizedBase, dueDateTimeStr);
+    return this.dateService.toUTC(localizedWithTime, timezone);
   }
 }
