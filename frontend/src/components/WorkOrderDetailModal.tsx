@@ -209,7 +209,18 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
             setIsHoldReasonModalOpen(true);
             return;
         }
+        if ((displayOrder as any).deferredUntilDate) {
+            resumeWorkOrder.mutate(displayOrder.id);
+        }
         updateStatus.mutate({ id: displayOrder.id, status: newStatus });
+    };
+
+    const handleStatusSelect = (status: string) => {
+        if (status === 'DEFER') {
+            setIsDeferModalOpen(true);
+        } else {
+            handleStatusUpdate(status);
+        }
     };
 
     const handleCompletion = (data: { resolutionNotes: string; rcaCode: string; signature?: string }) => {
@@ -376,50 +387,54 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                                 </div>
                             ) : (
                                 <div className="flex flex-wrap items-center gap-4">
-                                    {(displayOrder as any).deferredUntilDate && (
-                                        <div className="flex items-center gap-2 px-4 py-2 bg-orange-50 border border-orange-200 rounded-xl">
-                                            <CalendarClock className="w-4 h-4 text-orange-500" />
-                                            <span className="text-[12px] font-black text-orange-700 uppercase tracking-tight">
-                                                Deferred to {new Date((displayOrder as any).deferredUntilDate).toLocaleDateString()}
-                                            </span>
-                                        </div>
-                                    )}
-                                    <div className="relative group/status dropdown">
-                                        <button className="flex items-center gap-3 px-5 py-3 bg-white border border-slate-200 rounded-2xl text-[14px] font-black text-slate-800 hover:border-blue-400 transition-all shadow-sm active:scale-95">
-                                            <div className="w-4 h-4 rounded-full border-4 border-slate-100 border-t-blue-600" />
-                                            <span className="uppercase tracking-tight">{displayOrder.status || 'Open'}</span>
-                                            <ChevronDown className="w-4 h-4 text-slate-500" />
-                                        </button>
-                                        <div className="hidden group-focus-within/status:block absolute top-full left-0 mt-2 bg-white border border-gray-100 rounded-xl shadow-xl z-[70] py-2 w-48">
-                                            {['OPEN', 'IN_PROGRESS', 'ON_HOLD', 'COMPLETED'].map(status => (
-                                                <button 
-                                                    key={status}
-                                                    onClick={() => handleStatusUpdate(status)}
-                                                    className="w-full text-left px-4 py-2 text-[14px] font-bold text-gray-600 hover:bg-slate-50 hover:text-primary transition-all uppercase"
-                                                >
-                                                    {status.replace('_', ' ')}
-                                                </button>
-                                            ))}
-                                        </div>
-                                    </div>
-                                    
-                                    {(displayOrder as any).deferredUntilDate ? (
-                                        <button 
-                                            onClick={() => resumeWorkOrder.mutate(displayOrder.id)}
-                                            className="px-5 py-3 bg-emerald-500 hover:bg-emerald-600 text-white rounded-2xl text-[14px] font-black uppercase tracking-widest shadow-lg shadow-emerald-500/20 transition-all active:scale-95"
-                                        >
-                                            Resume Work
-                                        </button>
-                                    ) : (
-                                        <button 
-                                            onClick={() => setIsDeferModalOpen(true)}
-                                            className="px-5 py-3 bg-white border border-orange-200 text-orange-600 hover:bg-orange-50 rounded-2xl text-[14px] font-black uppercase tracking-widest transition-all active:scale-95 flex items-center gap-2"
-                                        >
-                                            <CalendarClock className="w-4 h-4" />
-                                            Defer
-                                        </button>
-                                    )}
-                                </div>
+                                     {(displayOrder as any).deferredUntilDate && (
+                                         <div className="flex items-center gap-2 px-4 py-2 bg-orange-50 border border-orange-200 rounded-xl">
+                                             <CalendarClock className="w-4 h-4 text-orange-500" />
+                                             <span className="text-[12px] font-black text-orange-700 uppercase tracking-tight">
+                                                 Deferred to {new Date((displayOrder as any).deferredUntilDate).toLocaleDateString()}
+                                             </span>
+                                         </div>
+                                     )}
+                                     <div className="relative group/status dropdown">
+                                         <button className="flex items-center gap-3 px-5 py-3 bg-white border border-slate-200 rounded-2xl text-[14px] font-black text-slate-800 hover:border-blue-400 transition-all shadow-sm active:scale-95">
+                                             <div className="w-4 h-4 rounded-full border-4 border-slate-100 border-t-blue-600" />
+                                             <span className="uppercase tracking-tight">
+                                                 {(displayOrder as any).deferredUntilDate ? 'DEFERRED' : (displayOrder.status || 'Open')}
+                                             </span>
+                                             <ChevronDown className="w-4 h-4 text-slate-500" />
+                                         </button>
+                                         <div className="hidden group-focus-within/status:block absolute top-full left-0 mt-2 bg-white border border-gray-100 rounded-xl shadow-xl z-[70] py-2 w-48">
+                                             {['OPEN', 'IN_PROGRESS', 'ON_HOLD', 'DEFER', 'COMPLETED']
+                                                 .filter(status => {
+                                                     const isCurrentlyDeferred = !!(displayOrder as any).deferredUntilDate;
+                                                     if (isCurrentlyDeferred) {
+                                                         return status !== 'DEFER';
+                                                     } else {
+                                                         return status !== displayOrder.status;
+                                                     }
+                                                 })
+                                                 .map(status => (
+                                                     <button 
+                                                         key={status}
+                                                         onClick={() => handleStatusSelect(status)}
+                                                         className="w-full text-left px-4 py-2 text-[14px] font-bold text-gray-650 hover:bg-slate-50 hover:text-primary transition-all uppercase"
+                                                     >
+                                                         {status.replace('_', ' ')}
+                                                     </button>
+                                                 ))
+                                             }
+                                         </div>
+                                     </div>
+                                     
+                                     {(displayOrder as any).deferredUntilDate && (
+                                         <button 
+                                             onClick={() => resumeWorkOrder.mutate(displayOrder.id)}
+                                             className="px-5 py-3 bg-emerald-500 hover:bg-emerald-600 text-white rounded-2xl text-[14px] font-black uppercase tracking-widest shadow-lg shadow-emerald-500/20 transition-all active:scale-95"
+                                         >
+                                             Resume Work
+                                         </button>
+                                     )}
+                                 </div>
                             )}
  
                             <div className="flex flex-wrap items-center gap-1 text-slate-500 border-l border-slate-100 pl-4 ml-2">
