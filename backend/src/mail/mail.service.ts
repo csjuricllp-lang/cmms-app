@@ -103,6 +103,7 @@ export class MailService {
         this.logger.log(`Real email sent successfully to vendor ${email} (Subject: ${subject})`);
       } catch (error: any) {
         this.logger.error(`Failed to send real email to vendor ${email}: ${error.message}`);
+        throw new Error(`Failed to send email: ${error.message}`);
       }
     } else {
       this.logger.log(`[MAIL MOCK] Sending Message to Vendor: ${email}`);
