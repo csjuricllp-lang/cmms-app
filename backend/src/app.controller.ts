@@ -35,7 +35,7 @@ export class AppController {
             user,
             pass: process.env.SMTP_PASS,
           },
-        });
+        } as any);
 
         await transporter.sendMail({
           from: process.env.SMTP_FROM || '"CMMS App Alert" <no-reply@example.com>',
