@@ -993,8 +993,16 @@ export const WorkOrdersPage = () => {
             const promises = ids.map(id => api.delete(`/work-orders/${id}`));
             return Promise.all(promises);
         },
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['work-orders'] });
+        onSuccess: async (_, deletedIds) => {
+            // Optimistically remove all bulk-deleted work orders from the cache instantly
+            queryClient.setQueriesData({ queryKey: ['work-orders'] }, (oldData: any) => {
+                if (!oldData || !oldData.items) return oldData;
+                return {
+                    ...oldData,
+                    items: oldData.items.filter((wo: any) => !deletedIds.includes(wo.id))
+                };
+            });
+            await queryClient.invalidateQueries({ queryKey: ['work-orders'] });
             setSelectedRows([]);
             toast.success('Bulk deletion completed');
         }
@@ -1122,8 +1130,16 @@ export const WorkOrdersPage = () => {
         mutationFn: async (id: string) => {
             await api.delete(`/work-orders/${id}`);
         },
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['work-orders'] });
+        onSuccess: async (_, deletedId) => {
+            // Optimistically remove the deleted work order from all cached pages instantly
+            queryClient.setQueriesData({ queryKey: ['work-orders'] }, (oldData: any) => {
+                if (!oldData || !oldData.items) return oldData;
+                return {
+                    ...oldData,
+                    items: oldData.items.filter((wo: any) => wo.id !== deletedId)
+                };
+            });
+            await queryClient.invalidateQueries({ queryKey: ['work-orders'] });
             toast.success('Mission Aborted: Work Order Deleted');
         }
     });
