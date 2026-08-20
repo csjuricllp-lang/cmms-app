@@ -26,15 +26,19 @@ export class AppController {
 
     if (host && user) {
       try {
+        const isSecure = process.env.SMTP_SECURE === 'true';
         const transporter = nodemailer.createTransport({
           host,
           port: Number(port),
-          secure: false,
+          secure: isSecure,
           family: 4,
           auth: {
             user,
             pass: process.env.SMTP_PASS,
           },
+          connectionTimeout: 10000,
+          greetingTimeout: 10000,
+          socketTimeout: 10000,
         } as any);
 
         await transporter.sendMail({
