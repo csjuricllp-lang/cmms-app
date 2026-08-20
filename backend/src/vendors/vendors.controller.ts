@@ -18,6 +18,7 @@ import { RequirePermissions } from '../auth/decorators/permissions.decorator';
 import { Permission } from '../auth/permissions/permission.enum';
 import { FilesService } from '../files/files.service';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { MailService } from '../mail/mail.service';
 
 @UseGuards(AuthGuard('jwt'), PermissionsGuard)
 @Controller('vendors')
@@ -25,6 +26,7 @@ export class VendorsController {
   constructor(
     private readonly vendorsService: VendorsService,
     private readonly filesService: FilesService,
+    private readonly mailService: MailService,
   ) {}
 
   @RequirePermissions(Permission.CREATE_VENDOR)
@@ -72,5 +74,21 @@ export class VendorsController {
   @Delete('files/:fileId')
   async removeFile(@Param('fileId') fileId: string) {
     return this.vendorsService.removeFile(fileId);
+  }
+
+  @RequirePermissions(Permission.READ_VENDOR)
+  @Post(':id/contact')
+  async contactVendor(
+    @Param('id') id: string,
+    @Body() body: { subject: string; message: string }
+  ) {
+    const vendor = await this.vendorsService.findOne(id);
+    if (!vendor) {
+      throw new Error('Vendor not found');
+    }
+    const email = vendor.email || 'la.sales@mcmaster.com'; // fallback if no email
+    
+    await this.mailService.sendVendorMessage(email, vendor.name, body.subject, body.message);
+    return { success: true, message: 'Email sent successfully' };
   }
 }

@@ -48,6 +48,7 @@ export const VendorsPage = () => {
     const [contactVendor, setContactVendor] = useState<any>(null);
     const [contactMessage, setContactMessage] = useState('');
     const [contactSubject, setContactSubject] = useState('Procurement Inquiry');
+    const [isSendingMail, setIsSendingMail] = useState(false);
 
     // Delete confirmation state
     const [deleteVendorId, setDeleteVendorId] = useState<string | null>(null);
@@ -162,11 +163,24 @@ export const VendorsPage = () => {
         return avatarColors[charCodeSum % avatarColors.length];
     };
 
-    const handleSendEmail = (e: React.FormEvent) => {
+    const handleSendEmail = async (e: React.FormEvent) => {
         e.preventDefault();
-        toast.success(`Message sent to ${contactVendor.name} at ${contactVendor.email || 'la.sales@mcmaster.com'}`);
-        setContactVendor(null);
-        setContactMessage('');
+        if (!contactVendor) return;
+        
+        setIsSendingMail(true);
+        try {
+            await api.post(`/vendors/${contactVendor.id}/contact`, {
+                subject: contactSubject,
+                message: contactMessage
+            });
+            toast.success(`Message sent to ${contactVendor.name}`);
+            setContactVendor(null);
+            setContactMessage('');
+        } catch (error: any) {
+            toast.error(error.response?.data?.message || 'Failed to send message');
+        } finally {
+            setIsSendingMail(false);
+        }
     };
 
     const isMobile = useMediaQuery('(max-width: 768px)');
@@ -249,18 +263,24 @@ export const VendorsPage = () => {
 
                                     <div className="flex items-center justify-end gap-3 pt-2">
                                         <button 
-                                            type="button" 
+                                            type="button"
+                                            disabled={isSendingMail}
                                             onClick={() => setContactVendor(null)}
-                                            className="px-5 py-2.5 border border-slate-200 rounded-xl text-[13px] font-bold text-slate-500 hover:bg-slate-50 transition-colors"
+                                            className="px-5 py-2.5 text-[13px] font-bold text-slate-500 hover:bg-slate-100 rounded-lg transition-colors"
                                         >
                                             Cancel
                                         </button>
                                         <button 
                                             type="submit"
-                                            className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-[13px] font-bold shadow-md shadow-indigo-100 flex items-center gap-1.5 transition-all active:scale-95"
+                                            disabled={isSendingMail}
+                                            className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2.5 rounded-lg text-[13px] font-bold transition-all hover:shadow-lg hover:shadow-indigo-500/25 disabled:opacity-50"
                                         >
-                                            <Send className="w-3.5 h-3.5" />
-                                            Send Message
+                                            {isSendingMail ? (
+                                                <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+                                            ) : (
+                                                <Send className="w-4 h-4" />
+                                            )}
+                                            {isSendingMail ? 'Sending...' : 'Send Message'}
                                         </button>
                                     </div>
                                 </form>
@@ -622,6 +642,7 @@ export const VendorsPage = () => {
                                 <div className="flex items-center justify-end gap-3 pt-2">
                                     <button 
                                         type="button" 
+                                        disabled={isSendingMail}
                                         onClick={() => setContactVendor(null)}
                                         className="px-5 py-2.5 border border-slate-200 rounded-xl text-[13px] font-bold text-slate-500 hover:bg-slate-50 transition-colors"
                                     >
@@ -629,10 +650,15 @@ export const VendorsPage = () => {
                                     </button>
                                     <button 
                                         type="submit"
-                                        className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-[13px] font-bold shadow-md shadow-indigo-100 flex items-center gap-1.5 transition-all active:scale-95"
+                                        disabled={isSendingMail}
+                                        className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-[13px] font-bold shadow-md shadow-indigo-100 flex items-center gap-1.5 transition-all active:scale-95 disabled:opacity-50"
                                     >
-                                        <Send className="w-3.5 h-3.5" />
-                                        Send Message
+                                        {isSendingMail ? (
+                                            <div className="w-3.5 h-3.5 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+                                        ) : (
+                                            <Send className="w-3.5 h-3.5" />
+                                        )}
+                                        {isSendingMail ? 'Sending...' : 'Send Message'}
                                     </button>
                                 </div>
                             </form>

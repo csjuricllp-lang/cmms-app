@@ -81,6 +81,36 @@ export class MailService {
     }
   }
 
+  async sendVendorMessage(email: string, vendorName: string, subject: string, message: string) {
+    if (this.useRealEmail && this.transporter) {
+      const from = this.configService.get<string>('SMTP_FROM') || '"CMMS App Alert" <no-reply@example.com>';
+      try {
+        await this.transporter.sendMail({
+          from,
+          to: email,
+          subject: subject,
+          text: message,
+          html: `
+            <div style="font-family: sans-serif; padding: 20px; color: #333; max-width: 600px; margin: 0 auto; border: 1px solid #eee; border-radius: 8px;">
+              <h2 style="color: #1976d2; border-bottom: 2px solid #1976d2; padding-bottom: 10px; margin-top: 0;">Message regarding ${vendorName}</h2>
+              <p style="font-size: 16px; line-height: 1.5; color: #555; white-space: pre-wrap;">${message}</p>
+              <br/><br/>
+              <hr style="border: 0; border-top: 1px solid #eee;"/>
+              <p style="font-size: 12px; color: #999; text-align: center;">This is an automated message sent from your CMMS platform.</p>
+            </div>
+          `,
+        });
+        this.logger.log(`Real email sent successfully to vendor ${email} (Subject: ${subject})`);
+      } catch (error: any) {
+        this.logger.error(`Failed to send real email to vendor ${email}: ${error.message}`);
+      }
+    } else {
+      this.logger.log(`[MAIL MOCK] Sending Message to Vendor: ${email}`);
+      this.logger.log(`[MAIL MOCK] Subject: ${subject}`);
+      this.logger.log(`[MAIL MOCK] Content: ${message}`);
+    }
+  }
+
   async sendInvitationEmail(email: string, token: string, orgName: string) {
     const frontendUrl = this.configService.get<string>('FRONTEND_URL') || 'http://localhost:3000';
     const inviteUrl = `${frontendUrl}/accept-invitation/${token}`;
