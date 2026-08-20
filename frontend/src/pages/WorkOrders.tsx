@@ -64,6 +64,7 @@ import { AdvancedFiltersModal } from '../components/AdvancedFiltersModal';
 import { WorkOrderDetailModal } from '../components/WorkOrderDetailModal';
 import AddTimeModal from '../components/AddTimeModal';
 import { EmptyState } from '../components/EmptyState';
+import { ConfirmationModal } from '../components/ConfirmationModal';
 import { useMediaQuery } from '../hooks/useMediaQuery';
 import { MobileWorkOrders } from './MobileWorkOrders';
 
@@ -406,6 +407,10 @@ export const WorkOrdersPage = () => {
     const [stagedDateFilter, setStagedDateFilter] = useState<string>('Any Day');
     const [isAssetDropdownOpen, setIsAssetDropdownOpen] = useState(false);
     const [stagedAssetIds, setStagedAssetIds] = useState<string[]>([]);
+
+    const [isBulkDeleteModalOpen, setIsBulkDeleteModalOpen] = useState(false);
+    const [isSingleDeleteModalOpen, setIsSingleDeleteModalOpen] = useState(false);
+    const [workOrderToDelete, setWorkOrderToDelete] = useState<string | null>(null);
 
     const [selectedAssetIds, setSelectedAssetIds] = useState<string[]>([]);
     const [selectedTeams, setSelectedTeams] = useState<string[]>([]);
@@ -1028,12 +1033,8 @@ export const WorkOrdersPage = () => {
                         Complete
                     </button>
                     <button 
-                        onClick={() => {
-                            if (window.confirm(`Are you sure you want to delete ${selectedRows.length} work orders?`)) {
-                                bulkDeleteMutation.mutate(selectedRows);
-                            }
-                        }}
-                        className="flex items-center gap-2 px-5 py-2.5 hover:bg-rose-500/20 text-rose-400 rounded-xl transition-all text-[12px] font-black uppercase tracking-widest"
+                        onClick={() => setIsBulkDeleteModalOpen(true)}
+                        className="flex items-center gap-2 px-5 py-2.5 bg-rose-500 hover:bg-rose-600 rounded-xl text-[12px] font-black uppercase tracking-widest text-white shadow-lg shadow-rose-500/20 active:scale-95 transition-all"
                     >
                         <Trash2 className="w-4 h-4" />
                         Delete
@@ -2178,9 +2179,8 @@ export const WorkOrdersPage = () => {
                                                         <button 
                                                             onClick={(e) => {
                                                                 e.stopPropagation();
-                                                                if (confirm('Are you sure you want to ABORT this mission and delete the work order?')) {
-                                                                    deleteWorkOrder.mutate(order.id);
-                                                                }
+                                                                setWorkOrderToDelete(order.id);
+                                                                setIsSingleDeleteModalOpen(true);
                                                             }}
                                                             className="w-7 h-7 rounded-lg bg-slate-50 hover:bg-rose-500 text-slate-400 hover:text-white flex items-center justify-center transition-all group/delete border border-slate-200 shadow-sm active:scale-90"
                                                             title="Delete Work Order"
@@ -2432,6 +2432,40 @@ export const WorkOrdersPage = () => {
                     defaultWorkerId={selectedAssigneeIds[0]} // Optional: default to first filtered worker
                 />
             )}
+
+            <ConfirmationModal
+                isOpen={isBulkDeleteModalOpen}
+                onClose={() => setIsBulkDeleteModalOpen(false)}
+                onConfirm={() => {
+                    bulkDeleteMutation.mutate(selectedRows);
+                    setIsBulkDeleteModalOpen(false);
+                }}
+                title="Delete Work Orders"
+                message={`Are you sure you want to permanently delete ${selectedRows.length} selected work orders? This action cannot be undone.`}
+                confirmText="Delete"
+                variant="danger"
+                isLoading={bulkDeleteMutation.isPending}
+            />
+
+            <ConfirmationModal
+                isOpen={isSingleDeleteModalOpen}
+                onClose={() => {
+                    setIsSingleDeleteModalOpen(false);
+                    setWorkOrderToDelete(null);
+                }}
+                onConfirm={() => {
+                    if (workOrderToDelete) {
+                        deleteWorkOrder.mutate(workOrderToDelete);
+                    }
+                    setIsSingleDeleteModalOpen(false);
+                    setWorkOrderToDelete(null);
+                }}
+                title="Abort Work Order"
+                message="Are you sure you want to ABORT this mission and permanently delete this work order? This action cannot be undone."
+                confirmText="Abort Mission"
+                variant="danger"
+                isLoading={deleteWorkOrder.isPending}
+            />
 
             {renderBulkActions()}
         </div>
