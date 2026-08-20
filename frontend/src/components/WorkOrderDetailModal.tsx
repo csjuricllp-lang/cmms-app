@@ -131,11 +131,26 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
         }
     }, []);
 
+    const [optimisticTimerState, setOptimisticTimerState] = React.useState<{ startTime: Date | null, isRunning: boolean } | null>(null);
+
+    // Clear optimistic state when the work order data finally updates from the server
+    React.useEffect(() => {
+        setOptimisticTimerState(null);
+    }, [displayOrder?.timeLogs]);
+
     // Find if there is an active running timer log for the current user
     const activeTimeLog = React.useMemo(() => {
+        if (optimisticTimerState) {
+            if (optimisticTimerState.isRunning) {
+                return { startTime: optimisticTimerState.startTime, endTime: null, userId: currentUserOrgId };
+            } else {
+                return null;
+            }
+        }
+        
         if (!displayOrder || !displayOrder.timeLogs || !currentUserOrgId) return null;
         return displayOrder.timeLogs.find((log: any) => log.userId === currentUserOrgId && !log.endTime) || null;
-    }, [displayOrder?.timeLogs, currentUserOrgId]);
+    }, [displayOrder?.timeLogs, currentUserOrgId, optimisticTimerState]);
 
     React.useEffect(() => {
         if (!activeTimeLog || !activeTimeLog.startTime) {
@@ -533,9 +548,19 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                         <button 
                             onClick={async () => {
                                 if (activeTimeLog) {
-                                    await pauseTimer.mutateAsync(displayOrder.id);
+                                    setOptimisticTimerState({ startTime: activeTimeLog.startTime, isRunning: false });
+                                    try {
+                                        await pauseTimer.mutateAsync(displayOrder.id);
+                                    } catch {
+                                        setOptimisticTimerState(null);
+                                    }
                                 } else {
-                                    await startTimer.mutateAsync(displayOrder.id);
+                                    setOptimisticTimerState({ startTime: new Date(), isRunning: true });
+                                    try {
+                                        await startTimer.mutateAsync(displayOrder.id);
+                                    } catch {
+                                        setOptimisticTimerState(null);
+                                    }
                                 }
                             }}
                             disabled={startTimer.isPending || pauseTimer.isPending}
