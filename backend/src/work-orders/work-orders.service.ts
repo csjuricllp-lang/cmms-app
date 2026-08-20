@@ -1173,8 +1173,8 @@ export class WorkOrdersService {
           }
         }
 
-        // Close active timers
-        await this.pauseWorkTimer(id, userOrgId);
+        // Close ALL active timers across all users to prevent orphaned ghost timers when completing
+        await this.lifecycleService.pauseAllActiveTimers(id);
         data.completedAt = new Date();
 
         // --- Asset Intelligence: Sync Downtime to Asset ---

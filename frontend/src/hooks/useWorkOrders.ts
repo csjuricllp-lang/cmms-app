@@ -374,9 +374,10 @@ export const useWorkOrders = (params?: {
             const response = await api.post(`/work-orders/${id}/timer/start`);
             return response.data;
         },
-        onSuccess: (_, id) => {
+        onSuccess: async (_, id) => {
+            // Await the specific WO query invalidation to ensure UI doesn't re-enable before data is fresh
+            await queryClient.invalidateQueries({ queryKey: ['work-orders', id] });
             queryClient.invalidateQueries({ queryKey: ['work-orders'] });
-            queryClient.invalidateQueries({ queryKey: ['work-orders', id] });
             toast.success('Timer started');
         },
         onError: () => {
@@ -389,9 +390,9 @@ export const useWorkOrders = (params?: {
             const response = await api.post(`/work-orders/${id}/timer/pause`);
             return response.data;
         },
-        onSuccess: (_, id) => {
+        onSuccess: async (_, id) => {
+            await queryClient.invalidateQueries({ queryKey: ['work-orders', id] });
             queryClient.invalidateQueries({ queryKey: ['work-orders'] });
-            queryClient.invalidateQueries({ queryKey: ['work-orders', id] });
             toast.success('Timer paused');
         },
         onError: () => {
