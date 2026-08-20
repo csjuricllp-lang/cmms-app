@@ -1,4 +1,4 @@
-import { useQuery, useMutation, useQueryClient, useInfiniteQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient, useInfiniteQuery, keepPreviousData } from '@tanstack/react-query';
 import { api } from '../lib/api';
 import { db } from '../lib/db';
 import toast from 'react-hot-toast';
@@ -624,6 +624,22 @@ export const usePreventiveMaintenance = () => {
             const response = await api.post('/preventive-maintenance/bulk-delete', { ids });
             return response.data;
         },
+        onMutate: async (ids) => {
+            await queryClient.cancelQueries({ queryKey: ['pm-schedules'] });
+            
+            // Optimistically update all infinite queries
+            queryClient.setQueriesData({ queryKey: ['pm-schedules', 'infinite'] }, (old: any) => {
+                if (!old) return old;
+                return {
+                    ...old,
+                    pages: old.pages.map((page: any) => ({
+                        ...page,
+                        items: page.items.filter((item: any) => !ids.includes(item.id)),
+                        total: Math.max(0, page.total - ids.length)
+                    }))
+                };
+            });
+        },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['pm-schedules'] });
             toast.success('Deleted schedules successfully');
@@ -646,6 +662,21 @@ export const usePreventiveMaintenance = () => {
     const deletePM = useMutation({
         mutationFn: async (id: string) => {
             await api.delete(`/preventive-maintenance/${id}`);
+        },
+        onMutate: async (id) => {
+            await queryClient.cancelQueries({ queryKey: ['pm-schedules'] });
+            
+            queryClient.setQueriesData({ queryKey: ['pm-schedules', 'infinite'] }, (old: any) => {
+                if (!old) return old;
+                return {
+                    ...old,
+                    pages: old.pages.map((page: any) => ({
+                        ...page,
+                        items: page.items.filter((item: any) => item.id !== id),
+                        total: Math.max(0, page.total - 1)
+                    }))
+                };
+            });
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['pm-schedules'] });
@@ -721,6 +752,7 @@ export const useInfinitePreventiveMaintenance = (params?: any) => {
             }
             return undefined;
         },
+        placeholderData: keepPreviousData,
     });
 };
 
