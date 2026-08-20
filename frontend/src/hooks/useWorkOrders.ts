@@ -275,6 +275,21 @@ export const useWorkOrders = (params?: {
                 return { id, ...updates, offline: true };
             }
         },
+        onMutate: async (variables) => {
+            await queryClient.cancelQueries({ queryKey: ['work-orders'] });
+            // Optimistically update the cache for instant UI feedback
+            queryClient.setQueriesData({ queryKey: ['work-orders'] }, (oldData: any) => {
+                if (!oldData) return oldData;
+                if (oldData.items) {
+                    return {
+                        ...oldData,
+                        items: oldData.items.map((wo: any) => wo.id === variables.id ? { ...wo, status: variables.status } : wo)
+                    };
+                }
+                if (oldData.id === variables.id) return { ...oldData, status: variables.status };
+                return oldData;
+            });
+        },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['work-orders'] });
         },
@@ -427,6 +442,21 @@ export const useWorkOrders = (params?: {
             const response = await api.post(`/work-orders/${workOrderId}/approve`, { status, notes });
             return response.data;
         },
+        onMutate: async ({ workOrderId, status }) => {
+            const newStatus = status === 'APPROVED' ? 'COMPLETED' : 'IN_PROGRESS';
+            await queryClient.cancelQueries({ queryKey: ['work-orders'] });
+            queryClient.setQueriesData({ queryKey: ['work-orders'] }, (oldData: any) => {
+                if (!oldData) return oldData;
+                if (oldData.items) {
+                    return {
+                        ...oldData,
+                        items: oldData.items.map((wo: any) => wo.id === workOrderId ? { ...wo, status: newStatus } : wo)
+                    };
+                }
+                if (oldData.id === workOrderId) return { ...oldData, status: newStatus };
+                return oldData;
+            });
+        },
         onSuccess: (_, { workOrderId }) => {
             queryClient.invalidateQueries({ queryKey: ['work-orders'] });
             queryClient.invalidateQueries({ queryKey: ['work-orders', workOrderId] });
@@ -441,6 +471,20 @@ export const useWorkOrders = (params?: {
         mutationFn: async ({ workOrderId, status, notes }: { workOrderId: string; status: 'CLOSED' | 'IN_PROGRESS'; notes?: string }) => {
             const response = await api.post(`/work-orders/${workOrderId}/review`, { status, notes });
             return response.data;
+        },
+        onMutate: async ({ workOrderId, status }) => {
+            await queryClient.cancelQueries({ queryKey: ['work-orders'] });
+            queryClient.setQueriesData({ queryKey: ['work-orders'] }, (oldData: any) => {
+                if (!oldData) return oldData;
+                if (oldData.items) {
+                    return {
+                        ...oldData,
+                        items: oldData.items.map((wo: any) => wo.id === workOrderId ? { ...wo, status } : wo)
+                    };
+                }
+                if (oldData.id === workOrderId) return { ...oldData, status };
+                return oldData;
+            });
         },
         onSuccess: (_, { workOrderId, status }) => {
             queryClient.invalidateQueries({ queryKey: ['work-orders'] });
