@@ -162,7 +162,8 @@ export class PreventiveMaintenanceService {
           schedule.frequencyType as any,
           schedule.frequencyValue || 1,
         );
-        const nextDue = this.applyTime(this.dateService.toUTC(localizedNext, timezone), schedule.dueDateTime);
+        const localizedNextWithTime = this.applyTime(localizedNext, schedule.dueDateTime);
+        const nextDue = this.dateService.toUTC(localizedNextWithTime, timezone);
 
         const updatedSchedule = await this.prisma.pMSchedule.update({
           where: { id: schedule.id },
@@ -435,7 +436,8 @@ export class PreventiveMaintenanceService {
             schedule.frequencyType as any,
             schedule.frequencyValue!,
           );
-          const nextDueDate = this.applyTime(this.dateService.toUTC(localizedNext, timezone), schedule.dueDateTime);
+          const localizedNextWithTime = this.applyTime(localizedNext, schedule.dueDateTime);
+          const nextDueDate = this.dateService.toUTC(localizedNextWithTime, timezone);
           
           await this.prisma.pMSchedule.update({
             where: { id: schedule.id },
@@ -474,7 +476,8 @@ export class PreventiveMaintenanceService {
                 schedule.frequencyType as any,
                 schedule.frequencyValue!,
               );
-              const nextDueDate = this.applyTime(this.dateService.toUTC(localizedNext, timezone), schedule.dueDateTime);
+              const localizedNextWithTime = this.applyTime(localizedNext, schedule.dueDateTime);
+              const nextDueDate = this.dateService.toUTC(localizedNextWithTime, timezone);
 
               await tx.pMSchedule.update({
                 where: { id: schedule.id },
@@ -579,7 +582,10 @@ export class PreventiveMaintenanceService {
   }
 
   private async generateWorkOrder(schedule: any, tx: any = this.prisma) {
-    let dueDate = this.applyTime(schedule.nextDueDate ? new Date(schedule.nextDueDate) : new Date(), schedule.dueDateTime);
+    let dueDate = schedule.nextDueDate ? new Date(schedule.nextDueDate) : new Date();
+    if (!schedule.nextDueDate || schedule.frequencyType === 'METER') {
+      dueDate = this.applyTime(dueDate, schedule.dueDateTime);
+    }
     if (schedule.frequencyType === 'METER' && schedule.meterWODueValue) {
       const offset = schedule.meterWODueValue;
       dueDate = new Date();
