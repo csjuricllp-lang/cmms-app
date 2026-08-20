@@ -464,23 +464,58 @@ export class PreventiveMaintenanceService {
         try {
           await this.withRetry(async () => {
             await this.prisma.$transaction(async (tx) => {
-              await this.generateWorkOrder(schedule, tx);
+              // 1. Pessimistic Row Locking to prevent race conditions on multi-instance setups (like Render)
+              try {
+                await tx.$queryRaw`SELECT id FROM "PMSchedule" WHERE id = ${schedule.id} FOR UPDATE`;
+              } catch (e) {
+                // Fallback for mock environments
+              }
 
-              const baseDate = (schedule.isFloating ? now : schedule.nextDueDate) as Date;
+              // 2. Fetch fresh schedule inside locked transaction
+              const freshSchedule = await tx.pMSchedule.findUnique({
+                where: { id: schedule.id },
+                include: {
+                  asset: {
+                    include: { location: true }
+                  }
+                }
+              });
+
+              if (!freshSchedule || !freshSchedule.isActive || freshSchedule.status !== 'ACTIVE') {
+                return;
+              }
+
+              // Guard: Check if another thread/instance already generated it
+              if (
+                freshSchedule.lastGenerated &&
+                freshSchedule.nextDueDate &&
+                freshSchedule.lastGenerated >= freshSchedule.nextDueDate
+              ) {
+                return;
+              }
+
+              // Guard: Check if nextDueDate has been moved to the future by another instance
+              if (freshSchedule.nextDueDate && freshSchedule.nextDueDate > now) {
+                return;
+              }
+
+              await this.generateWorkOrder(freshSchedule, tx);
+
+              const baseDate = (freshSchedule.isFloating ? now : freshSchedule.nextDueDate) as Date;
               
-              const timezone = (schedule as any).asset?.location?.timezone || 'UTC';
+              const timezone = (freshSchedule as any).asset?.location?.timezone || 'UTC';
               const localizedBase = this.dateService.toTimezone(baseDate, timezone);
               
               const localizedNext = this.dateService.calculateNextDueDate(
                 localizedBase,
-                schedule.frequencyType as any,
-                schedule.frequencyValue!,
+                freshSchedule.frequencyType as any,
+                freshSchedule.frequencyValue!,
               );
-              const localizedNextWithTime = this.applyTime(localizedNext, schedule.dueDateTime);
+              const localizedNextWithTime = this.applyTime(localizedNext, freshSchedule.dueDateTime);
               const nextDueDate = this.dateService.toUTC(localizedNextWithTime, timezone);
 
               await tx.pMSchedule.update({
-                where: { id: schedule.id },
+                where: { id: freshSchedule.id },
                 data: {
                   lastGenerated: now,
                   nextDueDate: nextDueDate,
@@ -534,24 +569,57 @@ export class PreventiveMaintenanceService {
         try {
           await this.withRetry(async () => {
             await this.prisma.$transaction(async (tx) => {
-              await this.generateWorkOrder(schedule, tx);
+              // 1. Pessimistic Row Locking to prevent race conditions on multi-instance setups (like Render)
+              try {
+                await tx.$queryRaw`SELECT id FROM "PMSchedule" WHERE id = ${schedule.id} FOR UPDATE`;
+              } catch (e) {
+                // Fallback for mock environments
+              }
 
-              let nextReading: Prisma.Decimal | null = nextMeterReading;
-              const triggerType = schedule.meterTriggerType || 'INTERVAL';
+              // 2. Fetch fresh schedule inside locked transaction
+              const freshSchedule = await tx.pMSchedule.findUnique({
+                where: { id: schedule.id },
+                include: {
+                  meter: true,
+                  asset: {
+                    include: { location: true }
+                  }
+                }
+              });
+
+              if (!freshSchedule || !freshSchedule.isActive || freshSchedule.status !== 'ACTIVE') {
+                return;
+              }
+
+              const freshMeter = (freshSchedule as any).meter;
+              if (!freshMeter || freshSchedule.nextMeterReading === null) return;
+
+              const freshCurrentValue = new Prisma.Decimal(freshMeter.currentValue || 0);
+              const freshNextMeterReading = freshSchedule.nextMeterReading ? new Prisma.Decimal(freshSchedule.nextMeterReading) : null;
+
+              // Guard: Check if another instance already updated the nextMeterReading target
+              if (!freshNextMeterReading || freshCurrentValue.lt(freshNextMeterReading)) {
+                return;
+              }
+
+              await this.generateWorkOrder(freshSchedule, tx);
+
+              let nextReading: Prisma.Decimal | null = freshNextMeterReading;
+              const triggerType = freshSchedule.meterTriggerType || 'INTERVAL';
 
               if (triggerType === 'INTERVAL' || triggerType === 'RELATIVE') {
-                nextReading = currentValue.plus(new Prisma.Decimal(schedule.meterInterval || 0));
+                nextReading = freshCurrentValue.plus(new Prisma.Decimal(freshSchedule.meterInterval || 0));
               } else if (triggerType === 'THRESHOLD') {
                 nextReading = null; 
               }
 
               await tx.pMSchedule.update({
-                where: { id: schedule.id },
+                where: { id: freshSchedule.id },
                 data: {
                   lastGenerated: this.dateService.now(),
-                  lastMeterReading: (schedule as any).meter.currentValue,
+                  lastMeterReading: freshMeter.currentValue,
                   nextMeterReading: nextReading,
-                  isActive: triggerType === 'THRESHOLD' ? false : schedule.isActive
+                  isActive: triggerType === 'THRESHOLD' ? false : freshSchedule.isActive
                 },
               });
             });
