@@ -66,9 +66,10 @@ export const CustomerModal = ({ onClose, customer }: CustomerModalProps) => {
     });
 
     const addCustomField = () => {
+        const currentFields = Array.isArray(formData.customFields) ? formData.customFields : [];
         setFormData({
             ...formData,
-            customFields: [...formData.customFields, { name: '', value: '', unit: '' }]
+            customFields: [...currentFields, { name: '', value: '', unit: '' }]
         });
     };
 
@@ -295,6 +296,7 @@ export const CustomerModal = ({ onClose, customer }: CustomerModalProps) => {
                                         />
                                     </div>
                                     <button 
+                                        type="button"
                                         onClick={() => removeCustomField(idx)}
                                         className="h-10 w-10 flex items-center justify-center shrink-0 border border-gray-200 rounded-md text-red-500 hover:bg-red-50 hover:border-red-200 transition-colors"
                                     >
@@ -305,6 +307,8 @@ export const CustomerModal = ({ onClose, customer }: CustomerModalProps) => {
                         </div>
                         
                         <button 
+                            type="button"
+                            id="add-custom-field-btn"
                             onClick={addCustomField}
                             className="h-10 px-6 text-[14px] font-medium text-gray-700 border border-gray-200 rounded-md hover:bg-gray-50 transition-colors flex items-center gap-2 shadow-sm"
                         >
