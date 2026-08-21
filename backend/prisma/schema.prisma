@@ -867,6 +867,7 @@ model Customer {
   addressLine2   String?
   addressLine3   String?
   currency       String?      @default("USD")
+  customFields   Json?
   organizationId String
   deletedAt      DateTime?
   createdAt      DateTime     @default(now())

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { X, Loader2, ChevronDown } from 'lucide-react';
+import { X, Loader2, ChevronDown, Plus, Trash } from 'lucide-react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '../lib/api';
 
@@ -24,7 +24,8 @@ export const CustomerModal = ({ onClose, customer }: CustomerModalProps) => {
         addressLine2: customer?.addressLine2 || '',
         addressLine3: customer?.addressLine3 || '',
         currency: customer?.currency || 'USD - United States Dollar - $',
-        isVip: customer?.isVip || false
+        isVip: customer?.isVip || false,
+        customFields: customer?.customFields ? (Array.isArray(customer.customFields) ? customer.customFields : []) : []
     });
 
     const saveMutation = useMutation({
@@ -41,7 +42,9 @@ export const CustomerModal = ({ onClose, customer }: CustomerModalProps) => {
                 billingAddress: data.billingAddress || undefined,
                 addressLine2: data.addressLine2 || undefined,
                 addressLine3: data.addressLine3 || undefined,
-                hourlyRate: data.hourlyRate ? parseFloat(data.hourlyRate) : undefined
+                addressLine3: data.addressLine3 || undefined,
+                hourlyRate: data.hourlyRate ? parseFloat(data.hourlyRate) : undefined,
+                customFields: data.customFields
             };
             if (customer?.id) {
                 return api.patch(`/customers/${customer.id}`, payload);
@@ -61,6 +64,24 @@ export const CustomerModal = ({ onClose, customer }: CustomerModalProps) => {
             alert(Array.isArray(msg) ? msg[0] : msg);
         }
     });
+
+    const addCustomField = () => {
+        setFormData({
+            ...formData,
+            customFields: [...formData.customFields, { name: '', value: '', unit: '' }]
+        });
+    };
+
+    const updateCustomField = (index: number, key: string, value: string) => {
+        const newFields = [...formData.customFields];
+        newFields[index] = { ...newFields[index], [key]: value };
+        setFormData({ ...formData, customFields: newFields });
+    };
+
+    const removeCustomField = (index: number) => {
+        const newFields = formData.customFields.filter((_, i) => i !== index);
+        setFormData({ ...formData, customFields: newFields });
+    };
 
     const inputClasses = "w-full h-10 px-3 bg-white border border-gray-200 rounded-md text-[14px] focus:outline-none focus:border-indigo-500 transition-colors placeholder:text-gray-400";
     const labelClasses = "text-[13px] font-medium text-gray-700 block mb-1.5";
@@ -243,7 +264,51 @@ export const CustomerModal = ({ onClose, customer }: CustomerModalProps) => {
                         <h3 className="text-[18px] font-bold text-gray-900 mb-2">Custom Data</h3>
                         <p className="text-[14px] text-gray-500 mb-6 font-normal italic">After naming custom fields, you can enter a value and unit.</p>
                         
-                        <button className="h-10 px-6 text-[14px] font-medium text-gray-700 border border-gray-200 rounded-md hover:bg-gray-50 transition-colors flex items-center gap-2 shadow-sm">
+                        <div className="space-y-4 mb-6">
+                            {formData.customFields.map((field: any, idx: number) => (
+                                <div key={idx} className="flex items-start gap-3">
+                                    <div className="flex-1 space-y-1.5">
+                                        <input
+                                            type="text"
+                                            placeholder="Field Name"
+                                            className={inputClasses}
+                                            value={field.name}
+                                            onChange={(e) => updateCustomField(idx, 'name', e.target.value)}
+                                        />
+                                    </div>
+                                    <div className="flex-1 space-y-1.5">
+                                        <input
+                                            type="text"
+                                            placeholder="Value"
+                                            className={inputClasses}
+                                            value={field.value}
+                                            onChange={(e) => updateCustomField(idx, 'value', e.target.value)}
+                                        />
+                                    </div>
+                                    <div className="w-24 space-y-1.5 shrink-0">
+                                        <input
+                                            type="text"
+                                            placeholder="Unit"
+                                            className={inputClasses}
+                                            value={field.unit}
+                                            onChange={(e) => updateCustomField(idx, 'unit', e.target.value)}
+                                        />
+                                    </div>
+                                    <button 
+                                        onClick={() => removeCustomField(idx)}
+                                        className="h-10 w-10 flex items-center justify-center shrink-0 border border-gray-200 rounded-md text-red-500 hover:bg-red-50 hover:border-red-200 transition-colors"
+                                    >
+                                        <Trash className="w-4 h-4" />
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+                        
+                        <button 
+                            onClick={addCustomField}
+                            className="h-10 px-6 text-[14px] font-medium text-gray-700 border border-gray-200 rounded-md hover:bg-gray-50 transition-colors flex items-center gap-2 shadow-sm"
+                        >
+                            <Plus className="w-4 h-4" />
                             Add Custom Field
                         </button>
                     </div>

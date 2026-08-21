@@ -56,6 +56,9 @@ export class CreateCustomerDto {
   @IsString()
   @IsOptional()
   currency?: string;
+
+  @IsOptional()
+  customFields?: any;
 }
 
 export class UpdateCustomerDto {
