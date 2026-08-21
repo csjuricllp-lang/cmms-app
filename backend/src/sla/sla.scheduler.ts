@@ -44,6 +44,7 @@ export class SLAScheduler {
       },
       include: {
         organization: true,
+        assignedTo: { include: { user: true } },
       },
     });
 
@@ -72,6 +73,20 @@ export class SLAScheduler {
       reason: 'Resolution time target exceeded',
       assignedTo: wo.assignedTo?.user?.name || 'Unassigned',
     });
+
+    // Create an in-app Notification for the assigned user (Reminder)
+    if (wo.assignedToId) {
+      await this.prisma.notification.create({
+        data: {
+          type: 'REMINDER',
+          title: 'Reminder: Work Order Overdue',
+          content: `Work Order #${wo.workOrderNo} - "${wo.title}" is overdue and has been escalated.`,
+          userId: wo.assignedTo.user.id,
+          organizationId: wo.organizationId,
+          metaData: { workOrderId: wo.id },
+        },
+      });
+    }
   }
 
   private async notifyManagementDelayedResponse(wo: any) {
@@ -86,5 +101,19 @@ export class SLAScheduler {
 
     // Also, we could update database bit to avoid re-notifying every hour
     // (In real world, we'd have an `slaEscalationLevel` counter)
+
+    // Create an in-app Notification (Reminder)
+    if (wo.assignedToId && wo.assignedTo?.user?.id) {
+      await this.prisma.notification.create({
+        data: {
+          type: 'REMINDER',
+          title: 'Reminder: Action Required',
+          content: `Work Order #${wo.workOrderNo} - "${wo.title}" is still OPEN and requires your attention.`,
+          userId: wo.assignedTo.user.id,
+          organizationId: wo.organizationId,
+          metaData: { workOrderId: wo.id },
+        },
+      });
+    }
   }
 }
