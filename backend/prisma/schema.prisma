@@ -893,6 +893,7 @@ model Part {
   cost              Decimal?
   criticality       Criticality             @default(MEDIUM)
   status            PartStatus              @default(ACTIVE)
+  autoReorderEnabled Boolean                @default(false)
   assignedToId      String?
   locationId        String?
   binLocation       String?

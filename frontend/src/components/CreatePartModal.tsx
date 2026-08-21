@@ -5,6 +5,7 @@ import { api } from '../lib/api';
 import { cn } from '../lib/utils';
 import toast from 'react-hot-toast';
 import { useVendors, useTeams, useLocations, useCustomers, useUsers } from '../hooks/useData';
+import { useUserRole } from '../hooks/useUserRole';
 
 interface CreatePartModalProps {
     isOpen: boolean;
@@ -14,6 +15,7 @@ interface CreatePartModalProps {
 
 export const CreatePartModal = ({ isOpen, onClose, part }: CreatePartModalProps) => {
     const queryClient = useQueryClient();
+    const { isAdmin, isOwner } = useUserRole();
     const [expandedSections, setExpandedSections] = useState<string[]>(['Part Details', 'Inventory Lines']);
     
     const toggleSection = (section: string) => {
@@ -39,6 +41,7 @@ export const CreatePartModal = ({ isOpen, onClose, part }: CreatePartModalProps)
         manufacturer: part?.manufacturer || '',
         isNonStock: false,
         isCritical: part?.criticality === 'CRITICAL',
+        autoReorderEnabled: part?.autoReorderEnabled || false,
         vendorId: part?.vendorId || '',
         customerId: part?.customerId || '',
         teamId: part?.teamId || '',
@@ -87,6 +90,7 @@ export const CreatePartModal = ({ isOpen, onClose, part }: CreatePartModalProps)
                 category: data.category,
                 tags: data.tags,
                 criticality: data.isCritical ? 'CRITICAL' : 'MEDIUM',
+                autoReorderEnabled: data.autoReorderEnabled,
                 quantity: Number(firstLine.quantity),
                 minQuantity: Number(firstLine.minQty),
                 maxQuantity: Number(firstLine.maxQty),
@@ -204,6 +208,19 @@ export const CreatePartModal = ({ isOpen, onClose, part }: CreatePartModalProps)
                                         </div>
                                         <input type="checkbox" className="hidden" checked={formData.isCritical} onChange={() => setFormData({...formData, isCritical: !formData.isCritical})} />
                                     </label>
+
+                                    {(isAdmin || isOwner) && (
+                                        <label className="flex items-start gap-4 cursor-pointer group">
+                                            <div className={cn("mt-0 w-8 h-4.5 rounded-full relative transition-colors duration-200 ease-in-out shrink-0", formData.autoReorderEnabled ? "bg-indigo-600" : "bg-slate-300")}>
+                                                <div className={cn("w-3.5 h-3.5 bg-white rounded-full absolute top-0.5 transition-transform duration-200 shadow-sm", formData.autoReorderEnabled ? "translate-x-[14px]" : "translate-x-0.5")} />
+                                            </div>
+                                            <div>
+                                                <p className="text-[12px] font-bold text-slate-800 leading-tight">Enable Automatic Purchase Orders</p>
+                                                <p className="text-[11px] text-slate-500 mt-0.5 leading-snug">If enabled, a Purchase Order will automatically be generated overnight when this part's stock drops below its minimum quantity.</p>
+                                            </div>
+                                            <input type="checkbox" className="hidden" checked={formData.autoReorderEnabled} onChange={() => setFormData({...formData, autoReorderEnabled: !formData.autoReorderEnabled})} />
+                                        </label>
+                                    )}
                                 </div>
                             </div>
                         </div>

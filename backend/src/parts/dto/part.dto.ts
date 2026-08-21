@@ -6,6 +6,7 @@ import {
   IsString,
   Min,
   IsEnum,
+  IsBoolean,
 } from 'class-validator';
 import { PartialType } from '@nestjs/mapped-types';
 import { InventoryTransactionType } from '@prisma/client';
@@ -85,6 +86,10 @@ export class CreatePartDto {
   @IsString()
   @IsOptional()
   barcode?: string;
+
+  @IsBoolean()
+  @IsOptional()
+  autoReorderEnabled?: boolean;
 }
 
 export class UpdatePartDto extends PartialType(CreatePartDto) {}
