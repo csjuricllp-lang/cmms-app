@@ -249,9 +249,9 @@ export const CustomersPage = () => {
             </div>
 
             {/* Table Area - Industrial Grid Style */}
-            <div className="flex-1 bg-slate-50/50 p-8">
-                <div className="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
-                    <table className="w-full border-collapse">
+            <div className="flex-1 bg-slate-50/50 p-8 max-w-full overflow-hidden">
+                <div className="bg-white rounded-xl border border-slate-200 overflow-x-auto shadow-sm">
+                    <table className="w-full border-collapse min-w-max">
                         <thead>
                             <tr className="border-b border-slate-200">
                                 <th className="w-14 px-4 py-4 bg-white border-r border-slate-100 flex items-center justify-center">
