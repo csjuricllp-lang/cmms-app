@@ -47,18 +47,18 @@ export const CustomerInspector = ({ customer, onClose }: CustomerInspectorProps)
                 animate={{ x: 0 }}
                 exit={{ x: '100%' }}
                 transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-                className="w-full max-w-[600px] h-full bg-white shadow-2xl flex flex-col font-outfit"
+                className="w-full max-w-[600px] h-full bg-card shadow-2xl flex flex-col font-outfit"
             >
                 {/* Header */}
-                <div className="bg-slate-50 px-8 py-6 border-b border-slate-100 flex items-start justify-between shrink-0">
+                <div className="bg-muted/50 px-8 py-6 border-b border-slate-100 flex items-start justify-between shrink-0">
                     <div className="flex items-center gap-5">
-                        <div className="w-14 h-14 rounded-2xl bg-white border border-slate-200 flex items-center justify-center text-indigo-600 shadow-sm">
+                        <div className="w-14 h-14 rounded-2xl bg-card border border-border flex items-center justify-center text-primary shadow-sm">
                             <UserSquare className="w-7 h-7" />
                         </div>
                         <div>
-                            <h2 className="text-2xl font-bold text-slate-900 tracking-tight">{customer.name}</h2>
+                            <h2 className="text-2xl font-bold text-foreground tracking-tight">{customer.name}</h2>
                             <div className="flex items-center gap-3 mt-1.5">
-                                <span className="text-[12px] font-bold text-indigo-600 bg-indigo-50 px-2.5 py-0.5 rounded-full border border-indigo-100 uppercase tracking-widest">
+                                <span className="text-[12px] font-bold text-primary bg-primary/10 px-2.5 py-0.5 rounded-full border border-primary/10 uppercase tracking-widest">
                                     {customer.type || 'Internal'}
                                 </span>
                             </div>
@@ -68,7 +68,7 @@ export const CustomerInspector = ({ customer, onClose }: CustomerInspectorProps)
                     <div className="flex items-center gap-2">
                         <button 
                             onClick={() => setIsEditModalOpen(true)}
-                            className="p-2.5 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 hover:text-indigo-600 transition-colors shadow-sm text-slate-500"
+                            className="p-2.5 bg-card border border-border rounded-xl hover:bg-muted/50 hover:text-primary transition-colors shadow-sm text-muted-foreground"
                             title="Edit Customer"
                         >
                             <Edit2 className="w-4 h-4" />
@@ -76,7 +76,7 @@ export const CustomerInspector = ({ customer, onClose }: CustomerInspectorProps)
                         <button 
                             onClick={handleDelete}
                             disabled={deleteMutation.isPending}
-                            className="p-2.5 bg-white border border-slate-200 rounded-xl hover:bg-red-50 hover:border-red-200 hover:text-red-600 transition-colors shadow-sm text-slate-500 disabled:opacity-50"
+                            className="p-2.5 bg-card border border-border rounded-xl hover:bg-red-50 hover:border-red-200 hover:text-red-600 transition-colors shadow-sm text-muted-foreground disabled:opacity-50"
                             title="Delete Customer"
                         >
                             <Trash2 className="w-4 h-4" />
@@ -93,24 +93,24 @@ export const CustomerInspector = ({ customer, onClose }: CustomerInspectorProps)
                     
                     {/* Key Metrics Grid */}
                     <div className="grid grid-cols-2 gap-4">
-                        <div className="bg-slate-50 rounded-2xl p-5 border border-slate-100 flex items-start gap-4">
-                            <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center text-blue-600 shrink-0">
+                        <div className="bg-muted/50 rounded-2xl p-5 border border-slate-100 flex items-start gap-4">
+                            <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center text-primary shrink-0">
                                 <DollarSign className="w-5 h-5" />
                             </div>
                             <div>
                                 <p className="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-1">Hourly Rate</p>
-                                <p className="text-[14px] font-bold text-slate-900">
+                                <p className="text-[14px] font-bold text-foreground">
                                     {customer.hourlyRate ? `$${customer.hourlyRate}/hr` : 'Not Set'}
                                 </p>
                             </div>
                         </div>
-                        <div className="bg-slate-50 rounded-2xl p-5 border border-slate-100 flex items-start gap-4">
-                            <div className="w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center text-purple-600 shrink-0">
+                        <div className="bg-muted/50 rounded-2xl p-5 border border-slate-100 flex items-start gap-4">
+                            <div className="w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center text-primary shrink-0">
                                 <CreditCard className="w-5 h-5" />
                             </div>
                             <div>
                                 <p className="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-1">Currency</p>
-                                <p className="text-[14px] font-bold text-slate-900 truncate max-w-[150px]">
+                                <p className="text-[14px] font-bold text-foreground truncate max-w-[150px]">
                                     {customer.currency || 'USD'}
                                 </p>
                             </div>
@@ -122,34 +122,34 @@ export const CustomerInspector = ({ customer, onClose }: CustomerInspectorProps)
                         <h3 className="text-[12px] font-black text-slate-400 uppercase tracking-[0.15em] border-b border-slate-100 pb-3 mb-4 flex items-center gap-2">
                             Contact Dossier
                         </h3>
-                        <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+                        <div className="bg-card border border-border rounded-2xl overflow-hidden shadow-sm">
                             <div className="divide-y divide-slate-100">
-                                <div className="p-4 flex items-center hover:bg-slate-50 transition-colors">
-                                    <div className="w-1/3 flex items-center gap-3 text-[13px] font-bold text-slate-500">
+                                <div className="p-4 flex items-center hover:bg-muted/50 transition-colors">
+                                    <div className="w-1/3 flex items-center gap-3 text-[13px] font-bold text-muted-foreground">
                                         <Mail className="w-4 h-4 text-slate-400" />
                                         Email
                                     </div>
-                                    <div className="w-2/3 text-[14px] font-medium text-slate-900 truncate">
+                                    <div className="w-2/3 text-[14px] font-medium text-foreground truncate">
                                         {customer.email || <span className="text-slate-300 italic">Not Provided</span>}
                                     </div>
                                 </div>
-                                <div className="p-4 flex items-center hover:bg-slate-50 transition-colors">
-                                    <div className="w-1/3 flex items-center gap-3 text-[13px] font-bold text-slate-500">
+                                <div className="p-4 flex items-center hover:bg-muted/50 transition-colors">
+                                    <div className="w-1/3 flex items-center gap-3 text-[13px] font-bold text-muted-foreground">
                                         <Phone className="w-4 h-4 text-slate-400" />
                                         Phone
                                     </div>
-                                    <div className="w-2/3 text-[14px] font-medium text-slate-900 truncate">
+                                    <div className="w-2/3 text-[14px] font-medium text-foreground truncate">
                                         {customer.phone || <span className="text-slate-300 italic">Not Provided</span>}
                                     </div>
                                 </div>
-                                <div className="p-4 flex items-center hover:bg-slate-50 transition-colors">
-                                    <div className="w-1/3 flex items-center gap-3 text-[13px] font-bold text-slate-500">
+                                <div className="p-4 flex items-center hover:bg-muted/50 transition-colors">
+                                    <div className="w-1/3 flex items-center gap-3 text-[13px] font-bold text-muted-foreground">
                                         <Globe className="w-4 h-4 text-slate-400" />
                                         Website
                                     </div>
                                     <div className="w-2/3 text-[14px] font-medium truncate">
                                         {customer.website ? (
-                                            <a href={customer.website} target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:underline">
+                                            <a href={customer.website} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
                                                 {customer.website}
                                             </a>
                                         ) : (
@@ -157,12 +157,12 @@ export const CustomerInspector = ({ customer, onClose }: CustomerInspectorProps)
                                         )}
                                     </div>
                                 </div>
-                                <div className="p-4 flex items-center hover:bg-slate-50 transition-colors">
-                                    <div className="w-1/3 flex items-center gap-3 text-[13px] font-bold text-slate-500">
+                                <div className="p-4 flex items-center hover:bg-muted/50 transition-colors">
+                                    <div className="w-1/3 flex items-center gap-3 text-[13px] font-bold text-muted-foreground">
                                         <MapPin className="w-4 h-4 text-slate-400" />
                                         Address
                                     </div>
-                                    <div className="w-2/3 text-[14px] font-medium text-slate-900 leading-relaxed">
+                                    <div className="w-2/3 text-[14px] font-medium text-foreground leading-relaxed">
                                         {customer.address || <span className="text-slate-300 italic">Not Provided</span>}
                                     </div>
                                 </div>
@@ -175,14 +175,14 @@ export const CustomerInspector = ({ customer, onClose }: CustomerInspectorProps)
                         <h3 className="text-[12px] font-black text-slate-400 uppercase tracking-[0.15em] border-b border-slate-100 pb-3 mb-4 flex items-center gap-2">
                             Billing Profile
                         </h3>
-                        <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm space-y-6">
+                        <div className="bg-card border border-border rounded-2xl p-6 shadow-sm space-y-6">
                             <div>
                                 <p className="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-1.5">Billing Name</p>
-                                <p className="text-[14px] font-medium text-slate-900">{customer.billingName || <span className="text-slate-300 italic">Same as Customer Name</span>}</p>
+                                <p className="text-[14px] font-medium text-foreground">{customer.billingName || <span className="text-slate-300 italic">Same as Customer Name</span>}</p>
                             </div>
                             <div>
                                 <p className="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-1.5">Billing Address</p>
-                                <p className="text-[14px] font-medium text-slate-900 leading-relaxed">
+                                <p className="text-[14px] font-medium text-foreground leading-relaxed">
                                     {customer.billingAddress || <span className="text-slate-300 italic">Not Provided</span>}
                                     {customer.addressLine2 && <><br />{customer.addressLine2}</>}
                                     {customer.addressLine3 && <><br />{customer.addressLine3}</>}
@@ -197,8 +197,8 @@ export const CustomerInspector = ({ customer, onClose }: CustomerInspectorProps)
                             <h3 className="text-[12px] font-black text-slate-400 uppercase tracking-[0.15em] border-b border-slate-100 pb-3 mb-4">
                                 Additional Details
                             </h3>
-                            <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
-                                <p className="text-[14px] font-medium text-slate-900 leading-relaxed">
+                            <div className="bg-card border border-border rounded-2xl p-6 shadow-sm">
+                                <p className="text-[14px] font-medium text-foreground leading-relaxed">
                                     {customer.description}
                                 </p>
                             </div>
@@ -207,7 +207,7 @@ export const CustomerInspector = ({ customer, onClose }: CustomerInspectorProps)
                 </div>
 
                 {/* Footer */}
-                <div className="px-8 py-5 border-t border-slate-100 bg-slate-50 flex items-center justify-between shrink-0">
+                <div className="px-8 py-5 border-t border-slate-100 bg-muted/50 flex items-center justify-between shrink-0">
                     <div className="flex items-center gap-2 text-slate-400">
                         <Clock className="w-4 h-4" />
                         <span className="text-[11px] font-bold uppercase tracking-widest">

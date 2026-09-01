@@ -31,21 +31,21 @@ export const MobileMeters = ({
     if (!unit) return <Activity className="w-5 h-5" />;
     switch (unit.toLowerCase()) {
       case 'c': case 'f': case 'temp': return <Thermometer className="w-5 h-5 text-rose-500" />;
-      case 'psi': case 'bar': return <Gauge className="w-5 h-5 text-indigo-500" />;
+      case 'psi': case 'bar': return <Gauge className="w-5 h-5 text-primary/80" />;
       case 'v': case 'a': case 'e': return <Zap className="w-5 h-5 text-amber-500" />;
       case 'h': case 'hours': return <Timer className="w-5 h-5 text-emerald-500" />;
-      default: return <Activity className="w-5 h-5 text-slate-500" />;
+      default: return <Activity className="w-5 h-5 text-muted-foreground" />;
     }
   };
 
   const getMeterBg = (unit?: string) => {
-    if (!unit) return 'bg-slate-50 border-slate-100';
+    if (!unit) return 'bg-transparent border-slate-100';
     switch (unit.toLowerCase()) {
       case 'c': case 'f': case 'temp': return 'bg-rose-50 border-rose-100';
-      case 'psi': case 'bar': return 'bg-indigo-50 border-indigo-100';
+      case 'psi': case 'bar': return 'bg-primary/10 border-primary/10';
       case 'v': case 'a': case 'e': return 'bg-amber-50 border-amber-100';
       case 'h': case 'hours': return 'bg-emerald-50 border-emerald-100';
-      default: return 'bg-slate-50 border-slate-150';
+      default: return 'bg-transparent border-slate-150';
     }
   };
 
@@ -64,33 +64,33 @@ export const MobileMeters = ({
   });
 
   return (
-    <div className="flex flex-col h-full bg-[#f8fafc] font-outfit select-none relative pb-20">
+    <div className="flex flex-col h-full bg-background font-outfit select-none relative pb-20">
       {/* Header Bar */}
-      <div className="bg-white px-4 py-4 border-b border-slate-100 sticky top-0 z-30 shadow-sm flex flex-col gap-3">
+      <div className="bg-card px-4 py-4 border-b border-slate-100 sticky top-0 z-30 shadow-sm flex flex-col gap-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600">
+            <div className="w-8 h-8 rounded-xl bg-primary/10 border border-primary/10 flex items-center justify-center text-primary">
               <Gauge className="w-4 h-4" />
             </div>
-            <h1 className="text-[17px] font-black text-slate-900 tracking-tight">Meter Readings</h1>
+            <h1 className="text-[17px] font-black text-foreground tracking-tight">Meter Readings</h1>
           </div>
         </div>
 
         {/* Search */}
         <div className="relative group">
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 focus-within:text-indigo-600 transition-colors" />
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 focus-within:text-primary transition-colors" />
           <input
             type="text"
             placeholder="Search meter name or unit..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full h-11 pl-10 pr-4 bg-slate-50 border border-transparent rounded-xl text-[14px] font-semibold text-slate-900 outline-none focus:bg-white focus:border-indigo-500/30 focus:ring-4 focus:ring-indigo-500/5 transition-all placeholder:text-slate-400"
+            className="w-full h-11 pl-10 pr-4 bg-transparent border border-transparent rounded-xl text-[14px] font-semibold text-foreground outline-none focus:bg-card focus:border-primary/80/30 focus:ring-4 focus:ring-primary/5 transition-all placeholder:text-slate-400"
           />
         </div>
       </div>
 
       {/* Filter Tabs */}
-      <div className="px-4 py-3 flex gap-2 overflow-x-auto scrollbar-none sticky top-[125px] z-20 bg-[#f8fafc] border-b border-slate-100/50">
+      <div className="px-4 py-3 flex gap-2 overflow-x-auto scrollbar-none sticky top-[125px] z-20 bg-background border-b border-slate-100/50">
         {[
           { id: 'ALL', label: 'All Meters' },
           { id: 'OVERDUE', label: 'Past Due / High' },
@@ -104,8 +104,8 @@ export const MobileMeters = ({
               className={cn(
                 "h-8 px-4 rounded-full text-[12px] font-bold transition-all whitespace-nowrap active:scale-95 shadow-sm",
                 isSelected
-                  ? "bg-indigo-600 text-white shadow-indigo-100"
-                  : "bg-white border border-slate-200 text-slate-500 hover:bg-slate-50"
+                  ? "bg-primary text-white shadow-primary/20"
+                  : "bg-card border border-border text-muted-foreground hover:bg-transparent"
               )}
             >
               {tab.label}
@@ -118,15 +118,15 @@ export const MobileMeters = ({
       <div className="flex-1 px-4 py-3 overflow-y-auto">
         {isLoading ? (
           <div className="flex items-center justify-center py-20">
-            <Loader2 className="w-8 h-8 text-indigo-600 animate-spin" />
+            <Loader2 className="w-8 h-8 text-primary animate-spin" />
           </div>
         ) : filteredMeters.length === 0 ? (
-          <div className="bg-white rounded-3xl border border-slate-200 p-12 text-center my-6 space-y-4">
-            <div className="w-12 h-12 bg-slate-50 rounded-2xl border border-slate-100 flex items-center justify-center text-slate-300 mx-auto">
+          <div className="bg-card rounded-3xl border border-border p-12 text-center my-6 space-y-4">
+            <div className="w-12 h-12 bg-transparent rounded-2xl border border-slate-100 flex items-center justify-center text-slate-300 mx-auto">
               <Gauge className="w-6 h-6" />
             </div>
             <div className="space-y-1">
-              <p className="text-[14px] font-black text-slate-700">No Meters Found</p>
+              <p className="text-[14px] font-black text-foreground/90">No Meters Found</p>
               <p className="text-[11px] text-slate-400 font-medium">Try broadening your search or clear active filters.</p>
             </div>
           </div>
@@ -141,7 +141,7 @@ export const MobileMeters = ({
                   key={meter.id}
                   layout
                   onClick={() => onSelectMeter(meter)}
-                  className="bg-white border border-slate-200/80 rounded-2xl p-4 flex gap-4 items-start shadow-sm active:bg-slate-50/50 active:scale-[0.99] transition-all cursor-pointer"
+                  className="bg-card border border-slate-200/80 rounded-2xl p-4 flex gap-4 items-start shadow-sm active:bg-transparent/50 active:scale-[0.99] transition-all cursor-pointer"
                 >
                   {/* Dynamic Colored Icon */}
                   <div className={cn(
@@ -154,7 +154,7 @@ export const MobileMeters = ({
                   {/* Body details */}
                   <div className="flex-1 min-w-0 space-y-1.5">
                     <div className="flex items-start justify-between gap-2">
-                      <h3 className="text-[14px] font-black text-slate-900 leading-snug truncate">
+                      <h3 className="text-[14px] font-black text-foreground leading-snug truncate">
                         {meter.name}
                       </h3>
                       {isOverdue ? (
@@ -178,7 +178,7 @@ export const MobileMeters = ({
                       )}
                     </div>
 
-                    <div className="flex items-center gap-1.5 text-[11px] font-bold text-slate-500 bg-slate-50 border border-slate-100 px-2 py-1 rounded-lg w-fit">
+                    <div className="flex items-center gap-1.5 text-[11px] font-bold text-muted-foreground bg-transparent border border-slate-100 px-2 py-1 rounded-lg w-fit">
                       <MapPin className="w-3.5 h-3.5 text-slate-400" />
                       <span className="truncate">{locName}</span>
                     </div>
@@ -203,7 +203,7 @@ export const MobileMeters = ({
       {/* Floating Action Button */}
       <button
         onClick={onOpenCreateModal}
-        className="fixed right-6 bottom-20 z-40 w-12 h-12 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full flex items-center justify-center shadow-lg shadow-indigo-200 transition-transform active:scale-90"
+        className="fixed right-6 bottom-20 z-40 w-12 h-12 bg-primary hover:bg-primary/90 text-white rounded-full flex items-center justify-center shadow-lg shadow-primary/20 transition-transform active:scale-90"
         title="Add Meter"
       >
         <Plus className="w-6 h-6" />

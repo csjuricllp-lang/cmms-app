@@ -28,7 +28,7 @@ export const HoldReasonModal: React.FC<HoldReasonModalProps> = ({ isOpen, onClos
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     onClick={onClose}
-                    className="absolute inset-0 bg-slate-950/40 backdrop-blur-sm"
+                    className="absolute inset-0 bg-background/40 backdrop-blur-sm"
                 />
 
                 {/* Modal Container */}
@@ -36,7 +36,7 @@ export const HoldReasonModal: React.FC<HoldReasonModalProps> = ({ isOpen, onClos
                     initial={{ opacity: 0, scale: 0.95, y: 20 }}
                     animate={{ opacity: 1, scale: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                    className="relative w-full max-w-[480px] bg-white rounded-[28px] shadow-[0_32px_128px_rgba(0,0,0,0.24)] overflow-hidden border border-slate-100"
+                    className="relative w-full max-w-[480px] bg-card rounded-[28px] shadow-[0_32px_128px_rgba(0,0,0,0.24)] overflow-hidden border border-slate-100"
                 >
                     {/* Header */}
                     <div className="flex items-center justify-between px-8 py-6 border-b border-slate-50">
@@ -46,14 +46,14 @@ export const HoldReasonModal: React.FC<HoldReasonModalProps> = ({ isOpen, onClos
                             </div>
                             <h2 className="text-[18px] font-black uppercase tracking-tight text-slate-800">Pause Work Order</h2>
                         </div>
-                        <button onClick={onClose} className="p-2 hover:bg-slate-100 rounded-full transition-colors">
+                        <button onClick={onClose} className="p-2 hover:bg-muted rounded-full transition-colors">
                             <X className="w-5 h-5 text-slate-400" />
                         </button>
                     </div>
 
                     {/* Content */}
                     <div className="px-8 py-6 space-y-4">
-                        <p className="text-[14px] text-slate-500 font-bold leading-normal">
+                        <p className="text-[14px] text-muted-foreground font-bold leading-normal">
                             Flowchart regulations require documenting a reason before placing this active mission On Hold.
                         </p>
                         
@@ -64,16 +64,16 @@ export const HoldReasonModal: React.FC<HoldReasonModalProps> = ({ isOpen, onClos
                                 value={reason}
                                 onChange={(e) => setReason(e.target.value)}
                                 placeholder="e.g. Waiting for replacement parts from vendor..."
-                                className="w-full bg-slate-50/50 border border-slate-200 rounded-2xl px-5 py-4 text-[14px] font-bold text-slate-800 placeholder:text-slate-400 outline-none focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5 transition-all resize-none min-h-[100px]"
+                                className="w-full bg-transparent border border-border rounded-2xl px-5 py-4 text-[14px] font-bold text-slate-800 placeholder:text-slate-400 outline-none focus:bg-card focus:border-primary/80 focus:ring-4 focus:ring-primary/5 transition-all resize-none min-h-[100px]"
                             />
                         </div>
                     </div>
 
                     {/* Footer */}
-                    <div className="flex items-center justify-end gap-3 px-8 py-6 bg-slate-50/50 border-t border-slate-50">
+                    <div className="flex items-center justify-end gap-3 px-8 py-6 bg-transparent border-t border-slate-50">
                         <button 
                             onClick={onClose}
-                            className="px-6 py-3 rounded-xl text-[12px] font-black uppercase tracking-widest text-slate-600 hover:bg-slate-100 transition-all border border-slate-200 bg-white"
+                            className="px-6 py-3 rounded-xl text-[12px] font-black uppercase tracking-widest text-slate-600 hover:bg-muted transition-all border border-border bg-card"
                         >
                             Cancel
                         </button>

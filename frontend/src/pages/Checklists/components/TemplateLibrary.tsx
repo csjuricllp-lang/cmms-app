@@ -4510,16 +4510,16 @@ export const TemplateLibrary = ({ onChecklistCreated }: { onChecklistCreated: ()
     });
 
     return (
-        <div className="flex h-full bg-white overflow-hidden font-inter border-t border-gray-100">
+        <div className="flex h-full bg-card overflow-hidden font-inter border-t border-gray-100">
             {/* Left Column: Filters */}
-            <div className="w-[280px] border-r border-gray-200 flex flex-col bg-gray-50/30 overflow-y-auto">
+            <div className="w-[280px] border-r border-border flex flex-col bg-gray-50/30 overflow-y-auto">
                 <div className="p-4 pt-6">
-                    <h3 className="font-bold text-gray-900 text-[14px] mb-3 px-2">Industry</h3>
+                    <h3 className="font-bold text-foreground text-[14px] mb-3 px-2">Industry</h3>
                     <div className="space-y-1">
                         {INDUSTRIES.map(industry => (
                             <label 
                                 key={industry} 
-                                className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer transition-colors"
+                                className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted cursor-pointer transition-colors"
                             >
                                 <input 
                                     type="radio" 
@@ -4527,11 +4527,11 @@ export const TemplateLibrary = ({ onChecklistCreated }: { onChecklistCreated: ()
                                     value={industry}
                                     checked={selectedIndustry === industry}
                                     onChange={() => setSelectedIndustry(industry)}
-                                    className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                                    className="w-4 h-4 text-primary border-gray-300 focus:ring-primary"
                                 />
                                 <span className={cn(
                                     "text-[14px]", 
-                                    selectedIndustry === industry ? "font-bold text-gray-900" : "font-medium text-gray-600"
+                                    selectedIndustry === industry ? "font-bold text-foreground" : "font-medium text-gray-600"
                                 )}>
                                     {industry}
                                 </span>
@@ -4541,12 +4541,12 @@ export const TemplateLibrary = ({ onChecklistCreated }: { onChecklistCreated: ()
                 </div>
 
                 <div className="p-4 border-t border-gray-200/60 mt-2">
-                    <h3 className="font-bold text-gray-900 text-[14px] mb-3 px-2">Use Case</h3>
+                    <h3 className="font-bold text-foreground text-[14px] mb-3 px-2">Use Case</h3>
                     <div className="space-y-1">
                         {USE_CASES.map(useCase => (
                             <label 
                                 key={useCase} 
-                                className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer transition-colors"
+                                className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted cursor-pointer transition-colors"
                             >
                                 <input 
                                     type="radio" 
@@ -4554,11 +4554,11 @@ export const TemplateLibrary = ({ onChecklistCreated }: { onChecklistCreated: ()
                                     value={useCase}
                                     checked={selectedUseCase === useCase}
                                     onChange={() => setSelectedUseCase(useCase)}
-                                    className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                                    className="w-4 h-4 text-primary border-gray-300 focus:ring-primary"
                                 />
                                 <span className={cn(
                                     "text-[14px]", 
-                                    selectedUseCase === useCase ? "font-bold text-gray-900" : "font-medium text-gray-600"
+                                    selectedUseCase === useCase ? "font-bold text-foreground" : "font-medium text-gray-600"
                                 )}>
                                     {useCase}
                                 </span>
@@ -4569,9 +4569,9 @@ export const TemplateLibrary = ({ onChecklistCreated }: { onChecklistCreated: ()
             </div>
 
             {/* Middle Column: Template List */}
-            <div className="w-[400px] border-r border-gray-200 flex flex-col bg-gray-50/10">
-                <div className="p-4 border-b border-gray-200 bg-white sticky top-0 flex items-center justify-between">
-                    <h3 className="font-bold text-gray-900 text-[14px]">{filteredTemplates.length} templates</h3>
+            <div className="w-[400px] border-r border-border flex flex-col bg-gray-50/10">
+                <div className="p-4 border-b border-border bg-card sticky top-0 flex items-center justify-between">
+                    <h3 className="font-bold text-foreground text-[14px]">{filteredTemplates.length} templates</h3>
                 </div>
                 <div className="p-4 flex-1 overflow-y-auto space-y-3">
                     {filteredTemplates.map(template => (
@@ -4581,18 +4581,18 @@ export const TemplateLibrary = ({ onChecklistCreated }: { onChecklistCreated: ()
                             className={cn(
                                 "p-4 rounded-xl border transition-all cursor-pointer relative",
                                 selectedTemplateId === template.id 
-                                    ? "bg-blue-50 border-blue-200 shadow-sm ring-1 ring-blue-500" 
-                                    : "bg-white border-gray-200 hover:border-blue-300 hover:shadow-sm"
+                                    ? "bg-blue-50 border-blue-200 shadow-sm ring-1 ring-primary" 
+                                    : "bg-card border-border hover:border-blue-300 hover:shadow-sm"
                             )}
                         >
-                            <h4 className="font-bold text-[14px] text-gray-900 pr-2">{template.title}</h4>
-                            <div className="mt-2 text-[12px] font-medium text-gray-500">
+                            <h4 className="font-bold text-[14px] text-foreground pr-2">{template.title}</h4>
+                            <div className="mt-2 text-[12px] font-medium text-muted-foreground">
                                 {template.tasks.length} {template.tasks.length === 1 ? 'task' : 'tasks'}
                             </div>
                         </div>
                     ))}
                     {filteredTemplates.length === 0 && (
-                        <div className="text-center p-8 text-gray-500 text-[14px] font-medium">
+                        <div className="text-center p-8 text-muted-foreground text-[14px] font-medium">
                             No templates found for this industry.
                         </div>
                     )}
@@ -4603,15 +4603,15 @@ export const TemplateLibrary = ({ onChecklistCreated }: { onChecklistCreated: ()
             <div className="flex-1 flex flex-col bg-gray-50/30">
                 {selectedTemplate ? (
                     <>
-                        <div className="p-6 border-b border-gray-200 bg-white sticky top-0 flex items-start justify-between">
+                        <div className="p-6 border-b border-border bg-card sticky top-0 flex items-start justify-between">
                             <div className="max-w-xl">
-                                <h2 className="text-[20px] font-bold text-gray-900">{selectedTemplate.title}</h2>
-                                <p className="text-[14px] text-gray-500 mt-2 font-medium">{selectedTemplate.description}</p>
+                                <h2 className="text-[20px] font-bold text-foreground">{selectedTemplate.title}</h2>
+                                <p className="text-[14px] text-muted-foreground mt-2 font-medium">{selectedTemplate.description}</p>
                             </div>
                             <button 
                                 onClick={() => createMutation.mutate(selectedTemplate)}
                                 disabled={createMutation.isPending}
-                                className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-[14px] font-bold transition-all shadow-sm active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed whitespace-nowrap"
+                                className="px-5 py-2.5 bg-primary hover:bg-primary/90 text-white rounded-lg text-[14px] font-bold transition-all shadow-sm active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed whitespace-nowrap"
                             >
                                 {createMutation.isPending ? 'Adding...' : 'Use Template'}
                             </button>
@@ -4625,12 +4625,12 @@ export const TemplateLibrary = ({ onChecklistCreated }: { onChecklistCreated: ()
                                 </div>
                                 
                                 {selectedTemplate.tasks.map((task, idx) => (
-                                    <div key={idx} className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
+                                    <div key={idx} className="bg-card rounded-xl border border-border p-5 shadow-sm">
                                         <div className="flex items-start gap-4">
                                             <div className="flex-1">
-                                                <h4 className="font-bold text-[14px] text-gray-900">{task.task}</h4>
+                                                <h4 className="font-bold text-[14px] text-foreground">{task.task}</h4>
                                                 <div className="mt-3 flex items-center gap-2">
-                                                    <div className="flex items-center gap-1.5 px-2.5 py-1 bg-gray-100 rounded-md text-gray-600 text-[12px] font-bold">
+                                                    <div className="flex items-center gap-1.5 px-2.5 py-1 bg-muted rounded-md text-gray-600 text-[12px] font-bold">
                                                         {getTaskIcon(task.dataType)}
                                                         {task.dataType.replace('_', ' ')}
                                                     </div>

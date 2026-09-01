@@ -34,15 +34,15 @@ export const WorkOrderAnalysis = ({ data }: { data: AnalyticsData }) => {
         <div className="space-y-12 pb-20">
             {/* Top Stats */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div className="bg-white rounded-[40px] border border-slate-100 p-12 flex flex-col items-center justify-center text-center shadow-sm">
+                <div className="bg-card rounded-[40px] border border-slate-100 p-12 flex flex-col items-center justify-center text-center shadow-sm">
                     <span className="text-[120px] font-black text-slate-800 tracking-tighter leading-none">{summary.total}</span>
                     <span className="text-[16px] font-bold text-slate-400 uppercase tracking-[0.2em] mt-6">Count</span>
                 </div>
-                <div className="bg-white rounded-[40px] border border-slate-100 p-12 flex flex-col items-center justify-center text-center shadow-sm">
+                <div className="bg-card rounded-[40px] border border-slate-100 p-12 flex flex-col items-center justify-center text-center shadow-sm">
                     <span className="text-[120px] font-black text-slate-800 tracking-tighter leading-none">{summary.completed}</span>
                     <span className="text-[16px] font-bold text-slate-400 uppercase tracking-[0.2em] mt-6">Compliant Count</span>
                 </div>
-                <div className="bg-white rounded-[40px] border border-slate-100 p-12 flex flex-col items-center justify-center text-center shadow-sm">
+                <div className="bg-card rounded-[40px] border border-slate-100 p-12 flex flex-col items-center justify-center text-center shadow-sm">
                     <span className="text-[120px] font-black text-slate-800 tracking-tighter leading-none flex items-center">
                         <span className="text-[64px] text-slate-300 font-normal mr-2">ø</span>
                         {summary.avgCycleTimeDays}

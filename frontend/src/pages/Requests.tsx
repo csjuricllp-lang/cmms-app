@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { 
     Send, Plus, Search, 
-    Camera, AlertCircle,
+    Camera, AlertCircle, Activity,
     ArrowUpDown, SlidersHorizontal, ChevronDown, Check,
     GripVertical, Layout, Settings, MoreHorizontal,
     Zap, Users, Box, Package, Inbox, ClipboardList, FileText, Gauge, Tag, Code, Fingerprint, Webhook, Globe, UploadCloud, MapPin, Trash2, ChevronRight,
@@ -733,24 +733,18 @@ export const RequestsPage = () => {
     }
 
     return (
-        <div className="flex flex-col h-full bg-white animate-in fade-in duration-700">
+        <div className="flex flex-col h-full bg-transparent animate-in fade-in duration-700">
             {/* Header */}
-            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 shrink-0 bg-white">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-border shrink-0 bg-card">
                 <div className="flex items-center gap-4">
-                    <button className="p-2 hover:bg-gray-100 rounded-md transition-colors">
-                        <div className="w-5 h-5 flex flex-col gap-[3px]">
-                            <div className="w-full h-[8px] border-2 border-gray-400 rounded-sm" />
-                            <div className="w-full h-[8px] border-2 border-gray-400 rounded-sm" />
-                        </div>
-                    </button>
-                     <h1 className="text-[20px] font-semibold text-gray-800">
+                     <h1 className="text-[20px] font-semibold text-primary">
                         {view === 'registry' ? 'Requests' : 'Request Settings'}
                      </h1>
                 </div>
                 <div className="flex items-center gap-3">
                     <button 
                         onClick={() => setIsCreateModalOpen(true)}
-                        className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full text-sm font-bold flex items-center gap-2 transition-all shadow-[0_4px_14px_0_rgba(79,70,229,0.39)] hover:shadow-indigo-500/50 hover:-translate-y-0.5 active:translate-y-0"
+                        className="px-6 py-2.5 bg-primary hover:bg-primary/90 text-white rounded-full text-sm font-bold flex items-center gap-2 transition-all shadow-[0_4px_14px_0_rgba(79,70,229,0.39)] hover:shadow-primary/20 hover:-translate-y-0.5 active:translate-y-0"
                     >
                         <Plus className="w-5 h-5 text-indigo-100" />
                         Create Request
@@ -759,7 +753,7 @@ export const RequestsPage = () => {
                     <div className="relative">
                         <button 
                             onClick={() => setIsMoreActionsOpen(!isMoreActionsOpen)}
-                            className="p-2.5 hover:bg-gray-100 rounded-2xl transition-all text-gray-400 hover:text-gray-600 border border-transparent hover:border-gray-200"
+                            className="p-2.5 hover:bg-muted rounded-2xl transition-all text-gray-400 hover:text-gray-600 border border-transparent hover:border-border"
                         >
                             <MoreHorizontal className="w-6 h-6" />
                         </button>
@@ -772,16 +766,16 @@ export const RequestsPage = () => {
                                         initial={{ opacity: 0, y: 10, scale: 0.95 }}
                                         animate={{ opacity: 1, y: 0, scale: 1 }}
                                         exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                                        className="absolute top-full right-0 mt-3 w-64 bg-white rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-gray-100 z-[70] py-2 overflow-hidden"
+                                        className="absolute top-full right-0 mt-3 w-64 bg-card rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-gray-100 z-[70] py-2 overflow-hidden"
                                     >
                                         <button 
                                             onClick={() => {
                                                 setView('settings');
                                                 setIsMoreActionsOpen(false);
                                             }}
-                                            className="w-full flex items-center gap-3 px-4 py-3 text-left text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 transition-colors group"
+                                            className="w-full flex items-center gap-3 px-4 py-3 text-left text-foreground/90 hover:bg-primary/10 hover:text-primary transition-colors group"
                                         >
-                                            <Settings className="w-5 h-5 text-gray-400 group-hover:text-indigo-500" />
+                                            <Settings className="w-5 h-5 text-gray-400 group-hover:text-primary/80" />
                                             <span className="text-[15px] font-medium font-outfit">Edit Request Form</span>
                                         </button>
                                     </motion.div>
@@ -795,18 +789,18 @@ export const RequestsPage = () => {
             {view === 'registry' ? (
                 <>
                     {/* Toolbar Row 1 */}
-                    <div className="flex items-center justify-between px-6 py-3 border-b border-gray-100 bg-white shrink-0 py-2">
-                        <div className="text-sm font-medium text-gray-700 uppercase tracking-tighter italic">
-                            <span className="font-black text-indigo-600 mr-1">{totalRequests}</span> Result{totalRequests !== 1 && 's'} Returned
+                    <div className="flex items-center justify-between px-6 py-3 border-b border-gray-100 bg-card shrink-0 py-2">
+                        <div className="text-sm font-medium text-foreground/90 uppercase tracking-tighter italic">
+                            <span className="font-black text-primary mr-1">{totalRequests}</span> Result{totalRequests !== 1 && 's'} Returned
                         </div>
                         <div className="flex items-center gap-4 text-sm text-gray-600">
                             <div className="relative">
                                 <button 
                                     onClick={() => setIsSortOpen(!isSortOpen)}
-                                    className="flex items-center gap-2 px-3 py-1.5 hover:bg-gray-100 rounded-md transition-colors"
+                                    className="flex items-center gap-2 px-3 py-1.5 bg-lime-500/10 text-lime-700 hover:bg-lime-500/20 rounded-md transition-colors font-medium"
                                 >
-                                    <ArrowUpDown className="w-4 h-4 text-gray-400" />
-                                    <span className="text-sm font-medium text-gray-700">Sort: {getSortLabel()}</span>
+                                    <ArrowUpDown className="w-4 h-4 text-lime-600" />
+                                    <span>Sort: {getSortLabel()}</span>
                                 </button>
 
                                 <AnimatePresence>
@@ -817,7 +811,7 @@ export const RequestsPage = () => {
                                                 initial={{ opacity: 0, y: 10 }}
                                                 animate={{ opacity: 1, y: 0 }}
                                                 exit={{ opacity: 0, y: 10 }}
-                                                className="absolute top-full right-0 mt-2 w-56 bg-white rounded-2xl shadow-2xl border border-gray-100 z-[70] py-2 overflow-hidden"
+                                                className="absolute top-full right-0 mt-2 w-56 bg-card rounded-2xl shadow-2xl border border-gray-100 z-[70] py-2 overflow-hidden"
                                             >
                                                 <div className="px-4 py-2 text-[12px] font-bold text-gray-400 uppercase tracking-wider">Sort By</div>
                                                 {[
@@ -830,27 +824,27 @@ export const RequestsPage = () => {
                                                     <button 
                                                         key={option.id}
                                                         onClick={() => { setSortBy(option.id); setIsSortOpen(false); }}
-                                                        className="w-full flex items-center justify-between px-4 py-2 text-[14px] text-gray-700 hover:bg-gray-50 transition-colors"
+                                                        className="w-full flex items-center justify-between px-4 py-2 text-[14px] text-foreground/90 hover:bg-muted/50 transition-colors"
                                                     >
                                                         {option.label}
-                                                        {sortBy === option.id && <Check className="w-4 h-4 text-indigo-600" />}
+                                                        {sortBy === option.id && <Check className="w-4 h-4 text-primary" />}
                                                     </button>
                                                 ))}
                                                 <div className="my-2 border-t border-gray-100" />
                                                 <div className="px-4 py-2 text-[12px] font-bold text-gray-400 uppercase tracking-wider">Order</div>
                                                 <button 
                                                     onClick={() => { setSortOrder('desc'); setIsSortOpen(false); }}
-                                                    className="w-full flex items-center justify-between px-4 py-2 text-[14px] text-gray-700 hover:bg-gray-50 transition-colors"
+                                                    className="w-full flex items-center justify-between px-4 py-2 text-[14px] text-foreground/90 hover:bg-muted/50 transition-colors"
                                                 >
                                                     Descending
-                                                    {sortOrder === 'desc' && <Check className="w-4 h-4 text-indigo-600" />}
+                                                    {sortOrder === 'desc' && <Check className="w-4 h-4 text-primary" />}
                                                 </button>
                                                 <button 
                                                     onClick={() => { setSortOrder('asc'); setIsSortOpen(false); }}
-                                                    className="w-full flex items-center justify-between px-4 py-2 text-[14px] text-gray-700 hover:bg-gray-50 transition-colors"
+                                                    className="w-full flex items-center justify-between px-4 py-2 text-[14px] text-foreground/90 hover:bg-muted/50 transition-colors"
                                                 >
                                                     Ascending
-                                                    {sortOrder === 'asc' && <Check className="w-4 h-4 text-indigo-600" />}
+                                                    {sortOrder === 'asc' && <Check className="w-4 h-4 text-primary" />}
                                                 </button>
                                             </motion.div>
                                         </>
@@ -860,19 +854,19 @@ export const RequestsPage = () => {
 
                             <button 
                                 onClick={() => setIsFiltersModalOpen(true)}
-                                className="flex items-center gap-2 px-3 py-1.5 hover:bg-gray-100 rounded-md transition-colors"
+                                className="flex items-center gap-2 px-3 py-1.5 bg-cyan-500/10 text-cyan-700 hover:bg-cyan-500/20 rounded-md transition-colors font-medium"
                             >
-                                <SlidersHorizontal className="w-4 h-4 text-gray-400" />
-                                <span className="font-medium text-gray-700">Filters</span>
+                                <SlidersHorizontal className="w-4 h-4 text-cyan-600" />
+                                <span>Filters</span>
                             </button>
 
                             <div className="relative">
                                 <button 
                                     onClick={() => setIsColumnsOpen(!isColumnsOpen)}
-                                    className="flex items-center gap-2 hover:text-gray-900 font-medium transition-colors"
+                                    className="flex items-center gap-2 px-3 py-1.5 bg-rose-500/10 text-rose-700 hover:bg-rose-500/20 rounded-md transition-colors font-medium"
                                 >
-                                    <Layout className="w-4 h-4" />
-                                    Columns
+                                    <Layout className="w-4 h-4 text-rose-600" />
+                                    <span>Columns</span>
                                 </button>
 
                                 <AnimatePresence>
@@ -883,7 +877,7 @@ export const RequestsPage = () => {
                                                 initial={{ opacity: 0, scale: 0.95, x: 20 }}
                                                 animate={{ opacity: 1, scale: 1, x: 0 }}
                                                 exit={{ opacity: 0, scale: 0.95, x: 20 }}
-                                                className="absolute top-full right-0 mt-2 w-64 bg-white rounded-2xl shadow-2xl border border-gray-100 z-[70] py-2 overflow-hidden"
+                                                className="absolute top-full right-0 mt-2 w-64 bg-card rounded-2xl shadow-2xl border border-gray-100 z-[70] py-2 overflow-hidden"
                                             >
                                                 <div className="max-h-[450px] overflow-y-auto custom-scrollbar">
                                                     {[
@@ -904,7 +898,7 @@ export const RequestsPage = () => {
                                                         { id: 'tasks', label: 'Tasks' }
                                                     ].map((col) => (
                                                         <div key={col.id} className={cn(
-                                                            "flex items-center gap-3 px-4 py-2 hover:bg-gray-50 transition-colors group",
+                                                            "flex items-center gap-3 px-4 py-2 hover:bg-muted/50 transition-colors group",
                                                             col.locked && "opacity-40 grayscale pointer-events-none"
                                                         )}>
                                                             <GripVertical className="w-4 h-4 text-gray-300 cursor-grab active:cursor-grabbing" />
@@ -912,9 +906,9 @@ export const RequestsPage = () => {
                                                                 type="checkbox"
                                                                 checked={col.locked || (visibleColumns as any)[col.id]}
                                                                 onChange={() => setVisibleColumns({ ...visibleColumns, [col.id]: !(visibleColumns as any)[col.id] })}
-                                                                className="w-4 h-4 rounded border-gray-100 text-indigo-600 focus:ring-0 cursor-pointer"
+                                                                className="w-4 h-4 rounded border-gray-100 text-primary focus:ring-0 cursor-pointer"
                                                             />
-                                                            <span className="text-[14px] font-medium text-gray-700">{col.label}</span>
+                                                            <span className="text-[14px] font-medium text-foreground/90">{col.label}</span>
                                                         </div>
                                                     ))}
                                                 </div>
@@ -937,23 +931,23 @@ export const RequestsPage = () => {
                     </div>
 
                     {/* Filter Bar */}
-                    <div className="flex items-center gap-3 px-6 py-4 bg-white border-b border-gray-100 shrink-0 py-2">
+                    <div className="flex items-center gap-3 px-6 py-4 bg-card border-b border-gray-100 shrink-0 py-2">
                         <div className="relative">
                             <button 
                                 onClick={() => setIsAssetFilterOpen(!isAssetFilterOpen)}
                                 className={cn(
-                                    "flex items-center gap-2 px-3 py-1.5 bg-white border rounded-md text-sm font-medium transition-all shadow-sm",
-                                    selectedAssetIds.length > 0 ? "border-indigo-600 text-indigo-600" : "border-gray-300 text-gray-700 hover:bg-gray-50"
+                                    "flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-all shadow-sm border",
+                                    selectedAssetIds.length > 0 ? "bg-sky-500/20 border-sky-500 text-sky-800" : "bg-sky-500/10 border-sky-500/20 text-sky-700 hover:bg-sky-500/20 hover:border-sky-500/40"
                                 )}
                             >
                                 <motion.div className="flex items-center gap-2">
-                                    <div className="w-4 h-4 rounded-full border border-gray-400 flex items-center justify-center">
-                                        <Plus className="w-2.5 h-2.5 text-gray-400" />
+                                    <div className="w-4 h-4 rounded-full border border-sky-500/40 flex items-center justify-center">
+                                        <Box className="w-2.5 h-2.5 text-sky-600" />
                                     </div>
                                     Asset
                                 </motion.div>
                                 {selectedAssetIds.length > 0 && (
-                                    <span className="ml-1 px-1.5 py-0.5 bg-indigo-600 text-white text-[10px] rounded-full">
+                                    <span className="ml-1 px-1.5 py-0.5 bg-primary text-white text-[10px] rounded-full">
                                         {selectedAssetIds.length}
                                     </span>
                                 )}
@@ -968,7 +962,7 @@ export const RequestsPage = () => {
                                             initial={{ opacity: 0, y: 10 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             exit={{ opacity: 0, y: 10 }}
-                                            className="absolute top-full left-0 mt-2 w-80 bg-white rounded-2xl shadow-2xl border border-gray-100 z-[70] overflow-hidden"
+                                            className="absolute top-full left-0 mt-2 w-80 bg-card rounded-2xl shadow-2xl border border-gray-100 z-[70] overflow-hidden"
                                         >
                                             <div className="p-4 border-b border-gray-50 flex items-center justify-between">
                                                 <span className="text-[14px] font-black text-slate-800 uppercase tracking-tight">Select Assets</span>
@@ -985,12 +979,12 @@ export const RequestsPage = () => {
                                                         placeholder="Search assets"
                                                         value={assetSearchTerm}
                                                         onChange={(e) => setAssetSearchTerm(e.target.value)}
-                                                        className="w-full pl-9 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:bg-white focus:border-indigo-500 outline-none transition-all"
+                                                        className="w-full pl-9 pr-4 py-2 bg-muted/50 border border-border rounded-xl text-sm focus:bg-card focus:border-primary/80 outline-none transition-all"
                                                     />
                                                 </div>
                                                 <div className="max-h-64 overflow-y-auto custom-scrollbar space-y-1">
                                                     {assets?.filter((a: any) => a.name.toLowerCase().includes(assetSearchTerm.toLowerCase())).map((asset: any) => (
-                                                        <label key={asset.id} className="flex items-center gap-3 px-3 py-2 hover:bg-gray-50 rounded-xl cursor-pointer group transition-colors">
+                                                        <label key={asset.id} className="flex items-center gap-3 px-3 py-2 hover:bg-muted/50 rounded-xl cursor-pointer group transition-colors">
                                                             <input 
                                                                 type="checkbox"
                                                                 checked={selectedAssetIds.includes(asset.id)}
@@ -1001,14 +995,14 @@ export const RequestsPage = () => {
                                                                         setSelectedAssetIds(selectedAssetIds.filter(id => id !== asset.id));
                                                                     }
                                                                 }}
-                                                                className="w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
+                                                                className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer"
                                                             />
-                                                            <span className="text-[13px] font-medium text-gray-700 group-hover:text-indigo-600 truncate">{asset.name}</span>
+                                                            <span className="text-[13px] font-medium text-foreground/90 group-hover:text-primary truncate">{asset.name}</span>
                                                         </label>
                                                     ))}
                                                 </div>
                                             </div>
-                                            <div className="p-3 bg-gray-50 flex items-center justify-between">
+                                            <div className="p-3 bg-muted/50 flex items-center justify-between">
                                                 <button 
                                                     onClick={() => {
                                                         setSelectedAssetIds([]);
@@ -1021,13 +1015,13 @@ export const RequestsPage = () => {
                                                 <div className="flex gap-2">
                                                     <button 
                                                         onClick={() => setIsAssetFilterOpen(false)}
-                                                        className="px-4 py-1.5 text-[13px] font-bold text-gray-600 hover:bg-white rounded-lg transition-colors"
+                                                        className="px-4 py-1.5 text-[13px] font-bold text-gray-600 hover:bg-card rounded-lg transition-colors"
                                                     >
                                                         Cancel
                                                     </button>
                                                     <button 
                                                         onClick={() => setIsAssetFilterOpen(false)}
-                                                        className="px-4 py-1.5 bg-indigo-600 text-white text-[13px] font-black rounded-lg shadow-lg shadow-indigo-200 hover:bg-indigo-700 transition-all"
+                                                        className="px-4 py-1.5 bg-primary text-white text-[13px] font-black rounded-lg shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all"
                                                     >
                                                         Save
                                                     </button>
@@ -1043,14 +1037,18 @@ export const RequestsPage = () => {
                             <button 
                                 onClick={() => setIsStatusFilterOpen(!isStatusFilterOpen)}
                                 className={cn(
-                                    "flex items-center gap-2 px-3 py-1.5 bg-white border rounded-md text-sm font-medium transition-all shadow-sm",
-                                    selectedStatuses.length > 0 ? "border-indigo-600 text-indigo-600" : "border-gray-300 text-gray-700 hover:bg-gray-50"
+                                    "flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-all shadow-sm border",
+                                    selectedStatuses.length > 0 ? "bg-violet-500/20 border-violet-500 text-violet-800" : "bg-violet-500/10 border-violet-500/20 text-violet-700 hover:bg-violet-500/20 hover:border-violet-500/40"
                                 )}
                             >
-                                <AlertCircle className={cn("w-3.5 h-3.5", selectedStatuses.length > 0 ? "text-indigo-600" : "text-gray-500")} />
-                                Status
+                                <motion.div className="flex items-center gap-2">
+                                    <div className="w-4 h-4 rounded-full border border-violet-500/40 flex items-center justify-center">
+                                        <Activity className="w-2.5 h-2.5 text-violet-600" />
+                                    </div>
+                                    Status
+                                </motion.div>
                                 {selectedStatuses.length > 0 && (
-                                    <span className="ml-1 px-1.5 py-0.5 bg-indigo-600 text-white text-[10px] rounded-full">
+                                    <span className="ml-1 px-1.5 py-0.5 bg-primary text-white text-[10px] rounded-full">
                                         {selectedStatuses.length}
                                     </span>
                                 )}
@@ -1065,7 +1063,7 @@ export const RequestsPage = () => {
                                             initial={{ opacity: 0, y: 10 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             exit={{ opacity: 0, y: 10 }}
-                                            className="absolute top-full left-0 mt-2 w-64 bg-white rounded-2xl shadow-2xl border border-gray-100 z-[70] overflow-hidden"
+                                            className="absolute top-full left-0 mt-2 w-64 bg-card rounded-2xl shadow-2xl border border-gray-100 z-[70] overflow-hidden"
                                         >
                                             <div className="p-4 border-b border-gray-50 flex items-center justify-between">
                                                 <span className="text-[14px] font-black text-slate-800 uppercase tracking-tight">Filter Status</span>
@@ -1075,7 +1073,7 @@ export const RequestsPage = () => {
                                             </div>
                                             <div className="p-3 space-y-1">
                                                 {['PENDING', 'APPROVED', 'REJECTED'].map((status) => (
-                                                    <label key={status} className="flex items-center gap-3 px-3 py-2 hover:bg-gray-50 rounded-xl cursor-pointer group transition-colors">
+                                                    <label key={status} className="flex items-center gap-3 px-3 py-2 hover:bg-muted/50 rounded-xl cursor-pointer group transition-colors">
                                                         <input 
                                                             type="checkbox"
                                                             checked={selectedStatuses.includes(status)}
@@ -1086,13 +1084,13 @@ export const RequestsPage = () => {
                                                                     setSelectedStatuses(selectedStatuses.filter(s => s !== status));
                                                                 }
                                                             }}
-                                                            className="w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
+                                                            className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer"
                                                         />
-                                                        <span className="text-[13px] font-medium text-gray-700 group-hover:text-indigo-600 uppercase tracking-wider">{status}</span>
+                                                        <span className="text-[13px] font-medium text-foreground/90 group-hover:text-primary uppercase tracking-wider">{status}</span>
                                                     </label>
                                                 ))}
                                             </div>
-                                            <div className="p-3 bg-gray-50 flex items-center justify-end gap-2 border-t border-gray-100">
+                                            <div className="p-3 bg-muted/50 flex items-center justify-end gap-2 border-t border-gray-100">
                                                 <button 
                                                     onClick={() => {
                                                         setSelectedStatuses([]);
@@ -1104,7 +1102,7 @@ export const RequestsPage = () => {
                                                 </button>
                                                 <button 
                                                     onClick={() => setIsStatusFilterOpen(false)}
-                                                    className="px-4 py-1.5 bg-indigo-600 text-white text-[13px] font-black rounded-lg shadow-lg shadow-indigo-200 hover:bg-indigo-700 transition-all"
+                                                    className="px-4 py-1.5 bg-primary text-white text-[13px] font-black rounded-lg shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all"
                                                 >
                                                     Apply
                                                 </button>
@@ -1119,18 +1117,18 @@ export const RequestsPage = () => {
                             <button 
                                 onClick={() => setIsAssigneeFilterOpen(!isAssigneeFilterOpen)}
                                 className={cn(
-                                    "flex items-center gap-2 px-3 py-1.5 bg-white border rounded-md text-sm font-medium transition-all shadow-sm",
-                                    selectedAssigneeIds.length > 0 ? "border-indigo-600 text-indigo-600" : "border-gray-300 text-gray-700 hover:bg-gray-50"
+                                    "flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-all shadow-sm border",
+                                    selectedAssigneeIds.length > 0 ? "bg-amber-500/20 border-amber-500 text-amber-800" : "bg-amber-500/10 border-amber-500/20 text-amber-700 hover:bg-amber-500/20 hover:border-amber-500/40"
                                 )}
                             >
                                 <motion.div className="flex items-center gap-2">
-                                    <div className="w-4 h-4 rounded-full border border-gray-400 flex items-center justify-center">
-                                        <Plus className="w-2.5 h-2.5 text-gray-400" />
+                                    <div className="w-4 h-4 rounded-full border border-amber-500/40 flex items-center justify-center">
+                                        <Users className="w-2.5 h-2.5 text-amber-600" />
                                     </div>
                                     Assigned To
                                 </motion.div>
                                 {selectedAssigneeIds.length > 0 && (
-                                    <span className="ml-1 px-1.5 py-0.5 bg-indigo-600 text-white text-[10px] rounded-full">
+                                    <span className="ml-1 px-1.5 py-0.5 bg-primary text-white text-[10px] rounded-full">
                                         {selectedAssigneeIds.length}
                                     </span>
                                 )}
@@ -1145,7 +1143,7 @@ export const RequestsPage = () => {
                                             initial={{ opacity: 0, y: 10 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             exit={{ opacity: 0, y: 10 }}
-                                            className="absolute top-full left-0 mt-2 w-80 bg-white rounded-2xl shadow-2xl border border-gray-100 z-[70] overflow-hidden"
+                                            className="absolute top-full left-0 mt-2 w-80 bg-card rounded-2xl shadow-2xl border border-gray-100 z-[70] overflow-hidden"
                                         >
                                             <div className="p-4 border-b border-gray-50 flex items-center justify-between">
                                                 <span className="text-[14px] font-black text-slate-800 uppercase tracking-tight">Assigned To</span>
@@ -1162,12 +1160,12 @@ export const RequestsPage = () => {
                                                         placeholder="Search"
                                                         value={assigneeSearchTerm}
                                                         onChange={(e) => setAssigneeSearchTerm(e.target.value)}
-                                                        className="w-full pl-9 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:bg-white focus:border-indigo-500 outline-none transition-all"
+                                                        className="w-full pl-9 pr-4 py-2 bg-muted/50 border border-border rounded-xl text-sm focus:bg-card focus:border-primary/80 outline-none transition-all"
                                                     />
                                                 </div>
                                                 <div className="max-h-64 overflow-y-auto custom-scrollbar space-y-1">
                                                     {/* Unassigned Option */}
-                                                    <label className="flex items-center gap-3 px-3 py-2 hover:bg-gray-50 rounded-xl cursor-pointer group transition-colors">
+                                                    <label className="flex items-center gap-3 px-3 py-2 hover:bg-muted/50 rounded-xl cursor-pointer group transition-colors">
                                                         <input 
                                                             type="checkbox"
                                                             checked={selectedAssigneeIds.includes('unassigned')}
@@ -1178,13 +1176,13 @@ export const RequestsPage = () => {
                                                                     setSelectedAssigneeIds(selectedAssigneeIds.filter(id => id !== 'unassigned'));
                                                                 }
                                                             }}
-                                                            className="w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
+                                                            className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer"
                                                         />
-                                                        <span className="text-[13px] font-medium text-gray-700 group-hover:text-indigo-600">Unassigned</span>
+                                                        <span className="text-[13px] font-medium text-foreground/90 group-hover:text-primary">Unassigned</span>
                                                     </label>
 
                                                     {users?.filter((u: any) => u.name.toLowerCase().includes(assigneeSearchTerm.toLowerCase())).map((user: any) => (
-                                                        <label key={user.userOrgId} className="flex items-center gap-3 px-3 py-2 hover:bg-gray-50 rounded-xl cursor-pointer group transition-colors">
+                                                        <label key={user.userOrgId} className="flex items-center gap-3 px-3 py-2 hover:bg-muted/50 rounded-xl cursor-pointer group transition-colors">
                                                             <input 
                                                                 type="checkbox"
                                                                 checked={selectedAssigneeIds.includes(user.userOrgId)}
@@ -1195,28 +1193,28 @@ export const RequestsPage = () => {
                                                                         setSelectedAssigneeIds(selectedAssigneeIds.filter(id => id !== user.userOrgId));
                                                                     }
                                                                 }}
-                                                                className="w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
+                                                                className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer"
                                                             />
-                                                            <div className="w-7 h-7 rounded-full bg-slate-100 flex items-center justify-center text-[11px] font-bold text-slate-500 border border-slate-200 uppercase">
+                                                            <div className="w-7 h-7 rounded-full bg-muted flex items-center justify-center text-[11px] font-bold text-muted-foreground border border-border uppercase">
                                                                 {user.name?.split(' ').map((n: string) => n[0]).join('').slice(0, 2)}
                                                             </div>
-                                                            <span className="text-[13px] font-medium text-gray-700 group-hover:text-indigo-600 truncate">{user.name}</span>
+                                                            <span className="text-[13px] font-medium text-foreground/90 group-hover:text-primary truncate">{user.name}</span>
                                                         </label>
                                                     ))}
                                                 </div>
                                             </div>
-                                            <div className="p-4 bg-gray-50 flex items-center justify-between border-t border-gray-100">
-                                                <span className="text-[13px] text-gray-500 font-medium">{selectedAssigneeIds.length} selected</span>
+                                            <div className="p-4 bg-muted/50 flex items-center justify-between border-t border-gray-100">
+                                                <span className="text-[13px] text-muted-foreground font-medium">{selectedAssigneeIds.length} selected</span>
                                                 <div className="flex gap-2">
                                                     <button 
                                                         onClick={() => setIsAssigneeFilterOpen(false)}
-                                                        className="px-5 py-2 text-[14px] font-bold text-gray-600 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 transition-all shadow-sm"
+                                                        className="px-5 py-2 text-[14px] font-bold text-gray-600 bg-card border border-gray-300 rounded-xl hover:bg-muted/50 transition-all shadow-sm"
                                                     >
                                                         Cancel
                                                     </button>
                                                     <button 
                                                         onClick={() => setIsAssigneeFilterOpen(false)}
-                                                        className="px-6 py-2 bg-indigo-600 text-white text-[14px] font-black rounded-xl shadow-lg shadow-indigo-200 hover:bg-indigo-700 transition-all"
+                                                        className="px-6 py-2 bg-primary text-white text-[14px] font-black rounded-xl shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all"
                                                     >
                                                         Save
                                                     </button>
@@ -1227,16 +1225,23 @@ export const RequestsPage = () => {
                                 )}
                             </AnimatePresence>
                         </div>
-                        <select 
-                            value={filterLocationId}
-                            onChange={(e) => setFilterLocationId(e.target.value)}
-                            className="px-3 py-1.5 bg-white border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 outline-none shadow-sm transition-colors cursor-pointer appearance-none pr-8 relative bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%236B7280%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E')] bg-[length:0.6rem_auto] bg-[right_10px_center] bg-no-repeat"
-                        >
-                            <option value="All">Location</option>
-                            {locations.map((l: any) => (
-                                <option key={l.id} value={l.id}>{l.name}</option>
-                            ))}
-                        </select>
+                        <div className="relative flex items-center">
+                            <MapPin className="absolute left-3 w-3.5 h-3.5 text-emerald-600 pointer-events-none" />
+                            <select 
+                                value={filterLocationId}
+                                onChange={(e) => setFilterLocationId(e.target.value)}
+                                className={cn(
+                                    "pl-8 pr-8 py-1.5 rounded-md text-sm font-medium outline-none shadow-sm transition-colors cursor-pointer appearance-none border",
+                                    filterLocationId !== 'All' ? "bg-emerald-500/20 border-emerald-500 text-emerald-800" : "bg-emerald-500/10 border-emerald-500/20 text-emerald-700 hover:bg-emerald-500/20 hover:border-emerald-500/40"
+                                )}
+                            >
+                                <option value="All">Location</option>
+                                {locations.map((l: any) => (
+                                    <option key={l.id} value={l.id}>{l.name}</option>
+                                ))}
+                            </select>
+                            <ChevronDown className="absolute right-2.5 w-3.5 h-3.5 text-emerald-700 opacity-50 pointer-events-none" />
+                        </div>
 
                         <button 
                             onClick={() => {
@@ -1246,47 +1251,48 @@ export const RequestsPage = () => {
                                 setFilterLocationId('All');
                                 setSearchTerm('');
                             }}
-                            className="text-[13px] text-indigo-600 font-medium hover:text-indigo-800 ml-2 transition-colors"
+                            className="text-[13px] text-primary font-medium hover:text-indigo-800 ml-2 transition-colors"
                         >
                             Reset Filters
                         </button>
-                        <button className="text-[13px] text-gray-700 font-medium hover:text-gray-900 ml-auto transition-colors">Save View</button>
+                        <button className="text-[13px] text-foreground/90 font-medium hover:text-foreground ml-auto transition-colors">Save View</button>
                     </div>
 
                     {/* Table Area */}
                     <div className="flex-1 overflow-auto custom-scrollbar">
                         <table className="w-full text-left border-collapse min-w-max">
-                            <thead className="bg-[#FAFAFA] sticky top-0 z-30 shadow-[0_1px_0_rgba(0,0,0,0.1)]">
+                            <thead className="bg-primary sticky top-0 z-30">
                                 <tr>
                                     {/* Intersection cell: sticky both top AND left — must be z-40 to beat both scroll planes */}
-                                    <th className="px-4 py-3 border-b border-gray-200 w-12 text-center sticky left-0 top-0 z-40 bg-[#FAFAFA] after:absolute after:inset-y-0 after:right-0 after:w-px after:bg-gray-200">
-                                        <input type="checkbox" className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer" />
+                                    <th className="px-4 py-3 border-b border-primary/20 w-12 text-center sticky left-0 top-0 z-40 bg-primary rounded-tl-[24px]">
+                                        <input type="checkbox" className="rounded border-white/50 text-white focus:ring-white/50 cursor-pointer" />
                                     </th>
                                     {/* Title header: sticky left, z-30 to stay above body cells but below the intersection */}
-                                    <th className="px-4 py-3 border-b border-gray-200 text-[13px] font-bold text-gray-700 whitespace-nowrap sticky left-12 top-0 z-30 bg-[#FAFAFA] shadow-[2px_0_4px_-1px_rgba(0,0,0,0.08)]">Title</th>
-                                    {visibleColumns.image && <th className="px-4 py-3 border-b border-gray-200 text-[13px] font-bold text-gray-700 whitespace-nowrap">Image</th>}
-                                    {visibleColumns.asset && <th className="px-4 py-3 border-b border-gray-200 text-[13px] font-bold text-gray-700 whitespace-nowrap">Asset</th>}
-                                    {visibleColumns.status && <th className="px-4 py-3 border-b border-gray-200 text-[13px] font-bold text-gray-700 whitespace-nowrap">Status</th>}
-                                    {visibleColumns.woStatus && <th className="px-4 py-3 border-b border-gray-200 text-[13px] font-bold text-gray-700 whitespace-nowrap">Work Order Status</th>}
-                                    {visibleColumns.submittedDate && <th className="px-4 py-3 border-b border-gray-200 text-[13px] font-bold text-gray-700 whitespace-nowrap">Submitted Date</th>}
-                                    {visibleColumns.category && <th className="px-4 py-3 border-b border-gray-200 text-[13px] font-bold text-gray-700 whitespace-nowrap">Category</th>}
-                                    {visibleColumns.submittedBy && <th className="px-4 py-3 border-b border-gray-200 text-[13px] font-bold text-gray-700 whitespace-nowrap">Submitted By</th>}
-                                    {visibleColumns.priority && <th className="px-4 py-3 border-b border-gray-200 text-[13px] font-bold text-gray-700 whitespace-nowrap">Priority</th>}
-                                    {visibleColumns.workOrder && <th className="px-4 py-3 border-b border-gray-200 text-[13px] font-bold text-gray-700 whitespace-nowrap text-center">Work Order</th>}
-                                    {visibleColumns.assignedTo && <th className="px-4 py-3 border-b border-gray-200 text-[13px] font-bold text-gray-700 whitespace-nowrap">Assigned To</th>}
-                                    {visibleColumns.additionalWorkers && <th className="px-4 py-3 border-b border-gray-200 text-[13px] font-bold text-gray-700 whitespace-nowrap">Additional Workers</th>}
-                                    {visibleColumns.team && <th className="px-4 py-3 border-b border-gray-200 text-[13px] font-bold text-gray-700 whitespace-nowrap">Team</th>}
-                                    {visibleColumns.location && <th className="px-4 py-3 border-b border-gray-200 text-[13px] font-bold text-gray-700 whitespace-nowrap">Location</th>}
-                                    {visibleColumns.tasks && <th className="px-4 py-3 border-b border-gray-200 text-[13px] font-bold text-gray-700 whitespace-nowrap text-center">Tasks</th>}
-                                    <th className="px-4 py-3 border-b border-gray-200 pr-6"></th>
+                                    <th className="px-4 py-3 border-b border-primary/20 text-[11px] font-black text-white/90 uppercase tracking-widest whitespace-nowrap sticky left-12 top-0 z-30 bg-primary shadow-[2px_0_4px_-1px_rgba(0,0,0,0.15)]">Title</th>
+                                    {visibleColumns.image && <th className="px-4 py-3 border-b border-primary/20 text-[11px] font-black text-white/90 uppercase tracking-widest whitespace-nowrap">Image</th>}
+                                    {visibleColumns.asset && <th className="px-4 py-3 border-b border-primary/20 text-[11px] font-black text-white/90 uppercase tracking-widest whitespace-nowrap">Asset</th>}
+                                    {visibleColumns.status && <th className="px-4 py-3 border-b border-primary/20 text-[11px] font-black text-white/90 uppercase tracking-widest whitespace-nowrap">Status</th>}
+                                    {visibleColumns.woStatus && <th className="px-4 py-3 border-b border-primary/20 text-[11px] font-black text-white/90 uppercase tracking-widest whitespace-nowrap">Work Order Status</th>}
+                                    {visibleColumns.submittedDate && <th className="px-4 py-3 border-b border-primary/20 text-[11px] font-black text-white/90 uppercase tracking-widest whitespace-nowrap">Submitted Date</th>}
+                                    {visibleColumns.category && <th className="px-4 py-3 border-b border-primary/20 text-[11px] font-black text-white/90 uppercase tracking-widest whitespace-nowrap">Category</th>}
+                                    {visibleColumns.submittedBy && <th className="px-4 py-3 border-b border-primary/20 text-[11px] font-black text-white/90 uppercase tracking-widest whitespace-nowrap">Submitted By</th>}
+                                    {visibleColumns.priority && <th className="px-4 py-3 border-b border-primary/20 text-[11px] font-black text-white/90 uppercase tracking-widest whitespace-nowrap">Priority</th>}
+                                    {visibleColumns.workOrder && <th className="px-4 py-3 border-b border-primary/20 text-[11px] font-black text-white/90 uppercase tracking-widest whitespace-nowrap text-center">Work Order</th>}
+                                    {visibleColumns.assignedTo && <th className="px-4 py-3 border-b border-primary/20 text-[11px] font-black text-white/90 uppercase tracking-widest whitespace-nowrap">Assigned To</th>}
+                                    {visibleColumns.additionalWorkers && <th className="px-4 py-3 border-b border-primary/20 text-[11px] font-black text-white/90 uppercase tracking-widest whitespace-nowrap">Additional Workers</th>}
+                                    {visibleColumns.team && <th className="px-4 py-3 border-b border-primary/20 text-[11px] font-black text-white/90 uppercase tracking-widest whitespace-nowrap">Team</th>}
+                                    {visibleColumns.location && <th className="px-4 py-3 border-b border-primary/20 text-[11px] font-black text-white/90 uppercase tracking-widest whitespace-nowrap">Location</th>}
+                                    {visibleColumns.tasks && <th className="px-4 py-3 border-b border-primary/20 text-[11px] font-black text-white/90 uppercase tracking-widest whitespace-nowrap text-center">Tasks</th>}
+                                    <th className="px-4 py-3 border-b border-primary/20 pr-6 rounded-tr-[24px]"></th>
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-gray-100 bg-white">
+
+                            <tbody className="divide-y divide-gray-100 bg-card">
                                 {isLoading ? (
                                     <tr>
                                         <td colSpan={16} className="px-4 py-12 text-center">
-                                            <div className="w-6 h-6 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
-                                            <p className="text-sm text-gray-500">Loading requests...</p>
+                                            <div className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
+                                            <p className="text-sm text-muted-foreground">Loading requests...</p>
                                         </td>
                                     </tr>
                                 ) : sortedRequests.length === 0 ? (
@@ -1304,31 +1310,31 @@ export const RequestsPage = () => {
                                                 setSelectedRequestId(request.id); 
                                                 setIsDetailModalOpen(true); 
                                             }}
-                                            className="hover:bg-gray-50 transition-colors group cursor-pointer"
+                                            className="hover:bg-muted/50 transition-colors group cursor-pointer"
                                         >
                                             {/* Checkbox — sticky left-0, fully opaque bg so scrolled content never shows through */}
-                                            <td className="px-4 py-4 text-center sticky left-0 z-10 bg-white group-hover:bg-gray-50 transition-colors after:absolute after:inset-y-0 after:right-0 after:w-px after:bg-gray-100">
+                                            <td className="px-4 py-4 text-center sticky left-0 z-10 bg-card group-hover:bg-muted/50 transition-colors after:absolute after:inset-y-0 after:right-0 after:w-px after:bg-muted">
                                                 <input 
                                                     type="checkbox" 
                                                     onClick={(e) => e.stopPropagation()}
-                                                    className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer" 
+                                                    className="rounded border-gray-300 text-primary focus:ring-primary cursor-pointer" 
                                                 />
                                             </td>
                                             {/* Title — sticky left-12, shadow separator reveals when scrolled */}
-                                            <td className="px-4 py-4 sticky left-12 z-10 bg-white group-hover:bg-gray-50 transition-colors shadow-[2px_0_4px_-1px_rgba(0,0,0,0.06)]">
+                                            <td className="px-4 py-4 sticky left-12 z-10 bg-card group-hover:bg-muted/50 transition-colors shadow-[2px_0_4px_-1px_rgba(0,0,0,0.06)]">
                                                 <div className="max-w-[200px] truncate">
-                                                    <span className="text-sm font-medium text-gray-900 group-hover:text-indigo-600 transition-colors uppercase italic font-black tracking-tighter">REQ-{request.id.split('-')[0].toUpperCase()}</span>
-                                                    <div className="text-sm text-gray-500 truncate">{request.title}</div>
+                                                    <span className="text-sm font-medium text-foreground group-hover:text-primary transition-colors uppercase italic font-black tracking-tighter">REQ-{request.id.split('-')[0].toUpperCase()}</span>
+                                                    <div className="text-sm text-muted-foreground truncate">{request.title}</div>
                                                 </div>
                                             </td>
                                             {visibleColumns.image && (
                                                 <td className="px-4 py-4">
                                                     {request.imageUrl ? (
-                                                        <div className="relative w-8 h-8 rounded overflow-hidden bg-gray-100 group/img">
+                                                        <div className="relative w-8 h-8 rounded overflow-hidden bg-muted group/img">
                                                             <img src={request.imageUrl.startsWith('/files') ? `http://localhost:3000${request.imageUrl}` : request.imageUrl} alt="" className="w-full h-full object-cover" />
                                                         </div>
                                                     ) : (
-                                                        <div className="w-8 h-8 rounded border border-gray-100 bg-gray-50 flex items-center justify-center text-gray-300 shrink-0">
+                                                        <div className="w-8 h-8 rounded border border-gray-100 bg-muted/50 flex items-center justify-center text-gray-300 shrink-0">
                                                             <Camera className="w-3.5 h-3.5" />
                                                         </div>
                                                     )}
@@ -1355,7 +1361,7 @@ export const RequestsPage = () => {
                                             {visibleColumns.woStatus && (
                                                 <td className="px-4 py-4 text-sm text-gray-600">
                                                     {request.workOrder?.status ? (
-                                                        <span className="px-2.5 py-1 rounded bg-slate-100 text-slate-700 text-[11px] font-bold uppercase border border-slate-200 truncate max-w-[120px] inline-block text-center tracking-wider">
+                                                        <span className="px-2.5 py-1 rounded bg-muted text-foreground/90 text-[11px] font-bold uppercase border border-border truncate max-w-[120px] inline-block text-center tracking-wider">
                                                             {request.workOrder.status}
                                                         </span>
                                                     ) : <span className="text-gray-400 italic">unassigned</span>}
@@ -1388,7 +1394,7 @@ export const RequestsPage = () => {
                                             {visibleColumns.workOrder && (
                                                 <td className="px-4 py-4 text-center">
                                                     {request.workOrder?.id ? (
-                                                        <button className="text-sm font-semibold text-indigo-600 hover:text-indigo-800 hover:underline">
+                                                        <button className="text-sm font-semibold text-primary hover:text-indigo-800 hover:underline">
                                                             WO-{request.workOrder.id.split('-')[0].toUpperCase()}
                                                         </button>
                                                     ) : <span className="text-gray-400">-</span>}
@@ -1398,10 +1404,10 @@ export const RequestsPage = () => {
                                                 <td className="px-4 py-4">
                                                     {request.workOrder?.assignedTo?.user?.name ? (
                                                         <div className="flex items-center gap-2">
-                                                            <div className="w-6 h-6 rounded-full bg-indigo-50 border border-indigo-100 flex items-center justify-center text-[10px] font-bold text-indigo-700 shrink-0 uppercase">
+                                                            <div className="w-6 h-6 rounded-full bg-primary/10 border border-primary/10 flex items-center justify-center text-[10px] font-bold text-primary/90 shrink-0 uppercase">
                                                                 {request.workOrder.assignedTo.user.name.charAt(0)}
                                                             </div>
-                                                            <span className="text-sm font-medium text-gray-700 truncate max-w-[120px]">
+                                                            <span className="text-sm font-medium text-foreground/90 truncate max-w-[120px]">
                                                                 {request.workOrder.assignedTo.user.name}
                                                             </span>
                                                         </div>
@@ -1414,7 +1420,7 @@ export const RequestsPage = () => {
                                                         <div className="flex items-center">
                                                             <div className="flex -space-x-1.5">
                                                                 {request.workOrder.technicians.slice(1, 4).map((tech: any, i: number) => (
-                                                                    <div key={i} className="w-6 h-6 rounded-full bg-slate-100 border-2 border-white flex items-center justify-center text-[10px] font-bold text-slate-600 uppercase" title={tech.user?.user?.name}>
+                                                                    <div key={i} className="w-6 h-6 rounded-full bg-muted border-2 border-white flex items-center justify-center text-[10px] font-bold text-slate-600 uppercase" title={tech.user?.user?.name}>
                                                                         {tech.user?.user?.name?.charAt(0)}
                                                                     </div>
                                                                 ))}
@@ -1441,7 +1447,7 @@ export const RequestsPage = () => {
                                             {visibleColumns.tasks && (
                                                 <td className="px-4 py-4 text-center">
                                                     {request.workOrder?.checklist?.items?.length ? (
-                                                        <span className="inline-flex items-center justify-center w-6 h-6 rounded-md bg-gray-100 text-xs font-bold text-gray-700 border border-gray-200">
+                                                        <span className="inline-flex items-center justify-center w-6 h-6 rounded-md bg-muted text-xs font-bold text-foreground/90 border border-border">
                                                             {request.workOrder.checklist.items.length}
                                                         </span>
                                                     ) : <span className="text-gray-400">-</span>}
@@ -1473,16 +1479,16 @@ export const RequestsPage = () => {
                     </div>
                 </>
             ) : (
-                <div className="fixed inset-0 z-[200] bg-white flex flex-col md:flex-row w-full h-full overflow-hidden animate-in fade-in">
+                <div className="fixed inset-0 z-[200] bg-card flex flex-col md:flex-row w-full h-full overflow-hidden animate-in fade-in">
                     {/* Settings Sidebar */}
                     {(!isMobile || showMobileSettingsMenu) && (
-                        <div className="w-full md:w-[280px] border-b md:border-b-0 md:border-r border-gray-100 flex flex-col shrink-0 bg-white h-full overflow-y-auto">
+                        <div className="w-full md:w-[280px] border-b md:border-b-0 md:border-r border-gray-100 flex flex-col shrink-0 bg-card h-full overflow-y-auto">
                             <div className="p-8 flex items-center justify-between">
                                 <h2 className="text-[18px] font-black text-slate-800 tracking-tight">Organization</h2>
                                 {isMobile && (
                                     <button 
                                         onClick={() => setView('registry')}
-                                        className="p-2 hover:bg-slate-50 rounded-full"
+                                        className="p-2 hover:bg-transparent rounded-full"
                                     >
                                         <Plus className="w-6 h-6 rotate-45 text-slate-400" />
                                     </button>
@@ -1507,10 +1513,10 @@ export const RequestsPage = () => {
                                             }}
                                             className={cn(
                                                 "w-full flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all group",
-                                                activeSettingsSection === item.name ? "bg-indigo-50/50 text-indigo-600" : "text-slate-500 hover:bg-slate-50"
+                                                activeSettingsSection === item.name ? "bg-primary/10/50 text-primary" : "text-muted-foreground hover:bg-transparent"
                                             )}
                                         >
-                                            <item.icon className={cn("w-4 h-4", activeSettingsSection === item.name ? "text-indigo-600" : "text-slate-400 group-hover:text-indigo-600")} />
+                                            <item.icon className={cn("w-4 h-4", activeSettingsSection === item.name ? "text-primary" : "text-slate-400 group-hover:text-primary")} />
                                             <span className="text-[14px] font-bold">{item.name}</span>
                                         </button>
                                     ))}
@@ -1538,10 +1544,10 @@ export const RequestsPage = () => {
                                             }}
                                             className={cn(
                                                 "w-full flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all group",
-                                                activeSettingsSection === item.name ? "bg-indigo-50/50 text-indigo-600" : "text-slate-500 hover:bg-slate-50"
+                                                activeSettingsSection === item.name ? "bg-primary/10/50 text-primary" : "text-muted-foreground hover:bg-transparent"
                                             )}
                                         >
-                                            <item.icon className={cn("w-4 h-4", activeSettingsSection === item.name ? "text-indigo-600" : "text-slate-400 group-hover:text-indigo-600")} />
+                                            <item.icon className={cn("w-4 h-4", activeSettingsSection === item.name ? "text-primary" : "text-slate-400 group-hover:text-primary")} />
                                             <span className="text-[14px] font-bold">{item.name}</span>
                                         </button>
                                     ))}
@@ -1565,10 +1571,10 @@ export const RequestsPage = () => {
                                             }}
                                             className={cn(
                                                 "w-full flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all group",
-                                                activeSettingsSection === item.name ? "bg-indigo-50/50 text-indigo-600" : "text-slate-500 hover:bg-slate-50"
+                                                activeSettingsSection === item.name ? "bg-primary/10/50 text-primary" : "text-muted-foreground hover:bg-transparent"
                                             )}
                                         >
-                                            <item.icon className={cn("w-4 h-4", activeSettingsSection === item.name ? "text-indigo-600" : "text-slate-400 group-hover:text-indigo-600")} />
+                                            <item.icon className={cn("w-4 h-4", activeSettingsSection === item.name ? "text-primary" : "text-slate-400 group-hover:text-primary")} />
                                             <span className="text-[14px] font-bold">{item.name}</span>
                                         </button>
                                     ))}
@@ -1578,12 +1584,12 @@ export const RequestsPage = () => {
                     )}
 
                     {(!isMobile || !showMobileSettingsMenu) && (
-                        <div className="flex-1 bg-white overflow-hidden h-full flex flex-col">
+                        <div className="flex-1 bg-card overflow-hidden h-full flex flex-col">
                             {isMobile && (
-                                <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-white sticky top-0 z-20 shrink-0">
+                                <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-card sticky top-0 z-20 shrink-0">
                                     <button 
                                         onClick={() => setShowMobileSettingsMenu(true)}
-                                        className="flex items-center gap-2 text-indigo-600 font-bold text-sm"
+                                        className="flex items-center gap-2 text-primary font-bold text-sm"
                                     >
                                         ← Settings Menu
                                     </button>
@@ -1606,7 +1612,7 @@ export const RequestsPage = () => {
                                     <div className="flex items-center gap-4">
                                         <button 
                                             onClick={() => setView('registry')}
-                                            className="px-6 py-2.5 bg-white border border-slate-200 text-slate-600 text-[13px] font-bold rounded-xl hover:bg-slate-50 transition-all shadow-sm"
+                                            className="px-6 py-2.5 bg-card border border-border text-slate-600 text-[13px] font-bold rounded-xl hover:bg-transparent transition-all shadow-sm"
                                         >
                                             Back to Registry
                                         </button>
@@ -1624,7 +1630,7 @@ export const RequestsPage = () => {
                                                 }
                                             }}
                                             disabled={updateSettings.isPending || updateGeneralSettings.isPending}
-                                            className="px-8 py-2.5 bg-indigo-600 text-white text-[13px] font-black rounded-xl shadow-xl shadow-indigo-500/20 hover:bg-indigo-700 hover:shadow-indigo-500/40 transition-all disabled:opacity-50"
+                                            className="px-8 py-2.5 bg-primary text-white text-[13px] font-black rounded-xl shadow-xl shadow-primary/20 hover:bg-primary/90 hover:shadow-primary/20 transition-all disabled:opacity-50"
                                         >
                                             {updateSettings.isPending || updateGeneralSettings.isPending ? 'Syncing...' : 'Save Changes'}
                                         </button>
@@ -1642,7 +1648,7 @@ export const RequestsPage = () => {
                                         <div className="flex items-center gap-4">
                                             <button 
                                                 onClick={() => setView('registry')}
-                                                className="px-6 py-2.5 bg-white border border-slate-200 text-slate-600 text-[13px] font-bold rounded-xl hover:bg-slate-50 transition-all shadow-sm"
+                                                className="px-6 py-2.5 bg-card border border-border text-slate-600 text-[13px] font-bold rounded-xl hover:bg-transparent transition-all shadow-sm"
                                             >
                                                 Back to Registry
                                             </button>
@@ -1658,14 +1664,14 @@ export const RequestsPage = () => {
                                         <div className="space-y-2">
                                             <h3 className="text-[18px] font-black text-slate-800 tracking-tight">Language & Region</h3>
                                         </div>
-                                        <div className="md:col-span-2 bg-white rounded-[32px] border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.02)] p-10 space-y-8">
+                                        <div className="md:col-span-2 bg-card rounded-[32px] border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.02)] p-10 space-y-8">
                                             <div className="grid grid-cols-2 gap-8">
                                                 <div className="space-y-3">
                                                     <label className="text-[12px] font-black uppercase tracking-widest text-slate-400 ml-1">Language</label>
                                                     <select 
                                                         value={language}
                                                         onChange={(e) => setLanguage(e.target.value)}
-                                                        className="w-full bg-slate-50 hover:bg-white border-none rounded-2xl px-6 py-4 text-[14px] font-bold text-slate-600 transition-all appearance-none cursor-pointer relative bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%236B7280%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E')] bg-[length:0.7rem_auto] bg-[right_20px_center] bg-no-repeat shadow-sm"
+                                                        className="w-full bg-transparent hover:bg-card border-none rounded-2xl px-6 py-4 text-[14px] font-bold text-slate-600 transition-all appearance-none cursor-pointer relative bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%236B7280%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E')] bg-[length:0.7rem_auto] bg-[right_20px_center] bg-no-repeat shadow-sm"
                                                     >
                                                         <option value="English (US)">English (US)</option>
                                                         <option value="English (UK)">English (UK)</option>
@@ -1678,7 +1684,7 @@ export const RequestsPage = () => {
                                                     <select 
                                                         value={dateFormat}
                                                         onChange={(e) => setDateFormat(e.target.value)}
-                                                        className="w-full bg-slate-50 hover:bg-white border-none rounded-2xl px-6 py-4 text-[14px] font-bold text-slate-600 transition-all appearance-none cursor-pointer relative bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%236B7280%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E')] bg-[length:0.7rem_auto] bg-[right_20px_center] bg-no-repeat shadow-sm"
+                                                        className="w-full bg-transparent hover:bg-card border-none rounded-2xl px-6 py-4 text-[14px] font-bold text-slate-600 transition-all appearance-none cursor-pointer relative bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%236B7280%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E')] bg-[length:0.7rem_auto] bg-[right_20px_center] bg-no-repeat shadow-sm"
                                                     >
                                                         <option value="MM/DD/YY">MM/DD/YY</option>
                                                         <option value="DD/MM/YY">DD/MM/YY</option>
@@ -1691,7 +1697,7 @@ export const RequestsPage = () => {
                                                 <select 
                                                     value={currency}
                                                     onChange={(e) => setCurrency(e.target.value)}
-                                                    className="w-full bg-slate-50 hover:bg-white border-none rounded-2xl px-6 py-4 text-[14px] font-bold text-slate-600 transition-all appearance-none cursor-pointer relative bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%236B7280%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E')] bg-[length:0.7rem_auto] bg-[right_20px_center] bg-no-repeat shadow-sm"
+                                                    className="w-full bg-transparent hover:bg-card border-none rounded-2xl px-6 py-4 text-[14px] font-bold text-slate-600 transition-all appearance-none cursor-pointer relative bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%236B7280%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E')] bg-[length:0.7rem_auto] bg-[right_20px_center] bg-no-repeat shadow-sm"
                                                 >
                                                     <option value="USD ($) — US Dollar">USD ($) — US Dollar</option>
                                                     <option value="INR (₹) — Indian Rupee">INR (₹) — Indian Rupee</option>
@@ -1704,7 +1710,7 @@ export const RequestsPage = () => {
                                                 <select 
                                                     value={timezone}
                                                     onChange={(e) => setTimezone(e.target.value)}
-                                                    className="w-full bg-slate-50 hover:bg-white border-none rounded-2xl px-6 py-4 text-[14px] font-bold text-slate-600 transition-all appearance-none cursor-pointer relative bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%236B7280%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E')] bg-[length:0.7rem_auto] bg-[right_20px_center] bg-no-repeat shadow-sm"
+                                                    className="w-full bg-transparent hover:bg-card border-none rounded-2xl px-6 py-4 text-[14px] font-bold text-slate-600 transition-all appearance-none cursor-pointer relative bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%236B7280%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E')] bg-[length:0.7rem_auto] bg-[right_20px_center] bg-no-repeat shadow-sm"
                                                 >
                                                     <option value="Asia/Calcutta +05:30 IST">Asia/Calcutta +05:30 IST</option>
                                                     <option value="America/New_York -05:00 EST">America/New_York -05:00 EST</option>
@@ -1721,21 +1727,21 @@ export const RequestsPage = () => {
                                     <div className="flex items-start justify-between">
                                         <div className="space-y-4 max-w-4xl">
                                             <h2 className="text-[28px] font-black text-slate-800 tracking-tight">Automated Workflows</h2>
-                                            <p className="text-[15px] text-slate-500 font-medium leading-relaxed">
+                                            <p className="text-[15px] text-muted-foreground font-medium leading-relaxed">
                                                 Create custom workflows as easy as If, And, Then. Save time and easily assign your work orders automatically through workflows to customize {companyName} for the way your team operates. 
-                                                Check out our <span className="text-indigo-600 hover:underline cursor-pointer font-bold">Workflows Library</span> to see how others in your industry are using automated workflows.
+                                                Check out our <span className="text-primary hover:underline cursor-pointer font-bold">Workflows Library</span> to see how others in your industry are using automated workflows.
                                             </p>
                                         </div>
                                         <div className="flex items-center gap-4">
                                             <button 
                                                 onClick={() => setView('registry')}
-                                                className="px-6 py-2.5 bg-white border border-slate-200 text-slate-600 text-[13px] font-bold rounded-xl hover:bg-slate-50 transition-all shadow-sm"
+                                                className="px-6 py-2.5 bg-card border border-border text-slate-600 text-[13px] font-bold rounded-xl hover:bg-transparent transition-all shadow-sm"
                                             >
                                                 Back to Registry
                                             </button>
                                             <button 
                                                 onClick={() => setIsCreateWorkflowModalOpen(true)}
-                                                className="px-8 py-2.5 bg-indigo-600 text-white text-[13px] font-black rounded-xl shadow-lg shadow-indigo-100 hover:bg-indigo-700 transition-all"
+                                                className="px-8 py-2.5 bg-primary text-white text-[13px] font-black rounded-xl shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all"
                                             >
                                                 Create
                                             </button>
@@ -1743,10 +1749,10 @@ export const RequestsPage = () => {
                                     </div>
 
                                     {workflows.length === 0 ? (
-                                        <div className="bg-white rounded-[40px] border border-gray-100 shadow-[0_8px_40px_rgb(0,0,0,0.02)] flex flex-col items-center justify-center py-40 px-12 text-center space-y-8">
-                                            <div className="w-24 h-24 bg-slate-50 rounded-3xl flex items-center justify-center">
-                                                <div className="w-16 h-16 bg-white rounded-2xl shadow-sm flex items-center justify-center">
-                                                    <Zap className="w-8 h-8 text-indigo-500" />
+                                        <div className="bg-card rounded-[40px] border border-gray-100 shadow-[0_8px_40px_rgb(0,0,0,0.02)] flex flex-col items-center justify-center py-40 px-12 text-center space-y-8">
+                                            <div className="w-24 h-24 bg-transparent rounded-3xl flex items-center justify-center">
+                                                <div className="w-16 h-16 bg-card rounded-2xl shadow-sm flex items-center justify-center">
+                                                    <Zap className="w-8 h-8 text-primary/80" />
                                                 </div>
                                             </div>
                                             <div className="space-y-3 max-w-sm">
@@ -1757,7 +1763,7 @@ export const RequestsPage = () => {
                                             </div>
                                             <button 
                                                 onClick={() => setIsCreateWorkflowModalOpen(true)}
-                                                className="px-8 py-3 bg-indigo-600 text-white text-[14px] font-black rounded-xl shadow-lg shadow-indigo-100 hover:bg-indigo-700 transition-all"
+                                                className="px-8 py-3 bg-primary text-white text-[14px] font-black rounded-xl shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all"
                                             >
                                                 Create Automated Workflow
                                             </button>
@@ -1765,17 +1771,17 @@ export const RequestsPage = () => {
                                     ) : (
                                         <div className="grid grid-cols-1 gap-6">
                                             {workflows.map(rule => (
-                                                <div key={rule.id} className="bg-white border border-gray-100 rounded-3xl p-8 flex items-center justify-between shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:border-indigo-100 transition-all group">
+                                                <div key={rule.id} className="bg-card border border-gray-100 rounded-3xl p-8 flex items-center justify-between shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:border-primary/10 transition-all group">
                                                     <div className="flex items-center gap-6">
-                                                        <div className="w-14 h-14 bg-indigo-50 rounded-2xl flex items-center justify-center">
-                                                            <Zap className="w-6 h-6 text-indigo-500" />
+                                                        <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center">
+                                                            <Zap className="w-6 h-6 text-primary/80" />
                                                         </div>
                                                         <div className="space-y-1">
                                                             <h3 className="text-[16px] font-black text-slate-800">{rule.name}</h3>
                                                             <div className="flex items-center gap-2 text-[13px] font-medium text-slate-400">
                                                                 <span>If {rule.trigger.replace(/_/g, ' ')}</span>
                                                                 <span className="w-1 h-1 bg-slate-200 rounded-full" />
-                                                                <span className="text-indigo-500">Then execute automation</span>
+                                                                <span className="text-primary/80">Then execute automation</span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1784,11 +1790,11 @@ export const RequestsPage = () => {
                                                             onClick={() => updateWorkflow.mutate({ id: rule.id, isActive: !rule.isActive })}
                                                             className={cn(
                                                                 "w-12 h-6 rounded-full relative transition-all duration-300",
-                                                                rule.isActive ? "bg-indigo-600" : "bg-slate-200"
+                                                                rule.isActive ? "bg-primary" : "bg-slate-200"
                                                             )}
                                                         >
                                                             <div className={cn(
-                                                                "absolute top-1 w-4 h-4 bg-white rounded-full transition-all duration-300",
+                                                                "absolute top-1 w-4 h-4 bg-card rounded-full transition-all duration-300",
                                                                 rule.isActive ? "left-7" : "left-1"
                                                             )} />
                                                         </button>
@@ -1831,7 +1837,7 @@ export const RequestsPage = () => {
                                         </div>
                                         <button 
                                             onClick={() => setView('registry')}
-                                            className="px-6 py-2.5 bg-white border border-slate-200 text-slate-600 text-[13px] font-bold rounded-xl hover:bg-slate-50 transition-all shadow-sm"
+                                            className="px-6 py-2.5 bg-card border border-border text-slate-600 text-[13px] font-bold rounded-xl hover:bg-transparent transition-all shadow-sm"
                                         >
                                             Back to Registry
                                         </button>
@@ -1849,7 +1855,7 @@ export const RequestsPage = () => {
                                         </div>
                                         <button 
                                             onClick={() => setView('registry')}
-                                            className="px-6 py-2.5 bg-white border border-slate-200 text-slate-600 text-[13px] font-bold rounded-xl hover:bg-slate-50 transition-all shadow-sm"
+                                            className="px-6 py-2.5 bg-card border border-border text-slate-600 text-[13px] font-bold rounded-xl hover:bg-transparent transition-all shadow-sm"
                                         >
                                             Back to Registry
                                         </button>
@@ -1887,12 +1893,12 @@ export const RequestsPage = () => {
                                                     onClick={() => setSettingsTab(tab.id as any)}
                                                     className={cn(
                                                         "pb-4 text-[14px] font-bold transition-all relative whitespace-nowrap",
-                                                        settingsTab === tab.id ? "text-indigo-600" : "text-gray-400 hover:text-gray-600"
+                                                        settingsTab === tab.id ? "text-primary" : "text-gray-400 hover:text-gray-600"
                                                     )}
                                                 >
                                                     {tab.label}
                                                     {settingsTab === tab.id && (
-                                                        <motion.div layoutId="tab-underline" className="absolute bottom-0 left-0 right-0 h-[3px] bg-indigo-600 rounded-full" />
+                                                        <motion.div layoutId="tab-underline" className="absolute bottom-0 left-0 right-0 h-[3px] bg-primary rounded-full" />
                                                     )}
                                                 </button>
                                             ))}
@@ -1931,22 +1937,22 @@ export const RequestsPage = () => {
                                                         setEditingCategory(null);
                                                         setIsAddCategoryModalOpen(true);
                                                     }}
-                                                    className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-2.5 rounded-xl text-[14px] font-bold shadow-lg shadow-indigo-100 transition-all cursor-pointer"
+                                                    className="bg-primary hover:bg-primary/90 text-white px-8 py-2.5 rounded-xl text-[14px] font-bold shadow-lg shadow-primary/20 transition-all cursor-pointer"
                                                 >
                                                     Add Category
                                                 </button>
                                             </div>
-                                            <div className="bg-white border border-gray-100 rounded-2xl overflow-visible">
+                                            <div className="bg-card border border-gray-100 rounded-2xl overflow-visible">
                                                 <table className="w-full text-left">
                                                     <thead>
-                                                        <tr className="border-b border-gray-100 bg-slate-50/50">
-                                                            <th className="px-8 py-6 text-[14px] font-black uppercase tracking-wider text-slate-500">Name</th>
+                                                        <tr className="border-b border-gray-100 bg-transparent/50">
+                                                            <th className="px-8 py-6 text-[14px] font-black uppercase tracking-wider text-muted-foreground">Name</th>
                                                             <th className="px-8 py-6"></th>
                                                         </tr>
                                                     </thead>
                                                     <tbody className="divide-y divide-gray-50">
-                                                        <tr className="hover:bg-slate-50/30 transition-colors">
-                                                            <td className="px-8 py-5 text-[14px] font-bold text-slate-700">None</td>
+                                                        <tr className="hover:bg-transparent/30 transition-colors">
+                                                            <td className="px-8 py-5 text-[14px] font-bold text-foreground/90">None</td>
                                                             <td className="px-8 py-5 text-right relative">
                                                                 <button 
                                                                     disabled
@@ -1957,13 +1963,13 @@ export const RequestsPage = () => {
                                                             </td>
                                                         </tr>
                                                         {woCategories.map((cat: any) => (
-                                                            <tr key={cat.id} className="hover:bg-slate-50/30 transition-colors group">
-                                                                <td className="px-8 py-5 text-[14px] font-bold text-slate-700">{cat.name}</td>
+                                                            <tr key={cat.id} className="hover:bg-transparent/30 transition-colors group">
+                                                                <td className="px-8 py-5 text-[14px] font-bold text-foreground/90">{cat.name}</td>
                                                                 <td className="px-8 py-5 text-right relative">
                                                                     <div className="flex items-center justify-end">
                                                                         <button 
                                                                             onClick={() => setOpenMenuId(openMenuId === cat.id ? null : cat.id)}
-                                                                            className="p-2 hover:bg-slate-100 rounded-lg transition-colors ml-auto"
+                                                                            className="p-2 hover:bg-muted rounded-lg transition-colors ml-auto"
                                                                         >
                                                                             <MoreHorizontal className="w-5 h-5 text-slate-400" />
                                                                         </button>
@@ -1976,7 +1982,7 @@ export const RequestsPage = () => {
                                                                                         initial={{ opacity: 0, scale: 0.95, y: 10 }}
                                                                                         animate={{ opacity: 1, scale: 1, y: 0 }}
                                                                                         exit={{ opacity: 0, scale: 0.95, y: 10 }}
-                                                                                        className="absolute right-8 top-12 w-[160px] bg-white border border-slate-100 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.12)] py-2 z-40 overflow-hidden text-left"
+                                                                                        className="absolute right-8 top-12 w-[160px] bg-card border border-slate-100 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.12)] py-2 z-40 overflow-hidden text-left"
                                                                                     >
                                                                                         <button 
                                                                                             onClick={() => {
@@ -1984,11 +1990,11 @@ export const RequestsPage = () => {
                                                                                                 setIsAddCategoryModalOpen(true);
                                                                                                 setOpenMenuId(null);
                                                                                             }}
-                                                                                            className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 transition-colors text-[14px] font-bold text-slate-600 group/item"
+                                                                                            className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-transparent transition-colors text-[14px] font-bold text-slate-600 group/item"
                                                                                         >
                                                                                             Edit
                                                                                         </button>
-                                                                                        <div className="h-[1px] bg-gray-50 mx-2" />
+                                                                                        <div className="h-[1px] bg-muted/50 mx-2" />
                                                                                         <button 
                                                                                             onClick={() => {
                                                                                                 if (window.confirm('Delete this category?')) {
@@ -2026,14 +2032,14 @@ export const RequestsPage = () => {
                                         </div>
                                         <div className="space-y-8">
                                             {formTasks.map((task) => (
-                                                <div key={task.id} className="p-8 bg-white rounded-3xl border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.02)] space-y-6">
+                                                <div key={task.id} className="p-8 bg-card rounded-3xl border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.02)] space-y-6">
                                                     <div className="space-y-4">
                                                         <div className="space-y-2">
-                                                            <label className="text-[13px] font-bold text-slate-500 uppercase tracking-wider ml-1">Item Type</label>
+                                                            <label className="text-[13px] font-bold text-muted-foreground uppercase tracking-wider ml-1">Item Type</label>
                                                             <select 
                                                                 value={task.type}
                                                                 onChange={(e) => setFormTasks(prev => prev.map(t => t.id === task.id ? { ...t, type: e.target.value } : t))}
-                                                                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3.5 text-[15px] font-medium text-slate-700 focus:bg-white focus:ring-2 focus:ring-indigo-500/20 transition-all appearance-none cursor-pointer pr-10 relative bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%236B7280%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E')] bg-[length:0.7rem_auto] bg-[right_15px_center] bg-no-repeat shadow-sm"
+                                                                className="w-full bg-transparent border border-border rounded-xl px-4 py-3.5 text-[15px] font-medium text-foreground/90 focus:bg-card focus:ring-2 focus:ring-primary/20 transition-all appearance-none cursor-pointer pr-10 relative bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%236B7280%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E')] bg-[length:0.7rem_auto] bg-[right_15px_center] bg-no-repeat shadow-sm"
                                                             >
                                                                 <option value="task">Task</option>
                                                                 <option value="number">Number Form Item</option>
@@ -2044,12 +2050,12 @@ export const RequestsPage = () => {
                                                         </div>
 
                                                         <div className="space-y-2">
-                                                            <label className="text-[13px] font-bold text-slate-500 uppercase tracking-wider ml-1">Form Question</label>
+                                                            <label className="text-[13px] font-bold text-muted-foreground uppercase tracking-wider ml-1">Form Question</label>
                                                             <input 
                                                                 value={task.label}
                                                                 onChange={(e) => setFormTasks(prev => prev.map(t => t.id === task.id ? { ...t, label: e.target.value } : t))}
                                                                 placeholder="Enter Form question"
-                                                                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3.5 text-[15px] font-medium text-slate-700 focus:bg-white focus:ring-2 focus:ring-indigo-500/20 transition-all placeholder:text-slate-400"
+                                                                className="w-full bg-transparent border border-border rounded-xl px-4 py-3.5 text-[15px] font-medium text-foreground/90 focus:bg-card focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-slate-400"
                                                             />
                                                         </div>
                                                     </div>
@@ -2060,7 +2066,7 @@ export const RequestsPage = () => {
                                                                 type="checkbox"
                                                                 checked={task.isRequired}
                                                                 onChange={(e) => setFormTasks(prev => prev.map(t => t.id === task.id ? { ...t, isRequired: e.target.checked } : t))}
-                                                                className="w-5 h-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500/20 transition-all"
+                                                                className="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary/20 transition-all"
                                                             />
                                                             <span className="text-[14px] font-bold text-slate-600 group-hover:text-slate-800 transition-colors">Required</span>
                                                         </label>
@@ -2082,7 +2088,7 @@ export const RequestsPage = () => {
                                                         isRequired: false 
                                                     }]);
                                                 }}
-                                                className="flex items-center gap-2 px-6 py-4 bg-white border-2 border-dashed border-gray-100 rounded-3xl text-slate-400 text-[14px] font-bold hover:border-indigo-400 hover:text-indigo-600 hover:bg-slate-50 transition-all w-full justify-center group"
+                                                className="flex items-center gap-2 px-6 py-4 bg-card border-2 border-dashed border-gray-100 rounded-3xl text-slate-400 text-[14px] font-bold hover:border-primary/80 hover:text-primary hover:bg-transparent transition-all w-full justify-center group"
                                             >
                                                 <Plus className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" />
                                                 Add Task
@@ -2091,8 +2097,8 @@ export const RequestsPage = () => {
                                     </section>
 
                                     {/* Request Fields Panel */}
-                                    <section className="bg-white rounded-[40px] border border-gray-100 shadow-[0_8px_40px_rgb(0,0,0,0.03)] overflow-hidden">
-                                        <div className="p-10 border-b border-gray-50 bg-[#FAFAFA]/30">
+                                    <section className="bg-card rounded-[40px] border border-gray-100 shadow-[0_8px_40px_rgb(0,0,0,0.03)] overflow-hidden">
+                                        <div className="p-10 border-b border-gray-50 bg-background/30">
                                             <h3 className="text-[32px] font-black text-slate-800 tracking-tight">Request fields</h3>
                                             <p className="text-[14px] text-zinc-500 mt-3 font-medium max-w-xl leading-relaxed">
                                                 Configure the behavioral logic of your maintenance request forms. Toggle visibility and requirement rules for each field property.
@@ -2102,10 +2108,10 @@ export const RequestsPage = () => {
                                         <div className="p-0 overflow-x-auto max-h-[500px] overflow-y-auto">
                                             <table className="w-full border-collapse">
                                                 <thead>
-                                                    <tr className="border-b border-gray-50 bg-slate-50/50 sticky top-0 z-10">
-                                                        <th className="w-1/3 px-10 py-6 text-left text-[11px] font-black text-slate-400 uppercase tracking-widest sticky top-0 bg-slate-50 z-10">Field Property</th>
-                                                        <th className="px-10 py-6 text-left text-[11px] font-black text-slate-400 uppercase tracking-widest sticky top-0 bg-slate-50 z-10">During Create</th>
-                                                        <th className="px-10 py-6 text-left text-[11px] font-black text-slate-400 uppercase tracking-widest sticky top-0 bg-slate-50 z-10">During Approval</th>
+                                                    <tr className="border-b border-gray-50 bg-transparent/50 sticky top-0 z-10">
+                                                        <th className="w-1/3 px-10 py-6 text-left text-[11px] font-black text-slate-400 uppercase tracking-widest sticky top-0 bg-transparent z-10">Field Property</th>
+                                                        <th className="px-10 py-6 text-left text-[11px] font-black text-slate-400 uppercase tracking-widest sticky top-0 bg-transparent z-10">During Create</th>
+                                                        <th className="px-10 py-6 text-left text-[11px] font-black text-slate-400 uppercase tracking-widest sticky top-0 bg-transparent z-10">During Approval</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody className="divide-y divide-gray-50">
@@ -2127,9 +2133,9 @@ export const RequestsPage = () => {
                                                         { id: 'checklists', label: 'Checklists' },
                                                         { id: 'signature', label: 'Signature' }
                                                     ].map((field) => (
-                                                        <tr key={field.id} className="group hover:bg-slate-50/30 transition-colors">
+                                                        <tr key={field.id} className="group hover:bg-transparent/30 transition-colors">
                                                             <td className="px-10 py-6">
-                                                                <span className="text-[15px] font-black text-slate-700 tracking-tight">{field.label}</span>
+                                                                <span className="text-[15px] font-black text-foreground/90 tracking-tight">{field.label}</span>
                                                             </td>
                                                             <td className="px-10 py-4 min-w-[160px]">
                                                                 <select 
@@ -2138,7 +2144,7 @@ export const RequestsPage = () => {
                                                                         ...prev,
                                                                         [field.id]: { ...prev[field.id], create: e.target.value }
                                                                     }))}
-                                                                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-[14px] font-semibold text-slate-700 focus:bg-white focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all cursor-pointer relative appearance-none bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%236B7280%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E')] bg-[length:0.7rem_auto] bg-[right_15px_center] bg-no-repeat pr-10 shadow-sm"
+                                                                    className="w-full bg-transparent border border-border rounded-xl px-4 py-2.5 text-[14px] font-semibold text-foreground/90 focus:bg-card focus:ring-2 focus:ring-primary/20 focus:border-primary/80 transition-all cursor-pointer relative appearance-none bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%236B7280%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E')] bg-[length:0.7rem_auto] bg-[right_15px_center] bg-no-repeat pr-10 shadow-sm"
                                                                 >
                                                                     <option value="Optional">Optional</option>
                                                                     <option value="Hidden">Hidden</option>
@@ -2152,7 +2158,7 @@ export const RequestsPage = () => {
                                                                         ...prev,
                                                                         [field.id]: { ...prev[field.id], approve: e.target.value }
                                                                     }))}
-                                                                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-[14px] font-semibold text-slate-700 focus:bg-white focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all cursor-pointer relative appearance-none bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%236B7280%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E')] bg-[length:0.7rem_auto] bg-[right_15px_center] bg-no-repeat pr-10 shadow-sm"
+                                                                    className="w-full bg-transparent border border-border rounded-xl px-4 py-2.5 text-[14px] font-semibold text-foreground/90 focus:bg-card focus:ring-2 focus:ring-primary/20 focus:border-primary/80 transition-all cursor-pointer relative appearance-none bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%236B7280%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E')] bg-[length:0.7rem_auto] bg-[right_15px_center] bg-no-repeat pr-10 shadow-sm"
                                                                 >
                                                                     <option value="Optional">Optional</option>
                                                                     <option value="Hidden">Hidden</option>
@@ -2170,15 +2176,15 @@ export const RequestsPage = () => {
 
                             {settingsTab === 'legacy' && (
                                 <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                                    <div className="bg-white rounded-[40px] border border-gray-100 shadow-[0_8px_40px_rgb(0,0,0,0.02)] p-12 space-y-8 max-w-4xl">
+                                    <div className="bg-card rounded-[40px] border border-gray-100 shadow-[0_8px_40px_rgb(0,0,0,0.02)] p-12 space-y-8 max-w-4xl">
                                         <div className="flex items-center justify-between">
                                             <h3 className="text-[24px] font-black text-slate-800 tracking-tight">Company Request Portal</h3>
                                             <button className="w-12 h-6 bg-slate-200 rounded-full relative transition-colors">
-                                                <div className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full shadow-sm" />
+                                                <div className="absolute left-1 top-1 w-4 h-4 bg-card rounded-full shadow-sm" />
                                             </button>
                                         </div>
                                         
-                                        <p className="text-[16px] text-slate-500 font-medium leading-relaxed">
+                                        <p className="text-[16px] text-muted-foreground font-medium leading-relaxed">
                                             The Request Portal allows users that are not on your team to add and view their request just by signing in with their email account.
                                         </p>
 
@@ -2196,23 +2202,23 @@ export const RequestsPage = () => {
                                         <h2 className="text-[28px] font-black text-slate-800 tracking-tight">Request Portals</h2>
                                         <div className="flex items-center gap-4">
                                             <div className="relative group">
-                                                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-indigo-600 transition-colors" />
+                                                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-primary transition-colors" />
                                                 <input 
                                                     value={portalSearchTerm}
                                                     onChange={(e) => setPortalSearchTerm(e.target.value)}
                                                     placeholder="Search portals..."
-                                                    className="pl-11 pr-6 py-2.5 bg-slate-50 border border-slate-100 rounded-xl text-[14px] font-medium w-64 focus:bg-white focus:ring-2 focus:ring-indigo-500/20 transition-all"
+                                                    className="pl-11 pr-6 py-2.5 bg-transparent border border-slate-100 rounded-xl text-[14px] font-medium w-64 focus:bg-card focus:ring-2 focus:ring-primary/20 transition-all"
                                                 />
                                             </div>
                                             <button 
                                                 onClick={() => setIsBrandingModalOpen(true)}
-                                                className="px-6 py-2.5 bg-white border border-slate-200 text-indigo-600 text-[14px] font-bold rounded-xl hover:bg-slate-50 transition-all shadow-sm"
+                                                className="px-6 py-2.5 bg-card border border-border text-primary text-[14px] font-bold rounded-xl hover:bg-transparent transition-all shadow-sm"
                                             >
                                                 Branding
                                             </button>
                                             <button 
                                                 onClick={() => setIsCreatePortalModalOpen(true)}
-                                                className="px-6 py-2.5 bg-indigo-600 text-white text-[14px] font-black rounded-xl shadow-lg shadow-indigo-100 hover:bg-indigo-700 transition-all flex items-center gap-2"
+                                                className="px-6 py-2.5 bg-primary text-white text-[14px] font-black rounded-xl shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all flex items-center gap-2"
                                             >
                                                 <Plus className="w-4 h-4" />
                                                 Create Request Portal
@@ -2224,9 +2230,9 @@ export const RequestsPage = () => {
                                         p.name?.toLowerCase().includes(portalSearchTerm.toLowerCase()) || 
                                         p.customUrl?.toLowerCase().includes(portalSearchTerm.toLowerCase())
                                     ).length === 0 ? (
-                                        <div className="bg-white rounded-[40px] border border-gray-100 shadow-[0_8px_40px_rgb(0,0,0,0.02)] flex flex-col items-center justify-center py-32 px-12 text-center space-y-8">
-                                            <div className="w-24 h-24 bg-slate-50 rounded-3xl flex items-center justify-center">
-                                                <div className="w-16 h-16 bg-white rounded-2xl shadow-sm flex items-center justify-center">
+                                        <div className="bg-card rounded-[40px] border border-gray-100 shadow-[0_8px_40px_rgb(0,0,0,0.02)] flex flex-col items-center justify-center py-32 px-12 text-center space-y-8">
+                                            <div className="w-24 h-24 bg-transparent rounded-3xl flex items-center justify-center">
+                                                <div className="w-16 h-16 bg-card rounded-2xl shadow-sm flex items-center justify-center">
                                                     <Globe className="w-8 h-8 text-slate-300" />
                                                 </div>
                                             </div>
@@ -2248,21 +2254,21 @@ export const RequestsPage = () => {
                                                 p.name?.toLowerCase().includes(portalSearchTerm.toLowerCase()) || 
                                                 p.customUrl?.toLowerCase().includes(portalSearchTerm.toLowerCase())
                                             ).map(portal => (
-                                                <div key={portal.id} className="bg-white border border-gray-100 rounded-3xl p-8 flex items-center justify-between shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:border-indigo-100 transition-all group">
+                                                <div key={portal.id} className="bg-card border border-gray-100 rounded-3xl p-8 flex items-center justify-between shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:border-primary/10 transition-all group">
                                                     <div className="flex items-center gap-6">
-                                                        <div className="w-14 h-14 bg-indigo-50 rounded-2xl flex items-center justify-center">
-                                                            <Globe className="w-6 h-6 text-indigo-500" />
+                                                        <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center">
+                                                            <Globe className="w-6 h-6 text-primary/80" />
                                                         </div>
                                                         <div className="space-y-1">
                                                             <h3 className="text-[16px] font-black text-slate-800">{portal.name}</h3>
                                                             <div className="flex items-center gap-2 text-[13px] font-medium text-slate-400">
-                                                                <span className="capitalize font-bold text-slate-500">{portal.type} Portal</span>
+                                                                <span className="capitalize font-bold text-muted-foreground">{portal.type} Portal</span>
                                                                 <span className="w-1 h-1 bg-slate-200 rounded-full" />
                                                                 <a 
                                                                     href={`/portal/${portal.customUrl}`}
                                                                     target="_blank"
                                                                     rel="noopener noreferrer"
-                                                                    className="text-indigo-600 hover:underline flex items-center gap-1 font-bold"
+                                                                    className="text-primary hover:underline flex items-center gap-1 font-bold"
                                                                 >
                                                                     /portal/{portal.customUrl}
                                                                     <ExternalLink className="w-3.5 h-3.5" />
@@ -2291,24 +2297,24 @@ export const RequestsPage = () => {
                                     <div className="flex items-center justify-between">
                                         <div className="space-y-4 max-w-4xl">
                                             <h2 className="text-[28px] font-black text-slate-800 tracking-tight">Automated Workflows</h2>
-                                            <p className="text-[15px] text-slate-500 font-medium leading-relaxed">
+                                            <p className="text-[15px] text-muted-foreground font-medium leading-relaxed">
                                                 Create custom workflows as easy as If, And, Then. Save time and easily assign your work orders automatically through workflows to customize {companyName} for the way your team operates. 
-                                                Check out our <span className="text-indigo-600 hover:underline cursor-pointer">Workflows Library</span> to see how others in your industry are using automated workflows to improve their internal process and increase efficiency today!
+                                                Check out our <span className="text-primary hover:underline cursor-pointer">Workflows Library</span> to see how others in your industry are using automated workflows to improve their internal process and increase efficiency today!
                                             </p>
                                         </div>
                                         <button 
                                             onClick={() => setIsCreateWorkflowModalOpen(true)}
-                                            className="px-8 py-3 bg-indigo-600 text-white text-[14px] font-black rounded-xl shadow-lg shadow-indigo-100 hover:bg-indigo-700 transition-all"
+                                            className="px-8 py-3 bg-primary text-white text-[14px] font-black rounded-xl shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all"
                                         >
                                             Create
                                         </button>
                                     </div>
 
                                     {workflows.length === 0 ? (
-                                        <div className="bg-white rounded-[40px] border border-gray-100 shadow-[0_8px_40px_rgb(0,0,0,0.02)] flex flex-col items-center justify-center py-40 px-12 text-center space-y-8">
-                                            <div className="w-24 h-24 bg-slate-50 rounded-3xl flex items-center justify-center">
-                                                <div className="w-16 h-16 bg-white rounded-2xl shadow-sm flex items-center justify-center">
-                                                    <Zap className="w-8 h-8 text-indigo-500" />
+                                        <div className="bg-card rounded-[40px] border border-gray-100 shadow-[0_8px_40px_rgb(0,0,0,0.02)] flex flex-col items-center justify-center py-40 px-12 text-center space-y-8">
+                                            <div className="w-24 h-24 bg-transparent rounded-3xl flex items-center justify-center">
+                                                <div className="w-16 h-16 bg-card rounded-2xl shadow-sm flex items-center justify-center">
+                                                    <Zap className="w-8 h-8 text-primary/80" />
                                                 </div>
                                             </div>
                                             <div className="space-y-3 max-w-sm">
@@ -2321,17 +2327,17 @@ export const RequestsPage = () => {
                                     ) : (
                                         <div className="grid grid-cols-1 gap-6">
                                             {workflows.map(rule => (
-                                                <div key={rule.id} className="bg-white border border-gray-100 rounded-3xl p-8 flex items-center justify-between shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:border-indigo-100 transition-all group">
+                                                <div key={rule.id} className="bg-card border border-gray-100 rounded-3xl p-8 flex items-center justify-between shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:border-primary/10 transition-all group">
                                                     <div className="flex items-center gap-6">
-                                                        <div className="w-14 h-14 bg-indigo-50 rounded-2xl flex items-center justify-center">
-                                                            <Zap className="w-6 h-6 text-indigo-500" />
+                                                        <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center">
+                                                            <Zap className="w-6 h-6 text-primary/80" />
                                                         </div>
                                                         <div className="space-y-1">
                                                             <h3 className="text-[16px] font-black text-slate-800">{rule.name}</h3>
                                                             <div className="flex items-center gap-2 text-[13px] font-medium text-slate-400">
                                                                 <span>If {rule.trigger.replace(/_/g, ' ')}</span>
                                                                 <span className="w-1 h-1 bg-slate-200 rounded-full" />
-                                                                <span className="text-indigo-500">Then execute automation</span>
+                                                                <span className="text-primary/80">Then execute automation</span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -2340,11 +2346,11 @@ export const RequestsPage = () => {
                                                             onClick={() => updateWorkflow.mutate({ id: rule.id, isActive: !rule.isActive })}
                                                             className={cn(
                                                                 "w-12 h-6 rounded-full relative transition-all duration-300",
-                                                                rule.isActive ? "bg-indigo-600" : "bg-slate-200"
+                                                                rule.isActive ? "bg-primary" : "bg-slate-200"
                                                             )}
                                                         >
                                                             <div className={cn(
-                                                                "absolute top-1 w-4 h-4 bg-white rounded-full transition-all duration-300",
+                                                                "absolute top-1 w-4 h-4 bg-card rounded-full transition-all duration-300",
                                                                 rule.isActive ? "left-7" : "left-1"
                                                             )} />
                                                         </button>
@@ -2385,11 +2391,11 @@ export const RequestsPage = () => {
                             initial={{ opacity: 0, scale: 0.95, y: 20 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                            className="relative w-full max-w-[500px] bg-white rounded-[32px] shadow-2xl overflow-hidden shadow-indigo-500/10"
+                            className="relative w-full max-w-[500px] bg-card rounded-[32px] shadow-2xl overflow-hidden shadow-primary/20"
                         >
                             <div className="p-6 border-b border-gray-50 flex items-center justify-between">
                                 <h2 className="text-[18px] font-black text-slate-800">Select Locations</h2>
-                                <button onClick={() => setIsLocationPickerOpen(false)} className="p-2 hover:bg-gray-50 rounded-full transition-colors">
+                                <button onClick={() => setIsLocationPickerOpen(false)} className="p-2 hover:bg-muted/50 rounded-full transition-colors">
                                     <Plus className="w-5 h-5 rotate-45 text-gray-400 hover:text-gray-600" />
                                 </button>
                             </div>
@@ -2399,21 +2405,21 @@ export const RequestsPage = () => {
                                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                                     <input 
                                         placeholder="Search"
-                                        className="w-full pl-11 pr-4 py-2.5 bg-slate-50 border border-slate-100 rounded-xl text-[14px] font-medium focus:bg-white focus:ring-2 focus:ring-indigo-500/20 transition-all"
+                                        className="w-full pl-11 pr-4 py-2.5 bg-transparent border border-slate-100 rounded-xl text-[14px] font-medium focus:bg-card focus:ring-2 focus:ring-primary/20 transition-all"
                                     />
                                 </div>
 
                                 <div className="flex items-center justify-between px-1">
-                                    <span className="text-[14px] font-bold text-slate-700">Include sub-locations in selection</span>
+                                    <span className="text-[14px] font-bold text-foreground/90">Include sub-locations in selection</span>
                                     <button 
                                         onClick={() => setIncludeSubLocations(!includeSubLocations)}
                                         className={cn(
                                             "w-11 h-5 rounded-full relative transition-all duration-300",
-                                            includeSubLocations ? "bg-indigo-600" : "bg-slate-200"
+                                            includeSubLocations ? "bg-primary" : "bg-slate-200"
                                         )}
                                     >
                                         <div className={cn(
-                                            "absolute top-0.5 w-4 h-4 bg-white rounded-full transition-all duration-300 shadow-sm",
+                                            "absolute top-0.5 w-4 h-4 bg-card rounded-full transition-all duration-300 shadow-sm",
                                             includeSubLocations ? "right-0.5" : "left-0.5"
                                         )} />
                                     </button>
@@ -2421,16 +2427,16 @@ export const RequestsPage = () => {
 
                                 <div className="max-h-[300px] overflow-y-auto custom-scrollbar space-y-1">
                                     {locations.filter((l: Location) => !l.parentId).map((loc: Location) => (
-                                        <div key={loc.id} className="group flex items-center justify-between p-3 hover:bg-slate-50 rounded-2xl transition-all cursor-pointer">
+                                        <div key={loc.id} className="group flex items-center justify-between p-3 hover:bg-transparent rounded-2xl transition-all cursor-pointer">
                                             <div className="flex items-center gap-3">
                                                 <ChevronRight className="w-4 h-4 text-slate-400" />
                                                 <input 
                                                     type="checkbox"
                                                     checked={tempSelectedLocationIds.includes(loc.id)}
                                                     onChange={() => toggleTempLocation(loc.id)}
-                                                    className="w-5 h-5 rounded-md border-slate-200 text-indigo-600 focus:ring-indigo-500/20"
+                                                    className="w-5 h-5 rounded-md border-border text-primary focus:ring-primary/20"
                                                 />
-                                                <span className="text-[15px] font-bold text-slate-700">{loc.name}</span>
+                                                <span className="text-[15px] font-bold text-foreground/90">{loc.name}</span>
                                             </div>
                                             <span className="text-[12px] font-bold text-slate-400">1 sub-location</span>
                                         </div>
@@ -2444,18 +2450,18 @@ export const RequestsPage = () => {
                                 </div>
                             </div>
 
-                            <div className="p-6 bg-slate-50/50 border-t border-gray-50 flex items-center justify-between">
-                                <span className="text-[14px] font-bold text-slate-500">{tempSelectedLocationIds.length} selected</span>
+                            <div className="p-6 bg-transparent/50 border-t border-gray-50 flex items-center justify-between">
+                                <span className="text-[14px] font-bold text-muted-foreground">{tempSelectedLocationIds.length} selected</span>
                                 <div className="flex items-center gap-3">
                                     <button 
                                         onClick={() => setIsLocationPickerOpen(false)}
-                                        className="px-6 py-2.5 bg-white border border-slate-200 text-slate-600 text-[14px] font-bold rounded-xl hover:bg-slate-50 transition-all shadow-sm"
+                                        className="px-6 py-2.5 bg-card border border-border text-slate-600 text-[14px] font-bold rounded-xl hover:bg-transparent transition-all shadow-sm"
                                     >
                                         Cancel
                                     </button>
                                     <button 
                                         onClick={() => setIsLocationPickerOpen(false)}
-                                        className="px-8 py-2.5 bg-indigo-600 text-white text-[14px] font-black rounded-xl shadow-lg shadow-indigo-500/20 hover:bg-indigo-700 transition-all"
+                                        className="px-8 py-2.5 bg-primary text-white text-[14px] font-black rounded-xl shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all"
                                     >
                                         Save
                                     </button>
@@ -2479,11 +2485,11 @@ export const RequestsPage = () => {
                             initial={{ opacity: 0, scale: 0.95, y: 20 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                            className="relative w-full max-w-[800px] h-[90vh] bg-white rounded-[40px] shadow-2xl overflow-hidden flex flex-col"
+                            className="relative w-full max-w-[800px] h-[90vh] bg-card rounded-[40px] shadow-2xl overflow-hidden flex flex-col"
                         >
                             <div className="p-8 border-b border-gray-100 flex items-center justify-between shrink-0">
                                 <h2 className="text-[20px] font-black text-slate-800 tracking-tight">Create New Portal</h2>
-                                <button onClick={() => setIsCreatePortalModalOpen(false)} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
+                                <button onClick={() => setIsCreatePortalModalOpen(false)} className="p-2 hover:bg-muted rounded-full transition-colors">
                                     <Plus className="w-6 h-6 rotate-45 text-gray-400 hover:text-gray-600" />
                                 </button>
                             </div>
@@ -2494,16 +2500,16 @@ export const RequestsPage = () => {
                                     <h3 className="text-[18px] font-black text-slate-800 tracking-tight">Request Portal Details</h3>
                                     <div className="space-y-4">
                                         <div className="space-y-2">
-                                            <label className="text-[13px] font-bold text-slate-500 uppercase tracking-wider ml-1">Portal Name</label>
+                                            <label className="text-[13px] font-bold text-muted-foreground uppercase tracking-wider ml-1">Portal Name</label>
                                             <input 
                                                 value={portalFormData.name}
                                                 onChange={(e) => setPortalFormData({ ...portalFormData, name: e.target.value })}
                                                 placeholder="Portal Name"
-                                                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3.5 text-[15px] font-medium text-slate-700 focus:bg-white focus:ring-2 focus:ring-indigo-500/20 transition-all placeholder:text-slate-400"
+                                                className="w-full bg-transparent border border-border rounded-xl px-4 py-3.5 text-[15px] font-medium text-foreground/90 focus:bg-card focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-slate-400"
                                             />
                                         </div>
                                         <div className="space-y-2">
-                                            <label className="text-[13px] font-bold text-slate-500 uppercase tracking-wider ml-1">Custom Url</label>
+                                            <label className="text-[13px] font-bold text-muted-foreground uppercase tracking-wider ml-1">Custom Url</label>
                                             <div className="relative">
                                                 <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-[14px] font-medium pointer-events-none">
                                                     https://request-portal.{companyName.toLowerCase().replace(/\s+/g, '')}.com/
@@ -2511,7 +2517,7 @@ export const RequestsPage = () => {
                                                 <input 
                                                     value={portalFormData.customUrl}
                                                     onChange={(e) => setPortalFormData({ ...portalFormData, customUrl: e.target.value })}
-                                                    className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-[280px] pr-4 py-3.5 text-[15px] font-medium text-slate-700 focus:bg-white focus:ring-2 focus:ring-indigo-500/20 transition-all"
+                                                    className="w-full bg-transparent border border-border rounded-xl pl-[280px] pr-4 py-3.5 text-[15px] font-medium text-foreground/90 focus:bg-card focus:ring-2 focus:ring-primary/20 transition-all"
                                                     placeholder="Custom Url"
                                                 />
                                             </div>
@@ -2527,29 +2533,57 @@ export const RequestsPage = () => {
                                     </div>
                                     <div className="grid grid-cols-3 gap-4">
                                         {[
-                                            { id: 'general', label: 'General Portal', desc: 'Allow requests for all locations & assets', icon: Globe },
-                                            { id: 'location', label: 'Location Portal', desc: 'Limit requests to specific location(s)', icon: MapPin },
-                                            { id: 'asset', label: 'Asset Portal', desc: 'Limit requests to specific asset(s)', icon: Box }
+                                            { 
+                                                id: 'general', 
+                                                label: 'General Portal', 
+                                                desc: 'Allow requests for all locations & assets', 
+                                                icon: Globe,
+                                                baseClasses: "border-pink-200 bg-pink-50/50 hover:bg-pink-100/50 hover:border-pink-300",
+                                                activeClasses: "border-pink-500 bg-pink-50 ring-4 ring-pink-500/20",
+                                                iconBase: "text-pink-400 group-hover:text-pink-500",
+                                                iconActive: "text-pink-600",
+                                                textBase: "text-pink-800/70 group-hover:text-pink-800",
+                                                textActive: "text-pink-900"
+                                            },
+                                            { 
+                                                id: 'location', 
+                                                label: 'Location Portal', 
+                                                desc: 'Limit requests to specific location(s)', 
+                                                icon: MapPin,
+                                                baseClasses: "border-indigo-200 bg-indigo-50/50 hover:bg-indigo-100/50 hover:border-indigo-300",
+                                                activeClasses: "border-indigo-500 bg-indigo-50 ring-4 ring-indigo-500/20",
+                                                iconBase: "text-indigo-400 group-hover:text-indigo-500",
+                                                iconActive: "text-indigo-600",
+                                                textBase: "text-indigo-800/70 group-hover:text-indigo-800",
+                                                textActive: "text-indigo-900"
+                                            },
+                                            { 
+                                                id: 'asset', 
+                                                label: 'Asset Portal', 
+                                                desc: 'Limit requests to specific asset(s)', 
+                                                icon: Box,
+                                                baseClasses: "border-teal-200 bg-teal-50/50 hover:bg-teal-100/50 hover:border-teal-300",
+                                                activeClasses: "border-teal-500 bg-teal-50 ring-4 ring-teal-500/20",
+                                                iconBase: "text-teal-400 group-hover:text-teal-500",
+                                                iconActive: "text-teal-600",
+                                                textBase: "text-teal-800/70 group-hover:text-teal-800",
+                                                textActive: "text-teal-900"
+                                            }
                                         ].map((item) => (
                                             <div key={item.id} className="relative">
                                                 <button 
                                                     onClick={() => setPortalFormData({ ...portalFormData, type: item.id })}
                                                     className={cn(
                                                         "w-full flex flex-col items-center text-center p-6 rounded-[32px] border-2 transition-all space-y-4 group min-h-[180px]",
-                                                        portalFormData.type === item.id 
-                                                            ? "border-indigo-600 bg-indigo-50/30 ring-4 ring-indigo-50" 
-                                                            : "border-slate-100 hover:border-slate-200 bg-slate-50/50"
+                                                        portalFormData.type === item.id ? item.activeClasses : item.baseClasses
                                                     )}
                                                 >
-                                                    <div className={cn(
-                                                        "w-12 h-12 rounded-2xl flex items-center justify-center transition-all",
-                                                        portalFormData.type === item.id ? "bg-white shadow-sm" : "bg-white"
-                                                    )}>
-                                                        <item.icon className={cn("w-6 h-6", portalFormData.type === item.id ? "text-indigo-600" : "text-slate-400")} />
+                                                    <div className="w-12 h-12 rounded-2xl bg-white shadow-sm flex items-center justify-center transition-all">
+                                                        <item.icon className={cn("w-6 h-6 transition-colors", portalFormData.type === item.id ? item.iconActive : item.iconBase)} />
                                                     </div>
                                                     <div className="space-y-1">
-                                                        <h4 className={cn("text-[15px] font-black", portalFormData.type === item.id ? "text-slate-800" : "text-slate-600")}>{item.label}</h4>
-                                                        <p className="text-[12px] text-slate-400 font-medium leading-tight">{item.desc}</p>
+                                                        <h4 className={cn("text-[15px] font-black transition-colors", portalFormData.type === item.id ? item.textActive : item.textBase)}>{item.label}</h4>
+                                                        <p className="text-[12px] text-slate-500 font-medium leading-tight">{item.desc}</p>
                                                     </div>
                                                 </button>
 
@@ -2561,7 +2595,7 @@ export const RequestsPage = () => {
                                                                 if (item.id === 'location') setIsLocationPickerOpen(true);
                                                                 if (item.id === 'asset') setIsAssetPickerOpen(true);
                                                             }}
-                                                            className="w-full h-10 bg-white border border-slate-200 rounded-xl px-4 flex items-center justify-between text-[14px] font-medium text-slate-500 hover:border-indigo-300 transition-all shadow-sm"
+                                                            className="w-full h-10 bg-card border border-border rounded-xl px-4 flex items-center justify-between text-[14px] font-medium text-muted-foreground hover:border-indigo-300 transition-all shadow-sm"
                                                         >
                                                             <span className="truncate">
                                                                 {item.id === 'location' 
@@ -2579,13 +2613,13 @@ export const RequestsPage = () => {
                                                                 <motion.div 
                                                                     initial={{ opacity: 0, y: 10 }}
                                                                     animate={{ opacity: 1, y: 0 }}
-                                                                    className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-2xl border border-slate-100 z-[150] p-4 space-y-4"
+                                                                    className="absolute top-full left-0 right-0 mt-2 bg-card rounded-2xl shadow-2xl border border-slate-100 z-[150] p-4 space-y-4"
                                                                 >
                                                                     <div className="relative">
                                                                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                                                                         <input 
                                                                             placeholder="Search"
-                                                                            className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-100 rounded-lg text-[13px] font-medium focus:bg-white transition-all"
+                                                                            className="w-full pl-9 pr-4 py-2 bg-transparent border border-slate-100 rounded-lg text-[13px] font-medium focus:bg-card transition-all"
                                                                         />
                                                                     </div>
                                                                     <div className="max-h-[200px] overflow-y-auto custom-scrollbar space-y-1">
@@ -2593,15 +2627,15 @@ export const RequestsPage = () => {
                                                                             <button 
                                                                                 key={asset.id}
                                                                                 onClick={() => toggleTempAsset(asset.id)}
-                                                                                className="w-full flex items-center gap-3 p-2 hover:bg-slate-50 rounded-lg transition-all text-left"
+                                                                                className="w-full flex items-center gap-3 p-2 hover:bg-transparent rounded-lg transition-all text-left"
                                                                             >
                                                                                 <input 
                                                                                     type="checkbox"
                                                                                     checked={tempSelectedAssetIds.includes(asset.id)}
                                                                                     onChange={() => {}}
-                                                                                    className="w-4 h-4 rounded border-slate-200 text-indigo-600 pointer-events-none"
+                                                                                    className="w-4 h-4 rounded border-border text-primary pointer-events-none"
                                                                                 />
-                                                                                <span className="text-[13px] font-bold text-slate-700 truncate">{asset.name}</span>
+                                                                                <span className="text-[13px] font-bold text-foreground/90 truncate">{asset.name}</span>
                                                                             </button>
                                                                         ))}
                                                                         {assets.length === 0 && (
@@ -2630,7 +2664,7 @@ export const RequestsPage = () => {
                                             { id: 'location', label: 'Location', desc: 'Let users specify the exact location.' },
                                             { id: 'asset', label: 'Asset', desc: 'Let users specify an asset.' }
                                         ].map((option) => (
-                                            <div key={option.id} className="group flex items-center gap-4 p-5 bg-white rounded-3xl border border-slate-100 hover:border-indigo-100 transition-all hover:shadow-sm">
+                                            <div key={option.id} className="group flex items-center gap-4 p-5 bg-card rounded-3xl border border-slate-100 hover:border-primary/10 transition-all hover:shadow-sm">
                                                 <input 
                                                     type="checkbox"
                                                     checked={portalFormData.options[option.id as keyof typeof portalFormData.options].enabled}
@@ -2644,10 +2678,10 @@ export const RequestsPage = () => {
                                                             }
                                                         }
                                                     })}
-                                                    className="w-6 h-6 rounded-lg border-slate-200 text-indigo-600 focus:ring-indigo-500/20"
+                                                    className="w-6 h-6 rounded-lg border-border text-primary focus:ring-primary/20"
                                                 />
                                                 <div className="flex-1">
-                                                    <h4 className="text-[15px] font-black text-slate-700">{option.label}</h4>
+                                                    <h4 className="text-[15px] font-black text-foreground/90">{option.label}</h4>
                                                     <p className="text-[13px] text-slate-400 font-medium">{option.desc}</p>
                                                 </div>
                                                 <div className="flex items-center gap-3 pr-2">
@@ -2666,12 +2700,12 @@ export const RequestsPage = () => {
                                                         className={cn(
                                                             "w-12 h-6 rounded-full relative transition-all duration-300",
                                                             portalFormData.options[option.id as keyof typeof portalFormData.options].required 
-                                                                ? "bg-indigo-600" 
+                                                                ? "bg-primary" 
                                                                 : "bg-slate-200"
                                                         )}
                                                     >
                                                         <div className={cn(
-                                                            "absolute top-1 w-4 h-4 bg-white rounded-full transition-all duration-300 shadow-sm",
+                                                            "absolute top-1 w-4 h-4 bg-card rounded-full transition-all duration-300 shadow-sm",
                                                             portalFormData.options[option.id as keyof typeof portalFormData.options].required ? "right-1" : "left-1"
                                                         )} />
                                                     </button>
@@ -2689,10 +2723,10 @@ export const RequestsPage = () => {
                                     </div>
                                     <div className="space-y-4">
                                         {portalFormData.customFields.map((field, index) => (
-                                            <div key={index} className="p-8 bg-white rounded-3xl border border-slate-100 shadow-sm space-y-6 relative group">
+                                            <div key={index} className="p-8 bg-card rounded-3xl border border-slate-100 shadow-sm space-y-6 relative group">
                                                 <div className="grid grid-cols-2 gap-8">
                                                     <div className="space-y-2">
-                                                        <label className="text-[13px] font-bold text-slate-500 uppercase tracking-wider ml-1">Field Type</label>
+                                                        <label className="text-[13px] font-bold text-muted-foreground uppercase tracking-wider ml-1">Field Type</label>
                                                         <select 
                                                             value={field.type}
                                                             onChange={(e) => {
@@ -2700,7 +2734,7 @@ export const RequestsPage = () => {
                                                                 newFields[index].type = e.target.value;
                                                                 setPortalFormData({ ...portalFormData, customFields: newFields });
                                                             }}
-                                                            className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3.5 text-[15px] font-medium text-slate-700 focus:bg-white focus:ring-2 focus:ring-indigo-500/20 transition-all appearance-none cursor-pointer relative bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%236B7280%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E')] bg-[length:0.7rem_auto] bg-[right_15px_center] bg-no-repeat"
+                                                            className="w-full bg-transparent border border-border rounded-xl px-4 py-3.5 text-[15px] font-medium text-foreground/90 focus:bg-card focus:ring-2 focus:ring-primary/20 transition-all appearance-none cursor-pointer relative bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%236B7280%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E')] bg-[length:0.7rem_auto] bg-[right_15px_center] bg-no-repeat"
                                                         >
                                                             <option value="text">Text</option>
                                                             <option value="number">Number</option>
@@ -2709,7 +2743,7 @@ export const RequestsPage = () => {
                                                         </select>
                                                     </div>
                                                     <div className="space-y-2">
-                                                        <label className="text-[13px] font-bold text-slate-500 uppercase tracking-wider ml-1">Label</label>
+                                                        <label className="text-[13px] font-bold text-muted-foreground uppercase tracking-wider ml-1">Label</label>
                                                         <input 
                                                             value={field.label}
                                                             onChange={(e) => {
@@ -2718,13 +2752,13 @@ export const RequestsPage = () => {
                                                                 setPortalFormData({ ...portalFormData, customFields: newFields });
                                                             }}
                                                             placeholder="Enter field name"
-                                                            className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3.5 text-[15px] font-medium text-slate-700 focus:bg-white focus:ring-2 focus:ring-indigo-500/20 transition-all"
+                                                            className="w-full bg-transparent border border-border rounded-xl px-4 py-3.5 text-[15px] font-medium text-foreground/90 focus:bg-card focus:ring-2 focus:ring-primary/20 transition-all"
                                                         />
                                                     </div>
                                                 </div>
                                                 <div className="flex items-center justify-between">
                                                     <div className="space-y-2">
-                                                        <label className="text-[13px] font-bold text-slate-500 uppercase tracking-wider ml-1 block">Required</label>
+                                                        <label className="text-[13px] font-bold text-muted-foreground uppercase tracking-wider ml-1 block">Required</label>
                                                         <button 
                                                             onClick={() => {
                                                                 const newFields = [...portalFormData.customFields];
@@ -2733,11 +2767,11 @@ export const RequestsPage = () => {
                                                             }}
                                                             className={cn(
                                                                 "w-12 h-6 rounded-full relative transition-all duration-300",
-                                                                field.required ? "bg-indigo-600" : "bg-slate-200"
+                                                                field.required ? "bg-primary" : "bg-slate-200"
                                                             )}
                                                         >
                                                             <div className={cn(
-                                                                "absolute top-1 w-4 h-4 bg-white rounded-full transition-all duration-300 shadow-sm",
+                                                                "absolute top-1 w-4 h-4 bg-card rounded-full transition-all duration-300 shadow-sm",
                                                                 field.required ? "right-1" : "left-1"
                                                             )} />
                                                         </button>
@@ -2760,7 +2794,7 @@ export const RequestsPage = () => {
                                             ...portalFormData,
                                             customFields: [...portalFormData.customFields, { type: 'text', label: '', required: false }]
                                         })}
-                                        className="flex items-center gap-2 px-6 py-3 bg-white border border-slate-200 text-indigo-600 text-[14px] font-bold rounded-2xl hover:bg-slate-50 transition-all shadow-sm"
+                                        className="flex items-center gap-2 px-6 py-3 bg-card border border-border text-primary text-[14px] font-bold rounded-2xl hover:bg-transparent transition-all shadow-sm"
                                     >
                                         <Plus className="w-4 h-4" />
                                         Add Custom Field
@@ -2768,16 +2802,16 @@ export const RequestsPage = () => {
                                 </section>
                             </div>
 
-                            <div className="p-8 bg-slate-50/50 border-t border-gray-100 flex items-center justify-end gap-4 shrink-0">
+                            <div className="p-8 bg-transparent/50 border-t border-gray-100 flex items-center justify-end gap-4 shrink-0">
                                 <button 
                                     onClick={() => setIsCreatePortalModalOpen(false)}
-                                    className="px-8 py-3 bg-white border border-slate-200 text-slate-600 text-[14px] font-bold rounded-2xl hover:bg-slate-50 transition-all shadow-sm"
+                                    className="px-8 py-3 bg-card border border-border text-slate-600 text-[14px] font-bold rounded-2xl hover:bg-transparent transition-all shadow-sm"
                                 >
                                     Cancel
                                 </button>
                                 <button 
                                     onClick={handleCreatePortal}
-                                    className="px-10 py-3 bg-indigo-600 text-white text-[14px] font-black rounded-2xl shadow-xl shadow-indigo-500/20 hover:bg-indigo-700 transition-all"
+                                    className="px-10 py-3 bg-primary text-white text-[14px] font-black rounded-2xl shadow-xl shadow-primary/20 hover:bg-primary/90 transition-all"
                                 >
                                     Create Request Portal
                                 </button>
@@ -2800,14 +2834,14 @@ export const RequestsPage = () => {
                             initial={{ opacity: 0, scale: 0.95, y: 20 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                            className="relative w-full max-w-[800px] bg-white rounded-[40px] shadow-2xl overflow-hidden"
+                            className="relative w-full max-w-[800px] bg-card rounded-[40px] shadow-2xl overflow-hidden"
                         >
                             <div className="p-8 border-b border-gray-100 flex items-center justify-between">
                                 <div className="flex items-center gap-2">
                                     <h2 className="text-[20px] font-black text-slate-800 tracking-tight">Upload Logo</h2>
                                     <span className="text-[14px] text-slate-400 font-bold">Step 1 of 2</span>
                                 </div>
-                                <button onClick={() => setIsBrandingModalOpen(false)} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
+                                <button onClick={() => setIsBrandingModalOpen(false)} className="p-2 hover:bg-muted rounded-full transition-colors">
                                     <Plus className="w-6 h-6 rotate-45 text-gray-400 hover:text-gray-600" />
                                 </button>
                             </div>
@@ -2818,9 +2852,9 @@ export const RequestsPage = () => {
                                     <p className="text-[16px] text-slate-400 font-medium">We'll automatically extract your brand colors from the logo</p>
                                 </div>
 
-                                <div className="border-2 border-dashed border-slate-200 rounded-[32px] p-24 text-center space-y-6 hover:border-indigo-400 hover:bg-slate-50 transition-all cursor-pointer group">
-                                    <div className="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center mx-auto group-hover:scale-110 transition-transform">
-                                        <UploadCloud className="w-8 h-8 text-slate-300 group-hover:text-indigo-500 transition-colors" />
+                                <div className="border-2 border-dashed border-border rounded-[32px] p-24 text-center space-y-6 hover:border-primary/80 hover:bg-transparent transition-all cursor-pointer group">
+                                    <div className="w-16 h-16 bg-transparent rounded-2xl flex items-center justify-center mx-auto group-hover:scale-110 transition-transform">
+                                        <UploadCloud className="w-8 h-8 text-slate-300 group-hover:text-primary/80 transition-colors" />
                                     </div>
                                     <div className="space-y-1">
                                         <h4 className="text-[18px] font-black text-slate-600 group-hover:text-slate-800 transition-colors">Drop your logo here, or click to browse</h4>
@@ -2829,10 +2863,10 @@ export const RequestsPage = () => {
                                 </div>
                             </div>
 
-                            <div className="p-8 bg-slate-50/50 border-t border-gray-100 flex items-center justify-end">
+                            <div className="p-8 bg-transparent/50 border-t border-gray-100 flex items-center justify-end">
                                 <button 
                                     onClick={() => setIsBrandingModalOpen(false)}
-                                    className="px-8 py-3 bg-white border border-slate-200 text-slate-600 text-[14px] font-bold rounded-2xl hover:bg-slate-50 transition-all shadow-sm"
+                                    className="px-8 py-3 bg-card border border-border text-slate-600 text-[14px] font-bold rounded-2xl hover:bg-transparent transition-all shadow-sm"
                                 >
                                     Cancel
                                 </button>
@@ -2855,14 +2889,14 @@ export const RequestsPage = () => {
                             initial={{ opacity: 0, scale: 0.95, y: 20 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                            className="relative w-full max-w-[800px] bg-white rounded-2xl shadow-2xl overflow-hidden z-10 flex flex-col"
+                            className="relative w-full max-w-[800px] bg-card rounded-2xl shadow-2xl overflow-hidden z-10 flex flex-col"
                         >
                             {/* Header */}
                             <div className="px-8 py-5 border-b border-gray-100 flex items-center justify-between">
-                                <h2 className="text-[20px] font-semibold text-gray-900 leading-tight">Create Request</h2>
+                                <h2 className="text-[20px] font-semibold text-foreground leading-tight">Create Request</h2>
                                 <button 
                                     onClick={() => setIsCreateModalOpen(false)} 
-                                    className="p-2 hover:bg-gray-100 rounded-full transition-colors group"
+                                    className="p-2 hover:bg-muted rounded-full transition-colors group"
                                 >
                                     <Plus className="w-6 h-6 rotate-45 text-gray-400 group-hover:text-gray-600 transition-colors" />
                                 </button>
@@ -2873,7 +2907,7 @@ export const RequestsPage = () => {
                                 <div className="space-y-6">
                                     {fieldSettings.title?.create !== 'Hidden' && (
                                         <div className="space-y-1.5">
-                                            <label className="text-[13px] font-medium text-gray-700 flex items-center">
+                                            <label className="text-[13px] font-medium text-foreground/90 flex items-center">
                                                 Title {fieldSettings.title?.create === 'Required' && <span className="text-red-500 ml-1">*</span>}
                                             </label>
                                             <input 
@@ -2881,10 +2915,10 @@ export const RequestsPage = () => {
                                                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                                                 placeholder=""
                                                 className={cn(
-                                                    "w-full h-10 bg-white border rounded-md px-3 text-sm text-gray-900 focus:outline-none focus:ring-2 transition-all placeholder:text-gray-400 shadow-sm",
+                                                    "w-full h-10 bg-card border rounded-md px-3 text-sm text-foreground focus:outline-none focus:ring-2 transition-all placeholder:text-gray-400 shadow-sm",
                                                     fieldSettings.title?.create === 'Required' && !formData.title 
                                                         ? "border-red-500 focus:border-red-500 focus:ring-red-500/20" 
-                                                        : "border-gray-300 focus:border-indigo-500 focus:ring-indigo-500/20"
+                                                        : "border-gray-300 focus:border-primary/80 focus:ring-primary/20"
                                                 )}
                                             />
                                             <p className="text-[12px] text-gray-400 mt-1">Summarize the problem or issue</p>
@@ -2893,25 +2927,25 @@ export const RequestsPage = () => {
 
                                     {fieldSettings.description?.create !== 'Hidden' && (
                                         <div className="space-y-1.5">
-                                            <label className="text-[13px] font-medium text-gray-700">
+                                            <label className="text-[13px] font-medium text-foreground/90">
                                                 Description {fieldSettings.description?.create === 'Required' && <span className="text-red-500 ml-1">*</span>}
                                             </label>
                                             <textarea 
                                                 value={formData.description}
                                                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                                                 rows={4}
-                                                className="w-full bg-white border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all placeholder:text-gray-400 shadow-sm resize-none"
+                                                className="w-full bg-card border border-gray-300 rounded-md px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/80 transition-all placeholder:text-gray-400 shadow-sm resize-none"
                                             />
                                         </div>
                                     )}
 
                                     {fieldSettings.priority?.create !== 'Hidden' && (
                                         <div className="space-y-1.5">
-                                            <label className="text-[13px] font-medium text-gray-700">Priority</label>
+                                            <label className="text-[13px] font-medium text-foreground/90">Priority</label>
                                             <select 
                                                 value={formData.priority}
                                                 onChange={(e) => setFormData({ ...formData, priority: e.target.value })}
-                                                className="w-full h-10 bg-white border border-gray-300 rounded-md px-3 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all appearance-none cursor-pointer shadow-sm relative bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%236B7280%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E')] bg-[length:0.6rem_auto] bg-[right_12px_center] bg-no-repeat"
+                                                className="w-full h-10 bg-card border border-gray-300 rounded-md px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/80 transition-all appearance-none cursor-pointer shadow-sm relative bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%236B7280%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E')] bg-[length:0.6rem_auto] bg-[right_12px_center] bg-no-repeat"
                                             >
                                                 <option value="NONE">None</option>
                                                 <option value="LOW">Low</option>
@@ -2924,13 +2958,13 @@ export const RequestsPage = () => {
 
                                     {fieldSettings.location?.create !== 'Hidden' && (
                                         <div className="space-y-1.5">
-                                            <label className="text-[13px] font-medium text-gray-700">
+                                            <label className="text-[13px] font-medium text-foreground/90">
                                                 Operational Location {fieldSettings.location?.create === 'Required' && <span className="text-red-500 ml-1">*</span>}
                                             </label>
                                             <select 
                                                 value={formData.locationId}
                                                 onChange={(e) => setFormData({ ...formData, locationId: e.target.value })}
-                                                className="w-full h-10 bg-white border border-gray-300 rounded-md px-3 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all appearance-none cursor-pointer shadow-sm relative bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%236B7280%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E')] bg-[length:0.6rem_auto] bg-[right_12px_center] bg-no-repeat"
+                                                className="w-full h-10 bg-card border border-gray-300 rounded-md px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/80 transition-all appearance-none cursor-pointer shadow-sm relative bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%236B7280%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E')] bg-[length:0.6rem_auto] bg-[right_12px_center] bg-no-repeat"
                                             >
                                                 <option value="">Select Location...</option>
                                                 {locations.map((l: any) => (
@@ -2945,12 +2979,12 @@ export const RequestsPage = () => {
                                             <label className="text-[11px] font-black uppercase tracking-widest text-slate-400">Additional Tasks</label>
                                             <div className="grid grid-cols-1 gap-2">
                                                 {formTasks.map(task => (
-                                                    <div key={task.id} className="flex items-center gap-3 p-3 bg-slate-50 rounded-xl border border-slate-100">
+                                                    <div key={task.id} className="flex items-center gap-3 p-3 bg-transparent rounded-xl border border-slate-100">
                                                         <input 
                                                             type="checkbox" 
                                                             checked={!!taskResponses[task.id]}
                                                             onChange={() => toggleTaskResponse(task.id)}
-                                                            className="w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" 
+                                                            className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary" 
                                                         />
                                                         <span className="text-sm font-bold text-slate-600">{task.label}</span>
                                                     </div>
@@ -2961,13 +2995,13 @@ export const RequestsPage = () => {
 
                                     {fieldSettings.asset?.create !== 'Hidden' && (
                                         <div className="space-y-1.5">
-                                            <label className="text-[13px] font-medium text-gray-700">
+                                            <label className="text-[13px] font-medium text-foreground/90">
                                                 Asset {fieldSettings.asset?.create === 'Required' && <span className="text-red-500 ml-1">*</span>}
                                             </label>
                                             <select
                                                 value={formData.assetId}
                                                 onChange={(e) => setFormData({ ...formData, assetId: e.target.value })}
-                                                className="w-full h-10 bg-white border border-gray-300 rounded-md px-3 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all appearance-none cursor-pointer shadow-sm relative bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%236B7280%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E')] bg-[length:0.6rem_auto] bg-[right_12px_center] bg-no-repeat"
+                                                className="w-full h-10 bg-card border border-gray-300 rounded-md px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/80 transition-all appearance-none cursor-pointer shadow-sm relative bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%236B7280%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E')] bg-[length:0.6rem_auto] bg-[right_12px_center] bg-no-repeat"
                                             >
                                                 <option value="">Select Asset...</option>
                                                 {assets.map((a: any) => (
@@ -2979,8 +3013,8 @@ export const RequestsPage = () => {
 
                                     {fieldSettings.images?.create !== 'Hidden' && (
                                         <div className="space-y-1.5">
-                                            <label className="text-[13px] font-medium text-gray-700">Image</label>
-                                            <div className="border border-dashed border-gray-300 rounded-lg p-5 bg-white relative group transition-all hover:border-indigo-400">
+                                            <label className="text-[13px] font-medium text-foreground/90">Image</label>
+                                            <div className="border border-dashed border-gray-300 rounded-lg p-5 bg-card relative group transition-all hover:border-primary/80">
                                                 <input 
                                                     type="file"
                                                     className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
@@ -2988,7 +3022,7 @@ export const RequestsPage = () => {
                                                     accept="image/*"
                                                 />
                                                 <div className="flex items-center gap-3">
-                                                    <button type="button" className="px-4 py-1.5 bg-white border border-gray-300 rounded-md text-[13px] font-medium text-gray-700 hover:bg-gray-50 transition-colors shadow-sm whitespace-nowrap z-0">
+                                                    <button type="button" className="px-4 py-1.5 bg-card border border-gray-300 rounded-md text-[13px] font-medium text-foreground/90 hover:bg-muted/50 transition-colors shadow-sm whitespace-nowrap z-0">
                                                         Upload
                                                     </button>
                                                     <span className="text-[13px] text-gray-400 font-medium">
@@ -3004,15 +3038,15 @@ export const RequestsPage = () => {
 
                                     {fieldSettings.files?.create !== 'Hidden' && (
                                         <div className="space-y-1.5">
-                                            <label className="text-[13px] font-medium text-gray-700">Files</label>
-                                            <div className="border border-dashed border-gray-300 rounded-lg p-5 bg-white relative group transition-all hover:border-indigo-400">
+                                            <label className="text-[13px] font-medium text-foreground/90">Files</label>
+                                            <div className="border border-dashed border-gray-300 rounded-lg p-5 bg-card relative group transition-all hover:border-primary/80">
                                                 <input 
                                                     type="file"
                                                     className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                                                     onChange={(e) => setSelectedFile(e.target.files?.[0] || null)}
                                                 />
                                                 <div className="flex items-center gap-3">
-                                                    <button type="button" className="px-4 py-1.5 bg-white border border-gray-300 rounded-md text-[13px] font-medium text-gray-700 hover:bg-gray-50 transition-colors shadow-sm whitespace-nowrap z-0">
+                                                    <button type="button" className="px-4 py-1.5 bg-card border border-gray-300 rounded-md text-[13px] font-medium text-foreground/90 hover:bg-muted/50 transition-colors shadow-sm whitespace-nowrap z-0">
                                                         Upload
                                                     </button>
                                                     <span className="text-[13px] text-gray-400 font-medium">
@@ -3032,14 +3066,14 @@ export const RequestsPage = () => {
                             <div className="px-8 py-5 bg-gray-50/50 border-t border-gray-100 flex items-center justify-between">
                                 <button 
                                     onClick={() => setIsCreateModalOpen(false)} 
-                                    className="px-5 py-2.5 bg-white border border-gray-300 text-gray-700 text-[13px] font-medium rounded-md hover:bg-gray-50 transition-colors shadow-sm"
+                                    className="px-5 py-2.5 bg-card border border-gray-300 text-foreground/90 text-[13px] font-medium rounded-md hover:bg-muted/50 transition-colors shadow-sm"
                                 >
                                     Cancel
                                 </button>
                                 <button 
                                     disabled={createRequest.isPending || !formData.title}
                                     onClick={() => createRequest.mutate(formData)}
-                                    className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-md text-[13px] font-medium transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="px-6 py-2.5 bg-primary hover:bg-primary/90 text-white rounded-md text-[13px] font-medium transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     {createRequest.isPending ? 'Submitting...' : 'Submit Request'}
                                 </button>
@@ -3063,17 +3097,17 @@ export const RequestsPage = () => {
                             initial={{ opacity: 0, scale: 0.98, y: 15 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.98, y: 15 }}
-                            className="relative w-full max-w-[1100px] h-[90vh] max-h-[850px] bg-white rounded-2xl shadow-2xl overflow-hidden z-10 flex flex-col font-outfit"
+                            className="relative w-full max-w-[1100px] h-[90vh] max-h-[850px] bg-card rounded-2xl shadow-2xl overflow-hidden z-10 flex flex-col font-outfit"
                         >
                             {/* Modal Header */}
-                            <div className="px-8 py-5 border-b border-gray-100 flex items-center justify-between shrink-0 bg-white">
+                            <div className="px-8 py-5 border-b border-gray-100 flex items-center justify-between shrink-0 bg-card">
                                 <div className="flex items-center gap-3">
                                     {!isReadOnly && (
-                                        <span className="px-3 py-1 bg-indigo-50 text-indigo-700 text-xs font-black uppercase tracking-wider rounded-md">
+                                        <span className="px-3 py-1 bg-primary/10 text-primary/90 text-xs font-black uppercase tracking-wider rounded-md">
                                             REQ-{selectedRequest.id.split('-')[0].toUpperCase()}
                                         </span>
                                     )}
-                                    <h2 className="text-[20px] font-semibold text-gray-900 leading-tight">
+                                    <h2 className="text-[20px] font-semibold text-foreground leading-tight">
                                         {isReadOnly ? `Request #${selectedRequest.id.split('-')[0].toUpperCase()}` : 'Request Details'}
                                     </h2>
                                 </div>
@@ -3081,7 +3115,7 @@ export const RequestsPage = () => {
                                     {/* PDF Options */}
                                     <div className="relative">
                                         <select 
-                                            className="bg-gray-50 border border-gray-200 rounded-lg px-4 py-2 text-xs font-bold text-gray-600 outline-none appearance-none pr-8 cursor-pointer hover:bg-gray-100 transition-colors"
+                                            className="bg-muted/50 border border-border rounded-lg px-4 py-2 text-xs font-bold text-gray-600 outline-none appearance-none pr-8 cursor-pointer hover:bg-muted transition-colors"
                                             defaultValue="pdf"
                                         >
                                             <option value="pdf">PDF Options</option>
@@ -3094,7 +3128,7 @@ export const RequestsPage = () => {
                                     </div>
                                     <button 
                                         onClick={handleCloseDetailModal} 
-                                        className="p-2 hover:bg-gray-100 rounded-full transition-colors group"
+                                        className="p-2 hover:bg-muted rounded-full transition-colors group"
                                     >
                                         <Plus className="w-6 h-6 rotate-45 text-gray-400 group-hover:text-gray-600 transition-colors" />
                                     </button>
@@ -3113,7 +3147,7 @@ export const RequestsPage = () => {
                                                 <Check className="w-3.5 h-3.5 stroke-[3.5]" />
                                             </div>
                                             <span className="text-[14px] font-medium text-emerald-800">
-                                                This request was approved and turned into Work Order <span className="text-blue-600 font-bold">#{selectedRequest.workOrder?.id?.split('-')[0].toUpperCase()}</span>
+                                                This request was approved and turned into Work Order <span className="text-primary font-bold">#{selectedRequest.workOrder?.id?.split('-')[0].toUpperCase()}</span>
                                             </span>
                                         </div>
                                     )}
@@ -3121,7 +3155,7 @@ export const RequestsPage = () => {
                                     {/* Title */}
                                     {fieldSettings.title?.approve !== 'Hidden' && (
                                     <div className="space-y-1.5">
-                                        <label className="text-[13px] font-bold text-gray-700 flex items-center">
+                                        <label className="text-[13px] font-bold text-foreground/90 flex items-center">
                                             Title {fieldSettings.title?.approve === 'Required' && <span className="text-red-500 ml-1">*</span>}
                                         </label>
                                         <input 
@@ -3129,7 +3163,7 @@ export const RequestsPage = () => {
                                             onChange={(e) => setDetailTitle(e.target.value)}
                                             placeholder="Request title..."
                                             disabled={isReadOnly}
-                                            className="w-full h-10 bg-white border border-gray-300 rounded-md px-3 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all shadow-sm font-medium disabled:bg-gray-50 disabled:text-gray-500 disabled:border-gray-200"
+                                            className="w-full h-10 bg-card border border-gray-300 rounded-md px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/80 transition-all shadow-sm font-medium disabled:bg-muted/50 disabled:text-muted-foreground disabled:border-border"
                                         />
                                     </div>
                                     )}
@@ -3137,7 +3171,7 @@ export const RequestsPage = () => {
                                     {/* Description */}
                                     {fieldSettings.description?.approve !== 'Hidden' && (
                                     <div className="space-y-1.5">
-                                        <label className="text-[13px] font-bold text-gray-700">
+                                        <label className="text-[13px] font-bold text-foreground/90">
                                             Description {fieldSettings.description?.approve === 'Required' && <span className="text-red-500 ml-1">*</span>}
                                         </label>
                                         <textarea 
@@ -3146,7 +3180,7 @@ export const RequestsPage = () => {
                                             placeholder="Add detailed description here..."
                                             rows={4}
                                             disabled={isReadOnly}
-                                            className="w-full bg-white border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all shadow-sm resize-none font-medium disabled:bg-gray-50 disabled:text-gray-500 disabled:border-gray-200"
+                                            className="w-full bg-card border border-gray-300 rounded-md px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/80 transition-all shadow-sm resize-none font-medium disabled:bg-muted/50 disabled:text-muted-foreground disabled:border-border"
                                         />
                                     </div>
                                     )}
@@ -3154,7 +3188,7 @@ export const RequestsPage = () => {
                                     {/* Priority Select */}
                                     {fieldSettings.priority?.approve !== 'Hidden' && (
                                     <div className="space-y-1.5">
-                                        <label className="text-[13px] font-bold text-gray-700">
+                                        <label className="text-[13px] font-bold text-foreground/90">
                                             Priority {fieldSettings.priority?.approve === 'Required' && <span className="text-red-500 ml-1">*</span>}
                                         </label>
                                         <div className="relative">
@@ -3162,7 +3196,7 @@ export const RequestsPage = () => {
                                                 value={detailPriority}
                                                 onChange={(e) => setDetailPriority(e.target.value)}
                                                 disabled={isReadOnly}
-                                                className="w-full h-10 bg-white border border-gray-300 rounded-md px-3 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all appearance-none cursor-pointer shadow-sm pr-10 font-medium disabled:bg-gray-50 disabled:text-gray-500 disabled:border-gray-200"
+                                                className="w-full h-10 bg-card border border-gray-300 rounded-md px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/80 transition-all appearance-none cursor-pointer shadow-sm pr-10 font-medium disabled:bg-muted/50 disabled:text-muted-foreground disabled:border-border"
                                             >
                                                 <option value="NONE">None</option>
                                                 <option value="LOW">Low</option>
@@ -3180,19 +3214,19 @@ export const RequestsPage = () => {
                                     {/* Image Upload Dropzone */}
                                     {fieldSettings.images?.approve !== 'Hidden' && (
                                     <div className="space-y-1.5">
-                                        <label className="text-[13px] font-bold text-gray-700">
+                                        <label className="text-[13px] font-bold text-foreground/90">
                                             Image {fieldSettings.images?.approve === 'Required' && <span className="text-red-500 ml-1">*</span>}
                                         </label>
                                         {detailImageUrl ? (
-                                            <div className="relative border border-gray-200 rounded-lg p-3 bg-gray-50 flex items-center justify-between group">
+                                            <div className="relative border border-border rounded-lg p-3 bg-muted/50 flex items-center justify-between group">
                                                 <div className="flex items-center gap-3">
                                                     <img 
                                                         src={detailImageUrl.startsWith('/files') ? `http://localhost:3000${detailImageUrl}` : detailImageUrl} 
                                                         alt="Request Thumbnail" 
-                                                        className="w-12 h-12 object-cover rounded-md border border-gray-200 bg-white" 
+                                                        className="w-12 h-12 object-cover rounded-md border border-border bg-card" 
                                                     />
                                                     <div>
-                                                        <p className="text-xs font-bold text-gray-700">Attached Image</p>
+                                                        <p className="text-xs font-bold text-foreground/90">Attached Image</p>
                                                         <button 
                                                             onClick={() => setDetailImageUrl('')}
                                                             className="text-[11px] text-red-500 hover:underline font-bold"
@@ -3204,8 +3238,8 @@ export const RequestsPage = () => {
                                             </div>
                                         ) : (
                                             <div className={cn(
-                                                "border border-dashed border-gray-300 rounded-lg p-5 bg-white relative group transition-all hover:border-indigo-400",
-                                                isReadOnly && "bg-gray-50 border-gray-200 pointer-events-none"
+                                                "border border-dashed border-gray-300 rounded-lg p-5 bg-card relative group transition-all hover:border-primary/80",
+                                                isReadOnly && "bg-muted/50 border-border pointer-events-none"
                                             )}>
                                                 {!isReadOnly && (
                                                     <input 
@@ -3222,7 +3256,7 @@ export const RequestsPage = () => {
                                                     />
                                                 )}
                                                 <div className="flex items-center gap-3">
-                                                    <button type="button" disabled={isReadOnly} className="px-4 py-1.5 bg-white border border-gray-300 rounded-md text-[13px] font-medium text-gray-700 hover:bg-gray-50 transition-colors shadow-sm whitespace-nowrap z-0 disabled:bg-gray-50 disabled:text-gray-400 disabled:border-gray-200">
+                                                    <button type="button" disabled={isReadOnly} className="px-4 py-1.5 bg-card border border-gray-300 rounded-md text-[13px] font-medium text-foreground/90 hover:bg-muted/50 transition-colors shadow-sm whitespace-nowrap z-0 disabled:bg-muted/50 disabled:text-gray-400 disabled:border-border">
                                                         Upload Image
                                                     </button>
                                                     <span className="text-[13px] text-gray-400 font-medium">
@@ -3239,7 +3273,7 @@ export const RequestsPage = () => {
                                     <div className="grid grid-cols-2 gap-6">
                                         {fieldSettings.start?.approve !== 'Hidden' && (
                                         <div className="space-y-1.5">
-                                            <label className="text-[13px] font-bold text-gray-700">
+                                            <label className="text-[13px] font-bold text-foreground/90">
                                                 Start Date {fieldSettings.start?.approve === 'Required' && <span className="text-red-500 ml-1">*</span>}
                                             </label>
                                             <div className="flex gap-2">
@@ -3249,7 +3283,7 @@ export const RequestsPage = () => {
                                                         value={detailStartDate}
                                                         onChange={(e) => setDetailStartDate(e.target.value)}
                                                         disabled={isReadOnly}
-                                                        className="w-full h-10 bg-white border border-gray-300 rounded-md pl-9 pr-3 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all font-medium disabled:bg-gray-50 disabled:text-gray-500 disabled:border-gray-200"
+                                                        className="w-full h-10 bg-card border border-gray-300 rounded-md pl-9 pr-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/80 transition-all font-medium disabled:bg-muted/50 disabled:text-muted-foreground disabled:border-border"
                                                     />
                                                     <Calendar className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
                                                 </div>
@@ -3259,7 +3293,7 @@ export const RequestsPage = () => {
                                                         value={detailStartTime}
                                                         onChange={(e) => setDetailStartTime(e.target.value)}
                                                         disabled={isReadOnly}
-                                                        className="w-full h-10 bg-white border border-gray-300 rounded-md pl-9 pr-3 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all font-medium disabled:bg-gray-50 disabled:text-gray-500 disabled:border-gray-200"
+                                                        className="w-full h-10 bg-card border border-gray-300 rounded-md pl-9 pr-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/80 transition-all font-medium disabled:bg-muted/50 disabled:text-muted-foreground disabled:border-border"
                                                     />
                                                     <Clock className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
                                                 </div>
@@ -3269,7 +3303,7 @@ export const RequestsPage = () => {
 
                                         {fieldSettings.dueDate?.approve !== 'Hidden' && (
                                         <div className="space-y-1.5">
-                                            <label className="text-[13px] font-bold text-gray-700">
+                                            <label className="text-[13px] font-bold text-foreground/90">
                                                 Due Date {fieldSettings.dueDate?.approve === 'Required' && <span className="text-red-500 ml-1">*</span>}
                                             </label>
                                             <div className="flex gap-2">
@@ -3279,7 +3313,7 @@ export const RequestsPage = () => {
                                                         value={detailDueDate}
                                                         onChange={(e) => setDetailDueDate(e.target.value)}
                                                         disabled={isReadOnly}
-                                                        className="w-full h-10 bg-white border border-gray-300 rounded-md pl-9 pr-3 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all font-medium disabled:bg-gray-50 disabled:text-gray-500 disabled:border-gray-200"
+                                                        className="w-full h-10 bg-card border border-gray-300 rounded-md pl-9 pr-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/80 transition-all font-medium disabled:bg-muted/50 disabled:text-muted-foreground disabled:border-border"
                                                     />
                                                     <Calendar className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
                                                 </div>
@@ -3289,7 +3323,7 @@ export const RequestsPage = () => {
                                                         value={detailDueTime}
                                                         onChange={(e) => setDetailDueTime(e.target.value)}
                                                         disabled={isReadOnly}
-                                                        className="w-full h-10 bg-white border border-gray-300 rounded-md pl-9 pr-3 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all font-medium disabled:bg-gray-50 disabled:text-gray-500 disabled:border-gray-200"
+                                                        className="w-full h-10 bg-card border border-gray-300 rounded-md pl-9 pr-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/80 transition-all font-medium disabled:bg-muted/50 disabled:text-muted-foreground disabled:border-border"
                                                     />
                                                     <Clock className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
                                                 </div>
@@ -3302,7 +3336,7 @@ export const RequestsPage = () => {
                                     {/* Category Select */}
                                     {fieldSettings.category?.approve !== 'Hidden' && (
                                     <div className="space-y-1.5">
-                                        <label className="text-[13px] font-bold text-gray-700">
+                                        <label className="text-[13px] font-bold text-foreground/90">
                                             Category {fieldSettings.category?.approve === 'Required' && <span className="text-red-500 ml-1">*</span>}
                                         </label>
                                         <div className="relative">
@@ -3310,7 +3344,7 @@ export const RequestsPage = () => {
                                                 value={detailCategory}
                                                 onChange={(e) => setDetailCategory(e.target.value)}
                                                 disabled={isReadOnly}
-                                                className="w-full h-10 bg-white border border-gray-300 rounded-md px-3 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all appearance-none cursor-pointer shadow-sm pr-10 font-medium disabled:bg-gray-50 disabled:text-gray-500 disabled:border-gray-200"
+                                                className="w-full h-10 bg-card border border-gray-300 rounded-md px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/80 transition-all appearance-none cursor-pointer shadow-sm pr-10 font-medium disabled:bg-muted/50 disabled:text-muted-foreground disabled:border-border"
                                             >
                                                 <option value="">Select Category...</option>
                                                 {categories.map((cat: any) => (
@@ -3327,7 +3361,7 @@ export const RequestsPage = () => {
                                     {/* Operational Location */}
                                     {fieldSettings.location?.approve !== 'Hidden' && (
                                     <div className="space-y-1.5">
-                                        <label className="text-[13px] font-bold text-gray-700">
+                                        <label className="text-[13px] font-bold text-foreground/90">
                                             Location {fieldSettings.location?.approve === 'Required' && <span className="text-red-500 ml-1">*</span>}
                                         </label>
                                         <div className="relative">
@@ -3335,7 +3369,7 @@ export const RequestsPage = () => {
                                                 value={detailLocationId}
                                                 onChange={(e) => setDetailLocationId(e.target.value)}
                                                 disabled={isReadOnly}
-                                                className="w-full h-10 bg-white border border-gray-300 rounded-md px-3 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all appearance-none cursor-pointer shadow-sm pr-10 font-medium disabled:bg-gray-50 disabled:text-gray-500 disabled:border-gray-200"
+                                                className="w-full h-10 bg-card border border-gray-300 rounded-md px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/80 transition-all appearance-none cursor-pointer shadow-sm pr-10 font-medium disabled:bg-muted/50 disabled:text-muted-foreground disabled:border-border"
                                             >
                                                 <option value="">Select Location...</option>
                                                 {locations.map((loc: any) => (
@@ -3352,7 +3386,7 @@ export const RequestsPage = () => {
                                     {/* Asset */}
                                     {fieldSettings.asset?.approve !== 'Hidden' && (
                                     <div className="space-y-1.5">
-                                        <label className="text-[13px] font-bold text-gray-700">
+                                        <label className="text-[13px] font-bold text-foreground/90">
                                             Asset {fieldSettings.asset?.approve === 'Required' && <span className="text-red-500 ml-1">*</span>}
                                         </label>
                                         <div className="relative">
@@ -3360,7 +3394,7 @@ export const RequestsPage = () => {
                                                 value={detailAssetId}
                                                 onChange={(e) => setDetailAssetId(e.target.value)}
                                                 disabled={isReadOnly}
-                                                className="w-full h-10 bg-white border border-gray-300 rounded-md px-3 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all appearance-none cursor-pointer shadow-sm pr-10 font-medium disabled:bg-gray-50 disabled:text-gray-500 disabled:border-gray-200"
+                                                className="w-full h-10 bg-card border border-gray-300 rounded-md px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/80 transition-all appearance-none cursor-pointer shadow-sm pr-10 font-medium disabled:bg-muted/50 disabled:text-muted-foreground disabled:border-border"
                                             >
                                                 <option value="">Select Asset...</option>
                                                 {assets.map((asset: any) => (
@@ -3377,16 +3411,16 @@ export const RequestsPage = () => {
                                     {/* Primary Worker */}
                                     {fieldSettings.worker?.approve !== 'Hidden' && (
                                     <div className="space-y-1.5">
-                                        <label className="text-[13px] font-bold text-gray-700">
+                                        <label className="text-[13px] font-bold text-foreground/90">
                                             Primary Worker {fieldSettings.worker?.approve === 'Required' && <span className="text-red-500 ml-1">*</span>}
                                         </label>
                                         <div className="relative flex gap-3 items-center">
                                             {detailPrimaryWorkerId ? (
-                                                <div className="w-9 h-9 rounded-full bg-indigo-50 border border-indigo-100 flex items-center justify-center text-xs font-bold text-indigo-700 uppercase shrink-0">
+                                                <div className="w-9 h-9 rounded-full bg-primary/10 border border-primary/10 flex items-center justify-center text-xs font-bold text-primary/90 uppercase shrink-0">
                                                     {users.find(u => u.userOrgId === detailPrimaryWorkerId)?.name?.charAt(0) || 'U'}
                                                 </div>
                                             ) : (
-                                                <div className="w-9 h-9 rounded-full bg-gray-50 border border-gray-200 flex items-center justify-center text-xs font-bold text-gray-400 shrink-0">
+                                                <div className="w-9 h-9 rounded-full bg-muted/50 border border-border flex items-center justify-center text-xs font-bold text-gray-400 shrink-0">
                                                     ?
                                                 </div>
                                             )}
@@ -3395,7 +3429,7 @@ export const RequestsPage = () => {
                                                     value={detailPrimaryWorkerId}
                                                     onChange={(e) => setDetailPrimaryWorkerId(e.target.value)}
                                                     disabled={isReadOnly}
-                                                    className="w-full h-10 bg-white border border-gray-300 rounded-md px-3 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all appearance-none cursor-pointer shadow-sm pr-10 font-medium disabled:bg-gray-50 disabled:text-gray-500 disabled:border-gray-200"
+                                                    className="w-full h-10 bg-card border border-gray-300 rounded-md px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/80 transition-all appearance-none cursor-pointer shadow-sm pr-10 font-medium disabled:bg-muted/50 disabled:text-muted-foreground disabled:border-border"
                                                 >
                                                     <option value="">Select Primary Worker...</option>
                                                     {users.map((u: any) => (
@@ -3413,7 +3447,7 @@ export const RequestsPage = () => {
                                     {/* Additional Workers */}
                                     {fieldSettings.additional?.approve !== 'Hidden' && (
                                     <div className="space-y-1.5">
-                                        <label className="text-[13px] font-bold text-gray-700">
+                                        <label className="text-[13px] font-bold text-foreground/90">
                                             Additional Workers {fieldSettings.additional?.approve === 'Required' && <span className="text-red-500 ml-1">*</span>}
                                         </label>
                                         <div className="relative">
@@ -3421,7 +3455,7 @@ export const RequestsPage = () => {
                                                 value={detailAdditionalWorkerId}
                                                 onChange={(e) => setDetailAdditionalWorkerId(e.target.value)}
                                                 disabled={isReadOnly}
-                                                className="w-full h-10 bg-white border border-gray-300 rounded-md px-3 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all appearance-none cursor-pointer shadow-sm pr-10 font-medium disabled:bg-gray-50 disabled:text-gray-500 disabled:border-gray-200"
+                                                className="w-full h-10 bg-card border border-gray-300 rounded-md px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/80 transition-all appearance-none cursor-pointer shadow-sm pr-10 font-medium disabled:bg-muted/50 disabled:text-muted-foreground disabled:border-border"
                                             >
                                                 <option value="">Select Additional Workers...</option>
                                                 {users.map((u: any) => (
@@ -3438,7 +3472,7 @@ export const RequestsPage = () => {
                                     {/* Team */}
                                     {fieldSettings.team?.approve !== 'Hidden' && (
                                     <div className="space-y-1.5">
-                                        <label className="text-[13px] font-bold text-gray-700">
+                                        <label className="text-[13px] font-bold text-foreground/90">
                                             Team {fieldSettings.team?.approve === 'Required' && <span className="text-red-500 ml-1">*</span>}
                                         </label>
                                         <div className="relative">
@@ -3446,7 +3480,7 @@ export const RequestsPage = () => {
                                                 value={detailTeamId}
                                                 onChange={(e) => setDetailTeamId(e.target.value)}
                                                 disabled={isReadOnly}
-                                                className="w-full h-10 bg-white border border-gray-300 rounded-md px-3 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all appearance-none cursor-pointer shadow-sm pr-10 font-medium disabled:bg-gray-50 disabled:text-gray-500 disabled:border-gray-200"
+                                                className="w-full h-10 bg-card border border-gray-300 rounded-md px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/80 transition-all appearance-none cursor-pointer shadow-sm pr-10 font-medium disabled:bg-muted/50 disabled:text-muted-foreground disabled:border-border"
                                             >
                                                 <option value="">Select Team...</option>
                                                 {teams.map((t: any) => (
@@ -3463,7 +3497,7 @@ export const RequestsPage = () => {
                                     {/* Checklists */}
                                     {fieldSettings.checklists?.approve !== 'Hidden' && (
                                     <div className="space-y-1.5">
-                                        <label className="text-[13px] font-bold text-gray-700">
+                                        <label className="text-[13px] font-bold text-foreground/90">
                                             Checklists {fieldSettings.checklists?.approve === 'Required' && <span className="text-red-500 ml-1">*</span>}
                                         </label>
                                         <div className="relative">
@@ -3471,7 +3505,7 @@ export const RequestsPage = () => {
                                                 value={detailChecklistId}
                                                 onChange={(e) => setDetailChecklistId(e.target.value)}
                                                 disabled={isReadOnly}
-                                                className="w-full h-10 bg-white border border-gray-300 rounded-md px-3 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all appearance-none cursor-pointer shadow-sm pr-10 font-medium disabled:bg-gray-50 disabled:text-gray-500 disabled:border-gray-200"
+                                                className="w-full h-10 bg-card border border-gray-300 rounded-md px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/80 transition-all appearance-none cursor-pointer shadow-sm pr-10 font-medium disabled:bg-muted/50 disabled:text-muted-foreground disabled:border-border"
                                             >
                                                 <option value="">Select Checklist...</option>
                                                 {checklists.map((chk: any) => (
@@ -3488,7 +3522,7 @@ export const RequestsPage = () => {
                                     {/* Estimated Duration */}
                                     {fieldSettings.duration?.approve !== 'Hidden' && (
                                     <div className="space-y-1.5">
-                                        <label className="text-[13px] font-bold text-gray-700">
+                                        <label className="text-[13px] font-bold text-foreground/90">
                                             Estimated Duration (Hours) {fieldSettings.duration?.approve === 'Required' && <span className="text-red-500 ml-1">*</span>}
                                         </label>
                                         <input 
@@ -3496,7 +3530,7 @@ export const RequestsPage = () => {
                                             onChange={(e) => setDetailEstimatedDuration(e.target.value)}
                                             placeholder="e.g. 2.5"
                                             disabled={isReadOnly}
-                                            className="w-full h-10 bg-white border border-gray-300 rounded-md px-3 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all shadow-sm font-medium disabled:bg-gray-50 disabled:text-gray-500 disabled:border-gray-200"
+                                            className="w-full h-10 bg-card border border-gray-300 rounded-md px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/80 transition-all shadow-sm font-medium disabled:bg-muted/50 disabled:text-muted-foreground disabled:border-border"
                                         />
                                     </div>
                                     )}
@@ -3510,9 +3544,9 @@ export const RequestsPage = () => {
                                             checked={detailSignatureRequired}
                                             onChange={(e) => setDetailSignatureRequired(e.target.checked)}
                                             disabled={isReadOnly}
-                                            className="w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer disabled:bg-gray-50 disabled:border-gray-200" 
+                                            className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer disabled:bg-muted/50 disabled:border-border" 
                                         />
-                                        <label htmlFor="detailSignatureRequired" className="text-sm font-bold text-gray-700 cursor-pointer select-none">
+                                        <label htmlFor="detailSignatureRequired" className="text-sm font-bold text-foreground/90 cursor-pointer select-none">
                                             Signature Required upon Completion {fieldSettings.signature?.approve === 'Required' && <span className="text-red-500 ml-1">*</span>}
                                         </label>
                                     </div>
@@ -3521,12 +3555,12 @@ export const RequestsPage = () => {
                                     {/* Files dropzone */}
                                     {fieldSettings.files?.approve !== 'Hidden' && (
                                     <div className="space-y-1.5 pt-4">
-                                        <label className="text-[13px] font-bold text-gray-700">
+                                        <label className="text-[13px] font-bold text-foreground/90">
                                             Files {fieldSettings.files?.approve === 'Required' && <span className="text-red-500 ml-1">*</span>}
                                         </label>
                                         <div className={cn(
-                                            "border border-dashed border-gray-300 rounded-lg p-5 bg-white relative group transition-all hover:border-indigo-400",
-                                            isReadOnly && "bg-gray-50 border-gray-200 pointer-events-none"
+                                            "border border-dashed border-gray-300 rounded-lg p-5 bg-card relative group transition-all hover:border-primary/80",
+                                            isReadOnly && "bg-muted/50 border-border pointer-events-none"
                                         )}>
                                             {!isReadOnly && (
                                                 <input 
@@ -3541,7 +3575,7 @@ export const RequestsPage = () => {
                                                 />
                                             )}
                                             <div className="flex items-center gap-3">
-                                                <button type="button" disabled={isReadOnly} className="px-4 py-1.5 bg-white border border-gray-300 rounded-md text-[13px] font-medium text-gray-700 hover:bg-gray-50 transition-colors shadow-sm whitespace-nowrap z-0 disabled:bg-gray-50 disabled:text-gray-400 disabled:border-gray-200">
+                                                <button type="button" disabled={isReadOnly} className="px-4 py-1.5 bg-card border border-gray-300 rounded-md text-[13px] font-medium text-foreground/90 hover:bg-muted/50 transition-colors shadow-sm whitespace-nowrap z-0 disabled:bg-muted/50 disabled:text-gray-400 disabled:border-border">
                                                     Upload Files
                                                 </button>
                                                 <span className="text-[13px] text-gray-400 font-medium">
@@ -3554,7 +3588,7 @@ export const RequestsPage = () => {
                                                 <button 
                                                     type="button" 
                                                     onClick={() => toast.success('Saved Files pipeline ready!')}
-                                                    className="text-xs font-bold text-indigo-600 hover:underline hover:text-indigo-800"
+                                                    className="text-xs font-bold text-primary hover:underline hover:text-indigo-800"
                                                 >
                                                     Add from Saved Files
                                                 </button>
@@ -3565,10 +3599,10 @@ export const RequestsPage = () => {
                                 </div>
 
                                 {/* Right Pane (Sticky Sidebar, 40% Width) */}
-                                <div className="w-[40%] flex flex-col bg-slate-50 min-h-0">
+                                <div className="w-[40%] flex flex-col bg-transparent min-h-0">
                                     {/* Sidebar Header */}
-                                    <div className="px-6 py-4 border-b border-gray-200/60 bg-white">
-                                        <h3 className="text-sm font-black uppercase tracking-wider text-slate-700">
+                                    <div className="px-6 py-4 border-b border-gray-200/60 bg-card">
+                                        <h3 className="text-sm font-black uppercase tracking-wider text-foreground/90">
                                             Internal Updates
                                         </h3>
                                     </div>
@@ -3580,7 +3614,7 @@ export const RequestsPage = () => {
                                                 <div className="w-12 h-12 rounded-full bg-slate-200/50 flex items-center justify-center mb-3">
                                                     <Send className="w-5 h-5 text-slate-400 rotate-45 -translate-y-0.5" />
                                                 </div>
-                                                <p className="text-xs font-bold text-slate-500">
+                                                <p className="text-xs font-bold text-muted-foreground">
                                                     No internal updates yet
                                                 </p>
                                                 <p className="text-[11px] text-slate-400 mt-1 max-w-[200px]">
@@ -3589,19 +3623,19 @@ export const RequestsPage = () => {
                                             </div>
                                         ) : (
                                             requestComments[selectedRequestId || ''].map((comment) => (
-                                                <div key={comment.id} className="bg-white border border-gray-200/60 rounded-xl p-4 shadow-sm space-y-3 animate-in fade-in slide-in-from-bottom duration-350">
+                                                <div key={comment.id} className="bg-card border border-gray-200/60 rounded-xl p-4 shadow-sm space-y-3 animate-in fade-in slide-in-from-bottom duration-350">
                                                     <div className="flex items-center gap-3">
-                                                        <div className="w-8 h-8 rounded-full bg-indigo-50 border border-indigo-100 flex items-center justify-center text-xs font-bold text-indigo-700 uppercase shrink-0">
+                                                        <div className="w-8 h-8 rounded-full bg-primary/10 border border-primary/10 flex items-center justify-center text-xs font-bold text-primary/90 uppercase shrink-0">
                                                             {getInitials(comment.sender)}
                                                         </div>
                                                         <div className="flex-1 flex items-center justify-between">
-                                                            <span className="text-xs font-bold text-gray-700 lowercase">{comment.sender}</span>
+                                                            <span className="text-xs font-bold text-foreground/90 lowercase">{comment.sender}</span>
                                                             <span className="text-[10px] text-gray-400 font-bold">
                                                                 {new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true }).format(new Date(comment.timestamp))}
                                                             </span>
                                                         </div>
                                                     </div>
-                                                    <div className="bg-gray-50 border border-gray-100 rounded-2xl px-4 py-2.5 text-xs text-gray-700 font-bold whitespace-pre-wrap">
+                                                    <div className="bg-muted/50 border border-gray-100 rounded-2xl px-4 py-2.5 text-xs text-foreground/90 font-bold whitespace-pre-wrap">
                                                         {comment.text}
                                                     </div>
                                                 </div>
@@ -3610,8 +3644,8 @@ export const RequestsPage = () => {
                                     </div>
 
                                     {/* Sidebar Bottom Input Card */}
-                                    <div className="p-4 bg-white border-t border-gray-100 shrink-0">
-                                        <div className="bg-slate-50 border border-gray-200 rounded-xl p-3 flex flex-col gap-2">
+                                    <div className="p-4 bg-card border-t border-gray-100 shrink-0">
+                                        <div className="bg-transparent border border-border rounded-xl p-3 flex flex-col gap-2">
                                             <textarea 
                                                 value={chatMessage}
                                                 onChange={(e) => setChatMessage(e.target.value)}
@@ -3623,7 +3657,7 @@ export const RequestsPage = () => {
                                                 }}
                                                 placeholder="Write a message..."
                                                 rows={2}
-                                                className="w-full bg-transparent border-none p-0 text-xs text-gray-700 focus:ring-0 placeholder:text-slate-400 font-medium resize-none"
+                                                className="w-full bg-transparent border-none p-0 text-xs text-foreground/90 focus:ring-0 placeholder:text-slate-400 font-medium resize-none"
                                             />
                                             <div className="flex items-center justify-between pt-1 border-t border-gray-200/60">
                                                 <button 
@@ -3636,7 +3670,7 @@ export const RequestsPage = () => {
                                                 <button 
                                                     onClick={handleSendComment}
                                                     disabled={!chatMessage.trim()}
-                                                    className="p-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-md"
+                                                    className="p-1.5 bg-primary hover:bg-primary/90 text-white rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-md"
                                                 >
                                                     <Send className="w-3.5 h-3.5" />
                                                 </button>
@@ -3648,7 +3682,7 @@ export const RequestsPage = () => {
 
                             {/* Modal Footer */}
                             {!isReadOnly && (
-                                <div className="px-8 py-4 bg-white border-t border-gray-100 flex items-center justify-between shrink-0">
+                                <div className="px-8 py-4 bg-card border-t border-gray-100 flex items-center justify-between shrink-0">
                                     <button 
                                         onClick={() => {
                                             if (selectedRequestId) {
@@ -3676,7 +3710,7 @@ export const RequestsPage = () => {
                                                 }
                                             }}
                                             disabled={updateRequest.isPending || !detailTitle.trim()}
-                                            className="px-5 py-2.5 bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 text-xs font-bold uppercase tracking-wider rounded-lg transition-all shadow-sm active:scale-95 disabled:opacity-50"
+                                            className="px-5 py-2.5 bg-card border border-gray-300 text-foreground/90 hover:bg-muted/50 text-xs font-bold uppercase tracking-wider rounded-lg transition-all shadow-sm active:scale-95 disabled:opacity-50"
                                         >
                                             Save Without Approving
                                         </button>
@@ -3712,7 +3746,7 @@ export const RequestsPage = () => {
                                                 }
                                             }}
                                             disabled={approveRequest.isPending || !detailTitle.trim()}
-                                            className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold uppercase tracking-wider rounded-lg transition-all shadow-md hover:shadow-indigo-500/30 active:scale-95 disabled:opacity-50"
+                                            className="px-6 py-2.5 bg-primary hover:bg-primary/90 text-white text-xs font-bold uppercase tracking-wider rounded-lg transition-all shadow-md hover:shadow-primary/20 active:scale-95 disabled:opacity-50"
                                         >
                                             {approveRequest.isPending ? 'Spawning Work Order...' : 'Approve Request'}
                                         </button>
@@ -3738,11 +3772,11 @@ export const RequestsPage = () => {
                             initial={{ opacity: 0, scale: 0.95, y: 20 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                            className="relative w-full max-w-[500px] bg-white rounded-3xl shadow-2xl"
+                            className="relative w-full max-w-[500px] bg-card rounded-3xl shadow-2xl"
                         >
                             <div className="p-6 border-b border-gray-100 flex items-center justify-between">
-                                <h3 className="text-[18px] font-bold text-gray-900">Filters</h3>
-                                <button onClick={() => setIsFiltersModalOpen(false)} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
+                                <h3 className="text-[18px] font-bold text-foreground">Filters</h3>
+                                <button onClick={() => setIsFiltersModalOpen(false)} className="p-2 hover:bg-muted rounded-full transition-colors">
                                     <Plus className="w-5 h-5 rotate-45 text-gray-400 hover:text-gray-600" />
                                 </button>
                             </div>
@@ -3751,14 +3785,14 @@ export const RequestsPage = () => {
                                 {activeFilters.length === 0 ? (
                                     <div className="flex flex-col items-center justify-center text-center space-y-4">
                                         <div className="space-y-1">
-                                            <h4 className="text-[15px] font-bold text-gray-900">No filters added yet.</h4>
-                                            <p className="text-[13px] text-gray-500">When you add filters, they'll appear here.</p>
+                                            <h4 className="text-[15px] font-bold text-foreground">No filters added yet.</h4>
+                                            <p className="text-[13px] text-muted-foreground">When you add filters, they'll appear here.</p>
                                         </div>
                                     </div>
                                 ) : (
                                     <div className="space-y-4">
                                         {activeFilters.map((filter, index) => (
-                                            <div key={index} className="flex items-center gap-4 p-4 bg-slate-50 rounded-2xl border border-slate-100 group transition-all hover:border-indigo-200">
+                                            <div key={index} className="flex items-center gap-4 p-4 bg-transparent rounded-2xl border border-slate-100 group transition-all hover:border-primary/20">
                                                 <div className="flex-1">
                                                     <span className="text-[12px] font-black uppercase tracking-widest text-slate-400 block mb-1">{filter.field.replace(/([A-Z])/g, ' $1')}</span>
                                                     <input 
@@ -3770,7 +3804,7 @@ export const RequestsPage = () => {
                                                             setActiveFilters(newFilters);
                                                         }}
                                                         placeholder={`Filter by ${filter.field}...`}
-                                                        className="w-full bg-transparent border-none p-0 text-[14px] font-bold text-slate-700 focus:ring-0 placeholder:text-slate-300"
+                                                        className="w-full bg-transparent border-none p-0 text-[14px] font-bold text-foreground/90 focus:ring-0 placeholder:text-slate-300"
                                                     />
                                                 </div>
                                                 <button 
@@ -3785,11 +3819,11 @@ export const RequestsPage = () => {
                                 )}
                             </div>
 
-                            <div className="p-6 bg-white border-t border-gray-100 flex items-center justify-between rounded-b-3xl">
+                            <div className="p-6 bg-card border-t border-gray-100 flex items-center justify-between rounded-b-3xl">
                                 <div className="relative">
                                     <button 
                                         onClick={() => setIsAddFieldOpen(!isAddFieldOpen)}
-                                        className="flex items-center gap-2 px-3 py-2 text-indigo-600 hover:bg-indigo-50 rounded-xl transition-all font-bold text-[14px]"
+                                        className="flex items-center gap-2 px-3 py-2 text-primary hover:bg-primary/10 rounded-xl transition-all font-bold text-[14px]"
                                     >
                                         <Plus className="w-4 h-4" />
                                         <span>Add Filter</span>
@@ -3804,7 +3838,7 @@ export const RequestsPage = () => {
                                                     initial={{ opacity: 0, y: 10, scale: 0.95 }}
                                                     animate={{ opacity: 1, y: 0, scale: 1 }}
                                                     exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                                                    className="absolute bottom-full left-0 mb-2 w-56 bg-white rounded-2xl shadow-2xl border border-slate-100 z-20 py-2 overflow-hidden"
+                                                    className="absolute bottom-full left-0 mb-2 w-56 bg-card rounded-2xl shadow-2xl border border-slate-100 z-20 py-2 overflow-hidden"
                                                 >
                                                     <div className="px-4 py-2 border-b border-slate-50 mb-1">
                                                         <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Select Field</span>
@@ -3819,7 +3853,7 @@ export const RequestsPage = () => {
                                                                     }
                                                                     setIsAddFieldOpen(false);
                                                                 }}
-                                                                className="w-full px-4 py-2.5 text-left text-[13px] font-bold text-slate-600 hover:bg-slate-50 hover:text-indigo-600 transition-colors flex items-center justify-between group"
+                                                                className="w-full px-4 py-2.5 text-left text-[13px] font-bold text-slate-600 hover:bg-transparent hover:text-primary transition-colors flex items-center justify-between group"
                                                             >
                                                                 {option.label}
                                                                 <Plus className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -3834,13 +3868,13 @@ export const RequestsPage = () => {
                                 <div className="flex gap-3">
                                     <button 
                                         onClick={() => setIsFiltersModalOpen(false)}
-                                        className="px-6 py-2 border border-gray-300 text-gray-700 font-bold text-[14px] rounded-xl hover:bg-gray-50 transition-all"
+                                        className="px-6 py-2 border border-gray-300 text-foreground/90 font-bold text-[14px] rounded-xl hover:bg-muted/50 transition-all"
                                     >
                                         Cancel
                                     </button>
                                     <button 
                                         onClick={() => setIsFiltersModalOpen(false)}
-                                        className="px-6 py-2 bg-indigo-600 text-white font-black text-[14px] rounded-xl shadow-lg shadow-indigo-200 hover:bg-indigo-700 transition-all"
+                                        className="px-6 py-2 bg-primary text-white font-black text-[14px] rounded-xl shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all"
                                     >
                                         Apply
                                     </button>

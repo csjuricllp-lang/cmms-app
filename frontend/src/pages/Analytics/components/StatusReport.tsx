@@ -34,7 +34,7 @@ export const StatusReport = ({ data }: { data: AnalyticsData }) => {
                         { label: 'Deferred', value: data?.backlog?.deferred ?? 0, icon: '⏸' },
                         { label: 'Average Cycle Time (days)', value: summarySafe.avgCycleTimeDays ?? 0, icon: 'ø' },
                     ].map((stat, i) => (
-                        <div key={i} className="bg-white rounded-2xl border border-slate-100 p-8 flex flex-col items-center justify-center text-center shadow-sm">
+                        <div key={i} className="bg-card rounded-2xl border border-slate-100 p-8 flex flex-col items-center justify-center text-center shadow-sm">
                             <div className="flex flex-col items-center gap-1">
                                 <span className="text-[48px] font-black text-slate-800 tracking-tighter flex items-center gap-2">
                                     {stat.icon && <span className="text-[32px] text-slate-300 font-normal">{stat.icon}</span>}
@@ -90,12 +90,12 @@ export const StatusReport = ({ data }: { data: AnalyticsData }) => {
                             <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#FAFAFA" />
                             <XAxis dataKey="name" hide />
                             <YAxis yAxisId="left" orientation="left" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#F59E0B' }} label={{ value: 'Work Order Incomplete Count', angle: -90, position: 'insideLeft', style: { fill: '#F59E0B', fontSize: 10, fontWeight: 'bold' } }} />
-                            <YAxis yAxisId="right" orientation="right" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#6366F1' }} label={{ value: 'Estimated Hours', angle: 90, position: 'insideRight', style: { fill: '#6366F1', fontSize: 10, fontWeight: 'bold' } }} />
+                            <YAxis yAxisId="right" orientation="right" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: 'hsl(var(--primary-raw))' }} label={{ value: 'Estimated Hours', angle: 90, position: 'insideRight', style: { fill: 'hsl(var(--primary-raw))', fontSize: 10, fontWeight: 'bold' } }} />
                             <Tooltip 
                                 contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 30px rgba(0,0,0,0.1)' }}
                             />
                             <Bar yAxisId="left" dataKey="count" fill="#EAB308" opacity={0.7} radius={[4, 4, 0, 0]} barSize={200} />
-                            <Line yAxisId="right" type="monotone" dataKey="estimatedHours" stroke="#6366F1" strokeWidth={0} dot={{ r: 4, fill: '#6366F1', strokeWidth: 0 }} />
+                            <Line yAxisId="right" type="monotone" dataKey="estimatedHours" stroke="#6366F1" strokeWidth={0} dot={{ r: 4, fill: 'hsl(var(--primary-raw))', strokeWidth: 0 }} />
                         </ComposedChart>
                     </ResponsiveContainer>
                 </Widget>
@@ -103,11 +103,11 @@ export const StatusReport = ({ data }: { data: AnalyticsData }) => {
 
             {/* Bottom Row */}
             <div className="grid grid-cols-2 gap-8">
-                <div className="bg-white rounded-2xl border border-slate-100 p-12 flex flex-col items-center justify-center text-center shadow-sm">
+                <div className="bg-card rounded-2xl border border-slate-100 p-12 flex flex-col items-center justify-center text-center shadow-sm">
                     <span className="text-[64px] font-black text-slate-800 tracking-tighter leading-none">{Number(totalsSafe.estimatedHours ?? 0).toFixed(1)}</span>
                     <span className="text-[14px] font-bold text-slate-400 uppercase tracking-widest mt-4">Estimated Hours</span>
                 </div>
-                <div className="bg-white rounded-2xl border border-slate-100 p-12 flex flex-col items-center justify-center text-center shadow-sm">
+                <div className="bg-card rounded-2xl border border-slate-100 p-12 flex flex-col items-center justify-center text-center shadow-sm">
                     <span className="text-[64px] font-black text-slate-800 tracking-tighter leading-none">{Number(totalsSafe.actualHours ?? 0).toFixed(1)}</span>
                     <span className="text-[14px] font-bold text-slate-400 uppercase tracking-widest mt-4">Total Time Spent (hours)</span>
                 </div>

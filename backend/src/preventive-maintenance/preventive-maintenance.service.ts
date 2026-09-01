@@ -182,6 +182,77 @@ export class PreventiveMaintenanceService {
     return results;
   }
 
+  async bulkCreate(data: any[]): Promise<any> {
+    const organizationId = TenancyContext.organizationId;
+    if (!organizationId) throw new Error("No organization ID found");
+    
+    let createdCount = 0;
+    const errors = [];
+
+    for (const [index, row] of data.entries()) {
+      try {
+        const name = row['Name'];
+        if (!name) throw new Error("Name is required");
+
+        const assetName = row['Asset Name (Exact Match)'] || row['Asset Name'];
+        let assetId = null;
+        if (assetName) {
+           const asset = await this.prisma.asset.findFirst({
+             where: { organizationId, name: { equals: String(assetName).trim(), mode: 'insensitive' } }
+           });
+           if (asset) assetId = asset.id;
+        }
+        
+        if (!assetId) throw new Error(`Asset '${assetName}' not found`);
+
+        const assignedEmail = row['Assigned To Email'];
+        let assignedToId = null;
+        if (assignedEmail) {
+            const user = await this.prisma.user.findFirst({
+                where: { email: { equals: String(assignedEmail).trim(), mode: 'insensitive' } },
+                include: { organizations: { where: { organizationId } } }
+            });
+            if (user && user.organizations.length > 0) {
+                assignedToId = user.organizations[0].id;
+            }
+        }
+
+        const priorityRaw = row['Priority (CRITICAL/HIGH/MEDIUM/LOW/NONE)'] || row['Priority'] || 'MEDIUM';
+        const priority = String(priorityRaw).toUpperCase().trim();
+        
+        const freqTypeRaw = row['Frequency Type (DAYS/WEEKS/MONTHS/YEARS)'] || row['Frequency Type'] || 'DAYS';
+        const frequencyType = String(freqTypeRaw).toUpperCase().trim();
+        
+        const frequencyValue = parseInt(row['Frequency Value']) || 1;
+
+        await this.prisma.pMSchedule.create({
+          data: {
+             organizationId,
+             name: String(name),
+             description: row['Description'] ? String(row['Description']) : null,
+             woTitle: row['Work Order Title'] ? String(row['Work Order Title']) : null,
+             woDescription: row['Work Order Description'] ? String(row['Work Order Description']) : null,
+             priority: priority as any,
+             frequencyType: frequencyType as any,
+             frequencyValue,
+             assetId,
+             assignedToId,
+             status: 'ACTIVE'
+          }
+        });
+        createdCount++;
+      } catch (err: any) {
+        errors.push(`Row ${index + 2}: ${err.message}`);
+      }
+    }
+
+    if (createdCount === 0 && errors.length > 0) {
+        throw new Error(`Failed to import PMs: ${errors.join('; ')}`);
+    }
+
+    return { createdCount, errors };
+  }
+
   async findAll(query?: any) {
     const {
       page,

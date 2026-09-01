@@ -36,6 +36,12 @@ export class PreventiveMaintenanceController {
     return this.pmService.create(createPMScheduleDto);
   }
 
+  @RequirePermissions(Permission.CREATE_PM)
+  @Post('bulk')
+  bulkCreate(@Body() data: any[]) {
+    return this.pmService.bulkCreate(data);
+  }
+
   @RequirePermissions(Permission.READ_PM)
   @Get()
   findAll(@Query() query: any) {

@@ -112,7 +112,7 @@ export const QRScannerModal: React.FC<Props> = ({ isOpen, onClose, onScan }) => 
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="fixed inset-0 z-[10000] flex items-center justify-center p-4 bg-slate-950/90 backdrop-blur-xl"
+                    className="fixed inset-0 z-[10000] flex items-center justify-center p-4 bg-background/90 backdrop-blur-xl"
                 >
                 <div className="relative w-full max-w-lg bg-[#0d0d10] rounded-[40px] border border-white/10 shadow-[0_32px_120px_rgba(0,0,0,0.8)] overflow-hidden">
                     {/* Header */}

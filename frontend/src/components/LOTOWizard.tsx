@@ -31,8 +31,8 @@ export const LOTOWizard: React.FC<Props> = ({ isOpen, onClose, onComplete, workO
             title: "Physical Lock-Out",
             description: "Has the main energy source been physically secured with a padlock?",
             icon: Lock,
-            color: "text-blue-500",
-            bg: "bg-blue-500/10",
+            color: "text-primary",
+            bg: "bg-primary/10",
             field: "lockVerified" as const
         },
         {
@@ -76,13 +76,13 @@ export const LOTOWizard: React.FC<Props> = ({ isOpen, onClose, onComplete, workO
         <div className="fixed inset-0 z-[350] flex items-center justify-center p-4">
             <div className="fixed inset-0 bg-slate-900/80 backdrop-blur-xl" onClick={onClose} />
             
-            <div className="relative w-full max-w-xl bg-white rounded-[48px] shadow-[0_32px_120px_rgba(0,0,0,0.5)] overflow-hidden">
+            <div className="relative w-full max-w-xl bg-card rounded-[48px] shadow-[0_32px_120px_rgba(0,0,0,0.5)] overflow-hidden">
                 {/* Status Bar */}
                 <div className="flex h-2">
                     {[1, 2, 3].map(i => (
                         <div 
                             key={i} 
-                            className={`flex-1 transition-all duration-500 ${i <= step ? 'bg-red-600' : 'bg-slate-100'}`} 
+                            className={`flex-1 transition-all duration-500 ${i <= step ? 'bg-red-600' : 'bg-muted'}`} 
                         />
                     ))}
                 </div>
@@ -94,11 +94,11 @@ export const LOTOWizard: React.FC<Props> = ({ isOpen, onClose, onComplete, workO
                                 <ShieldAlert className="w-7 h-7 text-white" />
                             </div>
                             <div>
-                                <h2 className="text-[24px] font-black italic text-slate-900 tracking-tight leading-none uppercase">LOTO SAFETY AUDIT</h2>
+                                <h2 className="text-[24px] font-black italic text-foreground tracking-tight leading-none uppercase">LOTO SAFETY AUDIT</h2>
                                 <p className="text-[12px] text-slate-400 font-bold uppercase tracking-widest mt-1 italic">MANDATORY PROTOCOL: {workOrderTitle}</p>
                             </div>
                         </div>
-                        <button onClick={onClose} className="p-2 hover:bg-slate-50 rounded-full text-slate-300">
+                        <button onClick={onClose} className="p-2 hover:bg-muted/50 rounded-full text-slate-300">
                             <X className="w-6 h-6" />
                         </button>
                     </header>
@@ -116,10 +116,10 @@ export const LOTOWizard: React.FC<Props> = ({ isOpen, onClose, onComplete, workO
                                     <currentStep.icon className={`w-10 h-10 ${currentStep.color}`} />
                                 </div>
                                 <div className="space-y-3">
-                                    <h3 className="text-[28px] font-black italic text-slate-900 tracking-tighter uppercase leading-tight">
+                                    <h3 className="text-[28px] font-black italic text-foreground tracking-tighter uppercase leading-tight">
                                         {currentStep.title}
                                     </h3>
-                                    <p className="text-[16px] text-slate-500 font-medium leading-relaxed">
+                                    <p className="text-[16px] text-muted-foreground font-medium leading-relaxed">
                                         {currentStep.description}
                                     </p>
                                 </div>
@@ -130,13 +130,13 @@ export const LOTOWizard: React.FC<Props> = ({ isOpen, onClose, onComplete, workO
                                 className={`w-full p-10 rounded-[40px] border-4 transition-all flex flex-col items-center gap-6 group ${
                                     verification[currentStep.field] 
                                     ? "bg-emerald-50 border-emerald-500/30" 
-                                    : "bg-slate-50 border-slate-100 hover:border-slate-200"
+                                    : "bg-muted/50 border-slate-100 hover:border-border"
                                 }`}
                             >
                                 <div className={`w-16 h-16 rounded-full flex items-center justify-center transition-all ${
                                     verification[currentStep.field] 
                                     ? "bg-emerald-500 text-white" 
-                                    : "bg-white text-slate-200 border-4 border-slate-50 group-hover:border-slate-100"
+                                    : "bg-card text-slate-200 border-4 border-slate-50 group-hover:border-slate-100"
                                 }`}>
                                     <CircleCheck className="w-8 h-8" />
                                 </div>
@@ -165,7 +165,7 @@ export const LOTOWizard: React.FC<Props> = ({ isOpen, onClose, onComplete, workO
                             className={`px-10 py-5 rounded-[24px] font-black italic text-[14px] uppercase tracking-widest flex items-center gap-3 transition-all active:scale-95 ${
                                 verification[currentStep.field]
                                 ? "bg-slate-900 text-white shadow-xl shadow-slate-200 scale-105"
-                                : "bg-slate-100 text-slate-400 cursor-not-allowed"
+                                : "bg-muted text-slate-400 cursor-not-allowed"
                             }`}
                         >
                             {step === 3 ? "Complete Audit" : "Next Protocol"}
@@ -174,7 +174,7 @@ export const LOTOWizard: React.FC<Props> = ({ isOpen, onClose, onComplete, workO
                     </div>
                 </div>
 
-                <footer className="bg-slate-50 px-12 py-8 border-t border-slate-100">
+                <footer className="bg-muted/50 px-12 py-8 border-t border-slate-100">
                     <p className="text-[11px] text-slate-400 font-bold leading-relaxed italic text-center">
                          By completing this audit, you certify that all energy sources are neutralized and secured according to OSHA 1910.147 standards. Antigravity CMMS tracks this signature for safety compliance.
                     </p>

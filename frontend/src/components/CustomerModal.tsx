@@ -84,31 +84,31 @@ export const CustomerModal = ({ onClose, customer }: CustomerModalProps) => {
         setFormData({ ...formData, customFields: newFields });
     };
 
-    const inputClasses = "w-full h-10 px-3 bg-white border border-gray-200 rounded-md text-[14px] focus:outline-none focus:border-indigo-500 transition-colors placeholder:text-gray-400";
-    const labelClasses = "text-[13px] font-medium text-gray-700 block mb-1.5";
+    const inputClasses = "w-full h-10 px-3 bg-card border border-border rounded-md text-[14px] focus:outline-none focus:border-primary/80 transition-colors placeholder:text-gray-400";
+    const labelClasses = "text-[13px] font-medium text-foreground/90 block mb-1.5";
 
     return (
-        <div className="fixed inset-0 z-[100] flex flex-col bg-white animate-in fade-in duration-200 font-outfit overflow-hidden">
+        <div className="fixed inset-0 z-[100] flex flex-col bg-card animate-in fade-in duration-200 font-outfit overflow-hidden">
             {/* Header */}
-            <div className="h-16 px-6 border-b border-gray-100 flex items-center justify-between bg-white sticky top-0 z-10">
+            <div className="h-16 px-6 border-b border-gray-100 flex items-center justify-between bg-card sticky top-0 z-10">
                 <div className="flex items-center gap-4">
-                    <button onClick={onClose} className="p-1 hover:bg-gray-100 rounded-md transition-colors text-gray-400">
+                    <button onClick={onClose} className="p-1 hover:bg-muted rounded-md transition-colors text-gray-400">
                         <X className="w-5 h-5" />
                     </button>
-                    <h2 className="text-[18px] font-semibold text-gray-900">Create Customer</h2>
+                    <h2 className="text-[18px] font-semibold text-foreground">Create Customer</h2>
                 </div>
                 
                 <div className="flex items-center gap-2">
                     <button 
                         onClick={onClose}
-                        className="h-9 px-4 text-[14px] font-medium text-gray-600 border border-gray-200 rounded-md hover:bg-gray-50 transition-colors"
+                        className="h-9 px-4 text-[14px] font-medium text-gray-600 border border-border rounded-md hover:bg-muted/50 transition-colors"
                     >
                         Cancel
                     </button>
                     <button
                         onClick={() => saveMutation.mutate(formData)}
                         disabled={saveMutation.isPending || !formData.name}
-                        className="h-9 px-4 bg-indigo-600 text-white rounded-md text-[14px] font-medium hover:bg-indigo-700 transition-colors flex items-center gap-2 disabled:opacity-50 shadow-sm"
+                        className="h-9 px-4 bg-primary text-white rounded-md text-[14px] font-medium hover:bg-primary/90 transition-colors flex items-center gap-2 disabled:opacity-50 shadow-sm"
                     >
                         {saveMutation.isPending && <Loader2 className="w-4 h-4 animate-spin" />}
                         {customer?.id ? 'Save Changes' : 'Create Customer'}
@@ -122,7 +122,7 @@ export const CustomerModal = ({ onClose, customer }: CustomerModalProps) => {
                     
                     {/* DETAILS SECTION */}
                     <div>
-                        <h3 className="text-[18px] font-bold text-gray-900 mb-6">Details</h3>
+                        <h3 className="text-[18px] font-bold text-foreground mb-6">Details</h3>
                         <div className="space-y-5">
                             <div>
                                 <label className={labelClasses}>Customer Name <span className="text-red-500">*</span></label>
@@ -182,7 +182,7 @@ export const CustomerModal = ({ onClose, customer }: CustomerModalProps) => {
                                 <label className={labelClasses}>Description</label>
                                 <textarea
                                     rows={4}
-                                    className="w-full px-3 py-2 bg-white border border-gray-200 rounded-md text-[14px] focus:outline-none focus:border-indigo-500 transition-colors resize-none"
+                                    className="w-full px-3 py-2 bg-card border border-border rounded-md text-[14px] focus:outline-none focus:border-primary/80 transition-colors resize-none"
                                     value={formData.description}
                                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                                 />
@@ -193,7 +193,7 @@ export const CustomerModal = ({ onClose, customer }: CustomerModalProps) => {
                                     <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-[14px]">$</span>
                                     <input
                                         type="text"
-                                        className="w-full h-10 pl-7 pr-3 bg-white border border-gray-200 rounded-md text-[14px] focus:outline-none focus:border-indigo-500 transition-colors"
+                                        className="w-full h-10 pl-7 pr-3 bg-card border border-border rounded-md text-[14px] focus:outline-none focus:border-primary/80 transition-colors"
                                         value={formData.hourlyRate}
                                         onChange={(e) => setFormData({ ...formData, hourlyRate: e.target.value })}
                                     />
@@ -204,7 +204,7 @@ export const CustomerModal = ({ onClose, customer }: CustomerModalProps) => {
 
                     {/* BILLING INFORMATION SECTION */}
                     <div className="pt-8 border-t border-gray-100">
-                        <h3 className="text-[18px] font-bold text-gray-900 mb-6">Billing Information</h3>
+                        <h3 className="text-[18px] font-bold text-foreground mb-6">Billing Information</h3>
                         <div className="space-y-5">
                             <div>
                                 <label className={labelClasses}>Billing Name</label>
@@ -246,7 +246,7 @@ export const CustomerModal = ({ onClose, customer }: CustomerModalProps) => {
                                 <label className={labelClasses}>Currency</label>
                                 <div className="relative">
                                     <select 
-                                        className="w-full h-10 px-3 bg-white border border-gray-200 rounded-md text-[14px] appearance-none focus:outline-none focus:border-indigo-500 transition-colors"
+                                        className="w-full h-10 px-3 bg-card border border-border rounded-md text-[14px] appearance-none focus:outline-none focus:border-primary/80 transition-colors"
                                         value={formData.currency}
                                         onChange={(e) => setFormData({ ...formData, currency: e.target.value })}
                                     >
@@ -262,8 +262,8 @@ export const CustomerModal = ({ onClose, customer }: CustomerModalProps) => {
 
                     {/* CUSTOM DATA SECTION */}
                     <div className="pt-8 border-t border-gray-100">
-                        <h3 className="text-[18px] font-bold text-gray-900 mb-2">Custom Data</h3>
-                        <p className="text-[14px] text-gray-500 mb-6 font-normal italic">After naming custom fields, you can enter a value and unit.</p>
+                        <h3 className="text-[18px] font-bold text-foreground mb-2">Custom Data</h3>
+                        <p className="text-[14px] text-muted-foreground mb-6 font-normal italic">After naming custom fields, you can enter a value and unit.</p>
                         
                         <div className="space-y-4 mb-6">
                             {formData.customFields.map((field: any, idx: number) => (
@@ -298,7 +298,7 @@ export const CustomerModal = ({ onClose, customer }: CustomerModalProps) => {
                                     <button 
                                         type="button"
                                         onClick={() => removeCustomField(idx)}
-                                        className="h-10 w-10 flex items-center justify-center shrink-0 border border-gray-200 rounded-md text-red-500 hover:bg-red-50 hover:border-red-200 transition-colors"
+                                        className="h-10 w-10 flex items-center justify-center shrink-0 border border-border rounded-md text-red-500 hover:bg-red-50 hover:border-red-200 transition-colors"
                                     >
                                         <Trash className="w-4 h-4" />
                                     </button>
@@ -310,7 +310,7 @@ export const CustomerModal = ({ onClose, customer }: CustomerModalProps) => {
                             type="button"
                             id="add-custom-field-btn"
                             onClick={addCustomField}
-                            className="h-10 px-6 text-[14px] font-medium text-gray-700 border border-gray-200 rounded-md hover:bg-gray-50 transition-colors flex items-center gap-2 shadow-sm"
+                            className="h-10 px-6 text-[14px] font-medium text-foreground/90 border border-border rounded-md hover:bg-muted/50 transition-colors flex items-center gap-2 shadow-sm"
                         >
                             <Plus className="w-4 h-4" />
                             Add Custom Field

@@ -67,7 +67,7 @@ export const CreateScheduleView: React.FC<CreateScheduleViewProps> = ({ onBack }
                 <div className="flex items-center gap-3">
                     <button 
                         onClick={onBack}
-                        className="px-8 py-2.5 bg-white border border-gray-200 text-slate-600 text-[14px] font-bold rounded-lg hover:bg-slate-50 transition-all shadow-sm"
+                        className="px-8 py-2.5 bg-card border border-border text-slate-600 text-[14px] font-bold rounded-lg hover:bg-muted/50 transition-all shadow-sm"
                     >
                         Cancel
                     </button>
@@ -77,8 +77,8 @@ export const CreateScheduleView: React.FC<CreateScheduleViewProps> = ({ onBack }
                         className={cn(
                             "px-8 py-2.5 text-[14px] font-bold rounded-lg transition-all",
                             name.trim() 
-                                ? "bg-indigo-600 text-white shadow-lg shadow-indigo-100 hover:bg-indigo-700" 
-                                : "bg-gray-100 text-gray-400 cursor-not-allowed"
+                                ? "bg-primary text-white shadow-lg shadow-primary/20 hover:bg-primary/90" 
+                                : "bg-muted text-gray-400 cursor-not-allowed"
                         )}
                     >
                         {createSchedule.isPending ? 'Creating...' : 'Create Schedule'}
@@ -89,16 +89,16 @@ export const CreateScheduleView: React.FC<CreateScheduleViewProps> = ({ onBack }
             {/* Schedule Details */}
             <div className="grid grid-cols-[280px,1fr] gap-12">
                 <div className="space-y-2">
-                    <h3 className="text-[14px] font-bold text-slate-700">Schedule Details</h3>
+                    <h3 className="text-[14px] font-bold text-foreground/90">Schedule Details</h3>
                 </div>
-                <div className="bg-white border border-gray-100 rounded-xl p-10 shadow-sm">
+                <div className="bg-card border border-gray-100 rounded-xl p-10 shadow-sm">
                     <div className="space-y-3">
-                        <label className="text-[13px] font-bold text-slate-500">Schedule Name</label>
+                        <label className="text-[13px] font-bold text-muted-foreground">Schedule Name</label>
                         <input 
                             type="text"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
-                            className="w-full px-5 py-3.5 bg-white border border-gray-200 rounded-lg text-[15px] font-medium focus:ring-2 focus:ring-indigo-600/10 focus:border-indigo-600 outline-none transition-all placeholder:text-slate-300"
+                            className="w-full px-5 py-3.5 bg-card border border-border rounded-lg text-[15px] font-medium focus:ring-2 focus:ring-primary/10 focus:border-primary outline-none transition-all placeholder:text-slate-300"
                         />
                     </div>
                 </div>
@@ -107,12 +107,12 @@ export const CreateScheduleView: React.FC<CreateScheduleViewProps> = ({ onBack }
             {/* Time-based Schedule */}
             <div className="grid grid-cols-[280px,1fr] gap-12 border-t border-gray-50 pt-12">
                 <div className="space-y-4">
-                    <h3 className="text-[14px] font-bold text-slate-700">Configure Time-based Schedule</h3>
+                    <h3 className="text-[14px] font-bold text-foreground/90">Configure Time-based Schedule</h3>
                     <p className="text-[13px] text-slate-400 font-medium leading-relaxed">
                         Select the days and times when assets are expected to be operational. You can create multiple time blocks on each day.
                     </p>
                 </div>
-                <div className="bg-white border border-gray-100 rounded-xl p-12 shadow-sm space-y-12">
+                <div className="bg-card border border-gray-100 rounded-xl p-12 shadow-sm space-y-12">
                     {DAYS.map((day) => (
                         <div key={day} className="flex items-start gap-12">
                             <div className="flex items-center gap-4 w-[160px] pt-3">
@@ -120,14 +120,14 @@ export const CreateScheduleView: React.FC<CreateScheduleViewProps> = ({ onBack }
                                     onClick={() => toggleDay(day)}
                                     className={cn(
                                         "w-5 h-5 rounded border-2 flex items-center justify-center transition-all shrink-0",
-                                        schedules[day].enabled ? "bg-indigo-600 border-indigo-600" : "border-gray-200"
+                                        schedules[day].enabled ? "bg-primary border-primary" : "border-border"
                                     )}
                                 >
-                                    {schedules[day].enabled && <div className="w-1.5 h-1.5 bg-white rounded-full" />}
+                                    {schedules[day].enabled && <div className="w-1.5 h-1.5 bg-card rounded-full" />}
                                 </button>
                                 <span className={cn(
                                     "text-[14px] font-bold transition-colors",
-                                    schedules[day].enabled ? "text-slate-700" : "text-slate-400"
+                                    schedules[day].enabled ? "text-foreground/90" : "text-slate-400"
                                 )}>
                                     {day}
                                 </span>
@@ -138,25 +138,25 @@ export const CreateScheduleView: React.FC<CreateScheduleViewProps> = ({ onBack }
                                     <div key={idx} className="flex items-center gap-4 group">
                                         <div className="flex-1 grid grid-cols-2 gap-4">
                                             <div className="space-y-2">
-                                                <label className="text-[12px] font-bold text-slate-500">From</label>
+                                                <label className="text-[12px] font-bold text-muted-foreground">From</label>
                                                 <div className="relative">
                                                     <input 
                                                         disabled={!schedules[day].enabled}
                                                         type="text"
                                                         placeholder="--:--"
-                                                        className="w-full pl-4 pr-12 py-3 bg-slate-50/50 border border-gray-100 rounded-lg text-[14px] font-medium disabled:opacity-50 outline-none focus:border-indigo-600 focus:bg-white transition-all"
+                                                        className="w-full pl-4 pr-12 py-3 bg-transparent border border-gray-100 rounded-lg text-[14px] font-medium disabled:opacity-50 outline-none focus:border-primary focus:bg-card transition-all"
                                                     />
                                                     <Clock className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-300" />
                                                 </div>
                                             </div>
                                             <div className="space-y-2">
-                                                <label className="text-[12px] font-bold text-slate-500">To</label>
+                                                <label className="text-[12px] font-bold text-muted-foreground">To</label>
                                                 <div className="relative">
                                                     <input 
                                                         disabled={!schedules[day].enabled}
                                                         type="text"
                                                         placeholder="--:--"
-                                                        className="w-full pl-4 pr-12 py-3 bg-slate-50/50 border border-gray-100 rounded-lg text-[14px] font-medium disabled:opacity-50 outline-none focus:border-indigo-600 focus:bg-white transition-all"
+                                                        className="w-full pl-4 pr-12 py-3 bg-transparent border border-gray-100 rounded-lg text-[14px] font-medium disabled:opacity-50 outline-none focus:border-primary focus:bg-card transition-all"
                                                     />
                                                     <Clock className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-300" />
                                                 </div>
@@ -168,14 +168,14 @@ export const CreateScheduleView: React.FC<CreateScheduleViewProps> = ({ onBack }
                                                 {idx === 0 ? (
                                                     <button 
                                                         onClick={() => addBlock(day)}
-                                                        className="p-2 bg-slate-50 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-full transition-all border border-gray-100 shadow-sm"
+                                                        className="p-2 bg-muted/50 text-slate-400 hover:text-primary hover:bg-primary/10 rounded-full transition-all border border-gray-100 shadow-sm"
                                                     >
                                                         <Plus className="w-4 h-4" />
                                                     </button>
                                                 ) : (
                                                     <button 
                                                         onClick={() => removeBlock(day, idx)}
-                                                        className="p-2 bg-slate-50 text-slate-400 hover:text-rose-500 hover:bg-rose-50 rounded-full transition-all border border-gray-100 shadow-sm"
+                                                        className="p-2 bg-muted/50 text-slate-400 hover:text-rose-500 hover:bg-rose-50 rounded-full transition-all border border-gray-100 shadow-sm"
                                                     >
                                                         <X className="w-4 h-4" />
                                                     </button>

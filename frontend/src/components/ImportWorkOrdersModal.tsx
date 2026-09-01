@@ -98,7 +98,7 @@ export const ImportWorkOrdersModal = ({ isOpen, onClose }: ImportWorkOrdersModal
             <motion.div 
                 initial={{ scale: 0.95, opacity: 0, y: 20 }}
                 animate={{ scale: 1, opacity: 1, y: 0 }}
-                className="relative bg-white w-full max-w-[600px] rounded-[32px] shadow-2xl overflow-hidden"
+                className="relative bg-card w-full max-w-[600px] rounded-[32px] shadow-2xl overflow-hidden"
             >
                 {/* Header */}
                 <div className="bg-slate-900 px-8 py-10 text-white relative">
@@ -132,13 +132,13 @@ export const ImportWorkOrdersModal = ({ isOpen, onClose }: ImportWorkOrdersModal
                                 <div className="text-center">
                                     <div 
                                         onClick={() => fileInputRef.current?.click()}
-                                        className="border-2 border-dashed border-slate-200 rounded-[32px] p-12 hover:border-primary/50 hover:bg-primary/[0.02] transition-all cursor-pointer group"
+                                        className="border-2 border-dashed border-border rounded-[32px] p-12 hover:border-primary/50 hover:bg-primary/[0.02] transition-all cursor-pointer group"
                                     >
-                                        <div className="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                                        <div className="w-16 h-16 bg-muted/50 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
                                             <FileText className="w-8 h-8 text-slate-400 group-hover:text-primary transition-colors" />
                                         </div>
-                                        <h3 className="text-[18px] font-black text-slate-900">Click to upload or drag and drop</h3>
-                                        <p className="text-slate-500 font-medium mt-1">Supports CSV, XLS, XLSX files</p>
+                                        <h3 className="text-[18px] font-black text-foreground">Click to upload or drag and drop</h3>
+                                        <p className="text-muted-foreground font-medium mt-1">Supports CSV, XLS, XLSX files</p>
                                         <input 
                                             type="file" 
                                             ref={fileInputRef}
@@ -149,17 +149,17 @@ export const ImportWorkOrdersModal = ({ isOpen, onClose }: ImportWorkOrdersModal
                                     </div>
                                 </div>
 
-                                <div className="flex items-center gap-4 p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                                    <div className="p-2 bg-white rounded-xl shadow-sm text-primary">
+                                <div className="flex items-center gap-4 p-4 bg-muted/50 rounded-2xl border border-slate-100">
+                                    <div className="p-2 bg-card rounded-xl shadow-sm text-primary">
                                         <Download className="w-5 h-5" />
                                     </div>
                                     <div className="flex-1">
-                                        <p className="text-[14px] font-black text-slate-900 leading-tight">Need a template?</p>
-                                        <p className="text-[12px] font-medium text-slate-500">Download our pre-formatted file to ensure perfect data mapping.</p>
+                                        <p className="text-[14px] font-black text-foreground leading-tight">Need a template?</p>
+                                        <p className="text-[12px] font-medium text-muted-foreground">Download our pre-formatted file to ensure perfect data mapping.</p>
                                     </div>
                                     <button 
                                         onClick={downloadTemplate}
-                                        className="px-4 py-2 bg-white border border-slate-200 rounded-xl text-[12px] font-black hover:bg-slate-50 transition-all active:scale-95"
+                                        className="px-4 py-2 bg-card border border-border rounded-xl text-[12px] font-black hover:bg-muted/50 transition-all active:scale-95"
                                     >
                                         Download
                                     </button>
@@ -180,7 +180,7 @@ export const ImportWorkOrdersModal = ({ isOpen, onClose }: ImportWorkOrdersModal
                                         <FileText className="w-6 h-6" />
                                     </div>
                                     <div className="flex-1 min-w-0">
-                                        <h3 className="text-[16px] font-black text-slate-900 truncate">{file?.name}</h3>
+                                        <h3 className="text-[16px] font-black text-foreground truncate">{file?.name}</h3>
                                         <p className="text-[13px] font-bold text-emerald-600 uppercase tracking-widest">{data.length} records detected</p>
                                     </div>
                                 </div>
@@ -192,8 +192,8 @@ export const ImportWorkOrdersModal = ({ isOpen, onClose }: ImportWorkOrdersModal
                                     </div>
                                     <div className="space-y-2">
                                         {['Title', 'Description', 'Status', 'Priority'].map((field) => (
-                                            <div key={field} className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                                                <span className="text-[14px] font-bold text-slate-700">{field}</span>
+                                            <div key={field} className="flex items-center justify-between p-4 bg-muted/50 rounded-2xl border border-slate-100">
+                                                <span className="text-[14px] font-bold text-foreground/90">{field}</span>
                                                 <ChevronRight className="w-4 h-4 text-slate-300" />
                                                 <span className="text-[14px] font-black text-primary italic">Column: {field}</span>
                                             </div>
@@ -230,8 +230,8 @@ export const ImportWorkOrdersModal = ({ isOpen, onClose }: ImportWorkOrdersModal
                                         OK
                                     </motion.div>
                                 </div>
-                                <h3 className="text-2xl font-black text-slate-900">Import Complete</h3>
-                                <p className="text-slate-500 font-medium mt-2 max-w-[300px] mx-auto">Your work orders have been successfully synchronized with the main database.</p>
+                                <h3 className="text-2xl font-black text-foreground">Import Complete</h3>
+                                <p className="text-muted-foreground font-medium mt-2 max-w-[300px] mx-auto">Your work orders have been successfully synchronized with the main database.</p>
                                 
                                 <button 
                                     onClick={onClose}

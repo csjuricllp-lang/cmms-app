@@ -137,17 +137,17 @@ export const UnscheduledSection = ({
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div className="flex items-center gap-3">
                     <h2 className="text-[18px] font-black text-[#1E293B]">Unscheduled Work Orders</h2>
-                    <span className="px-2.5 py-0.5 bg-gray-100 text-gray-500 rounded-md text-[12px] font-black">{unscheduledWOs.length}</span>
+                    <span className="px-2.5 py-0.5 bg-muted text-muted-foreground rounded-md text-[12px] font-black">{unscheduledWOs.length}</span>
                 </div>
                 <div className="flex flex-wrap items-center gap-2">
                     <button 
                         onClick={onRefetch} 
-                        className="p-2 hover:bg-slate-50 rounded-xl text-slate-400 hover:text-primary transition-all active:scale-95 border-l border-slate-100"
+                        className="p-2 hover:bg-muted/50 rounded-xl text-slate-400 hover:text-primary transition-all active:scale-95 border-l border-slate-100"
                     >
                         <RefreshCw className="w-4 h-4" />
                     </button>
                     
-                    <div ref={filterRef} className="flex bg-white border border-gray-100 rounded-xl p-1 shadow-sm items-center relative">
+                    <div ref={filterRef} className="flex bg-card border border-gray-100 rounded-xl p-1 shadow-sm items-center relative">
                         <button 
                             onClick={() => setShowFilters(!showFilters)} 
                             className={cn("p-2 rounded-lg text-gray-400 hover:text-primary transition-all active:scale-95", showFilters && "bg-primary/10 text-primary")}
@@ -157,8 +157,8 @@ export const UnscheduledSection = ({
                         </button>
                         
                         {showFilters && (
-                            <div className="absolute top-full right-0 mt-3 w-[640px] bg-white border border-slate-100 rounded-[24px] shadow-[0_20px_50px_rgba(0,0,0,0.12)] z-[100] overflow-hidden animate-in fade-in zoom-in slide-in-from-top-2 duration-300">
-                                <div className="px-6 py-4 bg-slate-50 border-b border-slate-100 flex items-center justify-between shrink-0">
+                            <div className="absolute top-full right-0 mt-3 w-[640px] bg-card border border-slate-100 rounded-[24px] shadow-[0_20px_50px_rgba(0,0,0,0.12)] z-[100] overflow-hidden animate-in fade-in zoom-in slide-in-from-top-2 duration-300">
+                                <div className="px-6 py-4 bg-muted/50 border-b border-slate-100 flex items-center justify-between shrink-0">
                                     <h3 className="text-[15px] font-black text-slate-800 uppercase tracking-widest">Filter & Sort</h3>
                                     <div className="flex items-center gap-3">
                                         <button 
@@ -184,7 +184,7 @@ export const UnscheduledSection = ({
                                                 setWoTeamFilter('');
                                                 setShowFilters(false);
                                             }}
-                                            className="px-4 py-1.5 bg-white border border-slate-200 text-blue-600 rounded-xl text-[12px] font-black hover:bg-slate-50 transition-all active:scale-95 shadow-sm"
+                                            className="px-4 py-1.5 bg-card border border-border text-primary rounded-xl text-[12px] font-black hover:bg-muted/50 transition-all active:scale-95 shadow-sm"
                                         >
                                             Reset
                                         </button>
@@ -221,12 +221,12 @@ export const UnscheduledSection = ({
                                                         className={cn(
                                                             "w-full px-4 py-3 rounded-xl text-[13px] font-bold text-left transition-all flex items-center justify-between group",
                                                             isSelected 
-                                                                ? "bg-blue-50/50 text-blue-600 border border-blue-100/50 shadow-sm" 
-                                                                : "text-slate-500 hover:bg-slate-50 hover:text-slate-700"
+                                                                ? "bg-blue-50/50 text-primary border border-blue-100/50 shadow-sm" 
+                                                                : "text-muted-foreground hover:bg-muted/50 hover:text-foreground/90"
                                                         )}
                                                     >
                                                         <span>{field}</span>
-                                                        <ChevronDown className={cn("w-4 h-4 text-slate-300 transform transition-transform", isSelected && "rotate-180 text-blue-600")} />
+                                                        <ChevronDown className={cn("w-4 h-4 text-slate-300 transform transition-transform", isSelected && "rotate-180 text-primary")} />
                                                     </button>
                                                 );
                                             })}
@@ -251,7 +251,7 @@ export const UnscheduledSection = ({
                                                                     "px-3 py-1.5 rounded-lg text-[11px] font-black uppercase tracking-widest border transition-all",
                                                                     isSelected 
                                                                         ? getPriorityColors(p) + " shadow-sm ring-2 ring-offset-1 ring-primary/20"
-                                                                        : "bg-white border-slate-200 text-slate-500 hover:bg-slate-50"
+                                                                        : "bg-card border-border text-muted-foreground hover:bg-muted/50"
                                                                 )}
                                                             >
                                                                 {p}
@@ -267,7 +267,7 @@ export const UnscheduledSection = ({
                                                 <select 
                                                     value={localWoAssigneeFilter}
                                                     onChange={(e) => setLocalWoAssigneeFilter(e.target.value)}
-                                                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-100 rounded-xl text-[13px] font-bold text-slate-700 focus:bg-white focus:border-primary/20 outline-none transition-all"
+                                                    className="w-full px-4 py-2.5 bg-muted/50 border border-slate-100 rounded-xl text-[13px] font-bold text-foreground/90 focus:bg-card focus:border-primary/20 outline-none transition-all"
                                                 >
                                                     <option value="">Select Assigned To</option>
                                                     {users?.map(u => <option key={u.userOrgId} value={u.userOrgId}>{u.name}</option>)}
@@ -280,7 +280,7 @@ export const UnscheduledSection = ({
                                                 <select 
                                                     value={localWoCategoryFilter}
                                                     onChange={(e) => setLocalWoCategoryFilter(e.target.value)}
-                                                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-100 rounded-xl text-[13px] font-bold text-slate-700 focus:bg-white focus:border-primary/20 outline-none transition-all"
+                                                    className="w-full px-4 py-2.5 bg-muted/50 border border-slate-100 rounded-xl text-[13px] font-bold text-foreground/90 focus:bg-card focus:border-primary/20 outline-none transition-all"
                                                 >
                                                     <option value="">Select Category</option>
                                                     {categories?.map(c => <option key={c} value={c}>{c}</option>)}
@@ -293,7 +293,7 @@ export const UnscheduledSection = ({
                                                 <select 
                                                     value={localWoAssetFilter}
                                                     onChange={(e) => setLocalWoAssetFilter(e.target.value)}
-                                                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-100 rounded-xl text-[13px] font-bold text-slate-700 focus:bg-white focus:border-primary/20 outline-none transition-all"
+                                                    className="w-full px-4 py-2.5 bg-muted/50 border border-slate-100 rounded-xl text-[13px] font-bold text-foreground/90 focus:bg-card focus:border-primary/20 outline-none transition-all"
                                                 >
                                                     <option value="">Select Asset</option>
                                                     {assets?.map(a => <option key={a.id} value={a.id}>{a.name}</option>)}
@@ -306,7 +306,7 @@ export const UnscheduledSection = ({
                                                 <select 
                                                     value={localWoLocationFilter}
                                                     onChange={(e) => setLocalWoLocationFilter(e.target.value)}
-                                                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-100 rounded-xl text-[13px] font-bold text-slate-700 focus:bg-white focus:border-primary/20 outline-none transition-all"
+                                                    className="w-full px-4 py-2.5 bg-muted/50 border border-slate-100 rounded-xl text-[13px] font-bold text-foreground/90 focus:bg-card focus:border-primary/20 outline-none transition-all"
                                                 >
                                                     <option value="">Select Location</option>
                                                     {locations?.map(l => <option key={l.id} value={l.id}>{l.name}</option>)}
@@ -319,7 +319,7 @@ export const UnscheduledSection = ({
                                                 <select 
                                                     value={localWoStatusFilter}
                                                     onChange={(e) => setLocalWoStatusFilter(e.target.value)}
-                                                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-100 rounded-xl text-[13px] font-bold text-slate-700 focus:bg-white focus:border-primary/20 outline-none transition-all"
+                                                    className="w-full px-4 py-2.5 bg-muted/50 border border-slate-100 rounded-xl text-[13px] font-bold text-foreground/90 focus:bg-card focus:border-primary/20 outline-none transition-all"
                                                 >
                                                     <option value="">Select Work Order Status</option>
                                                     {['Open', 'In Progress', 'On Hold', 'Complete', 'Pending Approval'].map(s => <option key={s} value={s}>{s}</option>)}
@@ -332,7 +332,7 @@ export const UnscheduledSection = ({
                                                 <select 
                                                     value={localWoDueDateFilter}
                                                     onChange={(e) => setLocalWoDueDateFilter(e.target.value)}
-                                                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-100 rounded-xl text-[13px] font-bold text-slate-700 focus:bg-white focus:border-primary/20 outline-none transition-all"
+                                                    className="w-full px-4 py-2.5 bg-muted/50 border border-slate-100 rounded-xl text-[13px] font-bold text-foreground/90 focus:bg-card focus:border-primary/20 outline-none transition-all"
                                                 >
                                                     <option value="">Select Due Date</option>
                                                     {['Today', 'This Week', 'This Month', 'Overdue', 'Not Set'].map(d => <option key={d} value={d}>{d}</option>)}
@@ -345,7 +345,7 @@ export const UnscheduledSection = ({
                                                 <select 
                                                     value={localWoTeamFilter}
                                                     onChange={(e) => setLocalWoTeamFilter(e.target.value)}
-                                                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-100 rounded-xl text-[13px] font-bold text-slate-700 focus:bg-white focus:border-primary/20 outline-none transition-all"
+                                                    className="w-full px-4 py-2.5 bg-muted/50 border border-slate-100 rounded-xl text-[13px] font-bold text-foreground/90 focus:bg-card focus:border-primary/20 outline-none transition-all"
                                                 >
                                                     <option value="">Select Team</option>
                                                     {teams?.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
@@ -359,21 +359,21 @@ export const UnscheduledSection = ({
 
                         <button 
                             onClick={onOpenTagsModal} 
-                            className="p-2 hover:bg-gray-50 rounded-lg text-gray-400 hover:text-primary transition-all active:scale-95"
+                            className="p-2 hover:bg-muted/50 rounded-lg text-gray-400 hover:text-primary transition-all active:scale-95"
                             title="Configure Tags"
                         >
                             <PanelTop className="w-4 h-4" />
                         </button>
                          <button 
                             onClick={() => setIsHidden(!isHidden)}
-                            className="px-3 py-1.5 hover:bg-gray-50 rounded-lg text-[13px] font-bold text-gray-600 flex items-center gap-2 border-l border-gray-50 ml-1 transition-all active:bg-gray-100"
+                            className="px-3 py-1.5 hover:bg-muted/50 rounded-lg text-[13px] font-bold text-gray-600 flex items-center gap-2 border-l border-gray-50 ml-1 transition-all active:bg-muted"
                         >
                             <Zap className={cn("w-3.5 h-3.5", isHidden ? "text-primary fill-primary/20" : "text-gray-400")} />
                             {isHidden ? "Show Section" : "Hide Section"}
                         </button>
                     </div>
 
-                    <div className="flex bg-white border border-gray-100 rounded-xl p-1 shadow-sm items-center relative">
+                    <div className="flex bg-card border border-gray-100 rounded-xl p-1 shadow-sm items-center relative">
                         <span className="px-4 py-1.5 text-[13px] font-black text-slate-600">
                             {unscheduledWOs.length} Unscheduled
                         </span>
@@ -384,7 +384,7 @@ export const UnscheduledSection = ({
             {!isHidden && (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 animate-in fade-in slide-in-from-top-2 duration-300">
                     {unscheduledWOs.length === 0 ? (
-                        <div className="col-span-4 py-12 text-center bg-white rounded-3xl border-2 border-dashed border-gray-100 text-gray-400 font-bold italic">
+                        <div className="col-span-4 py-12 text-center bg-card rounded-3xl border-2 border-dashed border-gray-100 text-gray-400 font-bold italic">
                             No unscheduled work orders found.
                         </div>
                     ) : (
@@ -406,7 +406,7 @@ export const UnscheduledSection = ({
                     <button 
                         onClick={() => fetchNextPage()}
                         disabled={isFetchingNextPage}
-                        className="px-6 py-2.5 bg-white border border-gray-200 text-gray-500 font-bold text-[14px] rounded-xl hover:border-gray-300 hover:text-gray-700 hover:bg-gray-50 transition-all active:scale-95 disabled:opacity-50"
+                        className="px-6 py-2.5 bg-card border border-border text-muted-foreground font-bold text-[14px] rounded-xl hover:border-gray-300 hover:text-foreground/90 hover:bg-muted/50 transition-all active:scale-95 disabled:opacity-50"
                     >
                         {isFetchingNextPage ? 'Loading more...' : 'Load More Unscheduled'}
                     </button>

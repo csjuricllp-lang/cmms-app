@@ -67,11 +67,11 @@ const AddCostModal: React.FC<AddCostModalProps> = ({ isOpen, onClose, workOrderI
         <div className="fixed inset-0 z-[500] flex items-center justify-center p-4">
             <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm" onClick={onClose} />
             
-            <div className="relative w-full max-w-[580px] bg-white rounded-[24px] shadow-2xl flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+            <div className="relative w-full max-w-[580px] bg-card rounded-[24px] shadow-2xl flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200">
                 {/* Header */}
                 <div className="px-8 py-6 border-b border-gray-100 flex items-center justify-between">
                     <h2 className="text-[24px] font-[900] text-slate-800 tracking-tight">Add Cost</h2>
-                    <button onClick={onClose} className="p-2 hover:bg-slate-50 rounded-xl text-slate-400 transition-colors">
+                    <button onClick={onClose} className="p-2 hover:bg-muted/50 rounded-xl text-slate-400 transition-colors">
                         <X className="w-6 h-6" />
                     </button>
                 </div>
@@ -80,11 +80,11 @@ const AddCostModal: React.FC<AddCostModalProps> = ({ isOpen, onClose, workOrderI
                 <div className="p-8 space-y-10">
                     {/* Description */}
                     <div className="space-y-2">
-                        <label className="text-[14px] font-bold text-slate-700">Description <span className="text-rose-500">*</span></label>
+                        <label className="text-[14px] font-bold text-foreground/90">Description <span className="text-rose-500">*</span></label>
                         <textarea 
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
-                            className="w-full px-4 py-3.5 bg-white border border-gray-200 rounded-xl text-[14px] font-bold text-slate-600 focus:ring-2 focus:ring-primary/20 outline-none min-h-[100px] resize-none"
+                            className="w-full px-4 py-3.5 bg-card border border-border rounded-xl text-[14px] font-bold text-slate-600 focus:ring-2 focus:ring-primary/20 outline-none min-h-[100px] resize-none"
                             placeholder=""
                         />
                     </div>
@@ -92,12 +92,12 @@ const AddCostModal: React.FC<AddCostModalProps> = ({ isOpen, onClose, workOrderI
                     <div className="grid grid-cols-2 gap-8">
                         {/* Category */}
                         <div className="space-y-2">
-                            <label className="text-[14px] font-bold text-slate-700">Category <span className="text-rose-500">*</span></label>
+                            <label className="text-[14px] font-bold text-foreground/90">Category <span className="text-rose-500">*</span></label>
                             <div className="relative">
                                 <select 
                                     value={category}
                                     onChange={(e) => setCategory(e.target.value)}
-                                    className="w-full px-4 py-3.5 bg-white border border-gray-200 rounded-xl text-[14px] font-bold text-slate-600 appearance-none focus:ring-2 focus:ring-primary/20 outline-none"
+                                    className="w-full px-4 py-3.5 bg-card border border-border rounded-xl text-[14px] font-bold text-slate-600 appearance-none focus:ring-2 focus:ring-primary/20 outline-none"
                                 >
                                     <option value="">Select Category</option>
                                     <option value="EQUIPMENT">Equipment Rental</option>
@@ -115,14 +115,14 @@ const AddCostModal: React.FC<AddCostModalProps> = ({ isOpen, onClose, workOrderI
 
                         {/* Cost */}
                         <div className="space-y-2">
-                            <label className="text-[14px] font-bold text-slate-700">Cost <span className="text-rose-500">*</span></label>
+                            <label className="text-[14px] font-bold text-foreground/90">Cost <span className="text-rose-500">*</span></label>
                             <div className="relative">
                                 <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[14px] font-bold text-slate-400">$</span>
                                 <input 
                                     type="number"
                                     value={cost}
                                     onChange={(e) => setCost(Number(e.target.value))}
-                                    className="w-full pl-8 pr-4 py-3.5 bg-white border border-gray-200 rounded-xl text-[14px] font-bold text-slate-600 focus:ring-2 focus:ring-primary/20 outline-none"
+                                    className="w-full pl-8 pr-4 py-3.5 bg-card border border-border rounded-xl text-[14px] font-bold text-slate-600 focus:ring-2 focus:ring-primary/20 outline-none"
                                     placeholder=""
                                 />
                             </div>
@@ -132,7 +132,7 @@ const AddCostModal: React.FC<AddCostModalProps> = ({ isOpen, onClose, workOrderI
                     <div className="grid grid-cols-2 gap-8">
                         {/* Assigned To */}
                         <div className="space-y-2">
-                            <label className="text-[14px] font-bold text-slate-700">Assigned To <span className="text-rose-500">*</span></label>
+                            <label className="text-[14px] font-bold text-foreground/90">Assigned To <span className="text-rose-500">*</span></label>
                             <div className="relative group">
                                 <div className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center gap-2 pointer-events-none">
                                     <div className="w-6 h-6 rounded-full bg-emerald-700 flex items-center justify-center text-[10px] font-black text-white uppercase">
@@ -140,7 +140,7 @@ const AddCostModal: React.FC<AddCostModalProps> = ({ isOpen, onClose, workOrderI
                                     </div>
                                 </div>
                                 <select 
-                                    className="w-full pl-12 pr-10 py-3.5 bg-white border border-gray-200 rounded-xl text-[14px] font-bold text-slate-600 appearance-none focus:ring-2 focus:ring-primary/20 outline-none"
+                                    className="w-full pl-12 pr-10 py-3.5 bg-card border border-border rounded-xl text-[14px] font-bold text-slate-600 appearance-none focus:ring-2 focus:ring-primary/20 outline-none"
                                     value={userId}
                                     onChange={(e) => setUserId(e.target.value)}
                                 >
@@ -155,13 +155,13 @@ const AddCostModal: React.FC<AddCostModalProps> = ({ isOpen, onClose, workOrderI
 
                         {/* Date */}
                         <div className="space-y-2">
-                            <label className="text-[14px] font-bold text-slate-700">Date <span className="text-rose-500">*</span></label>
+                            <label className="text-[14px] font-bold text-foreground/90">Date <span className="text-rose-500">*</span></label>
                             <div className="relative">
                                 <input 
                                     type="datetime-local"
                                     value={date}
                                     onChange={(e) => setDate(e.target.value)}
-                                    className="w-full px-4 py-3.5 bg-white border border-gray-200 rounded-xl text-[14px] font-bold text-slate-600 focus:ring-2 focus:ring-primary/20 outline-none"
+                                    className="w-full px-4 py-3.5 bg-card border border-border rounded-xl text-[14px] font-bold text-slate-600 focus:ring-2 focus:ring-primary/20 outline-none"
                                 />
                                 <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-2 pointer-events-none text-slate-300">
                                     <div className="w-[1px] h-4 bg-gray-200 mx-1" />
@@ -175,7 +175,7 @@ const AddCostModal: React.FC<AddCostModalProps> = ({ isOpen, onClose, workOrderI
                     <div className="flex items-center justify-end gap-4 pt-6">
                         <button 
                             onClick={onClose}
-                            className="px-8 py-2.5 border border-gray-200 text-slate-600 rounded-xl text-[15px] font-black hover:bg-slate-50 transition-all active:scale-95"
+                            className="px-8 py-2.5 border border-border text-slate-600 rounded-xl text-[15px] font-black hover:bg-muted/50 transition-all active:scale-95"
                         >
                             Cancel
                         </button>
@@ -185,8 +185,8 @@ const AddCostModal: React.FC<AddCostModalProps> = ({ isOpen, onClose, workOrderI
                             className={cn(
                                 "px-10 py-3 rounded-xl text-[15px] font-black transition-all active:scale-95 disabled:opacity-50",
                                 description && category && cost > 0 && userId
-                                    ? "bg-blue-600 text-white shadow-lg shadow-blue-200 hover:bg-blue-700"
-                                    : "bg-slate-100 text-slate-400"
+                                    ? "bg-primary text-white shadow-lg shadow-primary/20 hover:bg-primary/90"
+                                    : "bg-muted text-slate-400"
                             )}
                         >
                             {addExpense.isPending ? 'Logging...' : 'Confirm'}

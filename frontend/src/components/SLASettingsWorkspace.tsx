@@ -4,15 +4,15 @@ export const SLASettingsWorkspace = () => {
     return (
         <div className="space-y-8 pb-12 animate-in fade-in duration-500 slide-in-from-bottom-4">
             <div>
-                <h2 className="text-2xl font-black text-slate-900 tracking-tight">SLA Configuration</h2>
-                <p className="text-slate-500 font-medium mt-1 text-[15px]">Define Service Level Agreements for work orders and configure escalation rules.</p>
+                <h2 className="text-2xl font-black text-foreground tracking-tight">SLA Configuration</h2>
+                <p className="text-muted-foreground font-medium mt-1 text-[15px]">Define Service Level Agreements for work orders and configure escalation rules.</p>
             </div>
 
-            <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+            <div className="bg-card rounded-2xl border border-border shadow-sm overflow-hidden">
                 <div className="p-6 border-b border-slate-100 flex items-center justify-between">
                     <div>
                         <h3 className="text-lg font-black text-slate-800">Priority Targets</h3>
-                        <p className="text-[13px] text-slate-500 font-medium">Set response and resolution times based on priority.</p>
+                        <p className="text-[13px] text-muted-foreground font-medium">Set response and resolution times based on priority.</p>
                     </div>
                 </div>
                 
@@ -34,16 +34,16 @@ export const SLASettingsWorkspace = () => {
                                                 priority === 'CRITICAL' ? 'bg-rose-500' :
                                                 priority === 'HIGH' ? 'bg-rose-400' :
                                                 priority === 'MEDIUM' ? 'bg-amber-400' :
-                                                'bg-blue-400'
+                                                'bg-primary/90'
                                             }`} />
-                                            <span className="text-[13px] font-bold text-slate-700">{priority}</span>
+                                            <span className="text-[13px] font-bold text-foreground/90">{priority}</span>
                                         </div>
                                     </td>
                                     <td className="py-4">
-                                        <input type="number" defaultValue={priority === 'CRITICAL' ? 1 : priority === 'HIGH' ? 4 : priority === 'MEDIUM' ? 24 : 72} className="w-24 px-3 py-1.5 border border-slate-200 rounded-lg text-[13px] focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none" />
+                                        <input type="number" defaultValue={priority === 'CRITICAL' ? 1 : priority === 'HIGH' ? 4 : priority === 'MEDIUM' ? 24 : 72} className="w-24 px-3 py-1.5 border border-border rounded-lg text-[13px] focus:border-primary/80 focus:ring-1 focus:ring-primary outline-none" />
                                     </td>
                                     <td className="py-4">
-                                        <input type="number" defaultValue={priority === 'CRITICAL' ? 4 : priority === 'HIGH' ? 24 : priority === 'MEDIUM' ? 72 : 168} className="w-24 px-3 py-1.5 border border-slate-200 rounded-lg text-[13px] focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none" />
+                                        <input type="number" defaultValue={priority === 'CRITICAL' ? 4 : priority === 'HIGH' ? 24 : priority === 'MEDIUM' ? 72 : 168} className="w-24 px-3 py-1.5 border border-border rounded-lg text-[13px] focus:border-primary/80 focus:ring-1 focus:ring-primary outline-none" />
                                     </td>
                                 </tr>
                             ))}
@@ -52,32 +52,32 @@ export const SLASettingsWorkspace = () => {
                 </div>
             </div>
 
-            <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+            <div className="bg-card rounded-2xl border border-border shadow-sm overflow-hidden">
                 <div className="p-6 border-b border-slate-100 flex items-center justify-between">
                     <div>
                         <h3 className="text-lg font-black text-slate-800">Escalation & Alerts</h3>
-                        <p className="text-[13px] text-slate-500 font-medium">Configure what happens when an SLA is breached.</p>
+                        <p className="text-[13px] text-muted-foreground font-medium">Configure what happens when an SLA is breached.</p>
                     </div>
                 </div>
                 
                 <div className="p-6 space-y-6">
                     <div className="flex items-start gap-4">
-                        <div className="mt-1 w-5 h-5 rounded border-2 border-indigo-600 bg-indigo-600 flex items-center justify-center text-white">
+                        <div className="mt-1 w-5 h-5 rounded border-2 border-primary bg-primary flex items-center justify-center text-white">
                             <ShieldCheck className="w-3.5 h-3.5" />
                         </div>
                         <div>
                             <h4 className="text-[14px] font-bold text-slate-800">Enable Escalation Protocol</h4>
-                            <p className="text-[13px] text-slate-500 mt-0.5">Automatically mark work orders as 'Escalated' when targets are missed.</p>
+                            <p className="text-[13px] text-muted-foreground mt-0.5">Automatically mark work orders as 'Escalated' when targets are missed.</p>
                         </div>
                     </div>
 
                     <div className="flex items-start gap-4">
-                        <div className="mt-1 w-5 h-5 rounded border-2 border-indigo-600 bg-indigo-600 flex items-center justify-center text-white">
+                        <div className="mt-1 w-5 h-5 rounded border-2 border-primary bg-primary flex items-center justify-center text-white">
                             <ShieldCheck className="w-3.5 h-3.5" />
                         </div>
                         <div>
                             <h4 className="text-[14px] font-bold text-slate-800">Send Breach Notifications</h4>
-                            <p className="text-[13px] text-slate-500 mt-0.5">Notify assigned technicians and managers when SLA targets are breached.</p>
+                            <p className="text-[13px] text-muted-foreground mt-0.5">Notify assigned technicians and managers when SLA targets are breached.</p>
                         </div>
                     </div>
                 </div>

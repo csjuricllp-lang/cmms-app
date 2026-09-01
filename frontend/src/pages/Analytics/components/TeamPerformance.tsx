@@ -45,7 +45,7 @@ export const TeamPerformance = ({ data }: { data: AnalyticsData }) => {
             <Widget title="Preventive vs. Reactive Mix" data={typeMix}>
                 <div className="flex flex-col h-full">
                     <div className="flex items-center gap-2 mb-4">
-                        <RefreshCcw className="w-4 h-4 text-indigo-500" />
+                        <RefreshCcw className="w-4 h-4 text-primary/80" />
                         <span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Maintenance Balance</span>
                     </div>
                     <div className="h-[250px] w-full relative mt-4">
@@ -68,14 +68,14 @@ export const TeamPerformance = ({ data }: { data: AnalyticsData }) => {
                     {displayTechnicians.map((tech: any, i: number) => (
                         <div key={i} className="flex items-center justify-between group">
                             <div className="flex items-center gap-3">
-                                <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-[11px] font-bold text-slate-500 border border-slate-200">{tech.avatar}</div>
-                                <span className="text-[14px] font-medium text-slate-700">{tech.name}</span>
+                                <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center text-[11px] font-bold text-muted-foreground border border-border">{tech.avatar}</div>
+                                <span className="text-[14px] font-medium text-foreground/90">{tech.name}</span>
                             </div>
                             <div className="flex items-center gap-4 flex-1 max-w-[200px] ml-4">
-                                <div className="h-2 flex-1 bg-slate-50 rounded-full overflow-hidden">
-                                    <motion.div initial={{ width: 0 }} animate={{ width: `${(tech.count / (displayTechnicians[0].count || 1)) * 100}%` }} className="h-full bg-indigo-500" />
+                                <div className="h-2 flex-1 bg-transparent rounded-full overflow-hidden">
+                                    <motion.div initial={{ width: 0 }} animate={{ width: `${(tech.count / (displayTechnicians[0].count || 1)) * 100}%` }} className="h-full bg-primary/80" />
                                 </div>
-                                <span className="text-[13px] font-bold text-slate-500 w-8 text-right">{tech.count}</span>
+                                <span className="text-[13px] font-bold text-muted-foreground w-8 text-right">{tech.count}</span>
                             </div>
                         </div>
                     ))}
@@ -88,13 +88,13 @@ export const TeamPerformance = ({ data }: { data: AnalyticsData }) => {
                         <div key={i} className="flex items-center justify-between">
                             <div className="flex items-center gap-3">
                                 <MapPin className="w-4 h-4 text-slate-400" />
-                                <span className="text-[14px] font-medium text-slate-700 truncate max-w-[180px]">{loc.name}</span>
+                                <span className="text-[14px] font-medium text-foreground/90 truncate max-w-[180px]">{loc.name}</span>
                             </div>
                             <div className="flex items-center gap-4 flex-1 max-w-[200px] ml-4">
-                                <div className="h-2 flex-1 bg-slate-50 rounded-full overflow-hidden">
+                                <div className="h-2 flex-1 bg-transparent rounded-full overflow-hidden">
                                     <motion.div initial={{ width: 0 }} animate={{ width: `${(loc.count / (displayLocations[0].count || 1)) * 100}%` }} className="h-full bg-amber-500" />
                                 </div>
-                                <span className="text-[13px] font-bold text-slate-500 w-8 text-right">{loc.count}</span>
+                                <span className="text-[13px] font-bold text-muted-foreground w-8 text-right">{loc.count}</span>
                             </div>
                         </div>
                     ))}

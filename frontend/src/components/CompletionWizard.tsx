@@ -32,7 +32,7 @@ export const CompletionWizard: React.FC<Props> = ({ isOpen, onClose, onComplete,
         <div className="fixed inset-0 z-[300] flex items-center justify-center p-4">
             <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-md" onClick={onClose} />
             
-            <div className="relative w-full max-w-2xl bg-white rounded-[40px] shadow-[0_32px_120px_rgba(0,0,0,0.5)] border border-white/20 overflow-hidden animate-in fade-in zoom-in-95 duration-500">
+            <div className="relative w-full max-w-2xl bg-card rounded-[40px] shadow-[0_32px_120px_rgba(0,0,0,0.5)] border border-white/20 overflow-hidden animate-in fade-in zoom-in-95 duration-500">
                 {/* Header Section */}
                 <div className="bg-slate-900 px-10 py-10 text-white relative">
                     <button 
@@ -82,7 +82,7 @@ export const CompletionWizard: React.FC<Props> = ({ isOpen, onClose, onComplete,
                                     value={resolutionNotes}
                                     onChange={(e) => setResolutionNotes(e.target.value)}
                                     placeholder="Describe the solution, parts replaced, and any remaining observations..."
-                                    className="w-full min-h-[160px] p-8 bg-slate-50 border border-slate-100 rounded-[32px] text-[16px] font-bold focus:outline-none focus:ring-4 focus:ring-primary/10 focus:bg-white transition-all custom-scrollbar"
+                                    className="w-full min-h-[160px] p-8 bg-muted/50 border border-slate-100 rounded-[32px] text-[16px] font-bold focus:outline-none focus:ring-4 focus:ring-primary/10 focus:bg-card transition-all custom-scrollbar"
                                 />
                             </div>
 
@@ -106,7 +106,7 @@ export const CompletionWizard: React.FC<Props> = ({ isOpen, onClose, onComplete,
 
                             <div className="grid grid-cols-1 gap-4">
                                 {(!failureCodes.data || failureCodes.data.length === 0) ? (
-                                    <div className="p-6 text-center text-slate-400 font-bold bg-slate-50 rounded-2xl border border-slate-100">
+                                    <div className="p-6 text-center text-slate-400 font-bold bg-muted/50 rounded-2xl border border-slate-100">
                                         No failure codes configured. You may proceed to the next step.
                                     </div>
                                 ) : (
@@ -118,20 +118,20 @@ export const CompletionWizard: React.FC<Props> = ({ isOpen, onClose, onComplete,
                                                 "flex items-center justify-between p-6 rounded-[24px] border transition-all text-left group",
                                                 selectedRca === item.id 
                                                     ? "bg-primary/5 border-primary shadow-lg shadow-primary/10" 
-                                                    : "bg-white border-slate-100 hover:border-slate-300"
+                                                    : "bg-card border-slate-100 hover:border-slate-300"
                                             )}
                                         >
                                             <div className="flex items-center gap-5">
                                                 <div className={cn(
                                                     "w-12 h-12 rounded-2xl flex items-center justify-center transition-all",
-                                                    selectedRca === item.id ? "bg-primary text-white" : "bg-slate-50 text-slate-400"
+                                                    selectedRca === item.id ? "bg-primary text-white" : "bg-muted/50 text-slate-400"
                                                 )}>
                                                     <ShieldCheck className="w-6 h-6" />
                                                 </div>
                                                 <div>
                                                     <div className="flex items-center gap-2">
-                                                        <span className="px-2 py-0.5 bg-slate-100 text-slate-600 text-[10px] font-black uppercase tracking-widest rounded">{item.code}</span>
-                                                        <p className={cn("text-[15px] font-black italic uppercase", selectedRca === item.id ? "text-primary" : "text-slate-700")}>{item.name}</p>
+                                                        <span className="px-2 py-0.5 bg-muted text-slate-600 text-[10px] font-black uppercase tracking-widest rounded">{item.code}</span>
+                                                        <p className={cn("text-[15px] font-black italic uppercase", selectedRca === item.id ? "text-primary" : "text-foreground/90")}>{item.name}</p>
                                                     </div>
                                                     <p className="text-[11px] font-bold text-slate-400 italic opacity-60 uppercase tracking-tight mt-1">{item.description}</p>
                                                 </div>
@@ -144,7 +144,7 @@ export const CompletionWizard: React.FC<Props> = ({ isOpen, onClose, onComplete,
                             <div className="flex gap-4">
                                 <button 
                                     onClick={() => setStep(1)}
-                                    className="px-8 py-6 bg-slate-50 hover:bg-slate-100 text-slate-600 rounded-[24px] text-[15px] font-black uppercase tracking-widest italic transition-all"
+                                    className="px-8 py-6 bg-muted/50 hover:bg-muted text-slate-600 rounded-[24px] text-[15px] font-black uppercase tracking-widest italic transition-all"
                                 >
                                     Back
                                 </button>
@@ -175,9 +175,9 @@ export const CompletionWizard: React.FC<Props> = ({ isOpen, onClose, onComplete,
                             {!signature ? (
                                 <button
                                     onClick={() => setIsPadOpen(true)}
-                                    className="w-full p-10 rounded-[32px] border-2 border-dashed border-slate-200 bg-slate-50 hover:bg-slate-100 hover:border-primary/40 transition-all flex flex-col items-center gap-4 group cursor-pointer"
+                                    className="w-full p-10 rounded-[32px] border-2 border-dashed border-border bg-muted/50 hover:bg-muted hover:border-primary/40 transition-all flex flex-col items-center gap-4 group cursor-pointer"
                                 >
-                                    <div className="w-14 h-14 rounded-2xl bg-white flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
+                                    <div className="w-14 h-14 rounded-2xl bg-card flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
                                         <PenTool className="w-7 h-7 text-slate-400 group-hover:text-primary transition-colors" />
                                     </div>
                                     <span className="text-[13px] font-black italic uppercase tracking-[0.1em] text-slate-400 group-hover:text-slate-600 transition-colors">
@@ -206,7 +206,7 @@ export const CompletionWizard: React.FC<Props> = ({ isOpen, onClose, onComplete,
                             <div className="flex gap-4">
                                 <button 
                                     onClick={() => setStep(2)}
-                                    className="px-8 py-6 bg-slate-50 hover:bg-slate-100 text-slate-600 rounded-[24px] text-[15px] font-black uppercase tracking-widest italic transition-all"
+                                    className="px-8 py-6 bg-muted/50 hover:bg-muted text-slate-600 rounded-[24px] text-[15px] font-black uppercase tracking-widest italic transition-all"
                                 >
                                     Back
                                 </button>

@@ -59,7 +59,7 @@ export const WebhookSettingsWorkspace: React.FC = () => {
                     <h1 className="text-[36px] font-black text-slate-800 tracking-tight">Webhooks</h1>
                     <div className="flex items-center gap-2 text-[16px] text-slate-400 font-medium">
                         Webhooks allows you to do two way data sync with your platform.
-                        <button className="text-indigo-600 hover:underline">Learn more about webhooks</button>
+                        <button className="text-primary hover:underline">Learn more about webhooks</button>
                     </div>
                 </div>
                 <button 
@@ -68,7 +68,7 @@ export const WebhookSettingsWorkspace: React.FC = () => {
                         setWebhookData({ title: '', url: '', eventMode: 'individual', selectedEvents: [], isActive: true });
                         setIsAddModalOpen(true);
                     }}
-                    className="flex items-center gap-2 px-6 py-3 bg-[#4F7CFF] text-white text-[14px] font-bold rounded-xl hover:bg-blue-600 transition-all shadow-lg shadow-blue-500/20"
+                    className="flex items-center gap-2 px-6 py-3 bg-[#4F7CFF] text-white text-[14px] font-bold rounded-xl hover:bg-primary transition-all shadow-lg shadow-primary/20"
                 >
                     <Plus className="w-5 h-5" />
                     Add Webhook
@@ -80,23 +80,23 @@ export const WebhookSettingsWorkspace: React.FC = () => {
                 {webhooks && webhooks.length > 0 ? (
                     <div className="grid grid-cols-1 gap-6">
                         {webhooks.map((webhook: any) => (
-                            <div key={webhook.id} className="bg-white border border-gray-100 rounded-[32px] p-8 flex items-center justify-between shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:border-indigo-100 transition-all group">
+                            <div key={webhook.id} className="bg-card border border-gray-100 rounded-[32px] p-8 flex items-center justify-between shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:border-primary/10 transition-all group">
                                 <div className="flex items-center gap-6">
-                                    <div className="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center border border-slate-100">
-                                        <WebhookIcon className="w-8 h-8 text-slate-400 group-hover:text-indigo-500 transition-colors" />
+                                    <div className="w-16 h-16 bg-muted/50 rounded-2xl flex items-center justify-center border border-slate-100">
+                                        <WebhookIcon className="w-8 h-8 text-slate-400 group-hover:text-primary/80 transition-colors" />
                                     </div>
                                     <div className="space-y-1.5">
                                         <div className="flex items-center gap-3">
                                             <h3 className="text-[17px] font-black text-slate-800">{webhook.url}</h3>
                                             <div className={cn(
                                                 "px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest",
-                                                webhook.isActive ? "bg-emerald-50 text-emerald-600" : "bg-slate-100 text-slate-400"
+                                                webhook.isActive ? "bg-emerald-50 text-emerald-600" : "bg-muted text-slate-400"
                                             )}>
                                                 {webhook.isActive ? 'Active' : 'Paused'}
                                             </div>
                                         </div>
                                         <div className="flex items-center gap-4 text-[13px] font-medium text-slate-400">
-                                            <div className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider bg-slate-50 px-2 py-0.5 rounded">
+                                            <div className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider bg-muted/50 px-2 py-0.5 rounded">
                                                 {webhook.event}
                                             </div>
                                             <div className="w-1 h-1 bg-slate-200 rounded-full" />
@@ -112,7 +112,7 @@ export const WebhookSettingsWorkspace: React.FC = () => {
                                     <div className="relative">
                                         <button 
                                             onClick={() => setActiveMenu(activeMenu === webhook.id ? null : webhook.id)}
-                                            className="p-3 text-slate-300 hover:text-slate-600 hover:bg-slate-50 rounded-xl transition-all"
+                                            className="p-3 text-slate-300 hover:text-slate-600 hover:bg-muted/50 rounded-xl transition-all"
                                         >
                                             <MoreHorizontal className="w-6 h-6" />
                                         </button>
@@ -125,7 +125,7 @@ export const WebhookSettingsWorkspace: React.FC = () => {
                                                         initial={{ opacity: 0, scale: 0.95, y: -10 }}
                                                         animate={{ opacity: 1, scale: 1, y: 0 }}
                                                         exit={{ opacity: 0, scale: 0.95, y: -10 }}
-                                                        className="absolute right-0 top-14 w-48 bg-white border border-slate-100 rounded-2xl shadow-2xl z-20 overflow-hidden"
+                                                        className="absolute right-0 top-14 w-48 bg-card border border-slate-100 rounded-2xl shadow-2xl z-20 overflow-hidden"
                                                     >
                                                         <button 
                                                             onClick={() => {
@@ -140,7 +140,7 @@ export const WebhookSettingsWorkspace: React.FC = () => {
                                                                 setIsAddModalOpen(true);
                                                                 setActiveMenu(null);
                                                             }}
-                                                            className="w-full px-5 py-4 text-left text-[14px] font-bold text-slate-600 hover:bg-slate-50 flex items-center gap-3 transition-all border-b border-slate-50"
+                                                            className="w-full px-5 py-4 text-left text-[14px] font-bold text-slate-600 hover:bg-muted/50 flex items-center gap-3 transition-all border-b border-slate-50"
                                                         >
                                                             <Edit2 className="w-4 h-4" />
                                                             Edit Webhook
@@ -167,8 +167,8 @@ export const WebhookSettingsWorkspace: React.FC = () => {
                         ))}
                     </div>
                 ) : (
-                    <div className="py-32 flex flex-col items-center justify-center space-y-6 bg-slate-50/50 rounded-[40px] border-2 border-dashed border-slate-100">
-                        <div className="w-20 h-20 bg-white rounded-3xl shadow-sm flex items-center justify-center">
+                    <div className="py-32 flex flex-col items-center justify-center space-y-6 bg-transparent rounded-[40px] border-2 border-dashed border-slate-100">
+                        <div className="w-20 h-20 bg-card rounded-3xl shadow-sm flex items-center justify-center">
                             <LinkIcon className="w-10 h-10 text-slate-200" />
                         </div>
                         <div className="text-center space-y-2">
@@ -196,36 +196,36 @@ export const WebhookSettingsWorkspace: React.FC = () => {
                             initial={{ opacity: 0, scale: 0.95, y: 20 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                            className="relative w-full max-w-lg bg-white rounded-2xl shadow-2xl overflow-hidden"
+                            className="relative w-full max-w-lg bg-card rounded-2xl shadow-2xl overflow-hidden"
                         >
                             <div className="p-8 space-y-6">
                                 <div className="flex items-center justify-between">
                                     <h2 className="text-[20px] font-bold text-slate-800">{editingWebhook ? 'Edit Webhook' : 'Add Webhook'}</h2>
-                                    <button onClick={() => setIsAddModalOpen(false)} className="p-2 hover:bg-slate-50 rounded-xl">
+                                    <button onClick={() => setIsAddModalOpen(false)} className="p-2 hover:bg-muted/50 rounded-xl">
                                         <X className="w-5 h-5 text-slate-400" />
                                     </button>
                                 </div>
 
                                 <div className="space-y-6">
                                     <div className="space-y-1.5">
-                                        <label className="text-[14px] font-medium text-gray-700">Title <span className="text-rose-500">*</span></label>
+                                        <label className="text-[14px] font-medium text-foreground/90">Title <span className="text-rose-500">*</span></label>
                                         <input 
                                             placeholder="Enter webhook title"
                                             value={webhookData.title}
                                             onChange={(e) => setWebhookData({ ...webhookData, title: e.target.value })}
-                                            className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-lg text-[15px] focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all"
+                                            className="w-full px-4 py-2.5 bg-card border border-gray-300 rounded-lg text-[15px] focus:border-primary/80 focus:ring-1 focus:ring-primary outline-none transition-all"
                                         />
                                     </div>
 
                                     <div className="space-y-1.5">
-                                        <label className="text-[14px] font-medium text-gray-700">Endpoint <span className="text-rose-500">*</span></label>
+                                        <label className="text-[14px] font-medium text-foreground/90">Endpoint <span className="text-rose-500">*</span></label>
                                         <input 
                                             placeholder="https://your-api.com/webhooks"
                                             value={webhookData.url}
                                             onChange={(e) => setWebhookData({ ...webhookData, url: e.target.value })}
                                             className={cn(
-                                                "w-full px-4 py-2.5 bg-white border rounded-lg text-[15px] outline-none transition-all",
-                                                webhookData.url && !webhookData.url.startsWith('http') ? "border-rose-500 ring-1 ring-rose-500" : "border-gray-300 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+                                                "w-full px-4 py-2.5 bg-card border rounded-lg text-[15px] outline-none transition-all",
+                                                webhookData.url && !webhookData.url.startsWith('http') ? "border-rose-500 ring-1 ring-rose-500" : "border-gray-300 focus:border-primary/80 focus:ring-1 focus:ring-primary"
                                             )}
                                         />
                                         {webhookData.url && !webhookData.url.startsWith('http') && (
@@ -234,25 +234,25 @@ export const WebhookSettingsWorkspace: React.FC = () => {
                                     </div>
 
                                     <div className="space-y-4">
-                                        <p className="text-[14px] text-gray-700">Which events would you like to trigger this webhook?</p>
+                                        <p className="text-[14px] text-foreground/90">Which events would you like to trigger this webhook?</p>
                                         <div className="space-y-3">
                                             <label className="flex items-center gap-3 cursor-pointer group">
                                                 <input 
                                                     type="radio" 
                                                     checked={webhookData.eventMode === 'all'}
                                                     onChange={() => setWebhookData({ ...webhookData, eventMode: 'all', selectedEvents: allEventsList.map(e => e.id) })}
-                                                    className="w-5 h-5 border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                                    className="w-5 h-5 border-gray-300 text-primary focus:ring-primary"
                                                 />
-                                                <span className="text-[15px] text-gray-700">All events</span>
+                                                <span className="text-[15px] text-foreground/90">All events</span>
                                             </label>
                                             <label className="flex items-center gap-3 cursor-pointer group">
                                                 <input 
                                                     type="radio" 
                                                     checked={webhookData.eventMode === 'individual'}
                                                     onChange={() => setWebhookData({ ...webhookData, eventMode: 'individual', selectedEvents: [] })}
-                                                    className="w-5 h-5 border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                                    className="w-5 h-5 border-gray-300 text-primary focus:ring-primary"
                                                 />
-                                                <span className="text-[15px] text-gray-700">Let me choose individually</span>
+                                                <span className="text-[15px] text-foreground/90">Let me choose individually</span>
                                             </label>
                                         </div>
                                     </div>
@@ -263,7 +263,7 @@ export const WebhookSettingsWorkspace: React.FC = () => {
                                                 {allEventsList.map((ev) => (
                                                     <label 
                                                         key={ev.id}
-                                                        className="flex items-center gap-4 p-4 bg-white border border-gray-200 rounded-xl hover:border-indigo-200 transition-all cursor-pointer group"
+                                                        className="flex items-center gap-4 p-4 bg-card border border-border rounded-xl hover:border-primary/20 transition-all cursor-pointer group"
                                                     >
                                                         <input 
                                                             type="checkbox"
@@ -275,9 +275,9 @@ export const WebhookSettingsWorkspace: React.FC = () => {
                                                                     setWebhookData({ ...webhookData, selectedEvents: webhookData.selectedEvents.filter(id => id !== ev.id) });
                                                                 }
                                                             }}
-                                                            className="w-5 h-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                                            className="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary"
                                                         />
-                                                        <span className="text-[15px] text-gray-700 font-medium group-hover:text-indigo-600 transition-colors">{ev.label}</span>
+                                                        <span className="text-[15px] text-foreground/90 font-medium group-hover:text-primary transition-colors">{ev.label}</span>
                                                     </label>
                                                 ))}
                                             </div>
@@ -291,7 +291,7 @@ export const WebhookSettingsWorkspace: React.FC = () => {
                                 <div className="flex items-center justify-end gap-3 pt-4">
                                     <button 
                                         onClick={() => setIsAddModalOpen(false)}
-                                        className="px-6 py-2.5 border border-gray-300 text-gray-700 text-[14px] font-bold rounded-lg hover:bg-gray-50 transition-colors"
+                                        className="px-6 py-2.5 border border-gray-300 text-foreground/90 text-[14px] font-bold rounded-lg hover:bg-muted/50 transition-colors"
                                     >
                                         Cancel
                                     </button>
@@ -311,7 +311,7 @@ export const WebhookSettingsWorkspace: React.FC = () => {
                                             });
                                         }}
                                         disabled={!webhookData.title || !webhookData.url || (webhookData.eventMode === 'individual' && webhookData.selectedEvents.length === 0)}
-                                        className="px-6 py-2.5 bg-gray-100 text-gray-400 text-[14px] font-bold rounded-lg hover:bg-indigo-600 hover:text-white transition-all disabled:opacity-50"
+                                        className="px-6 py-2.5 bg-muted text-gray-400 text-[14px] font-bold rounded-lg hover:bg-primary hover:text-white transition-all disabled:opacity-50"
                                     >
                                         {editingWebhook ? 'Update Webhook' : 'Add Webhook'}
                                     </button>

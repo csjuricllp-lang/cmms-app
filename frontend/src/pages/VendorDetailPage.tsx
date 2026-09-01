@@ -197,10 +197,10 @@ export const VendorDetailPage = () => {
 
     if (isLoading) {
         return (
-            <div className="flex h-screen items-center justify-center bg-slate-50 font-outfit">
+            <div className="flex h-screen items-center justify-center bg-transparent font-outfit">
                 <div className="text-center space-y-3">
-                    <div className="w-12 h-12 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto" />
-                    <p className="text-[14px] font-bold text-slate-500">Loading Provider Dossier...</p>
+                    <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto" />
+                    <p className="text-[14px] font-bold text-muted-foreground">Loading Provider Dossier...</p>
                 </div>
             </div>
         );
@@ -208,11 +208,11 @@ export const VendorDetailPage = () => {
 
     if (error || !vendor) {
         return (
-            <div className="flex h-screen flex-col items-center justify-center bg-slate-50 text-center font-outfit p-4">
+            <div className="flex h-screen flex-col items-center justify-center bg-transparent text-center font-outfit p-4">
                 <AlertCircle className="w-12 h-12 text-red-500 mb-4" />
                 <h3 className="text-[18px] font-bold text-slate-800">Error Loading Provider</h3>
                 <p className="text-[14px] text-slate-400 mt-1 max-w-[400px]">The requested provider record does not exist or you lack sufficient access permissions.</p>
-                <button onClick={() => navigate('/vendors')} className="mt-6 px-5 py-2.5 bg-indigo-600 text-white rounded-xl text-[13px] font-bold shadow-md shadow-indigo-100">
+                <button onClick={() => navigate('/vendors')} className="mt-6 px-5 py-2.5 bg-primary text-white rounded-xl text-[13px] font-bold shadow-md shadow-primary/20">
                     Go Back to Providers List
                 </button>
             </div>
@@ -220,11 +220,11 @@ export const VendorDetailPage = () => {
     }
 
     return (
-        <div className="flex flex-col h-full bg-slate-50/50 min-h-screen font-outfit select-none">
+        <div className="flex flex-col h-full bg-transparent/50 min-h-screen font-outfit select-none">
             {/* Top Navigation Header */}
-            <div className="h-16 bg-white border-b border-slate-100 px-6 flex items-center justify-between sticky top-0 z-30 shrink-0">
+            <div className="h-16 bg-card border-b border-slate-100 px-6 flex items-center justify-between sticky top-0 z-30 shrink-0">
                 <div className="flex items-center gap-4">
-                    <button onClick={() => navigate('/vendors')} className="p-1.5 hover:bg-slate-50 rounded-lg text-slate-500 hover:text-slate-800 transition-colors">
+                    <button onClick={() => navigate('/vendors')} className="p-1.5 hover:bg-transparent rounded-lg text-muted-foreground hover:text-slate-800 transition-colors">
                         <ArrowLeft className="w-5 h-5" />
                     </button>
                     <div className="w-px h-6 bg-slate-200" />
@@ -234,21 +234,21 @@ export const VendorDetailPage = () => {
                 <div className="flex items-center gap-2.5">
                     <button 
                         onClick={() => setIsEditModalOpen(true)}
-                        className="px-4.5 py-2 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-all font-bold text-[13px] text-slate-600 shadow-sm flex items-center gap-1.5 active:scale-95"
+                        className="px-4.5 py-2 bg-card border border-border rounded-xl hover:bg-transparent transition-all font-bold text-[13px] text-slate-600 shadow-sm flex items-center gap-1.5 active:scale-95"
                     >
                         <Edit2 className="w-3.5 h-3.5 text-slate-400" />
                         Edit
                     </button>
                     <button 
                         onClick={() => setIsChatOpen(true)}
-                        className="px-4.5 py-2 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-all font-bold text-[13px] text-slate-600 shadow-sm flex items-center gap-1.5 active:scale-95"
+                        className="px-4.5 py-2 bg-card border border-border rounded-xl hover:bg-transparent transition-all font-bold text-[13px] text-slate-600 shadow-sm flex items-center gap-1.5 active:scale-95"
                     >
                         <MessageSquare className="w-3.5 h-3.5 text-slate-400" />
                         Chat
                     </button>
                     <button 
                         onClick={() => setShowDeleteConfirm(true)}
-                        className="p-2 border border-slate-200 bg-white hover:bg-red-50 text-slate-400 hover:text-red-600 hover:border-red-200 rounded-xl transition-colors shadow-sm"
+                        className="p-2 border border-border bg-card hover:bg-red-50 text-slate-400 hover:text-red-600 hover:border-red-200 rounded-xl transition-colors shadow-sm"
                         title="Delete Dossier"
                     >
                         <Trash2 className="w-4.5 h-4.5" />
@@ -263,8 +263,8 @@ export const VendorDetailPage = () => {
                 <div className="lg:col-span-2 space-y-6">
                     
                     {/* General Information Alert Box */}
-                    <div className="bg-slate-50 rounded-2xl border border-slate-200/60 p-5 flex items-start gap-4">
-                        <Info className="w-5 h-5 text-indigo-500 shrink-0 mt-0.5" />
+                    <div className="bg-transparent rounded-2xl border border-slate-200/60 p-5 flex items-start gap-4">
+                        <Info className="w-5 h-5 text-primary/80 shrink-0 mt-0.5" />
                         <div>
                             <h4 className="text-[13px] font-bold text-slate-800">General Information</h4>
                             <p className="text-[12px] text-slate-400 mt-1">Managed by your team — you can edit this information anytime. Attachments, licenses, and insurances help maintain vendor compliance logs.</p>
@@ -272,10 +272,10 @@ export const VendorDetailPage = () => {
                     </div>
 
                     {/* Accordion 1: Assigned Work Orders */}
-                    <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
+                    <div className="bg-card rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
                         <button 
                             onClick={() => setIsWorkOrdersOpen(!isWorkOrdersOpen)}
-                            className="w-full px-6 py-4 flex items-center justify-between border-b border-slate-100 hover:bg-slate-50/50 transition-colors font-bold text-[14px] text-slate-700"
+                            className="w-full px-6 py-4 flex items-center justify-between border-b border-slate-100 hover:bg-transparent/50 transition-colors font-bold text-[14px] text-foreground/90"
                         >
                             <span>Assigned Work Orders ({vendor.workOrders?.length || 0})</span>
                             {isWorkOrdersOpen ? <ChevronUp className="w-4 h-4 text-slate-400" /> : <ChevronDown className="w-4 h-4 text-slate-400" />}
@@ -296,13 +296,13 @@ export const VendorDetailPage = () => {
                                                     <div key={wo.id} className="py-3.5 first:pt-0 last:pb-0 flex items-center justify-between hover:bg-slate-55/20 transition-colors">
                                                         <div className="space-y-1">
                                                             <div className="flex items-center gap-2">
-                                                                <span className="text-[13px] font-bold text-indigo-600">#{wo.woNumber || 'WO-103'}</span>
-                                                                <span className="text-[13px] font-bold text-slate-700">{wo.title}</span>
+                                                                <span className="text-[13px] font-bold text-primary">#{wo.woNumber || 'WO-103'}</span>
+                                                                <span className="text-[13px] font-bold text-foreground/90">{wo.title}</span>
                                                             </div>
                                                             <p className="text-[11px] text-slate-400 line-clamp-1">{wo.description || 'No additional details provided.'}</p>
                                                         </div>
                                                         <div className="flex items-center gap-2">
-                                                            <span className="px-2 py-0.5 bg-slate-50 text-slate-500 border border-slate-200/50 rounded-md text-[10px] font-bold uppercase tracking-wide">
+                                                            <span className="px-2 py-0.5 bg-transparent text-muted-foreground border border-slate-200/50 rounded-md text-[10px] font-bold uppercase tracking-wide">
                                                                 {wo.status?.replace('_', ' ') || 'OPEN'}
                                                             </span>
                                                         </div>
@@ -321,10 +321,10 @@ export const VendorDetailPage = () => {
                     </div>
 
                     {/* Accordion 2: Assigned Locations */}
-                    <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
+                    <div className="bg-card rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
                         <button 
                             onClick={() => setIsLocationsOpen(!isLocationsOpen)}
-                            className="w-full px-6 py-4 flex items-center justify-between border-b border-slate-100 hover:bg-slate-50/50 transition-colors font-bold text-[14px] text-slate-700"
+                            className="w-full px-6 py-4 flex items-center justify-between border-b border-slate-100 hover:bg-transparent/50 transition-colors font-bold text-[14px] text-foreground/90"
                         >
                             <span>Assigned Locations ({vendor.locations?.length || 0})</span>
                             {isLocationsOpen ? <ChevronUp className="w-4 h-4 text-slate-400" /> : <ChevronDown className="w-4 h-4 text-slate-400" />}
@@ -342,7 +342,7 @@ export const VendorDetailPage = () => {
                                         {vendor.locations && vendor.locations.length > 0 ? (
                                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                                 {vendor.locations.map((loc: any) => (
-                                                    <div key={loc.id} className="p-4 bg-slate-50/50 border border-slate-200/60 rounded-xl flex items-start gap-3">
+                                                    <div key={loc.id} className="p-4 bg-transparent/50 border border-slate-200/60 rounded-xl flex items-start gap-3">
                                                         <MapPin className="w-5 h-5 text-slate-400 shrink-0 mt-0.5" />
                                                         <div>
                                                             <h5 className="font-bold text-[13px] text-slate-800">{loc.name}</h5>
@@ -363,10 +363,10 @@ export const VendorDetailPage = () => {
                     </div>
 
                     {/* Accordion 3: Files & Compliance */}
-                    <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
+                    <div className="bg-card rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
                         <button 
                             onClick={() => setIsFilesOpen(!isFilesOpen)}
-                            className="w-full px-6 py-4 flex items-center justify-between border-b border-slate-100 hover:bg-slate-50/50 transition-colors font-bold text-[14px] text-slate-700"
+                            className="w-full px-6 py-4 flex items-center justify-between border-b border-slate-100 hover:bg-transparent/50 transition-colors font-bold text-[14px] text-foreground/90"
                         >
                             <span>Files & Compliance ({vendor.files?.length || 0})</span>
                             {isFilesOpen ? <ChevronUp className="w-4 h-4 text-slate-400" /> : <ChevronDown className="w-4 h-4 text-slate-400" />}
@@ -383,14 +383,14 @@ export const VendorDetailPage = () => {
                                     <div className="p-6 space-y-6">
                                         
                                         {/* Drag & Drop mockup file selector */}
-                                        <div className="border-2 border-dashed border-slate-200/80 rounded-xl p-8 hover:border-indigo-400 transition-colors bg-slate-50/30 flex flex-col items-center justify-center text-center cursor-pointer relative group">
+                                        <div className="border-2 border-dashed border-slate-200/80 rounded-xl p-8 hover:border-primary/80 transition-colors bg-transparent/30 flex flex-col items-center justify-center text-center cursor-pointer relative group">
                                             <input 
                                                 type="file" 
                                                 onChange={handleFileUpload}
                                                 className="absolute inset-0 opacity-0 cursor-pointer"
                                             />
-                                            <Upload className="w-7 h-7 text-slate-400 group-hover:text-indigo-500 transition-colors mb-2" />
-                                            <h5 className="font-bold text-[13px] text-slate-700">Drag & drop files here</h5>
+                                            <Upload className="w-7 h-7 text-slate-400 group-hover:text-primary/80 transition-colors mb-2" />
+                                            <h5 className="font-bold text-[13px] text-foreground/90">Drag & drop files here</h5>
                                             <p className="text-[11px] text-slate-400 mt-1">or click to browse local documents</p>
                                         </div>
 
@@ -398,9 +398,9 @@ export const VendorDetailPage = () => {
                                         {vendor.files && vendor.files.length > 0 ? (
                                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                                 {vendor.files.map((file: any) => (
-                                                    <div key={file.id} className="p-4 bg-white border border-slate-200 rounded-xl flex items-center justify-between shadow-sm">
+                                                    <div key={file.id} className="p-4 bg-card border border-border rounded-xl flex items-center justify-between shadow-sm">
                                                         <div className="flex items-center gap-3 min-w-0">
-                                                            <FileText className="w-8 h-8 text-indigo-500 shrink-0" />
+                                                            <FileText className="w-8 h-8 text-primary/80 shrink-0" />
                                                             <div className="min-w-0">
                                                                 <h5 className="font-bold text-[13px] text-slate-800 truncate">{file.filename}</h5>
                                                                 <p className="text-[10px] text-slate-400 mt-0.5">{(file.size ? (file.size / 1024).toFixed(1) : 0)} KB • {new Date(file.createdAt).toLocaleDateString()}</p>
@@ -408,7 +408,7 @@ export const VendorDetailPage = () => {
                                                         </div>
                                                         <button 
                                                             onClick={() => deleteFileMutation.mutate(file.id)}
-                                                            className="p-1.5 text-slate-400 hover:text-red-500 rounded-lg hover:bg-slate-50 transition-all"
+                                                            className="p-1.5 text-slate-400 hover:text-red-500 rounded-lg hover:bg-transparent transition-all"
                                                         >
                                                             <Trash2 className="w-4 h-4" />
                                                         </button>
@@ -427,40 +427,40 @@ export const VendorDetailPage = () => {
                     </div>
 
                     {/* Contact Information Sheet */}
-                    <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-6 space-y-5">
+                    <div className="bg-card rounded-2xl border border-slate-200/80 shadow-sm p-6 space-y-5">
                         <h3 className="text-[14px] font-bold text-slate-800 border-b border-slate-100 pb-3 flex items-center gap-2">Contact Information</h3>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                             <div className="space-y-1">
                                 <label className="text-[11px] font-black text-slate-400 uppercase">Full Name</label>
-                                <div className="text-[13.5px] font-bold text-slate-700 flex items-center gap-2">
+                                <div className="text-[13.5px] font-bold text-foreground/90 flex items-center gap-2">
                                     <ShieldCheck className="w-4 h-4 text-emerald-500" />
                                     {vendor.contactName || 'John Doe'}
                                 </div>
                             </div>
                             <div className="space-y-1">
                                 <label className="text-[11px] font-black text-slate-400 uppercase">Phone Number</label>
-                                <div className="text-[13.5px] font-bold text-slate-700 flex items-center gap-2">
+                                <div className="text-[13.5px] font-bold text-foreground/90 flex items-center gap-2">
                                     <Phone className="w-4 h-4 text-slate-400" />
                                     {vendor.phone || '(562) 692-5211'}
                                 </div>
                             </div>
                             <div className="space-y-1">
                                 <label className="text-[11px] font-black text-slate-400 uppercase">Email</label>
-                                <div className="text-[13.5px] font-bold text-slate-700 flex items-center gap-2">
+                                <div className="text-[13.5px] font-bold text-foreground/90 flex items-center gap-2">
                                     <Mail className="w-4 h-4 text-slate-400" />
                                     {vendor.email || 'la.sales@mcmaster.com'}
                                 </div>
                             </div>
                             <div className="space-y-1">
                                 <label className="text-[11px] font-black text-slate-400 uppercase">Website</label>
-                                <div className="text-[13.5px] font-bold text-indigo-600 flex items-center gap-2 hover:underline cursor-pointer">
+                                <div className="text-[13.5px] font-bold text-primary flex items-center gap-2 hover:underline cursor-pointer">
                                     <Globe className="w-4 h-4 text-slate-400" />
                                     {vendor.website || 'https://www.mcmaster.com'}
                                 </div>
                             </div>
                             <div className="sm:col-span-2 space-y-1">
                                 <label className="text-[11px] font-black text-slate-400 uppercase">Address</label>
-                                <div className="text-[13.5px] font-bold text-slate-700 flex items-center gap-2">
+                                <div className="text-[13.5px] font-bold text-foreground/90 flex items-center gap-2">
                                     <MapPin className="w-4 h-4 text-slate-400 shrink-0 mt-0.5" />
                                     {vendor.address || '9630 Norwalk Blvd, Santa Fe Springs, CA 90670-2932'}
                                 </div>
@@ -473,16 +473,16 @@ export const VendorDetailPage = () => {
                     </div>
 
                     {/* Business Details Sheet */}
-                    <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-6 space-y-5">
+                    <div className="bg-card rounded-2xl border border-slate-200/80 shadow-sm p-6 space-y-5">
                         <h3 className="text-[14px] font-bold text-slate-800 border-b border-slate-100 pb-3">Business Details</h3>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                             <div className="space-y-1">
                                 <label className="text-[11px] font-black text-slate-400 uppercase">Company Name</label>
-                                <div className="text-[13.5px] font-bold text-slate-700">{vendor.name}</div>
+                                <div className="text-[13.5px] font-bold text-foreground/90">{vendor.name}</div>
                             </div>
                             <div className="space-y-1">
                                 <label className="text-[11px] font-black text-slate-400 uppercase">Provider Type</label>
-                                <div className="text-[13.5px] font-bold text-slate-700">{vendor.type || 'Vendor'}</div>
+                                <div className="text-[13.5px] font-bold text-foreground/90">{vendor.type || 'Vendor'}</div>
                             </div>
                             <div className="space-y-1">
                                 <label className="text-[11px] font-black text-slate-400 uppercase">Verification Status</label>
@@ -495,7 +495,7 @@ export const VendorDetailPage = () => {
                             {vendor.hourlyRate && (
                                 <div className="space-y-1">
                                     <label className="text-[11px] font-black text-slate-400 uppercase">Hourly Rate</label>
-                                    <div className="text-[13.5px] font-bold text-slate-700">${vendor.hourlyRate}/hr</div>
+                                    <div className="text-[13.5px] font-bold text-foreground/90">${vendor.hourlyRate}/hr</div>
                                 </div>
                             )}
                         </div>
@@ -506,21 +506,21 @@ export const VendorDetailPage = () => {
                 <div className="space-y-6">
                     
                     {/* Provider Profile Info header card */}
-                    <div className="bg-[#EEF2FF] border border-[#C7D2FE]/50 rounded-2xl p-5 flex items-start gap-4">
-                        <CircleCheck className="w-5 h-5 text-indigo-600 shrink-0 mt-0.5" />
+                    <div className="bg-primary/10 border border-[#C7D2FE]/50 rounded-2xl p-5 flex items-start gap-4">
+                        <CircleCheck className="w-5 h-5 text-primary shrink-0 mt-0.5" />
                         <div>
                             <h4 className="text-[13px] font-bold text-slate-800">Provider Profile</h4>
-                            <p className="text-[12px] text-slate-500 mt-1">Submitted via the Provider Portal — only the vendor can update this information directly.</p>
+                            <p className="text-[12px] text-muted-foreground mt-1">Submitted via the Provider Portal — only the vendor can update this information directly.</p>
                         </div>
                     </div>
 
                     {/* Services Specialties Card */}
-                    <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-6 space-y-4">
+                    <div className="bg-card rounded-2xl border border-slate-200/80 shadow-sm p-6 space-y-4">
                         <h3 className="text-[14px] font-bold text-slate-800 border-b border-slate-100 pb-3">Services</h3>
                         {vendor.services && vendor.services.length > 0 ? (
                             <div className="flex flex-wrap gap-2">
                                 {vendor.services.map((item: string, idx: number) => (
-                                    <span key={idx} className="px-2.5 py-1 bg-slate-50 text-slate-700 border border-slate-200 rounded-lg text-[12px] font-semibold">
+                                    <span key={idx} className="px-2.5 py-1 bg-transparent text-foreground/90 border border-border rounded-lg text-[12px] font-semibold">
                                         {item}
                                     </span>
                                 ))}
@@ -531,16 +531,16 @@ export const VendorDetailPage = () => {
                     </div>
 
                     {/* Service Coverage map card */}
-                    <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-6 space-y-4">
+                    <div className="bg-card rounded-2xl border border-slate-200/80 shadow-sm p-6 space-y-4">
                         <h3 className="text-[14px] font-bold text-slate-800 border-b border-slate-100 pb-3">Service Coverage</h3>
                         <p className="text-[12px] text-slate-400">1 coverage areas - Click map to explore</p>
                         
                         {/* Mock map layout */}
-                        <div className="relative h-44 rounded-xl overflow-hidden bg-sky-100 border border-slate-200 flex items-center justify-center">
+                        <div className="relative h-44 rounded-xl overflow-hidden bg-sky-100 border border-border flex items-center justify-center">
                             {/* Simple abstract map grid mockup using CSS */}
                             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-sky-200 via-sky-100 to-sky-50 opacity-80" />
-                            <div className="absolute w-24 h-24 rounded-full border-2 border-indigo-500/20 bg-indigo-500/10 flex items-center justify-center animate-pulse">
-                                <div className="absolute w-2 h-2 bg-indigo-600 rounded-full" />
+                            <div className="absolute w-24 h-24 rounded-full border-2 border-primary/80/20 bg-primary/80/10 flex items-center justify-center animate-pulse">
+                                <div className="absolute w-2 h-2 bg-primary rounded-full" />
                             </div>
                             <span className="absolute bottom-2.5 left-2.5 bg-slate-900/70 backdrop-blur-md px-2 py-0.5 rounded text-[10px] text-white font-medium select-none">
                                 Service Radius: {vendor.serviceRadius || 25} mi
@@ -549,43 +549,43 @@ export const VendorDetailPage = () => {
                     </div>
 
                     {/* Licenses List Card */}
-                    <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-6 space-y-4">
+                    <div className="bg-card rounded-2xl border border-slate-200/80 shadow-sm p-6 space-y-4">
                         <div className="flex items-center justify-between border-b border-slate-100 pb-3">
                             <h3 className="text-[14px] font-bold text-slate-800">Licenses</h3>
                             <button 
                                 onClick={() => setShowAddLicense(!showAddLicense)}
-                                className="p-1 hover:bg-slate-50 rounded-lg text-indigo-600 hover:text-indigo-700 transition-colors"
+                                className="p-1 hover:bg-transparent rounded-lg text-primary hover:text-primary/90 transition-colors"
                             >
                                 <Plus className="w-4 h-4" />
                             </button>
                         </div>
 
                         {showAddLicense && (
-                            <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-3">
+                            <div className="p-4 bg-transparent border border-border rounded-xl space-y-3">
                                 <input 
                                     type="text" 
                                     placeholder="License Type (e.g. C-20 HVAC)"
                                     value={newLicense.type}
                                     onChange={(e) => setNewLicense({ ...newLicense, type: e.target.value })}
-                                    className="w-full bg-white border border-slate-200 px-3 py-1.5 rounded-lg text-[12px] outline-none"
+                                    className="w-full bg-card border border-border px-3 py-1.5 rounded-lg text-[12px] outline-none"
                                 />
                                 <input 
                                     type="text" 
                                     placeholder="License Number (e.g. #90342)"
                                     value={newLicense.number}
                                     onChange={(e) => setNewLicense({ ...newLicense, number: e.target.value })}
-                                    className="w-full bg-white border border-slate-200 px-3 py-1.5 rounded-lg text-[12px] outline-none"
+                                    className="w-full bg-card border border-border px-3 py-1.5 rounded-lg text-[12px] outline-none"
                                 />
                                 <input 
                                     type="date" 
                                     placeholder="Expiration Date"
                                     value={newLicense.expiry}
                                     onChange={(e) => setNewLicense({ ...newLicense, expiry: e.target.value })}
-                                    className="w-full bg-white border border-slate-200 px-3 py-1.5 rounded-lg text-[12px] outline-none text-slate-500"
+                                    className="w-full bg-card border border-border px-3 py-1.5 rounded-lg text-[12px] outline-none text-muted-foreground"
                                 />
                                 <div className="flex items-center justify-end gap-2 pt-1.5">
-                                    <button onClick={() => setShowAddLicense(false)} className="px-2.5 py-1 text-[11px] font-bold text-slate-500 hover:bg-slate-200 rounded-lg transition-colors">Cancel</button>
-                                    <button onClick={handleAddLicense} className="px-3.5 py-1 bg-indigo-600 text-white text-[11px] font-bold rounded-lg hover:bg-indigo-700 transition-colors shadow-sm">Save</button>
+                                    <button onClick={() => setShowAddLicense(false)} className="px-2.5 py-1 text-[11px] font-bold text-muted-foreground hover:bg-slate-200 rounded-lg transition-colors">Cancel</button>
+                                    <button onClick={handleAddLicense} className="px-3.5 py-1 bg-primary text-white text-[11px] font-bold rounded-lg hover:bg-primary/90 transition-colors shadow-sm">Save</button>
                                 </div>
                             </div>
                         )}
@@ -593,7 +593,7 @@ export const VendorDetailPage = () => {
                         {vendor.licenses && vendor.licenses.length > 0 ? (
                             <div className="space-y-3">
                                 {vendor.licenses.map((lic: any) => (
-                                    <div key={lic.id} className="p-3 bg-slate-50 border border-slate-200/50 rounded-xl flex items-center justify-between">
+                                    <div key={lic.id} className="p-3 bg-transparent border border-slate-200/50 rounded-xl flex items-center justify-between">
                                         <div>
                                             <h5 className="font-bold text-[12.5px] text-slate-800">{lic.type}</h5>
                                             <p className="text-[11px] text-slate-400 mt-0.5">No: {lic.number} {lic.expiry && `• Exp: ${lic.expiry}`}</p>
@@ -613,43 +613,43 @@ export const VendorDetailPage = () => {
                     </div>
 
                     {/* Insurances List Card */}
-                    <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-6 space-y-4">
+                    <div className="bg-card rounded-2xl border border-slate-200/80 shadow-sm p-6 space-y-4">
                         <div className="flex items-center justify-between border-b border-slate-100 pb-3">
                             <h3 className="text-[14px] font-bold text-slate-800">Insurances</h3>
                             <button 
                                 onClick={() => setShowAddInsurance(!showAddInsurance)}
-                                className="p-1 hover:bg-slate-50 rounded-lg text-indigo-600 hover:text-indigo-700 transition-colors"
+                                className="p-1 hover:bg-transparent rounded-lg text-primary hover:text-primary/90 transition-colors"
                             >
                                 <Plus className="w-4 h-4" />
                             </button>
                         </div>
 
                         {showAddInsurance && (
-                            <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-3">
+                            <div className="p-4 bg-transparent border border-border rounded-xl space-y-3">
                                 <input 
                                     type="text" 
                                     placeholder="Carrier (e.g. Hartford Group)"
                                     value={newInsurance.carrier}
                                     onChange={(e) => setNewInsurance({ ...newInsurance, carrier: e.target.value })}
-                                    className="w-full bg-white border border-slate-200 px-3 py-1.5 rounded-lg text-[12px] outline-none"
+                                    className="w-full bg-card border border-border px-3 py-1.5 rounded-lg text-[12px] outline-none"
                                 />
                                 <input 
                                     type="text" 
                                     placeholder="Liability Limit (e.g. $2,000,000)"
                                     value={newInsurance.amount}
                                     onChange={(e) => setNewInsurance({ ...newInsurance, amount: e.target.value })}
-                                    className="w-full bg-white border border-slate-200 px-3 py-1.5 rounded-lg text-[12px] outline-none"
+                                    className="w-full bg-card border border-border px-3 py-1.5 rounded-lg text-[12px] outline-none"
                                 />
                                 <input 
                                     type="date" 
                                     placeholder="Expiration Date"
                                     value={newInsurance.expiry}
                                     onChange={(e) => setNewInsurance({ ...newInsurance, expiry: e.target.value })}
-                                    className="w-full bg-white border border-slate-200 px-3 py-1.5 rounded-lg text-[12px] outline-none text-slate-500"
+                                    className="w-full bg-card border border-border px-3 py-1.5 rounded-lg text-[12px] outline-none text-muted-foreground"
                                 />
                                 <div className="flex items-center justify-end gap-2 pt-1.5">
-                                    <button onClick={() => setShowAddInsurance(false)} className="px-2.5 py-1 text-[11px] font-bold text-slate-500 hover:bg-slate-200 rounded-lg transition-colors">Cancel</button>
-                                    <button onClick={handleAddInsurance} className="px-3.5 py-1 bg-indigo-600 text-white text-[11px] font-bold rounded-lg hover:bg-indigo-700 transition-colors shadow-sm">Save</button>
+                                    <button onClick={() => setShowAddInsurance(false)} className="px-2.5 py-1 text-[11px] font-bold text-muted-foreground hover:bg-slate-200 rounded-lg transition-colors">Cancel</button>
+                                    <button onClick={handleAddInsurance} className="px-3.5 py-1 bg-primary text-white text-[11px] font-bold rounded-lg hover:bg-primary/90 transition-colors shadow-sm">Save</button>
                                 </div>
                             </div>
                         )}
@@ -657,7 +657,7 @@ export const VendorDetailPage = () => {
                         {vendor.insurances && vendor.insurances.length > 0 ? (
                             <div className="space-y-3">
                                 {vendor.insurances.map((ins: any) => (
-                                    <div key={ins.id} className="p-3 bg-slate-50 border border-slate-200/50 rounded-xl flex items-center justify-between">
+                                    <div key={ins.id} className="p-3 bg-transparent border border-slate-200/50 rounded-xl flex items-center justify-between">
                                         <div>
                                             <h5 className="font-bold text-[12.5px] text-slate-800">{ins.carrier}</h5>
                                             <p className="text-[11px] text-slate-400 mt-0.5">Limit: {ins.amount} {ins.expiry && `• Exp: ${ins.expiry}`}</p>
@@ -677,43 +677,43 @@ export const VendorDetailPage = () => {
                     </div>
 
                     {/* Certifications List Card */}
-                    <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-6 space-y-4">
+                    <div className="bg-card rounded-2xl border border-slate-200/80 shadow-sm p-6 space-y-4">
                         <div className="flex items-center justify-between border-b border-slate-100 pb-3">
                             <h3 className="text-[14px] font-bold text-slate-800">Certifications</h3>
                             <button 
                                 onClick={() => setShowAddCert(!showAddCert)}
-                                className="p-1 hover:bg-slate-50 rounded-lg text-indigo-600 hover:text-indigo-700 transition-colors"
+                                className="p-1 hover:bg-transparent rounded-lg text-primary hover:text-primary/90 transition-colors"
                             >
                                 <Plus className="w-4 h-4" />
                             </button>
                         </div>
 
                         {showAddCert && (
-                            <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-3">
+                            <div className="p-4 bg-transparent border border-border rounded-xl space-y-3">
                                 <input 
                                     type="text" 
                                     placeholder="Certification Name (e.g. LEED)"
                                     value={newCert.name}
                                     onChange={(e) => setNewCert({ ...newCert, name: e.target.value })}
-                                    className="w-full bg-white border border-slate-200 px-3 py-1.5 rounded-lg text-[12px] outline-none"
+                                    className="w-full bg-card border border-border px-3 py-1.5 rounded-lg text-[12px] outline-none"
                                 />
                                 <input 
                                     type="text" 
                                     placeholder="Issuing Authority (e.g. USGBC)"
                                     value={newCert.authority}
                                     onChange={(e) => setNewCert({ ...newCert, authority: e.target.value })}
-                                    className="w-full bg-white border border-slate-200 px-3 py-1.5 rounded-lg text-[12px] outline-none"
+                                    className="w-full bg-card border border-border px-3 py-1.5 rounded-lg text-[12px] outline-none"
                                 />
                                 <input 
                                     type="date" 
                                     placeholder="Expiration Date"
                                     value={newCert.expiry}
                                     onChange={(e) => setNewCert({ ...newCert, expiry: e.target.value })}
-                                    className="w-full bg-white border border-slate-200 px-3 py-1.5 rounded-lg text-[12px] outline-none text-slate-500"
+                                    className="w-full bg-card border border-border px-3 py-1.5 rounded-lg text-[12px] outline-none text-muted-foreground"
                                 />
                                 <div className="flex items-center justify-end gap-2 pt-1.5">
-                                    <button onClick={() => setShowAddCert(false)} className="px-2.5 py-1 text-[11px] font-bold text-slate-500 hover:bg-slate-200 rounded-lg transition-colors">Cancel</button>
-                                    <button onClick={handleAddCert} className="px-3.5 py-1 bg-indigo-600 text-white text-[11px] font-bold rounded-lg hover:bg-indigo-700 transition-colors shadow-sm">Save</button>
+                                    <button onClick={() => setShowAddCert(false)} className="px-2.5 py-1 text-[11px] font-bold text-muted-foreground hover:bg-slate-200 rounded-lg transition-colors">Cancel</button>
+                                    <button onClick={handleAddCert} className="px-3.5 py-1 bg-primary text-white text-[11px] font-bold rounded-lg hover:bg-primary/90 transition-colors shadow-sm">Save</button>
                                 </div>
                             </div>
                         )}
@@ -721,7 +721,7 @@ export const VendorDetailPage = () => {
                         {vendor.certifications && vendor.certifications.length > 0 ? (
                             <div className="space-y-3">
                                 {vendor.certifications.map((c: any) => (
-                                    <div key={c.id} className="p-3 bg-slate-50 border border-slate-200/50 rounded-xl flex items-center justify-between">
+                                    <div key={c.id} className="p-3 bg-transparent border border-slate-200/50 rounded-xl flex items-center justify-between">
                                         <div>
                                             <h5 className="font-bold text-[12.5px] text-slate-800">{c.name}</h5>
                                             <p className="text-[11px] text-slate-400 mt-0.5">By: {c.authority} {c.expiry && `• Exp: ${c.expiry}`}</p>
@@ -777,12 +777,12 @@ export const VendorDetailPage = () => {
                             animate={{ x: 0 }}
                             exit={{ x: '100%' }}
                             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-                            className="fixed right-0 top-0 bottom-0 w-full max-w-[450px] bg-white shadow-2xl border-l border-slate-100 flex flex-col z-[1001]"
+                            className="fixed right-0 top-0 bottom-0 w-full max-w-[450px] bg-card shadow-2xl border-l border-slate-100 flex flex-col z-[1001]"
                         >
                             {/* Drawer Header */}
-                            <div className="px-6 py-5 bg-slate-50 border-b border-slate-100 flex items-center justify-between">
+                            <div className="px-6 py-5 bg-transparent border-b border-slate-100 flex items-center justify-between">
                                 <div className="flex items-center gap-3">
-                                    <MessageSquare className="w-5 h-5 text-indigo-600" />
+                                    <MessageSquare className="w-5 h-5 text-primary" />
                                     <h3 className="font-bold text-[15px] text-slate-800">Chat: {vendor.name}</h3>
                                 </div>
                                 <button onClick={() => setIsChatOpen(false)} className="p-1 hover:bg-slate-200 rounded-full text-slate-400 transition-colors">
@@ -791,7 +791,7 @@ export const VendorDetailPage = () => {
                             </div>
 
                             {/* Chat messages */}
-                            <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-slate-50/50">
+                            <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-transparent/50">
                                 {chatLogs.map(log => {
                                     const isSelf = log.sender === 'You';
                                     return (
@@ -800,7 +800,7 @@ export const VendorDetailPage = () => {
                                                 <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider">{log.sender}</span>
                                                 <span className="text-[9px] text-slate-400">{log.time}</span>
                                             </div>
-                                            <div className={`px-4 py-2.5 rounded-2xl text-[13px] max-w-[80%] leading-relaxed ${isSelf ? 'bg-indigo-600 text-white rounded-tr-none' : 'bg-white border border-slate-200 text-slate-700 rounded-tl-none shadow-sm'}`}>
+                                            <div className={`px-4 py-2.5 rounded-2xl text-[13px] max-w-[80%] leading-relaxed ${isSelf ? 'bg-primary text-white rounded-tr-none' : 'bg-card border border-border text-foreground/90 rounded-tl-none shadow-sm'}`}>
                                                 {log.message}
                                             </div>
                                         </div>
@@ -809,17 +809,17 @@ export const VendorDetailPage = () => {
                             </div>
 
                             {/* Chat input bar */}
-                            <form onSubmit={handleSendMessage} className="p-4 border-t border-slate-100 bg-white flex items-center gap-3">
+                            <form onSubmit={handleSendMessage} className="p-4 border-t border-slate-100 bg-card flex items-center gap-3">
                                 <input 
                                     type="text" 
                                     placeholder="Type a message..."
                                     value={chatMessage}
                                     onChange={(e) => setChatMessage(e.target.value)}
-                                    className="flex-1 h-10 border border-slate-200 rounded-xl px-4 text-[13px] outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/5 transition-all bg-slate-50/30"
+                                    className="flex-1 h-10 border border-border rounded-xl px-4 text-[13px] outline-none focus:border-primary/80 focus:ring-4 focus:ring-primary/5 transition-all bg-transparent/30"
                                 />
                                 <button 
                                     type="submit"
-                                    className="h-10 px-4 bg-indigo-600 text-white rounded-xl font-bold text-[12px] flex items-center gap-1.5 transition-all hover:bg-indigo-700 active:scale-95 shadow-sm shadow-indigo-100"
+                                    className="h-10 px-4 bg-primary text-white rounded-xl font-bold text-[12px] flex items-center gap-1.5 transition-all hover:bg-primary/90 active:scale-95 shadow-sm shadow-primary/20"
                                 >
                                     Send
                                 </button>

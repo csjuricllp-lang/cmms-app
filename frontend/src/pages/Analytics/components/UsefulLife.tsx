@@ -49,46 +49,46 @@ export const UsefulLife = ({ data }: { data: AnalyticsData }) => {
         <div className="space-y-6 pb-20">
             {/* Top Row: Single KPI */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div className="bg-white rounded-[20px] border border-slate-100 p-20 flex flex-col items-center justify-center text-center shadow-sm min-h-[350px]">
-                    <span className="text-[100px] font-medium text-slate-900 leading-none">{over90Percent}</span>
-                    <span className="text-[15px] text-slate-500 mt-6">Active assets {'>'} 90% over their useful life</span>
+                <div className="bg-card rounded-[20px] border border-slate-100 p-20 flex flex-col items-center justify-center text-center shadow-sm min-h-[350px]">
+                    <span className="text-[100px] font-medium text-foreground leading-none">{over90Percent}</span>
+                    <span className="text-[15px] text-muted-foreground mt-6">Active assets {'>'} 90% over their useful life</span>
                 </div>
                 <div className="lg:col-span-2" />
             </div>
 
             {/* Middle Row: Full Width Table */}
-            <div className="bg-white rounded-[20px] border border-slate-100 overflow-hidden shadow-sm">
+            <div className="bg-card rounded-[20px] border border-slate-100 overflow-hidden shadow-sm">
                 <div className="px-8 py-4 border-b border-slate-100 flex items-center justify-center">
-                    <h3 className="text-[14px] font-medium text-slate-900">Active Assets x Useful Life</h3>
+                    <h3 className="text-[14px] font-medium text-foreground">Active Assets x Useful Life</h3>
                 </div>
                 <div className="overflow-x-auto">
                     <table className="w-full text-left border-collapse">
-                        <thead>
-                            <tr className="border-b border-slate-100 bg-slate-50/20">
-                                <th className="px-6 py-3 text-[11px] font-bold text-slate-900 uppercase">Asset Name</th>
-                                <th className="px-6 py-3 text-[11px] font-bold text-slate-900 uppercase text-center">Placed In Service Date</th>
-                                <th className="px-6 py-3 text-[11px] font-bold text-slate-900 uppercase text-center">End of Useful Life</th>
-                                <th className="px-6 py-3 text-[11px] font-bold text-slate-900 uppercase text-right">Days In Service</th>
-                                <th className="px-6 py-3 text-[11px] font-bold text-slate-900 uppercase">Days until End of Useful Life</th>
-                                <th className="px-6 py-3 text-[11px] font-bold text-slate-900 uppercase">% Through Useful Life</th>
+                        <thead className="text-white/90 bg-primary">
+                            <tr className="border-b border-primary/20">
+                                <th className="px-6 py-3 text-[11px] font-black text-white/90 uppercase">Asset Name</th>
+                                <th className="px-6 py-3 text-[11px] font-black text-white/90 uppercase text-center">Placed In Service Date</th>
+                                <th className="px-6 py-3 text-[11px] font-black text-white/90 uppercase text-center">End of Useful Life</th>
+                                <th className="px-6 py-3 text-[11px] font-black text-white/90 uppercase text-right">Days In Service</th>
+                                <th className="px-6 py-3 text-[11px] font-black text-white/90 uppercase">Days until End of Useful Life</th>
+                                <th className="px-6 py-3 text-[11px] font-black text-white/90 uppercase">% Through Useful Life</th>
                             </tr>
                         </thead>
                         <tbody>
                             {usefulLifeData.slice(0, 10).map((asset: any, idx: number) => (
-                                <tr key={asset.id} className={cn("border-b border-slate-50 hover:bg-slate-50/50 transition-colors", idx % 2 === 1 && "bg-slate-50/30")}>
+                                <tr key={asset.id} className={cn("border-b border-slate-50 hover:bg-transparent/50 transition-colors", idx % 2 === 1 && "bg-transparent/30")}>
                                     <td className="px-6 py-4">
                                         <div className="flex items-center gap-3">
                                             <span className="text-[12px] text-slate-400 w-4">{idx + 1}</span>
-                                            <span className="text-[13px] text-slate-900">{asset.name}</span>
+                                            <span className="text-[13px] text-foreground">{asset.name}</span>
                                         </div>
                                     </td>
                                     <td className="px-6 py-4 text-[12px] text-slate-600 text-center">{asset.startDate}</td>
                                     <td className="px-6 py-4 text-[12px] text-slate-600 text-center">{asset.endOfUsefulLife}</td>
-                                    <td className="px-6 py-4 text-[13px] text-slate-900 text-right font-medium">{asset.daysInService.toLocaleString()}</td>
+                                    <td className="px-6 py-4 text-[13px] text-foreground text-right font-medium">{asset.daysInService.toLocaleString()}</td>
                                     <td className="px-6 py-4">
                                         <div className="flex items-center gap-3">
-                                            <span className="text-[13px] text-slate-900 w-8">{Math.max(0, asset.daysUntilEnd).toLocaleString()}</span>
-                                            <div className="flex-1 h-4 bg-slate-100 rounded-sm overflow-hidden max-w-[150px]">
+                                            <span className="text-[13px] text-foreground w-8">{Math.max(0, asset.daysUntilEnd).toLocaleString()}</span>
+                                            <div className="flex-1 h-4 bg-muted rounded-sm overflow-hidden max-w-[150px]">
                                                 <div 
                                                     className={cn(
                                                         "h-full rounded-sm",
@@ -100,7 +100,7 @@ export const UsefulLife = ({ data }: { data: AnalyticsData }) => {
                                         </div>
                                     </td>
                                     <td className="px-6 py-4">
-                                        <div className="h-6 w-full bg-slate-100 rounded-sm overflow-hidden relative">
+                                        <div className="h-6 w-full bg-muted rounded-sm overflow-hidden relative">
                                             <div 
                                                 className={cn(
                                                     "h-full transition-all duration-1000",
@@ -122,34 +122,34 @@ export const UsefulLife = ({ data }: { data: AnalyticsData }) => {
 
             {/* Bottom Row: KPI + Table */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div className="bg-white rounded-[20px] border border-slate-100 p-20 flex flex-col items-center justify-center text-center shadow-sm min-h-[350px]">
-                    <span className="text-[100px] font-medium text-slate-900 leading-none">{expiringWarranties}</span>
-                    <span className="text-[15px] text-slate-500 mt-6">Assets with expiring warranties</span>
+                <div className="bg-card rounded-[20px] border border-slate-100 p-20 flex flex-col items-center justify-center text-center shadow-sm min-h-[350px]">
+                    <span className="text-[100px] font-medium text-foreground leading-none">{expiringWarranties}</span>
+                    <span className="text-[15px] text-muted-foreground mt-6">Assets with expiring warranties</span>
                 </div>
-                <div className="lg:col-span-2 bg-white rounded-[20px] border border-slate-100 overflow-hidden shadow-sm flex flex-col">
+                <div className="lg:col-span-2 bg-card rounded-[20px] border border-slate-100 overflow-hidden shadow-sm flex flex-col">
                     <div className="px-8 py-4 border-b border-slate-100 flex items-center justify-center">
-                        <h3 className="text-[14px] font-medium text-slate-900">Warranty Breakdown</h3>
+                        <h3 className="text-[14px] font-medium text-foreground">Warranty Breakdown</h3>
                     </div>
                     <div className="flex-1 overflow-x-auto">
                         <table className="w-full text-left">
-                            <thead>
-                                <tr className="border-b border-slate-100 bg-slate-50/20">
-                                    <th className="px-6 py-3 text-[11px] font-bold text-slate-900 uppercase">Warranty Expiration Date</th>
-                                    <th className="px-6 py-3 text-[11px] font-bold text-slate-900 uppercase">Asset Name</th>
-                                    <th className="px-6 py-3 text-[11px] font-bold text-slate-900 uppercase text-right">Purchase Price</th>
-                                    <th className="px-6 py-3 text-[11px] font-bold text-slate-900 uppercase text-center">Placed In Service Date</th>
-                                    <th className="px-6 py-3 text-[11px] font-bold text-slate-900 uppercase text-right">Incomplete Work Orders</th>
+                            <thead className="text-white/90 bg-primary">
+                            <tr className="border-b border-primary/20">
+                                    <th className="px-6 py-3 text-[11px] font-black text-white/90 uppercase">Warranty Expiration Date</th>
+                                    <th className="px-6 py-3 text-[11px] font-black text-white/90 uppercase">Asset Name</th>
+                                    <th className="px-6 py-3 text-[11px] font-black text-white/90 uppercase text-right">Purchase Price</th>
+                                    <th className="px-6 py-3 text-[11px] font-black text-white/90 uppercase text-center">Placed In Service Date</th>
+                                    <th className="px-6 py-3 text-[11px] font-black text-white/90 uppercase text-right">Incomplete Work Orders</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {warrantyData.slice(0, 5).map((asset: any, idx: number) => (
-                                    <tr key={asset.id} className={cn("border-b border-slate-50 hover:bg-slate-50/50 transition-colors", idx % 2 === 1 && "bg-slate-50/30")}>
+                                    <tr key={asset.id} className={cn("border-b border-slate-50 hover:bg-transparent/50 transition-colors", idx % 2 === 1 && "bg-transparent/30")}>
                                         <td className="px-6 py-4 flex items-center gap-3">
                                             <span className="text-[12px] text-slate-400 w-4">{idx + 1}</span>
                                             <span className="text-[13px] text-slate-600">{asset.expiryDate}</span>
                                         </td>
                                         <td className="px-6 py-4 text-[13px] text-slate-600">{asset.name}</td>
-                                        <td className="px-6 py-4 text-[13px] text-slate-900 text-right font-medium">${(asset.purchasePrice || 0).toLocaleString()}</td>
+                                        <td className="px-6 py-4 text-[13px] text-foreground text-right font-medium">${(asset.purchasePrice || 0).toLocaleString()}</td>
                                         <td className="px-6 py-4 text-[13px] text-slate-600 text-center">{asset.placedInService}</td>
                                         <td className="px-6 py-4 text-[13px] text-slate-600 text-right">{asset.incompleteWorkOrdersCount || 0}</td>
                                     </tr>

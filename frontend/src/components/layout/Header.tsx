@@ -85,13 +85,13 @@ export const Header = () => {
     const crumbs = buildBreadcrumbs(location.pathname);
 
     return (
-        <header className="h-14 border-b border-white/5 bg-background/50 backdrop-blur-md sticky top-0 z-[100] flex items-center justify-between px-4 gap-4 shrink-0">
+        <header className="h-14 border-b border-primary/20 bg-transparent sticky top-0 z-[100] flex items-center justify-between px-4 gap-4 shrink-0" style={{ boxShadow: 'inset 0 -2px 0 0 hsl(var(--primary-raw) / 0.12)' }}>
             {/* Left: toggle + breadcrumbs */}
             <div className="flex items-center gap-2 flex-1 min-w-0">
                 {/* Sidebar toggle */}
                 <button
                     onClick={toggleSidebar}
-                    className="inline-flex p-2 hover:bg-white/5 rounded-xl text-muted-foreground transition-all shrink-0"
+                    className="inline-flex p-2 hover:bg-primary/10 rounded-xl text-primary/70 hover:text-primary transition-all shrink-0"
                     title="Toggle sidebar"
                 >
                     <PanelLeft className="w-5 h-5 hidden md:block" />
@@ -106,18 +106,18 @@ export const Header = () => {
                         return (
                             <div key={crumb.path} className={cn("flex items-center space-x-2", !isLast && "hidden md:flex", isLast && "min-w-0")}>
                                 {idx > 0 && (
-                                    <ChevronRight className="w-3.5 h-3.5 text-muted-foreground/30 shrink-0 mx-0.5" />
+                                    <ChevronRight className="w-3.5 h-3.5 text-primary/30 shrink-0 mx-0.5" />
                                 )}
                                 {isLast ? (
-                                    // Current page — bold, not a link
-                                    <span className="text-[13px] font-bold text-foreground truncate max-w-[160px] md:max-w-[200px]">
+                                    // Current page — bold, colored with primary
+                                    <span className="text-[13px] font-bold text-primary truncate max-w-[160px] md:max-w-[200px]">
                                         {crumb.label}
                                     </span>
                                 ) : (
                                     // Ancestor — link, muted
                                     <NavLink
                                         to={crumb.path}
-                                        className="text-[13px] font-medium text-muted-foreground hover:text-primary transition-colors shrink-0"
+                                        className="text-[13px] font-medium text-primary/50 hover:text-primary transition-colors shrink-0"
                                     >
                                         {crumb.label}
                                     </NavLink>
@@ -141,7 +141,7 @@ export const Header = () => {
                 {/* Theme Mood Selector */}
                 <div className="relative group/mood">
                     <button
-                        className="w-9 h-9 flex items-center justify-center rounded-xl hover:bg-white/5 text-muted-foreground transition-all"
+                        className="w-9 h-9 flex items-center justify-center rounded-xl hover:bg-primary/10 text-primary/70 hover:text-primary transition-all"
                         title="Workspace mood"
                     >
                         <Monitor className="w-4.5 h-4.5" />
@@ -163,7 +163,7 @@ export const Header = () => {
                                         <div className="w-3.5 h-3.5 rounded-full border border-border shrink-0" style={{ backgroundColor: opt.color }} />
                                         <span className="text-[11px] font-bold whitespace-nowrap">{opt.name}</span>
                                     </div>
-                                    {theme === opt.id && <div className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />}
+                                    {theme === opt.id && <div className="w-1.5 h-1.5 rounded-full bg-card animate-pulse" />}
                                 </button>
                             ))}
                         </div>
@@ -173,7 +173,7 @@ export const Header = () => {
                 {/* Accent Color Picker */}
                 <div className="relative group/palette">
                     <button
-                        className="w-9 h-9 flex items-center justify-center rounded-xl hover:bg-white/5 text-muted-foreground transition-all"
+                        className="w-9 h-9 flex items-center justify-center rounded-xl hover:bg-primary/10 text-primary/70 hover:text-primary transition-all"
                         title="Accent color"
                     >
                         <Palette className="w-4.5 h-4.5" />
@@ -198,10 +198,10 @@ export const Header = () => {
                     </div>
                 </div>
 
-                <div className="h-7 w-[1px] bg-border mx-1" />
+                <div className="h-7 w-[1px] bg-primary/20 mx-1" />
 
                 <button
-                    className="w-9 h-9 flex items-center justify-center rounded-xl hover:bg-white/5 text-muted-foreground transition-all"
+                    className="w-9 h-9 flex items-center justify-center rounded-xl hover:bg-primary/10 text-primary/70 hover:text-primary transition-all"
                     title="Help"
                 >
                     <HelpCircle className="w-4.5 h-4.5" />

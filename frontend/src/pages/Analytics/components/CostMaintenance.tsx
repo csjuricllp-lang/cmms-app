@@ -14,24 +14,24 @@ export const CostMaintenance = ({ data }: { data: AnalyticsData }) => {
     return (
         <div className="space-y-10">
             <div className="space-y-4">
-                <h3 className="text-[14px] font-bold text-slate-500 uppercase tracking-widest pl-1">Cost Overview</h3>
+                <h3 className="text-[14px] font-bold text-muted-foreground uppercase tracking-widest pl-1">Cost Overview</h3>
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
                     <div className="lg:col-span-1 flex flex-col gap-4">
                         {[
                             { label: 'Labor', value: stats.labor, color: 'text-emerald-500' },
-                            { label: 'Parts', value: stats.parts, color: 'text-indigo-500' },
+                            { label: 'Parts', value: stats.parts, color: 'text-primary/80' },
                             { label: 'Other', value: stats.other, color: 'text-amber-500' },
                             { label: 'Total', value: stats.total, color: 'text-slate-800' }
                         ].map((item, i) => (
-                            <div key={i} className="bg-white rounded-xl border border-slate-200 p-6 flex flex-col items-center justify-center text-center shadow-sm">
+                            <div key={i} className="bg-card rounded-xl border border-border p-6 flex flex-col items-center justify-center text-center shadow-sm">
                                 <span className={cn("text-[28px] font-black tracking-tight", item.color)}>${item.value.toLocaleString()}</span>
                                 <span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mt-1">{item.label}</span>
                             </div>
                         ))}
                     </div>
-                    <div className="lg:col-span-3 bg-white rounded-xl border border-slate-200 p-8 shadow-sm">
+                    <div className="lg:col-span-3 bg-card rounded-xl border border-border p-8 shadow-sm">
                         <div className="flex items-center justify-between mb-8">
-                            <span className="text-[12px] font-bold text-slate-500 uppercase tracking-widest">Weekly Trend</span>
+                            <span className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest">Weekly Trend</span>
                         </div>
                         <div className="h-[300px] w-full">
                             <ResponsiveContainer width="100%" height="100%">
@@ -51,14 +51,14 @@ export const CostMaintenance = ({ data }: { data: AnalyticsData }) => {
             </div>
 
             <div className="space-y-4">
-                <h3 className="text-[14px] font-bold text-slate-500 uppercase tracking-widest pl-1">Cost Breakouts</h3>
+                <h3 className="text-[14px] font-bold text-muted-foreground uppercase tracking-widest pl-1">Cost Breakouts</h3>
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     {['Asset', 'Work Order Category', 'Location'].map((title, i) => {
                         const key = title.toLowerCase().includes('asset') ? 'asset' : title.toLowerCase().includes('category') ? 'category' : 'location';
                         const chartData = (breakouts as any)[key] || [];
                         return (
-                            <div key={i} className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm min-h-[350px] flex flex-col">
-                                <span className="text-[12px] font-bold text-slate-500 uppercase tracking-widest mb-6">{title}</span>
+                            <div key={i} className="bg-card rounded-xl border border-border p-6 shadow-sm min-h-[350px] flex flex-col">
+                                <span className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest mb-6">{title}</span>
                                 <div className="flex-1 w-full">
                                     <ResponsiveContainer width="100%" height="100%">
                                         <BarChart data={chartData} layout="vertical">

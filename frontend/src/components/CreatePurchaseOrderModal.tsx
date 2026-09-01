@@ -127,7 +127,7 @@ export const CreatePurchaseOrderModal = ({ isOpen, onClose, initialPartId }: Cre
                             <ShoppingBag className="w-10 h-10" />
                         </div>
                         <div>
-                            <h2 className="text-4xl font-black text-slate-900 dark:text-white italic tracking-tighter uppercase leading-none mb-1">Draft Purchase Order</h2>
+                            <h2 className="text-4xl font-black text-foreground dark:text-white italic tracking-tighter uppercase leading-none mb-1">Draft Purchase Order</h2>
                             <p className="text-[11px] font-black text-primary uppercase tracking-[0.4em] opacity-70">Supply Node v2.2 • Priority Fulfillment</p>
                         </div>
                     </div>
@@ -152,7 +152,7 @@ export const CreatePurchaseOrderModal = ({ isOpen, onClose, initialPartId }: Cre
                                             type="text" 
                                             value={poNumber}
                                             onChange={(e) => setPoNumber(e.target.value)}
-                                            className="w-full h-14 bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl pl-12 pr-4 text-base font-black tracking-tight focus:ring-4 focus:ring-primary/10 transition-all outline-none text-slate-900 dark:text-white relative z-10"
+                                            className="w-full h-14 bg-white/5 border border-border dark:border-white/10 rounded-2xl pl-12 pr-4 text-base font-black tracking-tight focus:ring-4 focus:ring-primary/10 transition-all outline-none text-foreground dark:text-white relative z-10"
                                         />
                                     </div>
                                 </div>
@@ -164,11 +164,11 @@ export const CreatePurchaseOrderModal = ({ isOpen, onClose, initialPartId }: Cre
                                     </div>
                                     <button 
                                         onClick={() => setDropdowns({ ...dropdowns, vendor: !dropdowns.vendor })}
-                                        className="w-full h-14 bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl px-5 flex items-center justify-between hover:bg-black/5 dark:hover:bg-white/10 transition-all group"
+                                        className="w-full h-14 bg-white/5 border border-border dark:border-white/10 rounded-2xl px-5 flex items-center justify-between hover:bg-black/5 dark:hover:bg-white/10 transition-all group"
                                     >
                                         <div className="flex items-center gap-4">
                                             <User className="w-5 h-5 text-primary" />
-                                            <span className={cn("text-base font-black truncate max-w-[140px]", selectedVendorId ? "text-slate-900 dark:text-white" : "text-slate-400")}>
+                                            <span className={cn("text-base font-black truncate max-w-[140px]", selectedVendorId ? "text-foreground dark:text-white" : "text-slate-400")}>
                                                 {vendors.find(v => v.id === selectedVendorId)?.name || 'Select Supplier...'}
                                             </span>
                                         </div>
@@ -176,7 +176,7 @@ export const CreatePurchaseOrderModal = ({ isOpen, onClose, initialPartId }: Cre
                                     </button>
 
                                     {dropdowns.vendor && (
-                                        <div className="absolute top-full left-0 right-0 mt-3 p-4 bg-white dark:bg-[#0A0A0A] border border-slate-200 dark:border-white/10 rounded-2xl shadow-2xl z-[150] animate-in slide-in-from-top-4">
+                                        <div className="absolute top-full left-0 right-0 mt-3 p-4 bg-card dark:bg-[#0A0A0A] border border-border dark:border-white/10 rounded-2xl shadow-2xl z-[150] animate-in slide-in-from-top-4">
                                             <div className="relative mb-4">
                                                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                                                 <input 
@@ -184,7 +184,7 @@ export const CreatePurchaseOrderModal = ({ isOpen, onClose, initialPartId }: Cre
                                                     placeholder="Search..."
                                                     value={vendorSearch}
                                                     onChange={(e) => setVendorSearch(e.target.value)}
-                                                    className="w-full h-10 bg-slate-50 dark:bg-white/5 rounded-xl pl-10 pr-4 text-sm outline-none focus:ring-2 focus:ring-primary/50 text-slate-900 dark:text-white"
+                                                    className="w-full h-10 bg-muted/50 dark:bg-white/5 rounded-xl pl-10 pr-4 text-sm outline-none focus:ring-2 focus:ring-primary/50 text-foreground dark:text-white"
                                                 />
                                             </div>
                                             <div className="max-h-60 overflow-y-auto custom-scrollbar space-y-1">
@@ -192,7 +192,7 @@ export const CreatePurchaseOrderModal = ({ isOpen, onClose, initialPartId }: Cre
                                                     <button 
                                                         key={v.id}
                                                         onClick={() => { setSelectedVendorId(v.id); setDropdowns({ ...dropdowns, vendor: false }); }}
-                                                        className="w-full text-left px-4 py-2.5 rounded-xl hover:bg-primary/10 text-slate-900 dark:text-white font-black transition-all flex items-center justify-between group"
+                                                        className="w-full text-left px-4 py-2.5 rounded-xl hover:bg-primary/10 text-foreground dark:text-white font-black transition-all flex items-center justify-between group"
                                                     >
                                                         <span className="group-hover:text-primary transition-colors">{v.name}</span>
                                                         {selectedVendorId === v.id && <Check className="w-4 h-4 text-primary" />}
@@ -209,7 +209,7 @@ export const CreatePurchaseOrderModal = ({ isOpen, onClose, initialPartId }: Cre
                                         type="date" 
                                         value={expectedDeliveryDate}
                                         onChange={(e) => setExpectedDeliveryDate(e.target.value)}
-                                        className="w-full h-14 bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl px-5 text-base font-black transition-all text-slate-900 dark:text-white"
+                                        className="w-full h-14 bg-white/5 border border-border dark:border-white/10 rounded-2xl px-5 text-base font-black transition-all text-foreground dark:text-white"
                                     />
                                 </div>
                             </div>
@@ -220,7 +220,7 @@ export const CreatePurchaseOrderModal = ({ isOpen, onClose, initialPartId }: Cre
                             <div className="space-y-4">
                                 <div className="flex justify-between items-center text-xs">
                                     <span className="text-slate-400 font-black uppercase">Subtotal</span>
-                                    <span className="font-black text-slate-900 dark:text-white">₹{subtotal.toLocaleString()}</span>
+                                    <span className="font-black text-foreground dark:text-white">₹{subtotal.toLocaleString()}</span>
                                 </div>
                                 <div className="space-y-4">
                                     <div className="space-y-2">
@@ -229,7 +229,7 @@ export const CreatePurchaseOrderModal = ({ isOpen, onClose, initialPartId }: Cre
                                             type="number" 
                                             value={shippingCost} 
                                             onChange={(e) => setShippingCost(Number(e.target.value))}
-                                            className="w-full h-10 bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl px-4 text-sm font-black text-slate-900 dark:text-white" 
+                                            className="w-full h-10 bg-white/5 border border-border dark:border-white/10 rounded-xl px-4 text-sm font-black text-foreground dark:text-white" 
                                         />
                                     </div>
                                     <div className="space-y-2">
@@ -238,13 +238,13 @@ export const CreatePurchaseOrderModal = ({ isOpen, onClose, initialPartId }: Cre
                                             type="number" 
                                             value={taxAmount} 
                                             onChange={(e) => setTaxAmount(Number(e.target.value))}
-                                            className="w-full h-10 bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl px-4 text-sm font-black text-slate-900 dark:text-white" 
+                                            className="w-full h-10 bg-white/5 border border-border dark:border-white/10 rounded-xl px-4 text-sm font-black text-foreground dark:text-white" 
                                         />
                                     </div>
                                 </div>
                                 <div className="pt-6 border-t border-primary/20 flex flex-col">
                                     <p className="text-[10px] font-black text-primary uppercase tracking-[0.4em] mb-1">Grand Total</p>
-                                    <p className="text-3xl font-black italic text-slate-900 dark:text-white tracking-tighter">₹{total.toLocaleString()}</p>
+                                    <p className="text-3xl font-black italic text-foreground dark:text-white tracking-tighter">₹{total.toLocaleString()}</p>
                                 </div>
                             </div>
                         </section>
@@ -263,7 +263,7 @@ export const CreatePurchaseOrderModal = ({ isOpen, onClose, initialPartId }: Cre
                             </button>
                         </div>
 
-                        <div className="flex-1 bg-slate-900/5 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-[2.5rem] overflow-hidden flex flex-col min-h-0">
+                        <div className="flex-1 bg-slate-900/5 dark:bg-white/5 border border-border dark:border-white/10 rounded-[2.5rem] overflow-hidden flex flex-col min-h-0">
                             {items.length === 0 ? (
                                 <div className="flex-1 flex flex-col items-center justify-center p-12 opacity-30">
                                     <Package className="w-20 h-20 mb-6 stroke-[1]" />
@@ -273,7 +273,7 @@ export const CreatePurchaseOrderModal = ({ isOpen, onClose, initialPartId }: Cre
                                 <div className="flex-1 overflow-x-auto overflow-y-auto custom-scrollbar">
                                     <table className="w-full text-left border-collapse min-w-[700px]">
                                         <thead>
-                                            <tr className="border-b border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-white/[0.02]">
+                                            <tr className="border-b border-border dark:border-white/5 bg-muted/50 dark:bg-white/[0.02]">
                                                 <th className="pl-10 pr-4 py-8 text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] italic">Tactical Item / ID</th>
                                                 <th className="px-4 py-8 text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] italic w-28 text-center">Qty</th>
                                                 <th className="px-4 py-8 text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] italic w-40 text-right">Unit cost</th>
@@ -286,7 +286,7 @@ export const CreatePurchaseOrderModal = ({ isOpen, onClose, initialPartId }: Cre
                                                 <tr key={item.partId} className="group hover:bg-black/5 dark:hover:bg-white/5 transition-all">
                                                     <td className="pl-10 pr-4 py-8">
                                                         <div className="flex flex-col min-w-0">
-                                                            <p className="text-lg font-black italic text-slate-900 dark:text-white leading-none mb-2 truncate max-w-[200px]">{item.partName}</p>
+                                                            <p className="text-lg font-black italic text-foreground dark:text-white leading-none mb-2 truncate max-w-[200px]">{item.partName}</p>
                                                             <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">NODE: {item.partId.split('-')[0]}</p>
                                                         </div>
                                                     </td>
@@ -296,7 +296,7 @@ export const CreatePurchaseOrderModal = ({ isOpen, onClose, initialPartId }: Cre
                                                                 type="number" 
                                                                 value={item.quantity}
                                                                 onChange={(e) => updateItem(item.partId, 'quantity', e.target.value)}
-                                                                className="w-20 h-10 bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl text-center text-sm font-black outline-none focus:border-primary/50 text-slate-900 dark:text-white"
+                                                                className="w-20 h-10 bg-muted dark:bg-white/5 border border-border dark:border-white/10 rounded-xl text-center text-sm font-black outline-none focus:border-primary/50 text-foreground dark:text-white"
                                                             />
                                                         </div>
                                                     </td>
@@ -306,7 +306,7 @@ export const CreatePurchaseOrderModal = ({ isOpen, onClose, initialPartId }: Cre
                                                                 type="number" 
                                                                 value={item.unitCost}
                                                                 onChange={(e) => updateItem(item.partId, 'unitCost', e.target.value)}
-                                                                className="w-32 h-10 bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl text-right px-4 text-sm font-black outline-none focus:border-primary/50 text-slate-900 dark:text-white"
+                                                                className="w-32 h-10 bg-muted dark:bg-white/5 border border-border dark:border-white/10 rounded-xl text-right px-4 text-sm font-black outline-none focus:border-primary/50 text-foreground dark:text-white"
                                                             />
                                                         </div>
                                                     </td>
@@ -335,7 +335,7 @@ export const CreatePurchaseOrderModal = ({ isOpen, onClose, initialPartId }: Cre
                 <div className="px-10 py-10 bg-slate-900/5 border-t border-white/10 flex items-center justify-between shrink-0">
                     <button onClick={onClose} className="px-10 py-5 text-[11px] font-black text-slate-400 hover:text-red-500 uppercase tracking-[0.3em] transition-colors">Abort Order</button>
                     <div className="flex items-center gap-10">
-                        <div className="flex flex-col items-end pr-10 border-r border-slate-200 dark:border-white/10">
+                        <div className="flex flex-col items-end pr-10 border-r border-border dark:border-white/10">
                             <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-1">Payload Total</span>
                             <span className="text-4xl font-black italic text-primary tracking-tighter">₹{total.toLocaleString()}</span>
                         </div>

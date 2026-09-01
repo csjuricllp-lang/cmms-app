@@ -53,7 +53,7 @@ export const AssetQRCodeModal: React.FC<Props> = ({ isOpen, onClose, asset }) =>
         <div className="fixed inset-0 z-[300] flex items-center justify-center p-4">
             <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-md" onClick={onClose} />
             
-            <div className="relative w-full max-w-md bg-white rounded-[40px] shadow-[0_32px_120px_rgba(0,0,0,0.5)] border border-white/20 overflow-hidden animate-in fade-in zoom-in-95 duration-500">
+            <div className="relative w-full max-w-md bg-card rounded-[40px] shadow-[0_32px_120px_rgba(0,0,0,0.5)] border border-white/20 overflow-hidden animate-in fade-in zoom-in-95 duration-500">
                 {/* Header */}
                 <div className="bg-slate-900 px-8 py-10 text-white relative">
                     <button 
@@ -77,8 +77,8 @@ export const AssetQRCodeModal: React.FC<Props> = ({ isOpen, onClose, asset }) =>
 
                 {/* QR Display Area */}
                 <div className="p-10 flex flex-col items-center">
-                    <div className="p-8 bg-slate-50 rounded-[48px] border-4 border-slate-100 shadow-inner relative group">
-                        <div className="bg-white p-6 rounded-[32px] shadow-xl group-hover:scale-105 transition-all duration-500">
+                    <div className="p-8 bg-muted/50 rounded-[48px] border-4 border-slate-100 shadow-inner relative group">
+                        <div className="bg-card p-6 rounded-[32px] shadow-xl group-hover:scale-105 transition-all duration-500">
                             <QRCodeSVG 
                                 id="asset-qr-code"
                                 value={qrValue} 
@@ -101,18 +101,18 @@ export const AssetQRCodeModal: React.FC<Props> = ({ isOpen, onClose, asset }) =>
                     <div className="grid grid-cols-1 w-full gap-4 mt-10">
                         <button 
                             onClick={handlePrint}
-                            className="w-full py-5 bg-primary hover:bg-primary/90 text-white rounded-[24px] text-[14px] font-black uppercase tracking-widest italic flex items-center justify-center gap-3 transition-all active:scale-95 shadow-xl shadow-indigo-100"
+                            className="w-full py-5 bg-primary hover:bg-primary/90 text-white rounded-[24px] text-[14px] font-black uppercase tracking-widest italic flex items-center justify-center gap-3 transition-all active:scale-95 shadow-xl shadow-primary/20"
                         >
                             <Printer className="w-5 h-5" />
                             Print Physical Tag
                         </button>
                         
                         <div className="flex gap-3">
-                            <button className="flex-1 py-4 bg-slate-50 hover:bg-slate-100 text-slate-600 rounded-[20px] text-[12px] font-black uppercase tracking-widest italic flex items-center justify-center gap-2 transition-all">
+                            <button className="flex-1 py-4 bg-muted/50 hover:bg-muted text-slate-600 rounded-[20px] text-[12px] font-black uppercase tracking-widest italic flex items-center justify-center gap-2 transition-all">
                                 <Download className="w-4 h-4" />
                                 Save Image
                             </button>
-                            <button className="flex-1 py-4 bg-slate-50 hover:bg-slate-100 text-slate-600 rounded-[20px] text-[12px] font-black uppercase tracking-widest italic flex items-center justify-center gap-2 transition-all">
+                            <button className="flex-1 py-4 bg-muted/50 hover:bg-muted text-slate-600 rounded-[20px] text-[12px] font-black uppercase tracking-widest italic flex items-center justify-center gap-2 transition-all">
                                 <Share2 className="w-4 h-4" />
                                 Share Link
                             </button>

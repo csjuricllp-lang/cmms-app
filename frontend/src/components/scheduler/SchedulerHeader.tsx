@@ -10,17 +10,17 @@ interface SchedulerHeaderProps {
 
 export const SchedulerHeader = ({ onReload, onSmartSchedule, isOptimizing, onOpenSavedViews }: SchedulerHeaderProps) => {
     return (
-        <header className="px-4 md:px-8 py-4 bg-white border-b border-gray-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4 sticky top-0 z-30">
+        <header className="px-4 md:px-8 py-4 bg-card border-b border-gray-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4 sticky top-0 z-30">
             <h1 className="text-[24px] font-black text-[#1E293B] tracking-tight">Scheduler</h1>
             <div className="flex flex-wrap items-center gap-2 sm:gap-3">
                 <button 
                     onClick={onOpenSavedViews} 
-                    className="p-2 hover:bg-gray-50 rounded-xl border border-gray-100 text-gray-400 transition-all hover:text-primary active:scale-95" 
+                    className="p-2 hover:bg-muted/50 rounded-xl border border-gray-100 text-gray-400 transition-all hover:text-primary active:scale-95" 
                     title="Saved Views"
                 >
                     <Eye className="w-5 h-5" />
                 </button>
-                <button onClick={onReload} className="p-2 hover:bg-gray-50 rounded-xl border border-gray-100 text-gray-400 transition-all hover:text-primary active:scale-95" title="Refresh">
+                <button onClick={onReload} className="p-2 hover:bg-muted/50 rounded-xl border border-gray-100 text-gray-400 transition-all hover:text-primary active:scale-95" title="Refresh">
                     <RotateCcw className="w-5 h-5" />
                 </button>
                 <button 

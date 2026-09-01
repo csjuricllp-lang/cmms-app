@@ -23,6 +23,7 @@ import { WorkOrdersModule } from './work-orders/work-orders.module';
 import { PMModule } from './pm/pm.module';
 import { RequestsModule } from './requests/requests.module';
 import { AnalyticsModule } from './analytics/analytics.module';
+import { DocumentsModule } from './documents/documents.module';
 import { DataMigrationModule } from './data-migration/data-migration.module';
 import { TeamsModule } from './teams/teams.module';
 import { InvitationsModule } from './invitations/invitations.module';
@@ -82,6 +83,7 @@ import { PermissionsGuard } from './auth/guards/permissions.guard';
     PMModule,
     RequestsModule,
     AnalyticsModule,
+    DocumentsModule,
     DataMigrationModule,
     TeamsModule,
     InvitationsModule,

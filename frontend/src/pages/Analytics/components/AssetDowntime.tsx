@@ -18,14 +18,14 @@ export const AssetDowntime = ({ data }: { data: AnalyticsData }) => {
     return (
         <div className="space-y-12 pb-20">
             <div className="space-y-4">
-                <h3 className="text-[14px] font-bold text-slate-500 uppercase tracking-widest pl-1">Current Status</h3>
+                <h3 className="text-[14px] font-bold text-muted-foreground uppercase tracking-widest pl-1">Current Status</h3>
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     {[
                         { label: 'Utilization', value: `${status.utilization}%`, color: 'text-emerald-500', icon: Activity },
                         { label: 'Operational', value: status.operational, color: 'text-emerald-600', icon: CircleCheck },
                         { label: 'Non-operational', value: status.nonOperational, color: 'text-rose-500', icon: ShieldAlert }
                     ].map((item, i) => (
-                        <div key={i} className="bg-white rounded-xl border border-slate-200 p-8 flex flex-col items-center justify-center text-center shadow-sm">
+                        <div key={i} className="bg-card rounded-xl border border-border p-8 flex flex-col items-center justify-center text-center shadow-sm">
                             <span className={cn("text-[42px] font-black tracking-tighter mb-1", item.color)}>{item.value}</span>
                             <span className="text-[12px] font-bold text-slate-400 uppercase tracking-widest">{item.label}</span>
                         </div>
@@ -34,21 +34,21 @@ export const AssetDowntime = ({ data }: { data: AnalyticsData }) => {
             </div>
 
             <div className="space-y-4">
-                <h3 className="text-[14px] font-bold text-slate-500 uppercase tracking-widest pl-1">Assets With Most Downtime</h3>
-                <div className="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
+                <h3 className="text-[14px] font-bold text-muted-foreground uppercase tracking-widest pl-1">Assets With Most Downtime</h3>
+                <div className="bg-card rounded-xl border border-border overflow-hidden shadow-sm">
                     <table className="w-full text-left">
-                        <thead>
-                            <tr className="bg-slate-50/50 border-b border-slate-200">
+                        <thead className="text-white/90 bg-primary">
+                            <tr className="border-b border-primary/20">
                                 {['Asset Name', 'Location Name', 'Operational Status', 'Downtime (Hours)', 'Downtime Events', '% Utilization'].map((h, i) => (
-                                    <th key={i} className="px-6 py-4 text-[11px] font-bold text-slate-500 uppercase tracking-widest">{h}</th>
+                                    <th key={i} className="px-6 py-4 text-[11px] font-black text-white/90 uppercase tracking-widestst">{h}</th>
                                 ))}
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-100">
                             {topAssets.map((asset: any, i: number) => (
-                                <tr key={i} className="hover:bg-slate-50 transition-colors">
-                                    <td className="px-6 py-4 text-[13px] font-bold text-slate-700">{asset.name}</td>
-                                    <td className="px-6 py-4 text-[13px] text-slate-500">{asset.location}</td>
+                                <tr key={i} className="hover:bg-transparent transition-colors">
+                                    <td className="px-6 py-4 text-[13px] font-bold text-foreground/90">{asset.name}</td>
+                                    <td className="px-6 py-4 text-[13px] text-muted-foreground">{asset.location}</td>
                                     <td className="px-6 py-4"><div className={cn("inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-widest", asset.status === 'OPERATIONAL' ? "bg-emerald-50 text-emerald-600" : "bg-rose-50 text-rose-600")}>{asset.status}</div></td>
                                     <td className="px-6 py-4 text-[13px] font-medium text-slate-600">{asset.downtimeHours}</td>
                                     <td className="px-6 py-4 text-[13px] font-medium text-slate-600">{asset.events}</td>

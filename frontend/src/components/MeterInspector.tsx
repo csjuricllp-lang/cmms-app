@@ -163,23 +163,23 @@ export const MeterInspector = ({ meter, onClose }: MeterInspectorProps) => {
                 className="w-full max-w-[1400px] h-[90vh] bg-[#F8F9FA] rounded-[1.5rem] shadow-[0_24px_70px_-15px_rgba(0,0,0,0.15)] border border-slate-200/50 overflow-hidden flex flex-col"
             >
                 {/* Top Header */}
-                <div className="bg-white px-8 py-5 border-b border-slate-100 flex items-center justify-between shrink-0 select-none">
+                <div className="bg-card px-8 py-5 border-b border-slate-100 flex items-center justify-between shrink-0 select-none">
                     <div className="flex items-center gap-5">
                         <div className="flex items-center gap-2">
-                            <button className="p-1.5 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-50 transition-colors">
+                            <button className="p-1.5 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-muted/50 transition-colors">
                                 <Columns className="w-5 h-5 rotate-90" />
                             </button>
-                            <button onClick={onClose} className="p-1.5 text-slate-600 hover:text-slate-950 rounded-lg hover:bg-slate-50 transition-colors">
+                            <button onClick={onClose} className="p-1.5 text-slate-600 hover:text-slate-950 rounded-lg hover:bg-muted/50 transition-colors">
                                 <ArrowLeft className="w-5 h-5" />
                             </button>
                         </div>
-                        <h2 className="text-[20px] font-bold text-slate-900">{displayMeter.name}</h2>
+                        <h2 className="text-[20px] font-bold text-foreground">{displayMeter.name}</h2>
                     </div>
 
                     <div className="flex items-center gap-2.5">
                         <button 
                             onClick={() => setIsEditModalOpen(true)}
-                            className="px-5 py-2 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-all font-bold text-[13px] text-slate-700 shadow-sm"
+                            className="px-5 py-2 bg-card border border-border rounded-xl hover:bg-muted/50 transition-all font-bold text-[13px] text-foreground/90 shadow-sm"
                         >
                             Edit
                         </button>
@@ -195,27 +195,27 @@ export const MeterInspector = ({ meter, onClose }: MeterInspectorProps) => {
                         </button>
                         <button 
                             onClick={() => setIsAddingReading(true)}
-                            className="px-5 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-all font-bold text-[13px] shadow-sm"
+                            className="px-5 py-2 bg-primary text-white rounded-xl hover:bg-primary/90 transition-all font-bold text-[13px] shadow-sm"
                         >
                             Add Reading
                         </button>
-                        <button className="p-2 hover:bg-slate-50 rounded-xl text-slate-400 hover:text-slate-600 transition-colors">
+                        <button className="p-2 hover:bg-muted/50 rounded-xl text-slate-400 hover:text-slate-600 transition-colors">
                             <MoreHorizontal className="w-5 h-5" />
                         </button>
                     </div>
                 </div>
 
                 {/* Subheader Navigation Tabs */}
-                <div className="bg-white px-8 border-b border-slate-100 flex items-center shrink-0">
+                <div className="bg-card px-8 border-b border-slate-100 flex items-center shrink-0">
                     <button
                         onClick={() => setActiveTab('details')}
-                        className={`py-4 px-2 text-[14px] font-bold border-b-[3px] transition-all relative ${activeTab === 'details' ? 'border-indigo-600 text-indigo-600 font-extrabold' : 'border-transparent text-slate-500 hover:text-slate-700'}`}
+                        className={`py-4 px-2 text-[14px] font-bold border-b-[3px] transition-all relative ${activeTab === 'details' ? 'border-primary text-primary font-extrabold' : 'border-transparent text-muted-foreground hover:text-foreground/90'}`}
                     >
                         Details
                     </button>
                     <button
                         onClick={() => setActiveTab('history')}
-                        className={`py-4 px-2 ml-6 text-[14px] font-bold border-b-[3px] transition-all relative ${activeTab === 'history' ? 'border-indigo-600 text-indigo-600 font-extrabold' : 'border-transparent text-slate-500 hover:text-slate-700'}`}
+                        className={`py-4 px-2 ml-6 text-[14px] font-bold border-b-[3px] transition-all relative ${activeTab === 'history' ? 'border-primary text-primary font-extrabold' : 'border-transparent text-muted-foreground hover:text-foreground/90'}`}
                     >
                         History
                     </button>
@@ -228,21 +228,21 @@ export const MeterInspector = ({ meter, onClose }: MeterInspectorProps) => {
                         {activeTab === 'details' ? (
                             <div className="space-y-8 animate-in fade-in duration-300">
                                 {/* Details Card */}
-                                <div className="bg-white rounded-2xl border border-slate-200/60 shadow-xs overflow-hidden">
+                                <div className="bg-card rounded-2xl border border-slate-200/60 shadow-xs overflow-hidden">
                                     <div className="px-6 py-5 border-b border-slate-100">
                                         <h3 className="text-[15px] font-bold text-slate-800">Details</h3>
                                     </div>
                                     <div className="divide-y divide-slate-100 text-[14px]">
                                         <div className="px-6 py-4.5 flex items-center">
-                                            <span className="w-1/3 text-slate-500 font-medium">Update Frequency</span>
+                                            <span className="w-1/3 text-muted-foreground font-medium">Update Frequency</span>
                                             <span className="flex-1 text-slate-800 font-medium">Every {displayMeter.frequency || 1} days</span>
                                         </div>
                                         <div className="px-6 py-4.5 flex items-center">
-                                            <span className="w-1/3 text-slate-500 font-medium">Units</span>
+                                            <span className="w-1/3 text-muted-foreground font-medium">Units</span>
                                             <span className="flex-1 text-slate-800 font-medium">{unit}</span>
                                         </div>
                                         <div className="px-6 py-4.5 flex items-center">
-                                            <span className="w-1/3 text-slate-500 font-medium">Last Reading</span>
+                                            <span className="w-1/3 text-muted-foreground font-medium">Last Reading</span>
                                             <span className="flex-1 text-slate-800 font-medium">
                                                 {displayMeter.currentValue !== undefined && displayMeter.currentValue !== null 
                                                     ? `${displayMeter.currentValue} ${unit} (${formatDate(displayMeter.updatedAt)})` 
@@ -250,35 +250,35 @@ export const MeterInspector = ({ meter, onClose }: MeterInspectorProps) => {
                                             </span>
                                         </div>
                                         <div className="px-6 py-4.5 flex items-center">
-                                            <span className="w-1/3 text-slate-500 font-medium">Next Reading</span>
+                                            <span className="w-1/3 text-muted-foreground font-medium">Next Reading</span>
                                             <span className="flex-1 flex items-center">
                                                 {displayMeter.currentValue > (displayMeter.threshold || 100) ? (
                                                     <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-bold bg-amber-50 text-amber-700 border border-amber-200/50">
                                                         Past due
                                                     </span>
                                                 ) : (
-                                                    <span className="text-slate-500 font-medium">Scheduled</span>
+                                                    <span className="text-muted-foreground font-medium">Scheduled</span>
                                                 )}
                                             </span>
                                         </div>
                                         <div className="px-6 py-4.5 flex items-center">
-                                            <span className="w-1/3 text-slate-500 font-medium">Category</span>
+                                            <span className="w-1/3 text-muted-foreground font-medium">Category</span>
                                             <span className="flex-1 text-slate-800 font-medium">{displayMeter.category?.name || 'Ambient'}</span>
                                         </div>
                                         <div className="px-6 py-4.5 flex items-center">
-                                            <span className="w-1/3 text-slate-500 font-medium">Date Created</span>
+                                            <span className="w-1/3 text-muted-foreground font-medium">Date Created</span>
                                             <span className="flex-1 text-slate-800 font-medium">{formatDate(displayMeter.createdAt)}</span>
                                         </div>
                                     </div>
                                 </div>
 
                                 {/* Work Order Triggers Card */}
-                                <div className="bg-white rounded-2xl border border-slate-200/60 shadow-xs overflow-hidden">
+                                <div className="bg-card rounded-2xl border border-slate-200/60 shadow-xs overflow-hidden">
                                     <div className="px-6 py-5 border-b border-slate-100 flex items-center justify-between">
                                         <h3 className="text-[15px] font-bold text-slate-800">Work Order Triggers</h3>
                                         <button 
                                             onClick={() => setIsCreateTriggerOpen(true)}
-                                            className="px-4 py-2.5 bg-blue-600 text-white rounded-xl text-[13px] font-bold hover:bg-blue-700 transition-colors shadow-sm flex items-center gap-1.5"
+                                            className="px-4 py-2.5 bg-primary text-white rounded-xl text-[13px] font-bold hover:bg-primary/90 transition-colors shadow-sm flex items-center gap-1.5"
                                         >
                                             Create Trigger
                                         </button>
@@ -286,7 +286,7 @@ export const MeterInspector = ({ meter, onClose }: MeterInspectorProps) => {
                                     <div className="overflow-x-auto">
                                         <table className="w-full text-left border-collapse">
                                             <thead>
-                                                <tr className="bg-slate-50/50 border-b border-slate-100">
+                                                <tr className="bg-transparent border-b border-slate-100">
                                                     <th className="px-6 py-4 text-[12px] font-bold text-slate-400 uppercase tracking-wider">Title</th>
                                                     <th className="px-6 py-4 text-[12px] font-bold text-slate-400 uppercase tracking-wider">Trigger Value</th>
                                                     <th className="px-6 py-4 text-[12px] font-bold text-slate-400 uppercase tracking-wider">Last Work Order Created At</th>
@@ -296,8 +296,8 @@ export const MeterInspector = ({ meter, onClose }: MeterInspectorProps) => {
                                             </thead>
                                             <tbody className="divide-y divide-slate-100 text-[14px]">
                                                 {displayTriggers.map((pm: any) => (
-                                                    <tr key={pm.id} className="hover:bg-slate-50/50 transition-colors">
-                                                        <td className="px-6 py-4 font-bold text-slate-900">{pm.name}</td>
+                                                    <tr key={pm.id} className="hover:bg-transparent transition-colors">
+                                                        <td className="px-6 py-4 font-bold text-foreground">{pm.name}</td>
                                                         <td className="px-6 py-4 text-slate-600 font-medium">{formatTriggerValue(pm)}</td>
                                                         <td className="px-6 py-4 text-slate-600 font-medium">
                                                             {pm.lastMeterReading !== null && pm.lastMeterReading !== undefined 
@@ -370,9 +370,9 @@ export const MeterInspector = ({ meter, onClose }: MeterInspectorProps) => {
                                 if (active && payload && payload.length) {
                                     const data = payload[0].payload;
                                     return (
-                                        <div className="bg-white border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.06)] rounded-xl px-4 py-3 select-none text-[12px] flex flex-col gap-1.5 pointer-events-none">
-                                            <p className="text-slate-500 font-mono tracking-tight text-[11px]">{formatReadingDate(data.isoDate)}</p>
-                                            <p className="font-bold text-blue-600 text-[13px]">{data.value} {unit}</p>
+                                        <div className="bg-card border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.06)] rounded-xl px-4 py-3 select-none text-[12px] flex flex-col gap-1.5 pointer-events-none">
+                                            <p className="text-muted-foreground font-mono tracking-tight text-[11px]">{formatReadingDate(data.isoDate)}</p>
+                                            <p className="font-bold text-primary text-[13px]">{data.value} {unit}</p>
                                         </div>
                                     );
                                 }
@@ -382,7 +382,7 @@ export const MeterInspector = ({ meter, onClose }: MeterInspectorProps) => {
                             return (
                                 <div className="space-y-6 animate-in fade-in duration-300">
                                     {/* Line Chart Card */}
-                                    <div className="bg-white p-6 rounded-2xl border border-slate-200/60 shadow-xs relative overflow-hidden select-none">
+                                    <div className="bg-card p-6 rounded-2xl border border-slate-200/60 shadow-xs relative overflow-hidden select-none">
                                         <div className="text-[13px] font-bold text-slate-400 uppercase tracking-wider mb-5">
                                             Reading History ({unit})
                                         </div>
@@ -419,12 +419,12 @@ export const MeterInspector = ({ meter, onClose }: MeterInspectorProps) => {
                                     </div>
 
                                     {/* Readings List Table */}
-                                    <div className="bg-white border border-slate-200/60 rounded-2xl overflow-hidden shadow-xs">
+                                    <div className="bg-card border border-slate-200/60 rounded-2xl overflow-hidden shadow-xs">
                                         <table className="w-full text-left border-collapse">
                                             <thead>
-                                                <tr className="bg-slate-50/50 border-b border-slate-100">
+                                                <tr className="bg-transparent border-b border-slate-100">
                                                     <th className="px-6 py-4 w-12 text-center">
-                                                        <input type="checkbox" className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 cursor-pointer" />
+                                                        <input type="checkbox" className="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary cursor-pointer" />
                                                     </th>
                                                     <th className="px-6 py-4 text-[12px] font-bold text-slate-400 uppercase tracking-wider">Meter Reading</th>
                                                     <th className="px-6 py-4 text-[12px] font-bold text-slate-400 uppercase tracking-wider">Date</th>
@@ -439,11 +439,11 @@ export const MeterInspector = ({ meter, onClose }: MeterInspectorProps) => {
                                                     </tr>
                                                 ) : readingsToUse.length > 0 ? (
                                                     readingsToUse.map((reading: any) => (
-                                                        <tr key={reading.id} className="hover:bg-slate-50/50 transition-colors">
+                                                        <tr key={reading.id} className="hover:bg-transparent transition-colors">
                                                             <td className="px-6 py-4 w-12 text-center">
-                                                                <input type="checkbox" className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 cursor-pointer" />
+                                                                <input type="checkbox" className="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary cursor-pointer" />
                                                             </td>
-                                                            <td className="px-6 py-4 text-slate-700 font-bold">
+                                                            <td className="px-6 py-4 text-foreground/90 font-bold">
                                                                 {reading.value} {unit}
                                                             </td>
                                                             <td className="px-6 py-4 text-slate-600 font-medium">
@@ -451,7 +451,7 @@ export const MeterInspector = ({ meter, onClose }: MeterInspectorProps) => {
                                                             </td>
                                                             <td className="px-6 py-4">
                                                                 <div className="flex items-center gap-3">
-                                                                    <div className="w-7 h-7 rounded-full bg-slate-100 text-slate-600 border border-slate-200/50 flex items-center justify-center font-bold text-[11px] uppercase">
+                                                                    <div className="w-7 h-7 rounded-full bg-muted text-slate-600 border border-slate-200/50 flex items-center justify-center font-bold text-[11px] uppercase">
                                                                         {reading.recordedBy?.user?.name?.[0] || 'S'}
                                                                     </div>
                                                                     <span className="text-[14px] text-slate-600 font-medium">
@@ -471,7 +471,7 @@ export const MeterInspector = ({ meter, onClose }: MeterInspectorProps) => {
                                                         <td colSpan={5} className="px-6 py-16 text-center">
                                                             <div className="flex flex-col items-center">
                                                                 <BarChart3 className="w-9 h-9 text-slate-300 mb-3.5" />
-                                                                <h4 className="text-[14px] font-bold text-slate-900">No Readings Yet</h4>
+                                                                <h4 className="text-[14px] font-bold text-foreground">No Readings Yet</h4>
                                                                 <p className="text-[13px] text-slate-400 mt-1 font-medium">Log a reading to start tracking this meter.</p>
                                                             </div>
                                                         </td>
@@ -486,18 +486,18 @@ export const MeterInspector = ({ meter, onClose }: MeterInspectorProps) => {
                     </div>
 
                     {/* Right Persistent Sidebar */}
-                    <div className="w-[380px] bg-white border-l border-slate-200/60 flex flex-col p-8 shrink-0 relative overflow-y-auto select-none">
+                    <div className="w-[380px] bg-card border-l border-slate-200/60 flex flex-col p-8 shrink-0 relative overflow-y-auto select-none">
                         <div className="space-y-7">
                             <div className="space-y-2">
                                 <span className="text-[12px] font-bold text-slate-400 uppercase tracking-wider block">Asset</span>
-                                <span className="text-[14px] font-bold text-slate-900 block hover:text-indigo-600 cursor-pointer transition-colors">
+                                <span className="text-[14px] font-bold text-foreground block hover:text-primary cursor-pointer transition-colors">
                                     {displayMeter.asset?.name || 'TRANE HVAC Suite B'}
                                 </span>
                             </div>
 
                             <div className="space-y-2">
                                 <span className="text-[12px] font-bold text-slate-400 uppercase tracking-wider block">Location</span>
-                                <span className="text-[14px] font-bold text-slate-900 block hover:text-indigo-600 cursor-pointer transition-colors">
+                                <span className="text-[14px] font-bold text-foreground block hover:text-primary cursor-pointer transition-colors">
                                     {displayMeter.location?.name || displayMeter.asset?.location?.name || 'Suite B'}
                                 </span>
                             </div>
@@ -508,7 +508,7 @@ export const MeterInspector = ({ meter, onClose }: MeterInspectorProps) => {
                                     <div className="w-9 h-9 rounded-full bg-amber-100 text-amber-800 border border-amber-200/30 flex items-center justify-center font-bold text-[13px] uppercase">
                                         {displayMeter.assignedTo?.user?.name?.[0] || 'T'}
                                     </div>
-                                    <span className="text-[14px] font-bold text-slate-900">
+                                    <span className="text-[14px] font-bold text-foreground">
                                         {displayMeter.assignedTo?.user?.name || 'telecast r r'}
                                     </span>
                                 </div>
@@ -549,23 +549,23 @@ export const MeterInspector = ({ meter, onClose }: MeterInspectorProps) => {
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
                             exit={{ opacity: 0, scale: 0.95 }}
-                            className="bg-white rounded-2xl p-6 border border-slate-200 shadow-xl w-full max-w-[420px] space-y-5"
+                            className="bg-card rounded-2xl p-6 border border-border shadow-xl w-full max-w-[420px] space-y-5"
                         >
                             <div className="flex items-center justify-between">
-                                <h4 className="text-[15px] font-bold text-slate-900">Log New Reading</h4>
+                                <h4 className="text-[15px] font-bold text-foreground">Log New Reading</h4>
                                 <button onClick={() => setIsAddingReading(false)} className="text-slate-400 hover:text-slate-600 transition-colors">
                                     <X className="w-5 h-5" />
                                 </button>
                             </div>
                             <div className="space-y-4">
                                 <div className="space-y-1.5">
-                                    <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Value ({unit})</label>
+                                    <label className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider block">Value ({unit})</label>
                                     <div className="relative">
                                         <input 
                                             type="number" 
                                             value={newReadingValue}
                                             onChange={(e) => setNewReadingValue(e.target.value === '' ? '' : Number(e.target.value))}
-                                            className="w-full h-11 px-4 bg-slate-50 border border-slate-200 rounded-xl text-[14px] font-bold text-slate-800 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 focus:bg-white transition-all pr-12"
+                                            className="w-full h-11 px-4 bg-muted/50 border border-border rounded-xl text-[14px] font-bold text-slate-800 focus:outline-none focus:border-primary/80 focus:ring-1 focus:ring-primary focus:bg-card transition-all pr-12"
                                             placeholder={`Enter value...`}
                                             autoFocus
                                         />
@@ -575,14 +575,14 @@ export const MeterInspector = ({ meter, onClose }: MeterInspectorProps) => {
                                 <div className="flex items-center gap-3 pt-2">
                                     <button 
                                         onClick={() => setIsAddingReading(false)}
-                                        className="flex-1 h-11 border border-slate-200 rounded-xl text-[13px] font-bold text-slate-600 hover:bg-slate-50 transition-colors"
+                                        className="flex-1 h-11 border border-border rounded-xl text-[13px] font-bold text-slate-600 hover:bg-muted/50 transition-colors"
                                     >
                                         Cancel
                                     </button>
                                     <button 
                                         onClick={handleLogReading}
                                         disabled={addReadingMutation.isPending || newReadingValue === ''}
-                                        className="flex-1 h-11 bg-blue-600 text-white rounded-xl text-[13px] font-bold hover:bg-blue-700 transition-colors disabled:opacity-50 shadow-sm"
+                                        className="flex-1 h-11 bg-primary text-white rounded-xl text-[13px] font-bold hover:bg-primary/90 transition-colors disabled:opacity-50 shadow-sm"
                                     >
                                         {addReadingMutation.isPending ? 'Saving...' : 'Save Reading'}
                                     </button>

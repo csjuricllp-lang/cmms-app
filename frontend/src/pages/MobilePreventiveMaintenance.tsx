@@ -133,7 +133,7 @@ export const MobilePreventiveMaintenance: React.FC<MobilePreventiveMaintenancePr
         switch (status?.toUpperCase()) {
             case 'ACTIVE': return 'bg-emerald-500/10 border-emerald-500/20 text-emerald-500';
             case 'PAUSED': return 'bg-amber-500/10 border-amber-500/20 text-amber-500';
-            case 'DRAFT': return 'bg-slate-500/10 border-slate-500/20 text-slate-500';
+            case 'DRAFT': return 'bg-transparent0/10 border-slate-500/20 text-muted-foreground';
             default: return 'bg-muted border-border text-muted-foreground';
         }
     };
@@ -261,9 +261,9 @@ export const MobilePreventiveMaintenance: React.FC<MobilePreventiveMaintenancePr
                 {/* Stats Bar */}
                 <div className="px-4 pb-3 grid grid-cols-4 gap-2">
                     {[
-                        { label: 'Total', value: schedules?.length || 0, color: 'text-indigo-500', icon: <Calendar className="w-3.5 h-3.5" /> },
+                        { label: 'Total', value: schedules?.length || 0, color: 'text-primary/80', icon: <Calendar className="w-3.5 h-3.5" /> },
                         { label: 'Active', value: activeSchedules.length, color: 'text-emerald-500', icon: <Activity className="w-3.5 h-3.5" /> },
-                        { label: 'Next Due', value: statsData.nearestTriggerStr, color: 'text-blue-500', icon: <Clock className="w-3.5 h-3.5" /> },
+                        { label: 'Next Due', value: statsData.nearestTriggerStr, color: 'text-primary', icon: <Clock className="w-3.5 h-3.5" /> },
                         { label: 'Avg Freq', value: statsData.avgFreqStr, color: 'text-amber-500', icon: <TrendingUp className="w-3.5 h-3.5" /> },
                     ].map(stat => (
                         <div key={stat.label} className="bg-card border border-border rounded-xl p-2 flex flex-col gap-0.5">

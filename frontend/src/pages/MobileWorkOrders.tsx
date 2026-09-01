@@ -258,7 +258,7 @@ export const MobileWorkOrders = () => {
                 <div className="bg-card rounded-2xl border border-border shadow-sm flex flex-col overflow-hidden">
                   <div className="overflow-x-auto overflow-y-auto max-h-[600px] scrollbar-none">
                     <table className="w-full min-w-[1000px] text-left border-collapse">
-                      <thead className="bg-muted/40 border-b border-border">
+                      <thead className="bg-primary/40 border-b border-border">
                         <tr>
                           <th className="px-4 py-3 text-[10px] font-black uppercase tracking-widest text-muted-foreground whitespace-nowrap sticky top-0 left-0 z-30 bg-muted/90 backdrop-blur-sm">WO #</th>
                           <th className="px-4 py-3 text-[10px] font-black uppercase tracking-widest text-muted-foreground whitespace-nowrap sticky top-0 left-[60px] z-30 bg-muted/90 backdrop-blur-sm border-r border-border/40">Title</th>
@@ -297,7 +297,7 @@ export const MobileWorkOrders = () => {
                                 <span className={cn(
                                   "text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded border",
                                   order.status === 'Complete' ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-500" :
-                                  order.status === 'In Progress' ? "bg-blue-500/10 border-blue-500/20 text-blue-500" :
+                                  order.status === 'In Progress' ? "bg-primary/10 border-primary/80/20 text-primary" :
                                   order.status === 'On Hold' ? "bg-amber-500/10 border-amber-500/20 text-amber-500" :
                                   "bg-muted border-border text-muted-foreground"
                                 )}>
@@ -454,7 +454,7 @@ export const MobileWorkOrders = () => {
                                                   #{String(order.woNumber || order.id.slice(0, 3)).padStart(3, '0')}
                                                 </span>
                                                 {((order as any).request?.id || (order as any).requestId) && (
-                                                  <span className="text-[8px] font-black uppercase tracking-wider px-1 py-0.5 bg-indigo-500/10 text-indigo-500 rounded">
+                                                  <span className="text-[8px] font-black uppercase tracking-wider px-1 py-0.5 bg-primary/80/10 text-primary/80 rounded">
                                                     From REQ-{((order as any).request?.id || (order as any).requestId).split('-')[0].toUpperCase()}
                                                   </span>
                                                 )}
@@ -600,7 +600,7 @@ export const MobileWorkOrders = () => {
                                     #{String(order.woNumber || order.id.slice(0, 3)).padStart(3, '0')}
                                   </span>
                                   {((order as any).request?.id || (order as any).requestId) && (
-                                    <span className="px-1.5 py-0.5 bg-indigo-500/10 text-indigo-500 rounded text-[8px] font-black uppercase tracking-wider">
+                                    <span className="px-1.5 py-0.5 bg-primary/80/10 text-primary/80 rounded text-[8px] font-black uppercase tracking-wider">
                                       From REQ-{((order as any).request?.id || (order as any).requestId).split('-')[0].toUpperCase()}
                                     </span>
                                   )}

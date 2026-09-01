@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Shield, Key, User, CircleCheck, AlertCircle, Loader2, ArrowRight } from 'lucide-react';
 import { api } from '../lib/api';
+import { useThemeStore } from '../store/useThemeStore';
 
 export const AcceptInvitationPage = () => {
     const { token } = useParams<{ token: string }>();
@@ -19,6 +20,12 @@ export const AcceptInvitationPage = () => {
     const [submitting, setSubmitting] = useState(false);
     const [success, setSuccess] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+
+    // Force the global organization theme on the invitation page
+    useEffect(() => {
+        useThemeStore.getState().setTheme('light-peach');
+        useThemeStore.getState().setAccentColor('346.8 77.2% 49.8%');
+    }, []);
 
     useEffect(() => {
         const validateToken = async () => {

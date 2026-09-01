@@ -39,7 +39,7 @@ export const AssetAuditLog = ({ data, showFilters }: AssetAuditLogProps) => {
                         <div className="flex items-center gap-8 pb-4">
                             <div className="space-y-1.5">
                                 <span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Created At Date</span>
-                                <button className="flex items-center gap-2 px-4 py-2 bg-slate-50 border border-slate-200 rounded text-[13px] text-slate-600 hover:bg-slate-100 transition-all">
+                                <button className="flex items-center gap-2 px-4 py-2 bg-transparent border border-border rounded text-[13px] text-slate-600 hover:bg-muted transition-all">
                                     {dateFilter}
                                     <ChevronDown className="w-3.5 h-3.5 opacity-40" />
                                 </button>
@@ -49,8 +49,8 @@ export const AssetAuditLog = ({ data, showFilters }: AssetAuditLogProps) => {
                 )}
             </AnimatePresence>
 
-            <div className="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm mt-4">
-                <div className="px-8 py-4 border-b border-slate-100 flex items-center justify-center gap-2 bg-slate-50/30 relative">
+            <div className="bg-card rounded-xl border border-border overflow-hidden shadow-sm mt-4">
+                <div className="px-8 py-4 border-b border-slate-100 flex items-center justify-center gap-2 bg-transparent/30 relative">
                     <h3 className="text-[15px] font-bold text-slate-600 uppercase tracking-widest">Asset Audit Log</h3>
                     <div className="absolute right-8 flex items-center gap-3">
                         <Circle className="w-4 h-4 text-slate-300 cursor-pointer" />
@@ -60,10 +60,10 @@ export const AssetAuditLog = ({ data, showFilters }: AssetAuditLogProps) => {
 
                 <div className="overflow-x-auto">
                     <table className="w-full text-left border-collapse">
-                        <thead>
-                            <tr className="bg-white">
+                        <thead className="text-white/90 bg-primary">
+                            <tr className="border-b border-primary/20">
                                 {columns.map((col, idx) => (
-                                    <th key={idx} className="px-8 py-4 text-[12px] font-black text-slate-800 uppercase tracking-tighter border-b border-slate-100 whitespace-nowrap">
+                                    <th key={idx} className="px-8 py-4 text-[12px] font-black text-white/90 uppercase tracking-widest border-b border-slate-100 whitespace-nowrap">
                                         {col}
                                     </th>
                                 ))}
@@ -72,9 +72,9 @@ export const AssetAuditLog = ({ data, showFilters }: AssetAuditLogProps) => {
                         <tbody>
                             {reportData.length > 0 ? (
                                 reportData.map((row: any, idx: number) => (
-                                    <tr key={idx} className="hover:bg-slate-50/50 transition-colors group">
-                                        <td className="px-8 py-4 text-[13px] text-slate-900 font-bold border-b border-slate-50">{row.assetName}</td>
-                                        <td className="px-8 py-4 text-[13px] text-slate-500 border-b border-slate-50">
+                                    <tr key={idx} className="hover:bg-transparent/50 transition-colors group">
+                                        <td className="px-8 py-4 text-[13px] text-foreground font-bold border-b border-slate-50">{row.assetName}</td>
+                                        <td className="px-8 py-4 text-[13px] text-muted-foreground border-b border-slate-50">
                                             <span className={cn(
                                                 "px-2 py-0.5 rounded text-[11px] font-black uppercase tracking-tighter",
                                                 row.action === 'CREATE' ? "bg-emerald-50 text-emerald-600" :
@@ -83,7 +83,7 @@ export const AssetAuditLog = ({ data, showFilters }: AssetAuditLogProps) => {
                                                 {row.action}
                                             </span>
                                         </td>
-                                        <td className="px-8 py-4 text-[13px] text-slate-500 border-b border-slate-50">{row.userName}</td>
+                                        <td className="px-8 py-4 text-[13px] text-muted-foreground border-b border-slate-50">{row.userName}</td>
                                         <td className="px-8 py-4 text-[13px] text-slate-400 border-b border-slate-50">{row.field || '-'}</td>
                                         <td className="px-8 py-4 text-[13px] text-slate-400 border-b border-slate-50">
                                             <span className="truncate max-w-[150px] block">{row.oldValue || '-'}</span>
@@ -91,7 +91,7 @@ export const AssetAuditLog = ({ data, showFilters }: AssetAuditLogProps) => {
                                         <td className="px-8 py-4 text-[13px] text-slate-600 font-medium border-b border-slate-50">
                                             <span className="truncate max-w-[150px] block">{row.newValue || '-'}</span>
                                         </td>
-                                        <td className="px-8 py-4 text-[13px] text-slate-500 border-b border-slate-50">{row.date}</td>
+                                        <td className="px-8 py-4 text-[13px] text-muted-foreground border-b border-slate-50">{row.date}</td>
                                     </tr>
                                 ))
                             ) : (

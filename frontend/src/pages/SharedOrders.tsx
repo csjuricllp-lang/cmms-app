@@ -46,7 +46,7 @@ export const SharedOrders = () => {
         <div className="space-y-8 p-8 max-w-7xl mx-auto">
             <button 
                 onClick={() => navigate('/work-orders')}
-                className="group flex items-center gap-3 px-6 py-3 rounded-2xl bg-white border border-slate-100 hover:border-primary/30 hover:shadow-xl hover:shadow-primary/5 transition-all text-[11px] font-black uppercase tracking-widest text-slate-500 hover:text-primary active:scale-95"
+                className="group flex items-center gap-3 px-6 py-3 rounded-2xl bg-card border border-slate-100 hover:border-primary/30 hover:shadow-xl hover:shadow-primary/5 transition-all text-[11px] font-black uppercase tracking-widest text-muted-foreground hover:text-primary active:scale-95"
             >
                 <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
                 Back to Work Orders
@@ -70,8 +70,8 @@ export const SharedOrders = () => {
             </div>
 
             {sharedOrders?.length === 0 ? (
-                <div className="h-[400px] rounded-[40px] border-2 border-dashed border-slate-100 flex flex-col items-center justify-center text-center p-12 bg-slate-50/50">
-                    <div className="w-20 h-20 rounded-full bg-slate-100 flex items-center justify-center mb-6">
+                <div className="h-[400px] rounded-[40px] border-2 border-dashed border-slate-100 flex flex-col items-center justify-center text-center p-12 bg-transparent/50">
+                    <div className="w-20 h-20 rounded-full bg-muted flex items-center justify-center mb-6">
                         <Share2 className="w-8 h-8 text-slate-300" />
                     </div>
                     <h3 className="text-[20px] font-black italic tracking-tight uppercase text-slate-800">No Shared Missions</h3>
@@ -82,7 +82,7 @@ export const SharedOrders = () => {
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {sharedOrders?.map((wo: any) => (
-                        <div key={wo.id} className="group glass-panel rounded-[40px] border border-slate-100 bg-white p-8 hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.1)] transition-all duration-500 relative overflow-hidden">
+                        <div key={wo.id} className="group glass-panel rounded-[40px] border border-slate-100 bg-card p-8 hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.1)] transition-all duration-500 relative overflow-hidden">
                             <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:scale-110 transition-transform duration-700">
                                 <Share2 className="w-24 h-24" />
                             </div>
@@ -123,15 +123,15 @@ export const SharedOrders = () => {
                                 </div>
 
                                 <div className="grid grid-cols-2 gap-4">
-                                    <div className="p-4 rounded-3xl bg-slate-50 border border-slate-100">
+                                    <div className="p-4 rounded-3xl bg-transparent border border-slate-100">
                                         <span className="text-[9px] font-black uppercase tracking-widest text-slate-400 block mb-1">Status</span>
-                                        <span className="text-[11px] font-black italic uppercase tracking-tight text-slate-700">
+                                        <span className="text-[11px] font-black italic uppercase tracking-tight text-foreground/90">
                                             {wo.status}
                                         </span>
                                     </div>
-                                    <div className="p-4 rounded-3xl bg-slate-50 border border-slate-100">
+                                    <div className="p-4 rounded-3xl bg-transparent border border-slate-100">
                                         <span className="text-[9px] font-black uppercase tracking-widest text-slate-400 block mb-1">Due Date</span>
-                                        <span className="text-[11px] font-black italic uppercase tracking-tight text-slate-700">
+                                        <span className="text-[11px] font-black italic uppercase tracking-tight text-foreground/90">
                                             {wo.dueDate ? format(new Date(wo.dueDate), 'MMM dd') : 'No Deadline'}
                                         </span>
                                     </div>
@@ -139,7 +139,7 @@ export const SharedOrders = () => {
 
                                 <div className="pt-4 flex items-center justify-between border-t border-slate-50">
                                     <div className="flex items-center gap-3">
-                                        <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center">
+                                        <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center">
                                             <Clock className="w-4 h-4 text-slate-400" />
                                         </div>
                                         <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 italic">

@@ -36,12 +36,12 @@ export const AddCategoryModal: React.FC<AddCategoryModalProps> = ({ isOpen, onCl
                     initial={{ opacity: 0, scale: 0.95, y: 20 }}
                     animate={{ opacity: 1, scale: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                    className="relative w-full max-w-[500px] bg-white rounded-[24px] shadow-[0_32px_128px_rgba(0,0,0,0.18)] overflow-hidden"
+                    className="relative w-full max-w-[500px] bg-card rounded-[24px] shadow-[0_32px_128px_rgba(0,0,0,0.18)] overflow-hidden"
                 >
                     {/* Header */}
                     <div className="flex items-center justify-between px-8 py-6 border-b border-gray-50">
                         <h2 className="text-[20px] font-bold text-slate-800">{editingCategory ? 'Edit Category' : 'Add Category'}</h2>
-                        <button onClick={onClose} className="p-2 hover:bg-slate-50 rounded-full transition-colors">
+                        <button onClick={onClose} className="p-2 hover:bg-muted/50 rounded-full transition-colors">
                             <X className="w-5 h-5 text-slate-400" />
                         </button>
                     </div>
@@ -49,22 +49,22 @@ export const AddCategoryModal: React.FC<AddCategoryModalProps> = ({ isOpen, onCl
                     {/* Content */}
                     <div className="px-8 py-8 space-y-6">
                         <div className="space-y-2">
-                            <label className="text-[14px] font-bold text-slate-700 ml-1">Name</label>
+                            <label className="text-[14px] font-bold text-foreground/90 ml-1">Name</label>
                             <input 
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
                                 placeholder="Enter category name"
-                                className="w-full bg-slate-50/50 border border-slate-200 rounded-xl px-5 py-4 text-[15px] font-medium text-slate-700 outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/5 transition-all"
+                                className="w-full bg-transparent border border-border rounded-xl px-5 py-4 text-[15px] font-medium text-foreground/90 outline-none focus:border-primary/80 focus:ring-4 focus:ring-primary/5 transition-all"
                             />
                         </div>
 
                         <div className="space-y-2">
-                            <label className="text-[14px] font-bold text-slate-700 ml-1">Parent Category</label>
+                            <label className="text-[14px] font-bold text-foreground/90 ml-1">Parent Category</label>
                             <div className="relative group">
                                 <select 
                                     value={parentId}
                                     onChange={(e) => setParentId(e.target.value)}
-                                    className="w-full bg-slate-50/50 border border-slate-200 rounded-xl px-5 py-4 text-[15px] font-medium text-slate-700 transition-all appearance-none cursor-pointer pr-12 outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/5 group-hover:bg-white"
+                                    className="w-full bg-transparent border border-border rounded-xl px-5 py-4 text-[15px] font-medium text-foreground/90 transition-all appearance-none cursor-pointer pr-12 outline-none focus:border-primary/80 focus:ring-4 focus:ring-primary/5 group-hover:bg-card"
                                 >
                                     <option value="">None</option>
                                     {categories.map((cat) => (
@@ -77,10 +77,10 @@ export const AddCategoryModal: React.FC<AddCategoryModalProps> = ({ isOpen, onCl
                     </div>
 
                     {/* Footer */}
-                    <div className="flex items-center justify-end gap-3 px-8 py-6 bg-slate-50/50">
+                    <div className="flex items-center justify-end gap-3 px-8 py-6 bg-transparent">
                         <button 
                             onClick={onClose}
-                            className="px-6 py-3 rounded-xl text-[14px] font-bold text-slate-600 hover:bg-slate-100 transition-all border border-slate-200 bg-white"
+                            className="px-6 py-3 rounded-xl text-[14px] font-bold text-slate-600 hover:bg-muted transition-all border border-border bg-card"
                         >
                             Cancel
                         </button>
@@ -91,7 +91,7 @@ export const AddCategoryModal: React.FC<AddCategoryModalProps> = ({ isOpen, onCl
                                 onClose();
                             }}
                             disabled={!name}
-                            className="px-8 py-3 bg-indigo-600 disabled:opacity-50 text-white rounded-xl text-[14px] font-bold shadow-lg shadow-indigo-100 transition-all active:scale-95"
+                            className="px-8 py-3 bg-primary disabled:opacity-50 text-white rounded-xl text-[14px] font-bold shadow-lg shadow-primary/20 transition-all active:scale-95"
                         >
                             {editingCategory ? 'Save Changes' : 'Add Category'}
                         </button>

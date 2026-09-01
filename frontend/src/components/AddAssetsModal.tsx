@@ -209,21 +209,21 @@ export const AddAssetsModal: React.FC<AddAssetsModalProps> = ({ isOpen, onClose,
     };
 
     return (
-        <div className="fixed inset-0 z-[1000] bg-white flex flex-col animate-in fade-in duration-300">
+        <div className="fixed inset-0 z-[1000] bg-card flex flex-col animate-in fade-in duration-300">
             {/* Header */}
-            <div className="flex items-center justify-between px-10 py-5 border-b border-slate-100 bg-white">
+            <div className="flex items-center justify-between px-10 py-5 border-b border-slate-100 bg-card">
                 <div className="flex items-center gap-4">
-                    <button onClick={onClose} className="p-2 hover:bg-slate-50 rounded-xl transition-all text-slate-400">
+                    <button onClick={onClose} className="p-2 hover:bg-muted/50 rounded-xl transition-all text-slate-400">
                         <X className="w-5 h-5" />
                     </button>
                     <div className="h-6 w-px bg-slate-200" />
-                    <h2 className="text-[20px] font-bold text-slate-900">Add Assets</h2>
+                    <h2 className="text-[20px] font-bold text-foreground">Add Assets</h2>
                 </div>
 
                 <div className="flex items-center gap-3">
                     <button 
                         onClick={onClose}
-                        className="px-6 py-2.5 border border-slate-200 rounded-xl text-[14px] font-bold text-slate-600 hover:bg-slate-50 transition-all bg-white"
+                        className="px-6 py-2.5 border border-border rounded-xl text-[14px] font-bold text-slate-600 hover:bg-muted/50 transition-all bg-card"
                     >
                         Cancel
                     </button>
@@ -233,7 +233,7 @@ export const AddAssetsModal: React.FC<AddAssetsModalProps> = ({ isOpen, onClose,
                         className={cn(
                             "px-8 py-2.5 rounded-xl text-[14px] font-black transition-all border shadow-sm",
                             createPM.isPending
-                            ? "bg-slate-50 text-slate-300 cursor-not-allowed border-slate-100"
+                            ? "bg-muted/50 text-slate-300 cursor-not-allowed border-slate-100"
                             : "bg-primary text-white border-transparent hover:opacity-90 active:scale-[0.98]"
                         )}
                     >
@@ -247,17 +247,17 @@ export const AddAssetsModal: React.FC<AddAssetsModalProps> = ({ isOpen, onClose,
                 
                 {/* Schedules Section */}
                 <div className="space-y-4">
-                    <h3 className="text-[17px] font-bold text-slate-900">Schedules</h3>
-                    <p className="text-[13.5px] text-slate-500 font-medium">Specify the date and time for the scheduled maintenance.</p>
+                    <h3 className="text-[17px] font-bold text-foreground">Schedules</h3>
+                    <p className="text-[13.5px] text-muted-foreground font-medium">Specify the date and time for the scheduled maintenance.</p>
 
-                    <div className="border border-slate-200 rounded-[20px] p-6 bg-white shadow-xs inline-flex items-center gap-4">
+                    <div className="border border-border rounded-[20px] p-6 bg-card shadow-xs inline-flex items-center gap-4">
                         <button
                             onClick={() => setActiveScheduleTab('existing')}
                             className={cn(
                                 "flex items-center gap-2 px-5 py-2.5 rounded-xl text-[14px] font-bold transition-all border",
                                 activeScheduleTab === 'existing' 
-                                ? "bg-slate-50 border-slate-300 text-slate-900" 
-                                : "bg-white border-transparent text-slate-500 hover:text-slate-700"
+                                ? "bg-muted/50 border-slate-300 text-foreground" 
+                                : "bg-card border-transparent text-muted-foreground hover:text-foreground/90"
                             )}
                         >
                             Select existing schedule
@@ -270,8 +270,8 @@ export const AddAssetsModal: React.FC<AddAssetsModalProps> = ({ isOpen, onClose,
                                 className={cn(
                                     "flex items-center gap-2 px-5 py-2.5 rounded-xl text-[14px] font-bold transition-all border",
                                     activeScheduleTab === 'new'
-                                    ? "bg-slate-50 border-slate-300 text-slate-900"
-                                    : "bg-white border-transparent text-slate-500 hover:text-slate-700"
+                                    ? "bg-muted/50 border-slate-300 text-foreground"
+                                    : "bg-card border-transparent text-muted-foreground hover:text-foreground/90"
                                 )}
                             >
                                 Add Schedule
@@ -282,7 +282,7 @@ export const AddAssetsModal: React.FC<AddAssetsModalProps> = ({ isOpen, onClose,
                                 <>
                                     <div className="fixed inset-0 z-[9999]" onClick={() => setShowScheduleMenu(false)} />
                                     <div 
-                                        className="fixed w-[360px] bg-white rounded-2xl shadow-[0_15px_40px_rgba(0,0,0,0.1)] border border-slate-100 p-2.5 z-[10000] animate-in fade-in zoom-in-95 duration-200"
+                                        className="fixed w-[360px] bg-card rounded-2xl shadow-[0_15px_40px_rgba(0,0,0,0.1)] border border-slate-100 p-2.5 z-[10000] animate-in fade-in zoom-in-95 duration-200"
                                         style={{
                                             bottom: `${window.innerHeight - scheduleMenuCoords.top + 8}px`,
                                             left: `${scheduleMenuCoords.left}px`,
@@ -290,32 +290,32 @@ export const AddAssetsModal: React.FC<AddAssetsModalProps> = ({ isOpen, onClose,
                                     >
                                         <button 
                                             onClick={() => { setNewFreqType('MONTHS'); setActiveScheduleTab('new'); setShowScheduleMenu(false); }}
-                                            className="w-full flex items-start gap-4 p-4 rounded-xl hover:bg-slate-50 transition-all text-left"
+                                            className="w-full flex items-start gap-4 p-4 rounded-xl hover:bg-muted/50 transition-all text-left"
                                         >
-                                            <Calendar className="w-5 h-5 text-indigo-500 mt-0.5" />
+                                            <Calendar className="w-5 h-5 text-primary/80 mt-0.5" />
                                             <div>
-                                                <p className="text-[14px] font-bold text-slate-900 mb-0.5">Calendar</p>
-                                                <p className="text-[12px] text-slate-500 font-medium">WOs due regularly, or when the previous is completed</p>
+                                                <p className="text-[14px] font-bold text-foreground mb-0.5">Calendar</p>
+                                                <p className="text-[12px] text-muted-foreground font-medium">WOs due regularly, or when the previous is completed</p>
                                             </div>
                                         </button>
                                         <button 
                                             onClick={() => { setNewFreqType('METER'); setActiveScheduleTab('new'); setShowScheduleMenu(false); }}
-                                            className="w-full flex items-start gap-4 p-4 rounded-xl hover:bg-slate-50 transition-all text-left"
+                                            className="w-full flex items-start gap-4 p-4 rounded-xl hover:bg-muted/50 transition-all text-left"
                                         >
                                             <Gauge className="w-5 h-5 text-amber-500 mt-0.5" />
                                             <div>
-                                                <p className="text-[14px] font-bold text-slate-900 mb-0.5">Meter readings</p>
-                                                <p className="text-[12px] text-slate-500 font-medium">Creates WOs when readings meet specific criteria</p>
+                                                <p className="text-[14px] font-bold text-foreground mb-0.5">Meter readings</p>
+                                                <p className="text-[12px] text-muted-foreground font-medium">Creates WOs when readings meet specific criteria</p>
                                             </div>
                                         </button>
                                         <button 
                                             onClick={() => { setNewFreqType('HYBRID'); setActiveScheduleTab('new'); setShowScheduleMenu(false); }}
-                                            className="w-full flex items-start gap-4 p-4 rounded-xl hover:bg-slate-50 transition-all text-left"
+                                            className="w-full flex items-start gap-4 p-4 rounded-xl hover:bg-muted/50 transition-all text-left"
                                         >
                                             <Settings className="w-5 h-5 text-rose-500 mt-0.5" />
                                             <div>
-                                                <p className="text-[14px] font-bold text-slate-900 mb-0.5">Calendar OR meter readings</p>
-                                                <p className="text-[12px] text-slate-500 font-medium">Uses both, based on whichever happens first</p>
+                                                <p className="text-[14px] font-bold text-foreground mb-0.5">Calendar OR meter readings</p>
+                                                <p className="text-[12px] text-muted-foreground font-medium">Uses both, based on whichever happens first</p>
                                             </div>
                                         </button>
                                     </div>
@@ -338,8 +338,8 @@ export const AddAssetsModal: React.FC<AddAssetsModalProps> = ({ isOpen, onClose,
 
                     {activeScheduleTab === 'new' && (
                         <div className="flex items-center gap-4 mt-3 animate-in fade-in slide-in-from-top-1 duration-200">
-                            <div className="flex items-center gap-2 border border-slate-200 rounded-xl px-3 py-2 bg-white">
-                                <span className="text-[13px] font-bold text-slate-500">Every</span>
+                            <div className="flex items-center gap-2 border border-border rounded-xl px-3 py-2 bg-card">
+                                <span className="text-[13px] font-bold text-muted-foreground">Every</span>
                                 <input 
                                     type="number" 
                                     min="1" 
@@ -366,19 +366,19 @@ export const AddAssetsModal: React.FC<AddAssetsModalProps> = ({ isOpen, onClose,
                 <div className="space-y-4">
                     <div className="flex items-center justify-between">
                         <div className="space-y-1">
-                            <h3 className="text-[17px] font-bold text-slate-900">Assets</h3>
-                            <p className="text-[13.5px] text-slate-500 font-medium">Select Asset and Locations, assign them to the schedule, and define assignees and start dates.</p>
+                            <h3 className="text-[17px] font-bold text-foreground">Assets</h3>
+                            <p className="text-[13.5px] text-muted-foreground font-medium">Select Asset and Locations, assign them to the schedule, and define assignees and start dates.</p>
                         </div>
                         <div className="flex items-center gap-3">
                             <button 
                                 onClick={addRow}
-                                className="flex items-center gap-2 px-5 py-2 bg-white border border-slate-200 rounded-xl text-[13px] font-bold text-slate-700 hover:bg-slate-50 transition-all shadow-xs"
+                                className="flex items-center gap-2 px-5 py-2 bg-card border border-border rounded-xl text-[13px] font-bold text-foreground/90 hover:bg-muted/50 transition-all shadow-xs"
                             >
                                 <Plus className="w-4 h-4" /> Add Row
                             </button>
                             <button 
                                 onClick={() => setIsAssetPickerOpen(true)}
-                                className="flex items-center gap-2 px-5 py-2 bg-white border border-slate-200 rounded-xl text-[13px] font-bold text-slate-700 hover:bg-slate-50 transition-all shadow-xs"
+                                className="flex items-center gap-2 px-5 py-2 bg-card border border-border rounded-xl text-[13px] font-bold text-foreground/90 hover:bg-muted/50 transition-all shadow-xs"
                             >
                                 Bulk Select Assets
                             </button>
@@ -388,11 +388,11 @@ export const AddAssetsModal: React.FC<AddAssetsModalProps> = ({ isOpen, onClose,
                     {/* Choose Assets Modal */}
                     {isAssetPickerOpen && (
                         <div className="fixed inset-0 z-[1001] bg-black/50 flex items-center justify-center p-4 animate-in fade-in duration-200">
-                            <div className="bg-white w-full max-w-4xl rounded-2xl shadow-2xl flex flex-col max-h-[80vh] overflow-hidden animate-in zoom-in-95 duration-200">
+                            <div className="bg-card w-full max-w-4xl rounded-2xl shadow-2xl flex flex-col max-h-[80vh] overflow-hidden animate-in zoom-in-95 duration-200">
                                 {/* Header */}
                                 <div className="px-8 py-5 border-b border-slate-100 flex items-center justify-between">
-                                    <h3 className="text-[18px] font-bold text-slate-900">Choose Assets</h3>
-                                    <button onClick={() => setIsAssetPickerOpen(false)} className="p-2 hover:bg-slate-50 rounded-xl transition-colors text-slate-400">
+                                    <h3 className="text-[18px] font-bold text-foreground">Choose Assets</h3>
+                                    <button onClick={() => setIsAssetPickerOpen(false)} className="p-2 hover:bg-muted/50 rounded-xl transition-colors text-slate-400">
                                         <X className="w-5 h-5" />
                                     </button>
                                 </div>
@@ -406,7 +406,7 @@ export const AddAssetsModal: React.FC<AddAssetsModalProps> = ({ isOpen, onClose,
                                             placeholder="Search assets..."
                                             value={assetPickerSearch}
                                             onChange={(e) => setAssetPickerSearch(e.target.value)}
-                                            className="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-xl text-[13px] outline-none transition-all focus:border-primary font-medium"
+                                            className="w-full pl-10 pr-4 py-2.5 border border-border rounded-xl text-[13px] outline-none transition-all focus:border-primary font-medium"
                                         />
                                     </div>
                                 </div>
@@ -436,7 +436,7 @@ export const AddAssetsModal: React.FC<AddAssetsModalProps> = ({ isOpen, onClose,
                                         </thead>
                                         <tbody>
                                             {assets?.filter((a: any) => a.name.toLowerCase().includes(assetPickerSearch.toLowerCase())).map((a: any) => (
-                                                <tr key={a.id} className="border-b border-slate-50 hover:bg-slate-50/50">
+                                                <tr key={a.id} className="border-b border-slate-50 hover:bg-transparent">
                                                     <td className="py-3 px-4">
                                                         <input 
                                                             type="checkbox"
@@ -452,7 +452,7 @@ export const AddAssetsModal: React.FC<AddAssetsModalProps> = ({ isOpen, onClose,
                                                         />
                                                     </td>
                                                     <td className="py-3 px-4 font-bold text-[13.5px] text-slate-800">{a.name}</td>
-                                                    <td className="py-3 px-4 text-[13px] text-slate-500 font-medium">{a.location?.name || '-'}</td>
+                                                    <td className="py-3 px-4 text-[13px] text-muted-foreground font-medium">{a.location?.name || '-'}</td>
                                                 </tr>
                                             ))}
                                         </tbody>
@@ -463,7 +463,7 @@ export const AddAssetsModal: React.FC<AddAssetsModalProps> = ({ isOpen, onClose,
                                 <div className="px-8 py-5 border-t border-slate-100 flex items-center justify-end gap-3 bg-slate-50/30">
                                     <button 
                                         onClick={() => setIsAssetPickerOpen(false)}
-                                        className="px-5 py-2 bg-white border border-slate-200 rounded-xl text-[13px] font-bold text-slate-700 hover:bg-slate-50 shadow-xs transition-all"
+                                        className="px-5 py-2 bg-card border border-border rounded-xl text-[13px] font-bold text-foreground/90 hover:bg-muted/50 shadow-xs transition-all"
                                     >
                                         Cancel
                                     </button>
@@ -473,7 +473,7 @@ export const AddAssetsModal: React.FC<AddAssetsModalProps> = ({ isOpen, onClose,
                                         className={cn(
                                             "px-6 py-2 rounded-xl text-[13px] font-bold transition-all shadow-xs",
                                             pickerSelectedIds.length === 0 
-                                            ? "bg-slate-100 text-slate-400 cursor-not-allowed" 
+                                            ? "bg-muted text-slate-400 cursor-not-allowed" 
                                             : "bg-primary text-white hover:opacity-90 active:scale-[0.98]"
                                         )}
                                     >
@@ -485,32 +485,32 @@ export const AddAssetsModal: React.FC<AddAssetsModalProps> = ({ isOpen, onClose,
                     )}
 
                     {/* Assets Selection Table */}
-                    <div className="w-full overflow-x-auto border border-slate-200 rounded-2xl shadow-xs custom-scrollbar bg-white">
+                    <div className="w-full overflow-x-auto border border-border rounded-2xl shadow-xs custom-scrollbar bg-card">
                         <table className="w-full border-collapse table-fixed min-w-[1200px]">
                             <thead>
-                                <tr className="bg-slate-50/60 border-b border-slate-200">
-                                    <th className="w-12 px-4 py-3 text-center text-[11px] font-black text-slate-400 uppercase tracking-widest border-r border-slate-200">#</th>
-                                    <th className="px-4 py-3 text-left text-[11px] font-black text-slate-550 uppercase tracking-widest border-r border-slate-200 w-1/4">Asset</th>
-                                    <th className="px-4 py-3 text-left text-[11px] font-black text-slate-550 uppercase tracking-widest border-r border-slate-200 w-1/4">Location</th>
-                                    <th className="px-4 py-3 text-left text-[11px] font-black text-slate-550 uppercase tracking-widest border-r border-slate-200">Start Date</th>
-                                    <th className="px-4 py-3 text-left text-[11px] font-black text-slate-550 uppercase tracking-widest border-r border-slate-200">End Date</th>
-                                    <th className="px-4 py-3 text-left text-[11px] font-black text-slate-550 uppercase tracking-widest border-r border-slate-200">Timezone</th>
-                                    <th className="px-4 py-3 text-left text-[11px] font-black text-slate-550 uppercase tracking-widest border-r border-slate-200">Assigned To</th>
+                                <tr className="bg-slate-50/60 border-b border-border">
+                                    <th className="w-12 px-4 py-3 text-center text-[11px] font-black text-slate-400 uppercase tracking-widest border-r border-border">#</th>
+                                    <th className="px-4 py-3 text-left text-[11px] font-black text-slate-550 uppercase tracking-widest border-r border-border w-1/4">Asset</th>
+                                    <th className="px-4 py-3 text-left text-[11px] font-black text-slate-550 uppercase tracking-widest border-r border-border w-1/4">Location</th>
+                                    <th className="px-4 py-3 text-left text-[11px] font-black text-slate-550 uppercase tracking-widest border-r border-border">Start Date</th>
+                                    <th className="px-4 py-3 text-left text-[11px] font-black text-slate-550 uppercase tracking-widest border-r border-border">End Date</th>
+                                    <th className="px-4 py-3 text-left text-[11px] font-black text-slate-550 uppercase tracking-widest border-r border-border">Timezone</th>
+                                    <th className="px-4 py-3 text-left text-[11px] font-black text-slate-550 uppercase tracking-widest border-r border-border">Assigned To</th>
                                     <th className="w-14 py-3 text-center text-[11px] font-black text-slate-400 uppercase tracking-widest">Action</th>
                                 </tr>
                             </thead>
-                            <tbody className="bg-white">
+                            <tbody className="bg-card">
                                 {assetRows.map((row, index) => (
-                                    <tr key={row.id} className="hover:bg-slate-50/50">
-                                        <td className="border-r border-b border-slate-200 text-center text-[13px] font-bold text-slate-400">
+                                    <tr key={row.id} className="hover:bg-transparent">
+                                        <td className="border-r border-b border-border text-center text-[13px] font-bold text-slate-400">
                                             {index + 1}
                                         </td>
-                                        <td className="border-r border-b border-slate-200 p-0">
+                                        <td className="border-r border-b border-border p-0">
                                             <div className="relative h-full flex items-center px-4">
                                                 <select 
                                                     value={row.assetId} 
                                                     onChange={(e) => updateRow(row.id, 'assetId', e.target.value)}
-                                                    className="w-full bg-transparent text-[13px] font-medium text-slate-700 outline-none appearance-none pr-6 h-11"
+                                                    className="w-full bg-transparent text-[13px] font-medium text-foreground/90 outline-none appearance-none pr-6 h-11"
                                                 >
                                                     <option value="">Select Equipment...</option>
                                                     {assets?.map((a: any) => <option key={a.id} value={a.id}>{a.name}</option>)}
@@ -518,7 +518,7 @@ export const AddAssetsModal: React.FC<AddAssetsModalProps> = ({ isOpen, onClose,
                                                 <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400 pointer-events-none" />
                                             </div>
                                         </td>
-                                        <td className="border-r border-b border-slate-200 p-0">
+                                        <td className="border-r border-b border-border p-0">
                                             <div className="relative h-full flex items-center px-4">
                                                 <select
                                                     value={
@@ -526,7 +526,7 @@ export const AddAssetsModal: React.FC<AddAssetsModalProps> = ({ isOpen, onClose,
                                                         (row.assetId ? (assets?.find((a: any) => a.id === row.assetId)?.locationId || '') : '')
                                                     }
                                                     onChange={(e) => updateRow(row.id, 'locationId', e.target.value)}
-                                                    className="w-full bg-transparent text-[13px] font-medium text-slate-700 outline-none appearance-none pr-6 h-11"
+                                                    className="w-full bg-transparent text-[13px] font-medium text-foreground/90 outline-none appearance-none pr-6 h-11"
                                                 >
                                                     <option value="">Select Location...</option>
                                                     {locations?.map((l: any) => (
@@ -536,32 +536,32 @@ export const AddAssetsModal: React.FC<AddAssetsModalProps> = ({ isOpen, onClose,
                                                 <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400 pointer-events-none" />
                                             </div>
                                         </td>
-                                        <td className="border-r border-b border-slate-200 p-0">
+                                        <td className="border-r border-b border-border p-0">
                                             <div className="relative h-full flex items-center px-4">
                                                 <input 
                                                     type="date" 
                                                     value={row.startDate} 
                                                     onChange={(e) => updateRow(row.id, 'startDate', e.target.value)} 
-                                                    className="w-full bg-transparent text-[13px] font-medium text-slate-700 outline-none h-11" 
+                                                    className="w-full bg-transparent text-[13px] font-medium text-foreground/90 outline-none h-11" 
                                                 />
                                             </div>
                                         </td>
-                                        <td className="border-r border-b border-slate-200 p-0">
+                                        <td className="border-r border-b border-border p-0">
                                             <div className="relative h-full flex items-center px-4">
                                                 <input 
                                                     type="date" 
                                                     value={row.endDate} 
                                                     onChange={(e) => updateRow(row.id, 'endDate', e.target.value)} 
-                                                    className="w-full bg-transparent text-[13px] font-medium text-slate-700 outline-none h-11" 
+                                                    className="w-full bg-transparent text-[13px] font-medium text-foreground/90 outline-none h-11" 
                                                 />
                                             </div>
                                         </td>
-                                        <td className="border-r border-b border-slate-200 p-0">
+                                        <td className="border-r border-b border-border p-0">
                                             <div className="relative h-full flex items-center px-4">
                                                 <select 
                                                     value={row.timezone} 
                                                     onChange={(e) => updateRow(row.id, 'timezone', e.target.value)}
-                                                    className="w-full bg-transparent text-[13px] font-medium text-slate-700 outline-none appearance-none pr-6 h-11"
+                                                    className="w-full bg-transparent text-[13px] font-medium text-foreground/90 outline-none appearance-none pr-6 h-11"
                                                 >
                                                     <option value="(UTC+05:30) Asia/Calcutta">(UTC+05:30) Asia/Calcutta</option>
                                                     <option value="(UTC+00:00) UTC">(UTC+00:00) UTC</option>
@@ -571,12 +571,12 @@ export const AddAssetsModal: React.FC<AddAssetsModalProps> = ({ isOpen, onClose,
                                                 <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400 pointer-events-none" />
                                             </div>
                                         </td>
-                                        <td className="border-r border-b border-slate-200 p-0">
+                                        <td className="border-r border-b border-border p-0">
                                             <div className="relative h-full flex items-center px-4">
                                                 <select 
                                                     value={row.assignedToId} 
                                                     onChange={(e) => updateRow(row.id, 'assignedToId', e.target.value)}
-                                                    className="w-full bg-transparent text-[13px] font-medium text-slate-700 outline-none appearance-none pr-6 h-11"
+                                                    className="w-full bg-transparent text-[13px] font-medium text-foreground/90 outline-none appearance-none pr-6 h-11"
                                                 >
                                                     <option value="">Select Technician...</option>
                                                     {users?.map((u: any) => (
@@ -586,7 +586,7 @@ export const AddAssetsModal: React.FC<AddAssetsModalProps> = ({ isOpen, onClose,
                                                 <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400 pointer-events-none" />
                                             </div>
                                         </td>
-                                        <td className="border-b border-slate-200 text-center">
+                                        <td className="border-b border-border text-center">
                                             <button 
                                                 onClick={() => removeRow(row.id)}
                                                 className="p-1 hover:bg-rose-50 text-slate-300 hover:text-rose-500 rounded-lg transition-colors"

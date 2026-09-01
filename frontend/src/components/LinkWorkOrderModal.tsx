@@ -88,38 +88,38 @@ export const LinkWorkOrderModal = ({ isOpen, onClose, currentWorkOrder }: LinkWo
                     initial={{ scale: 0.95, opacity: 0, y: 20 }}
                     animate={{ scale: 1, opacity: 1, y: 0 }}
                     exit={{ scale: 0.95, opacity: 0, y: 20 }}
-                    className="relative w-full max-w-[480px] bg-white rounded-[32px] shadow-2xl"
+                    className="relative w-full max-w-[480px] bg-card rounded-[32px] shadow-2xl"
                 >
                     {/* Header */}
                     <div className="px-8 pt-8 pb-6 flex items-center justify-between">
-                        <h2 className="text-[24px] font-[900] text-slate-900 leading-tight">Link Work Orders</h2>
-                        <button onClick={onClose} className="p-2 hover:bg-slate-100 rounded-xl text-slate-400 transition-all">
+                        <h2 className="text-[24px] font-[900] text-foreground leading-tight">Link Work Orders</h2>
+                        <button onClick={onClose} className="p-2 hover:bg-muted rounded-xl text-slate-400 transition-all">
                             <X className="w-6 h-6" />
                         </button>
                     </div>
 
                     <div className="px-8 pb-8 space-y-8">
-                        <p className="text-[15px] font-bold text-slate-500 leading-relaxed">
+                        <p className="text-[15px] font-bold text-muted-foreground leading-relaxed">
                             Select a link relationship and choose one or more work orders to link to the current one:
                         </p>
 
                         {/* Current WO Badge */}
-                        <div className="flex items-center gap-3 p-4 bg-slate-50 border border-slate-100 rounded-2xl">
-                             <div className="px-3 py-1 bg-white border border-slate-200 rounded-lg text-[13px] font-black text-slate-600">
+                        <div className="flex items-center gap-3 p-4 bg-muted/50 border border-slate-100 rounded-2xl">
+                             <div className="px-3 py-1 bg-card border border-border rounded-lg text-[13px] font-black text-slate-600">
                                 #{String(currentWorkOrder.woNumber || 'PENDING').padStart(3, '0')}
                              </div>
-                             <span className="text-[14px] font-black text-slate-700 truncate">{currentWorkOrder.title}</span>
+                             <span className="text-[14px] font-black text-foreground/90 truncate">{currentWorkOrder.title}</span>
                         </div>
 
                         {/* Relationship Selector */}
                         <div className="space-y-3">
-                            <label className="text-[12px] font-black text-slate-500 uppercase tracking-widest italic">Link Relationship</label>
+                            <label className="text-[12px] font-black text-muted-foreground uppercase tracking-widest italic">Link Relationship</label>
                             <div className="relative">
                                 <div 
                                     onClick={() => setIsRelationMenuOpen(!isRelationMenuOpen)}
                                     className={cn(
-                                        "w-full h-[60px] px-6 bg-slate-50 border-2 border-slate-100 rounded-2xl flex items-center justify-between cursor-pointer hover:border-slate-200 transition-all",
-                                        isRelationMenuOpen && "border-blue-500 bg-white shadow-lg"
+                                        "w-full h-[60px] px-6 bg-muted/50 border-2 border-slate-100 rounded-2xl flex items-center justify-between cursor-pointer hover:border-border transition-all",
+                                        isRelationMenuOpen && "border-primary/80 bg-card shadow-lg"
                                     )}
                                 >
                                     <span className="text-[15px] font-bold text-slate-800">
@@ -134,7 +134,7 @@ export const LinkWorkOrderModal = ({ isOpen, onClose, currentWorkOrder }: LinkWo
                                             initial={{ opacity: 0, y: -10 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             exit={{ opacity: 0, y: -10 }}
-                                            className="absolute top-[calc(100%+8px)] left-0 w-[240px] bg-white border border-slate-100 rounded-2xl shadow-2xl z-[120] py-2 overflow-y-auto max-h-[220px] custom-scrollbar"
+                                            className="absolute top-[calc(100%+8px)] left-0 w-[240px] bg-card border border-slate-100 rounded-2xl shadow-2xl z-[120] py-2 overflow-y-auto max-h-[220px] custom-scrollbar"
                                         >
                                             {RELATION_TYPES.map(type => (
                                                 <button 
@@ -143,16 +143,16 @@ export const LinkWorkOrderModal = ({ isOpen, onClose, currentWorkOrder }: LinkWo
                                                         setSelectedType(type.value);
                                                         setIsRelationMenuOpen(false);
                                                     }}
-                                                    className="w-full px-6 py-3.5 text-left hover:bg-slate-50 flex items-center justify-between group transition-colors"
+                                                    className="w-full px-6 py-3.5 text-left hover:bg-muted/50 flex items-center justify-between group transition-colors"
                                                 >
                                                     <span className={cn(
                                                         "text-[14px] font-bold transition-colors",
-                                                        selectedType === type.value ? "text-blue-600" : "text-slate-600 group-hover:text-slate-900"
+                                                        selectedType === type.value ? "text-primary" : "text-slate-600 group-hover:text-foreground"
                                                     )}>
                                                         {type.label}
                                                     </span>
                                                     {selectedType === type.value && (
-                                                        <Check className="w-4 h-4 text-blue-500" />
+                                                        <Check className="w-4 h-4 text-primary" />
                                                     )}
                                                 </button>
                                             ))}
@@ -164,14 +164,14 @@ export const LinkWorkOrderModal = ({ isOpen, onClose, currentWorkOrder }: LinkWo
 
                         {/* Searchable Multi-select */}
                         <div className="space-y-3 relative z-50">
-                            <label className="text-[12px] font-black text-slate-500 uppercase tracking-widest italic">Work Order(s) to Link</label>
+                            <label className="text-[12px] font-black text-muted-foreground uppercase tracking-widest italic">Work Order(s) to Link</label>
                             
                             {/* Trigger */}
                             <div 
                                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                                 className={cn(
-                                    "w-full min-h-[60px] p-2 bg-slate-50 border-2 border-slate-100 rounded-2xl flex items-center justify-between cursor-pointer transition-all gap-2",
-                                    isDropdownOpen && "border-blue-500 bg-white"
+                                    "w-full min-h-[60px] p-2 bg-muted/50 border-2 border-slate-100 rounded-2xl flex items-center justify-between cursor-pointer transition-all gap-2",
+                                    isDropdownOpen && "border-primary/80 bg-card"
                                 )}
                             >
                                 {selectedWoIds.length === 0 ? (
@@ -181,14 +181,14 @@ export const LinkWorkOrderModal = ({ isOpen, onClose, currentWorkOrder }: LinkWo
                                         {selectedWoIds.map(id => {
                                             const wo = allWorkOrders?.find((w: any) => w.id === id);
                                             return (
-                                                <div key={id} className="flex items-center gap-2 px-3 py-1.5 bg-white border border-slate-200 shadow-sm rounded-lg text-[13px] font-black text-slate-700">
+                                                <div key={id} className="flex items-center gap-2 px-3 py-1.5 bg-card border border-border shadow-sm rounded-lg text-[13px] font-black text-foreground/90">
                                                     <span>#{String(wo?.workOrderNo || '').padStart(3, '0')}</span>
                                                     <button 
                                                         onClick={(e) => { 
                                                             e.stopPropagation(); 
                                                             setSelectedWoIds(prev => prev.filter(i => i !== id)); 
                                                         }}
-                                                        className="hover:bg-slate-100 p-0.5 rounded-full transition-colors"
+                                                        className="hover:bg-muted p-0.5 rounded-full transition-colors"
                                                     >
                                                         <X className="w-3.5 h-3.5 text-slate-400 hover:text-red-500" />
                                                     </button>
@@ -209,17 +209,17 @@ export const LinkWorkOrderModal = ({ isOpen, onClose, currentWorkOrder }: LinkWo
                                             initial={{ opacity: 0, y: 10 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             exit={{ opacity: 0, y: 10 }}
-                                            className="absolute bottom-[calc(100%+8px)] left-0 right-0 bg-white border border-slate-100 rounded-2xl shadow-2xl z-50 overflow-hidden flex flex-col"
+                                            className="absolute bottom-[calc(100%+8px)] left-0 right-0 bg-card border border-slate-100 rounded-2xl shadow-2xl z-50 overflow-hidden flex flex-col"
                                         >
                                             {/* Search Input */}
-                                            <div className="p-4 border-b border-slate-100 bg-slate-50/50">
+                                            <div className="p-4 border-b border-slate-100 bg-transparent">
                                                 <div className="relative">
                                                     <input 
                                                         type="text" 
                                                         placeholder="Search"
                                                         value={searchTerm}
                                                         onChange={(e) => setSearchTerm(e.target.value)}
-                                                        className="w-full h-[46px] pl-[42px] pr-4 bg-white border-2 border-blue-500 rounded-xl text-[14px] font-bold text-slate-800 outline-none shadow-[0_0_0_4px_rgba(59,130,246,0.1)] transition-all placeholder:text-slate-400"
+                                                        className="w-full h-[46px] pl-[42px] pr-4 bg-card border-2 border-primary/80 rounded-xl text-[14px] font-bold text-slate-800 outline-none shadow-[0_0_0_4px_rgba(59,130,246,0.1)] transition-all placeholder:text-slate-400"
                                                         autoFocus
                                                     />
                                                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-slate-400" />
@@ -245,19 +245,19 @@ export const LinkWorkOrderModal = ({ isOpen, onClose, currentWorkOrder }: LinkWo
                                                                         isSelected ? prev.filter(i => i !== wo.id) : [...prev, wo.id]
                                                                     );
                                                                 }}
-                                                                className="w-full px-5 py-3 text-left hover:bg-slate-50 flex items-center gap-4 cursor-pointer group/item rounded-xl transition-colors"
+                                                                className="w-full px-5 py-3 text-left hover:bg-muted/50 flex items-center gap-4 cursor-pointer group/item rounded-xl transition-colors"
                                                             >
                                                                 <div className={cn(
                                                                     "w-5 h-5 rounded border-2 flex items-center justify-center transition-all shrink-0",
-                                                                    isSelected ? "bg-blue-600 border-blue-600 shadow-sm" : "bg-white border-slate-300 group-hover/item:border-blue-400"
+                                                                    isSelected ? "bg-primary border-primary shadow-sm" : "bg-card border-slate-300 group-hover/item:border-primary/80"
                                                                 )}>
                                                                     {isSelected && <Check className="w-3.5 h-3.5 text-white" strokeWidth={3.5} />}
                                                                 </div>
                                                                 <div className="flex items-center gap-3 w-full">
-                                                                    <div className="px-2 py-1 bg-slate-100 rounded-lg text-[13px] font-black text-slate-700">
+                                                                    <div className="px-2 py-1 bg-muted rounded-lg text-[13px] font-black text-foreground/90">
                                                                         #{String(wo.workOrderNo || '').padStart(3, '0')}
                                                                     </div>
-                                                                    <span className="text-[14.5px] font-bold text-slate-700 truncate">{wo.title}</span>
+                                                                    <span className="text-[14.5px] font-bold text-foreground/90 truncate">{wo.title}</span>
                                                                 </div>
                                                             </div>
                                                         );
@@ -272,10 +272,10 @@ export const LinkWorkOrderModal = ({ isOpen, onClose, currentWorkOrder }: LinkWo
                     </div>
 
                     {/* Footer Buttons */}
-                    <div className="px-8 py-6 bg-slate-50 flex items-center justify-end gap-4 rounded-b-[32px]">
+                    <div className="px-8 py-6 bg-muted/50 flex items-center justify-end gap-4 rounded-b-[32px]">
                         <button 
                             onClick={onClose}
-                            className="px-8 py-3 text-[15px] font-black text-slate-500 hover:text-slate-700 transition-all uppercase tracking-wider"
+                            className="px-8 py-3 text-[15px] font-black text-muted-foreground hover:text-foreground/90 transition-all uppercase tracking-wider"
                         >
                             Cancel
                         </button>
@@ -286,7 +286,7 @@ export const LinkWorkOrderModal = ({ isOpen, onClose, currentWorkOrder }: LinkWo
                                 "px-10 py-3 rounded-2xl text-[15px] font-black uppercase tracking-widest shadow-lg transition-all active:scale-95",
                                 selectedWoIds.length === 0 
                                 ? "bg-slate-200 text-slate-400 cursor-not-allowed shadow-none" 
-                                : "bg-blue-600 text-white shadow-blue-200 hover:bg-blue-700 hover:shadow-xl"
+                                : "bg-primary text-white shadow-primary/20 hover:bg-primary/90 hover:shadow-xl"
                             )}
                         >
                             {linkMutation.isPending ? 'Linking...' : 'Link'}

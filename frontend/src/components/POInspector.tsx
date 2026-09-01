@@ -73,7 +73,7 @@ const FulfillModal = ({ isOpen, onClose, order, onFulfill, isPending }: any) => 
                 initial={{ opacity: 0, scale: 0.95, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                className="relative w-full max-w-[650px] bg-white rounded-2xl shadow-[0_20px_70px_rgba(0,0,0,0.2)] p-8 overflow-hidden select-none"
+                className="relative w-full max-w-[650px] bg-card rounded-2xl shadow-[0_20px_70px_rgba(0,0,0,0.2)] p-8 overflow-hidden select-none"
             >
                 {/* Header */}
                 <div className="flex items-start justify-between mb-2">
@@ -81,7 +81,7 @@ const FulfillModal = ({ isOpen, onClose, order, onFulfill, isPending }: any) => 
                         <h3 className="text-[24px] font-black text-slate-800 tracking-tight leading-tight">Fulfill Purchase Order</h3>
                         <p className="text-[15px] font-bold text-slate-400 mt-2">Each item's quantity will be increased by the amount received</p>
                     </div>
-                    <button onClick={onClose} className="p-2 hover:bg-slate-50 rounded-full text-slate-400 transition-colors -mt-2 -mr-2">
+                    <button onClick={onClose} className="p-2 hover:bg-muted/50 rounded-full text-slate-400 transition-colors -mt-2 -mr-2">
                         <X className="w-6 h-6" />
                     </button>
                 </div>
@@ -103,7 +103,7 @@ const FulfillModal = ({ isOpen, onClose, order, onFulfill, isPending }: any) => 
                                     <tr key={item.id} className="align-middle">
                                         <td className="py-4 text-[15px] font-bold text-slate-400">{idx + 1}</td>
                                         <td className="py-4 pr-4">
-                                            <span className="text-[15px] font-bold text-slate-700 block leading-tight">{item.part?.name || 'Unknown Item'}</span>
+                                            <span className="text-[15px] font-bold text-foreground/90 block leading-tight">{item.part?.name || 'Unknown Item'}</span>
                                             {item.part?.partNumber && (
                                                 <span className="text-[11px] font-black text-slate-400 block uppercase tracking-wider mt-0.5">{item.part.partNumber}</span>
                                             )}
@@ -115,7 +115,7 @@ const FulfillModal = ({ isOpen, onClose, order, onFulfill, isPending }: any) => 
                                             <input 
                                                 type="number"
                                                 min="0"
-                                                className="w-full border-2 border-slate-100 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 rounded-lg px-4 py-2.5 outline-none transition-all font-bold text-[15px] text-slate-700"
+                                                className="w-full border-2 border-slate-100 focus:ring-4 focus:ring-primary/10 focus:border-primary/80 rounded-lg px-4 py-2.5 outline-none transition-all font-bold text-[15px] text-foreground/90"
                                                 value={quantities[item.id] !== undefined ? quantities[item.id] : ''}
                                                 onChange={(e) => handleQtyChange(item.id, e.target.value)}
                                             />
@@ -131,7 +131,7 @@ const FulfillModal = ({ isOpen, onClose, order, onFulfill, isPending }: any) => 
                 <div className="flex items-center justify-end gap-3 pt-2">
                     <button 
                         onClick={onClose}
-                        className="px-6 py-2.5 border-2 border-slate-200 rounded-xl text-[15px] font-bold text-slate-500 hover:bg-slate-50 hover:text-slate-700 transition-colors"
+                        className="px-6 py-2.5 border-2 border-border rounded-xl text-[15px] font-bold text-muted-foreground hover:bg-muted/50 hover:text-foreground/90 transition-colors"
                     >
                         Cancel
                     </button>
@@ -141,8 +141,8 @@ const FulfillModal = ({ isOpen, onClose, order, onFulfill, isPending }: any) => 
                         className={cn(
                             "px-8 py-2.5 rounded-xl text-[15px] font-bold transition-all",
                             hasItemsToReceive && !isPending 
-                                ? "bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg shadow-indigo-100 active:scale-95 cursor-pointer" 
-                                : "bg-slate-100 text-slate-400 cursor-not-allowed"
+                                ? "bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20 active:scale-95 cursor-pointer" 
+                                : "bg-muted text-slate-400 cursor-not-allowed"
                         )}
                     >
                         {isPending ? 'Fulfilling...' : 'Fulfill'}
@@ -369,13 +369,13 @@ export const POInspector = ({ order: initialOrder, onClose }: POInspectorProps) 
                 );
             case 'APPROVED':
                 return (
-                    <span className="inline-flex items-center px-3 py-1 rounded-md text-xs font-bold bg-blue-50 text-blue-700 border border-blue-200/50">
+                    <span className="inline-flex items-center px-3 py-1 rounded-md text-xs font-bold bg-blue-50 text-primary/90 border border-blue-200/50">
                         Approved
                     </span>
                 );
             case 'ORDERED':
                 return (
-                    <span className="inline-flex items-center px-3 py-1 rounded-md text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-200/50">
+                    <span className="inline-flex items-center px-3 py-1 rounded-md text-xs font-bold bg-primary/10 text-primary/90 border border-primary/20/50">
                         Ordered
                     </span>
                 );
@@ -393,7 +393,7 @@ export const POInspector = ({ order: initialOrder, onClose }: POInspectorProps) 
                 );
             default:
                 return (
-                    <span className="inline-flex items-center px-3 py-1 rounded-md text-xs font-bold bg-slate-50 text-slate-700 border border-slate-200/50">
+                    <span className="inline-flex items-center px-3 py-1 rounded-md text-xs font-bold bg-muted/50 text-foreground/90 border border-slate-200/50">
                         {status.replace('_', ' ')}
                     </span>
                 );
@@ -444,7 +444,7 @@ export const POInspector = ({ order: initialOrder, onClose }: POInspectorProps) 
                                 {syncQuickBooksMutation.isPending ? (
                                     <Loader2 className="w-3.5 h-3.5 animate-spin" />
                                 ) : (
-                                    <Globe className="w-3.5 h-3.5 text-indigo-500" />
+                                    <Globe className="w-3.5 h-3.5 text-primary/80" />
                                 )}
                                 {order.tags?.includes('QuickBooks Synced') ? 'Synced to QuickBooks' : 'Sync to QuickBooks'}
                             </button>
@@ -452,7 +452,7 @@ export const POInspector = ({ order: initialOrder, onClose }: POInspectorProps) 
                         <button 
                             onClick={() => sendToVendorMutation.mutate()}
                             disabled={sendToVendorMutation.isPending}
-                            className="px-5 py-2 bg-indigo-50 border border-indigo-200 rounded-xl hover:bg-indigo-100 transition-all font-bold text-[13px] text-indigo-700 shadow-sm flex items-center gap-1.5"
+                            className="px-5 py-2 bg-primary/10 border border-primary/20 rounded-xl hover:bg-primary/15 transition-all font-bold text-[13px] text-primary/90 shadow-sm flex items-center gap-1.5"
                         >
                             {sendToVendorMutation.isPending ? (
                                 <Loader2 className="w-3.5 h-3.5 animate-spin" />
@@ -465,7 +465,7 @@ export const POInspector = ({ order: initialOrder, onClose }: POInspectorProps) 
                             onClick={() => setIsEditModalOpen(true)}
                             className="px-5 py-2 bg-card border border-border rounded-xl hover:bg-muted transition-all font-bold text-[13px] text-foreground/80 shadow-sm flex items-center gap-1.5"
                         >
-                            <Edit2 className="w-3.5 h-3.5 text-slate-500" />
+                            <Edit2 className="w-3.5 h-3.5 text-muted-foreground" />
                             Edit
                         </button>
                         {/* Decline + Approve: visible only when PO is in DRAFT or PENDING_APPROVAL status */}
@@ -485,7 +485,7 @@ export const POInspector = ({ order: initialOrder, onClose }: POInspectorProps) 
                                 <button 
                                     onClick={() => approveMutation.mutate()}
                                     disabled={approveMutation.isPending || denyMutation.isPending}
-                                    className="px-5 py-2 bg-[#4F6FF5] text-white rounded-xl hover:bg-[#3a5ae0] active:scale-[0.97] transition-all font-bold text-[13px] shadow-sm shadow-indigo-500/20 disabled:opacity-50 flex items-center gap-2"
+                                    className="px-5 py-2 bg-[#4F6FF5] text-white rounded-xl hover:bg-[#3a5ae0] active:scale-[0.97] transition-all font-bold text-[13px] shadow-sm shadow-primary/20 disabled:opacity-50 flex items-center gap-2"
                                 >
                                     {approveMutation.isPending 
                                         ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> 
@@ -499,7 +499,7 @@ export const POInspector = ({ order: initialOrder, onClose }: POInspectorProps) 
                         {(order.status === 'APPROVED' || order.status === 'ORDERED') && order.items?.some((i: any) => (i.fulfilledQuantity || 0) < i.quantity) && (
                             <button 
                                 onClick={() => setIsFulfillModalOpen(true)}
-                                className="px-5 py-2 bg-[#4F7CFF] text-white rounded-xl hover:bg-indigo-700 active:scale-[0.97] transition-all font-bold text-[13px] shadow-sm shadow-indigo-500/20 flex items-center gap-2"
+                                className="px-5 py-2 bg-[#4F7CFF] text-white rounded-xl hover:bg-primary/90 active:scale-[0.97] transition-all font-bold text-[13px] shadow-sm shadow-primary/20 flex items-center gap-2"
                             >
                                 <Truck className="w-4 h-4" />
                                 Fulfill
@@ -609,7 +609,7 @@ export const POInspector = ({ order: initialOrder, onClose }: POInspectorProps) 
                                                         order.items.map((item: any) => (
                                                             <tr key={item.id} className="hover:bg-muted/30 transition-colors">
                                                                 <td className="px-6 py-4">
-                                                                    <div className="font-bold text-indigo-600 hover:underline cursor-pointer">
+                                                                    <div className="font-bold text-primary hover:underline cursor-pointer">
                                                                         {item.part?.name || 'Unknown Item'}
                                                                     </div>
                                                                     <div className="text-[12px] text-slate-400 mt-0.5">
@@ -844,7 +844,7 @@ export const POInspector = ({ order: initialOrder, onClose }: POInspectorProps) 
                                         {/* Activity: Approved */}
                                         {(order.status === 'APPROVED' || order.status === 'ORDERED' || order.status === 'RECEIVED') && (
                                             <div className="relative">
-                                                <div className="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-blue-500 border-4 border-background flex items-center justify-center shadow-sm" />
+                                                <div className="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-primary border-4 border-background flex items-center justify-center shadow-sm" />
                                                 <div className="space-y-1">
                                                     <p className="text-[14px] font-bold text-foreground">ORDER APPROVED</p>
                                                     <p className="text-[12px] text-muted-foreground">Authorization verified by administration.</p>
@@ -856,7 +856,7 @@ export const POInspector = ({ order: initialOrder, onClose }: POInspectorProps) 
                                         {/* Activity: Dispatched */}
                                         {(order.status === 'ORDERED' || order.status === 'RECEIVED') && (
                                             <div className="relative">
-                                                <div className="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-indigo-500 border-4 border-background flex items-center justify-center shadow-sm" />
+                                                <div className="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-primary/80 border-4 border-background flex items-center justify-center shadow-sm" />
                                                 <div className="space-y-1">
                                                     <p className="text-[14px] font-bold text-foreground">DISPATCHED TO VENDOR</p>
                                                     <p className="text-[12px] text-muted-foreground">Logistics dispatch sent to {order.vendor?.name || 'Vendor'}.</p>
@@ -907,7 +907,7 @@ export const POInspector = ({ order: initialOrder, onClose }: POInspectorProps) 
                                     </h3>
 
                                     <div className="border-2 border-dashed border-border hover:border-primary/50 rounded-2xl p-10 flex flex-col items-center justify-center gap-4 bg-muted/20 hover:bg-muted/40 transition-all cursor-pointer group">
-                                        <div className="w-12 h-12 bg-indigo-50 text-indigo-500 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+                                        <div className="w-12 h-12 bg-primary/10 text-primary/80 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
                                             <Upload className="w-6 h-6" />
                                         </div>
                                         <div className="text-center">
@@ -928,7 +928,7 @@ export const POInspector = ({ order: initialOrder, onClose }: POInspectorProps) 
                                                     <p className="text-[11px] text-slate-400">1.4 MB • Generated on creation</p>
                                                 </div>
                                             </div>
-                                            <button className="text-[12px] font-bold text-indigo-600 hover:text-indigo-800 hover:underline">
+                                            <button className="text-[12px] font-bold text-primary hover:text-indigo-800 hover:underline">
                                                 Download
                                             </button>
                                         </div>

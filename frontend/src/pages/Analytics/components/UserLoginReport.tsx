@@ -60,7 +60,7 @@ export const UserLoginReport = ({ data, showFilters }: UserLoginReportProps) => 
                                 <button 
                                     onClick={() => setIsAccountTypeOpen(!isAccountTypeOpen)}
                                     className={cn(
-                                        "flex items-center gap-2 px-4 py-2 bg-slate-50 border border-slate-200 rounded text-[13px] text-slate-600 hover:bg-slate-100 transition-all min-w-[140px]",
+                                        "flex items-center gap-2 px-4 py-2 bg-transparent border border-border rounded text-[13px] text-slate-600 hover:bg-muted transition-all min-w-[140px]",
                                         isAccountTypeOpen && "border-[#4A90E2] ring-1 ring-[#4A90E2]"
                                     )}
                                 >
@@ -74,20 +74,20 @@ export const UserLoginReport = ({ data, showFilters }: UserLoginReportProps) => 
                                             initial={{ opacity: 0, y: 5 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             exit={{ opacity: 0, y: 5 }}
-                                            className="absolute top-full left-0 mt-2 w-[280px] bg-white border border-slate-200 rounded-lg shadow-xl z-[100] py-3 px-4 space-y-2"
+                                            className="absolute top-full left-0 mt-2 w-[280px] bg-card border border-border rounded-lg shadow-xl z-[100] py-3 px-4 space-y-2"
                                         >
                                             {accountTypes.map(type => (
                                                 <button 
                                                     key={type}
                                                     onClick={() => toggleAccountType(type)}
-                                                    className="w-full flex items-center gap-3 hover:bg-slate-50 p-2 rounded transition-colors group"
+                                                    className="w-full flex items-center gap-3 hover:bg-transparent p-2 rounded transition-colors group"
                                                 >
                                                     {selectedAccountTypes.includes(type) ? (
-                                                        <CheckSquare className="w-5 h-5 text-indigo-600" />
+                                                        <CheckSquare className="w-5 h-5 text-primary" />
                                                     ) : (
                                                         <Square className="w-5 h-5 text-slate-300 group-hover:text-slate-400" />
                                                     )}
-                                                    <span className="text-[14px] text-slate-700 font-medium">{type}</span>
+                                                    <span className="text-[14px] text-foreground/90 font-medium">{type}</span>
                                                 </button>
                                             ))}
                                         </motion.div>
@@ -97,12 +97,12 @@ export const UserLoginReport = ({ data, showFilters }: UserLoginReportProps) => 
 
                             <div className="space-y-1.5">
                                 <span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Active (Yes / No)</span>
-                                <div className="flex border border-slate-200 rounded overflow-hidden">
+                                <div className="flex border border-border rounded overflow-hidden">
                                     <button 
                                         onClick={() => setActiveFilter('Yes')}
                                         className={cn(
                                             "px-6 py-2 text-[13px] font-bold transition-all",
-                                            activeFilter === 'Yes' ? "bg-indigo-50 text-indigo-600" : "bg-white text-slate-400 hover:text-slate-600"
+                                            activeFilter === 'Yes' ? "bg-primary/10 text-primary" : "bg-card text-slate-400 hover:text-slate-600"
                                         )}
                                     >
                                         Yes
@@ -110,8 +110,8 @@ export const UserLoginReport = ({ data, showFilters }: UserLoginReportProps) => 
                                     <button 
                                         onClick={() => setActiveFilter('No')}
                                         className={cn(
-                                            "px-6 py-2 text-[13px] font-bold transition-all border-l border-slate-200",
-                                            activeFilter === 'No' ? "bg-indigo-50 text-indigo-600" : "bg-white text-slate-400 hover:text-slate-600"
+                                            "px-6 py-2 text-[13px] font-bold transition-all border-l border-border",
+                                            activeFilter === 'No' ? "bg-primary/10 text-primary" : "bg-card text-slate-400 hover:text-slate-600"
                                         )}
                                     >
                                         No
@@ -123,18 +123,18 @@ export const UserLoginReport = ({ data, showFilters }: UserLoginReportProps) => 
                 )}
             </AnimatePresence>
 
-            <div className="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm mt-4">
-                <div className="px-8 py-4 border-b border-slate-100 flex items-center justify-center gap-2 bg-slate-50/30">
+            <div className="bg-card rounded-xl border border-border overflow-hidden shadow-sm mt-4">
+                <div className="px-8 py-4 border-b border-slate-100 flex items-center justify-center gap-2 bg-transparent/30">
                     <h3 className="text-[15px] font-bold text-slate-600 uppercase tracking-widest">Last Login</h3>
                     <Info className="w-4 h-4 text-slate-300" />
                 </div>
 
                 <div className="overflow-x-auto">
                     <table className="w-full text-left border-collapse">
-                        <thead>
-                            <tr className="bg-white">
+                        <thead className="text-white/90 bg-primary">
+                            <tr className="border-b border-primary/20">
                                 {columns.map((col, idx) => (
-                                    <th key={idx} className="px-8 py-4 text-[12px] font-black text-slate-800 uppercase tracking-tighter border-b border-slate-100 whitespace-nowrap">
+                                    <th key={idx} className="px-8 py-4 text-[12px] font-black text-white/90 uppercase tracking-widest border-b border-slate-100 whitespace-nowrap">
                                         <div className="flex items-center gap-2">
                                             {col}
                                             {col === "Date of Last Login" && <ChevronDown className="w-3.5 h-3.5 text-slate-400" />}
@@ -146,9 +146,9 @@ export const UserLoginReport = ({ data, showFilters }: UserLoginReportProps) => 
                         <tbody>
                             {reportData.length > 0 ? (
                                 reportData.map((row: any, idx: number) => (
-                                    <tr key={idx} className="hover:bg-slate-50/50 transition-colors group">
-                                        <td className="px-8 py-4 text-[13px] text-slate-500 border-b border-slate-50">{row.name}</td>
-                                        <td className="px-8 py-4 text-[13px] text-slate-500 border-b border-slate-50">{row.email}</td>
+                                    <tr key={idx} className="hover:bg-transparent/50 transition-colors group">
+                                        <td className="px-8 py-4 text-[13px] text-muted-foreground border-b border-slate-50">{row.name}</td>
+                                        <td className="px-8 py-4 text-[13px] text-muted-foreground border-b border-slate-50">{row.email}</td>
                                         <td className="px-8 py-4 text-[13px] text-slate-400 font-mono border-b border-slate-50">{row.id}</td>
                                         <td className="px-8 py-4 text-[13px] text-slate-400 italic border-b border-slate-50">{row.jobTitle || 'n/a'}</td>
                                         <td className="px-8 py-4 text-[13px] text-slate-600 font-bold border-b border-slate-50">{row.lastLogin}</td>

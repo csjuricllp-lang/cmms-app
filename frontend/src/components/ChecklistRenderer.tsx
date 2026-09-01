@@ -202,17 +202,17 @@ export const ChecklistRenderer = ({ workOrder }: ChecklistRendererProps) => {
                         <button 
                             onClick={() => applyTemplateMutation.mutate('template_ac_comprehensive')}
                             disabled={applyTemplateMutation.isPending}
-                            className="px-6 py-2 bg-blue-600 text-white rounded-xl text-[12px] font-black uppercase tracking-widest hover:bg-blue-700 transition-all shadow-lg shadow-blue-500/20 disabled:opacity-50"
+                            className="px-6 py-2 bg-primary text-white rounded-xl text-[12px] font-black uppercase tracking-widest hover:bg-primary/90 transition-all shadow-lg shadow-primary/20 disabled:opacity-50"
                         >
                             Apply Standard Protocol
                         </button>
-                        <button className="px-6 py-2 bg-white border border-slate-200 rounded-xl text-[12px] font-black uppercase tracking-widest hover:bg-slate-50 transition-all shadow-sm">
+                        <button className="px-6 py-2 bg-card border border-border rounded-xl text-[12px] font-black uppercase tracking-widest hover:bg-muted/50 transition-all shadow-sm">
                             Edit
                         </button>
                     </div>
                 </div>
                 <div className="p-16 rounded-[48px] border-2 border-dashed border-slate-100 flex flex-col items-center justify-center text-center bg-slate-50/30">
-                    <div className="w-20 h-20 rounded-[32px] bg-white shadow-sm flex items-center justify-center mb-6">
+                    <div className="w-20 h-20 rounded-[32px] bg-card shadow-sm flex items-center justify-center mb-6">
                         <AlertTriangle className="w-8 h-8 text-slate-200" />
                     </div>
                     <p className="text-[14px] font-black uppercase tracking-[0.2em] text-slate-300 italic mb-2">No Mission Protocols Attached</p>
@@ -227,18 +227,18 @@ export const ChecklistRenderer = ({ workOrder }: ChecklistRendererProps) => {
             {/* Header section matches image */}
             <div className="flex items-center justify-between px-2">
                 <h3 className="text-[20px] font-black italic uppercase tracking-tight">Tasks & Checklists</h3>
-                <button className="px-6 py-2 bg-white border border-slate-200 rounded-xl text-[12px] font-black uppercase tracking-widest hover:bg-slate-50 transition-all shadow-sm">
+                <button className="px-6 py-2 bg-card border border-border rounded-xl text-[12px] font-black uppercase tracking-widest hover:bg-muted/50 transition-all shadow-sm">
                     Edit
                 </button>
             </div>
 
             {/* Collapsible Container */}
-            <div className="bg-white border border-slate-100 rounded-[32px] overflow-hidden shadow-sm">
+            <div className="bg-card border border-slate-100 rounded-[32px] overflow-hidden shadow-sm">
                 <button 
                     onClick={() => setIsOtherTasksExpanded(!isOtherTasksExpanded)}
-                    className="w-full px-8 py-6 flex items-center justify-between hover:bg-slate-50/50 transition-all"
+                    className="w-full px-8 py-6 flex items-center justify-between hover:bg-transparent transition-all"
                 >
-                    <span className="text-[14px] font-[900] text-slate-700 tracking-tight">Other Tasks</span>
+                    <span className="text-[14px] font-[900] text-foreground/90 tracking-tight">Other Tasks</span>
                     <ChevronDown className={cn("w-5 h-5 text-slate-400 transition-transform duration-300", isOtherTasksExpanded ? "" : "-rotate-90")} />
                 </button>
 
@@ -257,13 +257,13 @@ export const ChecklistRenderer = ({ workOrder }: ChecklistRendererProps) => {
                         const isUploadingPhoto = uploadPhotoMutation.isPending && uploadPhotoMutation.variables?.itemId === item.id;
 
                         return (
-                            <div key={item.id} className="p-6 bg-white border border-slate-100 rounded-[24px] space-y-4 hover:border-blue-100 transition-all group/task">
+                            <div key={item.id} className="p-6 bg-card border border-slate-100 rounded-[24px] space-y-4 hover:border-blue-100 transition-all group/task">
                                 <div className="flex items-center justify-between">
-                                    <h4 className="text-[14px] font-black text-slate-700">
+                                    <h4 className="text-[14px] font-black text-foreground/90">
                                         <span className="text-slate-400 mr-2">{index + 1}.</span>
                                         {item.task}
                                     </h4>
-                                    <div className="p-1.5 rounded-lg text-blue-500 hover:bg-blue-50 transition-all cursor-pointer">
+                                    <div className="p-1.5 rounded-lg text-primary hover:bg-blue-50 transition-all cursor-pointer">
                                         <User className="w-5 h-5" />
                                     </div>
                                 </div>
@@ -275,7 +275,7 @@ export const ChecklistRenderer = ({ workOrder }: ChecklistRendererProps) => {
                                                 <select 
                                                     value={val}
                                                     onChange={(e) => handleValueChange(item.id, e.target.value)}
-                                                    className="w-full h-14 bg-slate-50 border border-slate-100 rounded-2xl px-6 text-[14px] font-bold text-slate-600 outline-none hover:border-slate-200 transition-all appearance-none cursor-pointer"
+                                                    className="w-full h-14 bg-muted/50 border border-slate-100 rounded-2xl px-6 text-[14px] font-bold text-slate-600 outline-none hover:border-border transition-all appearance-none cursor-pointer"
                                                 >
                                                     <option value="Incomplete">Incomplete</option>
                                                     <option value="On Hold">On Hold</option>
@@ -293,7 +293,7 @@ export const ChecklistRenderer = ({ workOrder }: ChecklistRendererProps) => {
                                                     onChange={(e) => setLocalValues(prev => ({ ...prev, [item.id]: e.target.value }))}
                                                     onBlur={(e) => handleValueChange(item.id, e.target.value)}
                                                     placeholder="Capture reading or state..."
-                                                    className="w-full h-14 bg-slate-50 border border-slate-100 rounded-2xl px-6 text-[14px] font-bold text-slate-600 outline-none hover:border-slate-200 focus:bg-white transition-all"
+                                                    className="w-full h-14 bg-muted/50 border border-slate-100 rounded-2xl px-6 text-[14px] font-bold text-slate-600 outline-none hover:border-border focus:bg-card transition-all"
                                                 />
                                             </div>
                                         )}
@@ -305,7 +305,7 @@ export const ChecklistRenderer = ({ workOrder }: ChecklistRendererProps) => {
 
                                 {/* Dynamic inputs for Photo, Notes, URL */}
                                 {(isNotesVisible || isUrlVisible || photo || isUploadingPhoto) && (
-                                    <div className="p-4 bg-slate-50/50 rounded-2xl border border-slate-100 space-y-4">
+                                    <div className="p-4 bg-transparent rounded-2xl border border-slate-100 space-y-4">
                                         {/* Notes Textarea */}
                                         {isNotesVisible && (
                                             <div className="space-y-1">
@@ -315,7 +315,7 @@ export const ChecklistRenderer = ({ workOrder }: ChecklistRendererProps) => {
                                                     onChange={(e) => handleNotesChange(item.id, e.target.value)}
                                                     onBlur={() => handleNotesBlur(item.id)}
                                                     placeholder="Enter task observations or notes..."
-                                                    className="w-full bg-white border border-slate-100 rounded-xl p-3 text-[13px] font-bold text-slate-600 focus:border-slate-200 outline-none transition-all shadow-sm"
+                                                    className="w-full bg-card border border-slate-100 rounded-xl p-3 text-[13px] font-bold text-slate-600 focus:border-border outline-none transition-all shadow-sm"
                                                     rows={2}
                                                 />
                                             </div>
@@ -332,14 +332,14 @@ export const ChecklistRenderer = ({ workOrder }: ChecklistRendererProps) => {
                                                         onChange={(e) => handleUrlChange(item.id, e.target.value)}
                                                         onBlur={() => handleUrlBlur(item.id)}
                                                         placeholder="https://example.com/reference"
-                                                        className="w-full bg-white border border-slate-100 rounded-xl pl-3 pr-10 py-2.5 text-[13px] font-bold text-slate-600 focus:border-slate-200 outline-none transition-all shadow-sm"
+                                                        className="w-full bg-card border border-slate-100 rounded-xl pl-3 pr-10 py-2.5 text-[13px] font-bold text-slate-600 focus:border-border outline-none transition-all shadow-sm"
                                                     />
                                                     {url && (
                                                         <a 
                                                             href={url} 
                                                             target="_blank" 
                                                             rel="noreferrer" 
-                                                            className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-blue-500 transition-colors"
+                                                            className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-primary transition-colors"
                                                         >
                                                             <ExternalLink className="w-3.5 h-3.5" />
                                                         </a>
@@ -353,11 +353,11 @@ export const ChecklistRenderer = ({ workOrder }: ChecklistRendererProps) => {
                                             <div className="space-y-1">
                                                 <label className="text-[10px] font-black uppercase tracking-wider text-slate-400">Attached Photo</label>
                                                 {isUploadingPhoto ? (
-                                                    <div className="w-32 h-20 rounded-xl border border-slate-200 bg-white flex items-center justify-center shadow-sm">
-                                                        <Loader2 className="w-5 h-5 text-blue-500 animate-spin" />
+                                                    <div className="w-32 h-20 rounded-xl border border-border bg-card flex items-center justify-center shadow-sm">
+                                                        <Loader2 className="w-5 h-5 text-primary animate-spin" />
                                                     </div>
                                                 ) : (
-                                                    <div className="relative w-32 h-20 rounded-xl overflow-hidden group/photo-preview border border-slate-100 shadow-sm bg-white">
+                                                    <div className="relative w-32 h-20 rounded-xl overflow-hidden group/photo-preview border border-slate-100 shadow-sm bg-card">
                                                         <img 
                                                             src={photo} 
                                                             alt="Task attachment" 
@@ -390,7 +390,7 @@ export const ChecklistRenderer = ({ workOrder }: ChecklistRendererProps) => {
                                 <div className="flex items-center gap-6 pt-2 border-t border-slate-50">
                                     <button 
                                         onClick={() => fileInputRefs.current[item.id]?.click()}
-                                        className="flex items-center gap-2 text-[11px] font-black text-slate-400 hover:text-blue-500 uppercase tracking-widest transition-all"
+                                        className="flex items-center gap-2 text-[11px] font-black text-slate-400 hover:text-primary uppercase tracking-widest transition-all"
                                     >
                                         <Camera className="w-3.5 h-3.5" />
                                         Photo
@@ -409,7 +409,7 @@ export const ChecklistRenderer = ({ workOrder }: ChecklistRendererProps) => {
                                         onClick={() => setActiveNotesInput(prev => ({ ...prev, [item.id]: !prev[item.id] }))}
                                         className={cn(
                                             "flex items-center gap-2 text-[11px] font-black uppercase tracking-widest transition-all",
-                                            isNotesVisible ? "text-blue-600 font-[900]" : "text-slate-400 hover:text-blue-500"
+                                            isNotesVisible ? "text-primary font-[900]" : "text-slate-400 hover:text-primary"
                                         )}
                                     >
                                         <FileText className="w-3.5 h-3.5" />
@@ -422,7 +422,7 @@ export const ChecklistRenderer = ({ workOrder }: ChecklistRendererProps) => {
                                         onClick={() => setActiveUrlInput(prev => ({ ...prev, [item.id]: !prev[item.id] }))}
                                         className={cn(
                                             "flex items-center gap-2 text-[11px] font-black uppercase tracking-widest transition-all",
-                                            isUrlVisible ? "text-blue-600 font-[900]" : "text-slate-400 hover:text-blue-500"
+                                            isUrlVisible ? "text-primary font-[900]" : "text-slate-400 hover:text-primary"
                                         )}
                                     >
                                         <LinkIcon className="w-3.5 h-3.5" />

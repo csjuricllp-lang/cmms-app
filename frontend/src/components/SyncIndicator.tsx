@@ -38,9 +38,9 @@ export const SyncIndicator: React.FC = () => {
   }
 
   return (
-    <div className="flex items-center gap-2 px-2 sm:px-3 py-1.5 bg-success/10 text-success rounded-lg border border-success/20 opacity-60 hover:opacity-100 transition-opacity">
+    <div className="flex items-center gap-2 px-2 sm:px-3 py-1.5 bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 rounded-lg border border-emerald-500/30 transition-opacity shadow-sm">
       <Cloud className="w-4 h-4 shrink-0" />
-      <span className="text-[11px] font-bold uppercase tracking-wider hidden sm:inline">Synced</span>
+      <span className="text-[11px] font-black uppercase tracking-wider hidden sm:inline">Synced</span>
     </div>
   );
 };

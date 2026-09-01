@@ -80,7 +80,7 @@ const DatePickerDropdown = ({ activePreset, onSelect }: { activePreset: string, 
             initial={{ opacity: 0, y: 10, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
-            className="absolute top-full left-0 mt-2 w-[280px] bg-white rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-slate-100 z-[1000] overflow-hidden"
+            className="absolute top-full left-0 mt-2 w-[280px] bg-card rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-slate-100 z-[1000] overflow-hidden"
         >
             <div className="flex border-b border-slate-100">
                 {(['Presets', 'Custom'] as const).map((tab) => (
@@ -89,12 +89,12 @@ const DatePickerDropdown = ({ activePreset, onSelect }: { activePreset: string, 
                         onClick={() => setActiveTab(tab)}
                         className={cn(
                             "flex-1 py-4 text-[13px] font-black uppercase tracking-widest italic transition-all relative",
-                            activeTab === tab ? "text-indigo-600" : "text-slate-400 hover:text-slate-600"
+                            activeTab === tab ? "text-primary" : "text-slate-400 hover:text-slate-600"
                         )}
                     >
                         {tab}
                         {activeTab === tab && (
-                            <motion.div layoutId="tabLine" className="absolute bottom-0 left-6 right-6 h-1 bg-indigo-600 rounded-t-full" />
+                            <motion.div layoutId="tabLine" className="absolute bottom-0 left-6 right-6 h-1 bg-primary rounded-t-full" />
                         )}
                     </button>
                 ))}
@@ -110,11 +110,11 @@ const DatePickerDropdown = ({ activePreset, onSelect }: { activePreset: string, 
                                     onClick={() => onSelect(item)}
                                     className={cn(
                                         "w-full px-6 py-2.5 flex items-center gap-3 text-[14px] font-medium transition-all group",
-                                        activePreset === item ? "bg-slate-100/80 text-slate-900" : "text-slate-600 hover:bg-slate-50"
+                                        activePreset === item ? "bg-slate-100/80 text-foreground" : "text-slate-600 hover:bg-transparent"
                                     )}
                                 >
                                     <div className="w-5 flex justify-center">
-                                        {activePreset === item && <Check className="w-4 h-4 text-slate-500 stroke-[3]" />}
+                                        {activePreset === item && <Check className="w-4 h-4 text-muted-foreground stroke-[3]" />}
                                     </div>
                                     <span className={cn(activePreset === item && "font-bold")}>{item}</span>
                                 </button>
@@ -122,10 +122,10 @@ const DatePickerDropdown = ({ activePreset, onSelect }: { activePreset: string, 
                         </div>
                     ))}
 
-                    <div className="border-t border-slate-100 bg-slate-50/50">
+                    <div className="border-t border-slate-100 bg-transparent/50">
                         <button 
                             onClick={() => setIsMoreExpanded(!isMoreExpanded)}
-                            className="w-full px-6 py-4 flex items-center justify-between text-[13px] font-black text-slate-700 hover:bg-slate-50 transition-all uppercase tracking-widest italic"
+                            className="w-full px-6 py-4 flex items-center justify-between text-[13px] font-black text-foreground/90 hover:bg-transparent transition-all uppercase tracking-widest italic"
                         >
                             More
                             <ChevronDown className={cn("w-4 h-4 text-slate-400 transition-transform duration-300", isMoreExpanded && "rotate-180")} />
@@ -136,7 +136,7 @@ const DatePickerDropdown = ({ activePreset, onSelect }: { activePreset: string, 
                                     initial={{ height: 0, opacity: 0 }}
                                     animate={{ height: 'auto', opacity: 1 }}
                                     exit={{ height: 0, opacity: 0 }}
-                                    className="overflow-hidden bg-white"
+                                    className="overflow-hidden bg-card"
                                 >
                                     {moreGroups.map((group, gIdx) => (
                                         <div key={gIdx} className={cn("py-1", gIdx > 0 && "border-t border-slate-100")}>
@@ -146,7 +146,7 @@ const DatePickerDropdown = ({ activePreset, onSelect }: { activePreset: string, 
                                                     onClick={() => onSelect(item)}
                                                     className={cn(
                                                         "w-full px-6 py-2.5 flex items-center text-[14px] font-medium transition-all",
-                                                        activePreset === item ? "bg-slate-50 text-indigo-600 font-bold" : "text-slate-600 hover:bg-slate-50"
+                                                        activePreset === item ? "bg-transparent text-primary font-bold" : "text-slate-600 hover:bg-transparent"
                                                     )}
                                                 >
                                                     {item}
@@ -161,7 +161,7 @@ const DatePickerDropdown = ({ activePreset, onSelect }: { activePreset: string, 
                 </div>
             ) : (
                 <div className="p-8 text-center space-y-4">
-                    <div className="w-12 h-12 bg-slate-50 rounded-full flex items-center justify-center mx-auto">
+                    <div className="w-12 h-12 bg-transparent rounded-full flex items-center justify-center mx-auto">
                         <Calendar className="w-6 h-6 text-slate-300" />
                     </div>
                     <p className="text-[13px] font-bold text-slate-400 uppercase tracking-widest italic">Custom Date Picker</p>
@@ -176,7 +176,7 @@ const SimpleDropdown = ({ options, onSelect }: { options: any[], onSelect: (val:
         initial={{ opacity: 0, y: 10, scale: 0.95 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: 10, scale: 0.95 }}
-        className="absolute top-full left-0 mt-2 w-full min-w-[160px] bg-white rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-slate-100 z-[1000] overflow-hidden py-1"
+        className="absolute top-full left-0 mt-2 w-full min-w-[160px] bg-card rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-slate-100 z-[1000] overflow-hidden py-1"
     >
         {options.map((opt) => {
             const optValue = typeof opt === 'object' ? (opt.id || opt.name) : opt;
@@ -185,7 +185,7 @@ const SimpleDropdown = ({ options, onSelect }: { options: any[], onSelect: (val:
                 <button
                     key={optValue}
                     onClick={() => onSelect(optValue)}
-                    className="w-full px-6 py-3 text-left text-[14px] font-medium text-slate-600 hover:bg-slate-50 transition-colors"
+                    className="w-full px-6 py-3 text-left text-[14px] font-medium text-slate-600 hover:bg-transparent transition-colors"
                 >
                     {optLabel}
                 </button>
@@ -218,16 +218,16 @@ const MultiSelectDropdown = ({
             initial={{ opacity: 0, y: 10, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
-            className="absolute top-full left-0 mt-2 w-[400px] bg-white rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-slate-100 z-[1000] overflow-hidden flex flex-col"
+            className="absolute top-full left-0 mt-2 w-[400px] bg-card rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-slate-100 z-[1000] overflow-hidden flex flex-col"
         >
-            <div className="p-4 bg-white border-b border-slate-100">
+            <div className="p-4 bg-card border-b border-slate-100">
                 <div className="relative group">
                     <input 
                         type="text" 
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                         placeholder="any value"
-                        className="w-full px-4 py-2.5 bg-white border border-[#4285f4] rounded text-[15px] font-medium text-slate-700 focus:outline-none transition-all shadow-[inset_0_1px_2px_rgba(0,0,0,0.05)]"
+                        className="w-full px-4 py-2.5 bg-card border border-[#4285f4] rounded text-[15px] font-medium text-foreground/90 focus:outline-none transition-all shadow-[inset_0_1px_2px_rgba(0,0,0,0.05)]"
                     />
                     <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center justify-center">
                         <div className="w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-t-[4px] border-t-slate-500" />
@@ -235,14 +235,14 @@ const MultiSelectDropdown = ({
                 </div>
             </div>
 
-            <div className="px-5 py-2.5 flex items-center justify-between border-b border-slate-100 bg-white">
+            <div className="px-5 py-2.5 flex items-center justify-between border-b border-slate-100 bg-card">
                 <div className="flex items-center gap-3">
-                    <div className="w-5 h-5 rounded border border-slate-400 flex items-center justify-center bg-white">
+                    <div className="w-5 h-5 rounded border border-slate-400 flex items-center justify-center bg-card">
                         {/* Empty checkbox like in image */}
                     </div>
                     <div className="flex items-center gap-1">
-                        <span className="text-[14px] font-bold text-slate-900">{selected.length} of {options.length} selected</span>
-                        <div className="w-4 h-4 rounded-full border border-slate-300 flex items-center justify-center bg-white cursor-help">
+                        <span className="text-[14px] font-bold text-foreground">{selected.length} of {options.length} selected</span>
+                        <div className="w-4 h-4 rounded-full border border-slate-300 flex items-center justify-center bg-card cursor-help">
                             <span className="text-[10px] text-slate-400 font-bold">i</span>
                         </div>
                     </div>
@@ -255,7 +255,7 @@ const MultiSelectDropdown = ({
                 </button>
             </div>
 
-            <div className="max-h-[300px] min-h-[100px] overflow-y-auto custom-scrollbar flex flex-col bg-white">
+            <div className="max-h-[300px] min-h-[100px] overflow-y-auto custom-scrollbar flex flex-col bg-card">
                 {filteredOptions.length > 0 ? (
                     filteredOptions.map((opt: any) => {
                         const optValue = typeof opt === 'object' ? (opt.id || opt.name) : opt;
@@ -265,17 +265,17 @@ const MultiSelectDropdown = ({
                             <div 
                                 key={optValue}
                                 onClick={() => onToggle(optValue)}
-                                className="px-5 py-3 flex items-center gap-3 hover:bg-slate-50/50 transition-colors cursor-pointer group border-b border-slate-50 last:border-0"
+                                className="px-5 py-3 flex items-center gap-3 hover:bg-transparent/50 transition-colors cursor-pointer group border-b border-slate-50 last:border-0"
                             >
                                 <div className={cn(
                                     "w-5 h-5 rounded border flex items-center justify-center transition-all",
-                                    isSelected ? "bg-white border-slate-400" : "bg-white border-slate-300"
+                                    isSelected ? "bg-card border-slate-400" : "bg-card border-slate-300"
                                 )}>
                                     {isSelected && <Check className="w-3.5 h-3.5 text-slate-600 stroke-[3]" />}
                                 </div>
                                 <span className={cn(
                                     "text-[14px] font-medium transition-colors",
-                                    isSelected ? "text-slate-900" : "text-slate-600"
+                                    isSelected ? "text-foreground" : "text-slate-600"
                                 )}>
                                     {optLabel}
                                 </span>
@@ -289,7 +289,7 @@ const MultiSelectDropdown = ({
                 )}
             </div>
 
-            <div className="p-4 border-t border-slate-100 flex items-center justify-end gap-10 bg-white">
+            <div className="p-4 border-t border-slate-100 flex items-center justify-end gap-10 bg-card">
                 <button 
                     onClick={onClose}
                     className="text-[14px] font-bold text-[#4285f4] hover:opacity-80 transition-opacity"
@@ -341,21 +341,21 @@ const AdvancedFilterDropdown = ({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
             className={cn(
-                "absolute top-full left-0 mt-2 bg-white rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-slate-100 z-[1000] flex flex-col gap-4",
+                "absolute top-full left-0 mt-2 bg-card rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-slate-100 z-[1000] flex flex-col gap-4",
                 hideBuilder ? "w-[400px] p-0 overflow-hidden" : "w-[520px] p-6"
             )}
         >
             {!hideBuilder && (
                 <div className="flex items-center gap-4">
-                    <div className="flex-1 flex items-center border border-slate-300 rounded bg-white relative">
+                    <div className="flex-1 flex items-center border border-slate-300 rounded bg-card relative">
                         <button 
                             onClick={() => { setIsOperatorOpen(!isOperatorOpen); setIsValueOpen(false); }}
                             className={cn(
-                                "px-4 py-3 flex items-center justify-between gap-4 border-r border-slate-200 hover:bg-slate-50 transition-all min-w-[90px]",
-                                isOperatorOpen && "ring-2 ring-indigo-500 ring-inset z-10"
+                                "px-4 py-3 flex items-center justify-between gap-4 border-r border-border hover:bg-transparent transition-all min-w-[90px]",
+                                isOperatorOpen && "ring-2 ring-primary ring-inset z-10"
                             )}
                         >
-                            <span className="text-[15px] font-medium text-slate-700">{operator}</span>
+                            <span className="text-[15px] font-medium text-foreground/90">{operator}</span>
                             <ChevronDown className={cn("w-4 h-4 text-slate-400 transition-transform", isOperatorOpen && "rotate-180")} />
                         </button>
                     <AnimatePresence>
@@ -364,7 +364,7 @@ const AdvancedFilterDropdown = ({
                                 initial={{ opacity: 0, y: 5 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: 5 }}
-                                className="absolute top-full left-0 mt-1 w-[300px] bg-white rounded-lg shadow-[0_10px_30px_rgba(0,0,0,0.1)] border border-slate-100 z-[2000] py-2 overflow-hidden"
+                                className="absolute top-full left-0 mt-1 w-[300px] bg-card rounded-lg shadow-[0_10px_30px_rgba(0,0,0,0.1)] border border-slate-100 z-[2000] py-2 overflow-hidden"
                             >
                                 {operators.map((op) => (
                                     <button
@@ -372,7 +372,7 @@ const AdvancedFilterDropdown = ({
                                         onClick={() => { setOperator(op); setIsOperatorOpen(false); }}
                                         className={cn(
                                             "w-full px-5 py-2.5 text-left text-[14px] transition-colors",
-                                            operator === op ? "bg-indigo-50 text-indigo-700 font-bold" : "text-slate-600 hover:bg-slate-50"
+                                            operator === op ? "bg-primary/10 text-primary/90 font-bold" : "text-slate-600 hover:bg-transparent"
                                         )}
                                     >
                                         {op}
@@ -389,18 +389,18 @@ const AdvancedFilterDropdown = ({
                                 value={textValue}
                                 onChange={(e) => onTextChange?.(e.target.value)}
                                 placeholder="any value"
-                                className="w-full bg-transparent border-none focus:ring-0 text-[15px] font-medium text-slate-700 placeholder:text-slate-400"
+                                className="w-full bg-transparent border-none focus:ring-0 text-[15px] font-medium text-foreground/90 placeholder:text-slate-400"
                             />
                         </div>
                     ) : (
                         <button 
                             onClick={() => { setIsValueOpen(!isValueOpen); setIsOperatorOpen(false); }}
                             className={cn(
-                                "flex-1 px-4 py-3 flex items-center justify-between hover:bg-slate-50 transition-all",
-                                isValueOpen && "ring-2 ring-indigo-500 ring-inset z-10"
+                                "flex-1 px-4 py-3 flex items-center justify-between hover:bg-transparent transition-all",
+                                isValueOpen && "ring-2 ring-primary ring-inset z-10"
                             )}
                         >
-                            <span className={cn("text-[15px] font-medium", selected.length > 0 ? "text-slate-700" : "text-slate-400")}>
+                            <span className={cn("text-[15px] font-medium", selected.length > 0 ? "text-foreground/90" : "text-slate-400")}>
                                 {selected.length > 0 ? `${selected.length} selected` : 'any value'}
                             </span>
                             <ChevronDown className={cn("w-4 h-4 text-slate-400 transition-transform", isValueOpen && "rotate-180")} />
@@ -408,7 +408,7 @@ const AdvancedFilterDropdown = ({
                     )}
                 </div>
 
-                <button className="w-12 h-12 flex items-center justify-center border border-slate-300 rounded hover:bg-slate-50 transition-all">
+                <button className="w-12 h-12 flex items-center justify-center border border-slate-300 rounded hover:bg-transparent transition-all">
                     <Plus className="w-6 h-6 text-slate-400" />
                 </button>
             </div>
@@ -421,29 +421,29 @@ const AdvancedFilterDropdown = ({
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 5 }}
                         className={cn(
-                            "bg-white z-[2000] overflow-hidden flex flex-col",
+                            "bg-card z-[2000] overflow-hidden flex flex-col",
                             hideBuilder ? "w-full" : "absolute top-full left-[90px] mt-1 w-[400px] rounded-lg shadow-[0_10px_30px_rgba(0,0,0,0.1)] border border-slate-100"
                         )}
                     >
-                        <div className="px-5 py-4 border-b border-slate-200 flex items-center justify-between bg-white">
+                        <div className="px-5 py-4 border-b border-border flex items-center justify-between bg-card">
                             <div className="flex items-center gap-3">
-                                <div className="w-5 h-5 rounded border border-slate-300 bg-white flex items-center justify-center cursor-pointer hover:border-slate-400 transition-colors">
+                                <div className="w-5 h-5 rounded border border-slate-300 bg-card flex items-center justify-center cursor-pointer hover:border-slate-400 transition-colors">
                                     {selected.length === options.length && options.length > 0 && <Check className="w-3.5 h-3.5 text-slate-600 stroke-[3]" />}
                                 </div>
                                 <div className="flex items-center gap-2">
-                                    <span className="text-[15px] font-medium text-slate-900">{selected.length} of {options.length} selected</span>
+                                    <span className="text-[15px] font-medium text-foreground">{selected.length} of {options.length} selected</span>
                                     <Info className="w-4 h-4 text-slate-400" />
                                 </div>
                             </div>
                             <button 
                                 onClick={() => options.forEach(o => selected.includes(typeof o === 'object' ? (o.id || o.name) : o) && onToggle(typeof o === 'object' ? (o.id || o.name) : o))}
-                                className="text-[15px] font-medium text-indigo-200 hover:text-indigo-600 transition-colors"
+                                className="text-[15px] font-medium text-indigo-200 hover:text-primary transition-colors"
                             >
                                 Deselect all
                             </button>
                         </div>
                         
-                        <div className="max-h-[320px] overflow-y-auto py-2 bg-white">
+                        <div className="max-h-[320px] overflow-y-auto py-2 bg-card">
                             {options.length > 0 ? (
                                 options.map((opt) => {
                                     const optValue = typeof opt === 'object' ? (opt.id || opt.name) : opt;
@@ -453,17 +453,17 @@ const AdvancedFilterDropdown = ({
                                         <button
                                             key={optValue}
                                             onClick={() => onToggle(optValue)}
-                                            className="w-full px-6 py-4 flex items-center gap-4 hover:bg-slate-50 transition-colors group"
+                                            className="w-full px-6 py-4 flex items-center gap-4 hover:bg-transparent transition-colors group"
                                         >
                                             <div className={cn(
                                                 "w-5 h-5 rounded border flex items-center justify-center transition-all",
-                                                isSelected ? "bg-white border-slate-600" : "bg-white border-slate-300 group-hover:border-slate-400"
+                                                isSelected ? "bg-card border-slate-600" : "bg-card border-slate-300 group-hover:border-slate-400"
                                             )}>
                                                 {isSelected && <Check className="w-3.5 h-3.5 text-slate-600 stroke-[3]" />}
                                             </div>
                                             <span className={cn(
                                                 "text-[15px] font-medium transition-colors",
-                                                isSelected ? "text-slate-900" : "text-slate-600"
+                                                isSelected ? "text-foreground" : "text-slate-600"
                                             )}>
                                                 {optLabel}
                                             </span>
@@ -477,16 +477,16 @@ const AdvancedFilterDropdown = ({
                             )}
                         </div>
 
-                        <div className="p-4 border-t border-slate-200 flex items-center justify-end gap-6 bg-white">
+                        <div className="p-4 border-t border-border flex items-center justify-end gap-6 bg-card">
                             <button 
                                 onClick={() => setIsValueOpen(false)}
-                                className="text-[16px] font-bold text-indigo-600 hover:text-indigo-700 transition-colors px-4 py-2"
+                                className="text-[16px] font-bold text-primary hover:text-primary/90 transition-colors px-4 py-2"
                             >
                                 Cancel
                             </button>
                             <button 
                                 onClick={() => { setIsValueOpen(false); onClose(); }}
-                                className="bg-indigo-600 text-white px-10 py-3 rounded-lg text-[16px] font-bold hover:bg-indigo-700 transition-all shadow-md active:scale-95"
+                                className="bg-primary text-white px-10 py-3 rounded-lg text-[16px] font-bold hover:bg-primary/90 transition-all shadow-md active:scale-95"
                             >
                                 Done
                             </button>
@@ -495,16 +495,16 @@ const AdvancedFilterDropdown = ({
                 )}
             </AnimatePresence>
             {isText && (
-                <div className="p-4 border-t border-slate-200 flex items-center justify-end gap-6 bg-white">
+                <div className="p-4 border-t border-border flex items-center justify-end gap-6 bg-card">
                     <button 
                         onClick={() => onClose()}
-                        className="text-[16px] font-bold text-indigo-600 hover:text-indigo-700 transition-colors px-4 py-2"
+                        className="text-[16px] font-bold text-primary hover:text-primary/90 transition-colors px-4 py-2"
                     >
                         Cancel
                     </button>
                     <button 
                         onClick={() => onClose()}
-                        className="bg-indigo-600 text-white px-10 py-3 rounded-lg text-[16px] font-bold hover:bg-indigo-700 transition-all shadow-md active:scale-95"
+                        className="bg-primary text-white px-10 py-3 rounded-lg text-[16px] font-bold hover:bg-primary/90 transition-all shadow-md active:scale-95"
                     >
                         Done
                     </button>
@@ -626,18 +626,18 @@ export const FilterBar = ({
     ];
 
     return (
-        <div className="relative bg-white border-b border-slate-200 px-8 py-3 flex flex-wrap items-center gap-x-4 gap-y-4 shadow-sm z-[200]">
+        <div className="relative bg-card border-b border-border px-8 pt-3 pb-4 flex items-center gap-x-4 shadow-sm z-[200] overflow-x-auto custom-scrollbar">
             {filterItems.map((item) => (
-                <div key={item.label} className={cn("flex flex-col gap-1.5 relative", openDropdown === item.label ? "z-[50]" : "z-[10]")}>
+                <div key={item.label} className={cn("flex flex-col gap-1.5 relative shrink-0", openDropdown === item.label ? "z-[50]" : "z-[10]")}>
                     <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tight">{item.label}</span>
                     <button 
                         onClick={() => setOpenDropdown(openDropdown === item.label ? null : item.label)}
                         className={cn(
                             "flex items-center gap-3 px-4 py-2.5 rounded-lg border text-[13px] font-medium transition-all min-w-[140px] justify-between",
                             item.value !== 'is any value' && item.value !== 'any value'
-                                ? "bg-indigo-50 border-indigo-200 text-indigo-700 shadow-sm"
-                                : "bg-white border-slate-200 text-slate-500 hover:bg-slate-50",
-                            openDropdown === item.label && "border-indigo-400 ring-2 ring-indigo-500/10"
+                                ? "bg-primary/10 border-primary/20 text-primary/90 shadow-sm"
+                                : "bg-card border-border text-muted-foreground hover:bg-transparent",
+                            openDropdown === item.label && "border-primary/80 ring-2 ring-primary/10"
                         )}
                     >
                         <span className="truncate max-w-[180px]">{item.value}</span>
@@ -693,20 +693,20 @@ export const FilterBar = ({
                                     initial={{ opacity: 0, y: 10, scale: 0.95 }}
                                     animate={{ opacity: 1, y: 0, scale: 1 }}
                                     exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                                    className="absolute top-full left-0 mt-2 w-[240px] bg-white rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-slate-100 z-[1000] p-4"
+                                    className="absolute top-full left-0 mt-2 w-[240px] bg-card rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-slate-100 z-[1000] p-4"
                                 >
                                     <input 
                                         autoFocus
                                         type="text" 
                                         placeholder="Enter part number..." 
-                                        className="w-full px-4 py-2.5 bg-slate-50 border-none rounded-lg text-[13px] font-medium focus:ring-2 focus:ring-indigo-500/20 transition-all mb-4"
+                                        className="w-full px-4 py-2.5 bg-transparent border-none rounded-lg text-[13px] font-medium focus:ring-2 focus:ring-primary/20 transition-all mb-4"
                                         value={partNumberFilter === 'is any value' ? '' : partNumberFilter}
                                         onChange={(e) => setPartNumberFilter(e.target.value)}
                                         onKeyDown={(e) => e.key === 'Enter' && setOpenDropdown(null)}
                                     />
                                     <div className="flex justify-end gap-3">
                                         <button onClick={() => { setPartNumberFilter(''); setOpenDropdown(null); }} className="text-[12px] font-bold text-slate-400 uppercase tracking-widest hover:text-slate-600">Clear</button>
-                                        <button onClick={() => setOpenDropdown(null)} className="text-[12px] font-bold text-indigo-600 uppercase tracking-widest hover:text-indigo-700">Apply</button>
+                                        <button onClick={() => setOpenDropdown(null)} className="text-[12px] font-bold text-primary uppercase tracking-widest hover:text-primary/90">Apply</button>
                                     </div>
                                 </motion.div>
                             )
@@ -789,11 +789,11 @@ export const FilterBar = ({
                 </div>
             ))}
 
-            <div className="flex-1" />
+            <div className="flex-1 min-w-[20px] shrink-0" />
 
             <button 
                 onClick={resetFilters}
-                className="text-[11px] font-black text-slate-300 hover:text-rose-500 uppercase tracking-widest transition-colors flex items-center gap-2 group"
+                className="text-[11px] font-black text-slate-300 hover:text-rose-500 uppercase tracking-widest transition-colors flex items-center gap-2 group shrink-0"
             >
                 <X className="w-4 h-4 group-hover:rotate-90 transition-transform" />
                 Clear all

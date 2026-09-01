@@ -54,7 +54,7 @@ const RecenterMap = ({ locations }: { locations: Location[] }) => {
 export const LocationsMapView: React.FC<LocationsMapViewProps> = ({ locations, isLoading }) => {
     if (isLoading) {
         return (
-            <div className="flex-1 flex items-center justify-center bg-slate-50">
+            <div className="flex-1 flex items-center justify-center bg-muted/50">
                 <div className="animate-pulse flex flex-col items-center gap-4">
                     <div className="w-12 h-12 rounded-full border-4 border-blue-100 border-t-blue-600 animate-spin" />
                     <span className="text-slate-400 font-medium">Initializing Geospatial Data...</span>
@@ -91,10 +91,10 @@ export const LocationsMapView: React.FC<LocationsMapViewProps> = ({ locations, i
                     <Marker key={loc.id} position={[loc.lat, loc.lng]}>
                         <Popup className="premium-popup">
                             <div className="p-1">
-                                <h4 className="font-bold text-slate-900 text-[14px]">{loc.name}</h4>
-                                <p className="text-slate-500 text-[12px] mt-1">{loc.address || 'No address provided'}</p>
+                                <h4 className="font-bold text-foreground text-[14px]">{loc.name}</h4>
+                                <p className="text-muted-foreground text-[12px] mt-1">{loc.address || 'No address provided'}</p>
                                 <div className="mt-2 pt-2 border-t border-slate-100 flex items-center justify-between gap-4">
-                                    <span className="text-[11px] font-bold text-blue-600 uppercase tracking-wider">{loc.type}</span>
+                                    <span className="text-[11px] font-bold text-primary uppercase tracking-wider">{loc.type}</span>
                                     <span className="text-[11px] text-slate-400">{loc._count?.assets || 0} Assets</span>
                                 </div>
                             </div>
@@ -107,8 +107,8 @@ export const LocationsMapView: React.FC<LocationsMapViewProps> = ({ locations, i
 
             {/* Custom Interactive Elements on top of Map */}
             <div className="absolute top-4 right-4 flex flex-col gap-2 z-[400]">
-                <button className="w-10 h-10 bg-white rounded-lg shadow-lg border border-slate-100 flex items-center justify-center text-slate-600 hover:text-blue-600 transition-all font-bold text-xl">+</button>
-                <button className="w-10 h-10 bg-white rounded-lg shadow-lg border border-slate-100 flex items-center justify-center text-slate-600 hover:text-blue-600 transition-all font-bold text-xl">−</button>
+                <button className="w-10 h-10 bg-card rounded-lg shadow-lg border border-slate-100 flex items-center justify-center text-slate-600 hover:text-primary transition-all font-bold text-xl">+</button>
+                <button className="w-10 h-10 bg-card rounded-lg shadow-lg border border-slate-100 flex items-center justify-center text-slate-600 hover:text-primary transition-all font-bold text-xl">−</button>
             </div>
 
             <div className="absolute bottom-6 left-6 z-[400]">

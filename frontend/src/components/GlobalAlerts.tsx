@@ -11,9 +11,9 @@ export const GlobalAlerts: React.FC = () => {
     if (!lastAlert) return null;
 
     const isAssignment = lastAlert.type === 'ASSIGNMENT';
-    const accentColor = isAssignment ? 'text-blue-500' : 'text-red-500';
-    const bgColor = isAssignment ? 'bg-blue-500/10' : 'bg-red-500/10';
-    const borderColor = isAssignment ? 'border-blue-500/20' : 'border-red-500/20';
+    const accentColor = isAssignment ? 'text-primary' : 'text-red-500';
+    const bgColor = isAssignment ? 'bg-primary/10' : 'bg-red-500/10';
+    const borderColor = isAssignment ? 'border-primary/80/20' : 'border-red-500/20';
     const gradient = isAssignment ? 'from-blue-600 via-blue-500 to-indigo-500' : 'from-red-600 via-red-500 to-amber-500';
 
     return (
@@ -47,7 +47,7 @@ export const GlobalAlerts: React.FC = () => {
                                         </span>
                                         <button 
                                             onClick={clearAlert}
-                                            className="p-1 hover:bg-white/5 rounded-full text-slate-500 hover:text-white transition-colors"
+                                            className="p-1 hover:bg-white/5 rounded-full text-muted-foreground hover:text-white transition-colors"
                                         >
                                             <X className="w-4 h-4" />
                                         </button>
@@ -70,7 +70,7 @@ export const GlobalAlerts: React.FC = () => {
                                     onClick={clearAlert}
                                     className={cn(
                                         "flex-1 py-3 rounded-2xl text-[12px] font-black uppercase tracking-widest italic text-center transition-all flex items-center justify-center gap-2 text-white",
-                                        isAssignment ? "bg-blue-600 hover:bg-blue-500" : "bg-red-600 hover:bg-red-500"
+                                        isAssignment ? "bg-primary hover:bg-primary" : "bg-red-600 hover:bg-red-500"
                                     )}
                                 >
                                     Inspect 

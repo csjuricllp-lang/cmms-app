@@ -43,14 +43,14 @@ export const PurchaseOrderSettingsWorkspace: React.FC = () => {
                             onClick={() => setActiveTab(tab as TabId)}
                             className={cn(
                                 "pb-4 text-[14px] font-bold transition-all relative whitespace-nowrap",
-                                activeTab === tab ? "text-indigo-600" : "text-gray-400 hover:text-gray-600"
+                                activeTab === tab ? "text-primary" : "text-gray-400 hover:text-gray-600"
                             )}
                         >
                             {tab}
                             {activeTab === tab && (
                                 <motion.div 
                                     layoutId="tab-indicator"
-                                    className="absolute bottom-0 left-0 right-0 h-[2px] bg-indigo-600"
+                                    className="absolute bottom-0 left-0 right-0 h-[2px] bg-primary"
                                 />
                             )}
                         </button>
@@ -60,7 +60,7 @@ export const PurchaseOrderSettingsWorkspace: React.FC = () => {
                 {activeTab === 'Categories' && (
                     <button 
                         onClick={() => setIsAddModalOpen(true)}
-                        className="mb-4 px-6 py-2 bg-indigo-600 text-white text-[13px] font-black rounded-xl shadow-lg shadow-indigo-500/20 hover:bg-indigo-700 transition-all flex items-center gap-2"
+                        className="mb-4 px-6 py-2 bg-primary text-white text-[13px] font-black rounded-xl shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all flex items-center gap-2"
                     >
                         <Plus className="w-4 h-4" />
                         Add
@@ -80,7 +80,7 @@ export const PurchaseOrderSettingsWorkspace: React.FC = () => {
                             className="space-y-8 py-8"
                         >
                             {/* Start Count Setting */}
-                            <div className="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden">
+                            <div className="bg-card border border-gray-100 rounded-2xl shadow-sm overflow-hidden">
                                 <div className="p-6 border-b border-gray-50 bg-slate-50/40">
                                     <h2 className="text-[15px] font-bold text-slate-800">Purchase Order Start Count</h2>
                                     <p className="text-[13px] text-slate-400 font-medium leading-relaxed mt-1">
@@ -94,14 +94,14 @@ export const PurchaseOrderSettingsWorkspace: React.FC = () => {
                                             type="number"
                                             value={getVal('startNumber') || '1'}
                                             onChange={(e) => updateSetting.mutate({ key: 'po.startNumber', value: e.target.value })}
-                                            className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-[15px] font-bold text-slate-700 outline-none focus:bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/10 transition-all"
+                                            className="w-full px-5 py-3.5 bg-muted/50 border border-border rounded-xl text-[15px] font-bold text-foreground/90 outline-none focus:bg-card focus:border-primary/80 focus:ring-2 focus:ring-primary/10 transition-all"
                                         />
                                     </div>
                                 </div>
                             </div>
 
                             {/* Prefix Setting */}
-                            <div className="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden">
+                            <div className="bg-card border border-gray-100 rounded-2xl shadow-sm overflow-hidden">
                                 <div className="p-6 border-b border-gray-50 bg-slate-50/40">
                                     <h2 className="text-[15px] font-bold text-slate-800">Purchase Order Prefix</h2>
                                     <p className="text-[13px] text-slate-400 font-medium leading-relaxed mt-1">
@@ -116,7 +116,7 @@ export const PurchaseOrderSettingsWorkspace: React.FC = () => {
                                             placeholder="e.g. PO-"
                                             value={getVal('prefix')}
                                             onChange={(e) => updateSetting.mutate({ key: 'po.prefix', value: e.target.value })}
-                                            className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-[15px] font-bold text-slate-700 outline-none focus:bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/10 transition-all"
+                                            className="w-full px-5 py-3.5 bg-muted/50 border border-border rounded-xl text-[15px] font-bold text-foreground/90 outline-none focus:bg-card focus:border-primary/80 focus:ring-2 focus:ring-primary/10 transition-all"
                                         />
                                     </div>
                                 </div>
@@ -137,13 +137,13 @@ export const PurchaseOrderSettingsWorkspace: React.FC = () => {
                                     {categories.data.map((category) => (
                                         <div 
                                             key={category.id}
-                                            className="group bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-all flex items-center justify-between"
+                                            className="group bg-card p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-all flex items-center justify-between"
                                         >
                                             <div className="flex items-center gap-4">
-                                                <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-indigo-50 text-indigo-600">
+                                                <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-primary/10 text-primary">
                                                     <FolderOpen className="w-5 h-5" />
                                                 </div>
-                                                <span className="text-[15px] font-bold text-slate-700">{category.name}</span>
+                                                <span className="text-[15px] font-bold text-foreground/90">{category.name}</span>
                                             </div>
                                             <button 
                                                 onClick={() => deleteCategory.mutate(category.id)}
@@ -157,11 +157,11 @@ export const PurchaseOrderSettingsWorkspace: React.FC = () => {
                             ) : (
                                 <div className="py-32 flex flex-col items-center justify-center text-center space-y-8 animate-in fade-in zoom-in-95 duration-700">
                                     <div className="relative">
-                                        <div className="w-24 h-24 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center">
+                                        <div className="w-24 h-24 rounded-full bg-muted/50 border border-slate-100 flex items-center justify-center">
                                             <FolderOpen className="w-10 h-10 text-slate-200" />
                                         </div>
-                                        <div className="absolute -bottom-2 -right-2 w-10 h-10 rounded-full bg-white border border-slate-100 shadow-sm flex items-center justify-center">
-                                            <Plus className="w-5 h-5 text-indigo-600" />
+                                        <div className="absolute -bottom-2 -right-2 w-10 h-10 rounded-full bg-card border border-slate-100 shadow-sm flex items-center justify-center">
+                                            <Plus className="w-5 h-5 text-primary" />
                                         </div>
                                     </div>
                                     <div className="space-y-3">
@@ -170,7 +170,7 @@ export const PurchaseOrderSettingsWorkspace: React.FC = () => {
                                     </div>
                                     <button 
                                         onClick={() => setIsAddModalOpen(true)}
-                                        className="px-10 py-3 bg-white border border-slate-200 text-slate-600 text-[14px] font-black rounded-2xl hover:bg-slate-50 hover:border-slate-300 transition-all shadow-sm"
+                                        className="px-10 py-3 bg-card border border-border text-slate-600 text-[14px] font-black rounded-2xl hover:bg-muted/50 hover:border-slate-300 transition-all shadow-sm"
                                     >
                                         Add
                                     </button>
@@ -188,14 +188,14 @@ export const PurchaseOrderSettingsWorkspace: React.FC = () => {
                             className="py-12"
                         >
                             <div className="max-w-4xl mx-auto">
-                                <div className="bg-white border border-gray-100 rounded-[32px] overflow-hidden shadow-sm">
+                                <div className="bg-card border border-gray-100 rounded-[32px] overflow-hidden shadow-sm">
                                     <div className="p-8 border-b border-gray-50 bg-slate-50/30">
                                         <h2 className="text-[20px] font-black text-slate-800 tracking-tight">Purchase Order Requests</h2>
                                     </div>
                                     <div className="p-10 space-y-8">
                                         <div className="flex items-start justify-between gap-12">
                                             <div className="flex-1 space-y-2">
-                                                <h3 className="text-[15px] font-bold text-slate-700">Enable Purchase Order Public Request Portal</h3>
+                                                <h3 className="text-[15px] font-bold text-foreground/90">Enable Purchase Order Public Request Portal</h3>
                                                 <p className="text-[13px] text-slate-400 font-medium leading-relaxed">
                                                     Enable access for non-users to request purchase orders using the public request portal
                                                 </p>
@@ -209,12 +209,12 @@ export const PurchaseOrderSettingsWorkspace: React.FC = () => {
                                                 })}
                                                 className={cn(
                                                     "shrink-0 w-[58px] h-[32px] rounded-full relative transition-all duration-300 outline-none",
-                                                    getVal('publicPortalEnabled') === 'true' ? "bg-indigo-600" : "bg-slate-200"
+                                                    getVal('publicPortalEnabled') === 'true' ? "bg-primary" : "bg-slate-200"
                                                 )}
                                             >
                                                 <motion.div 
                                                     animate={{ x: getVal('publicPortalEnabled') === 'true' ? 28 : 4 }}
-                                                    className="absolute top-1 w-6 h-6 bg-white rounded-full shadow-md pointer-events-none"
+                                                    className="absolute top-1 w-6 h-6 bg-card rounded-full shadow-md pointer-events-none"
                                                     transition={{ type: "spring", stiffness: 500, damping: 30 }}
                                                 />
                                             </button>
@@ -242,14 +242,14 @@ export const PurchaseOrderSettingsWorkspace: React.FC = () => {
                             initial={{ opacity: 0, scale: 0.95, y: 20 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                            className="relative w-full max-w-md bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-hidden"
+                            className="relative w-full max-w-md bg-card rounded-3xl shadow-2xl border border-slate-100 overflow-hidden"
                         >
                             <div className="p-8 space-y-8">
                                 <div className="flex items-center justify-between">
                                     <h2 className="text-[20px] font-black text-slate-800 tracking-tight">Add Category</h2>
                                     <button 
                                         onClick={() => setIsAddModalOpen(false)}
-                                        className="p-2 hover:bg-slate-50 rounded-xl transition-all"
+                                        className="p-2 hover:bg-muted/50 rounded-xl transition-all"
                                     >
                                         <X className="w-5 h-5 text-slate-400" />
                                     </button>
@@ -263,21 +263,21 @@ export const PurchaseOrderSettingsWorkspace: React.FC = () => {
                                         value={newCategoryName}
                                         onChange={(e) => setNewCategoryName(e.target.value)}
                                         onKeyDown={(e) => e.key === 'Enter' && handleAddCategory()}
-                                        className="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-[16px] font-bold text-slate-700 outline-none focus:bg-white focus:border-indigo-600 focus:shadow-[0_0_0_4px_rgba(79,70,229,0.1)] transition-all"
+                                        className="w-full px-6 py-4 bg-muted/50 border border-slate-100 rounded-2xl text-[16px] font-bold text-foreground/90 outline-none focus:bg-card focus:border-primary focus:shadow-[0_0_0_4px_rgba(79,70,229,0.1)] transition-all"
                                     />
                                 </div>
 
                                 <div className="flex items-center justify-end gap-4 pt-2">
                                     <button 
                                         onClick={() => setIsAddModalOpen(false)}
-                                        className="px-8 py-3 text-slate-500 text-[14px] font-bold hover:bg-slate-50 rounded-2xl transition-all"
+                                        className="px-8 py-3 text-muted-foreground text-[14px] font-bold hover:bg-muted/50 rounded-2xl transition-all"
                                     >
                                         Cancel
                                     </button>
                                     <button 
                                         disabled={!newCategoryName.trim() || createCategory.isPending}
                                         onClick={handleAddCategory}
-                                        className="px-10 py-3 bg-indigo-600 text-white text-[14px] font-black rounded-2xl shadow-xl shadow-indigo-500/20 hover:bg-indigo-700 hover:shadow-indigo-500/40 disabled:opacity-50 disabled:shadow-none transition-all"
+                                        className="px-10 py-3 bg-primary text-white text-[14px] font-black rounded-2xl shadow-xl shadow-primary/20 hover:bg-primary/90 hover:shadow-primary/20 disabled:opacity-50 disabled:shadow-none transition-all"
                                     >
                                         {createCategory.isPending ? 'Adding...' : 'Confirm'}
                                     </button>

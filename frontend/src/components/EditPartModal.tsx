@@ -64,25 +64,25 @@ export const EditPartModal = ({ isOpen, onClose, part }: EditPartModalProps) => 
 
     return (
         <div className="fixed inset-0 z-[200] flex items-center justify-center bg-slate-900/20 backdrop-blur-[2px]">
-            <div className="w-full h-full bg-white flex flex-col animate-in zoom-in-95 duration-200 shadow-2xl">
+            <div className="w-full h-full bg-card flex flex-col animate-in zoom-in-95 duration-200 shadow-2xl">
                 {/* Header */}
-                <div className="h-16 border-b border-slate-200 px-6 flex items-center justify-between shrink-0">
+                <div className="h-16 border-b border-border px-6 flex items-center justify-between shrink-0">
                     <div className="flex items-center gap-4">
                         <button onClick={onClose} className="p-1 text-slate-400 hover:text-slate-600 transition-colors">
                             <X className="w-5 h-5" />
                         </button>
-                        <h2 className="text-lg font-bold text-slate-900">Edit Part</h2>
+                        <h2 className="text-lg font-bold text-foreground">Edit Part</h2>
                     </div>
                     <div className="flex items-center gap-3">
                         <button 
                             onClick={onClose}
-                            className="h-9 px-4 border border-slate-300 rounded text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors"
+                            className="h-9 px-4 border border-slate-300 rounded text-sm font-medium text-foreground/90 hover:bg-muted/50 transition-colors"
                         >
                             Cancel
                         </button>
                         <button 
                             onClick={() => editMutation.mutate(formData)}
-                            className="h-9 px-4 bg-[#3B82F6] rounded text-sm font-medium text-white hover:bg-blue-600 transition-colors"
+                            className="h-9 px-4 bg-primary rounded text-sm font-medium text-white hover:bg-primary transition-colors"
                         >
                             Save Changes
                         </button>
@@ -90,9 +90,9 @@ export const EditPartModal = ({ isOpen, onClose, part }: EditPartModalProps) => 
                 </div>
 
                 {/* Sub Header Tab */}
-                <div className="h-12 border-b border-slate-200 px-6 flex items-end">
-                    <div className="h-full flex items-center border-b-2 border-[#3B82F6] px-1 relative -bottom-[1px]">
-                        <span className="text-sm font-bold text-slate-900">Details</span>
+                <div className="h-12 border-b border-border px-6 flex items-end">
+                    <div className="h-full flex items-center border-b-2 border-primary px-1 relative -bottom-[1px]">
+                        <span className="text-sm font-bold text-foreground">Details</span>
                     </div>
                 </div>
 
@@ -103,7 +103,7 @@ export const EditPartModal = ({ isOpen, onClose, part }: EditPartModalProps) => 
                         <div className="max-w-2xl mx-auto space-y-12">
                             {/* Details Section */}
                             <section className="space-y-6">
-                                <h3 className="text-base font-bold text-slate-900">Details</h3>
+                                <h3 className="text-base font-bold text-foreground">Details</h3>
                                 
                                 <div className="space-y-2">
                                     <label className="text-xs font-medium text-slate-600">Name <span className="text-red-500">*</span></label>
@@ -111,7 +111,7 @@ export const EditPartModal = ({ isOpen, onClose, part }: EditPartModalProps) => 
                                         type="text" 
                                         value={formData.name}
                                         onChange={(e) => setFormData({...formData, name: e.target.value})}
-                                        className="w-full h-10 px-3 border border-slate-300 rounded text-sm text-slate-900 focus:outline-none focus:border-blue-500"
+                                        className="w-full h-10 px-3 border border-slate-300 rounded text-sm text-foreground focus:outline-none focus:border-primary/80"
                                     />
                                 </div>
 
@@ -121,7 +121,7 @@ export const EditPartModal = ({ isOpen, onClose, part }: EditPartModalProps) => 
                                         type="text" 
                                         value={formData.partNumber}
                                         onChange={(e) => setFormData({...formData, partNumber: e.target.value})}
-                                        className="w-full h-10 px-3 border border-slate-300 rounded text-sm text-slate-900 focus:outline-none focus:border-blue-500"
+                                        className="w-full h-10 px-3 border border-slate-300 rounded text-sm text-foreground focus:outline-none focus:border-primary/80"
                                     />
                                 </div>
 
@@ -131,9 +131,9 @@ export const EditPartModal = ({ isOpen, onClose, part }: EditPartModalProps) => 
                                         rows={3}
                                         value={formData.description}
                                         onChange={(e) => setFormData({...formData, description: e.target.value})}
-                                        className="w-full p-3 border border-slate-300 rounded text-sm text-slate-900 focus:outline-none focus:border-blue-500 resize-none"
+                                        className="w-full p-3 border border-slate-300 rounded text-sm text-foreground focus:outline-none focus:border-primary/80 resize-none"
                                     />
-                                    <div className="text-[11px] text-slate-500">{formData.description.length}/970</div>
+                                    <div className="text-[11px] text-muted-foreground">{formData.description.length}/970</div>
                                 </div>
 
                                 <div className="space-y-2">
@@ -142,7 +142,7 @@ export const EditPartModal = ({ isOpen, onClose, part }: EditPartModalProps) => 
                                         type="text" 
                                         value={formData.category}
                                         onChange={(e) => setFormData({...formData, category: e.target.value})}
-                                        className="w-full h-10 px-3 border border-slate-300 rounded text-sm text-slate-900 focus:outline-none focus:border-blue-500"
+                                        className="w-full h-10 px-3 border border-slate-300 rounded text-sm text-foreground focus:outline-none focus:border-primary/80"
                                     />
                                 </div>
 
@@ -152,7 +152,7 @@ export const EditPartModal = ({ isOpen, onClose, part }: EditPartModalProps) => 
                                         <input 
                                             type="text" 
                                             readOnly
-                                            className="w-full h-10 px-3 border border-slate-300 rounded text-sm text-slate-900 focus:outline-none cursor-pointer"
+                                            className="w-full h-10 px-3 border border-slate-300 rounded text-sm text-foreground focus:outline-none cursor-pointer"
                                         />
                                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400"><path d="m6 9 6 6 6-6"/></svg>
                                     </div>
@@ -161,10 +161,10 @@ export const EditPartModal = ({ isOpen, onClose, part }: EditPartModalProps) => 
 
                             {/* Image Section */}
                             <section className="space-y-6">
-                                <h3 className="text-base font-bold text-slate-900">Image</h3>
-                                <div className="w-full max-w-sm border border-dashed border-slate-300 rounded flex items-center justify-center p-6 bg-[#FAFAFA]">
+                                <h3 className="text-base font-bold text-foreground">Image</h3>
+                                <div className="w-full max-w-sm border border-dashed border-slate-300 rounded flex items-center justify-center p-6 bg-background">
                                     <div className="flex items-center gap-3">
-                                        <button className="h-8 px-4 bg-white border border-slate-200 rounded text-xs font-medium text-slate-700 shadow-sm hover:bg-slate-50">
+                                        <button className="h-8 px-4 bg-card border border-border rounded text-xs font-medium text-foreground/90 shadow-sm hover:bg-muted/50">
                                             Upload
                                         </button>
                                         <span className="text-xs text-slate-400">or Drop Image</span>
@@ -174,7 +174,7 @@ export const EditPartModal = ({ isOpen, onClose, part }: EditPartModalProps) => 
 
                             {/* Assigned To Section */}
                             <section className="space-y-6">
-                                <h3 className="text-base font-bold text-slate-900">Assigned To</h3>
+                                <h3 className="text-base font-bold text-foreground">Assigned To</h3>
                                 
                                 <div className="space-y-2">
                                     <label className="text-xs font-medium text-slate-600">Workers</label>
@@ -182,7 +182,7 @@ export const EditPartModal = ({ isOpen, onClose, part }: EditPartModalProps) => 
                                         <select 
                                             value={formData.assignedToId}
                                             onChange={(e) => setFormData({...formData, assignedToId: e.target.value})}
-                                            className="w-full h-10 px-3 border border-slate-300 rounded text-sm text-slate-900 focus:outline-none focus:border-blue-500 appearance-none bg-white cursor-pointer"
+                                            className="w-full h-10 px-3 border border-slate-300 rounded text-sm text-foreground focus:outline-none focus:border-primary/80 appearance-none bg-card cursor-pointer"
                                         >
                                             <option value="">None specified</option>
                                             {users?.map(u => (
@@ -199,7 +199,7 @@ export const EditPartModal = ({ isOpen, onClose, part }: EditPartModalProps) => 
                                         <select 
                                             value={formData.teamId}
                                             onChange={(e) => setFormData({...formData, teamId: e.target.value})}
-                                            className="w-full h-10 px-3 border border-slate-300 rounded text-sm text-slate-900 focus:outline-none focus:border-blue-500 appearance-none bg-white cursor-pointer"
+                                            className="w-full h-10 px-3 border border-slate-300 rounded text-sm text-foreground focus:outline-none focus:border-primary/80 appearance-none bg-card cursor-pointer"
                                         >
                                             <option value="">None specified</option>
                                             {teams?.map(t => (
@@ -213,7 +213,7 @@ export const EditPartModal = ({ isOpen, onClose, part }: EditPartModalProps) => 
 
                             {/* More Information Section */}
                             <section className="space-y-6">
-                                <h3 className="text-base font-bold text-slate-900">More Information</h3>
+                                <h3 className="text-base font-bold text-foreground">More Information</h3>
                                 
                                 <div className="space-y-2">
                                     <label className="text-xs font-medium text-slate-600">Vendors</label>
@@ -221,7 +221,7 @@ export const EditPartModal = ({ isOpen, onClose, part }: EditPartModalProps) => 
                                         <select 
                                             value={formData.vendorId}
                                             onChange={(e) => setFormData({...formData, vendorId: e.target.value})}
-                                            className="w-full h-10 px-3 border border-slate-300 rounded text-sm text-slate-900 focus:outline-none focus:border-blue-500 appearance-none bg-white cursor-pointer"
+                                            className="w-full h-10 px-3 border border-slate-300 rounded text-sm text-foreground focus:outline-none focus:border-primary/80 appearance-none bg-card cursor-pointer"
                                         >
                                             <option value="">None specified</option>
                                             {vendors?.map(v => (
@@ -238,7 +238,7 @@ export const EditPartModal = ({ isOpen, onClose, part }: EditPartModalProps) => 
                                         <select 
                                             value={formData.customerId}
                                             onChange={(e) => setFormData({...formData, customerId: e.target.value})}
-                                            className="w-full h-10 px-3 border border-slate-300 rounded text-sm text-slate-900 focus:outline-none focus:border-blue-500 appearance-none bg-white cursor-pointer"
+                                            className="w-full h-10 px-3 border border-slate-300 rounded text-sm text-foreground focus:outline-none focus:border-primary/80 appearance-none bg-card cursor-pointer"
                                         >
                                             <option value="">None specified</option>
                                             {customers?.map(c => (
@@ -255,25 +255,25 @@ export const EditPartModal = ({ isOpen, onClose, part }: EditPartModalProps) => 
                                         rows={3}
                                         value={formData.additionalInfo}
                                         onChange={(e) => setFormData({...formData, additionalInfo: e.target.value})}
-                                        className="w-full p-3 border border-slate-300 rounded text-sm text-slate-900 focus:outline-none focus:border-blue-500 resize-none bg-white"
+                                        className="w-full p-3 border border-slate-300 rounded text-sm text-foreground focus:outline-none focus:border-primary/80 resize-none bg-card"
                                     />
                                 </div>
                             </section>
 
                             {/* Files Section */}
                             <section className="space-y-6 pb-20">
-                                <h3 className="text-base font-bold text-slate-900">Files</h3>
+                                <h3 className="text-base font-bold text-foreground">Files</h3>
                                 
-                                <div className="w-full max-w-sm border border-dashed border-slate-300 rounded flex flex-col items-center justify-center py-6 bg-white shrink-0">
+                                <div className="w-full max-w-sm border border-dashed border-slate-300 rounded flex flex-col items-center justify-center py-6 bg-card shrink-0">
                                     <div className="flex items-center gap-3">
-                                        <button className="h-8 px-4 bg-white border border-slate-200 rounded text-xs font-medium text-slate-700 shadow-sm hover:bg-slate-50">
+                                        <button className="h-8 px-4 bg-card border border-border rounded text-xs font-medium text-foreground/90 shadow-sm hover:bg-muted/50">
                                             Upload
                                         </button>
                                         <span className="text-xs text-slate-400">or Drop Files</span>
                                     </div>
                                 </div>
                                 
-                                <button className="text-sm font-medium text-[#3B82F6] hover:underline">
+                                <button className="text-sm font-medium text-primary hover:underline">
                                     Add from Saved Files
                                 </button>
                             </section>
@@ -282,18 +282,18 @@ export const EditPartModal = ({ isOpen, onClose, part }: EditPartModalProps) => 
                     </div>
 
                     {/* Right Column - Inventory Settings (Sticky/Scroll mapped independently) */}
-                    <div className="w-[360px] border-l border-slate-200 bg-white overflow-y-auto custom-scrollbar shrink-0 shadow-[-4px_0_15px_-3px_rgba(0,0,0,0.05)]">
+                    <div className="w-[360px] border-l border-border bg-card overflow-y-auto custom-scrollbar shrink-0 shadow-[-4px_0_15px_-3px_rgba(0,0,0,0.05)]">
                         <div className="p-8 space-y-10">
                             
                             <div>
-                                <h3 className="text-lg font-bold text-slate-900 mb-2">Inventory Settings</h3>
+                                <h3 className="text-lg font-bold text-foreground mb-2">Inventory Settings</h3>
                                 <p className="text-[13px] text-slate-600 leading-relaxed max-w-[280px]">
                                     This data is managed per individual inventory line unless specified here.
                                 </p>
                             </div>
 
                             <div className="space-y-4">
-                                <span className="inline-block px-2 py-1 bg-[#EEF2FF] text-[#4F46E5] text-xs font-bold rounded">
+                                <span className="inline-block px-2 py-1 bg-primary/10 text-primary text-xs font-bold rounded">
                                     General
                                 </span>
                                 <div className="space-y-4 pl-1">
@@ -301,11 +301,11 @@ export const EditPartModal = ({ isOpen, onClose, part }: EditPartModalProps) => 
                                         className="flex items-start gap-4 cursor-pointer group"
                                         onClick={() => setFormData({...formData, isNonStock: !formData.isNonStock})}
                                     >
-                                        <div className="mt-0.5 w-4 h-4 rounded-[3px] border border-slate-300 flex items-center justify-center bg-white group-hover:border-blue-500 transition-colors">
+                                        <div className="mt-0.5 w-4 h-4 rounded-[3px] border border-slate-300 flex items-center justify-center bg-card group-hover:border-primary/80 transition-colors">
                                             {formData.isNonStock && <CheckIcon />}
                                         </div>
                                         <div className="flex items-center gap-1.5 flex-1">
-                                            <span className="text-[13px] text-slate-700 font-medium">This is a non-stock part</span>
+                                            <span className="text-[13px] text-foreground/90 font-medium">This is a non-stock part</span>
                                             <Info className="w-3.5 h-3.5 text-slate-400" />
                                         </div>
                                     </label>
@@ -313,10 +313,10 @@ export const EditPartModal = ({ isOpen, onClose, part }: EditPartModalProps) => 
                                         className="flex items-start gap-4 cursor-pointer group"
                                         onClick={() => setFormData({...formData, isCritical: !formData.isCritical})}
                                     >
-                                        <div className="mt-0.5 w-4 h-4 rounded-[3px] border border-slate-300 flex items-center justify-center bg-white group-hover:border-blue-500 transition-colors">
+                                        <div className="mt-0.5 w-4 h-4 rounded-[3px] border border-slate-300 flex items-center justify-center bg-card group-hover:border-primary/80 transition-colors">
                                             {formData.isCritical && <CheckIcon />}
                                         </div>
-                                        <span className="text-[13px] text-slate-700 font-medium flex-1">This is a critical part</span>
+                                        <span className="text-[13px] text-foreground/90 font-medium flex-1">This is a critical part</span>
                                     </label>
                                 </div>
                             </div>
@@ -324,45 +324,45 @@ export const EditPartModal = ({ isOpen, onClose, part }: EditPartModalProps) => 
                             <div className="h-px bg-slate-200" />
 
                             <div className="space-y-4">
-                                <h4 className="text-[13px] font-bold text-slate-900">Minimum Qty Threshold</h4>
+                                <h4 className="text-[13px] font-bold text-foreground">Minimum Qty Threshold</h4>
                                 <p className="text-[12px] text-slate-600">Stock is 'low' when below this threshold</p>
                                 <label className="flex items-start gap-4 cursor-pointer group pt-1">
-                                    <div className="mt-0.5 w-4 h-4 rounded-[3px] border border-slate-300 flex items-center justify-center bg-white group-hover:border-blue-500" />
-                                    <span className="text-[13px] text-slate-700 font-medium flex-1">Same for all inventory lines</span>
+                                    <div className="mt-0.5 w-4 h-4 rounded-[3px] border border-slate-300 flex items-center justify-center bg-card group-hover:border-primary/80" />
+                                    <span className="text-[13px] text-foreground/90 font-medium flex-1">Same for all inventory lines</span>
                                 </label>
                             </div>
 
                             <div className="h-px bg-slate-200" />
 
                             <div className="space-y-4">
-                                <h4 className="text-[13px] font-bold text-slate-900">Maximum Qty Threshold</h4>
+                                <h4 className="text-[13px] font-bold text-foreground">Maximum Qty Threshold</h4>
                                 <p className="text-[12px] text-slate-600">Reorder quantities will be recommended based on this threshold</p>
                                 <label className="flex items-start gap-4 cursor-pointer group pt-1">
-                                    <div className="mt-0.5 w-4 h-4 rounded-[3px] border border-slate-300 flex items-center justify-center bg-white group-hover:border-blue-500" />
-                                    <span className="text-[13px] text-slate-700 font-medium flex-1">Same for all inventory lines</span>
+                                    <div className="mt-0.5 w-4 h-4 rounded-[3px] border border-slate-300 flex items-center justify-center bg-card group-hover:border-primary/80" />
+                                    <span className="text-[13px] text-foreground/90 font-medium flex-1">Same for all inventory lines</span>
                                 </label>
                             </div>
 
                             <div className="h-px bg-slate-200" />
 
                             <div className="space-y-4">
-                                <h4 className="text-[13px] font-bold text-slate-900">Barcode</h4>
+                                <h4 className="text-[13px] font-bold text-foreground">Barcode</h4>
                                 <div className="space-y-4">
                                     <label className="flex items-start gap-4 cursor-pointer group">
-                                        <div className="mt-0.5 w-4 h-4 rounded-[3px] border border-slate-300 flex items-center justify-center bg-white group-hover:border-blue-500" />
-                                        <span className="text-[13px] text-slate-700 font-medium flex-1">Use randomly-generated barcode(s)</span>
+                                        <div className="mt-0.5 w-4 h-4 rounded-[3px] border border-slate-300 flex items-center justify-center bg-card group-hover:border-primary/80" />
+                                        <span className="text-[13px] text-foreground/90 font-medium flex-1">Use randomly-generated barcode(s)</span>
                                     </label>
                                     <label className="flex items-start gap-4 cursor-pointer group">
-                                        <div className="mt-0.5 w-4 h-4 rounded-[3px] bg-blue-500 border border-blue-500 flex items-center justify-center">
+                                        <div className="mt-0.5 w-4 h-4 rounded-[3px] bg-primary border border-primary/80 flex items-center justify-center">
                                             <CheckIcon />
                                         </div>
-                                        <span className="text-[13px] text-slate-700 font-medium flex-1">Same for all inventory lines</span>
+                                        <span className="text-[13px] text-foreground/90 font-medium flex-1">Same for all inventory lines</span>
                                     </label>
                                     <input 
                                         type="text" 
                                         value={formData.barcode}
                                         onChange={(e) => setFormData({...formData, barcode: e.target.value})}
-                                        className="w-full h-9 px-3 border border-slate-300 rounded text-sm text-slate-900 bg-white ml-8 w-[calc(100%-32px)] focus:border-blue-500 focus:outline-none"
+                                        className="w-full h-9 px-3 border border-slate-300 rounded text-sm text-foreground bg-card ml-8 w-[calc(100%-32px)] focus:border-primary/80 focus:outline-none"
                                     />
                                 </div>
                             </div>
@@ -370,21 +370,21 @@ export const EditPartModal = ({ isOpen, onClose, part }: EditPartModalProps) => 
                             <div className="h-px bg-slate-200" />
 
                             <div className="space-y-4">
-                                <h4 className="text-[13px] font-bold text-slate-900">Cost</h4>
+                                <h4 className="text-[13px] font-bold text-foreground">Cost</h4>
                                 <div className="space-y-4">
                                     <label className="flex items-start gap-4 cursor-pointer group">
-                                        <div className="mt-0.5 w-4 h-4 rounded-[3px] bg-blue-500 border border-blue-500 flex items-center justify-center">
+                                        <div className="mt-0.5 w-4 h-4 rounded-[3px] bg-primary border border-primary/80 flex items-center justify-center">
                                             <CheckIcon />
                                         </div>
-                                        <span className="text-[13px] text-slate-700 font-medium flex-1">Same for all inventory lines</span>
+                                        <span className="text-[13px] text-foreground/90 font-medium flex-1">Same for all inventory lines</span>
                                     </label>
                                     <div className="relative ml-8 w-[calc(100%-32px)]">
-                                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-sm">$</span>
+                                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-sm">$</span>
                                         <input 
                                             type="number" 
                                             value={formData.cost}
                                             onChange={(e) => setFormData({...formData, cost: Number(e.target.value)})}
-                                            className="w-full h-9 pl-7 pr-3 border border-slate-300 rounded text-sm text-slate-900 text-right bg-white focus:border-blue-500 focus:outline-none"
+                                            className="w-full h-9 pl-7 pr-3 border border-slate-300 rounded text-sm text-foreground text-right bg-card focus:border-primary/80 focus:outline-none"
                                         />
                                     </div>
                                 </div>

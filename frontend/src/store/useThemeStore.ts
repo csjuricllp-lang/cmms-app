@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-export type Theme = 'light' | 'dark' | 'midnight' | 'emerald' | 'slate' | 'amethyst' | 'sand' | 'ruby';
+export type Theme = 'light' | 'dark' | 'midnight' | 'emerald' | 'slate' | 'amethyst' | 'sand' | 'ruby' | 'light-blue' | 'light-mint' | 'light-peach';
 
 interface ThemeState {
     theme: Theme;
@@ -13,11 +13,15 @@ interface ThemeState {
     toggleSidebar: () => void;
 }
 
+// Default: Peach Dawn (Warm Beige) theme + Crimson Red accent
+const DEFAULT_THEME: Theme = 'light-peach';
+const DEFAULT_ACCENT = '346.8 77.2% 49.8%'; // Crimson Rose (the signature red)
+
 export const useThemeStore = create<ThemeState>()(
     persist(
         (set) => ({
-            theme: 'light',
-            accentColor: '243 75% 59%',
+            theme: DEFAULT_THEME,
+            accentColor: DEFAULT_ACCENT,
             sidebarCollapsed: false,
 
             setTheme: (theme) => {

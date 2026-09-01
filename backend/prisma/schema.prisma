@@ -64,6 +64,7 @@ model Organization {
   workOrders            WorkOrder[]
   workflowRules         WorkflowRule[]
   permits               Permit[]
+  documents             Document[]
 }
 
 model AuditLog {
@@ -151,6 +152,7 @@ model UserOrganization {
   hourlyRate              Decimal?
   skills                  String[]
   customPermissions       String[]                     @default([])
+  categories              String[]                     @default([])
   subscriptionEndsAt      DateTime?
   notificationSettings    Json?
   assignedLocationIds     String[]
@@ -184,6 +186,7 @@ model UserOrganization {
   permitsRequested        Permit[]                     @relation("PermitRequester")
   permitSignatures        PermitSignature[]            @relation("PermitSignatureUser")
   permitComments          PermitComment[]              @relation("PermitCommentUser")
+  uploadedDocuments       Document[]                   @relation("DocumentUploader")
 
   @@unique([userId, organizationId])
 }
@@ -415,6 +418,24 @@ model AssetFile {
   asset        Asset    @relation(fields: [assetId], references: [id], onDelete: Cascade)
 
   @@index([assetId])
+}
+
+/// Generic central documents
+model Document {
+  id             String           @id @default(uuid())
+  filename       String
+  url            String
+  mimeType       String?
+  size           Int?
+  tags           String[]         @default([])
+  uploadedById   String
+  organizationId String
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  organization   Organization     @relation(fields: [organizationId], references: [id])
+  uploadedBy     UserOrganization @relation("DocumentUploader", fields: [uploadedById], references: [id])
+
+  @@index([organizationId])
 }
 
 model WorkOrder {
@@ -1077,16 +1098,23 @@ model Checklist {
 }
 
 model ChecklistItem {
-  id            String                       @id @default(uuid())
-  checklistId   String
-  task          String
-  dataType      ChecklistItemType            @default(CHECKBOX)
-  options       String[]
-  isRequired    Boolean                      @default(true)
-  failTriggerWO Boolean                      @default(false)
-  order         Int                          @default(0)
-  checklist     Checklist                    @relation(fields: [checklistId], references: [id], onDelete: Cascade)
-  responses     WorkOrderChecklistResponse[]
+  id                  String                       @id @default(uuid())
+  checklistId         String
+  task                String
+  dataType            ChecklistItemType            @default(CHECKBOX)
+  options             String[]
+  isRequired          Boolean                      @default(true)
+  failTriggerWO       Boolean                      @default(false)
+  order               Int                          @default(0)
+  instruction         String?
+  instructionPhotos   String[]
+  instructionUrlTitle String?
+  instructionUrl      String?
+  requireNotes        Boolean                      @default(false)
+  requirePhoto        Boolean                      @default(false)
+  requireUrl          Boolean                      @default(false)
+  checklist           Checklist                    @relation(fields: [checklistId], references: [id], onDelete: Cascade)
+  responses           WorkOrderChecklistResponse[]
 }
 
 model WorkOrderChecklistResponse {
@@ -1657,6 +1685,12 @@ enum ChecklistItemType {
   NUMBER
   METER_READING
   SELECT
+  STATUS
+  TEXT
+  INSPECTION
+  MULTIPLE_CHOICE
+  METER
+  SIGNATURE
 }
 
 enum FrequencyType {

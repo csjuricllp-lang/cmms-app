@@ -41,10 +41,10 @@ export const WorkOrderSettingsWorkspace: React.FC = () => {
     const [editingTimer, setEditingTimer] = useState<any | null>(null);
     
     const [newCategoryName, setNewCategoryName] = useState('');
-    const [newCategoryColor, setNewCategoryColor] = useState('#6366F1');
+    const [newCategoryColor, setNewCategoryColor] = useState('hsl(var(--primary-raw))');
     const [editingCatId, setEditingCatId] = useState<string | null>(null);
     const [editingCatName, setEditingCatName] = useState('');
-    const [editingCatColor, setEditingCatColor] = useState('#6366F1');
+    const [editingCatColor, setEditingCatColor] = useState('hsl(var(--primary-raw))');
 
     const [newFailureCode, setNewFailureCode] = useState('');
     const [newFailureName, setNewFailureName] = useState('');
@@ -67,17 +67,17 @@ export const WorkOrderSettingsWorkspace: React.FC = () => {
                     })}
                     className={cn(
                         "w-14 h-7 rounded-full transition-all flex items-center px-1 shrink-0 mt-1",
-                        enabled ? "bg-indigo-600" : "bg-slate-200"
+                        enabled ? "bg-primary" : "bg-slate-200"
                     )}
                 >
                     <motion.div 
                         animate={{ x: enabled ? 28 : 0 }}
                         transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                        className="w-5 h-5 bg-white rounded-full shadow-lg shadow-black/5"
+                        className="w-5 h-5 bg-card rounded-full shadow-lg shadow-black/5"
                     />
                 </button>
                 <div className="space-y-2">
-                    <h3 className="text-[15px] font-bold text-slate-700">{label}</h3>
+                    <h3 className="text-[15px] font-bold text-foreground/90">{label}</h3>
                     <p className="text-[14px] text-slate-400 font-medium leading-relaxed max-w-[600px]">
                         {description}
                     </p>
@@ -97,7 +97,7 @@ export const WorkOrderSettingsWorkspace: React.FC = () => {
                     <select 
                         value={value}
                         onChange={(e) => updateSetting.mutate({ key: fullKey, value: e.target.value })}
-                        className="w-full bg-slate-50 border border-slate-200/60 rounded-xl px-6 py-3.5 text-[14px] font-bold text-slate-700 transition-all appearance-none cursor-pointer pr-12 focus:bg-white focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none shadow-sm"
+                        className="w-full bg-muted/50 border border-slate-200/60 rounded-xl px-6 py-3.5 text-[14px] font-bold text-foreground/90 transition-all appearance-none cursor-pointer pr-12 focus:bg-card focus:ring-2 focus:ring-primary/20 focus:border-primary/80 outline-none shadow-sm"
                     >
                         <option value="Optional">Optional</option>
                         <option value="Required">Required</option>
@@ -120,14 +120,14 @@ export const WorkOrderSettingsWorkspace: React.FC = () => {
                             onClick={() => setActiveTab(tab as TabId)}
                             className={cn(
                                 "pb-4 text-[14px] font-bold transition-all relative whitespace-nowrap",
-                                activeTab === tab ? "text-indigo-600" : "text-gray-400 hover:text-gray-600"
+                                activeTab === tab ? "text-primary" : "text-gray-400 hover:text-gray-600"
                             )}
                         >
                             {tab}
                             {activeTab === tab && (
                                 <motion.div 
                                     layoutId="tab-indicator"
-                                    className="absolute bottom-0 left-0 right-0 h-[2px] bg-indigo-600"
+                                    className="absolute bottom-0 left-0 right-0 h-[2px] bg-primary"
                                 />
                             )}
                         </button>
@@ -143,17 +143,17 @@ export const WorkOrderSettingsWorkspace: React.FC = () => {
                             <h2 className="text-[14px] font-bold text-slate-800 uppercase tracking-widest opacity-50">Overall</h2>
                         </div>
                         <div className="flex-1 space-y-10">
-                            <div className="bg-white border border-gray-100 rounded-lg p-10 space-y-10">
+                            <div className="bg-card border border-gray-100 rounded-lg p-10 space-y-10">
                                 {renderToggle('autoUpdateTimer', 'Automatically update timer based on WO status changes', "Timer will automatically start once a WO is moved into the 'in progress' status, and will end once the status reaches 'complete'.")}
                                 
-                                <div className="h-[1px] bg-gray-50 w-full" />
+                                <div className="h-[1px] bg-muted/50 w-full" />
                                 <div className="space-y-4 max-w-[300px]">
-                                    <label className="text-[13px] font-bold text-slate-700 ml-1">Starting Work Order Number</label>
+                                    <label className="text-[13px] font-bold text-foreground/90 ml-1">Starting Work Order Number</label>
                                     <input 
                                         type="number"
                                         value={(settings.data || []).find(s => s.key === 'wo.startNumber')?.value || 1}
                                         onChange={(e) => updateSetting.mutate({ key: 'wo.startNumber', value: e.target.value })}
-                                        className="w-full px-5 py-2.5 bg-white border border-slate-200 rounded-lg text-[15px] font-bold text-slate-700 outline-none focus:border-indigo-600 transition-all"
+                                        className="w-full px-5 py-2.5 bg-card border border-border rounded-lg text-[15px] font-bold text-foreground/90 outline-none focus:border-primary transition-all"
                                     />
                                 </div>
                             </div>
@@ -170,7 +170,7 @@ export const WorkOrderSettingsWorkspace: React.FC = () => {
                             </p>
                         </div>
                         <div className="flex-1">
-                            <div className="bg-white border border-gray-100 rounded-[24px] p-6 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.02)]">
+                            <div className="bg-card border border-gray-100 rounded-[24px] p-6 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.02)]">
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-6 sm:gap-y-10">
                                     {renderFieldConfig('create.description', 'Description')}
                                     {renderFieldConfig('create.priority', 'Priority')}
@@ -204,7 +204,7 @@ export const WorkOrderSettingsWorkspace: React.FC = () => {
                             </p>
                         </div>
                         <div className="flex-1">
-                            <div className="bg-white border border-gray-100 rounded-[24px] p-6 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.02)]">
+                            <div className="bg-card border border-gray-100 rounded-[24px] p-6 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.02)]">
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-6 sm:gap-y-10">
                                     <div className="col-span-2">
                                         {renderFieldConfig('complete.files', 'Files')}
@@ -231,20 +231,20 @@ export const WorkOrderSettingsWorkspace: React.FC = () => {
                         </div>
                         <button 
                             onClick={() => setIsCreateStatusModalOpen(true)}
-                            className="bg-indigo-500 hover:bg-indigo-600 text-white px-6 py-2.5 rounded-lg text-[14px] font-bold transition-all shadow-lg shadow-indigo-100"
+                            className="bg-primary/80 hover:bg-primary text-white px-6 py-2.5 rounded-lg text-[14px] font-bold transition-all shadow-lg shadow-primary/20"
                         >
                             Create Custom Status
                         </button>
                     </div>
 
-                    <div className="bg-white border border-gray-100 rounded-xl overflow-hidden shadow-sm">
+                    <div className="bg-card border border-gray-100 rounded-xl overflow-hidden shadow-sm">
                         <table className="w-full text-left font-bold">
                             <thead>
-                                <tr className="bg-slate-50/50 border-b border-gray-100 font-black">
-                                    <th className="px-8 py-5 text-[12px] font-bold text-slate-500 uppercase tracking-wider">Name</th>
-                                    <th className="px-8 py-5 text-[12px] font-bold text-slate-500 uppercase tracking-wider">Type</th>
-                                    <th className="px-8 py-5 text-[12px] font-bold text-slate-500 uppercase tracking-wider">Last Updated</th>
-                                    <th className="px-8 py-5 text-[12px] font-bold text-slate-500 uppercase tracking-wider">Created By</th>
+                                <tr className="bg-transparent border-b border-gray-100 font-black">
+                                    <th className="px-8 py-5 text-[12px] font-bold text-muted-foreground uppercase tracking-wider">Name</th>
+                                    <th className="px-8 py-5 text-[12px] font-bold text-muted-foreground uppercase tracking-wider">Type</th>
+                                    <th className="px-8 py-5 text-[12px] font-bold text-muted-foreground uppercase tracking-wider">Last Updated</th>
+                                    <th className="px-8 py-5 text-[12px] font-bold text-muted-foreground uppercase tracking-wider">Created By</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-50">
@@ -254,8 +254,8 @@ export const WorkOrderSettingsWorkspace: React.FC = () => {
                                     { name: 'On Hold', type: 'On Hold', color: '#f59e0b' },
                                     { name: 'Complete', type: 'Complete', color: '#3b82f6' },
                                 ].map((sys) => (
-                                    <tr key={sys.name} className="hover:bg-slate-50/50 transition-colors">
-                                        <td className="px-8 py-5 text-[14px] font-bold text-slate-700">{sys.name}</td>
+                                    <tr key={sys.name} className="hover:bg-transparent transition-colors">
+                                        <td className="px-8 py-5 text-[14px] font-bold text-foreground/90">{sys.name}</td>
                                         <td className="px-8 py-5">
                                             <span 
                                                 className="px-3 py-1 rounded-md text-[11px] font-black uppercase tracking-widest whitespace-nowrap"
@@ -270,8 +270,8 @@ export const WorkOrderSettingsWorkspace: React.FC = () => {
                                 ))}
 
                                 {statuses.data?.map((status: CustomStatus) => (
-                                    <tr key={status.id} className="hover:bg-slate-50/50 transition-colors group">
-                                        <td className="px-8 py-5 text-[14px] font-bold text-slate-700">{status.label}</td>
+                                    <tr key={status.id} className="hover:bg-transparent transition-colors group">
+                                        <td className="px-8 py-5 text-[14px] font-bold text-foreground/90">{status.label}</td>
                                         <td className="px-8 py-5">
                                             <span 
                                                 className="px-3 py-1 rounded-md text-[11px] font-black uppercase tracking-widest whitespace-nowrap"
@@ -308,16 +308,16 @@ export const WorkOrderSettingsWorkspace: React.FC = () => {
                                 setEditingCategory(null);
                                 setIsAddCategoryModalOpen(true);
                             }}
-                            className="bg-indigo-500 hover:bg-indigo-600 text-white px-8 py-2.5 rounded-lg text-[14px] font-bold transition-all"
+                            className="bg-primary/80 hover:bg-primary text-white px-8 py-2.5 rounded-lg text-[14px] font-bold transition-all"
                         >
                             Add
                         </button>
                     </div>
-                    <div className="bg-white border border-gray-100 rounded-xl overflow-visible">
+                    <div className="bg-card border border-gray-100 rounded-xl overflow-visible">
                         <table className="w-full text-left">
                             <thead>
-                                <tr className="border-b border-gray-100 bg-slate-50/50">
-                                    <th className="px-8 py-6 text-[14px] font-bold text-slate-700">Name</th>
+                                <tr className="border-b border-gray-100 bg-transparent">
+                                    <th className="px-8 py-6 text-[14px] font-bold text-foreground/90">Name</th>
                                     <th className="px-8 py-6"></th>
                                 </tr>
                             </thead>
@@ -327,7 +327,7 @@ export const WorkOrderSettingsWorkspace: React.FC = () => {
                                     <td className="px-8 py-5 text-right relative">
                                         <button 
                                             onClick={() => setOpenMenuId(openMenuId === 'none' ? null : 'none')}
-                                            className="p-2 hover:bg-slate-100 rounded-lg transition-colors ml-auto"
+                                            className="p-2 hover:bg-muted rounded-lg transition-colors ml-auto"
                                         >
                                             <MoreHorizontal className="w-5 h-5 text-slate-400" />
                                         </button>
@@ -340,7 +340,7 @@ export const WorkOrderSettingsWorkspace: React.FC = () => {
                                             <div className="flex items-center justify-end">
                                                 <button 
                                                     onClick={() => setOpenMenuId(openMenuId === cat.id ? null : cat.id)}
-                                                    className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
+                                                    className="p-2 hover:bg-muted rounded-lg transition-colors"
                                                 >
                                                     <MoreHorizontal className="w-5 h-5 text-slate-400" />
                                                 </button>
@@ -353,7 +353,7 @@ export const WorkOrderSettingsWorkspace: React.FC = () => {
                                                                 initial={{ opacity: 0, scale: 0.95, y: 10 }}
                                                                 animate={{ opacity: 1, scale: 1, y: 0 }}
                                                                 exit={{ opacity: 0, scale: 0.95, y: 10 }}
-                                                                className="absolute right-8 top-12 w-[160px] bg-white border border-slate-100 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.12)] py-2 z-40 overflow-hidden"
+                                                                className="absolute right-8 top-12 w-[160px] bg-card border border-slate-100 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.12)] py-2 z-40 overflow-hidden"
                                                             >
                                                                 <button 
                                                                     onClick={() => {
@@ -361,14 +361,14 @@ export const WorkOrderSettingsWorkspace: React.FC = () => {
                                                                         setIsAddCategoryModalOpen(true);
                                                                         setOpenMenuId(null);
                                                                     }}
-                                                                    className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 transition-colors text-[14px] font-bold text-slate-600 group/item"
+                                                                    className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-muted/50 transition-colors text-[14px] font-bold text-slate-600 group/item"
                                                                 >
-                                                                    <div className="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center group-hover/item:bg-white transition-colors">
-                                                                        <AlignLeft className="w-4 h-4 text-slate-400 group-hover/item:text-indigo-600" />
+                                                                    <div className="w-8 h-8 rounded-lg bg-muted/50 flex items-center justify-center group-hover/item:bg-card transition-colors">
+                                                                        <AlignLeft className="w-4 h-4 text-slate-400 group-hover/item:text-primary" />
                                                                     </div>
                                                                     Edit
                                                                 </button>
-                                                                <div className="h-[1px] bg-gray-50 mx-2" />
+                                                                <div className="h-[1px] bg-muted/50 mx-2" />
                                                                 <button 
                                                                     onClick={() => {
                                                                         if (window.confirm('Delete this category?')) {
@@ -378,7 +378,7 @@ export const WorkOrderSettingsWorkspace: React.FC = () => {
                                                                     }}
                                                                     className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-rose-50 transition-colors text-[14px] font-bold text-rose-600 group/del"
                                                                 >
-                                                                    <div className="w-8 h-8 rounded-lg bg-rose-50/50 flex items-center justify-center group-hover/del:bg-white transition-colors">
+                                                                    <div className="w-8 h-8 rounded-lg bg-rose-50/50 flex items-center justify-center group-hover/del:bg-card transition-colors">
                                                                         <Trash2 className="w-4 h-4 text-rose-400 group-hover/del:text-rose-600" />
                                                                     </div>
                                                                     Delete
@@ -403,27 +403,27 @@ export const WorkOrderSettingsWorkspace: React.FC = () => {
                             <p className="text-[12px] text-slate-400 leading-relaxed font-medium">Group your work orders by type (Electrical, Plumbing, etc.) for better reporting with visual identifiers.</p>
                         </div>
                         <div className="flex-1 space-y-8">
-                            <div className="bg-white border border-gray-100 rounded-[24px] p-8 space-y-8 shadow-sm">
-                                <div className="flex items-end gap-4 bg-slate-50 p-6 rounded-2xl border border-slate-100">
+                            <div className="bg-card border border-gray-100 rounded-[24px] p-8 space-y-8 shadow-sm">
+                                <div className="flex items-end gap-4 bg-muted/50 p-6 rounded-2xl border border-slate-100">
                                     <div className="flex-1 space-y-3">
                                         <label className="text-[12px] font-black uppercase tracking-widest text-slate-400 ml-1">Category Name</label>
                                         <input 
                                             value={newCategoryName}
                                             onChange={(e) => setNewCategoryName(e.target.value)}
                                             placeholder="e.g. Mechanical"
-                                            className="w-full px-5 py-3 bg-white border border-slate-200 rounded-xl text-[14px] font-bold text-slate-700 outline-none focus:border-indigo-600 transition-all"
+                                            className="w-full px-5 py-3 bg-card border border-border rounded-xl text-[14px] font-bold text-foreground/90 outline-none focus:border-primary transition-all"
                                         />
                                     </div>
                                     <div className="space-y-3">
                                         <label className="text-[12px] font-black uppercase tracking-widest text-slate-400 ml-1">Color</label>
-                                        <div className="flex items-center gap-2 px-3 py-3 bg-white border border-slate-200 rounded-xl">
+                                        <div className="flex items-center gap-2 px-3 py-3 bg-card border border-border rounded-xl">
                                             <input 
                                                 type="color"
                                                 value={newCategoryColor}
                                                 onChange={(e) => setNewCategoryColor(e.target.value)}
                                                 className="w-8 h-8 rounded-lg cursor-pointer bg-transparent border-none"
                                             />
-                                            <span className="text-[13px] font-bold text-slate-500 uppercase">{newCategoryColor}</span>
+                                            <span className="text-[13px] font-bold text-muted-foreground uppercase">{newCategoryColor}</span>
                                         </div>
                                     </div>
                                     <button 
@@ -433,7 +433,7 @@ export const WorkOrderSettingsWorkspace: React.FC = () => {
                                             setNewCategoryName('');
                                         }}
                                         disabled={createCategory.isPending || !newCategoryName}
-                                        className="h-14 px-8 bg-indigo-600 text-white rounded-xl shadow-lg shadow-indigo-100 hover:bg-indigo-700 transition-all font-black uppercase tracking-widest text-[12px] disabled:opacity-50"
+                                        className="h-14 px-8 bg-primary text-white rounded-xl shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all font-black uppercase tracking-widest text-[12px] disabled:opacity-50"
                                     >
                                         <Plus className="w-5 h-5" />
                                     </button>
@@ -442,10 +442,10 @@ export const WorkOrderSettingsWorkspace: React.FC = () => {
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     {categories.data?.map((cat: Category) => (
                                         editingCatId === cat.id ? (
-                                            <div key={cat.id} className="flex items-center gap-3 p-4 rounded-2xl border-2 border-indigo-300 bg-indigo-50/40 shadow-sm">
+                                            <div key={cat.id} className="flex items-center gap-3 p-4 rounded-2xl border-2 border-indigo-300 bg-primary/10/40 shadow-sm">
                                                 <label className="relative cursor-pointer shrink-0" title="Click to change color">
                                                     <div 
-                                                        className="w-9 h-9 rounded-full border-[3px] border-white shadow-lg ring-2 ring-indigo-400"
+                                                        className="w-9 h-9 rounded-full border-[3px] border-white shadow-lg ring-2 ring-primary"
                                                         style={{ backgroundColor: editingCatColor }}
                                                     />
                                                     <input 
@@ -466,7 +466,7 @@ export const WorkOrderSettingsWorkspace: React.FC = () => {
                                                         }
                                                         if (e.key === 'Escape') setEditingCatId(null);
                                                     }}
-                                                    className="flex-1 min-w-0 text-[13px] font-bold text-slate-700 bg-white border border-slate-200 rounded-lg px-3 py-2 outline-none focus:border-indigo-400 transition-all"
+                                                    className="flex-1 min-w-0 text-[13px] font-bold text-foreground/90 bg-card border border-border rounded-lg px-3 py-2 outline-none focus:border-primary/80 transition-all"
                                                 />
                                                 <button
                                                     onClick={() => {
@@ -475,7 +475,7 @@ export const WorkOrderSettingsWorkspace: React.FC = () => {
                                                         }
                                                         setEditingCatId(null);
                                                     }}
-                                                    className="text-[11px] font-black text-white bg-indigo-600 hover:bg-indigo-700 px-3 py-2 rounded-lg transition-all shrink-0"
+                                                    className="text-[11px] font-black text-white bg-primary hover:bg-primary/90 px-3 py-2 rounded-lg transition-all shrink-0"
                                                 >
                                                     Save
                                                 </button>
@@ -487,31 +487,31 @@ export const WorkOrderSettingsWorkspace: React.FC = () => {
                                                 </button>
                                             </div>
                                         ) : (
-                                            <div key={cat.id} className="flex items-center justify-between p-4 rounded-2xl border border-gray-100 bg-white hover:bg-slate-50/50 transition-all shadow-sm">
+                                            <div key={cat.id} className="flex items-center justify-between p-4 rounded-2xl border border-gray-100 bg-card hover:bg-transparent transition-all shadow-sm">
                                                 <div className="flex items-center gap-3 min-w-0">
                                                     {/* Large clickable color swatch */}
                                                     <label className="relative cursor-pointer shrink-0" title="Click to change color">
                                                         <div
-                                                            className="w-7 h-7 rounded-full border-2 border-white shadow-md ring-1 ring-slate-200 hover:ring-indigo-400 transition-all"
-                                                            style={{ backgroundColor: cat.color || '#6366F1' }}
+                                                            className="w-7 h-7 rounded-full border-2 border-white shadow-md ring-1 ring-slate-200 hover:ring-primary transition-all"
+                                                            style={{ backgroundColor: cat.color || 'hsl(var(--primary-raw))' }}
                                                         />
                                                         <input
                                                             type="color"
-                                                            value={cat.color || '#6366F1'}
+                                                            value={cat.color || 'hsl(var(--primary-raw))'}
                                                             onChange={(e) => updateCategory.mutate({ id: cat.id, color: e.target.value })}
                                                             className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
                                                         />
                                                     </label>
-                                                    <span className="text-[14px] font-bold text-slate-700 truncate">{cat.name}</span>
+                                                    <span className="text-[14px] font-bold text-foreground/90 truncate">{cat.name}</span>
                                                 </div>
                                                 <div className="flex items-center gap-1 shrink-0 ml-2">
                                                     <button
                                                         onClick={() => {
                                                             setEditingCatId(cat.id);
                                                             setEditingCatName(cat.name);
-                                                            setEditingCatColor(cat.color || '#6366F1');
+                                                            setEditingCatColor(cat.color || 'hsl(var(--primary-raw))');
                                                         }}
-                                                        className="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all"
+                                                        className="p-2 text-slate-400 hover:text-primary hover:bg-primary/10 rounded-lg transition-all"
                                                         title="Edit name"
                                                     >
                                                         <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
@@ -537,17 +537,17 @@ export const WorkOrderSettingsWorkspace: React.FC = () => {
                     <div className="flex justify-end">
                         <button 
                             onClick={() => setIsAddTimerModalOpen(true)}
-                            className="bg-indigo-500 hover:bg-indigo-600 text-white px-8 py-2.5 rounded-lg text-[14px] font-bold transition-all"
+                            className="bg-primary/80 hover:bg-primary text-white px-8 py-2.5 rounded-lg text-[14px] font-bold transition-all"
                         >
                             Add
                         </button>
                     </div>
-                    <div className="bg-white border border-gray-100 rounded-xl overflow-hidden shadow-sm">
+                    <div className="bg-card border border-gray-100 rounded-xl overflow-hidden shadow-sm">
                         <table className="w-full text-left">
                             <thead>
-                                <tr className="border-b border-gray-100 bg-slate-50/50">
-                                    <th className="px-8 py-6 text-[14px] font-bold text-slate-700">Name</th>
-                                    <th className="px-8 py-6 text-[14px] font-bold text-slate-700">Date Created</th>
+                                <tr className="border-b border-gray-100 bg-transparent">
+                                    <th className="px-8 py-6 text-[14px] font-bold text-foreground/90">Name</th>
+                                    <th className="px-8 py-6 text-[14px] font-bold text-foreground/90">Date Created</th>
                                     <th className="px-8 py-6"></th>
                                 </tr>
                             </thead>
@@ -562,7 +562,7 @@ export const WorkOrderSettingsWorkspace: React.FC = () => {
                                             <div className="flex items-center justify-end">
                                                 <button 
                                                     onClick={() => setOpenMenuId(openMenuId === timer.id ? null : timer.id)}
-                                                    className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
+                                                    className="p-2 hover:bg-muted rounded-lg transition-colors"
                                                 >
                                                     <MoreHorizontal className="w-5 h-5 text-slate-400" />
                                                 </button>
@@ -575,7 +575,7 @@ export const WorkOrderSettingsWorkspace: React.FC = () => {
                                                                 initial={{ opacity: 0, scale: 0.95, y: 10 }}
                                                                 animate={{ opacity: 1, scale: 1, y: 0 }}
                                                                 exit={{ opacity: 0, scale: 0.95, y: 10 }}
-                                                                className="absolute right-8 top-12 w-[160px] bg-white border border-slate-100 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.12)] py-2 z-40 overflow-hidden"
+                                                                className="absolute right-8 top-12 w-[160px] bg-card border border-slate-100 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.12)] py-2 z-40 overflow-hidden"
                                                             >
                                                                 <button 
                                                                     onClick={() => {
@@ -583,14 +583,14 @@ export const WorkOrderSettingsWorkspace: React.FC = () => {
                                                                         setIsAddTimerModalOpen(true);
                                                                         setOpenMenuId(null);
                                                                     }}
-                                                                    className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 transition-colors text-[14px] font-bold text-slate-600 group/item text-left"
+                                                                    className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-muted/50 transition-colors text-[14px] font-bold text-slate-600 group/item text-left"
                                                                 >
-                                                                    <div className="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center group-hover/item:bg-white transition-colors">
-                                                                        <AlignLeft className="w-4 h-4 text-slate-400 group-hover/item:text-indigo-600" />
+                                                                    <div className="w-8 h-8 rounded-lg bg-muted/50 flex items-center justify-center group-hover/item:bg-card transition-colors">
+                                                                        <AlignLeft className="w-4 h-4 text-slate-400 group-hover/item:text-primary" />
                                                                     </div>
                                                                     Edit
                                                                 </button>
-                                                                <div className="h-[1px] bg-gray-50 mx-2" />
+                                                                <div className="h-[1px] bg-muted/50 mx-2" />
                                                                 <button 
                                                                     onClick={() => {
                                                                         if (window.confirm('Delete this timer type?')) {
@@ -600,7 +600,7 @@ export const WorkOrderSettingsWorkspace: React.FC = () => {
                                                                     }}
                                                                     className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-rose-50 transition-colors text-[14px] font-bold text-rose-600 group/del text-left"
                                                                 >
-                                                                    <div className="w-8 h-8 rounded-lg bg-rose-50/50 flex items-center justify-center group-hover/del:bg-white transition-colors">
+                                                                    <div className="w-8 h-8 rounded-lg bg-rose-50/50 flex items-center justify-center group-hover/del:bg-card transition-colors">
                                                                         <Trash2 className="w-4 h-4 text-rose-400 group-hover/del:text-rose-600" />
                                                                     </div>
                                                                     Delete
@@ -617,17 +617,17 @@ export const WorkOrderSettingsWorkspace: React.FC = () => {
                                     <tr>
                                         <td colSpan={3} className="px-8 py-32 text-center space-y-6">
                                             <div className="flex flex-col items-center justify-center space-y-4">
-                                                <div className="w-16 h-16 rounded-full bg-slate-50 flex items-center justify-center border border-slate-100">
+                                                <div className="w-16 h-16 rounded-full bg-muted/50 flex items-center justify-center border border-slate-100">
                                                     <AlertCircle className="w-8 h-8 text-slate-200" />
                                                 </div>
                                                 <div className="space-y-1">
-                                                    <p className="text-[16px] font-bold text-slate-700">No timer types defined yet.</p>
+                                                    <p className="text-[16px] font-bold text-foreground/90">No timer types defined yet.</p>
                                                     <p className="text-[13px] text-slate-400 font-medium">Initialize your environment with standard industry classifications.</p>
                                                 </div>
                                                 <button 
                                                     onClick={() => provisionDefaultTimers.mutate()}
                                                     disabled={provisionDefaultTimers.isPending}
-                                                    className="mt-4 px-6 py-2.5 bg-indigo-50 border border-indigo-100 text-indigo-600 rounded-lg text-[13px] font-black uppercase tracking-widest hover:bg-indigo-600 hover:text-white transition-all shadow-sm disabled:opacity-50"
+                                                    className="mt-4 px-6 py-2.5 bg-primary/10 border border-primary/10 text-primary rounded-lg text-[13px] font-black uppercase tracking-widest hover:bg-primary hover:text-white transition-all shadow-sm disabled:opacity-50"
                                                 >
                                                     {provisionDefaultTimers.isPending ? 'Provisioning...' : 'Provision Standard Timers'}
                                                 </button>
@@ -648,7 +648,7 @@ export const WorkOrderSettingsWorkspace: React.FC = () => {
                         <div className="relative">
                             <button 
                                 onClick={() => setShowCreateDropdown(!showCreateDropdown)}
-                                className="flex items-center gap-4 px-6 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all shadow-md group"
+                                className="flex items-center gap-4 px-6 py-2.5 bg-primary text-white rounded-lg hover:bg-primary/90 transition-all shadow-md group"
                             >
                                 <span className="text-[14px] font-bold">Create Field</span>
                                 <ChevronDown className={cn("w-4 h-4 text-white transition-transform duration-300", showCreateDropdown && "rotate-180")} />
@@ -661,7 +661,7 @@ export const WorkOrderSettingsWorkspace: React.FC = () => {
                                             initial={{ opacity: 0, y: 10, scale: 0.95 }}
                                             animate={{ opacity: 1, y: 0, scale: 1 }}
                                             exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                                            className="absolute right-0 mt-3 w-64 bg-white border border-gray-100 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] z-30 overflow-hidden py-2"
+                                            className="absolute right-0 mt-3 w-64 bg-card border border-gray-100 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] z-30 overflow-hidden py-2"
                                         >
                                             {[
                                                 { id: 'Single Line Text', label: 'Single Line Text', icon: Type },
@@ -678,12 +678,12 @@ export const WorkOrderSettingsWorkspace: React.FC = () => {
                                                         setIsCreateFieldModalOpen(true);
                                                         setShowCreateDropdown(false);
                                                     }}
-                                                    className="w-full px-5 py-3.5 flex items-center gap-4 hover:bg-slate-50 transition-colors group text-left"
+                                                    className="w-full px-5 py-3.5 flex items-center gap-4 hover:bg-muted/50 transition-colors group text-left"
                                                 >
-                                                    <div className="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-indigo-50 group-hover:text-indigo-600 transition-colors">
+                                                    <div className="w-8 h-8 rounded-lg bg-muted/50 flex items-center justify-center text-slate-400 group-hover:bg-primary/10 group-hover:text-primary transition-colors">
                                                         <item.icon className="w-4 h-4" />
                                                     </div>
-                                                    <span className="text-[14px] font-bold text-slate-600 group-hover:text-slate-900 transition-colors">{item.label}</span>
+                                                    <span className="text-[14px] font-bold text-slate-600 group-hover:text-foreground transition-colors">{item.label}</span>
                                                 </button>
                                             ))}
                                         </motion.div>
@@ -695,7 +695,7 @@ export const WorkOrderSettingsWorkspace: React.FC = () => {
 
                     {fields.isLoading ? (
                         <div className="py-20 flex flex-col items-center justify-center space-y-4">
-                            <div className="w-12 h-12 border-4 border-indigo-600/20 border-t-indigo-600 rounded-full animate-spin" />
+                            <div className="w-12 h-12 border-4 border-primary/20 border-t-indigo-600 rounded-full animate-spin" />
                             <p className="text-slate-400 font-bold uppercase tracking-widest text-[11px]">Loading Registry...</p>
                         </div>
                     ) : fields.data?.length === 0 ? (
@@ -704,10 +704,10 @@ export const WorkOrderSettingsWorkspace: React.FC = () => {
                             <p className="text-[14px] text-slate-400 font-medium">Create a new custom field to get started</p>
                         </div>
                     ) : (
-                        <div className="bg-white border border-gray-100 rounded-[2.5rem] overflow-hidden shadow-sm w-full">
+                        <div className="bg-card border border-gray-100 rounded-[2.5rem] overflow-hidden shadow-sm w-full">
                             <table className="w-full text-left">
                                 <thead>
-                                    <tr className="bg-slate-50/50 border-b border-gray-100">
+                                    <tr className="bg-transparent border-b border-gray-100">
                                         <th className="px-10 py-6 text-[11px] font-black text-slate-400 uppercase tracking-widest">Field Label</th>
                                         <th className="px-10 py-6 text-[11px] font-black text-slate-400 uppercase tracking-widest">Type</th>
                                         <th className="px-10 py-6 text-[11px] font-black text-slate-400 uppercase tracking-widest text-right">Actions</th>
@@ -717,11 +717,11 @@ export const WorkOrderSettingsWorkspace: React.FC = () => {
                                     {fields.data?.map((field: any) => (
                                         <tr key={field.id} className="group hover:bg-slate-50/30 transition-colors">
                                             <td className="px-10 py-6">
-                                                <span className="text-[15px] font-bold text-slate-700">{field.label}</span>
+                                                <span className="text-[15px] font-bold text-foreground/90">{field.label}</span>
                                             </td>
                                             <td className="px-10 py-6">
                                                 <div className="flex items-center gap-3">
-                                                    <div className="w-8 h-8 rounded-lg bg-white border border-gray-200 flex items-center justify-center text-slate-400">
+                                                    <div className="w-8 h-8 rounded-lg bg-card border border-border flex items-center justify-center text-slate-400">
                                                         {field.type === 'Single Line Text' && <Type className="w-4 h-4" />}
                                                         {field.type === 'Multi-Line Text' && <AlignLeft className="w-4 h-4" />}
                                                         {field.type === 'Dropdown' && <List className="w-4 h-4" />}
@@ -759,8 +759,8 @@ export const WorkOrderSettingsWorkspace: React.FC = () => {
                             <p className="text-[12px] text-slate-400 leading-relaxed font-medium">Define standardized failure codes and root causes for technicians to select when completing work orders.</p>
                         </div>
                         <div className="flex-1 space-y-8">
-                            <div className="bg-white border border-gray-100 rounded-[24px] p-8 space-y-8 shadow-sm">
-                                <div className="flex flex-col gap-4 bg-slate-50 p-6 rounded-2xl border border-slate-100">
+                            <div className="bg-card border border-gray-100 rounded-[24px] p-8 space-y-8 shadow-sm">
+                                <div className="flex flex-col gap-4 bg-muted/50 p-6 rounded-2xl border border-slate-100">
                                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                                         <div className="space-y-3">
                                             <label className="text-[12px] font-black uppercase tracking-widest text-slate-400 ml-1">Code</label>
@@ -768,7 +768,7 @@ export const WorkOrderSettingsWorkspace: React.FC = () => {
                                                 value={newFailureCode}
                                                 onChange={(e) => setNewFailureCode(e.target.value)}
                                                 placeholder="e.g. ELEC-01"
-                                                className="w-full px-5 py-3 bg-white border border-slate-200 rounded-xl text-[14px] font-bold text-slate-700 outline-none focus:border-indigo-600 transition-all uppercase"
+                                                className="w-full px-5 py-3 bg-card border border-border rounded-xl text-[14px] font-bold text-foreground/90 outline-none focus:border-primary transition-all uppercase"
                                             />
                                         </div>
                                         <div className="space-y-3 sm:col-span-2">
@@ -777,7 +777,7 @@ export const WorkOrderSettingsWorkspace: React.FC = () => {
                                                 value={newFailureName}
                                                 onChange={(e) => setNewFailureName(e.target.value)}
                                                 placeholder="e.g. Electrical Short"
-                                                className="w-full px-5 py-3 bg-white border border-slate-200 rounded-xl text-[14px] font-bold text-slate-700 outline-none focus:border-indigo-600 transition-all"
+                                                className="w-full px-5 py-3 bg-card border border-border rounded-xl text-[14px] font-bold text-foreground/90 outline-none focus:border-primary transition-all"
                                             />
                                         </div>
                                     </div>
@@ -787,7 +787,7 @@ export const WorkOrderSettingsWorkspace: React.FC = () => {
                                             value={newFailureDescription}
                                             onChange={(e) => setNewFailureDescription(e.target.value)}
                                             placeholder="Detailed explanation of the failure code"
-                                            className="w-full px-5 py-3 bg-white border border-slate-200 rounded-xl text-[14px] font-bold text-slate-700 outline-none focus:border-indigo-600 transition-all"
+                                            className="w-full px-5 py-3 bg-card border border-border rounded-xl text-[14px] font-bold text-foreground/90 outline-none focus:border-primary transition-all"
                                         />
                                     </div>
                                     <div className="flex justify-end">
@@ -800,7 +800,7 @@ export const WorkOrderSettingsWorkspace: React.FC = () => {
                                                 setNewFailureDescription('');
                                             }}
                                             disabled={createFailureCode.isPending || !newFailureCode || !newFailureName}
-                                            className="h-12 px-8 bg-indigo-600 text-white rounded-xl shadow-lg shadow-indigo-100 hover:bg-indigo-700 transition-all font-black uppercase tracking-widest text-[12px] disabled:opacity-50 flex items-center gap-2"
+                                            className="h-12 px-8 bg-primary text-white rounded-xl shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all font-black uppercase tracking-widest text-[12px] disabled:opacity-50 flex items-center gap-2"
                                         >
                                             <Plus className="w-4 h-4" /> Add Code
                                         </button>
@@ -810,19 +810,19 @@ export const WorkOrderSettingsWorkspace: React.FC = () => {
                                 <div className="space-y-4">
                                     {failureCodes.data?.map((code: FailureCode) => (
                                         editingFailureId === code.id ? (
-                                            <div key={code.id} className="flex flex-col gap-4 p-4 rounded-2xl border-2 border-indigo-300 bg-indigo-50/40 shadow-sm">
+                                            <div key={code.id} className="flex flex-col gap-4 p-4 rounded-2xl border-2 border-indigo-300 bg-primary/10/40 shadow-sm">
                                                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                                                     <input
                                                         value={editingFailureCode}
                                                         onChange={(e) => setEditingFailureCode(e.target.value)}
                                                         placeholder="Code"
-                                                        className="w-full text-[13px] font-bold text-slate-700 bg-white border border-slate-200 rounded-lg px-3 py-2 outline-none focus:border-indigo-400 transition-all uppercase"
+                                                        className="w-full text-[13px] font-bold text-foreground/90 bg-card border border-border rounded-lg px-3 py-2 outline-none focus:border-primary/80 transition-all uppercase"
                                                     />
                                                     <input
                                                         value={editingFailureName}
                                                         onChange={(e) => setEditingFailureName(e.target.value)}
                                                         placeholder="Name"
-                                                        className="w-full text-[13px] font-bold text-slate-700 bg-white border border-slate-200 rounded-lg px-3 py-2 outline-none focus:border-indigo-400 transition-all sm:col-span-2"
+                                                        className="w-full text-[13px] font-bold text-foreground/90 bg-card border border-border rounded-lg px-3 py-2 outline-none focus:border-primary/80 transition-all sm:col-span-2"
                                                     />
                                                 </div>
                                                 <div className="flex gap-4 items-center">
@@ -830,7 +830,7 @@ export const WorkOrderSettingsWorkspace: React.FC = () => {
                                                         value={editingFailureDescription}
                                                         onChange={(e) => setEditingFailureDescription(e.target.value)}
                                                         placeholder="Description"
-                                                        className="flex-1 min-w-0 text-[13px] font-bold text-slate-700 bg-white border border-slate-200 rounded-lg px-3 py-2 outline-none focus:border-indigo-400 transition-all"
+                                                        className="flex-1 min-w-0 text-[13px] font-bold text-foreground/90 bg-card border border-border rounded-lg px-3 py-2 outline-none focus:border-primary/80 transition-all"
                                                     />
                                                     <button
                                                         onClick={() => {
@@ -839,24 +839,24 @@ export const WorkOrderSettingsWorkspace: React.FC = () => {
                                                             }
                                                             setEditingFailureId(null);
                                                         }}
-                                                        className="text-[11px] font-black text-white bg-indigo-600 hover:bg-indigo-700 px-4 py-2.5 rounded-lg transition-all shrink-0"
+                                                        className="text-[11px] font-black text-white bg-primary hover:bg-primary/90 px-4 py-2.5 rounded-lg transition-all shrink-0"
                                                     >
                                                         Save
                                                     </button>
                                                     <button
                                                         onClick={() => setEditingFailureId(null)}
-                                                        className="text-[11px] font-black text-slate-400 hover:text-slate-600 px-3 py-2.5 rounded-lg transition-all shrink-0 bg-white border border-slate-200"
+                                                        className="text-[11px] font-black text-slate-400 hover:text-slate-600 px-3 py-2.5 rounded-lg transition-all shrink-0 bg-card border border-border"
                                                     >
                                                         Cancel
                                                     </button>
                                                 </div>
                                             </div>
                                         ) : (
-                                            <div key={code.id} className="flex items-start justify-between p-5 rounded-2xl border border-gray-100 bg-white hover:bg-slate-50/50 transition-all shadow-sm">
+                                            <div key={code.id} className="flex items-start justify-between p-5 rounded-2xl border border-gray-100 bg-card hover:bg-transparent transition-all shadow-sm">
                                                 <div className="flex flex-col gap-1 min-w-0">
                                                     <div className="flex items-center gap-3">
-                                                        <span className="px-2.5 py-1 bg-indigo-50 text-indigo-700 text-[11px] font-black uppercase tracking-widest rounded-md">{code.code}</span>
-                                                        <span className="text-[14px] font-bold text-slate-700">{code.name}</span>
+                                                        <span className="px-2.5 py-1 bg-primary/10 text-primary/90 text-[11px] font-black uppercase tracking-widest rounded-md">{code.code}</span>
+                                                        <span className="text-[14px] font-bold text-foreground/90">{code.name}</span>
                                                     </div>
                                                     {code.description && <p className="text-[13px] text-slate-400 font-medium">{code.description}</p>}
                                                 </div>
@@ -868,7 +868,7 @@ export const WorkOrderSettingsWorkspace: React.FC = () => {
                                                             setEditingFailureName(code.name);
                                                             setEditingFailureDescription(code.description || '');
                                                         }}
-                                                        className="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all"
+                                                        className="p-2 text-slate-400 hover:text-primary hover:bg-primary/10 rounded-lg transition-all"
                                                         title="Edit code"
                                                     >
                                                         <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
@@ -887,12 +887,12 @@ export const WorkOrderSettingsWorkspace: React.FC = () => {
                                         )
                                     ))}
                                     {(!failureCodes.data || failureCodes.data.length === 0) && (
-                                        <div className="flex flex-col items-center justify-center space-y-4 py-12 text-center border-2 border-dashed border-slate-100 rounded-2xl bg-slate-50/50">
-                                            <div className="w-12 h-12 rounded-xl bg-white flex items-center justify-center shadow-sm text-slate-300">
+                                        <div className="flex flex-col items-center justify-center space-y-4 py-12 text-center border-2 border-dashed border-slate-100 rounded-2xl bg-transparent">
+                                            <div className="w-12 h-12 rounded-xl bg-card flex items-center justify-center shadow-sm text-slate-300">
                                                 <AlertCircle className="w-6 h-6" />
                                             </div>
                                             <div>
-                                                <p className="text-[14px] font-bold text-slate-700">No Failure Codes defined</p>
+                                                <p className="text-[14px] font-bold text-foreground/90">No Failure Codes defined</p>
                                                 <p className="text-[12px] text-slate-400 font-medium">Add codes above to standardize root causes.</p>
                                             </div>
                                         </div>
@@ -904,7 +904,7 @@ export const WorkOrderSettingsWorkspace: React.FC = () => {
                 </div>
             ) : (
                 <div className="flex-1 py-32 flex flex-col items-center justify-center text-center space-y-6">
-                    <div className="w-20 h-20 rounded-full bg-slate-50 flex items-center justify-center border border-slate-100 animate-pulse">
+                    <div className="w-20 h-20 rounded-full bg-muted/50 flex items-center justify-center border border-slate-100 animate-pulse">
                         <AlertCircle className="w-10 h-10 text-slate-200" />
                     </div>
                     <div className="space-y-2">

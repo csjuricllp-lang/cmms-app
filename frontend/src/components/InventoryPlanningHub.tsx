@@ -82,19 +82,19 @@ export const InventoryPlanningHub: React.FC<InventoryPlanningHubProps> = ({ isOp
                 onClick={onClose}
             />
             
-            <div className="relative w-full max-w-2xl h-full bg-slate-50 shadow-2xl flex flex-col animate-in slide-in-from-right duration-500">
+            <div className="relative w-full max-w-2xl h-full bg-muted/50 shadow-2xl flex flex-col animate-in slide-in-from-right duration-500">
                 {/* Header */}
-                <div className="px-8 py-6 bg-white border-b border-slate-200 flex items-center justify-between">
+                <div className="px-8 py-6 bg-card border-b border-border flex items-center justify-between">
                     <div className="flex items-center gap-4">
                         <div className="p-3 bg-amber-500/10 rounded-2xl">
                             <Zap className="w-6 h-6 text-amber-500" />
                         </div>
                         <div>
-                            <h2 className="text-xl font-black text-slate-900 tracking-tight">Inventory Planning Hub</h2>
-                            <p className="text-[12px] text-slate-500 font-bold uppercase tracking-wider">Automated Replenishment Engine</p>
+                            <h2 className="text-xl font-black text-foreground tracking-tight">Inventory Planning Hub</h2>
+                            <p className="text-[12px] text-muted-foreground font-bold uppercase tracking-wider">Automated Replenishment Engine</p>
                         </div>
                     </div>
-                    <button onClick={onClose} className="p-2 hover:bg-slate-100 rounded-xl transition-all">
+                    <button onClick={onClose} className="p-2 hover:bg-muted rounded-xl transition-all">
                         <X className="w-6 h-6 text-slate-400" />
                     </button>
                 </div>
@@ -103,9 +103,9 @@ export const InventoryPlanningHub: React.FC<InventoryPlanningHubProps> = ({ isOp
                 <div className="flex-1 overflow-y-auto p-8 space-y-8">
                     {/* Summary Cards */}
                     <div className="grid grid-cols-2 gap-4">
-                        <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-1">
+                        <div className="bg-card p-6 rounded-3xl border border-border shadow-sm space-y-1">
                             <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Items Needing Action</p>
-                            <p className="text-3xl font-black text-slate-900">{logicLowStockParts.length}</p>
+                            <p className="text-3xl font-black text-foreground">{logicLowStockParts.length}</p>
                         </div>
                         <div className="bg-slate-900 p-6 rounded-3xl space-y-1 shadow-xl shadow-slate-900/20">
                             <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Estimated Value</p>
@@ -121,9 +121,9 @@ export const InventoryPlanningHub: React.FC<InventoryPlanningHubProps> = ({ isOp
                         </h3>
 
                         {logicLowStockParts.length === 0 ? (
-                            <div className="py-20 text-center bg-white rounded-3xl border-2 border-dashed border-slate-200">
+                            <div className="py-20 text-center bg-card rounded-3xl border-2 border-dashed border-border">
                                 <PackageCheck className="w-12 h-12 text-slate-300 mx-auto mb-4" />
-                                <p className="text-slate-500 font-bold italic">Inventory levels are optimized. No replenish suggestions.</p>
+                                <p className="text-muted-foreground font-bold italic">Inventory levels are optimized. No replenish suggestions.</p>
                             </div>
                         ) : (
                             <div className="space-y-3">
@@ -136,13 +136,13 @@ export const InventoryPlanningHub: React.FC<InventoryPlanningHubProps> = ({ isOp
                                             key={part.id}
                                             onClick={() => toggleSelection(part.id)}
                                             className={cn(
-                                                "p-6 bg-white rounded-3xl border-2 transition-all cursor-pointer group flex items-center gap-6",
-                                                isSelected ? "border-primary shadow-lg shadow-primary/5" : "border-transparent hover:border-slate-200 shadow-sm"
+                                                "p-6 bg-card rounded-3xl border-2 transition-all cursor-pointer group flex items-center gap-6",
+                                                isSelected ? "border-primary shadow-lg shadow-primary/5" : "border-transparent hover:border-border shadow-sm"
                                             )}
                                         >
                                             <div className={cn(
                                                 "w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all",
-                                                isSelected ? "bg-primary border-primary text-white" : "border-slate-200"
+                                                isSelected ? "bg-primary border-primary text-white" : "border-border"
                                             )}>
                                                 {isSelected && <CircleCheck className="w-4 h-4" />}
                                             </div>
@@ -153,13 +153,13 @@ export const InventoryPlanningHub: React.FC<InventoryPlanningHubProps> = ({ isOp
                                                     <div className="w-1 h-1 rounded-full bg-slate-200" />
                                                     <AlertTriangle className={cn("w-3.5 h-3.5", part.quantity === 0 ? "text-red-500" : "text-amber-500")} />
                                                 </div>
-                                                <h4 className="font-bold text-slate-900 group-hover:text-primary transition-colors">{part.name}</h4>
+                                                <h4 className="font-bold text-foreground group-hover:text-primary transition-colors">{part.name}</h4>
                                             </div>
 
                                             <div className="flex items-center gap-4 text-right">
                                                 <div className="space-y-1">
                                                     <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest italic">Current</p>
-                                                    <p className="text-sm font-black text-slate-700">{part.quantity}</p>
+                                                    <p className="text-sm font-black text-foreground/90">{part.quantity}</p>
                                                 </div>
                                                 <ArrowRight className="w-4 h-4 text-slate-300" />
                                                 <div className="space-y-1">
@@ -176,10 +176,10 @@ export const InventoryPlanningHub: React.FC<InventoryPlanningHubProps> = ({ isOp
                 </div>
 
                 {/* Footer */}
-                <div className="p-8 bg-white border-t border-slate-200 space-y-4">
-                    <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-2xl border border-slate-100 italic">
+                <div className="p-8 bg-card border-t border-border space-y-4">
+                    <div className="flex items-center gap-3 p-4 bg-muted/50 rounded-2xl border border-slate-100 italic">
                         <Truck className="w-4 h-4 text-slate-400" />
-                        <p className="text-[12px] text-slate-500 font-medium">
+                        <p className="text-[12px] text-muted-foreground font-medium">
                             Proceeding will generate draft Purchase Orders grouped by primary vendors.
                         </p>
                     </div>

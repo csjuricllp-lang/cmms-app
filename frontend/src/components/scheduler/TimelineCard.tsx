@@ -32,7 +32,7 @@ export const TimelineCard = ({ wo, onClick, onEdit, tagConfig, hasConflict }: Ti
             {...attributes}
             onClick={onClick}
             className={cn(
-                "absolute inset-1 m-1 bg-white border-l-4 border-primary shadow-sm rounded-lg p-3 flex flex-col justify-center cursor-grab active:cursor-grabbing hover:shadow-md transition-all z-10 overflow-hidden",
+                "absolute inset-1 m-1 bg-card border-l-4 border-primary shadow-sm rounded-lg p-3 flex flex-col justify-center cursor-grab active:cursor-grabbing hover:shadow-md transition-all z-10 overflow-hidden",
                 hasConflict && "border border-amber-200 bg-amber-50/60 border-l-4 border-l-amber-500 shadow-sm shadow-amber-50",
                 isDragging && "opacity-50"
             )}
@@ -64,7 +64,7 @@ export const TimelineCard = ({ wo, onClick, onEdit, tagConfig, hasConflict }: Ti
             </div>
             <button 
                 onClick={(e) => { e.stopPropagation(); onEdit(); }}
-                className="absolute top-1 right-1 p-1 hover:bg-blue-50 rounded text-blue-500 transition-all opacity-100 md:opacity-0 md:group-hover:opacity-100 bg-white shadow-sm border border-blue-100"
+                className="absolute top-1 right-1 p-1 hover:bg-blue-50 rounded text-primary transition-all opacity-100 md:opacity-0 md:group-hover:opacity-100 bg-card shadow-sm border border-blue-100"
             >
                 <Edit3 className="w-2.5 h-2.5" />
             </button>

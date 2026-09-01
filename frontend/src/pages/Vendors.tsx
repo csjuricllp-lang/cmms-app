@@ -150,12 +150,12 @@ export const VendorsPage = () => {
 
     // Colors list for initials avatars
     const avatarColors = [
-        'bg-indigo-50 text-indigo-700 border-indigo-100',
+        'bg-primary/10 text-primary/90 border-primary/10',
         'bg-emerald-50 text-emerald-700 border-emerald-100',
-        'bg-blue-50 text-blue-700 border-blue-100',
+        'bg-blue-50 text-primary/90 border-blue-100',
         'bg-amber-50 text-amber-700 border-amber-100',
         'bg-rose-50 text-rose-700 border-rose-100',
-        'bg-purple-50 text-purple-700 border-purple-100'
+        'bg-primary/10 text-primary/90 border-purple-100'
     ];
 
     const getAvatarColor = (id: string) => {
@@ -218,10 +218,10 @@ export const VendorsPage = () => {
                                 initial={{ opacity: 0, scale: 0.95, y: 20 }}
                                 animate={{ opacity: 1, scale: 1, y: 0 }}
                                 exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                                className="relative w-full max-w-[500px] bg-white rounded-2xl shadow-2xl border border-slate-100 overflow-hidden z-10"
+                                className="relative w-full max-w-[500px] bg-card rounded-2xl shadow-2xl border border-slate-100 overflow-hidden z-10"
                             >
                                 {/* Modal Header */}
-                                <div className="px-6 py-4 bg-slate-50 border-b border-slate-100 flex items-center justify-between">
+                                <div className="px-6 py-4 bg-transparent border-b border-slate-100 flex items-center justify-between">
                                     <h3 className="font-bold text-[16px] text-slate-800">Contact {contactVendor.name}</h3>
                                     <button onClick={() => setContactVendor(null)} className="p-1 hover:bg-slate-200 rounded-full text-slate-400 transition-colors">
                                         <X className="w-5 h-5" />
@@ -231,33 +231,33 @@ export const VendorsPage = () => {
                                 {/* Modal Form */}
                                 <form onSubmit={handleSendEmail} className="p-6 space-y-4">
                                     <div className="space-y-1.5">
-                                        <label className="text-[11px] font-black text-slate-500 uppercase">To</label>
+                                        <label className="text-[11px] font-black text-muted-foreground uppercase">To</label>
                                         <input 
                                             type="text" 
                                             readOnly 
                                             value={`${contactVendor.contactName || 'Primary Agent'} (${contactVendor.email || 'la.sales@mcmaster.com'})`}
-                                            className="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-[13px] bg-slate-50 text-slate-500 outline-none"
+                                            className="w-full border border-border rounded-lg px-4 py-2.5 text-[13px] bg-transparent text-muted-foreground outline-none"
                                         />
                                     </div>
                                     <div className="space-y-1.5">
-                                        <label className="text-[11px] font-black text-slate-500 uppercase">Subject</label>
+                                        <label className="text-[11px] font-black text-muted-foreground uppercase">Subject</label>
                                         <input 
                                             type="text" 
                                             required
                                             value={contactSubject}
                                             onChange={(e) => setContactSubject(e.target.value)}
-                                            className="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-[13px] bg-white text-slate-800 outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/5 transition-all"
+                                            className="w-full border border-border rounded-lg px-4 py-2.5 text-[13px] bg-card text-slate-800 outline-none focus:border-primary/80 focus:ring-4 focus:ring-primary/5 transition-all"
                                         />
                                     </div>
                                     <div className="space-y-1.5">
-                                        <label className="text-[11px] font-black text-slate-500 uppercase">Message</label>
+                                        <label className="text-[11px] font-black text-muted-foreground uppercase">Message</label>
                                         <textarea 
                                             required
                                             rows={5}
                                             placeholder="Type your procurement request or service inquiry here..."
                                             value={contactMessage}
                                             onChange={(e) => setContactMessage(e.target.value)}
-                                            className="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-[13px] bg-white text-slate-800 outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/5 transition-all resize-none"
+                                            className="w-full border border-border rounded-lg px-4 py-2.5 text-[13px] bg-card text-slate-800 outline-none focus:border-primary/80 focus:ring-4 focus:ring-primary/5 transition-all resize-none"
                                         />
                                     </div>
 
@@ -266,14 +266,14 @@ export const VendorsPage = () => {
                                             type="button"
                                             disabled={isSendingMail}
                                             onClick={() => setContactVendor(null)}
-                                            className="px-5 py-2.5 text-[13px] font-bold text-slate-500 hover:bg-slate-100 rounded-lg transition-colors"
+                                            className="px-5 py-2.5 text-[13px] font-bold text-muted-foreground hover:bg-muted rounded-lg transition-colors"
                                         >
                                             Cancel
                                         </button>
                                         <button 
                                             type="submit"
                                             disabled={isSendingMail}
-                                            className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2.5 rounded-lg text-[13px] font-bold transition-all hover:shadow-lg hover:shadow-indigo-500/25 disabled:opacity-50"
+                                            className="flex items-center gap-2 bg-primary hover:bg-primary/90 text-white px-6 py-2.5 rounded-lg text-[13px] font-bold transition-all hover:shadow-lg hover:shadow-primary/20 disabled:opacity-50"
                                         >
                                             {isSendingMail ? (
                                                 <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
@@ -293,12 +293,12 @@ export const VendorsPage = () => {
     }
 
     return (
-        <div className="flex flex-col h-full bg-slate-50/40 min-h-screen font-outfit select-none">
+        <div className="flex flex-col h-full bg-transparent/40 min-h-screen font-outfit select-none">
             {/* Header Title */}
-            <div className="flex items-center justify-between px-8 py-5 border-b border-slate-100 bg-white sticky top-0 z-30 shrink-0">
+            <div className="flex items-center justify-between px-8 py-5 border-b border-slate-100 bg-card sticky top-0 z-30 shrink-0">
                 <div className="flex items-center gap-6">
                     <h1 className="text-[20px] font-bold text-slate-800">Providers</h1>
-                    <div className="flex border-b border-indigo-600 font-bold text-[14px] text-indigo-600 px-1 py-1.5 cursor-pointer">
+                    <div className="flex border-b border-primary font-bold text-[14px] text-primary px-1 py-1.5 cursor-pointer">
                         Search
                     </div>
                 </div>
@@ -311,19 +311,19 @@ export const VendorsPage = () => {
                             e.stopPropagation();
                             setIsCreateModalOpen(true);
                         }}
-                        className="h-9 px-4 bg-[#3B82F6] hover:bg-blue-600 text-white rounded-lg font-bold text-[13px] transition-all flex items-center gap-1.5 shadow-sm active:scale-95"
+                        className="h-9 px-4 bg-primary hover:bg-primary text-white rounded-lg font-bold text-[13px] transition-all flex items-center gap-1.5 shadow-sm active:scale-95"
                     >
                         <Plus className="w-4 h-4" />
                         Create Provider
                     </button>
-                    <button type="button" className="h-9 w-9 flex items-center justify-center border border-slate-200 bg-white text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-50 transition-colors shadow-sm">
+                    <button type="button" className="h-9 w-9 flex items-center justify-center border border-border bg-card text-slate-400 hover:text-slate-600 rounded-lg hover:bg-transparent transition-colors shadow-sm">
                         <MoreHorizontal className="w-5 h-5" />
                     </button>
                 </div>
             </div>
 
             {/* Search Criteria Block (Matching Image 1) */}
-            <div className="px-8 py-6 bg-white border-b border-slate-100 sticky top-[69px] z-20 shadow-sm shrink-0">
+            <div className="px-8 py-6 bg-card border-b border-slate-100 sticky top-[69px] z-20 shadow-sm shrink-0">
                 <form onSubmit={handleSearchSubmit} className="max-w-[1200px] flex flex-wrap items-center gap-3">
                     <div className="flex-1 min-w-[250px] relative">
                         <input
@@ -331,25 +331,25 @@ export const VendorsPage = () => {
                             placeholder="What do you need?"
                             value={needsInput}
                             onChange={(e) => setNeedsInput(e.target.value)}
-                            className="w-full h-12 pl-4 pr-4 border border-slate-200 rounded-l-xl rounded-r-none focus:outline-none focus:ring-4 focus:ring-indigo-500/5 focus:border-indigo-500 text-[14px] text-slate-700 bg-white"
+                            className="w-full h-12 pl-4 pr-4 border border-border rounded-l-xl rounded-r-none focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/80 text-[14px] text-foreground/90 bg-card"
                         />
                     </div>
                     
-                    <div className="flex-1 min-w-[250px] relative -ml-4 border-l border-slate-200">
+                    <div className="flex-1 min-w-[250px] relative -ml-4 border-l border-border">
                         <input
                             type="text"
                             placeholder="Where do you need it?"
                             value={locationInput}
                             onChange={(e) => setLocationInput(e.target.value)}
-                            className="w-full h-12 pl-4 pr-4 border border-slate-200 border-l-0 rounded-none focus:outline-none focus:ring-4 focus:ring-indigo-500/5 focus:border-indigo-500 text-[14px] text-slate-700 bg-white"
+                            className="w-full h-12 pl-4 pr-4 border border-border border-l-0 rounded-none focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/80 text-[14px] text-foreground/90 bg-card"
                         />
                     </div>
 
-                    <div className="w-[180px] relative -ml-4 border-l border-slate-200">
+                    <div className="w-[180px] relative -ml-4 border-l border-border">
                         <select
                             value={distanceInput}
                             onChange={(e) => setDistanceInput(e.target.value)}
-                            className="w-full h-12 pl-4 pr-10 border border-slate-200 border-l-0 rounded-none focus:outline-none focus:ring-4 focus:ring-indigo-500/5 focus:border-indigo-500 text-[14px] text-slate-500 bg-white appearance-none cursor-pointer font-medium"
+                            className="w-full h-12 pl-4 pr-10 border border-border border-l-0 rounded-none focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/80 text-[14px] text-muted-foreground bg-card appearance-none cursor-pointer font-medium"
                         >
                             <option value="Any">How far?</option>
                             <option value="5">Within 5 miles</option>
@@ -364,7 +364,7 @@ export const VendorsPage = () => {
 
                     <button 
                         type="submit"
-                        className="h-12 px-6 bg-[#4F46E5] hover:bg-indigo-700 text-white rounded-r-xl rounded-l-none font-bold text-[14px] shadow-md shadow-indigo-100 transition-all active:scale-95"
+                        className="h-12 px-6 bg-primary/90 hover:bg-primary/90 text-white rounded-r-xl rounded-l-none font-bold text-[14px] shadow-md shadow-primary/20 transition-all active:scale-95"
                     >
                         Search
                     </button>
@@ -387,7 +387,7 @@ export const VendorsPage = () => {
                         <div className="relative">
                             <button 
                                 onClick={() => setIsSortMenuOpen(!isSortMenuOpen)}
-                                className="h-9 px-4 bg-white border border-slate-200 rounded-lg font-bold text-[13px] text-slate-600 hover:bg-slate-50 transition-all flex items-center gap-1.5 shadow-sm active:scale-95"
+                                className="h-9 px-4 bg-card border border-border rounded-lg font-bold text-[13px] text-slate-600 hover:bg-transparent transition-all flex items-center gap-1.5 shadow-sm active:scale-95"
                             >
                                 <ArrowUpDown className="w-4 h-4 text-slate-400" />
                                 <span>Sort: {sortBy}</span>
@@ -402,7 +402,7 @@ export const VendorsPage = () => {
                                             initial={{ opacity: 0, y: 10, scale: 0.95 }}
                                             animate={{ opacity: 1, y: 0, scale: 1 }}
                                             exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                                            className="absolute right-0 top-full mt-2 w-56 bg-white rounded-xl shadow-xl border border-slate-100 z-50 overflow-hidden p-1.5"
+                                            className="absolute right-0 top-full mt-2 w-56 bg-card rounded-xl shadow-xl border border-slate-100 z-50 overflow-hidden p-1.5"
                                         >
                                             {[
                                                 'Date created (newest)',
@@ -418,10 +418,10 @@ export const VendorsPage = () => {
                                                         setSortBy(opt);
                                                         setIsSortMenuOpen(false);
                                                     }}
-                                                    className={`w-full flex items-center justify-between px-3 py-2 text-[13px] rounded-lg transition-colors font-medium ${sortBy === opt ? "bg-indigo-50 text-indigo-600" : "text-slate-600 hover:bg-slate-50"}`}
+                                                    className={`w-full flex items-center justify-between px-3 py-2 text-[13px] rounded-lg transition-colors font-medium ${sortBy === opt ? "bg-primary/10 text-primary" : "text-slate-600 hover:bg-transparent"}`}
                                                 >
                                                     {opt}
-                                                    {sortBy === opt && <Check className="w-4 h-4 text-indigo-600" />}
+                                                    {sortBy === opt && <Check className="w-4 h-4 text-primary" />}
                                                 </button>
                                             ))}
                                         </motion.div>
@@ -430,7 +430,7 @@ export const VendorsPage = () => {
                             </AnimatePresence>
                         </div>
 
-                        <button className="h-9 px-4 bg-white border border-slate-200 rounded-lg font-bold text-[13px] text-slate-600 hover:bg-slate-50 transition-colors flex items-center gap-1.5 shadow-sm">
+                        <button className="h-9 px-4 bg-card border border-border rounded-lg font-bold text-[13px] text-slate-600 hover:bg-transparent transition-colors flex items-center gap-1.5 shadow-sm">
                             <SlidersHorizontal className="w-4 h-4 text-slate-400" />
                             Filters
                         </button>
@@ -441,7 +441,7 @@ export const VendorsPage = () => {
                 {isLoading ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {Array(3).fill(0).map((_, i) => (
-                            <div key={i} className="h-64 bg-white rounded-2xl border border-slate-150 animate-pulse" />
+                            <div key={i} className="h-64 bg-card rounded-2xl border border-slate-150 animate-pulse" />
                         ))}
                     </div>
                 ) : filteredVendors.length > 0 ? (
@@ -452,7 +452,7 @@ export const VendorsPage = () => {
                                 <motion.div 
                                     key={vendor.id}
                                     layout
-                                    className="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden flex flex-col hover:shadow-md transition-all hover:border-slate-300"
+                                    className="bg-card rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden flex flex-col hover:shadow-md transition-all hover:border-slate-300"
                                 >
                                     {/* Card Header */}
                                     <div className="p-6 pb-4 flex items-start justify-between">
@@ -476,7 +476,7 @@ export const VendorsPage = () => {
                                             </span>
                                             <button 
                                                 onClick={() => favoriteMutation.mutate({ id: vendor.id, isFavorite: !vendor.isFavorite })}
-                                                className={`p-1.5 rounded-lg hover:bg-slate-50 transition-colors ${vendor.isFavorite ? 'text-amber-400' : 'text-slate-300 hover:text-slate-400'}`}
+                                                className={`p-1.5 rounded-lg hover:bg-transparent transition-colors ${vendor.isFavorite ? 'text-amber-400' : 'text-slate-300 hover:text-slate-400'}`}
                                             >
                                                 <Star className={`w-4 h-4 ${vendor.isFavorite ? 'fill-current' : ''}`} />
                                             </button>
@@ -484,7 +484,7 @@ export const VendorsPage = () => {
                                     </div>
 
                                     {/* Card Body */}
-                                    <div className="px-6 flex-1 space-y-3 text-[13px] font-medium text-slate-500">
+                                    <div className="px-6 flex-1 space-y-3 text-[13px] font-medium text-muted-foreground">
                                         <div className="flex items-start gap-2.5">
                                             <MapPin className="w-4 h-4 text-slate-400 shrink-0 mt-0.5" />
                                             <span className="line-clamp-2 leading-relaxed">{vendor.address || '9630 Norwalk Boulevard, Santa Fe Springs, CA 90670'}</span>
@@ -492,7 +492,7 @@ export const VendorsPage = () => {
 
                                         <div className="flex items-center gap-2.5">
                                             <Mail className="w-4 h-4 text-slate-400 shrink-0" />
-                                            <span className="truncate hover:text-indigo-600 transition-colors">{vendor.email || 'la.sales@mcmaster.com'}</span>
+                                            <span className="truncate hover:text-primary transition-colors">{vendor.email || 'la.sales@mcmaster.com'}</span>
                                         </div>
 
                                         {vendor.phone && (
@@ -507,12 +507,12 @@ export const VendorsPage = () => {
                                             {vendor.specialties && vendor.specialties.length > 0 ? (
                                                 <div className="flex flex-wrap gap-1.5 mt-1">
                                                     {vendor.specialties.slice(0, 3).map((spec: string, idx: number) => (
-                                                        <span key={idx} className="px-2 py-0.5 bg-slate-50 text-slate-600 border border-slate-200/50 rounded-md text-[11px] font-bold">
+                                                        <span key={idx} className="px-2 py-0.5 bg-transparent text-slate-600 border border-slate-200/50 rounded-md text-[11px] font-bold">
                                                             {spec}
                                                         </span>
                                                     ))}
                                                     {vendor.specialties.length > 3 && (
-                                                        <span className="text-[11px] font-bold text-indigo-600 self-center">
+                                                        <span className="text-[11px] font-bold text-primary self-center">
                                                             +{vendor.specialties.length - 3} more
                                                         </span>
                                                     )}
@@ -524,7 +524,7 @@ export const VendorsPage = () => {
                                     </div>
 
                                     {/* Card Footer Actions */}
-                                    <div className="px-6 py-4 bg-slate-50/50 border-t border-slate-100 flex items-center justify-between shrink-0">
+                                    <div className="px-6 py-4 bg-transparent/50 border-t border-slate-100 flex items-center justify-between shrink-0">
                                         <button 
                                             onClick={() => setDeleteVendorId(vendor.id)}
                                             className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
@@ -539,13 +539,13 @@ export const VendorsPage = () => {
                                                     setContactVendor(vendor);
                                                     setContactSubject(`Inquiry regarding ${vendor.type || 'Services'}`);
                                                 }}
-                                                className="px-3.5 py-1.5 border border-slate-200 hover:border-indigo-200 bg-white text-slate-600 hover:text-indigo-600 rounded-lg text-[12px] font-bold shadow-sm transition-colors"
+                                                className="px-3.5 py-1.5 border border-border hover:border-primary/20 bg-card text-slate-600 hover:text-primary rounded-lg text-[12px] font-bold shadow-sm transition-colors"
                                             >
                                                 Contact
                                             </button>
                                             <button 
                                                 onClick={() => navigate(`/vendors/${vendor.id}`)}
-                                                className="px-4 py-1.5 bg-indigo-50 hover:bg-indigo-100 border border-indigo-100 text-indigo-700 rounded-lg text-[12px] font-bold shadow-sm transition-colors"
+                                                className="px-4 py-1.5 bg-primary/10 hover:bg-primary/15 border border-primary/10 text-primary/90 rounded-lg text-[12px] font-bold shadow-sm transition-colors"
                                             >
                                                 View Profile
                                             </button>
@@ -556,8 +556,8 @@ export const VendorsPage = () => {
                         })}
                     </div>
                 ) : (
-                    <div className="bg-white border border-slate-200 rounded-2xl p-16 flex flex-col items-center justify-center text-center">
-                        <div className="w-16 h-16 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 mb-4">
+                    <div className="bg-card border border-border rounded-2xl p-16 flex flex-col items-center justify-center text-center">
+                        <div className="w-16 h-16 rounded-full bg-transparent border border-slate-100 flex items-center justify-center text-slate-400 mb-4">
                             <Building2 className="w-8 h-8" />
                         </div>
                         <h3 className="text-[18px] font-bold text-slate-800">No Providers Found</h3>
@@ -569,7 +569,7 @@ export const VendorsPage = () => {
                                 setDistanceInput('Any');
                                 setActiveFilters({ needs: '', location: '', distance: 'Any' });
                             }}
-                            className="mt-6 px-5 py-2 border border-slate-200 rounded-xl font-bold text-[13px] text-slate-600 hover:bg-slate-50 transition-colors"
+                            className="mt-6 px-5 py-2 border border-border rounded-xl font-bold text-[13px] text-slate-600 hover:bg-transparent transition-colors"
                         >
                             Reset Search Filters
                         </button>
@@ -596,10 +596,10 @@ export const VendorsPage = () => {
                             initial={{ opacity: 0, scale: 0.95, y: 20 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                            className="relative w-full max-w-[500px] bg-white rounded-2xl shadow-2xl border border-slate-100 overflow-hidden z-10"
+                            className="relative w-full max-w-[500px] bg-card rounded-2xl shadow-2xl border border-slate-100 overflow-hidden z-10"
                         >
                             {/* Modal Header */}
-                            <div className="px-6 py-4 bg-slate-50 border-b border-slate-100 flex items-center justify-between">
+                            <div className="px-6 py-4 bg-transparent border-b border-slate-100 flex items-center justify-between">
                                 <h3 className="font-bold text-[16px] text-slate-800">Contact {contactVendor.name}</h3>
                                 <button onClick={() => setContactVendor(null)} className="p-1 hover:bg-slate-200 rounded-full text-slate-400 transition-colors">
                                     <X className="w-5 h-5" />
@@ -609,33 +609,33 @@ export const VendorsPage = () => {
                             {/* Modal Form */}
                             <form onSubmit={handleSendEmail} className="p-6 space-y-4">
                                 <div className="space-y-1.5">
-                                    <label className="text-[11px] font-black text-slate-500 uppercase">To</label>
+                                    <label className="text-[11px] font-black text-muted-foreground uppercase">To</label>
                                     <input 
                                         type="text" 
                                         readOnly 
                                         value={`${contactVendor.contactName || 'Primary Agent'} (${contactVendor.email || 'la.sales@mcmaster.com'})`}
-                                        className="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-[13px] bg-slate-50 text-slate-500 outline-none"
+                                        className="w-full border border-border rounded-lg px-4 py-2.5 text-[13px] bg-transparent text-muted-foreground outline-none"
                                     />
                                 </div>
                                 <div className="space-y-1.5">
-                                    <label className="text-[11px] font-black text-slate-500 uppercase">Subject</label>
+                                    <label className="text-[11px] font-black text-muted-foreground uppercase">Subject</label>
                                     <input 
                                         type="text" 
                                         required
                                         value={contactSubject}
                                         onChange={(e) => setContactSubject(e.target.value)}
-                                        className="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-[13px] bg-white text-slate-800 outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/5 transition-all"
+                                        className="w-full border border-border rounded-lg px-4 py-2.5 text-[13px] bg-card text-slate-800 outline-none focus:border-primary/80 focus:ring-4 focus:ring-primary/5 transition-all"
                                     />
                                 </div>
                                 <div className="space-y-1.5">
-                                    <label className="text-[11px] font-black text-slate-500 uppercase">Message</label>
+                                    <label className="text-[11px] font-black text-muted-foreground uppercase">Message</label>
                                     <textarea 
                                         required
                                         rows={5}
                                         placeholder="Type your procurement request or service inquiry here..."
                                         value={contactMessage}
                                         onChange={(e) => setContactMessage(e.target.value)}
-                                        className="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-[13px] bg-white text-slate-800 outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/5 transition-all resize-none"
+                                        className="w-full border border-border rounded-lg px-4 py-2.5 text-[13px] bg-card text-slate-800 outline-none focus:border-primary/80 focus:ring-4 focus:ring-primary/5 transition-all resize-none"
                                     />
                                 </div>
 
@@ -644,14 +644,14 @@ export const VendorsPage = () => {
                                         type="button" 
                                         disabled={isSendingMail}
                                         onClick={() => setContactVendor(null)}
-                                        className="px-5 py-2.5 border border-slate-200 rounded-xl text-[13px] font-bold text-slate-500 hover:bg-slate-50 transition-colors"
+                                        className="px-5 py-2.5 border border-border rounded-xl text-[13px] font-bold text-muted-foreground hover:bg-transparent transition-colors"
                                     >
                                         Cancel
                                     </button>
                                     <button 
                                         type="submit"
                                         disabled={isSendingMail}
-                                        className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-[13px] font-bold shadow-md shadow-indigo-100 flex items-center gap-1.5 transition-all active:scale-95 disabled:opacity-50"
+                                        className="px-6 py-2.5 bg-primary hover:bg-primary/90 text-white rounded-xl text-[13px] font-bold shadow-md shadow-primary/20 flex items-center gap-1.5 transition-all active:scale-95 disabled:opacity-50"
                                     >
                                         {isSendingMail ? (
                                             <div className="w-3.5 h-3.5 border-2 border-white/20 border-t-white rounded-full animate-spin" />

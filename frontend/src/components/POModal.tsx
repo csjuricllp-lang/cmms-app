@@ -209,7 +209,7 @@ export const POModal = ({ onClose, initialData }: POModalProps) => {
                 {/* Header */}
                 <div className="px-8 py-4 border-b border-border flex items-center justify-between shrink-0">
                     <h2 className="text-[18px] font-bold text-foreground flex items-center gap-2">
-                        <Plus className="w-5 h-5 text-indigo-600" />
+                        <Plus className="w-5 h-5 text-primary" />
                         {initialData?.id ? 'Edit Purchase Order' : 'New Purchase Order'}
                     </h2>
                     <div className="flex items-center gap-3">
@@ -217,7 +217,7 @@ export const POModal = ({ onClose, initialData }: POModalProps) => {
                         <button
                             onClick={() => saveMutation.mutate(formData)}
                             disabled={saveMutation.isPending || !formData.vendorId || formData.items.length === 0}
-                            className={cn("px-6 py-2 bg-indigo-600 text-white rounded-md text-[13px] font-bold shadow-lg shadow-indigo-100 disabled:opacity-50 transition-all active:scale-95", saveMutation.isPending && "animate-pulse")}
+                            className={cn("px-6 py-2 bg-primary text-white rounded-md text-[13px] font-bold shadow-lg shadow-primary/20 disabled:opacity-50 transition-all active:scale-95", saveMutation.isPending && "animate-pulse")}
                         >
                             {saveMutation.isPending ? 'Saving...' : (initialData?.id ? 'Save Changes' : 'Create Purchase Order')}
                         </button>
@@ -231,7 +231,7 @@ export const POModal = ({ onClose, initialData }: POModalProps) => {
                         <h3 className="text-[12px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-50 pb-2">Details</h3>
                         <div className="grid grid-cols-1 gap-6">
                             <div className="space-y-1.5">
-                                <label className="text-[11px] font-black text-slate-500 uppercase flex items-center gap-2">Title <span className="text-red-500">*</span></label>
+                                <label className="text-[11px] font-black text-muted-foreground uppercase flex items-center gap-2">Title <span className="text-red-500">*</span></label>
                                 <input
                                     type="text"
                                     className="w-full border border-border rounded-lg px-4 py-2.5 text-[14px] bg-background text-foreground focus:ring-2 focus:ring-primary/20 outline-none"
@@ -241,7 +241,7 @@ export const POModal = ({ onClose, initialData }: POModalProps) => {
                                 />
                             </div>
                             <div className="space-y-1.5">
-                                <label className="text-[11px] font-black text-slate-500 uppercase">PO Number</label>
+                                <label className="text-[11px] font-black text-muted-foreground uppercase">PO Number</label>
                                 <input
                                     type="text"
                                     className="w-full border border-border rounded-lg px-4 py-2.5 text-[14px] bg-background text-foreground focus:ring-2 focus:ring-primary/20 outline-none"
@@ -252,7 +252,7 @@ export const POModal = ({ onClose, initialData }: POModalProps) => {
                             </div>
                             <div className="grid grid-cols-2 gap-6">
                                 <div className="space-y-1.5">
-                                    <label className="text-[11px] font-black text-slate-500 uppercase">Vendor Selection <span className="text-red-500">*</span></label>
+                                    <label className="text-[11px] font-black text-muted-foreground uppercase">Vendor Selection <span className="text-red-500">*</span></label>
                                     <select
                                         className="w-full border border-border rounded-lg px-4 py-2.5 text-[14px] bg-background text-foreground outline-none hover:border-primary/40 transition-colors"
                                         value={formData.vendorId}
@@ -263,7 +263,7 @@ export const POModal = ({ onClose, initialData }: POModalProps) => {
                                     </select>
                                 </div>
                                 <div className="space-y-1.5">
-                                    <label className="text-[11px] font-black text-slate-500 uppercase">Due Date</label>
+                                    <label className="text-[11px] font-black text-muted-foreground uppercase">Due Date</label>
                                     <input
                                         type="date"
                                         className="w-full border border-border rounded-lg px-4 py-2.5 text-[14px] bg-background text-foreground outline-none focus:ring-2 focus:ring-primary/20"
@@ -274,7 +274,7 @@ export const POModal = ({ onClose, initialData }: POModalProps) => {
                             </div>
                             <div className="grid grid-cols-2 gap-6">
                                 <div className="space-y-1.5">
-                                    <label className="text-[11px] font-black text-slate-500 uppercase">Category</label>
+                                    <label className="text-[11px] font-black text-muted-foreground uppercase">Category</label>
                                     <select
                                         className="w-full border border-border rounded-lg px-4 py-2.5 text-[14px] bg-background text-foreground outline-none hover:border-primary/40 transition-colors"
                                         value={formData.type}
@@ -287,7 +287,7 @@ export const POModal = ({ onClose, initialData }: POModalProps) => {
                                     </select>
                                 </div>
                                 <div className="space-y-1.5">
-                                    <label className="text-[11px] font-black text-slate-500 uppercase">Tags</label>
+                                    <label className="text-[11px] font-black text-muted-foreground uppercase">Tags</label>
                                     <div className="space-y-2">
                                         <div className="flex gap-2">
                                             <input
@@ -316,7 +316,7 @@ export const POModal = ({ onClose, initialData }: POModalProps) => {
                                                         setNewTagInput('');
                                                     }
                                                 }}
-                                                className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-[13px] font-bold rounded-lg transition-colors"
+                                                className="px-4 py-2 bg-muted hover:bg-slate-200 text-foreground/90 text-[13px] font-bold rounded-lg transition-colors"
                                             >
                                                 Add
                                             </button>
@@ -324,7 +324,7 @@ export const POModal = ({ onClose, initialData }: POModalProps) => {
                                         {formData.tags.length > 0 && (
                                             <div className="flex flex-wrap gap-1.5 pt-1">
                                                 {formData.tags.map((tag: string) => (
-                                                    <span key={tag} className="flex items-center gap-1 px-2.5 py-1 bg-indigo-50 text-indigo-600 border border-indigo-100/50 rounded-full text-[12px] font-bold">
+                                                    <span key={tag} className="flex items-center gap-1 px-2.5 py-1 bg-primary/10 text-primary border border-primary/10/50 rounded-full text-[12px] font-bold">
                                                         {tag}
                                                         <button
                                                             type="button"
@@ -341,7 +341,7 @@ export const POModal = ({ onClose, initialData }: POModalProps) => {
                                 </div>
                             </div>
                             <div className="space-y-1.5">
-                                <label className="text-[11px] font-black text-slate-500 uppercase">Currency</label>
+                                <label className="text-[11px] font-black text-muted-foreground uppercase">Currency</label>
                                 <select
                                     className="w-full border border-border rounded-lg px-4 py-2.5 text-[14px] bg-background text-foreground outline-none"
                                     value={formData.currency}
@@ -353,7 +353,7 @@ export const POModal = ({ onClose, initialData }: POModalProps) => {
                                 </select>
                             </div>
                             <div className="space-y-1.5">
-                                <label className="text-[11px] font-black text-slate-500 uppercase">Procurement Definition</label>
+                                <label className="text-[11px] font-black text-muted-foreground uppercase">Procurement Definition</label>
                                 <textarea
                                     rows={4}
                                     className="w-full border border-border rounded-lg px-4 py-2.5 text-[14px] bg-background text-foreground outline-none resize-none placeholder:italic placeholder:text-muted-foreground"
@@ -372,13 +372,13 @@ export const POModal = ({ onClose, initialData }: POModalProps) => {
                             <div className="flex gap-2 relative">
                                 <button
                                     onClick={() => setShowMassActions(!showMassActions)}
-                                    className="px-3 py-1.5 text-[11px] font-bold text-slate-500 border border-slate-200 rounded flex items-center gap-1 hover:bg-slate-50 transition-colors"
+                                    className="px-3 py-1.5 text-[11px] font-bold text-muted-foreground border border-border rounded flex items-center gap-1 hover:bg-muted/50 transition-colors"
                                 >
                                     Mass Actions <ChevronDown className="w-3 h-3" />
                                 </button>
                                 <AnimatePresence>
                                     {showMassActions && (
-                                        <motion.div initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 5 }} className="absolute top-full right-0 mt-2 w-48 bg-white border border-slate-100 rounded-lg shadow-xl py-2 z-50">
+                                        <motion.div initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 5 }} className="absolute top-full right-0 mt-2 w-48 bg-card border border-slate-100 rounded-lg shadow-xl py-2 z-50">
                                             <button
                                                 onClick={() => { setFormData({ ...formData, items: [] }); setShowMassActions(false); }}
                                                 className="w-full text-left px-4 py-2 text-[12px] font-bold text-red-500 hover:bg-red-50 transition-colors"
@@ -388,7 +388,7 @@ export const POModal = ({ onClose, initialData }: POModalProps) => {
                                         </motion.div>
                                     )}
                                 </AnimatePresence>
-                                <button onClick={addItem} className="px-3 py-1.5 text-[11px] font-bold text-white bg-indigo-600 rounded flex items-center gap-1 hover:bg-indigo-700 transition-colors shadow-md shadow-indigo-100">Add Parts</button>
+                                <button onClick={addItem} className="px-3 py-1.5 text-[11px] font-bold text-white bg-primary rounded flex items-center gap-1 hover:bg-primary/90 transition-colors shadow-md shadow-primary/20">Add Parts</button>
                             </div>
                         </div>
                         {formData.items.length === 0 ? (
@@ -450,17 +450,17 @@ export const POModal = ({ onClose, initialData }: POModalProps) => {
                     <section className="space-y-6">
                         <h3 className="text-[12px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-50 pb-2">Files</h3>
                         <input type="file" id="po-file-upload" className="hidden" onChange={handleFileUpload} />
-                        <label htmlFor="po-file-upload" className="border-2 border-dashed border-slate-100 rounded-2xl p-10 flex flex-col items-center justify-center gap-4 hover:border-indigo-200 hover:bg-slate-50 transition-all cursor-pointer group">
-                            <div className="w-12 h-12 bg-indigo-50 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform"><Upload className="w-6 h-6 text-indigo-500" /></div>
+                        <label htmlFor="po-file-upload" className="border-2 border-dashed border-slate-100 rounded-2xl p-10 flex flex-col items-center justify-center gap-4 hover:border-primary/20 hover:bg-muted/50 transition-all cursor-pointer group">
+                            <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform"><Upload className="w-6 h-6 text-primary/80" /></div>
                             <div className="text-center">
-                                <p className="text-[14px] font-bold text-slate-700">Upload or drag and drop</p>
+                                <p className="text-[14px] font-bold text-foreground/90">Upload or drag and drop</p>
                                 <p className="text-[11px] text-slate-400 mt-1 font-medium italic">PDF, Images, Excel accepted • Max 50MB</p>
                             </div>
                         </label>
                         <div className="flex justify-end mt-2">
                             <button
                                 type="button"
-                                className="text-[13px] font-bold text-indigo-600 hover:text-indigo-800 hover:underline flex items-center gap-1"
+                                className="text-[13px] font-bold text-primary hover:text-indigo-800 hover:underline flex items-center gap-1"
                                 onClick={() => toast.info("Please create the Purchase Order first. You can attach saved files from the PO Dashboard.")}
                             >
                                 Add from External Link
@@ -479,11 +479,11 @@ export const POModal = ({ onClose, initialData }: POModalProps) => {
                                 <label key={opt.id} className="flex items-center gap-3 cursor-pointer group">
                                     <div
                                         onClick={() => setFormData({ ...formData, billingAddressType: opt.id })}
-                                        className={cn("w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all", formData.billingAddressType === opt.id ? "border-indigo-500" : "border-slate-200 group-hover:border-slate-300")}
+                                        className={cn("w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all", formData.billingAddressType === opt.id ? "border-primary/80" : "border-border group-hover:border-slate-300")}
                                     >
-                                        {formData.billingAddressType === opt.id && <div className="w-2.5 h-2.5 rounded-full bg-indigo-500" />}
+                                        {formData.billingAddressType === opt.id && <div className="w-2.5 h-2.5 rounded-full bg-primary/80" />}
                                     </div>
-                                    <span className={cn("text-[14px] font-bold", formData.billingAddressType === opt.id ? "text-slate-800" : "text-slate-500")}>{opt.label}</span>
+                                    <span className={cn("text-[14px] font-bold", formData.billingAddressType === opt.id ? "text-slate-800" : "text-muted-foreground")}>{opt.label}</span>
                                 </label>
                             ))}
                             <AnimatePresence>
@@ -495,70 +495,70 @@ export const POModal = ({ onClose, initialData }: POModalProps) => {
                                         className="grid grid-cols-2 gap-4 mt-4 pt-4 border-t border-slate-100 overflow-hidden"
                                     >
                                         <div className="space-y-1.5 col-span-2">
-                                            <label className="text-[11px] font-black text-slate-500 uppercase">Company Name</label>
+                                            <label className="text-[11px] font-black text-muted-foreground uppercase">Company Name</label>
                                             <input
                                                 type="text"
-                                                className="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-[14px] outline-none"
+                                                className="w-full border border-border rounded-lg px-4 py-2.5 text-[14px] outline-none"
                                                 placeholder="Enter company name"
                                                 value={formData.billingCompanyName}
                                                 onChange={(e) => setFormData({ ...formData, billingCompanyName: e.target.value })}
                                             />
                                         </div>
                                         <div className="space-y-1.5 col-span-2">
-                                            <label className="text-[11px] font-black text-slate-500 uppercase">Address</label>
+                                            <label className="text-[11px] font-black text-muted-foreground uppercase">Address</label>
                                             <input
                                                 type="text"
-                                                className="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-[14px] outline-none"
+                                                className="w-full border border-border rounded-lg px-4 py-2.5 text-[14px] outline-none"
                                                 placeholder="Enter billing address"
                                                 value={formData.billingAddress}
                                                 onChange={(e) => setFormData({ ...formData, billingAddress: e.target.value })}
                                             />
                                         </div>
                                         <div className="space-y-1.5 col-span-2">
-                                            <label className="text-[11px] font-black text-slate-500 uppercase">City</label>
+                                            <label className="text-[11px] font-black text-muted-foreground uppercase">City</label>
                                             <input
                                                 type="text"
-                                                className="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-[14px] outline-none"
+                                                className="w-full border border-border rounded-lg px-4 py-2.5 text-[14px] outline-none"
                                                 placeholder="City"
                                                 value={formData.billingCity}
                                                 onChange={(e) => setFormData({ ...formData, billingCity: e.target.value })}
                                             />
                                         </div>
                                         <div className="space-y-1.5">
-                                            <label className="text-[11px] font-black text-slate-500 uppercase">State</label>
+                                            <label className="text-[11px] font-black text-muted-foreground uppercase">State</label>
                                             <input
                                                 type="text"
-                                                className="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-[14px] outline-none"
+                                                className="w-full border border-border rounded-lg px-4 py-2.5 text-[14px] outline-none"
                                                 placeholder="State"
                                                 value={formData.billingState}
                                                 onChange={(e) => setFormData({ ...formData, billingState: e.target.value })}
                                             />
                                         </div>
                                         <div className="space-y-1.5">
-                                            <label className="text-[11px] font-black text-slate-500 uppercase">Zip Code</label>
+                                            <label className="text-[11px] font-black text-muted-foreground uppercase">Zip Code</label>
                                             <input
                                                 type="text"
-                                                className="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-[14px] outline-none"
+                                                className="w-full border border-border rounded-lg px-4 py-2.5 text-[14px] outline-none"
                                                 placeholder="Zip"
                                                 value={formData.billingZip}
                                                 onChange={(e) => setFormData({ ...formData, billingZip: e.target.value })}
                                             />
                                         </div>
                                         <div className="space-y-1.5">
-                                            <label className="text-[11px] font-black text-slate-500 uppercase">Phone Number</label>
+                                            <label className="text-[11px] font-black text-muted-foreground uppercase">Phone Number</label>
                                             <input
                                                 type="text"
-                                                className="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-[14px] outline-none"
+                                                className="w-full border border-border rounded-lg px-4 py-2.5 text-[14px] outline-none"
                                                 placeholder="Phone Number"
                                                 value={formData.billingPhone}
                                                 onChange={(e) => setFormData({ ...formData, billingPhone: e.target.value })}
                                             />
                                         </div>
                                         <div className="space-y-1.5">
-                                            <label className="text-[11px] font-black text-slate-500 uppercase">Fax Number</label>
+                                            <label className="text-[11px] font-black text-muted-foreground uppercase">Fax Number</label>
                                             <input
                                                 type="text"
-                                                className="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-[14px] outline-none"
+                                                className="w-full border border-border rounded-lg px-4 py-2.5 text-[14px] outline-none"
                                                 placeholder="Fax Number"
                                                 value={formData.billingFax}
                                                 onChange={(e) => setFormData({ ...formData, billingFax: e.target.value })}
@@ -570,11 +570,11 @@ export const POModal = ({ onClose, initialData }: POModalProps) => {
                             <label className="flex items-center gap-3 mt-6 cursor-pointer">
                                 <input
                                     type="checkbox"
-                                    className="w-4 h-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                                    className="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary"
                                     checked={formData.includeTaxOnPdf}
                                     onChange={(e) => setFormData({ ...formData, includeTaxOnPdf: e.target.checked })}
                                 />
-                                <span className="text-[12px] font-bold text-slate-500 italic">Show company logo on PDF</span>
+                                <span className="text-[12px] font-bold text-muted-foreground italic">Show company logo on PDF</span>
                             </label>
                         </div>
                     </section>
@@ -584,10 +584,10 @@ export const POModal = ({ onClose, initialData }: POModalProps) => {
                         <h3 className="text-[12px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-50 pb-2">Shipping Address</h3>
                         <div className="space-y-6">
                             <div className="space-y-1.5">
-                                <label className="text-[11px] font-black text-slate-500 uppercase">Ship to name</label>
+                                <label className="text-[11px] font-black text-muted-foreground uppercase">Ship to name</label>
                                 <input
                                     type="text"
-                                    className="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-[14px] outline-none"
+                                    className="w-full border border-border rounded-lg px-4 py-2.5 text-[14px] outline-none"
                                     placeholder="Enter specific recipient name"
                                     value={formData.shippingUserName}
                                     onChange={(e) => setFormData({ ...formData, shippingUserName: e.target.value })}
@@ -601,11 +601,11 @@ export const POModal = ({ onClose, initialData }: POModalProps) => {
                                     <label key={opt.id} className="flex items-center gap-3 cursor-pointer group">
                                         <div
                                             onClick={() => setFormData({ ...formData, shippingAddressType: opt.id })}
-                                            className={cn("w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all", formData.shippingAddressType === opt.id ? "border-indigo-500" : "border-slate-200 group-hover:border-slate-300")}
+                                            className={cn("w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all", formData.shippingAddressType === opt.id ? "border-primary/80" : "border-border group-hover:border-slate-300")}
                                         >
-                                            {formData.shippingAddressType === opt.id && <div className="w-2.5 h-2.5 rounded-full bg-indigo-500" />}
+                                            {formData.shippingAddressType === opt.id && <div className="w-2.5 h-2.5 rounded-full bg-primary/80" />}
                                         </div>
-                                        <span className={cn("text-[14px] font-bold", formData.shippingAddressType === opt.id ? "text-slate-800" : "text-slate-500")}>{opt.label}</span>
+                                        <span className={cn("text-[14px] font-bold", formData.shippingAddressType === opt.id ? "text-slate-800" : "text-muted-foreground")}>{opt.label}</span>
                                     </label>
                                 ))}
                             </div>
@@ -618,70 +618,70 @@ export const POModal = ({ onClose, initialData }: POModalProps) => {
                                         className="grid grid-cols-2 gap-4 mt-4 pt-4 border-t border-slate-100 overflow-hidden"
                                     >
                                         <div className="space-y-1.5 col-span-2">
-                                            <label className="text-[11px] font-black text-slate-500 uppercase">Company Name</label>
+                                            <label className="text-[11px] font-black text-muted-foreground uppercase">Company Name</label>
                                             <input
                                                 type="text"
-                                                className="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-[14px] outline-none"
+                                                className="w-full border border-border rounded-lg px-4 py-2.5 text-[14px] outline-none"
                                                 placeholder="Enter shipping company name"
                                                 value={formData.shippingCompanyName}
                                                 onChange={(e) => setFormData({ ...formData, shippingCompanyName: e.target.value })}
                                             />
                                         </div>
                                         <div className="space-y-1.5 col-span-2">
-                                            <label className="text-[11px] font-black text-slate-500 uppercase">Address</label>
+                                            <label className="text-[11px] font-black text-muted-foreground uppercase">Address</label>
                                             <input
                                                 type="text"
-                                                className="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-[14px] outline-none"
+                                                className="w-full border border-border rounded-lg px-4 py-2.5 text-[14px] outline-none"
                                                 placeholder="Enter shipping address"
                                                 value={formData.shippingAddress}
                                                 onChange={(e) => setFormData({ ...formData, shippingAddress: e.target.value })}
                                             />
                                         </div>
                                         <div className="space-y-1.5 col-span-2">
-                                            <label className="text-[11px] font-black text-slate-500 uppercase">City</label>
+                                            <label className="text-[11px] font-black text-muted-foreground uppercase">City</label>
                                             <input
                                                 type="text"
-                                                className="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-[14px] outline-none"
+                                                className="w-full border border-border rounded-lg px-4 py-2.5 text-[14px] outline-none"
                                                 placeholder="City"
                                                 value={formData.shippingCity}
                                                 onChange={(e) => setFormData({ ...formData, shippingCity: e.target.value })}
                                             />
                                         </div>
                                         <div className="space-y-1.5">
-                                            <label className="text-[11px] font-black text-slate-500 uppercase">State</label>
+                                            <label className="text-[11px] font-black text-muted-foreground uppercase">State</label>
                                             <input
                                                 type="text"
-                                                className="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-[14px] outline-none"
+                                                className="w-full border border-border rounded-lg px-4 py-2.5 text-[14px] outline-none"
                                                 placeholder="State"
                                                 value={formData.shippingState}
                                                 onChange={(e) => setFormData({ ...formData, shippingState: e.target.value })}
                                             />
                                         </div>
                                         <div className="space-y-1.5">
-                                            <label className="text-[11px] font-black text-slate-500 uppercase">Zip Code</label>
+                                            <label className="text-[11px] font-black text-muted-foreground uppercase">Zip Code</label>
                                             <input
                                                 type="text"
-                                                className="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-[14px] outline-none"
+                                                className="w-full border border-border rounded-lg px-4 py-2.5 text-[14px] outline-none"
                                                 placeholder="Zip"
                                                 value={formData.shippingZip}
                                                 onChange={(e) => setFormData({ ...formData, shippingZip: e.target.value })}
                                             />
                                         </div>
                                         <div className="space-y-1.5">
-                                            <label className="text-[11px] font-black text-slate-500 uppercase">Phone Number</label>
+                                            <label className="text-[11px] font-black text-muted-foreground uppercase">Phone Number</label>
                                             <input
                                                 type="text"
-                                                className="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-[14px] outline-none"
+                                                className="w-full border border-border rounded-lg px-4 py-2.5 text-[14px] outline-none"
                                                 placeholder="Phone Number"
                                                 value={formData.shippingPhone}
                                                 onChange={(e) => setFormData({ ...formData, shippingPhone: e.target.value })}
                                             />
                                         </div>
                                         <div className="space-y-1.5">
-                                            <label className="text-[11px] font-black text-slate-500 uppercase">Fax Number</label>
+                                            <label className="text-[11px] font-black text-muted-foreground uppercase">Fax Number</label>
                                             <input
                                                 type="text"
-                                                className="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-[14px] outline-none"
+                                                className="w-full border border-border rounded-lg px-4 py-2.5 text-[14px] outline-none"
                                                 placeholder="Fax Number"
                                                 value={formData.shippingFax}
                                                 onChange={(e) => setFormData({ ...formData, shippingFax: e.target.value })}
@@ -698,9 +698,9 @@ export const POModal = ({ onClose, initialData }: POModalProps) => {
                         <h3 className="text-[12px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-50 pb-2">Additional Details</h3>
                         <div className="grid grid-cols-2 gap-6">
                             <div className="space-y-1.5">
-                                <label className="text-[11px] font-black text-slate-500 uppercase">Procuring Company</label>
+                                <label className="text-[11px] font-black text-muted-foreground uppercase">Procuring Company</label>
                                 <select
-                                    className="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-[14px] outline-none"
+                                    className="w-full border border-border rounded-lg px-4 py-2.5 text-[14px] outline-none"
                                     value={formData.company}
                                     onChange={(e) => setFormData({ ...formData, company: e.target.value })}
                                 >
@@ -709,9 +709,9 @@ export const POModal = ({ onClose, initialData }: POModalProps) => {
                                 </select>
                             </div>
                             <div className="space-y-1.5">
-                                <label className="text-[11px] font-black text-slate-500 uppercase">PO Classification</label>
+                                <label className="text-[11px] font-black text-muted-foreground uppercase">PO Classification</label>
                                 <select
-                                    className="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-[14px] outline-none"
+                                    className="w-full border border-border rounded-lg px-4 py-2.5 text-[14px] outline-none"
                                     value={formData.type}
                                     onChange={(e) => setFormData({ ...formData, type: e.target.value })}
                                 >
@@ -722,48 +722,48 @@ export const POModal = ({ onClose, initialData }: POModalProps) => {
                                 </select>
                             </div>
                             <div className="space-y-1.5">
-                                <label className="text-[11px] font-black text-slate-500 uppercase">Purchase Date</label>
+                                <label className="text-[11px] font-black text-muted-foreground uppercase">Purchase Date</label>
                                 <input
                                     type="date"
-                                    className="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-[14px] outline-none"
+                                    className="w-full border border-border rounded-lg px-4 py-2.5 text-[14px] outline-none"
                                     value={formData.purchaseDate}
                                     onChange={(e) => setFormData({ ...formData, purchaseDate: e.target.value })}
                                 />
                             </div>
                             <div className="space-y-1.5">
-                                <label className="text-[11px] font-black text-slate-500 uppercase">Terms</label>
+                                <label className="text-[11px] font-black text-muted-foreground uppercase">Terms</label>
                                 <input
                                     type="text"
-                                    className="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-[14px] outline-none"
+                                    className="w-full border border-border rounded-lg px-4 py-2.5 text-[14px] outline-none"
                                     placeholder="e.g. Net 30"
                                     value={formData.terms}
                                     onChange={(e) => setFormData({ ...formData, terms: e.target.value })}
                                 />
                             </div>
                             <div className="space-y-1.5">
-                                <label className="text-[11px] font-black text-slate-500 uppercase">Shipping Method</label>
+                                <label className="text-[11px] font-black text-muted-foreground uppercase">Shipping Method</label>
                                 <input
                                     type="text"
-                                    className="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-[14px] outline-none"
+                                    className="w-full border border-border rounded-lg px-4 py-2.5 text-[14px] outline-none"
                                     placeholder="e.g. FedEx Ground"
                                     value={formData.shippingMethod}
                                     onChange={(e) => setFormData({ ...formData, shippingMethod: e.target.value })}
                                 />
                             </div>
                             <div className="space-y-1.5">
-                                <label className="text-[11px] font-black text-slate-500 uppercase">F.O.B. Shipping Point</label>
+                                <label className="text-[11px] font-black text-muted-foreground uppercase">F.O.B. Shipping Point</label>
                                 <input
                                     type="text"
-                                    className="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-[14px] outline-none"
+                                    className="w-full border border-border rounded-lg px-4 py-2.5 text-[14px] outline-none"
                                     value={formData.fob}
                                     onChange={(e) => setFormData({ ...formData, fob: e.target.value })}
                                 />
                             </div>
                             <div className="space-y-1.5">
-                                <label className="text-[11px] font-black text-slate-500 uppercase">Invoice Number</label>
+                                <label className="text-[11px] font-black text-muted-foreground uppercase">Invoice Number</label>
                                 <input
                                     type="text"
-                                    className="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-[14px] outline-none"
+                                    className="w-full border border-border rounded-lg px-4 py-2.5 text-[14px] outline-none"
                                     placeholder="Invoice Number"
                                     value={formData.invoiceNumber}
                                     onChange={(e) => setFormData({ ...formData, invoiceNumber: e.target.value })}
@@ -771,10 +771,10 @@ export const POModal = ({ onClose, initialData }: POModalProps) => {
                             </div>
                         </div>
                         <div className="space-y-1.5">
-                            <label className="text-[11px] font-black text-slate-500 uppercase">Specific Notes</label>
+                            <label className="text-[11px] font-black text-muted-foreground uppercase">Specific Notes</label>
                             <textarea
                                 rows={3}
-                                className="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-[14px] outline-none resize-none"
+                                className="w-full border border-border rounded-lg px-4 py-2.5 text-[14px] outline-none resize-none"
                                 value={formData.notes}
                                 onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                             />
@@ -782,17 +782,17 @@ export const POModal = ({ onClose, initialData }: POModalProps) => {
                         <label className="flex items-center gap-3 cursor-pointer">
                             <input
                                 type="checkbox"
-                                className="w-4 h-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                                className="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary"
                                 checked={formData.printBackupSignToPdf}
                                 onChange={(e) => setFormData({ ...formData, printBackupSignToPdf: e.target.checked })}
                             />
-                            <span className="text-[12px] font-bold text-slate-500">Print signature sign line on PDF</span>
+                            <span className="text-[12px] font-bold text-muted-foreground">Print signature sign line on PDF</span>
                         </label>
                     </section>
                 </div>
 
                 {/* Footer Summary */}
-                <div className="px-12 py-8 bg-slate-50/50 border-t border-slate-100 flex items-center justify-between shrink-0">
+                <div className="px-12 py-8 bg-transparent border-t border-slate-100 flex items-center justify-between shrink-0">
                     <div className="flex items-center gap-10">
                         <div className="flex flex-col gap-0.5">
                             <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Calculated Logistics</span>

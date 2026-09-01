@@ -71,19 +71,19 @@ export const UserInspector = ({ user, onClose }: UserInspectorProps) => {
                 animate={{ x: 0 }}
                 exit={{ x: '100%' }}
                 transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-                className="w-full max-w-[500px] h-full bg-white shadow-2xl flex flex-col font-outfit"
+                className="w-full max-w-[500px] h-full bg-card shadow-2xl flex flex-col font-outfit"
                 onClick={(e) => e.stopPropagation()}
             >
                 {/* Header */}
-                <div className="bg-slate-50 px-8 py-6 border-b border-slate-100 flex items-start justify-between shrink-0">
+                <div className="bg-muted/50 px-8 py-6 border-b border-slate-100 flex items-start justify-between shrink-0">
                     <div className="flex items-center gap-5">
-                        <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-blue-500 to-indigo-600 flex items-center justify-center text-white text-[20px] font-black shadow-lg shadow-blue-200">
+                        <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-blue-500 to-indigo-600 flex items-center justify-center text-white text-[20px] font-black shadow-lg shadow-primary/20">
                             {user.name?.split(' ').map((n: string) => n[0]).join('').substring(0, 2)}
                         </div>
                         <div>
-                            <h2 className="text-2xl font-bold text-slate-900 tracking-tight">{user.name}</h2>
+                            <h2 className="text-2xl font-bold text-foreground tracking-tight">{user.name}</h2>
                             <div className="flex items-center gap-3 mt-1.5">
-                                <span className="text-[12px] font-bold text-blue-600 bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-100 uppercase tracking-widest">
+                                <span className="text-[12px] font-bold text-primary bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-100 uppercase tracking-widest">
                                     {user.jobTitle || user.roleName || user.role || 'No Title'}
                                 </span>
                                 {user.isActive ? (
@@ -104,7 +104,7 @@ export const UserInspector = ({ user, onClose }: UserInspectorProps) => {
                     <div className="flex items-center gap-2">
                         <button 
                             onClick={() => setIsEditModalOpen(true)}
-                            className="p-2.5 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 hover:text-indigo-600 transition-colors shadow-sm text-slate-500"
+                            className="p-2.5 bg-card border border-border rounded-xl hover:bg-muted/50 hover:text-primary transition-colors shadow-sm text-muted-foreground"
                             title="Edit User"
                         >
                             <Edit2 className="w-4 h-4" />
@@ -118,7 +118,7 @@ export const UserInspector = ({ user, onClose }: UserInspectorProps) => {
                                 }
                             }}
                             disabled={toggleStatusMutation.isPending}
-                            className={`p-2.5 bg-white border border-slate-200 rounded-xl transition-colors shadow-sm disabled:opacity-50 text-slate-500 ${user.isActive ? 'hover:bg-amber-50 hover:border-amber-200 hover:text-amber-600' : 'hover:bg-emerald-50 hover:border-emerald-200 hover:text-emerald-600'}`}
+                            className={`p-2.5 bg-card border border-border rounded-xl transition-colors shadow-sm disabled:opacity-50 text-muted-foreground ${user.isActive ? 'hover:bg-amber-50 hover:border-amber-200 hover:text-amber-600' : 'hover:bg-emerald-50 hover:border-emerald-200 hover:text-emerald-600'}`}
                             title={user.isActive ? "Deactivate User" : "Activate User"}
                         >
                             <Power className="w-4 h-4" />
@@ -126,7 +126,7 @@ export const UserInspector = ({ user, onClose }: UserInspectorProps) => {
                         <button 
                             onClick={handleDelete}
                             disabled={deleteMutation.isPending}
-                            className="p-2.5 bg-white border border-slate-200 rounded-xl hover:bg-red-50 hover:border-red-200 hover:text-red-600 transition-colors shadow-sm text-slate-500 disabled:opacity-50"
+                            className="p-2.5 bg-card border border-border rounded-xl hover:bg-red-50 hover:border-red-200 hover:text-red-600 transition-colors shadow-sm text-muted-foreground disabled:opacity-50"
                             title="Remove User"
                         >
                             <Trash2 className="w-4 h-4" />
@@ -143,24 +143,24 @@ export const UserInspector = ({ user, onClose }: UserInspectorProps) => {
                     
                     {/* Key Metrics */}
                     <div className="grid grid-cols-2 gap-4">
-                        <div className="bg-slate-50 rounded-2xl p-5 border border-slate-100 flex items-start gap-4">
+                        <div className="bg-muted/50 rounded-2xl p-5 border border-slate-100 flex items-start gap-4">
                             <div className="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-600 shrink-0">
                                 <DollarSign className="w-5 h-5" />
                             </div>
                             <div>
                                 <p className="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-1">Labor Cost (H)</p>
-                                <p className="text-[16px] font-bold text-slate-900">
+                                <p className="text-[16px] font-bold text-foreground">
                                     {user.hourlyRate ? `$${user.hourlyRate.toFixed(2)}/hr` : 'Not Set'}
                                 </p>
                             </div>
                         </div>
-                        <div className="bg-slate-50 rounded-2xl p-5 border border-slate-100 flex items-start gap-4">
-                            <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center text-blue-600 shrink-0">
+                        <div className="bg-muted/50 rounded-2xl p-5 border border-slate-100 flex items-start gap-4">
+                            <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center text-primary shrink-0">
                                 <Building className="w-5 h-5" />
                             </div>
                             <div>
                                 <p className="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-1">Billing Rate (H)</p>
-                                <p className="text-[16px] font-bold text-slate-900">
+                                <p className="text-[16px] font-bold text-foreground">
                                     {user.companyRate ? `$${user.companyRate.toFixed(2)}/hr` : 'Not Set'}
                                 </p>
                             </div>
@@ -172,23 +172,23 @@ export const UserInspector = ({ user, onClose }: UserInspectorProps) => {
                         <h3 className="text-[12px] font-black text-slate-400 uppercase tracking-[0.15em] border-b border-slate-100 pb-3 mb-4">
                             Contact & Identity
                         </h3>
-                        <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+                        <div className="bg-card border border-border rounded-2xl overflow-hidden shadow-sm">
                             <div className="divide-y divide-slate-100">
-                                <div className="p-4 flex items-center hover:bg-slate-50 transition-colors">
-                                    <div className="w-1/3 flex items-center gap-3 text-[13px] font-bold text-slate-500">
+                                <div className="p-4 flex items-center hover:bg-muted/50 transition-colors">
+                                    <div className="w-1/3 flex items-center gap-3 text-[13px] font-bold text-muted-foreground">
                                         <Mail className="w-4 h-4 text-slate-400" />
                                         Email
                                     </div>
-                                    <div className="w-2/3 text-[14px] font-medium text-slate-900 truncate">
+                                    <div className="w-2/3 text-[14px] font-medium text-foreground truncate">
                                         {user.email}
                                     </div>
                                 </div>
-                                <div className="p-4 flex items-center hover:bg-slate-50 transition-colors">
-                                    <div className="w-1/3 flex items-center gap-3 text-[13px] font-bold text-slate-500">
+                                <div className="p-4 flex items-center hover:bg-muted/50 transition-colors">
+                                    <div className="w-1/3 flex items-center gap-3 text-[13px] font-bold text-muted-foreground">
                                         <Phone className="w-4 h-4 text-slate-400" />
                                         Phone
                                     </div>
-                                    <div className="w-2/3 text-[14px] font-medium text-slate-900 truncate">
+                                    <div className="w-2/3 text-[14px] font-medium text-foreground truncate">
                                         {user.phone || <span className="text-slate-300 italic">Not Provided</span>}
                                     </div>
                                 </div>
@@ -201,21 +201,21 @@ export const UserInspector = ({ user, onClose }: UserInspectorProps) => {
                         <h3 className="text-[12px] font-black text-slate-400 uppercase tracking-[0.15em] border-b border-slate-100 pb-3 mb-4">
                             System Access
                         </h3>
-                        <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm space-y-5">
+                        <div className="bg-card border border-border rounded-2xl p-5 shadow-sm space-y-5">
                             <div>
                                 <p className="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-1.5">Platform Role</p>
-                                <p className="text-[14px] font-bold text-slate-900">{user.roleName || user.role || 'No Role Assigned'}</p>
+                                <p className="text-[14px] font-bold text-foreground">{user.roleName || user.role || 'No Role Assigned'}</p>
                             </div>
                             <div className="pt-4 border-t border-slate-100 grid grid-cols-2 gap-4">
                                 <div>
                                     <p className="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-1.5">Last Login</p>
-                                    <p className="text-[14px] font-medium text-slate-700">
+                                    <p className="text-[14px] font-medium text-foreground/90">
                                         {user.lastLoginAt ? new Date(user.lastLoginAt).toLocaleDateString() : 'Never'}
                                     </p>
                                 </div>
                                 <div>
                                     <p className="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-1.5">Active WO Count</p>
-                                    <p className="text-[14px] font-medium text-slate-700">
+                                    <p className="text-[14px] font-medium text-foreground/90">
                                         {user.activeWoCount || 0} Open Tickets
                                     </p>
                                 </div>
@@ -225,7 +225,7 @@ export const UserInspector = ({ user, onClose }: UserInspectorProps) => {
                 </div>
 
                 {/* Footer */}
-                <div className="px-8 py-5 border-t border-slate-100 bg-slate-50 flex items-center justify-between shrink-0">
+                <div className="px-8 py-5 border-t border-slate-100 bg-muted/50 flex items-center justify-between shrink-0">
                     <div className="flex items-center gap-2 text-slate-400">
                         <Clock className="w-4 h-4" />
                         <span className="text-[11px] font-bold uppercase tracking-widest">
@@ -271,14 +271,14 @@ export const UserInspector = ({ user, onClose }: UserInspectorProps) => {
                 isLoading={toggleStatusMutation.isPending}
             >
                 <div className="space-y-2">
-                    <label className="text-[12px] font-bold text-gray-700 uppercase tracking-wider">
+                    <label className="text-[12px] font-bold text-white/90 uppercase tracking-widest">
                         Reason (Optional)
                     </label>
                     <textarea
                         value={deactivationReason}
                         onChange={(e) => setDeactivationReason(e.target.value)}
                         placeholder="Why is this user being deactivated?"
-                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-[14px] font-medium text-gray-900 placeholder:text-gray-400 focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all outline-none resize-none"
+                        className="w-full px-4 py-3 bg-muted/50 border border-border rounded-xl text-[14px] font-medium text-foreground placeholder:text-gray-400 focus:bg-card focus:border-primary/80 focus:ring-4 focus:ring-primary/10 transition-all outline-none resize-none"
                         rows={3}
                     />
                 </div>

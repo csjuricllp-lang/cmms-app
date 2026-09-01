@@ -95,8 +95,8 @@ export const CreatePartModal = ({ isOpen, onClose, part }: CreatePartModalProps)
                 minQuantity: Number(firstLine.minQty),
                 maxQuantity: Number(firstLine.maxQty),
                 cost: Number(firstLine.cost),
-                binLocation: firstLine.area,
-                barcode: firstLine.barcode,
+                binLocation: firstLine.area || undefined,
+                barcode: firstLine.barcode || undefined,
                 locationId: firstLine.locationId || undefined,
                 vendorId: data.vendorId || undefined,
                 customerId: data.customerId || undefined,
@@ -126,16 +126,16 @@ export const CreatePartModal = ({ isOpen, onClose, part }: CreatePartModalProps)
     return (
         <div className="fixed inset-0 z-[100] bg-[#F8F9FA] flex flex-col">
             {/* Minimal Header */}
-            <div className="h-14 bg-white border-b border-slate-200 px-6 flex items-center justify-between shrink-0">
+            <div className="h-14 bg-card border-b border-border px-6 flex items-center justify-between shrink-0">
                <div className="flex items-center gap-4">
                   <button onClick={onClose} className="p-1 text-slate-400 hover:text-slate-600 transition-colors">
                      <ChevronDown className="w-5 h-5 rotate-90" />
                   </button>
-                  <h2 className="text-[13px] font-bold text-slate-900">{part ? 'Edit Part' : 'New Part'}</h2>
+                  <h2 className="text-[13px] font-bold text-foreground">{part ? 'Edit Part' : 'New Part'}</h2>
                </div>
                <div className="flex items-center gap-3">
-                   <button onClick={onClose} type="button" className="h-8 px-4 border border-slate-300 rounded text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors">Cancel</button>
-                   <button onClick={() => createMutation.mutate(formData)} disabled={createMutation.isPending} className="h-8 px-4 bg-[#3B82F6] rounded text-xs font-semibold text-white hover:bg-blue-600 transition-colors tracking-wide">{createMutation.isPending ? 'SAVING...' : (part ? 'Save Changes' : 'Create Part')}</button>
+                   <button onClick={onClose} type="button" className="h-8 px-4 border border-slate-300 rounded text-xs font-semibold text-foreground/90 hover:bg-muted/50 transition-colors">Cancel</button>
+                   <button onClick={() => createMutation.mutate(formData)} disabled={createMutation.isPending} className="h-8 px-4 bg-primary rounded text-xs font-semibold text-white hover:bg-primary transition-colors tracking-wide">{createMutation.isPending ? 'SAVING...' : (part ? 'Save Changes' : 'Create Part')}</button>
                </div>
             </div>
 
@@ -145,26 +145,26 @@ export const CreatePartModal = ({ isOpen, onClose, part }: CreatePartModalProps)
                     <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); createMutation.mutate(formData); }}>
                         
                         {/* Part Details Card (Always Expanded) */}
-                        <div className="bg-white rounded-xl shadow-[0_2px_8px_-4px_rgba(0,0,0,0.05)] border border-slate-200 p-6 space-y-6">
-                            <h3 className="text-sm font-bold text-slate-900">Part Details</h3>
+                        <div className="bg-card rounded-xl shadow-[0_2px_8px_-4px_rgba(0,0,0,0.05)] border border-border p-6 space-y-6">
+                            <h3 className="text-sm font-bold text-foreground">Part Details</h3>
                             
                             <div className="grid grid-cols-2 gap-x-6 gap-y-5">
                                 <div className="space-y-1.5">
                                     <label className="text-[11px] font-bold text-slate-600">Part Name <span className="text-red-500">*</span></label>
-                                    <input required type="text" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} className="w-full h-9 px-3 border border-slate-300 rounded text-xs text-slate-900 focus:outline-none focus:border-blue-500" />
+                                    <input required type="text" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} className="w-full h-9 px-3 border border-slate-300 rounded text-xs text-foreground focus:outline-none focus:border-primary/80" />
                                 </div>
                                 <div className="space-y-1.5">
                                     <label className="text-[11px] font-bold text-slate-600">Part Number <span className="text-red-500">*</span></label>
-                                    <input required type="text" value={formData.partNumber} onChange={(e) => setFormData({...formData, partNumber: e.target.value})} className="w-full h-9 px-3 border border-slate-300 rounded text-xs text-slate-900 focus:outline-none focus:border-blue-500" />
+                                    <input required type="text" value={formData.partNumber} onChange={(e) => setFormData({...formData, partNumber: e.target.value})} className="w-full h-9 px-3 border border-slate-300 rounded text-xs text-foreground focus:outline-none focus:border-primary/80" />
                                 </div>
                                 <div className="space-y-1.5">
                                     <label className="text-[11px] font-bold text-slate-600">Category</label>
-                                    <input type="text" value={formData.category} onChange={(e) => setFormData({...formData, category: e.target.value})} className="w-full h-9 px-3 border border-slate-300 rounded text-xs text-slate-900 focus:outline-none focus:border-blue-500" />
+                                    <input type="text" value={formData.category} onChange={(e) => setFormData({...formData, category: e.target.value})} className="w-full h-9 px-3 border border-slate-300 rounded text-xs text-foreground focus:outline-none focus:border-primary/80" />
                                 </div>
                                 <div className="space-y-1.5">
                                     <label className="text-[11px] font-bold text-slate-600">Tags</label>
                                     <div className="relative">
-                                        <select value={formData.tags} onChange={(e) => setFormData({...formData, tags: e.target.value})} className="w-full h-9 px-3 border border-slate-300 rounded text-xs text-slate-900 focus:outline-none focus:border-blue-500 appearance-none bg-white cursor-pointer">
+                                        <select value={formData.tags} onChange={(e) => setFormData({...formData, tags: e.target.value})} className="w-full h-9 px-3 border border-slate-300 rounded text-xs text-foreground focus:outline-none focus:border-primary/80 appearance-none bg-card cursor-pointer">
                                             <option value="">Select Categories</option>
                                         </select>
                                         <ChevronDown className="w-4 h-4 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
@@ -172,51 +172,51 @@ export const CreatePartModal = ({ isOpen, onClose, part }: CreatePartModalProps)
                                 </div>
                                 <div className="space-y-1.5 col-span-2">
                                     <label className="text-[11px] font-bold text-slate-600">Description</label>
-                                    <textarea rows={3} value={formData.description} onChange={(e) => setFormData({...formData, description: e.target.value})} className="w-full p-3 border border-slate-300 rounded text-xs text-slate-900 focus:outline-none focus:border-blue-500 resize-none" />
+                                    <textarea rows={3} value={formData.description} onChange={(e) => setFormData({...formData, description: e.target.value})} className="w-full p-3 border border-slate-300 rounded text-xs text-foreground focus:outline-none focus:border-primary/80 resize-none" />
                                 </div>
                                 
                                 <div className="col-span-2 mt-2">
-                                    <div className="w-full h-16 border border-dashed border-slate-300 rounded bg-[#FAFAFA] flex items-center justify-center gap-3">
-                                        <button type="button" className="h-7 px-3 bg-white border border-slate-200 rounded text-[11px] font-semibold text-slate-700 shadow-sm hover:bg-slate-50">Upload</button>
+                                    <div className="w-full h-16 border border-dashed border-slate-300 rounded bg-background flex items-center justify-center gap-3">
+                                        <button type="button" className="h-7 px-3 bg-card border border-border rounded text-[11px] font-semibold text-foreground/90 shadow-sm hover:bg-muted/50">Upload</button>
                                         <span className="text-[11px] text-slate-400 font-medium">or Drop Image</span>
                                     </div>
                                 </div>
                                 
                                 <div className="col-span-2">
-                                    <button type="button" className="text-[12px] font-semibold text-[#3B82F6] hover:underline">Add from Saved Files</button>
+                                    <button type="button" className="text-[12px] font-semibold text-primary hover:underline">Add from Saved Files</button>
                                 </div>
 
                                 <div className="col-span-2 space-y-4 mt-6">
                                     <label className="flex items-start gap-4 cursor-pointer group">
-                                        <div className={cn("mt-0 w-8 h-4.5 rounded-full relative transition-colors duration-200 ease-in-out shrink-0", formData.isNonStock ? "bg-blue-500" : "bg-slate-300")}>
-                                            <div className={cn("w-3.5 h-3.5 bg-white rounded-full absolute top-0.5 transition-transform duration-200 shadow-sm", formData.isNonStock ? "translate-x-[14px]" : "translate-x-0.5")} />
+                                        <div className={cn("mt-0 w-8 h-4.5 rounded-full relative transition-colors duration-200 ease-in-out shrink-0", formData.isNonStock ? "bg-primary" : "bg-slate-300")}>
+                                            <div className={cn("w-3.5 h-3.5 bg-card rounded-full absolute top-0.5 transition-transform duration-200 shadow-sm", formData.isNonStock ? "translate-x-[14px]" : "translate-x-0.5")} />
                                         </div>
                                         <div>
                                             <p className="text-[12px] font-bold text-slate-800 leading-tight">This is a non-stock part</p>
-                                            <p className="text-[11px] text-slate-500 mt-0.5 leading-snug">Non-stock parts are not regularly kept in inventory and are often purchased on-demand. These parts won't trigger low or out-of-stock alerts.</p>
+                                            <p className="text-[11px] text-muted-foreground mt-0.5 leading-snug">Non-stock parts are not regularly kept in inventory and are often purchased on-demand. These parts won't trigger low or out-of-stock alerts.</p>
                                         </div>
                                         <input type="checkbox" className="hidden" checked={formData.isNonStock} onChange={() => setFormData({...formData, isNonStock: !formData.isNonStock})} />
                                     </label>
                                     
                                     <label className="flex items-start gap-4 cursor-pointer group">
-                                        <div className={cn("mt-0 w-8 h-4.5 rounded-full relative transition-colors duration-200 ease-in-out shrink-0", formData.isCritical ? "bg-blue-500" : "bg-slate-300")}>
-                                            <div className={cn("w-3.5 h-3.5 bg-white rounded-full absolute top-0.5 transition-transform duration-200 shadow-sm", formData.isCritical ? "translate-x-[14px]" : "translate-x-0.5")} />
+                                        <div className={cn("mt-0 w-8 h-4.5 rounded-full relative transition-colors duration-200 ease-in-out shrink-0", formData.isCritical ? "bg-primary" : "bg-slate-300")}>
+                                            <div className={cn("w-3.5 h-3.5 bg-card rounded-full absolute top-0.5 transition-transform duration-200 shadow-sm", formData.isCritical ? "translate-x-[14px]" : "translate-x-0.5")} />
                                         </div>
                                         <div>
                                             <p className="text-[12px] font-bold text-slate-800 leading-tight">This is a critical part</p>
-                                            <p className="text-[11px] text-slate-500 mt-0.5 leading-snug">Critical parts are essential for operations and require immediate attention when low or out-of-stock to prevent downtime or disruptions.</p>
+                                            <p className="text-[11px] text-muted-foreground mt-0.5 leading-snug">Critical parts are essential for operations and require immediate attention when low or out-of-stock to prevent downtime or disruptions.</p>
                                         </div>
                                         <input type="checkbox" className="hidden" checked={formData.isCritical} onChange={() => setFormData({...formData, isCritical: !formData.isCritical})} />
                                     </label>
 
                                     {(isAdmin || isOwner) && (
                                         <label className="flex items-start gap-4 cursor-pointer group">
-                                            <div className={cn("mt-0 w-8 h-4.5 rounded-full relative transition-colors duration-200 ease-in-out shrink-0", formData.autoReorderEnabled ? "bg-indigo-600" : "bg-slate-300")}>
-                                                <div className={cn("w-3.5 h-3.5 bg-white rounded-full absolute top-0.5 transition-transform duration-200 shadow-sm", formData.autoReorderEnabled ? "translate-x-[14px]" : "translate-x-0.5")} />
+                                            <div className={cn("mt-0 w-8 h-4.5 rounded-full relative transition-colors duration-200 ease-in-out shrink-0", formData.autoReorderEnabled ? "bg-primary" : "bg-slate-300")}>
+                                                <div className={cn("w-3.5 h-3.5 bg-card rounded-full absolute top-0.5 transition-transform duration-200 shadow-sm", formData.autoReorderEnabled ? "translate-x-[14px]" : "translate-x-0.5")} />
                                             </div>
                                             <div>
                                                 <p className="text-[12px] font-bold text-slate-800 leading-tight">Enable Automatic Purchase Orders</p>
-                                                <p className="text-[11px] text-slate-500 mt-0.5 leading-snug">If enabled, a Purchase Order will automatically be generated overnight when this part's stock drops below its minimum quantity.</p>
+                                                <p className="text-[11px] text-muted-foreground mt-0.5 leading-snug">If enabled, a Purchase Order will automatically be generated overnight when this part's stock drops below its minimum quantity.</p>
                                             </div>
                                             <input type="checkbox" className="hidden" checked={formData.autoReorderEnabled} onChange={() => setFormData({...formData, autoReorderEnabled: !formData.autoReorderEnabled})} />
                                         </label>
@@ -226,27 +226,27 @@ export const CreatePartModal = ({ isOpen, onClose, part }: CreatePartModalProps)
                         </div>
 
                         {/* Inventory Lines Card */}
-                        <div className="bg-white rounded-xl shadow-[0_2px_8px_-4px_rgba(0,0,0,0.05)] border border-slate-200 overflow-hidden">
+                        <div className="bg-card rounded-xl shadow-[0_2px_8px_-4px_rgba(0,0,0,0.05)] border border-border overflow-hidden">
                             <div 
-                                className="flex items-center justify-between p-6 cursor-pointer hover:bg-slate-50 transition-colors"
+                                className="flex items-center justify-between p-6 cursor-pointer hover:bg-muted/50 transition-colors"
                                 onClick={() => toggleSection('Inventory Lines')}
                             >
                                 <div className="flex items-center gap-2">
-                                    <h3 className="text-sm font-bold text-slate-900">Inventory Lines</h3>
+                                    <h3 className="text-sm font-bold text-foreground">Inventory Lines</h3>
                                     <Info className="w-3.5 h-3.5 text-slate-400" />
                                 </div>
                                 <div className="flex items-center gap-4">
-                                    <span className="text-[11px] font-semibold text-[#3B82F6] hover:underline flex items-center gap-1">Show Inventory Settings <ChevronDown className="w-3 h-3 -rotate-90"/></span>
+                                    <span className="text-[11px] font-semibold text-primary hover:underline flex items-center gap-1">Show Inventory Settings <ChevronDown className="w-3 h-3 -rotate-90"/></span>
                                     <ChevronDown className={cn("w-4 h-4 text-slate-400 transition-transform", expandedSections.includes('Inventory Lines') ? "rotate-180" : "")} />
                                 </div>
                             </div>
                             
                             {expandedSections.includes('Inventory Lines') && (
                                 <div className="px-6 pb-6 pt-2">
-                                    <div className="border border-slate-200 rounded overflow-x-auto">
-                                        <table className="w-full text-left bg-white">
+                                    <div className="border border-border rounded overflow-x-auto">
+                                        <table className="w-full text-left bg-card">
                                             <thead>
-                                                <tr className="border-b border-slate-200 bg-[#FAFAFA]">
+                                                <tr className="border-b border-border bg-background">
                                                     <th className="py-3 px-4 text-[10px] font-bold text-slate-600">Location</th>
                                                     <th className="py-3 px-4 text-[10px] font-bold text-slate-600">Area</th>
                                                     <th className="py-3 px-4 text-[10px] font-bold text-slate-600 text-center">Min QTY</th>
@@ -259,10 +259,10 @@ export const CreatePartModal = ({ isOpen, onClose, part }: CreatePartModalProps)
                                             </thead>
                                             <tbody>
                                                 {formData.inventoryLines.map((line: any, idx: number) => (
-                                                    <tr key={idx} className="border-b border-slate-100 last:border-0 hover:bg-slate-50 transition-colors">
+                                                    <tr key={idx} className="border-b border-slate-100 last:border-0 hover:bg-muted/50 transition-colors">
                                                         <td className="p-3">
                                                             <div className="relative">
-                                                                <select value={line.locationId} onChange={(e) => updateInventoryLine(idx, 'locationId', e.target.value)} className="w-full h-8 px-2 border border-slate-200 rounded text-[11px] text-slate-900 focus:outline-none focus:border-blue-500 appearance-none bg-white font-medium cursor-pointer">
+                                                                <select value={line.locationId} onChange={(e) => updateInventoryLine(idx, 'locationId', e.target.value)} className="w-full h-8 px-2 border border-border rounded text-[11px] text-foreground focus:outline-none focus:border-primary/80 appearance-none bg-card font-medium cursor-pointer">
                                                                     <option value="">Select...</option>
                                                                     {locations?.map(loc => (
                                                                         <option key={loc.id} value={loc.id}>{loc.name}</option>
@@ -272,22 +272,22 @@ export const CreatePartModal = ({ isOpen, onClose, part }: CreatePartModalProps)
                                                             </div>
                                                         </td>
                                                         <td className="p-3">
-                                                            <input type="text" value={line.area} onChange={(e) => updateInventoryLine(idx, 'area', e.target.value)} className="w-20 h-8 px-2 border border-slate-200 rounded text-[11px] focus:outline-none focus:border-blue-500 bg-white" />
+                                                            <input type="text" value={line.area} onChange={(e) => updateInventoryLine(idx, 'area', e.target.value)} className="w-20 h-8 px-2 border border-border rounded text-[11px] focus:outline-none focus:border-primary/80 bg-card" />
                                                         </td>
                                                         <td className="p-3 text-center">
-                                                            <input type="number" value={line.minQty} onChange={(e) => updateInventoryLine(idx, 'minQty', Number(e.target.value))} className="w-14 h-8 px-2 text-center border border-slate-200 rounded text-[11px] focus:outline-none focus:border-blue-500 bg-white" />
+                                                            <input type="number" value={line.minQty} onChange={(e) => updateInventoryLine(idx, 'minQty', Number(e.target.value))} className="w-14 h-8 px-2 text-center border border-border rounded text-[11px] focus:outline-none focus:border-primary/80 bg-card" />
                                                         </td>
                                                         <td className="p-3 text-center">
-                                                            <input type="number" value={line.maxQty} onChange={(e) => updateInventoryLine(idx, 'maxQty', Number(e.target.value))} className="w-14 h-8 px-2 text-center border border-slate-200 rounded text-[11px] focus:outline-none focus:border-blue-500 bg-white" />
+                                                            <input type="number" value={line.maxQty} onChange={(e) => updateInventoryLine(idx, 'maxQty', Number(e.target.value))} className="w-14 h-8 px-2 text-center border border-border rounded text-[11px] focus:outline-none focus:border-primary/80 bg-card" />
                                                         </td>
                                                         <td className="p-3 text-center">
-                                                            <input type="number" value={line.quantity} onChange={(e) => updateInventoryLine(idx, 'quantity', Number(e.target.value))} className="w-14 h-8 px-2 text-center border border-slate-200 rounded text-[11px] focus:outline-none focus:border-blue-500 bg-white text-[#3B82F6] font-bold" />
+                                                            <input type="number" value={line.quantity} onChange={(e) => updateInventoryLine(idx, 'quantity', Number(e.target.value))} className="w-14 h-8 px-2 text-center border border-border rounded text-[11px] focus:outline-none focus:border-primary/80 bg-card text-primary font-bold" />
                                                         </td>
                                                         <td className="p-3 text-center">
-                                                            <input type="number" value={line.cost} onChange={(e) => updateInventoryLine(idx, 'cost', Number(e.target.value))} className="w-16 h-8 px-2 text-center border border-slate-200 rounded text-[11px] focus:outline-none focus:border-blue-500 bg-white" />
+                                                            <input type="number" value={line.cost} onChange={(e) => updateInventoryLine(idx, 'cost', Number(e.target.value))} className="w-16 h-8 px-2 text-center border border-border rounded text-[11px] focus:outline-none focus:border-primary/80 bg-card" />
                                                         </td>
                                                         <td className="p-3">
-                                                            <input type="text" value={line.barcode} onChange={(e) => updateInventoryLine(idx, 'barcode', e.target.value)} className="w-24 h-8 px-2 border border-slate-200 rounded text-[11px] focus:outline-none focus:border-blue-500 bg-white" />
+                                                            <input type="text" value={line.barcode} onChange={(e) => updateInventoryLine(idx, 'barcode', e.target.value)} className="w-24 h-8 px-2 border border-border rounded text-[11px] focus:outline-none focus:border-primary/80 bg-card" />
                                                         </td>
                                                         <td className="p-3 pr-4 text-right">
                                                             <button type="button" className="text-red-400 hover:text-red-600 transition-colors">
@@ -299,7 +299,7 @@ export const CreatePartModal = ({ isOpen, onClose, part }: CreatePartModalProps)
                                             </tbody>
                                         </table>
                                     </div>
-                                    <button type="button" onClick={addInventoryLine} className="mt-4 h-7 px-3 border border-slate-300 rounded text-[11px] font-semibold text-slate-700 shadow-sm hover:bg-slate-50 flex items-center gap-1.5 transition-colors">
+                                    <button type="button" onClick={addInventoryLine} className="mt-4 h-7 px-3 border border-slate-300 rounded text-[11px] font-semibold text-foreground/90 shadow-sm hover:bg-muted/50 flex items-center gap-1.5 transition-colors">
                                         <Plus className="w-3 h-3 text-[#E87B35]" />
                                         Add Inventory Line
                                     </button>
@@ -308,12 +308,12 @@ export const CreatePartModal = ({ isOpen, onClose, part }: CreatePartModalProps)
                         </div>
 
                         {/* Vendors & Customers Card */}
-                        <div className="bg-white rounded-xl shadow-[0_2px_8px_-4px_rgba(0,0,0,0.05)] border border-slate-200 overflow-hidden">
+                        <div className="bg-card rounded-xl shadow-[0_2px_8px_-4px_rgba(0,0,0,0.05)] border border-border overflow-hidden">
                             <div 
-                                className="flex items-center justify-between p-6 cursor-pointer hover:bg-slate-50 transition-colors"
+                                className="flex items-center justify-between p-6 cursor-pointer hover:bg-muted/50 transition-colors"
                                 onClick={() => toggleSection('Vendors and Customers')}
                             >
-                                <h3 className="text-sm font-bold text-slate-900">Vendors and Customers</h3>
+                                <h3 className="text-sm font-bold text-foreground">Vendors and Customers</h3>
                                 <ChevronDown className={cn("w-4 h-4 text-slate-400 transition-transform", expandedSections.includes('Vendors and Customers') ? "rotate-180" : "")} />
                             </div>
                             
@@ -322,7 +322,7 @@ export const CreatePartModal = ({ isOpen, onClose, part }: CreatePartModalProps)
                                     <div className="space-y-1.5">
                                         <label className="text-[11px] font-bold text-slate-600">Vendors</label>
                                         <div className="relative">
-                                            <select value={formData.vendorId} onChange={(e) => setFormData({...formData, vendorId: e.target.value})} className="w-full h-9 px-3 border border-slate-300 rounded text-xs text-slate-900 focus:outline-none focus:border-blue-500 appearance-none bg-white cursor-pointer">
+                                            <select value={formData.vendorId} onChange={(e) => setFormData({...formData, vendorId: e.target.value})} className="w-full h-9 px-3 border border-slate-300 rounded text-xs text-foreground focus:outline-none focus:border-primary/80 appearance-none bg-card cursor-pointer">
                                                 <option value="">Select Vendor</option>
                                                 {vendors?.map(v => <option key={v.id} value={v.id}>{v.name}</option>)}
                                             </select>
@@ -332,7 +332,7 @@ export const CreatePartModal = ({ isOpen, onClose, part }: CreatePartModalProps)
                                     <div className="space-y-1.5">
                                         <label className="text-[11px] font-bold text-slate-600">Customers</label>
                                         <div className="relative">
-                                            <select value={formData.customerId} onChange={(e) => setFormData({...formData, customerId: e.target.value})} className="w-full h-9 px-3 border border-slate-300 rounded text-xs text-slate-900 focus:outline-none focus:border-blue-500 appearance-none bg-white cursor-pointer">
+                                            <select value={formData.customerId} onChange={(e) => setFormData({...formData, customerId: e.target.value})} className="w-full h-9 px-3 border border-slate-300 rounded text-xs text-foreground focus:outline-none focus:border-primary/80 appearance-none bg-card cursor-pointer">
                                                 <option value="">Select Customer</option>
                                                 {customers?.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
                                             </select>
@@ -344,12 +344,12 @@ export const CreatePartModal = ({ isOpen, onClose, part }: CreatePartModalProps)
                         </div>
 
                         {/* People and Teams Card */}
-                        <div className="bg-white rounded-xl shadow-[0_2px_8px_-4px_rgba(0,0,0,0.05)] border border-slate-200 overflow-hidden">
+                        <div className="bg-card rounded-xl shadow-[0_2px_8px_-4px_rgba(0,0,0,0.05)] border border-border overflow-hidden">
                             <div 
-                                className="flex items-center justify-between p-6 cursor-pointer hover:bg-slate-50 transition-colors"
+                                className="flex items-center justify-between p-6 cursor-pointer hover:bg-muted/50 transition-colors"
                                 onClick={() => toggleSection('People and Teams')}
                             >
-                                <h3 className="text-sm font-bold text-slate-900">People and Teams</h3>
+                                <h3 className="text-sm font-bold text-foreground">People and Teams</h3>
                                 <ChevronDown className={cn("w-4 h-4 text-slate-400 transition-transform", expandedSections.includes('People and Teams') ? "rotate-180" : "")} />
                             </div>
                             
@@ -358,7 +358,7 @@ export const CreatePartModal = ({ isOpen, onClose, part }: CreatePartModalProps)
                                     <div className="space-y-1.5">
                                         <label className="text-[11px] font-bold text-slate-600">People</label>
                                         <div className="relative">
-                                            <select value={formData.assignedToId} onChange={(e) => setFormData({...formData, assignedToId: e.target.value})} className="w-full h-9 px-3 border border-slate-300 rounded text-xs text-slate-900 focus:outline-none focus:border-blue-500 appearance-none bg-white cursor-pointer">
+                                            <select value={formData.assignedToId} onChange={(e) => setFormData({...formData, assignedToId: e.target.value})} className="w-full h-9 px-3 border border-slate-300 rounded text-xs text-foreground focus:outline-none focus:border-primary/80 appearance-none bg-card cursor-pointer">
                                                 <option value="">Select Person</option>
                                                 {users?.map(u => <option key={u.id} value={u.userOrgId}>{u.name}</option>)}
                                             </select>
@@ -368,7 +368,7 @@ export const CreatePartModal = ({ isOpen, onClose, part }: CreatePartModalProps)
                                     <div className="space-y-1.5">
                                         <label className="text-[11px] font-bold text-slate-600">Teams</label>
                                         <div className="relative">
-                                            <select value={formData.teamId} onChange={(e) => setFormData({...formData, teamId: e.target.value})} className="w-full h-9 px-3 border border-slate-300 rounded text-xs text-slate-900 focus:outline-none focus:border-blue-500 appearance-none bg-white cursor-pointer">
+                                            <select value={formData.teamId} onChange={(e) => setFormData({...formData, teamId: e.target.value})} className="w-full h-9 px-3 border border-slate-300 rounded text-xs text-foreground focus:outline-none focus:border-primary/80 appearance-none bg-card cursor-pointer">
                                                 <option value="">Select Team</option>
                                                 {teams?.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
                                             </select>
@@ -380,12 +380,12 @@ export const CreatePartModal = ({ isOpen, onClose, part }: CreatePartModalProps)
                         </div>
 
                         {/* Additional Information Card */}
-                        <div className="bg-white rounded-xl shadow-[0_2px_8px_-4px_rgba(0,0,0,0.05)] border border-slate-200 overflow-hidden">
+                        <div className="bg-card rounded-xl shadow-[0_2px_8px_-4px_rgba(0,0,0,0.05)] border border-border overflow-hidden">
                             <div 
-                                className="flex items-center justify-between p-6 cursor-pointer hover:bg-slate-50 transition-colors"
+                                className="flex items-center justify-between p-6 cursor-pointer hover:bg-muted/50 transition-colors"
                                 onClick={() => toggleSection('Additional Information')}
                             >
-                                <h3 className="text-sm font-bold text-slate-900">Additional Information</h3>
+                                <h3 className="text-sm font-bold text-foreground">Additional Information</h3>
                                 <ChevronDown className={cn("w-4 h-4 text-slate-400 transition-transform", expandedSections.includes('Additional Information') ? "rotate-180" : "")} />
                             </div>
                             
@@ -393,7 +393,7 @@ export const CreatePartModal = ({ isOpen, onClose, part }: CreatePartModalProps)
                                 <div className="px-6 pb-6 pt-2">
                                     <div className="space-y-1.5">
                                         <label className="text-[11px] font-bold text-slate-600">Notes</label>
-                                        <textarea rows={4} value={formData.notes} onChange={(e) => setFormData({...formData, notes: e.target.value})} className="w-full p-3 border border-slate-300 rounded text-xs text-slate-900 focus:outline-none focus:border-blue-500 resize-none placeholder:text-slate-300" placeholder="Enter technical notes..."/>
+                                        <textarea rows={4} value={formData.notes} onChange={(e) => setFormData({...formData, notes: e.target.value})} className="w-full p-3 border border-slate-300 rounded text-xs text-foreground focus:outline-none focus:border-primary/80 resize-none placeholder:text-slate-300" placeholder="Enter technical notes..."/>
                                     </div>
                                 </div>
                             )}

@@ -40,7 +40,7 @@ export const JsonDiffViewer = ({ oldData, newData, compact = false }: JsonDiffVi
     return (
         <div className="w-full space-y-2">
             {!compact && (
-                <div className="grid grid-cols-12 gap-4 pb-2 border-b border-slate-200 px-4">
+                <div className="grid grid-cols-12 gap-4 pb-2 border-b border-border px-4">
                     <div className="col-span-4 text-[10px] font-black text-slate-400 uppercase tracking-widest italic">Property</div>
                     <div className="col-span-8 text-[10px] font-black text-slate-400 uppercase tracking-widest italic">Change Log</div>
                 </div>

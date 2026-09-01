@@ -190,7 +190,7 @@ export const MetersPage = () => {
         return (
             <div key={loc.id}>
                 <div 
-                    className="flex items-center gap-2 py-2 px-4 hover:bg-gray-50 transition-colors group cursor-pointer"
+                    className="flex items-center gap-2 py-2 px-4 hover:bg-muted/50 transition-colors group cursor-pointer"
                     style={{ paddingLeft: `${depth * 24 + 16}px` }}
                     onClick={() => {
                         if (isSelected) {
@@ -208,10 +208,10 @@ export const MetersPage = () => {
                             type="checkbox" 
                             checked={isSelected}
                             readOnly
-                            className="w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
+                            className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer"
                         />
                     </div>
-                    <span className="text-[15px] text-gray-700 font-medium flex-1">{loc.name}</span>
+                    <span className="text-[15px] text-foreground/90 font-medium flex-1">{loc.name}</span>
                     {loc._count?.children > 0 && (
                         <span className="text-[13px] text-gray-400">{loc._count.children} sub-location{loc._count.children > 1 ? 's' : ''}</span>
                     )}
@@ -229,26 +229,26 @@ export const MetersPage = () => {
                         initial={{ opacity: 0, scale: 0.95, y: 20 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                        className="bg-white rounded-xl shadow-2xl w-full max-w-[800px] max-h-[90vh] flex flex-col overflow-hidden"
+                        className="bg-card rounded-xl shadow-2xl w-full max-w-[800px] max-h-[90vh] flex flex-col overflow-hidden"
                     >
                         {/* Header */}
-                        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 bg-white">
+                        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 bg-card">
                             <div className="flex items-center gap-4">
-                                <button onClick={() => setIsCreateModalOpen(false)} className="p-1 hover:bg-gray-100 rounded-md transition-colors">
-                                    <X className="w-5 h-5 text-gray-500" />
+                                <button onClick={() => setIsCreateModalOpen(false)} className="p-1 hover:bg-muted rounded-md transition-colors">
+                                    <X className="w-5 h-5 text-muted-foreground" />
                                 </button>
-                                <h2 className="text-xl font-bold text-gray-900">Create Meter</h2>
+                                <h2 className="text-xl font-bold text-foreground">Create Meter</h2>
                             </div>
                             <div className="flex items-center gap-3">
                                 <button 
                                     onClick={() => setIsCreateModalOpen(false)}
-                                    className="px-6 py-2 bg-white border border-gray-300 rounded-lg text-[15px] font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+                                    className="px-6 py-2 bg-card border border-gray-300 rounded-lg text-[15px] font-medium text-foreground/90 hover:bg-muted/50 transition-colors"
                                 >
                                     Cancel
                                 </button>
                                 <button 
                                     onClick={handleCreateMeter}
-                                    className="px-6 py-2 bg-blue-600 text-white rounded-lg text-[15px] font-medium hover:bg-blue-700 transition-colors shadow-sm"
+                                    className="px-6 py-2 bg-primary text-white rounded-lg text-[15px] font-medium hover:bg-primary/90 transition-colors shadow-sm"
                                 >
                                     Create Meter
                                 </button>
@@ -259,54 +259,54 @@ export const MetersPage = () => {
                         <div className="flex-1 overflow-auto p-8">
                             <div className="max-w-[500px] mx-auto space-y-8">
                                 <div>
-                                    <h3 className="text-xl font-semibold text-gray-900 mb-6">Details</h3>
+                                    <h3 className="text-xl font-semibold text-foreground mb-6">Details</h3>
                                     
                                     <div className="space-y-5">
                                         {/* Name */}
                                         <div className="space-y-1.5">
-                                            <label className="text-[14px] font-medium text-gray-700">Name <span className="text-red-500">*</span></label>
+                                            <label className="text-[14px] font-medium text-foreground/90">Name <span className="text-red-500">*</span></label>
                                             <input 
                                                 type="text" 
                                                 placeholder="Summarize the problem or issue"
                                                 value={newMeter.name}
                                                 onChange={e => setNewMeter({...newMeter, name: e.target.value})}
-                                                className="w-full h-11 px-4 bg-white border border-gray-300 rounded-md text-[15px] focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+                                                className="w-full h-11 px-4 bg-card border border-gray-300 rounded-md text-[15px] focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/80 transition-all"
                                             />
                                         </div>
 
                                         {/* Unit */}
                                         <div className="space-y-1.5">
-                                            <label className="text-[14px] font-medium text-gray-700">Unit of Measurement <span className="text-red-500">*</span></label>
+                                            <label className="text-[14px] font-medium text-foreground/90">Unit of Measurement <span className="text-red-500">*</span></label>
                                             <input 
                                                 type="text" 
                                                 value={newMeter.unit}
                                                 onChange={e => setNewMeter({...newMeter, unit: e.target.value})}
-                                                className="w-full h-11 px-4 bg-white border border-gray-300 rounded-md text-[15px] focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+                                                className="w-full h-11 px-4 bg-card border border-gray-300 rounded-md text-[15px] focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/80 transition-all"
                                             />
                                         </div>
 
                                         {/* Frequency */}
                                         <div className="space-y-1.5">
-                                            <label className="text-[14px] font-medium text-gray-700">Frequency <span className="text-red-500">*</span></label>
+                                            <label className="text-[14px] font-medium text-foreground/90">Frequency <span className="text-red-500">*</span></label>
                                             <div className="relative">
                                                 <input 
                                                     type="number" 
                                                     value={newMeter.frequency}
                                                     onChange={e => setNewMeter({...newMeter, frequency: parseInt(e.target.value) || 0})}
-                                                    className="w-full h-11 px-4 bg-white border border-gray-300 rounded-md text-[15px] focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all appearance-none"
+                                                    className="w-full h-11 px-4 bg-card border border-gray-300 rounded-md text-[15px] focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/80 transition-all appearance-none"
                                                 />
                                                 <div className="absolute right-2 top-1/2 -translate-y-1/2 flex flex-col gap-0.5">
                                                     <button 
                                                         type="button"
                                                         onClick={() => setNewMeter(prev => ({...prev, frequency: prev.frequency + 1}))}
-                                                        className="p-0.5 hover:bg-gray-100 rounded text-gray-400"
+                                                        className="p-0.5 hover:bg-muted rounded text-gray-400"
                                                     >
                                                         <ChevronDown className="w-3 h-3 rotate-180" />
                                                     </button>
                                                     <button 
                                                         type="button"
                                                         onClick={() => setNewMeter(prev => ({...prev, frequency: Math.max(0, prev.frequency - 1)}))}
-                                                        className="p-0.5 hover:bg-gray-100 rounded text-gray-400"
+                                                        className="p-0.5 hover:bg-muted rounded text-gray-400"
                                                     >
                                                         <ChevronDown className="w-3 h-3" />
                                                     </button>
@@ -316,7 +316,7 @@ export const MetersPage = () => {
 
                                         {/* Image Upload */}
                                         <div className="space-y-1.5">
-                                            <label className="text-[14px] font-medium text-gray-700">Image</label>
+                                            <label className="text-[14px] font-medium text-foreground/90">Image</label>
                                             <input 
                                                 type="file" 
                                                 id="meter-image-upload" 
@@ -328,9 +328,9 @@ export const MetersPage = () => {
                                             />
                                             <label 
                                                 htmlFor="meter-image-upload"
-                                                className="border-2 border-dashed border-gray-200 rounded-lg p-6 flex flex-col items-center justify-center gap-3 hover:border-blue-400 hover:bg-blue-50/30 transition-all cursor-pointer group"
+                                                className="border-2 border-dashed border-border rounded-lg p-6 flex flex-col items-center justify-center gap-3 hover:border-primary/80 hover:bg-blue-50/30 transition-all cursor-pointer group"
                                             >
-                                                <div className="h-10 px-4 bg-white border border-gray-300 rounded-md flex items-center justify-center text-sm font-medium text-gray-700 group-hover:border-blue-300 transition-colors shadow-sm">
+                                                <div className="h-10 px-4 bg-card border border-gray-300 rounded-md flex items-center justify-center text-sm font-medium text-foreground/90 group-hover:border-blue-300 transition-colors shadow-sm">
                                                     Upload
                                                 </div>
                                                 <span className="text-[14px] text-gray-400">or Drop Image</span>
@@ -339,12 +339,12 @@ export const MetersPage = () => {
 
                                         {/* Worker */}
                                         <div className="space-y-1.5 pt-4">
-                                            <label className="text-[14px] font-medium text-gray-700">Worker</label>
+                                            <label className="text-[14px] font-medium text-foreground/90">Worker</label>
                                             <div className="relative">
                                                 <select 
                                                     value={newMeter.assignedToId}
                                                     onChange={e => setNewMeter({...newMeter, assignedToId: e.target.value})}
-                                                    className="w-full h-11 pl-4 pr-10 bg-white border border-gray-300 rounded-md text-[15px] focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all appearance-none"
+                                                    className="w-full h-11 pl-4 pr-10 bg-card border border-gray-300 rounded-md text-[15px] focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/80 transition-all appearance-none"
                                                 >
                                                     <option value="">Select Worker</option>
                                                     {users?.map(u => (
@@ -357,12 +357,12 @@ export const MetersPage = () => {
 
                                         {/* Location */}
                                         <div className="space-y-1.5">
-                                            <label className="text-[14px] font-medium text-gray-700">Location</label>
+                                            <label className="text-[14px] font-medium text-foreground/90">Location</label>
                                             <div className="relative">
                                                 <select 
                                                     value={newMeter.locationId}
                                                     onChange={e => setNewMeter({...newMeter, locationId: e.target.value})}
-                                                    className="w-full h-11 pl-4 pr-10 bg-white border border-gray-300 rounded-md text-[15px] focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all appearance-none"
+                                                    className="w-full h-11 pl-4 pr-10 bg-card border border-gray-300 rounded-md text-[15px] focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/80 transition-all appearance-none"
                                                 >
                                                     <option value="">Select Location</option>
                                                     {locations?.map(l => (
@@ -375,12 +375,12 @@ export const MetersPage = () => {
 
                                         {/* Asset */}
                                         <div className="space-y-1.5">
-                                            <label className="text-[14px] font-medium text-gray-700">Asset <span className="text-red-500">*</span></label>
+                                            <label className="text-[14px] font-medium text-foreground/90">Asset <span className="text-red-500">*</span></label>
                                             <div className="relative">
                                                 <select 
                                                     value={newMeter.assetId}
                                                     onChange={e => setNewMeter({...newMeter, assetId: e.target.value})}
-                                                    className="w-full h-11 pl-4 pr-10 bg-white border border-gray-300 rounded-md text-[15px] focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all appearance-none"
+                                                    className="w-full h-11 pl-4 pr-10 bg-card border border-gray-300 rounded-md text-[15px] focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/80 transition-all appearance-none"
                                                 >
                                                     <option value="">Select Asset</option>
                                                     {assets?.map(a => (
@@ -393,12 +393,12 @@ export const MetersPage = () => {
 
                                         {/* Category */}
                                         <div className="space-y-1.5">
-                                            <label className="text-[14px] font-medium text-gray-700">Category</label>
+                                            <label className="text-[14px] font-medium text-foreground/90">Category</label>
                                             <div className="relative">
                                                 <select 
                                                     value={newMeter.categoryId}
                                                     onChange={e => setNewMeter({...newMeter, categoryId: e.target.value})}
-                                                    className="w-full h-11 pl-4 pr-10 bg-white border border-gray-300 rounded-md text-[15px] focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all appearance-none"
+                                                    className="w-full h-11 pl-4 pr-10 bg-card border border-gray-300 rounded-md text-[15px] focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/80 transition-all appearance-none"
                                                 >
                                                     <option value="">Select Category</option>
                                                     {categories?.map(c => (
@@ -445,27 +445,27 @@ export const MetersPage = () => {
     }
 
     return (
-        <div className="flex flex-col h-full bg-[#FAFAFA] animate-in fade-in duration-700 font-sans">
+        <div className="flex flex-col h-full bg-background animate-in fade-in duration-700 font-sans">
             {/* Header */}
-            <div className="flex items-center justify-between px-6 py-4 bg-white border-b border-gray-200 shrink-0 relative z-40 py-2">
+            <div className="flex items-center justify-between px-6 py-4 bg-card border-b border-border shrink-0 relative z-40 py-2">
                 <div className="flex items-center gap-4">
-                    <div className="p-2 bg-gray-100 rounded-md">
-                        <Gauge className="w-5 h-5 text-gray-500" />
+                    <div className="p-2 bg-muted rounded-md">
+                        <Gauge className="w-5 h-5 text-muted-foreground" />
                     </div>
-                    <h1 className="text-xl font-semibold text-gray-900">Meters</h1>
+                    <h1 className="text-xl font-semibold text-foreground">Meters</h1>
                 </div>
 
                 <div className="flex items-center gap-3 text-sm">
                     <button 
                         onClick={() => setIsCreateModalOpen(true)}
-                        className="h-9 px-4 bg-indigo-600 text-white rounded-md font-medium hover:bg-indigo-700 transition-colors"
+                        className="h-9 px-4 bg-primary text-white rounded-md font-medium hover:bg-primary/90 transition-colors"
                     >
                         Create Meter
                     </button>
                     <div className="relative">
                         <button 
                             onClick={() => setIsMoreMenuOpen(!isMoreMenuOpen)}
-                            className="h-9 w-9 flex items-center justify-center text-gray-600 hover:bg-gray-100 rounded-md transition-colors"
+                            className="h-9 w-9 flex items-center justify-center text-gray-600 hover:bg-muted rounded-md transition-colors"
                         >
                             <MoreHorizontal className="w-5 h-5" />
                         </button>
@@ -478,15 +478,15 @@ export const MetersPage = () => {
                                         initial={{ opacity: 0, y: 10, scale: 0.95 }}
                                         animate={{ opacity: 1, y: 0, scale: 1 }}
                                         exit={{ opacity: 0, y: 5, scale: 0.95 }}
-                                        className="absolute right-0 top-full mt-2 w-72 bg-white rounded-xl shadow-xl border border-gray-100 z-50 p-2 flex flex-col gap-1 origin-top-right text-left"
+                                        className="absolute right-0 top-full mt-2 w-72 bg-card rounded-xl shadow-xl border border-gray-100 z-50 p-2 flex flex-col gap-1 origin-top-right text-left"
                                     >
-                                        <button className="flex items-center gap-4 px-4 py-3 hover:bg-gray-50 rounded-lg transition-colors group">
+                                        <button className="flex items-center gap-4 px-4 py-3 hover:bg-muted/50 rounded-lg transition-colors group">
                                             <Upload className="w-6 h-6 text-gray-400 group-hover:text-gray-600 transition-colors" />
-                                            <span className="text-[17px] font-medium text-gray-700">Import/Export</span>
+                                            <span className="text-[17px] font-medium text-foreground/90">Import/Export</span>
                                         </button>
-                                        <button className="flex items-center gap-4 px-4 py-3 hover:bg-gray-50 rounded-lg transition-colors group leading-tight">
+                                        <button className="flex items-center gap-4 px-4 py-3 hover:bg-muted/50 rounded-lg transition-colors group leading-tight">
                                             <Upload className="w-5 h-5 text-gray-400 group-hover:text-gray-600 transition-colors ml-0.5" />
-                                            <span className="text-[17px] font-medium text-gray-700">Import/Export<br />Meter Triggers</span>
+                                            <span className="text-[17px] font-medium text-foreground/90">Import/Export<br />Meter Triggers</span>
                                         </button>
                                     </motion.div>
                                 </>
@@ -497,14 +497,14 @@ export const MetersPage = () => {
             </div>
 
             {/* Secondary Toolbar */}
-            <div className="flex items-center justify-between px-6 py-3 bg-gray-50 border-b border-gray-200 shrink-0 relative z-30 py-2">
+            <div className="flex items-center justify-between px-6 py-3 bg-muted/50 border-b border-border shrink-0 relative z-30 py-2">
                 <div className="flex items-center gap-2">
                     <button
                         onClick={() => setShowArchived(!showArchived)}
                         className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border text-sm font-medium transition-all ${
                             showArchived 
                                 ? 'bg-amber-50 border-amber-200 text-amber-700 font-semibold shadow-xs' 
-                                : 'bg-white border-gray-200 text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+                                : 'bg-card border-border text-foreground/90 hover:bg-muted/50 hover:text-foreground'
                         }`}
                     >
                         <Archive className="w-4 h-4" />
@@ -515,7 +515,7 @@ export const MetersPage = () => {
                     <div className="relative">
                         <button 
                             onClick={() => setIsSortMenuOpen(!isSortMenuOpen)}
-                            className="flex items-center gap-2 text-sm text-gray-700 font-medium hover:text-gray-900 transition-colors"
+                            className="flex items-center gap-2 text-sm text-foreground/90 font-medium hover:text-foreground transition-colors"
                         >
                             <GripVertical className="w-4 h-4 transform rotate-90" />
                             Sort: {sortBy === 'name' ? 'Meter Name' : 'Date Created'}
@@ -529,45 +529,45 @@ export const MetersPage = () => {
                                         initial={{ opacity: 0, y: 10, scale: 0.95 }}
                                         animate={{ opacity: 1, y: 0, scale: 1 }}
                                         exit={{ opacity: 0, y: 5, scale: 0.95 }}
-                                        className="absolute right-0 top-full mt-2 w-56 bg-white rounded-xl shadow-xl border border-gray-100 z-50 overflow-hidden origin-top-right"
+                                        className="absolute right-0 top-full mt-2 w-56 bg-card rounded-xl shadow-xl border border-gray-100 z-50 overflow-hidden origin-top-right"
                                     >
-                                        <div className="p-4 border-b border-gray-50 bg-[#FAFAFA]/50">
-                                            <h3 className="text-xs font-bold text-gray-900 uppercase tracking-widest">Sort By</h3>
+                                        <div className="p-4 border-b border-gray-50 bg-background/50">
+                                            <h3 className="text-xs font-bold text-foreground uppercase tracking-widest">Sort By</h3>
                                         </div>
                                         <div className="p-1.5">
                                             <button 
                                                 onClick={() => { setSortBy('name'); setIsSortMenuOpen(false); }}
-                                                className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-gray-50 rounded-lg transition-colors group"
+                                                className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-muted/50 rounded-lg transition-colors group"
                                             >
-                                                <span className={`text-[15px] ${sortBy === 'name' ? 'text-indigo-600 font-semibold' : 'text-gray-700 font-medium'}`}>Meter Name</span>
-                                                {sortBy === 'name' && <Check className="w-4 h-4 text-indigo-600" />}
+                                                <span className={`text-[15px] ${sortBy === 'name' ? 'text-primary font-semibold' : 'text-foreground/90 font-medium'}`}>Meter Name</span>
+                                                {sortBy === 'name' && <Check className="w-4 h-4 text-primary" />}
                                             </button>
                                             <button 
                                                 onClick={() => { setSortBy('createdAt'); setIsSortMenuOpen(false); }}
-                                                className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-gray-50 rounded-lg transition-colors group"
+                                                className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-muted/50 rounded-lg transition-colors group"
                                             >
-                                                <span className={`text-[15px] ${sortBy === 'createdAt' ? 'text-indigo-600 font-semibold' : 'text-gray-700 font-medium'}`}>Date Created</span>
-                                                {sortBy === 'createdAt' && <Check className="w-4 h-4 text-indigo-600" />}
+                                                <span className={`text-[15px] ${sortBy === 'createdAt' ? 'text-primary font-semibold' : 'text-foreground/90 font-medium'}`}>Date Created</span>
+                                                {sortBy === 'createdAt' && <Check className="w-4 h-4 text-primary" />}
                                             </button>
                                         </div>
 
-                                        <div className="p-4 border-t border-b border-gray-50 bg-[#FAFAFA]/50">
-                                            <h3 className="text-xs font-bold text-gray-900 uppercase tracking-widest">Order</h3>
+                                        <div className="p-4 border-t border-b border-gray-50 bg-background/50">
+                                            <h3 className="text-xs font-bold text-foreground uppercase tracking-widest">Order</h3>
                                         </div>
                                         <div className="p-1.5">
                                             <button 
                                                 onClick={() => { setSortOrder('desc'); setIsSortMenuOpen(false); }}
-                                                className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-gray-50 rounded-lg transition-colors group"
+                                                className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-muted/50 rounded-lg transition-colors group"
                                             >
-                                                <span className={`text-[15px] ${sortOrder === 'desc' ? 'text-indigo-600 font-semibold' : 'text-gray-700 font-medium'}`}>Descending</span>
-                                                {sortOrder === 'desc' && <Check className="w-4 h-4 text-indigo-600" />}
+                                                <span className={`text-[15px] ${sortOrder === 'desc' ? 'text-primary font-semibold' : 'text-foreground/90 font-medium'}`}>Descending</span>
+                                                {sortOrder === 'desc' && <Check className="w-4 h-4 text-primary" />}
                                             </button>
                                             <button 
                                                 onClick={() => { setSortOrder('asc'); setIsSortMenuOpen(false); }}
-                                                className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-gray-50 rounded-lg transition-colors group"
+                                                className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-muted/50 rounded-lg transition-colors group"
                                             >
-                                                <span className={`text-[15px] ${sortOrder === 'asc' ? 'text-indigo-600 font-semibold' : 'text-gray-700 font-medium'}`}>Ascending</span>
-                                                {sortOrder === 'asc' && <Check className="w-4 h-4 text-indigo-600" />}
+                                                <span className={`text-[15px] ${sortOrder === 'asc' ? 'text-primary font-semibold' : 'text-foreground/90 font-medium'}`}>Ascending</span>
+                                                {sortOrder === 'asc' && <Check className="w-4 h-4 text-primary" />}
                                             </button>
                                         </div>
                                     </motion.div>
@@ -579,7 +579,7 @@ export const MetersPage = () => {
                     <div className="relative">
                         <button 
                             onClick={() => setIsColumnsMenuOpen(!isColumnsMenuOpen)}
-                            className={`flex items-center gap-2 text-sm font-medium transition-colors ${isColumnsMenuOpen ? 'text-indigo-600' : 'text-gray-700 hover:text-gray-900'}`}
+                            className={`flex items-center gap-2 text-sm font-medium transition-colors ${isColumnsMenuOpen ? 'text-primary' : 'text-foreground/90 hover:text-foreground'}`}
                         >
                             <BarChart3 className="w-4 h-4 transform rotate-90" />
                             Columns
@@ -593,11 +593,11 @@ export const MetersPage = () => {
                                         initial={{ opacity: 0, y: 10, scale: 0.95 }}
                                         animate={{ opacity: 1, y: 0, scale: 1 }}
                                         exit={{ opacity: 0, y: 5, scale: 0.95 }}
-                                        className="absolute right-0 top-full mt-2 w-64 bg-white rounded-xl shadow-xl border border-gray-100 z-50 p-3 flex flex-col gap-1 origin-top-right"
+                                        className="absolute right-0 top-full mt-2 w-64 bg-card rounded-xl shadow-xl border border-gray-100 z-50 p-3 flex flex-col gap-1 origin-top-right"
                                     >
                                         <label className="flex items-center gap-3 px-3 py-2 rounded-lg cursor-not-allowed opacity-50">
                                             <GripVertical className="w-4 h-4 text-gray-400" />
-                                            <input type="checkbox" checked disabled className="w-4 h-4 rounded text-indigo-600 border-gray-300 pointer-events-none" />
+                                            <input type="checkbox" checked disabled className="w-4 h-4 rounded text-primary border-gray-300 pointer-events-none" />
                                             <span className="text-sm font-medium text-gray-400">Meter Name</span>
                                         </label>
                                         
@@ -612,7 +612,7 @@ export const MetersPage = () => {
                                             { key: 'automated', label: 'Automated' },
                                             { key: 'dateCreated', label: 'Date Created' }
                                         ].map(({ key, label }) => (
-                                            <label key={key} className="flex items-center gap-3 px-3 py-2 hover:bg-gray-50 rounded-lg cursor-pointer transition-colors group">
+                                            <label key={key} className="flex items-center gap-3 px-3 py-2 hover:bg-muted/50 rounded-lg cursor-pointer transition-colors group">
                                                 <GripVertical className="w-4 h-4 text-gray-300 group-hover:text-gray-400" />
                                                 <div className="relative flex items-center">
                                                     <input 
@@ -621,11 +621,11 @@ export const MetersPage = () => {
                                                         onChange={() => toggleColumn(key as keyof typeof visibleColumns)}
                                                         className="peer sr-only" 
                                                     />
-                                                    <div className="w-4 h-4 border-2 border-gray-300 rounded peer-checked:bg-indigo-600 peer-checked:border-indigo-600 transition-all flex items-center justify-center">
+                                                    <div className="w-4 h-4 border-2 border-gray-300 rounded peer-checked:bg-primary peer-checked:border-primary transition-all flex items-center justify-center">
                                                         <Check className={`w-3 h-3 text-white transition-transform duration-200 ${visibleColumns[key as keyof typeof visibleColumns] ? 'scale-100' : 'scale-0'}`} />
                                                     </div>
                                                 </div>
-                                                <span className="text-sm text-gray-700 font-medium select-none">{label}</span>
+                                                <span className="text-sm text-foreground/90 font-medium select-none">{label}</span>
                                             </label>
                                         ))}
                                     </motion.div>
@@ -640,23 +640,23 @@ export const MetersPage = () => {
                             placeholder="Search"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full h-8 pl-9 pr-3 bg-white border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-colors placeholder:text-gray-400"
+                            className="w-full h-8 pl-9 pr-3 bg-card border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/80 transition-colors placeholder:text-gray-400"
                         />
                     </div>
                 </div>
             </div>
 
             {/* Filters Toolbar */}
-            <div className="flex items-center justify-between px-6 py-3 bg-gray-50 border-b border-gray-200 shrink-0 relative overflow-x-auto no-scrollbar py-2">
+            <div className="flex items-center justify-between px-6 py-3 bg-muted/50 border-b border-border shrink-0 relative overflow-x-auto no-scrollbar py-2">
                 <div className="flex flex-wrap items-center gap-3">
                     <button 
                         onClick={() => setIsFiltersModalOpen(true)}
-                        className={`flex items-center gap-2 px-3 py-1.5 bg-white border border-gray-300 rounded-md text-sm font-medium transition-colors ${activeFilters.length > 0 ? 'text-indigo-600 border-indigo-200 bg-indigo-50' : 'text-gray-700 hover:bg-gray-50'}`}
+                        className={`flex items-center gap-2 px-3 py-1.5 bg-card border border-gray-300 rounded-md text-sm font-medium transition-colors ${activeFilters.length > 0 ? 'text-primary border-primary/20 bg-primary/10' : 'text-foreground/90 hover:bg-muted/50'}`}
                     >
                         <Settings2 className="w-4 h-4" />
                         Filters
                         {activeFilters.length > 0 && (
-                            <span className="flex items-center justify-center w-5 h-5 ml-1 bg-indigo-100 text-indigo-700 rounded-full text-xs font-bold">
+                            <span className="flex items-center justify-center w-5 h-5 ml-1 bg-primary/15 text-primary/90 rounded-full text-xs font-bold">
                                 {activeFilters.length}
                             </span>
                         )}
@@ -667,11 +667,11 @@ export const MetersPage = () => {
                     <div className="relative">
                         <button 
                             onClick={() => setIsLocationModalOpen(true)}
-                            className={`flex items-center gap-2 h-[34px] px-3 bg-white border border-gray-300 rounded-md text-sm font-medium transition-colors ${selectedLocationIds.length > 0 ? 'text-indigo-600 bg-indigo-50 border-indigo-200' : 'text-gray-700 hover:bg-gray-50'}`}
+                            className={`flex items-center gap-2 h-[34px] px-3 bg-card border border-gray-300 rounded-md text-sm font-medium transition-colors ${selectedLocationIds.length > 0 ? 'text-primary bg-primary/10 border-primary/20' : 'text-foreground/90 hover:bg-muted/50'}`}
                         >
                             Location
-                            {selectedLocationIds.length > 0 && <span className="ml-1 bg-indigo-100 text-indigo-700 text-[10px] w-4 h-4 rounded-full flex items-center justify-center">{selectedLocationIds.length}</span>}
-                            <ChevronDown className="w-4 h-4 text-gray-500 ml-1" />
+                            {selectedLocationIds.length > 0 && <span className="ml-1 bg-primary/15 text-primary/90 text-[10px] w-4 h-4 rounded-full flex items-center justify-center">{selectedLocationIds.length}</span>}
+                            <ChevronDown className="w-4 h-4 text-muted-foreground ml-1" />
                         </button>
                     </div>
 
@@ -679,20 +679,20 @@ export const MetersPage = () => {
                         <select 
                             value={filterAsset}
                             onChange={(e) => setFilterAsset(e.target.value)}
-                            className={`appearance-none h-[34px] pl-8 pr-8 bg-white border border-gray-300 rounded-md text-sm font-medium transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-indigo-500/20 ${filterAsset !== 'Asset' ? 'text-indigo-600 bg-indigo-50 border-indigo-200' : 'text-gray-700'}`}
+                            className={`appearance-none h-[34px] pl-8 pr-8 bg-card border border-gray-300 rounded-md text-sm font-medium transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/20 ${filterAsset !== 'Asset' ? 'text-primary bg-primary/10 border-primary/20' : 'text-foreground/90'}`}
                         >
                             <option value="Asset">Asset</option>
                             {assets?.map((asset: any) => (
                                 <option key={asset.id} value={asset.id}>{asset.name}</option>
                             ))}
                         </select>
-                        <Settings2 className={`absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none ${filterAsset !== 'Asset' ? 'text-indigo-500' : 'text-gray-500'}`} />
-                        <ChevronDown className={`absolute right-2.5 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none ${filterAsset !== 'Asset' ? 'text-indigo-500' : 'text-gray-500'}`} />
+                        <Settings2 className={`absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none ${filterAsset !== 'Asset' ? 'text-primary/80' : 'text-muted-foreground'}`} />
+                        <ChevronDown className={`absolute right-2.5 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none ${filterAsset !== 'Asset' ? 'text-primary/80' : 'text-muted-foreground'}`} />
                     </div>
 
                     {/* Active Filters Display */}
                     {activeFilters.map((filter, idx) => (
-                        <div key={idx} className="flex items-center gap-2 px-3 py-1.5 bg-indigo-50 border border-indigo-100 rounded-md text-sm text-indigo-700 font-medium">
+                        <div key={idx} className="flex items-center gap-2 px-3 py-1.5 bg-primary/10 border border-primary/10 rounded-md text-sm text-primary/90 font-medium">
                             <span className="opacity-70">{filter.type}:</span>
                             <span>{filter.value}</span>
                             <button 
@@ -706,12 +706,12 @@ export const MetersPage = () => {
 
                     <button 
                         onClick={handleResetFilters}
-                        className="text-[15px] font-medium text-[#4F46E5] hover:text-indigo-800 transition-colors px-4 py-1.5"
+                        className="text-[15px] font-medium text-primary hover:text-indigo-800 transition-colors px-4 py-1.5"
                     >
                         Reset Filters
                     </button>
                 </div>
-                <button className="text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors">
+                <button className="text-sm font-medium text-foreground/90 hover:text-foreground transition-colors">
                     Save View
                 </button>
             </div>
@@ -721,15 +721,15 @@ export const MetersPage = () => {
                 {isFiltersModalOpen && (
                     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
                         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-gray-900/40 backdrop-blur-sm" onClick={() => setIsFiltersModalOpen(false)} />
-                        <motion.div initial={{ opacity: 0, scale: 0.95, y: 10 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 10 }} className="relative w-full max-w-[600px] bg-white rounded-xl shadow-2xl flex flex-col overflow-visible" onClick={(e) => e.stopPropagation()}>
-                            <div className="flex items-center justify-between px-6 py-5 border-b border-gray-200">
-                                <h2 className="text-[22px] font-semibold text-gray-900">Filters</h2>
+                        <motion.div initial={{ opacity: 0, scale: 0.95, y: 10 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 10 }} className="relative w-full max-w-[600px] bg-card rounded-xl shadow-2xl flex flex-col overflow-visible" onClick={(e) => e.stopPropagation()}>
+                            <div className="flex items-center justify-between px-6 py-5 border-b border-border">
+                                <h2 className="text-[22px] font-semibold text-foreground">Filters</h2>
                                 <button onClick={() => setIsFiltersModalOpen(false)} className="text-gray-400 hover:text-gray-600"><X className="w-5 h-5" /></button>
                             </div>
                             <div className="flex-1 p-6 min-h-[160px] flex flex-col">
                                 {activeFilters.length === 0 ? (
-                                    <div className="flex flex-col items-center justify-center flex-1 py-8 text-center text-gray-500">
-                                        <h3 className="text-base font-semibold text-gray-900 mb-1">No filters added yet.</h3>
+                                    <div className="flex flex-col items-center justify-center flex-1 py-8 text-center text-muted-foreground">
+                                        <h3 className="text-base font-semibold text-foreground mb-1">No filters added yet.</h3>
                                         <p className="text-[15px]">When you add filters, they'll appear here.</p>
                                     </div>
                                 ) : (
@@ -737,12 +737,12 @@ export const MetersPage = () => {
                                         {activeFilters.map((filter, index) => (
                                             <div key={index} className="flex items-center gap-3">
                                                 <div className="flex-1 flex gap-2">
-                                                    <div className="h-10 px-3 bg-gray-50 border border-gray-200 rounded-md flex items-center text-sm font-medium text-gray-700 min-w-[140px]">{filter.type}</div>
+                                                    <div className="h-10 px-3 bg-muted/50 border border-border rounded-md flex items-center text-sm font-medium text-foreground/90 min-w-[140px]">{filter.type}</div>
                                                     <input type="text" value={filter.value} onChange={(e) => {
                                                         const newFilters = [...activeFilters];
                                                         newFilters[index].value = e.target.value;
                                                         setActiveFilters(newFilters);
-                                                    }} placeholder="Enter filter value..." className="flex-1 h-10 px-3 bg-white border border-gray-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20" />
+                                                    }} placeholder="Enter filter value..." className="flex-1 h-10 px-3 bg-card border border-border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary/20" />
                                                 </div>
                                                 <button onClick={() => setActiveFilters(prev => prev.filter((_, i) => i !== index))} className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-md transition-colors"><X className="w-4 h-4" /></button>
                                             </div>
@@ -750,20 +750,20 @@ export const MetersPage = () => {
                                     </div>
                                 )}
                             </div>
-                            <div className="flex items-center justify-between px-6 py-4 border-t border-gray-200 bg-white rounded-b-xl">
+                            <div className="flex items-center justify-between px-6 py-4 border-t border-border bg-card rounded-b-xl">
                                 <div className="relative">
-                                    <button onClick={() => setIsAddFilterMenuOpen(!isAddFilterMenuOpen)} className="h-[40px] px-4 flex items-center gap-2 bg-[#F3F4F6] hover:bg-gray-200 rounded-md text-[15px] font-medium transition-colors">
-                                        <PlusIcon className="w-[18px] h-[18px] text-[#4F46E5]" />
-                                        <span className="text-[#4F46E5]">Add Filter</span>
-                                        <ChevronDown className="w-4 h-4 text-[#4F46E5] ml-1 opacity-80" />
+                                    <button onClick={() => setIsAddFilterMenuOpen(!isAddFilterMenuOpen)} className="h-[40px] px-4 flex items-center gap-2 bg-muted hover:bg-gray-200 rounded-md text-[15px] font-medium transition-colors">
+                                        <PlusIcon className="w-[18px] h-[18px] text-primary" />
+                                        <span className="text-primary">Add Filter</span>
+                                        <ChevronDown className="w-4 h-4 text-primary ml-1 opacity-80" />
                                     </button>
                                     <AnimatePresence>
                                         {isAddFilterMenuOpen && (
                                             <>
                                                 <div className="fixed inset-0 z-40" onClick={() => setIsAddFilterMenuOpen(false)} />
-                                                <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="absolute left-0 top-full mt-2 w-[220px] bg-white rounded-lg shadow-xl shadow-black/10 border border-gray-100 z-50 py-1.5 overflow-hidden font-sans">
+                                                <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="absolute left-0 top-full mt-2 w-[220px] bg-card rounded-lg shadow-xl shadow-black/10 border border-gray-100 z-50 py-1.5 overflow-hidden font-sans">
                                                     {['Meter Name', 'Location', 'Asset', 'Date Created'].map(opt => (
-                                                        <button key={opt} onClick={() => { setActiveFilters([...activeFilters, { type: opt, value: '' }]); setIsAddFilterMenuOpen(false); }} className="w-full text-left px-5 py-2.5 hover:bg-gray-50 text-[15px] text-gray-700 transition-colors">{opt}</button>
+                                                        <button key={opt} onClick={() => { setActiveFilters([...activeFilters, { type: opt, value: '' }]); setIsAddFilterMenuOpen(false); }} className="w-full text-left px-5 py-2.5 hover:bg-muted/50 text-[15px] text-foreground/90 transition-colors">{opt}</button>
                                                     ))}
                                                 </motion.div>
                                             </>
@@ -771,8 +771,8 @@ export const MetersPage = () => {
                                     </AnimatePresence>
                                 </div>
                                 <div className="flex items-center gap-3">
-                                    <button onClick={() => setIsFiltersModalOpen(false)} className="h-[40px] px-5 bg-white border border-gray-300 rounded-md text-[15px] font-medium text-gray-700 hover:bg-gray-50 transition-colors">Cancel</button>
-                                    <button onClick={() => setIsFiltersModalOpen(false)} className="h-[40px] px-6 bg-[#3B82F6] hover:bg-blue-600 text-white rounded-md text-[15px] font-medium transition-colors">Apply</button>
+                                    <button onClick={() => setIsFiltersModalOpen(false)} className="h-[40px] px-5 bg-card border border-gray-300 rounded-md text-[15px] font-medium text-foreground/90 hover:bg-muted/50 transition-colors">Cancel</button>
+                                    <button onClick={() => setIsFiltersModalOpen(false)} className="h-[40px] px-6 bg-primary hover:bg-primary text-white rounded-md text-[15px] font-medium transition-colors">Apply</button>
                                 </div>
                             </div>
                         </motion.div>
@@ -785,20 +785,20 @@ export const MetersPage = () => {
                 {isLocationModalOpen && (
                     <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
                         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-gray-900/40 backdrop-blur-sm" onClick={() => setIsLocationModalOpen(false)} />
-                        <motion.div initial={{ opacity: 0, scale: 0.95, y: 10 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 10 }} className="relative w-full max-w-[500px] bg-white rounded-xl shadow-2xl flex flex-col">
+                        <motion.div initial={{ opacity: 0, scale: 0.95, y: 10 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 10 }} className="relative w-full max-w-[500px] bg-card rounded-xl shadow-2xl flex flex-col">
                             <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100">
-                                <h2 className="text-xl font-bold text-gray-900">Location</h2>
+                                <h2 className="text-xl font-bold text-foreground">Location</h2>
                                 <button onClick={() => setIsLocationModalOpen(false)} className="text-gray-400 hover:text-gray-600"><X className="w-5 h-5" /></button>
                             </div>
                             <div className="p-6 flex flex-col gap-4">
                                 <div className="relative">
                                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                                    <input type="text" placeholder="Search" value={locationSearchTerm} onChange={(e) => setLocationSearchTerm(e.target.value)} className="w-full h-11 pl-10 pr-4 bg-white border border-[#3B82F6] rounded-md text-[15px] focus:outline-none ring-4 ring-blue-500/10" />
+                                    <input type="text" placeholder="Search" value={locationSearchTerm} onChange={(e) => setLocationSearchTerm(e.target.value)} className="w-full h-11 pl-10 pr-4 bg-card border border-primary rounded-md text-[15px] focus:outline-none ring-4 ring-primary/10" />
                                 </div>
                                 <div className="flex items-center justify-between">
-                                    <span className="text-[15px] font-medium text-gray-700">Include sub-locations in selection</span>
-                                    <button onClick={() => setIncludeSubLocations(!includeSubLocations)} className={`relative w-11 h-6 rounded-full transition-colors duration-200 ${includeSubLocations ? 'bg-blue-600' : 'bg-gray-200'}`}>
-                                        <div className={`absolute top-1 left-1 w-4 h-4 bg-white rounded-full shadow-sm transform transition-transform duration-200 ${includeSubLocations ? 'translate-x-5' : 'translate-x-0'}`} />
+                                    <span className="text-[15px] font-medium text-foreground/90">Include sub-locations in selection</span>
+                                    <button onClick={() => setIncludeSubLocations(!includeSubLocations)} className={`relative w-11 h-6 rounded-full transition-colors duration-200 ${includeSubLocations ? 'bg-primary' : 'bg-gray-200'}`}>
+                                        <div className={`absolute top-1 left-1 w-4 h-4 bg-card rounded-full shadow-sm transform transition-transform duration-200 ${includeSubLocations ? 'translate-x-5' : 'translate-x-0'}`} />
                                     </button>
                                 </div>
                             </div>
@@ -806,10 +806,10 @@ export const MetersPage = () => {
                                 {locations && treeifyLocations(locations).map(loc => renderLocationItem(loc))}
                             </div>
                             <div className="flex items-center justify-between px-6 py-4 border-t border-gray-100">
-                                <span className="text-[15px] text-gray-500 font-medium">{selectedLocationIds.length} selected</span>
+                                <span className="text-[15px] text-muted-foreground font-medium">{selectedLocationIds.length} selected</span>
                                 <div className="flex gap-3">
-                                    <button onClick={() => { setSelectedLocationIds([]); setIsLocationModalOpen(false); }} className="h-10 px-5 bg-white border border-gray-300 rounded-md text-[15px] font-medium text-gray-700 hover:bg-gray-50 transition-colors">Cancel</button>
-                                    <button onClick={() => setIsLocationModalOpen(false)} className="h-10 px-6 bg-blue-600 text-white rounded-md text-[15px] font-medium hover:bg-blue-700 transition-colors">Save</button>
+                                    <button onClick={() => { setSelectedLocationIds([]); setIsLocationModalOpen(false); }} className="h-10 px-5 bg-card border border-gray-300 rounded-md text-[15px] font-medium text-foreground/90 hover:bg-muted/50 transition-colors">Cancel</button>
+                                    <button onClick={() => setIsLocationModalOpen(false)} className="h-10 px-6 bg-primary text-white rounded-md text-[15px] font-medium hover:bg-primary/90 transition-colors">Save</button>
                                 </div>
                             </div>
                         </motion.div>
@@ -820,34 +820,34 @@ export const MetersPage = () => {
             {/* Create Meter Modal */}
             {renderCreateMeterModal()}
 
-            <div className="flex-1 overflow-auto bg-[#FAFAFA] p-6">
-                <div className="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden min-w-[1200px]">
+            <div className="flex-1 overflow-auto bg-background p-6">
+                <div className="bg-card border border-border rounded-lg shadow-sm overflow-hidden min-w-[1200px]">
                     <table className="w-full text-left border-collapse">
                         <thead>
-                            <tr className="border-b border-gray-200 bg-white">
+                            <tr className="border-b border-border bg-card">
                                 <th className="px-4 py-3 w-12 text-center">
-                                    <input type="checkbox" className="w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer" />
+                                    <input type="checkbox" className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer" />
                                 </th>
-                                <th className="px-4 py-3 text-[13px] font-semibold text-gray-900 w-[20%]">Meter Name</th>
-                                {visibleColumns.nextReading && <th className="px-4 py-3 text-[13px] font-semibold text-gray-900 whitespace-nowrap">Next Reading</th>}
-                                {visibleColumns.unit && <th className="px-4 py-3 text-[13px] font-semibold text-gray-900 whitespace-nowrap">Unit of Me...</th>}
-                                {visibleColumns.lastReading && <th className="px-4 py-3 text-[13px] font-semibold text-gray-900">Last Reading</th>}
-                                {visibleColumns.frequency && <th className="px-4 py-3 text-[13px] font-semibold text-gray-900">Frequency</th>}
-                                {visibleColumns.category && <th className="px-4 py-3 text-[13px] font-semibold text-gray-900">Category</th>}
-                                {visibleColumns.location && <th className="px-4 py-3 text-[13px] font-semibold text-gray-900">Location</th>}
-                                {visibleColumns.asset && <th className="px-4 py-3 text-[13px] font-semibold text-gray-900">Asset</th>}
-                                {visibleColumns.automated && <th className="px-4 py-3 text-[13px] font-semibold text-gray-900">Automated</th>}
-                                {visibleColumns.dateCreated && <th className="px-4 py-3 text-[13px] font-semibold text-gray-900">Date Created</th>}
+                                <th className="px-4 py-3 text-[13px] font-semibold text-foreground w-[20%]">Meter Name</th>
+                                {visibleColumns.nextReading && <th className="px-4 py-3 text-[13px] font-semibold text-foreground whitespace-nowrap">Next Reading</th>}
+                                {visibleColumns.unit && <th className="px-4 py-3 text-[13px] font-semibold text-foreground whitespace-nowrap">Unit of Me...</th>}
+                                {visibleColumns.lastReading && <th className="px-4 py-3 text-[13px] font-semibold text-foreground">Last Reading</th>}
+                                {visibleColumns.frequency && <th className="px-4 py-3 text-[13px] font-semibold text-foreground">Frequency</th>}
+                                {visibleColumns.category && <th className="px-4 py-3 text-[13px] font-semibold text-foreground">Category</th>}
+                                {visibleColumns.location && <th className="px-4 py-3 text-[13px] font-semibold text-foreground">Location</th>}
+                                {visibleColumns.asset && <th className="px-4 py-3 text-[13px] font-semibold text-foreground">Asset</th>}
+                                {visibleColumns.automated && <th className="px-4 py-3 text-[13px] font-semibold text-foreground">Automated</th>}
+                                {visibleColumns.dateCreated && <th className="px-4 py-3 text-[13px] font-semibold text-foreground">Date Created</th>}
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-100">
                             {isLoading ? (
                                 <tr>
-                                    <td colSpan={11} className="px-4 py-8 text-center text-sm text-gray-500">Loading meters...</td>
+                                    <td colSpan={11} className="px-4 py-8 text-center text-sm text-muted-foreground">Loading meters...</td>
                                 </tr>
                             ) : filteredMeters?.length === 0 ? (
                                 <tr>
-                                    <td colSpan={11} className="px-4 py-8 text-center text-sm text-gray-500 bg-gray-50/50">No metrics found matching your criteria.</td>
+                                    <td colSpan={11} className="px-4 py-8 text-center text-sm text-muted-foreground bg-gray-50/50">No metrics found matching your criteria.</td>
                                 </tr>
                             ) : (
                                 filteredMeters?.map((meter: any) => (
@@ -857,14 +857,14 @@ export const MetersPage = () => {
                                         className="hover:bg-gray-50/80 transition-colors group cursor-pointer"
                                     >
                                         <td className="px-4 py-3 w-12 text-center" onClick={e => e.stopPropagation()}>
-                                            <input type="checkbox" className="w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer" />
+                                            <input type="checkbox" className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer" />
                                         </td>
                                         <td className="px-4 py-3">
                                             <div className="flex items-center gap-3">
-                                                <div className="w-8 h-8 rounded-lg bg-gray-50 border border-gray-100 flex items-center justify-center text-gray-500">
+                                                <div className="w-8 h-8 rounded-lg bg-muted/50 border border-gray-100 flex items-center justify-center text-muted-foreground">
                                                     {getMeterIcon(meter.unit)}
                                                 </div>
-                                                <span className="text-sm font-medium text-gray-900">{meter.name}</span>
+                                                <span className="text-sm font-medium text-foreground">{meter.name}</span>
                                             </div>
                                         </td>
                                         {visibleColumns.nextReading && (

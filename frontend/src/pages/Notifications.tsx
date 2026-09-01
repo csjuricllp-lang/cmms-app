@@ -53,7 +53,7 @@ export const NotificationsPage = () => {
 
     const getIcon = (type: string) => {
         switch (type) {
-            case 'WORK_ORDER_ASSIGNED': return <Workflow className="w-5 h-5 text-blue-500" />;
+            case 'WORK_ORDER_ASSIGNED': return <Workflow className="w-5 h-5 text-primary" />;
             case 'WORK_ORDER_COMPLETED':
             case 'WORK_ORDER_APPROVED': return <CircleCheck className="w-5 h-5 text-emerald-500" />;
             case 'WORK_ORDER_REJECTED': return <Clock className="w-5 h-5 text-rose-500" />;
@@ -92,7 +92,7 @@ export const NotificationsPage = () => {
                             onClick={() => setFilter('ALL')}
                             className={cn(
                                 "px-6 py-2.5 rounded-xl text-[11px] font-black uppercase tracking-widest transition-all",
-                                filter === 'ALL' ? "bg-white text-black shadow-lg" : "text-white/40 hover:text-white"
+                                filter === 'ALL' ? "bg-card text-black shadow-lg" : "text-white/40 hover:text-white"
                             )}
                         >
                             All Logs
@@ -101,7 +101,7 @@ export const NotificationsPage = () => {
                             onClick={() => setFilter('UNREAD')}
                             className={cn(
                                 "px-6 py-2.5 rounded-xl text-[11px] font-black uppercase tracking-widest transition-all",
-                                filter === 'UNREAD' ? "bg-white text-black shadow-lg" : "text-white/40 hover:text-white"
+                                filter === 'UNREAD' ? "bg-card text-black shadow-lg" : "text-white/40 hover:text-white"
                             )}
                         >
                             Unread

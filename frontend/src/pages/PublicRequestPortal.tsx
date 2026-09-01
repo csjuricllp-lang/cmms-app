@@ -35,7 +35,7 @@ export const PublicRequestPortal: React.FC = () => {
 
     if (submitted) {
         return (
-            <div className="min-h-screen bg-slate-950 flex items-center justify-center p-6 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-slate-900 via-slate-950 to-black">
+            <div className="min-h-screen bg-background flex items-center justify-center p-6 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-slate-900 via-slate-950 to-black">
                 <div className="max-w-md w-full bg-white/5 backdrop-blur-2xl border border-white/10 rounded-[48px] p-12 text-center animate-in zoom-in-95 duration-500">
                     <div className="w-24 h-24 rounded-[40px] bg-emerald-500 shadow-[0_20px_50px_rgba(16,185,129,0.4)] flex items-center justify-center text-white mx-auto mb-10 scale-110">
                         <CircleCheck className="w-12 h-12" />
@@ -44,7 +44,7 @@ export const PublicRequestPortal: React.FC = () => {
                     <p className="text-slate-400 font-bold italic mb-10">Our maintenance team has been notified. We will stabilize the asset shortly.</p>
                     <button 
                         onClick={() => { setSubmitted(false); setTitle(''); setDescription(''); setAssetId(''); }}
-                        className="w-full py-6 bg-white text-slate-950 rounded-3xl text-[15px] font-black uppercase tracking-widest italic hover:scale-105 transition-all shadow-xl shadow-white/10"
+                        className="w-full py-6 bg-card text-slate-950 rounded-3xl text-[15px] font-black uppercase tracking-widest italic hover:scale-105 transition-all shadow-xl shadow-white/10"
                     >
                         Submit Another Report
                     </button>
@@ -54,7 +54,7 @@ export const PublicRequestPortal: React.FC = () => {
     }
 
     return (
-        <div className="min-h-screen bg-slate-950 flex items-center justify-center p-4 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-slate-900 via-slate-950 to-black">
+        <div className="min-h-screen bg-background flex items-center justify-center p-4 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-slate-900 via-slate-950 to-black">
             <div className="max-w-xl w-full">
                 {/* Branding / Header */}
                 <div className="text-center mb-10 space-y-4">
@@ -65,7 +65,7 @@ export const PublicRequestPortal: React.FC = () => {
                     <h1 className="text-[42px] font-black italic uppercase tracking-tighter text-white leading-none">
                         Report <span className="text-primary italic">Issue</span>
                     </h1>
-                    <p className="text-slate-500 font-bold italic uppercase text-[12px] tracking-[0.1em] opacity-60">Help us keep the operation running at peak performance.</p>
+                    <p className="text-muted-foreground font-bold italic uppercase text-[12px] tracking-[0.1em] opacity-60">Help us keep the operation running at peak performance.</p>
                 </div>
 
                 {/* Form Card */}
@@ -82,7 +82,7 @@ export const PublicRequestPortal: React.FC = () => {
 
                     <div className="space-y-6">
                         <div className="space-y-2">
-                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest italic ml-4">What's the problem? (Subject)</label>
+                            <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest italic ml-4">What's the problem? (Subject)</label>
                             <input
                                 required
                                 value={title}
@@ -93,7 +93,7 @@ export const PublicRequestPortal: React.FC = () => {
                         </div>
 
                         <div className="space-y-2">
-                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest italic ml-4">Description & Location</label>
+                            <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest italic ml-4">Description & Location</label>
                             <textarea
                                 required
                                 value={description}
@@ -104,7 +104,7 @@ export const PublicRequestPortal: React.FC = () => {
                         </div>
 
                         <div className="space-y-2">
-                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest italic ml-4">Asset Identification (Optional)</label>
+                            <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest italic ml-4">Asset Identification (Optional)</label>
                             <input
                                 value={assetId}
                                 onChange={(e) => setAssetId(e.target.value)}
@@ -117,7 +117,7 @@ export const PublicRequestPortal: React.FC = () => {
                     <div className="flex gap-4 pt-4">
                         <button
                             type="button"
-                            className="w-20 h-20 bg-slate-900 rounded-3xl border border-white/5 flex items-center justify-center text-slate-500 hover:text-white hover:bg-slate-800 transition-all group/btn shadow-xl shadow-black/20"
+                            className="w-20 h-20 bg-slate-900 rounded-3xl border border-white/5 flex items-center justify-center text-muted-foreground hover:text-white hover:bg-slate-800 transition-all group/btn shadow-xl shadow-black/20"
                         >
                             <Camera className="w-7 h-7 group-hover/btn:scale-110 transition-transform" />
                         </button>
@@ -137,7 +137,7 @@ export const PublicRequestPortal: React.FC = () => {
                     </div>
                 </form>
 
-                <p className="mt-10 text-center text-slate-700 text-[10px] font-black uppercase tracking-widest opacity-40">
+                <p className="mt-10 text-center text-foreground/90 text-[10px] font-black uppercase tracking-widest opacity-40">
                     Proprietary Maintenance Network &copy; 2026 Juric CMMS SaaS
                 </p>
             </div>

@@ -602,7 +602,7 @@ export const MobileScheduler: React.FC<MobileSchedulerProps> = ({
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             onClick={() => setIsFilterDrawerOpen(false)}
-                            className="absolute inset-0 bg-slate-950/40 backdrop-blur-[2px]"
+                            className="absolute inset-0 bg-background/40 backdrop-blur-[2px]"
                         />
 
                         {/* Drawer content */}
@@ -620,7 +620,7 @@ export const MobileScheduler: React.FC<MobileSchedulerProps> = ({
                                     <button 
                                         type="button"
                                         onClick={handleResetFilters}
-                                        className="px-4 py-1.5 bg-white border border-slate-200 text-blue-600 rounded-xl text-[12px] font-black hover:bg-slate-50 transition-all active:scale-95 shadow-sm dark:bg-muted dark:border-white/5 dark:text-blue-400"
+                                        className="px-4 py-1.5 bg-card border border-border text-primary rounded-xl text-[12px] font-black hover:bg-transparent transition-all active:scale-95 shadow-sm dark:bg-muted dark:border-white/5 dark:text-blue-400"
                                     >
                                         Reset
                                     </button>
@@ -655,12 +655,12 @@ export const MobileScheduler: React.FC<MobileSchedulerProps> = ({
                                                 className={cn(
                                                     "w-full px-3 py-3 rounded-xl text-[12px] font-bold text-left transition-all flex items-center justify-between",
                                                     isSelected
-                                                        ? "bg-blue-50/50 text-blue-600 border border-blue-100/40 shadow-sm dark:bg-blue-500/10 dark:border-blue-500/20 dark:text-blue-400"
+                                                        ? "bg-blue-50/50 text-primary border border-blue-100/40 shadow-sm dark:bg-primary/10 dark:border-primary/80/20 dark:text-blue-400"
                                                         : "text-muted-foreground hover:bg-muted/60"
                                                 )}
                                             >
                                                 <span>{opt.label}</span>
-                                                <ChevronDown className={cn("w-3.5 h-3.5 text-muted-foreground/60 transition-transform", isSelected && "rotate-180 text-blue-600 dark:text-blue-400")} />
+                                                <ChevronDown className={cn("w-3.5 h-3.5 text-muted-foreground/60 transition-transform", isSelected && "rotate-180 text-primary dark:text-blue-400")} />
                                             </button>
                                         );
                                     })}
@@ -806,7 +806,7 @@ export const MobileScheduler: React.FC<MobileSchedulerProps> = ({
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             onClick={() => setSelectedAssignWo(null)}
-                            className="absolute inset-0 bg-slate-950/40 backdrop-blur-[2px]"
+                            className="absolute inset-0 bg-background/40 backdrop-blur-[2px]"
                         />
 
                         {/* Modal sheet */}
@@ -889,7 +889,7 @@ export const MobileScheduler: React.FC<MobileSchedulerProps> = ({
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             onClick={() => setSelectedManageWo(null)}
-                            className="absolute inset-0 bg-slate-950/40 backdrop-blur-[2px]"
+                            className="absolute inset-0 bg-background/40 backdrop-blur-[2px]"
                         />
 
                         {/* Modal sheet */}
@@ -919,7 +919,7 @@ export const MobileScheduler: React.FC<MobileSchedulerProps> = ({
                                     }}
                                     className="w-full py-3.5 px-4 bg-muted hover:bg-muted/80 rounded-xl flex items-center gap-3 text-[13px] font-black uppercase tracking-wider transition-all"
                                 >
-                                    <Eye className="w-5 h-5 text-blue-500" />
+                                    <Eye className="w-5 h-5 text-primary" />
                                     View Full Details
                                 </button>
                                 

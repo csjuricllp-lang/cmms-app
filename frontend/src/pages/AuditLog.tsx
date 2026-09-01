@@ -35,13 +35,13 @@ export const AuditLogPage = () => {
 
     const getActionStyles = (action: string) => {
         if (action.includes('WORK_ORDER')) return { 
-            bg: "bg-blue-500/10", border: "border-blue-500/20", color: "text-blue-400", icon: Briefcase 
+            bg: "bg-primary/10", border: "border-primary/80/20", color: "text-blue-400", icon: Briefcase 
         };
         if (action.includes('CHECKLIST')) return { 
             bg: "bg-emerald-500/10", border: "border-emerald-500/20", color: "text-emerald-400", icon: ClipboardCheck 
         };
         if (action.includes('ASSET')) return { 
-            bg: "bg-purple-500/10", border: "border-purple-500/20", color: "text-purple-400", icon: Zap 
+            bg: "bg-primary/80/10", border: "border-purple-500/20", color: "text-purple-400", icon: Zap 
         };
         if (action.includes('INVENTORY')) return { 
             bg: "bg-amber-500/10", border: "border-amber-500/20", color: "text-amber-400", icon: Package 
@@ -50,7 +50,7 @@ export const AuditLogPage = () => {
             bg: "bg-rose-500/10", border: "border-rose-500/20", color: "text-rose-400", icon: RefreshCcw 
         };
         return { 
-            bg: "bg-slate-500/10", border: "border-slate-500/20", color: "text-slate-400", icon: Activity 
+            bg: "bg-transparent0/10", border: "border-slate-500/20", color: "text-slate-400", icon: Activity 
         };
     };
 
@@ -104,7 +104,7 @@ export const AuditLogPage = () => {
                         label: "Compliance Status", 
                         value: logs?.some((l: AuditLog) => l.action.includes('COMPLETED')) ? "Verified" : "Pending", 
                         icon: ShieldCheck, 
-                        color: logs?.some((l: AuditLog) => l.action.includes('COMPLETED')) ? "text-emerald-400" : "text-slate-500" 
+                        color: logs?.some((l: AuditLog) => l.action.includes('COMPLETED')) ? "text-emerald-400" : "text-muted-foreground" 
                     },
                 ].map((stat, i) => (
                     <div key={i} className="glass-card p-8 group cursor-default">
@@ -188,7 +188,7 @@ export const AuditLogPage = () => {
 
                                         {/* Payload Visualizer - Theme Optimized */}
                                         {(log.oldData || log.newData) && (
-                                            <div className="mt-10 p-8 rounded-[32px] bg-slate-50 border border-slate-200/60 shadow-inner">
+                                            <div className="mt-10 p-8 rounded-[32px] bg-transparent border border-slate-200/60 shadow-inner">
                                                 <div className="flex items-center justify-between mb-6">
                                                     <p className="text-[11px] font-black text-slate-400 uppercase tracking-widest italic">Change Vector Protocol</p>
                                                 </div>
@@ -240,8 +240,8 @@ export const AuditLogPage = () => {
                             </div>
 
                             <div className="space-y-4">
-                                <p className="text-xs font-black uppercase text-indigo-600 italic tracking-widest">State Differential Log</p>
-                                <div className="bg-slate-50 rounded-[32px] p-8 border border-slate-200/60 shadow-inner max-h-[500px] overflow-auto custom-scrollbar">
+                                <p className="text-xs font-black uppercase text-primary italic tracking-widest">State Differential Log</p>
+                                <div className="bg-transparent rounded-[32px] p-8 border border-slate-200/60 shadow-inner max-h-[500px] overflow-auto custom-scrollbar">
                                     <JsonDiffViewer oldData={selectedLog.oldData} newData={selectedLog.newData} />
                                 </div>
                             </div>

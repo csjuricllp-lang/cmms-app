@@ -88,7 +88,7 @@ const MobileCreateWorkflowModal = ({ isOpen, onClose }: { isOpen: boolean; onClo
                     animate={{ y: 0 }}
                     exit={{ y: '100%' }}
                     transition={{ type: 'spring', damping: 30, stiffness: 280 }}
-                    className="relative bg-white rounded-t-3xl shadow-2xl max-h-[92vh] flex flex-col overflow-hidden z-10"
+                    className="relative bg-card rounded-t-3xl shadow-2xl max-h-[92vh] flex flex-col overflow-hidden z-10"
                 >
                     {/* Dark Header */}
                     <div className="bg-slate-900 px-6 py-6 text-white relative overflow-hidden shrink-0">
@@ -115,7 +115,7 @@ const MobileCreateWorkflowModal = ({ isOpen, onClose }: { isOpen: boolean; onClo
                                     key={s}
                                     className={cn(
                                         "h-1 flex-1 rounded-full transition-all",
-                                        s <= step ? "bg-indigo-400" : "bg-white/20"
+                                        s <= step ? "bg-primary/90" : "bg-white/20"
                                     )}
                                 />
                             ))}
@@ -129,25 +129,25 @@ const MobileCreateWorkflowModal = ({ isOpen, onClose }: { isOpen: boolean; onClo
                             <div className="space-y-5">
                                 <div>
                                     <h3 className="text-[18px] font-black text-slate-800">Basic Information</h3>
-                                    <p className="text-slate-500 font-medium text-[13px] mt-1">Give your workflow a clear name and description</p>
+                                    <p className="text-muted-foreground font-medium text-[13px] mt-1">Give your workflow a clear name and description</p>
                                 </div>
                                 <div className="space-y-4">
                                     <div className="space-y-2">
-                                        <label className="text-[11px] font-black text-slate-500 uppercase tracking-wider">Workflow Name</label>
+                                        <label className="text-[11px] font-black text-muted-foreground uppercase tracking-wider">Workflow Name</label>
                                         <input
                                             type="text"
                                             placeholder="e.g., High Priority Assignment"
-                                            className="w-full px-4 py-3.5 border-2 border-slate-100 rounded-2xl font-bold text-slate-800 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all text-[14px]"
+                                            className="w-full px-4 py-3.5 border-2 border-slate-100 rounded-2xl font-bold text-slate-800 focus:border-primary/80 focus:ring-4 focus:ring-primary/10 outline-none transition-all text-[14px]"
                                             value={formData.name}
                                             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                                         />
                                     </div>
                                     <div className="space-y-2">
-                                        <label className="text-[11px] font-black text-slate-500 uppercase tracking-wider">Description</label>
+                                        <label className="text-[11px] font-black text-muted-foreground uppercase tracking-wider">Description</label>
                                         <textarea
                                             placeholder="Explain what this automation does..."
                                             rows={3}
-                                            className="w-full px-4 py-3.5 border-2 border-slate-100 rounded-2xl font-bold text-slate-800 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all resize-none text-[14px]"
+                                            className="w-full px-4 py-3.5 border-2 border-slate-100 rounded-2xl font-bold text-slate-800 focus:border-primary/80 focus:ring-4 focus:ring-primary/10 outline-none transition-all resize-none text-[14px]"
                                             value={formData.description}
                                             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                                         />
@@ -161,7 +161,7 @@ const MobileCreateWorkflowModal = ({ isOpen, onClose }: { isOpen: boolean; onClo
                             <div className="space-y-5">
                                 <div>
                                     <h3 className="text-[18px] font-black text-slate-800">Trigger Event</h3>
-                                    <p className="text-slate-500 font-medium text-[13px] mt-1">Select what event starts this workflow</p>
+                                    <p className="text-muted-foreground font-medium text-[13px] mt-1">Select what event starts this workflow</p>
                                 </div>
                                 <div className="space-y-3">
                                     {TRIGGER_OPTIONS.map((opt) => {
@@ -173,18 +173,18 @@ const MobileCreateWorkflowModal = ({ isOpen, onClose }: { isOpen: boolean; onClo
                                                 className={cn(
                                                     "w-full flex items-center gap-4 p-4 rounded-2xl border-2 transition-all text-left",
                                                     isSelected
-                                                        ? "border-indigo-600 bg-indigo-50 ring-4 ring-indigo-500/10"
-                                                        : "border-slate-100 bg-white"
+                                                        ? "border-primary bg-primary/10 ring-4 ring-primary/10"
+                                                        : "border-slate-100 bg-card"
                                                 )}
                                             >
                                                 <div className={cn(
                                                     "p-2.5 rounded-xl shrink-0",
-                                                    isSelected ? "bg-indigo-600 text-white" : "bg-slate-100 text-slate-500"
+                                                    isSelected ? "bg-primary text-white" : "bg-muted text-muted-foreground"
                                                 )}>
                                                     <opt.icon className="w-4 h-4" />
                                                 </div>
                                                 <div>
-                                                    <p className={cn("font-black text-[14px]", isSelected ? "text-indigo-900" : "text-slate-700")}>{opt.label}</p>
+                                                    <p className={cn("font-black text-[14px]", isSelected ? "text-indigo-900" : "text-foreground/90")}>{opt.label}</p>
                                                     <p className="text-[11px] text-slate-400 font-bold uppercase mt-0.5">{opt.entity}</p>
                                                 </div>
                                                 {isSelected && <ChevronRight className="w-4 h-4 text-indigo-400 ml-auto" />}
@@ -201,11 +201,11 @@ const MobileCreateWorkflowModal = ({ isOpen, onClose }: { isOpen: boolean; onClo
                                 <div className="flex items-center justify-between">
                                     <div>
                                         <h3 className="text-[18px] font-black text-slate-800">Final Actions</h3>
-                                        <p className="text-slate-500 font-medium text-[13px] mt-1">What happens when the trigger fires</p>
+                                        <p className="text-muted-foreground font-medium text-[13px] mt-1">What happens when the trigger fires</p>
                                     </div>
                                     <button
                                         onClick={() => setFormData({ ...formData, actions: [...formData.actions, { type: 'NOTIFY_USER', value: '' }] })}
-                                        className="flex items-center gap-1.5 bg-indigo-50 text-indigo-600 px-3 py-2 rounded-xl font-black text-[12px] hover:bg-indigo-100 transition-colors active:scale-95"
+                                        className="flex items-center gap-1.5 bg-primary/10 text-primary px-3 py-2 rounded-xl font-black text-[12px] hover:bg-primary/15 transition-colors active:scale-95"
                                     >
                                         <Plus className="w-3.5 h-3.5" />
                                         Add Action
@@ -214,7 +214,7 @@ const MobileCreateWorkflowModal = ({ isOpen, onClose }: { isOpen: boolean; onClo
 
                                 <div className="space-y-3">
                                     {formData.actions.map((action, idx) => (
-                                        <div key={idx} className="bg-slate-50 p-4 rounded-2xl border border-slate-100 space-y-3">
+                                        <div key={idx} className="bg-transparent p-4 rounded-2xl border border-slate-100 space-y-3">
                                             <div className="flex items-center justify-between">
                                                 <span className="text-[11px] font-black text-slate-400 uppercase tracking-wider">Action #{idx + 1}</span>
                                                 <button
@@ -227,7 +227,7 @@ const MobileCreateWorkflowModal = ({ isOpen, onClose }: { isOpen: boolean; onClo
                                             <div className="space-y-1">
                                                 <label className="text-[11px] font-black text-slate-400 uppercase">Action Type</label>
                                                 <select
-                                                    className="w-full bg-white px-3 py-2.5 rounded-xl font-bold border border-slate-200 outline-none text-[13px]"
+                                                    className="w-full bg-card px-3 py-2.5 rounded-xl font-bold border border-border outline-none text-[13px]"
                                                     value={action.type}
                                                     onChange={(e) => {
                                                         const newActions = [...formData.actions];
@@ -243,7 +243,7 @@ const MobileCreateWorkflowModal = ({ isOpen, onClose }: { isOpen: boolean; onClo
                                                 <input
                                                     type="text"
                                                     placeholder="Enter value"
-                                                    className="w-full bg-white px-3 py-2.5 rounded-xl font-bold border border-slate-200 outline-none text-[13px]"
+                                                    className="w-full bg-card px-3 py-2.5 rounded-xl font-bold border border-border outline-none text-[13px]"
                                                     value={action.value}
                                                     onChange={(e) => {
                                                         const newActions = [...formData.actions];
@@ -265,18 +265,18 @@ const MobileCreateWorkflowModal = ({ isOpen, onClose }: { isOpen: boolean; onClo
                     </div>
 
                     {/* Footer */}
-                    <div className="px-5 py-4 bg-slate-50 border-t border-slate-100 flex items-center justify-between shrink-0">
+                    <div className="px-5 py-4 bg-transparent border-t border-slate-100 flex items-center justify-between shrink-0">
                         <button onClick={onClose} className="text-slate-400 font-black text-[12px] uppercase tracking-widest">Discard</button>
                         <div className="flex items-center gap-3">
                             {step > 1 && (
-                                <button onClick={() => setStep(step - 1)} className="px-5 py-2.5 rounded-xl font-black text-slate-600 hover:bg-slate-100 text-[13px] transition-all">
+                                <button onClick={() => setStep(step - 1)} className="px-5 py-2.5 rounded-xl font-black text-slate-600 hover:bg-muted text-[13px] transition-all">
                                     Back
                                 </button>
                             )}
                             <button
                                 onClick={() => { if (step < 3) setStep(step + 1); else mutation.mutate(formData); }}
                                 disabled={mutation.isPending}
-                                className="bg-indigo-600 hover:bg-indigo-700 text-white px-7 py-2.5 rounded-xl font-black shadow-lg shadow-indigo-100 transition-all active:scale-95 disabled:opacity-50 flex items-center gap-2 text-[13px]"
+                                className="bg-primary hover:bg-primary/90 text-white px-7 py-2.5 rounded-xl font-black shadow-lg shadow-primary/20 transition-all active:scale-95 disabled:opacity-50 flex items-center gap-2 text-[13px]"
                             >
                                 {mutation.isPending && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
                                 {step === 3 ? 'Launch Workflow' : 'Continue'}
@@ -329,27 +329,27 @@ export const MobileWorkflows = () => {
 
     const statsData = [
         { label: 'Active', value: rules.filter((r: any) => r.isActive).length, icon: Play, colorText: 'text-emerald-600', colorBg: 'bg-emerald-50' },
-        { label: 'Runs (24h)', value: '1,284', icon: Activity, colorText: 'text-blue-600', colorBg: 'bg-blue-50' },
+        { label: 'Runs (24h)', value: '1,284', icon: Activity, colorText: 'text-primary', colorBg: 'bg-blue-50' },
         { label: 'Time Saved', value: '42h', icon: Clock, colorText: 'text-amber-600', colorBg: 'bg-amber-50' },
     ];
 
     return (
-        <div className="flex flex-col h-full bg-[#f8fafc] font-outfit pb-24">
+        <div className="flex flex-col h-full bg-background font-outfit pb-24">
             {/* Header */}
-            <div className="bg-white px-4 py-4 border-b border-slate-100 sticky top-0 z-30 shadow-sm shrink-0">
+            <div className="bg-card px-4 py-4 border-b border-slate-100 sticky top-0 z-30 shadow-sm shrink-0">
                 <div className="flex items-center justify-between gap-3">
                     <div className="flex items-center gap-2.5">
                         <div className="w-8 h-8 rounded-xl bg-amber-50 border border-amber-100 flex items-center justify-center">
                             <Zap className="w-4 h-4 text-amber-500 fill-amber-500" />
                         </div>
                         <div>
-                            <h1 className="text-[17px] font-black text-slate-900 tracking-tight leading-none">Workflows</h1>
+                            <h1 className="text-[17px] font-black text-foreground tracking-tight leading-none">Workflows</h1>
                             <p className="text-[10px] font-bold text-slate-400 mt-0.5">Automated If-Then Rules</p>
                         </div>
                     </div>
                     <button
                         onClick={() => setIsCreateModalOpen(true)}
-                        className="flex items-center gap-1.5 bg-indigo-600 text-white px-3.5 py-2 rounded-xl font-black text-[12px] shadow-lg shadow-indigo-100 active:scale-95 transition-transform"
+                        className="flex items-center gap-1.5 bg-primary text-white px-3.5 py-2 rounded-xl font-black text-[12px] shadow-lg shadow-primary/20 active:scale-95 transition-transform"
                     >
                         <Plus className="w-3.5 h-3.5" />
                         Create
@@ -364,7 +364,7 @@ export const MobileWorkflows = () => {
                         placeholder="Search workflows..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full h-10 pl-10 pr-4 bg-slate-50 border border-transparent rounded-xl text-[13px] font-semibold text-slate-900 outline-none focus:bg-white focus:border-indigo-500/30 focus:ring-4 focus:ring-indigo-500/5 transition-all placeholder:text-slate-400"
+                        className="w-full h-10 pl-10 pr-4 bg-transparent border border-transparent rounded-xl text-[13px] font-semibold text-foreground outline-none focus:bg-card focus:border-primary/80/30 focus:ring-4 focus:ring-primary/5 transition-all placeholder:text-slate-400"
                     />
                 </div>
             </div>
@@ -374,11 +374,11 @@ export const MobileWorkflows = () => {
                 {/* Stats Row */}
                 <div className="grid grid-cols-3 gap-2.5">
                     {statsData.map((stat, i) => (
-                        <div key={i} className="bg-white border border-slate-100 rounded-2xl p-3 flex flex-col items-center gap-1 shadow-sm">
+                        <div key={i} className="bg-card border border-slate-100 rounded-2xl p-3 flex flex-col items-center gap-1 shadow-sm">
                             <div className={cn("w-8 h-8 rounded-xl flex items-center justify-center", stat.colorBg)}>
                                 <stat.icon className={cn("w-4 h-4", stat.colorText)} />
                             </div>
-                            <p className="text-[18px] font-black text-slate-900 leading-none">{stat.value}</p>
+                            <p className="text-[18px] font-black text-foreground leading-none">{stat.value}</p>
                             <p className="text-[9px] font-bold text-slate-400 uppercase tracking-wider text-center">{stat.label}</p>
                         </div>
                     ))}
@@ -386,26 +386,26 @@ export const MobileWorkflows = () => {
 
                 {/* Rules Count */}
                 <div className="flex items-center justify-between px-1">
-                    <p className="text-[12px] font-bold text-slate-500">{filteredRules.length} Total Rules</p>
+                    <p className="text-[12px] font-bold text-muted-foreground">{filteredRules.length} Total Rules</p>
                 </div>
 
                 {/* Rules List */}
                 {isLoading ? (
                     <div className="flex items-center justify-center py-20">
-                        <Loader2 className="w-8 h-8 text-indigo-500 animate-spin" />
+                        <Loader2 className="w-8 h-8 text-primary/80 animate-spin" />
                     </div>
                 ) : filteredRules.length === 0 ? (
-                    <div className="bg-white rounded-3xl border border-slate-100 p-12 text-center space-y-4 shadow-sm">
-                        <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto">
+                    <div className="bg-card rounded-3xl border border-slate-100 p-12 text-center space-y-4 shadow-sm">
+                        <div className="w-16 h-16 bg-transparent rounded-full flex items-center justify-center mx-auto">
                             <Zap className="w-8 h-8 text-slate-200" />
                         </div>
                         <div className="space-y-1">
-                            <p className="text-[15px] font-black text-slate-700">No Workflows Found</p>
+                            <p className="text-[15px] font-black text-foreground/90">No Workflows Found</p>
                             <p className="text-[12px] text-slate-400 font-medium">Automate repetitive tasks by creating your first rule.</p>
                         </div>
                         <button
                             onClick={() => setIsCreateModalOpen(true)}
-                            className="inline-flex items-center gap-2 text-indigo-600 font-black text-[13px] hover:underline"
+                            className="inline-flex items-center gap-2 text-primary font-black text-[13px] hover:underline"
                         >
                             <Plus className="w-4 h-4" />
                             Create your first workflow
@@ -417,13 +417,13 @@ export const MobileWorkflows = () => {
                             <motion.div
                                 key={rule.id}
                                 layout
-                                className="bg-white border border-slate-200/80 rounded-2xl p-4 shadow-sm space-y-3"
+                                className="bg-card border border-slate-200/80 rounded-2xl p-4 shadow-sm space-y-3"
                             >
                                 {/* Rule Header */}
                                 <div className="flex items-start gap-3">
                                     <div className={cn(
                                         "p-2.5 rounded-xl shrink-0",
-                                        rule.isActive ? "bg-indigo-50 text-indigo-600" : "bg-slate-100 text-slate-400"
+                                        rule.isActive ? "bg-primary/10 text-primary" : "bg-muted text-slate-400"
                                     )}>
                                         <Zap className="w-4 h-4" />
                                     </div>
@@ -435,7 +435,7 @@ export const MobileWorkflows = () => {
                                                     <Play className="w-2 h-2 fill-emerald-700" />Active
                                                 </span>
                                             ) : (
-                                                <span className="text-[9px] font-black uppercase tracking-tight bg-slate-100 text-slate-500 px-2 py-0.5 rounded-full">Paused</span>
+                                                <span className="text-[9px] font-black uppercase tracking-tight bg-muted text-muted-foreground px-2 py-0.5 rounded-full">Paused</span>
                                             )}
                                         </div>
                                         {rule.description && (
@@ -448,11 +448,11 @@ export const MobileWorkflows = () => {
                                         onClick={() => toggleMutation.mutate({ id: rule.id, isActive: !rule.isActive })}
                                         className={cn(
                                             "w-11 h-6 rounded-full p-1 transition-all duration-300 shrink-0",
-                                            rule.isActive ? "bg-indigo-600" : "bg-slate-200"
+                                            rule.isActive ? "bg-primary" : "bg-slate-200"
                                         )}
                                     >
                                         <div className={cn(
-                                            "w-4 h-4 bg-white rounded-full shadow-sm transition-transform duration-300",
+                                            "w-4 h-4 bg-card rounded-full shadow-sm transition-transform duration-300",
                                             rule.isActive ? "translate-x-5" : "translate-x-0"
                                         )} />
                                     </button>
@@ -460,20 +460,20 @@ export const MobileWorkflows = () => {
 
                                 {/* IF → THEN Logic Pill */}
                                 <div className="flex items-center gap-2 text-[11px] font-bold">
-                                    <div className="bg-slate-50 border border-slate-100 px-2.5 py-1.5 rounded-lg flex items-center gap-1.5">
+                                    <div className="bg-transparent border border-slate-100 px-2.5 py-1.5 rounded-lg flex items-center gap-1.5">
                                         <span className="text-slate-400">IF</span>
-                                        <span className="text-slate-700">{rule.trigger} on {rule.entity}</span>
+                                        <span className="text-foreground/90">{rule.trigger} on {rule.entity}</span>
                                     </div>
                                     <ArrowRight className="w-3.5 h-3.5 text-slate-300 shrink-0" />
-                                    <div className="bg-slate-50 border border-slate-100 px-2.5 py-1.5 rounded-lg flex items-center gap-1.5">
+                                    <div className="bg-transparent border border-slate-100 px-2.5 py-1.5 rounded-lg flex items-center gap-1.5">
                                         <span className="text-slate-400">THEN</span>
-                                        <span className="text-slate-700">{rule.actions.length} Actions</span>
+                                        <span className="text-foreground/90">{rule.actions.length} Actions</span>
                                     </div>
                                 </div>
 
                                 {/* Actions Row */}
                                 <div className="flex items-center justify-end gap-1 border-t border-slate-50 pt-2">
-                                    <button className="p-2 hover:bg-slate-50 rounded-lg text-slate-300 hover:text-slate-600 transition-all">
+                                    <button className="p-2 hover:bg-transparent rounded-lg text-slate-300 hover:text-slate-600 transition-all">
                                         <Settings2 className="w-4 h-4" />
                                     </button>
                                     <button
@@ -496,7 +496,7 @@ export const MobileWorkflows = () => {
             {/* Floating Action Button */}
             <button
                 onClick={() => setIsCreateModalOpen(true)}
-                className="fixed right-6 bottom-20 z-40 w-12 h-12 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full flex items-center justify-center shadow-lg shadow-indigo-200 transition-transform active:scale-90"
+                className="fixed right-6 bottom-20 z-40 w-12 h-12 bg-primary hover:bg-primary/90 text-white rounded-full flex items-center justify-center shadow-lg shadow-primary/20 transition-transform active:scale-90"
                 title="Create Workflow"
             >
                 <Plus className="w-6 h-6" />

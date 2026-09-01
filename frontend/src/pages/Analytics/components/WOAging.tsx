@@ -29,13 +29,13 @@ export const WOAging = ({ data }: { data: AnalyticsData }) => {
         <div className="space-y-10 animate-in fade-in duration-700">
             {/* Page Header */}
             <div className="text-center py-6">
-                <h3 className="text-[14px] font-bold text-slate-500 italic">How are our incomplete work orders aging?</h3>
+                <h3 className="text-[14px] font-bold text-muted-foreground italic">How are our incomplete work orders aging?</h3>
             </div>
 
             {/* Top Grid: Count & Assigned Worker */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {/* Incomplete Work Orders Summary */}
-                <div className="bg-white rounded-[24px] border border-slate-100 shadow-sm overflow-hidden flex flex-col min-h-[400px]">
+                <div className="bg-card rounded-[24px] border border-slate-100 shadow-sm overflow-hidden flex flex-col min-h-[400px]">
                     <div className="px-8 py-6 border-b border-slate-50 flex items-center justify-center gap-3">
                         <h4 className="text-[16px] font-black text-slate-800 uppercase italic tracking-tight">Incomplete Work Orders</h4>
                         <Info className="w-4 h-4 text-slate-300" />
@@ -55,26 +55,26 @@ export const WOAging = ({ data }: { data: AnalyticsData }) => {
                 </div>
 
                 {/* Assigned Worker Table */}
-                <div className="bg-white rounded-[24px] border border-slate-100 shadow-sm overflow-hidden flex flex-col min-h-[400px]">
+                <div className="bg-card rounded-[24px] border border-slate-100 shadow-sm overflow-hidden flex flex-col min-h-[400px]">
                     <div className="px-8 py-6 border-b border-slate-50 flex items-center justify-between">
                         <h4 className="text-[16px] font-black text-slate-800 uppercase italic tracking-tight">Assigned Worker</h4>
                         <ChevronDown className="w-4 h-4 text-slate-400" />
                     </div>
                     <div className="flex-1 overflow-x-auto">
                         <table className="w-full">
-                            <thead>
-                                <tr className="border-b border-slate-50 bg-slate-50/30">
-                                    <th className="px-8 py-4 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest italic">Assigned To</th>
-                                    <th className="px-8 py-4 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest italic">Incomplete Work Orders</th>
-                                    <th className="px-8 py-4 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest italic">Average Work Order Age</th>
+                            <thead className="text-white/90 bg-primary">
+                            <tr className="border-b border-primary/20">
+                                    <th className="px-8 py-4 text-left text-[10px] font-black text-white/90 uppercase tracking-widestst italic">Assigned To</th>
+                                    <th className="px-8 py-4 text-left text-[10px] font-black text-white/90 uppercase tracking-widestst italic">Incomplete Work Orders</th>
+                                    <th className="px-8 py-4 text-left text-[10px] font-black text-white/90 uppercase tracking-widestst italic">Average Work Order Age</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {assignedWorkers.map((worker: any, i: number) => (
-                                    <tr key={i} className="group hover:bg-slate-50/50 transition-colors">
+                                    <tr key={i} className="group hover:bg-transparent/50 transition-colors">
                                         <td className="px-8 py-6 text-[13px] font-bold text-slate-600">
                                             <div className="flex items-center gap-3">
-                                                <div className="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-[10px] font-black text-slate-400">
+                                                <div className="w-6 h-6 rounded-full bg-muted flex items-center justify-center text-[10px] font-black text-slate-400">
                                                     {i + 1}
                                                 </div>
                                                 {worker.name || 'Unassigned'}
@@ -82,8 +82,8 @@ export const WOAging = ({ data }: { data: AnalyticsData }) => {
                                         </td>
                                         <td className="px-8 py-6">
                                             <div className="flex items-center gap-4">
-                                                <div className="flex-1 h-3 bg-indigo-50 rounded-full overflow-hidden min-w-[120px]">
-                                                    <div className="h-full bg-indigo-100 rounded-full" style={{ width: '80%' }} />
+                                                <div className="flex-1 h-3 bg-primary/10 rounded-full overflow-hidden min-w-[120px]">
+                                                    <div className="h-full bg-primary/15 rounded-full" style={{ width: '80%' }} />
                                                 </div>
                                                 <span className="text-[13px] font-black text-slate-800">{worker.count ?? 0}</span>
                                             </div>
@@ -105,7 +105,7 @@ export const WOAging = ({ data }: { data: AnalyticsData }) => {
             </div>
 
             {/* Bottom Chart: Assets */}
-            <div className="bg-white rounded-[24px] border border-slate-100 shadow-sm overflow-hidden min-h-[500px] flex flex-col">
+            <div className="bg-card rounded-[24px] border border-slate-100 shadow-sm overflow-hidden min-h-[500px] flex flex-col">
                 <div className="px-8 py-6 border-b border-slate-50 flex items-center justify-center gap-3">
                     <h4 className="text-[16px] font-black text-slate-800 uppercase italic tracking-tight">Assets</h4>
                     <Info className="w-4 h-4 text-slate-300" />

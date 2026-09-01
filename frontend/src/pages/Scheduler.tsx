@@ -413,7 +413,7 @@ export const Scheduler = () => {
 
     return (
         <DndContext sensors={sensors} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
-            <div className="flex flex-col h-full bg-[#F8FAFC] overflow-hidden w-full">
+            <div className="flex flex-col h-full bg-background overflow-hidden w-full">
                 {/* Header */}
                 <SchedulerHeader 
                     onReload={() => window.location.reload()}
@@ -604,7 +604,7 @@ export const Scheduler = () => {
                 {/* Drag Overlay for smooth UI */}
                 <DragOverlay>
                     {draggedWoId ? (
-                        <div className="bg-white border-2 border-primary/30 rounded-2xl p-5 shadow-2xl scale-105 opacity-90 w-64">
+                        <div className="bg-card border-2 border-primary/30 rounded-2xl p-5 shadow-2xl scale-105 opacity-90 w-64">
                             <div className="text-[14px] font-black text-slate-800">
                                 {workOrders?.find((w: WorkOrderSync) => w.id === draggedWoId)?.title || "Moving..."}
                             </div>

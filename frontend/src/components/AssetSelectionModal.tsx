@@ -59,10 +59,10 @@ const AssetItem = ({
                 onClick={() => onSelect(asset)}
                 className={cn(
                     "group transition-all cursor-pointer border-b border-slate-100",
-                    isSelected ? "bg-white" : "hover:bg-white"
+                    isSelected ? "bg-card" : "hover:bg-card"
                 )}
             >
-                <td className="px-6 py-4 border-r border-slate-100 sticky left-0 bg-white z-10 max-w-[250px]">
+                <td className="px-6 py-4 border-r border-slate-100 sticky left-0 bg-primary z-10 max-w-[250px]">
                     <div className="flex items-center gap-3" style={{ paddingLeft: `${level * 24}px` }}>
                         <div 
                             onClick={(e) => {
@@ -71,14 +71,14 @@ const AssetItem = ({
                             }}
                             className={cn(
                                 "w-6 h-6 flex items-center justify-center rounded transition-colors",
-                                hasChildren ? "hover:bg-slate-100 cursor-pointer" : "opacity-0"
+                                hasChildren ? "hover:bg-muted cursor-pointer" : "opacity-0"
                             )}
                         >
                             {hasChildren && (
                                 isExpanded ? <ChevronDown className="w-4 h-4 text-slate-400" /> : <ChevronRight className="w-4 h-4 text-slate-400" />
                             )}
                         </div>
-                        <span className={cn("text-[13px] font-bold truncate", isSelected ? "text-blue-600" : "text-slate-700")} title={asset.name}>
+                        <span className={cn("text-[13px] font-bold truncate", isSelected ? "text-primary" : "text-foreground/90")} title={asset.name}>
                             {asset.name}
                         </span>
                     </div>
@@ -93,7 +93,7 @@ const AssetItem = ({
                     <span className="text-[13px] font-medium text-slate-600 tabular-nums">{asset.barCode || "-"}</span>
                 </td>
                 <td className="px-6 py-4 max-w-[200px]">
-                    <span className="text-[13px] font-medium text-slate-500 truncate block" title={asset.description}>{asset.description || "-"}</span>
+                    <span className="text-[13px] font-medium text-muted-foreground truncate block" title={asset.description}>{asset.description || "-"}</span>
                 </td>
                 <td className="px-6 py-4">
                     <span className="text-[13px] font-medium text-slate-600">{asset.status || "-"}</span>
@@ -154,11 +154,11 @@ export const AssetSelectionModal: React.FC<AssetSelectionModalProps> = ({
 
     return (
         <div className="fixed inset-0 z-[1000] flex items-center justify-center p-8 bg-slate-900/40 animate-in fade-in duration-300">
-            <div className="bg-white w-full max-w-[1000px] rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] animate-in zoom-in-95 duration-200 border border-slate-200">
+            <div className="bg-card w-full max-w-[1000px] rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] animate-in zoom-in-95 duration-200 border border-border">
                 {/* Header */}
                 <div className="px-8 py-6 flex items-center justify-between border-b border-slate-100">
                     <h2 className="text-[20px] font-bold text-slate-800 tracking-tight">Choose Assets</h2>
-                    <button onClick={onClose} className="p-2 hover:bg-slate-50 rounded-full transition-colors group">
+                    <button onClick={onClose} className="p-2 hover:bg-muted/50 rounded-full transition-colors group">
                         <X className="w-5 h-5 text-slate-400 group-hover:text-slate-600" />
                     </button>
                 </div>
@@ -172,7 +172,7 @@ export const AssetSelectionModal: React.FC<AssetSelectionModalProps> = ({
                             placeholder="Search by Name or Barcode"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full h-11 bg-white border border-blue-400 rounded-lg pl-10 pr-4 text-[14px] font-medium outline-none shadow-[0_0_0_1px_rgba(59,130,246,0.1)] transition-all placeholder:text-slate-400"
+                            className="w-full h-11 bg-card border border-primary/80 rounded-lg pl-10 pr-4 text-[14px] font-medium outline-none shadow-[0_0_0_1px_rgba(59,130,246,0.1)] transition-all placeholder:text-slate-400"
                         />
                     </div>
                 </div>
@@ -180,14 +180,14 @@ export const AssetSelectionModal: React.FC<AssetSelectionModalProps> = ({
                 {/* Table Container */}
                 <div className="flex-1 overflow-auto custom-scrollbar">
                     <table className="w-full text-left border-collapse table-fixed">
-                        <thead className="sticky top-0 bg-white z-20 border-b border-slate-100">
+                        <thead className="sticky top-0 bg-primary z-20 border-b border-slate-100">
                             <tr>
-                                <th className="px-6 py-4 text-[13px] font-bold text-slate-700 border-r border-slate-100 sticky left-0 bg-white z-30 w-1/3">Name</th>
-                                <th className="px-6 py-4 text-[13px] font-bold text-slate-700 w-[15%]">ID</th>
-                                <th className="px-6 py-4 text-[13px] font-bold text-slate-700 w-[20%]">Location</th>
-                                <th className="px-6 py-4 text-[13px] font-bold text-slate-700 w-[15%]">Barcode</th>
-                                <th className="px-6 py-4 text-[13px] font-bold text-slate-700 w-[17%]">Description</th>
-                                <th className="px-6 py-4 text-[13px] font-bold text-slate-700 w-[10%]">Status</th>
+                                <th className="px-6 py-4 text-[13px] font-bold text-foreground/90 border-r border-slate-100 sticky left-0 bg-primary z-30 w-1/3">Name</th>
+                                <th className="px-6 py-4 text-[13px] font-bold text-foreground/90 w-[15%]">ID</th>
+                                <th className="px-6 py-4 text-[13px] font-bold text-foreground/90 w-[20%]">Location</th>
+                                <th className="px-6 py-4 text-[13px] font-bold text-foreground/90 w-[15%]">Barcode</th>
+                                <th className="px-6 py-4 text-[13px] font-bold text-foreground/90 w-[17%]">Description</th>
+                                <th className="px-6 py-4 text-[13px] font-bold text-foreground/90 w-[10%]">Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -205,7 +205,7 @@ export const AssetSelectionModal: React.FC<AssetSelectionModalProps> = ({
                     </table>
                     {filteredTree.length === 0 && (
                         <div className="py-20 text-center flex flex-col items-center gap-4">
-                            <div className="w-16 h-16 rounded-full bg-slate-50 flex items-center justify-center">
+                            <div className="w-16 h-16 rounded-full bg-muted/50 flex items-center justify-center">
                                 <Box className="w-8 h-8 text-slate-100" />
                             </div>
                             <p className="text-slate-400 font-bold italic uppercase tracking-widest text-[13px]">No matching assets found</p>
@@ -214,7 +214,7 @@ export const AssetSelectionModal: React.FC<AssetSelectionModalProps> = ({
                 </div>
 
                 {/* Footer */}
-                <div className="px-10 py-6 bg-white border-t border-slate-100 flex items-center justify-between">
+                <div className="px-10 py-6 bg-card border-t border-slate-100 flex items-center justify-between">
                     <div className="flex items-center gap-4">
                         <span className="text-[14px] font-medium text-slate-400">
                             {tempSelectedAsset ? `1 Asset selected` : "No asset selected"}
@@ -223,14 +223,14 @@ export const AssetSelectionModal: React.FC<AssetSelectionModalProps> = ({
                     <div className="flex items-center gap-3">
                         <button 
                             onClick={onClose}
-                            className="h-11 px-8 text-[14px] font-medium text-slate-600 hover:bg-slate-50 transition-all border border-slate-300 rounded-lg"
+                            className="h-11 px-8 text-[14px] font-medium text-slate-600 hover:bg-muted/50 transition-all border border-slate-300 rounded-lg"
                         >
                             Cancel
                         </button>
                         <button 
                             disabled={!tempSelectedAsset}
                             onClick={() => tempSelectedAsset && onConfirm(tempSelectedAsset)}
-                            className="bg-[#3B82F6] text-white px-8 h-11 rounded-lg text-[14px] font-bold hover:bg-blue-600 transition-all active:scale-95 disabled:opacity-50"
+                            className="bg-primary text-white px-8 h-11 rounded-lg text-[14px] font-bold hover:bg-primary transition-all active:scale-95 disabled:opacity-50"
                         >
                             Confirm
                         </button>

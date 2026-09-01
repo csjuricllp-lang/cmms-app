@@ -40,11 +40,11 @@ export const ScheduleSettingsModal: React.FC<ScheduleSettingsModalProps> = ({
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
             <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm" onClick={onClose} />
             
-            <div className="relative w-full max-w-2xl bg-white rounded-[24px] shadow-2xl flex flex-col overflow-hidden animate-in fade-in zoom-in duration-300">
+            <div className="relative w-full max-w-2xl bg-card rounded-[24px] shadow-2xl flex flex-col overflow-hidden animate-in fade-in zoom-in duration-300">
                 {/* Header */}
                 <div className="px-8 py-6 border-b border-gray-100 flex items-center justify-between">
                     <h2 className="text-[24px] font-black text-slate-800 tracking-tight">Schedule Settings</h2>
-                    <button onClick={onClose} className="p-2 hover:bg-slate-50 rounded-xl text-slate-400 transition-colors">
+                    <button onClick={onClose} className="p-2 hover:bg-muted/50 rounded-xl text-slate-400 transition-colors">
                         <X className="w-6 h-6" />
                     </button>
                 </div>
@@ -60,11 +60,11 @@ export const ScheduleSettingsModal: React.FC<ScheduleSettingsModalProps> = ({
                         
                         <div className="grid grid-cols-2 gap-6">
                             <div className="space-y-2">
-                                <label className="text-[14px] font-black text-slate-700">Visible Units</label>
+                                <label className="text-[14px] font-black text-foreground/90">Visible Units</label>
                                 <div className="relative">
                                     <Eye className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                                     <select 
-                                        className="w-full pl-11 pr-4 py-3 bg-white border border-gray-200 rounded-xl text-[14px] font-bold text-slate-600 appearance-none focus:ring-2 focus:ring-primary/20 outline-none"
+                                        className="w-full pl-11 pr-4 py-3 bg-card border border-border rounded-xl text-[14px] font-bold text-slate-600 appearance-none focus:ring-2 focus:ring-primary/20 outline-none"
                                         value={settings.visibleUnits}
                                         onChange={(e) => setSettings({...settings, visibleUnits: Number(e.target.value)})}
                                     >
@@ -76,11 +76,11 @@ export const ScheduleSettingsModal: React.FC<ScheduleSettingsModalProps> = ({
                                 </div>
                             </div>
                             <div className="space-y-2">
-                                <label className="text-[14px] font-black text-slate-700">Time Granularity</label>
+                                <label className="text-[14px] font-black text-foreground/90">Time Granularity</label>
                                 <div className="relative">
                                     <Clock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                                     <select 
-                                        className="w-full pl-11 pr-4 py-3 bg-white border border-gray-200 rounded-xl text-[14px] font-bold text-slate-600 appearance-none focus:ring-2 focus:ring-primary/20 outline-none"
+                                        className="w-full pl-11 pr-4 py-3 bg-card border border-border rounded-xl text-[14px] font-bold text-slate-600 appearance-none focus:ring-2 focus:ring-primary/20 outline-none"
                                         value={settings.timeGranularity}
                                         onChange={(e) => setSettings({...settings, timeGranularity: e.target.value})}
                                     >
@@ -102,10 +102,10 @@ export const ScheduleSettingsModal: React.FC<ScheduleSettingsModalProps> = ({
 
                         <div className="space-y-4">
                             <div className="space-y-2">
-                                <label className="text-[14px] font-black text-slate-700">Default Daily Hours</label>
+                                <label className="text-[14px] font-black text-foreground/90">Default Daily Hours</label>
                                 <input 
                                     type="number"
-                                    className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-[14px] font-bold text-slate-600 focus:ring-2 focus:ring-primary/20 outline-none"
+                                    className="w-full px-4 py-3 bg-card border border-border rounded-xl text-[14px] font-bold text-slate-600 focus:ring-2 focus:ring-primary/20 outline-none"
                                     value={settings.defaultDailyHours}
                                     onChange={(e) => setSettings({...settings, defaultDailyHours: Number(e.target.value)})}
                                     min={1}
@@ -115,12 +115,12 @@ export const ScheduleSettingsModal: React.FC<ScheduleSettingsModalProps> = ({
                             </div>
 
                             <div className="space-y-2 pt-2">
-                                <label className="text-[14px] font-black text-slate-700">Daily Start/End Times</label>
+                                <label className="text-[14px] font-black text-foreground/90">Daily Start/End Times</label>
                                 <div className="flex items-center gap-4">
                                     <div className="relative flex-1">
                                         <Clock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                                         <select 
-                                            className="w-full pl-11 pr-4 py-3 bg-white border border-gray-200 rounded-xl text-[14px] font-bold text-slate-600 appearance-none"
+                                            className="w-full pl-11 pr-4 py-3 bg-card border border-border rounded-xl text-[14px] font-bold text-slate-600 appearance-none"
                                             value={settings.startTime}
                                             onChange={(e) => setSettings({...settings, startTime: Number(e.target.value)})}
                                         >
@@ -130,7 +130,7 @@ export const ScheduleSettingsModal: React.FC<ScheduleSettingsModalProps> = ({
                                     <div className="relative flex-1">
                                         <Clock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                                         <select 
-                                            className="w-full pl-11 pr-4 py-3 bg-white border border-gray-200 rounded-xl text-[14px] font-bold text-slate-600 appearance-none"
+                                            className="w-full pl-11 pr-4 py-3 bg-card border border-border rounded-xl text-[14px] font-bold text-slate-600 appearance-none"
                                             value={settings.endTime}
                                             onChange={(e) => setSettings({...settings, endTime: Number(e.target.value)})}
                                         >
@@ -142,10 +142,10 @@ export const ScheduleSettingsModal: React.FC<ScheduleSettingsModalProps> = ({
                             </div>
 
                             <div className="space-y-4 pt-2">
-                                <label className="text-[14px] font-black text-slate-700">Work Days</label>
+                                <label className="text-[14px] font-black text-foreground/90">Work Days</label>
                                 <div className="flex flex-wrap gap-3">
                                     {days.map(day => (
-                                        <label key={day} className="flex items-center gap-2 px-4 py-3 bg-slate-50 rounded-xl cursor-pointer hover:bg-slate-100 transition-colors">
+                                        <label key={day} className="flex items-center gap-2 px-4 py-3 bg-muted/50 rounded-xl cursor-pointer hover:bg-muted transition-colors">
                                             <input 
                                                 type="checkbox"
                                                 className="w-5 h-5 rounded-md border-gray-300 text-primary focus:ring-primary/20"
@@ -166,7 +166,7 @@ export const ScheduleSettingsModal: React.FC<ScheduleSettingsModalProps> = ({
                 <div className="p-8 border-t border-gray-100 bg-slate-50/30 flex justify-end gap-4">
                     <button 
                         onClick={onClose}
-                        className="px-8 py-3 bg-white border border-gray-200 text-slate-600 rounded-xl text-[15px] font-black hover:bg-slate-50 transition-all active:scale-95"
+                        className="px-8 py-3 bg-card border border-border text-slate-600 rounded-xl text-[15px] font-black hover:bg-muted/50 transition-all active:scale-95"
                     >
                         Cancel
                     </button>

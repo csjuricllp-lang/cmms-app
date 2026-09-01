@@ -55,7 +55,7 @@ export const AutoGroupPartsModal: React.FC<AutoGroupPartsModalProps> = ({ isOpen
                         initial={{ opacity: 0, scale: 0.95, y: 10 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.95, y: 10 }}
-                        className="relative w-full max-w-[560px] bg-white rounded-[2rem] shadow-[0_40px_120px_-20px_rgba(0,0,0,0.3)] p-10 flex flex-col gap-10"
+                        className="relative w-full max-w-[560px] bg-card rounded-[2rem] shadow-[0_40px_120px_-20px_rgba(0,0,0,0.3)] p-10 flex flex-col gap-10"
                         onClick={(e) => e.stopPropagation()}
                     >
                         <div className="flex items-center justify-between">
@@ -63,7 +63,7 @@ export const AutoGroupPartsModal: React.FC<AutoGroupPartsModalProps> = ({ isOpen
                             <button 
                                 onClick={onClose} 
                                 disabled={groupMutation.isPending}
-                                className="p-2 hover:bg-slate-50 rounded-xl transition-colors disabled:opacity-50"
+                                className="p-2 hover:bg-muted/50 rounded-xl transition-colors disabled:opacity-50"
                             >
                                 <X className="w-6 h-6 text-slate-400" />
                             </button>
@@ -75,7 +75,7 @@ export const AutoGroupPartsModal: React.FC<AutoGroupPartsModalProps> = ({ isOpen
                                     This process will automatically group your current parts by the "Part Number" field.
                                 </p>
                                 <p className="text-[14px] text-slate-400 font-medium">
-                                    Please follow <a href="#" className="text-indigo-600 hover:underline">this import process</a> to update your data
+                                    Please follow <a href="#" className="text-primary hover:underline">this import process</a> to update your data
                                 </p>
                             </div>
 
@@ -87,14 +87,14 @@ export const AutoGroupPartsModal: React.FC<AutoGroupPartsModalProps> = ({ isOpen
                                     onClick={() => !groupMutation.isPending && setHasPartNumbers(!hasPartNumbers)}
                                     className={cn(
                                         "w-6 h-6 rounded-lg border-2 transition-all flex items-center justify-center",
-                                        hasPartNumbers ? "bg-indigo-600 border-indigo-600" : "border-slate-200 group-hover:border-slate-300"
+                                        hasPartNumbers ? "bg-primary border-primary" : "border-border group-hover:border-slate-300"
                                     )}
                                 >
                                     {hasPartNumbers && (
                                         <motion.div 
                                             initial={{ scale: 0 }}
                                             animate={{ scale: 1 }}
-                                            className="w-2.5 h-2.5 bg-white rounded-sm"
+                                            className="w-2.5 h-2.5 bg-card rounded-sm"
                                         />
                                     )}
                                 </div>
@@ -106,7 +106,7 @@ export const AutoGroupPartsModal: React.FC<AutoGroupPartsModalProps> = ({ isOpen
                             <button 
                                 onClick={onClose}
                                 disabled={groupMutation.isPending}
-                                className="px-8 py-3 bg-white border border-gray-200 text-slate-500 text-[14px] font-black rounded-xl hover:bg-gray-50 transition-all disabled:opacity-50"
+                                className="px-8 py-3 bg-card border border-border text-muted-foreground text-[14px] font-black rounded-xl hover:bg-muted/50 transition-all disabled:opacity-50"
                             >
                                 Cancel
                             </button>
@@ -117,7 +117,7 @@ export const AutoGroupPartsModal: React.FC<AutoGroupPartsModalProps> = ({ isOpen
                                     "px-8 py-3 text-[14px] font-black rounded-xl transition-all flex items-center justify-center gap-2",
                                     hasPartNumbers && !groupMutation.isPending
                                         ? "bg-slate-900 text-white shadow-xl shadow-slate-200 hover:bg-black" 
-                                        : "bg-gray-100 text-gray-300 cursor-not-allowed"
+                                        : "bg-muted text-gray-300 cursor-not-allowed"
                                 )}
                             >
                                 {groupMutation.isPending ? 'Grouping...' : 'Continue'}

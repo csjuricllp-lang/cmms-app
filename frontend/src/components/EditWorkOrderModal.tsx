@@ -111,10 +111,10 @@ export const EditWorkOrderModal: React.FC<EditWorkOrderModalProps> = ({ isOpen, 
     const categories = orgCategories.length > 0 ? orgCategories.map((c: any) => c.name) : ['Preventive', 'Corrective', 'Emergency', 'Inspection', 'Safety', 'Other'];
     const priorities = [
         { label: 'None', color: 'bg-white/5 text-muted-foreground/60', icon: <AlertCircle className="w-3.5 h-3.5" /> },
-        { label: 'Low', color: 'bg-blue-500/10 text-blue-400', icon: <AlertCircle className="w-3.5 h-3.5" /> },
+        { label: 'Low', color: 'bg-primary/10 text-blue-400', icon: <AlertCircle className="w-3.5 h-3.5" /> },
         { label: 'Medium', color: 'bg-orange-500/10 text-orange-400', icon: <AlertCircle className="w-3.5 h-3.5" /> },
         { label: 'High', color: 'bg-red-500/10 text-red-400', icon: <AlertCircle className="w-3.5 h-3.5" /> },
-        { label: 'Critical', color: 'bg-purple-500/10 text-purple-400', icon: <AlertCircle className="w-3.5 h-3.5" /> }
+        { label: 'Critical', color: 'bg-primary/80/10 text-purple-400', icon: <AlertCircle className="w-3.5 h-3.5" /> }
     ];
 
     const toggleDropdown = (key: keyof typeof dropdowns) => {
@@ -233,11 +233,11 @@ export const EditWorkOrderModal: React.FC<EditWorkOrderModalProps> = ({ isOpen, 
         <div className="fixed inset-0 z-[1000] flex items-center justify-center p-4">
             <div className="absolute inset-0 bg-[#0F172A]/80 backdrop-blur-sm animate-in fade-in duration-300" onClick={onClose} />
             
-            <div className="relative bg-white w-full max-w-[1200px] h-[92vh] rounded-[24px] shadow-2xl flex flex-col overflow-hidden animate-in zoom-in-95 duration-300">
+            <div className="relative bg-card w-full max-w-[1200px] h-[92vh] rounded-[24px] shadow-2xl flex flex-col overflow-hidden animate-in zoom-in-95 duration-300">
                 {/* Header */}
                 <div className="px-10 py-3 border-b border-slate-100 flex items-center justify-between">
                     <h2 className="text-[24px] font-black text-slate-800">Edit Work Order</h2>
-                    <button onClick={onClose} className="p-2 hover:bg-slate-50 rounded-full transition-colors text-slate-400">
+                    <button onClick={onClose} className="p-2 hover:bg-muted/50 rounded-full transition-colors text-slate-400">
                         <X className="w-6 h-6" />
                     </button>
                 </div>
@@ -262,59 +262,59 @@ export const EditWorkOrderModal: React.FC<EditWorkOrderModalProps> = ({ isOpen, 
                         </div>
                         <div className="space-y-6">
                             <div className="space-y-2">
-                                <label className="text-[12px] font-black text-slate-500 uppercase tracking-widest">Work Order Title <span className="text-red-500">*</span></label>
+                                <label className="text-[12px] font-black text-muted-foreground uppercase tracking-widest">Work Order Title <span className="text-red-500">*</span></label>
                                 <input
                                     type="text"
-                                    className="w-full px-5 py-3.5 bg-white border border-slate-200 rounded-xl text-[15px] font-bold text-slate-800 outline-none focus:border-primary transition-all"
+                                    className="w-full px-5 py-3.5 bg-card border border-border rounded-xl text-[15px] font-bold text-slate-800 outline-none focus:border-primary transition-all"
                                     value={title}
                                     onChange={(e) => setTitle(e.target.value)}
                                 />
                             </div>
                             <div className="space-y-2">
-                                <label className="text-[12px] font-black text-slate-500 uppercase tracking-widest">Description</label>
+                                <label className="text-[12px] font-black text-muted-foreground uppercase tracking-widest">Description</label>
                                 <textarea
                                     rows={3}
-                                    className="w-full px-5 py-3.5 bg-white border border-slate-200 rounded-xl text-[15px] font-bold text-slate-800 outline-none focus:border-primary transition-all resize-none"
+                                    className="w-full px-5 py-3.5 bg-card border border-border rounded-xl text-[15px] font-bold text-slate-800 outline-none focus:border-primary transition-all resize-none"
                                     value={description}
                                     onChange={(e) => setDescription(e.target.value)}
                                 />
                             </div>
                             <div className="grid grid-cols-2 gap-6">
                                 <div className="space-y-2 relative">
-                                    <label className="text-[12px] font-black text-slate-500 uppercase tracking-widest">Category</label>
-                                    <button onClick={() => toggleDropdown('category')} className="w-full flex items-center justify-between px-5 py-3.5 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-all">
-                                        <span className="text-[14px] font-bold text-slate-700">{category}</span>
+                                    <label className="text-[12px] font-black text-muted-foreground uppercase tracking-widest">Category</label>
+                                    <button onClick={() => toggleDropdown('category')} className="w-full flex items-center justify-between px-5 py-3.5 bg-card border border-border rounded-xl hover:bg-muted/50 transition-all">
+                                        <span className="text-[14px] font-bold text-foreground/90">{category}</span>
                                         <ChevronDown className={cn("w-4 h-4 text-slate-400 transition-transform", dropdowns.category && "rotate-180")} />
                                     </button>
                                     {dropdowns.category && (
                                         <div className="absolute top-full left-0 right-0 mt-2 popover-solid rounded-xl shadow-xl z-50 py-2 border border-slate-100">
                                             {categories.map(cat => (
-                                                <button key={cat} onClick={() => { setCategory(cat); toggleDropdown('category'); }} className="w-full text-left px-5 py-2.5 text-[14px] font-bold text-slate-600 hover:bg-slate-50 hover:text-primary transition-all">{cat}</button>
+                                                <button key={cat} onClick={() => { setCategory(cat); toggleDropdown('category'); }} className="w-full text-left px-5 py-2.5 text-[14px] font-bold text-slate-600 hover:bg-muted/50 hover:text-primary transition-all">{cat}</button>
                                             ))}
                                         </div>
                                     )}
                                 </div>
                                 <div className="space-y-2 relative">
-                                    <label className="text-[12px] font-black text-slate-500 uppercase tracking-widest">Priority</label>
-                                    <button onClick={() => toggleDropdown('priority')} className="w-full flex items-center justify-between px-5 py-3.5 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-all">
-                                        <span className="text-[14px] font-bold text-slate-700">{priority}</span>
+                                    <label className="text-[12px] font-black text-muted-foreground uppercase tracking-widest">Priority</label>
+                                    <button onClick={() => toggleDropdown('priority')} className="w-full flex items-center justify-between px-5 py-3.5 bg-card border border-border rounded-xl hover:bg-muted/50 transition-all">
+                                        <span className="text-[14px] font-bold text-foreground/90">{priority}</span>
                                         <ChevronDown className={cn("w-4 h-4 text-slate-400 transition-transform", dropdowns.priority && "rotate-180")} />
                                     </button>
                                     {dropdowns.priority && (
                                         <div className="absolute top-full left-0 right-0 mt-2 popover-solid rounded-xl shadow-xl z-50 py-2 border border-slate-100">
                                             {priorities.map(p => (
-                                                <button key={p.label} onClick={() => { setPriority(p.label); toggleDropdown('priority'); }} className="w-full text-left px-5 py-2.5 text-[14px] font-bold text-slate-600 hover:bg-slate-50 hover:text-primary transition-all">{p.label}</button>
+                                                <button key={p.label} onClick={() => { setPriority(p.label); toggleDropdown('priority'); }} className="w-full text-left px-5 py-2.5 text-[14px] font-bold text-slate-600 hover:bg-muted/50 hover:text-primary transition-all">{p.label}</button>
                                             ))}
                                         </div>
                                     )}
                                 </div>
                             </div>
                             <div className="space-y-2">
-                                <label className="text-[12px] font-black text-slate-500 uppercase tracking-widest">Photos</label>
+                                <label className="text-[12px] font-black text-muted-foreground uppercase tracking-widest">Photos</label>
                                 <div className="border border-dashed border-slate-300 rounded-2xl p-8 flex flex-col items-center justify-center gap-3 bg-[#fafafa]/50">
                                     <button 
                                         onClick={() => photoInputRef.current?.click()}
-                                        className="px-6 py-2.5 border border-slate-200 bg-white rounded-xl text-[13px] font-black uppercase tracking-widest hover:bg-slate-50 translate-all shadow-sm"
+                                        className="px-6 py-2.5 border border-border bg-card rounded-xl text-[13px] font-black uppercase tracking-widest hover:bg-muted/50 translate-all shadow-sm"
                                     >
                                         Upload
                                     </button>
@@ -332,19 +332,19 @@ export const EditWorkOrderModal: React.FC<EditWorkOrderModalProps> = ({ isOpen, 
                         </div>
                         <div className="grid grid-cols-2 gap-6">
                             <div className="space-y-2 relative">
-                                <label className="text-[12px] font-black text-slate-500 uppercase tracking-widest">Asset</label>
+                                <label className="text-[12px] font-black text-muted-foreground uppercase tracking-widest">Asset</label>
                                 <div className="relative group">
                                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                                     <input 
                                         type="text" 
                                         placeholder="Scan or Find Asset"
-                                        className="w-full pl-11 pr-10 py-3.5 bg-white border border-slate-200 rounded-xl text-[14px] font-bold text-slate-800 outline-none focus:border-primary shadow-sm"
+                                        className="w-full pl-11 pr-10 py-3.5 bg-card border border-border rounded-xl text-[14px] font-bold text-slate-800 outline-none focus:border-primary shadow-sm"
                                         value={selectedAsset?.name || ''}
                                         readOnly
                                         onClick={() => toggleDropdown('asset')}
                                     />
                                     {selectedAssetId && (
-                                        <button onClick={(e) => { e.stopPropagation(); setSelectedAssetId(null); }} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-300 hover:text-slate-500 transition-colors">
+                                        <button onClick={(e) => { e.stopPropagation(); setSelectedAssetId(null); }} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-300 hover:text-muted-foreground transition-colors">
                                             <X className="w-4 h-4" />
                                         </button>
                                     )}
@@ -352,21 +352,21 @@ export const EditWorkOrderModal: React.FC<EditWorkOrderModalProps> = ({ isOpen, 
                                 {dropdowns.asset && (
                                     <div className="absolute top-full left-0 right-0 mt-2 popover-solid rounded-xl shadow-xl z-50 py-2 border border-slate-100 max-h-48 overflow-y-auto custom-scrollbar">
                                         {assetList.map((a: Asset) => (
-                                            <button key={a.id} onClick={() => { setSelectedAssetId(a.id); toggleDropdown('asset'); }} className="w-full text-left px-5 py-2.5 text-[14px] font-bold text-slate-600 hover:bg-slate-50 transition-all">{a.name}</button>
+                                            <button key={a.id} onClick={() => { setSelectedAssetId(a.id); toggleDropdown('asset'); }} className="w-full text-left px-5 py-2.5 text-[14px] font-bold text-slate-600 hover:bg-muted/50 transition-all">{a.name}</button>
                                         ))}
                                     </div>
                                 )}
                             </div>
                             <div className="space-y-2 relative">
-                                <label className="text-[12px] font-black text-slate-500 uppercase tracking-widest">Location</label>
-                                <button onClick={() => toggleDropdown('location')} className="w-full flex items-center justify-between px-5 py-3.5 bg-[#f3f4f6]/50 border border-slate-200 rounded-xl hover:bg-slate-100/50 transition-all text-left">
+                                <label className="text-[12px] font-black text-muted-foreground uppercase tracking-widest">Location</label>
+                                <button onClick={() => toggleDropdown('location')} className="w-full flex items-center justify-between px-5 py-3.5 bg-[#f3f4f6]/50 border border-border rounded-xl hover:bg-slate-100/50 transition-all text-left">
                                     <span className="text-[14px] font-bold text-slate-600">{selectedLocation?.name || 'Suite B'}</span>
                                     <ChevronDown className="w-4 h-4 text-slate-400" />
                                 </button>
                                 {dropdowns.location && (
                                     <div className="absolute top-full left-0 right-0 mt-2 popover-solid rounded-xl shadow-xl z-50 py-2 border border-slate-100">
                                         {locationList.map((l: Location) => (
-                                            <button key={l.id} onClick={() => { setSelectedLocationId(l.id); toggleDropdown('location'); }} className="w-full text-left px-5 py-2.5 text-[14px] font-bold text-slate-600 hover:bg-slate-50 transition-all">{l.name}</button>
+                                            <button key={l.id} onClick={() => { setSelectedLocationId(l.id); toggleDropdown('location'); }} className="w-full text-left px-5 py-2.5 text-[14px] font-bold text-slate-600 hover:bg-muted/50 transition-all">{l.name}</button>
                                         ))}
                                     </div>
                                 )}
@@ -377,24 +377,24 @@ export const EditWorkOrderModal: React.FC<EditWorkOrderModalProps> = ({ isOpen, 
                     {/* Timeline */}
                     <section className="grid grid-cols-2 gap-6">
                         <div className="space-y-2">
-                            <label className="text-[12px] font-black text-slate-500 uppercase tracking-widest">Start Date</label>
+                            <label className="text-[12px] font-black text-muted-foreground uppercase tracking-widest">Start Date</label>
                             <div className="relative">
-                                <input type="datetime-local" className="w-full px-4 py-3.5 bg-white border border-slate-200 rounded-xl text-[14px] font-bold text-slate-800 outline-none" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
+                                <input type="datetime-local" className="w-full px-4 py-3.5 bg-card border border-border rounded-xl text-[14px] font-bold text-slate-800 outline-none" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
                                 <Calendar className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
                                 <Clock className="absolute right-10 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
                             </div>
                         </div>
                         <div className="space-y-2">
-                            <label className="text-[12px] font-black text-slate-500 uppercase tracking-widest">Due Date</label>
+                            <label className="text-[12px] font-black text-muted-foreground uppercase tracking-widest">Due Date</label>
                             <div className="relative">
-                                <input type="datetime-local" className="w-full px-4 py-3.5 bg-white border border-slate-200 rounded-xl text-[14px] font-bold text-slate-800 outline-none" value={dueDate} onChange={(e) => setDueDate(e.target.value)} />
+                                <input type="datetime-local" className="w-full px-4 py-3.5 bg-card border border-border rounded-xl text-[14px] font-bold text-slate-800 outline-none" value={dueDate} onChange={(e) => setDueDate(e.target.value)} />
                                 <Calendar className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
                                 <Clock className="absolute right-10 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
                             </div>
                         </div>
                         <div className="col-span-2 space-y-2">
-                            <label className="text-[12px] font-black text-slate-500 uppercase tracking-widest">Duration (as hours)</label>
-                            <input type="number" className="w-full px-4 py-3.5 bg-white border border-slate-200 rounded-xl text-[14px] font-bold text-slate-800 outline-none" value={duration} onChange={(e) => setDuration(e.target.value === '' ? '' : Number(e.target.value))} />
+                            <label className="text-[12px] font-black text-muted-foreground uppercase tracking-widest">Duration (as hours)</label>
+                            <input type="number" className="w-full px-4 py-3.5 bg-card border border-border rounded-xl text-[14px] font-bold text-slate-800 outline-none" value={duration} onChange={(e) => setDuration(e.target.value === '' ? '' : Number(e.target.value))} />
                         </div>
                     </section>
 
@@ -405,13 +405,13 @@ export const EditWorkOrderModal: React.FC<EditWorkOrderModalProps> = ({ isOpen, 
                         </div>
                         <div className="grid grid-cols-2 gap-6">
                             <div className="space-y-2 relative">
-                                <label className="text-[12px] font-black text-slate-500 uppercase tracking-widest">Primary Assignee</label>
-                                <button onClick={() => toggleDropdown('assignee')} className="w-full flex items-center justify-between px-5 py-3.5 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-all text-left">
+                                <label className="text-[12px] font-black text-muted-foreground uppercase tracking-widest">Primary Assignee</label>
+                                <button onClick={() => toggleDropdown('assignee')} className="w-full flex items-center justify-between px-5 py-3.5 bg-card border border-border rounded-xl hover:bg-muted/50 transition-all text-left">
                                     <div className="flex items-center gap-3">
                                         <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-[11px] font-black">
                                             {userList.find((u: any) => u.id === primaryAssigneeId || u.userOrgId === primaryAssigneeId)?.name[0] || 'Unassigned'[0]}
                                         </div>
-                                        <span className="text-[14px] font-bold text-slate-700">
+                                        <span className="text-[14px] font-bold text-foreground/90">
                                             {userList.find((u: any) => u.id === primaryAssigneeId || u.userOrgId === primaryAssigneeId)?.name || 'Unassigned'}
                                         </span>
                                     </div>
@@ -420,8 +420,8 @@ export const EditWorkOrderModal: React.FC<EditWorkOrderModalProps> = ({ isOpen, 
                                 {dropdowns.assignee && (
                                     <div className="absolute top-full left-0 right-0 mt-2 popover-solid rounded-xl shadow-xl z-50 py-2 border border-slate-100">
                                         {userList.map((u: User) => (
-                                            <button key={u.id} onClick={() => { setPrimaryAssigneeId(u.userOrgId || u.id); toggleDropdown('assignee'); }} className="w-full text-left px-5 py-2.5 text-[14px] font-bold text-slate-600 hover:bg-slate-50 transition-all flex items-center gap-3">
-                                                <div className="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-[10px]">{u.name[0]}</div>
+                                            <button key={u.id} onClick={() => { setPrimaryAssigneeId(u.userOrgId || u.id); toggleDropdown('assignee'); }} className="w-full text-left px-5 py-2.5 text-[14px] font-bold text-slate-600 hover:bg-muted/50 transition-all flex items-center gap-3">
+                                                <div className="w-6 h-6 rounded-full bg-muted flex items-center justify-center text-[10px]">{u.name[0]}</div>
                                                 {u.name}
                                             </button>
                                         ))}
@@ -429,9 +429,9 @@ export const EditWorkOrderModal: React.FC<EditWorkOrderModalProps> = ({ isOpen, 
                                 )}
                             </div>
                             <div className="space-y-2 relative">
-                                <label className="text-[12px] font-black text-slate-500 uppercase tracking-widest">Team</label>
-                                <button onClick={() => toggleDropdown('team')} className="w-full flex items-center justify-between px-5 py-3.5 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-all text-left">
-                                    <span className="text-[14px] font-bold text-slate-700">
+                                <label className="text-[12px] font-black text-muted-foreground uppercase tracking-widest">Team</label>
+                                <button onClick={() => toggleDropdown('team')} className="w-full flex items-center justify-between px-5 py-3.5 bg-card border border-border rounded-xl hover:bg-muted/50 transition-all text-left">
+                                    <span className="text-[14px] font-bold text-foreground/90">
                                         {teamList.find((t: any) => t.id === teamId)?.name || ''}
                                     </span>
                                     <ChevronDown className="w-4 h-4 text-slate-400" />
@@ -439,22 +439,22 @@ export const EditWorkOrderModal: React.FC<EditWorkOrderModalProps> = ({ isOpen, 
                                 {dropdowns.team && (
                                     <div className="absolute top-full left-0 right-0 mt-2 popover-solid rounded-xl shadow-xl z-50 py-2 border border-slate-100">
                                         {teamList.map((t: Team) => (
-                                            <button key={t.id} onClick={() => { setTeamId(t.id); toggleDropdown('team'); }} className="w-full text-left px-5 py-2.5 text-[14px] font-bold text-slate-600 hover:bg-slate-50 transition-all">{t.name}</button>
+                                            <button key={t.id} onClick={() => { setTeamId(t.id); toggleDropdown('team'); }} className="w-full text-left px-5 py-2.5 text-[14px] font-bold text-slate-600 hover:bg-muted/50 transition-all">{t.name}</button>
                                         ))}
                                     </div>
                                 )}
                             </div>
                             <div className="col-span-2 space-y-2 relative">
-                                <label className="text-[12px] font-black text-slate-500 uppercase tracking-widest">Additional Assignee(s)</label>
+                                <label className="text-[12px] font-black text-muted-foreground uppercase tracking-widest">Additional Assignee(s)</label>
                                 <div 
                                     onClick={() => toggleDropdown('additionalAssignee')}
-                                    className="w-full px-5 py-4 bg-white border border-slate-200 rounded-xl min-h-[50px] flex flex-wrap items-center gap-2 cursor-pointer hover:border-slate-300 transition-all"
+                                    className="w-full px-5 py-4 bg-card border border-border rounded-xl min-h-[50px] flex flex-wrap items-center gap-2 cursor-pointer hover:border-slate-300 transition-all"
                                 >
                                     {technicianIds.length === 0 && <span className="text-[14px] text-slate-300 font-bold">Select...</span>}
                                     {technicianIds.map(tid => {
                                         const u = userList.find((u: any) => (u.userOrgId || u.id) === tid);
                                         return (
-                                            <div key={tid} className="flex items-center gap-1.5 px-2 py-1 bg-blue-50 text-blue-600 rounded-lg text-[12px] font-black">
+                                            <div key={tid} className="flex items-center gap-1.5 px-2 py-1 bg-blue-50 text-primary rounded-lg text-[12px] font-black">
                                                 {u?.name || 'User'}
                                                 <X onClick={(e) => { e.stopPropagation(); toggleTechnician(tid); }} className="w-3 h-3 hover:text-blue-800" />
                                             </div>
@@ -470,7 +470,7 @@ export const EditWorkOrderModal: React.FC<EditWorkOrderModalProps> = ({ isOpen, 
                                                 onClick={() => toggleTechnician(u.userOrgId || u.id)} 
                                                 className={cn(
                                                     "w-full text-left px-5 py-2.5 text-[14px] font-bold transition-all flex items-center justify-between",
-                                                    technicianIds.includes(u.userOrgId || u.id) ? "bg-blue-50 text-blue-600" : "text-slate-600 hover:bg-slate-50"
+                                                    technicianIds.includes(u.userOrgId || u.id) ? "bg-blue-50 text-primary" : "text-slate-600 hover:bg-muted/50"
                                                 )}
                                             >
                                                 <span>{u.name}</span>
@@ -487,10 +487,10 @@ export const EditWorkOrderModal: React.FC<EditWorkOrderModalProps> = ({ isOpen, 
                     <section className="space-y-6">
                         <div className="flex items-center justify-between">
                             <h3 className="text-[18px] font-black text-slate-800">Parts</h3>
-                            <button onClick={() => toggleDropdown('parts')} className="px-5 py-2 border border-slate-200 rounded-xl text-[13px] font-bold text-slate-600 hover:bg-slate-50 transition-all">Add Parts</button>
+                            <button onClick={() => toggleDropdown('parts')} className="px-5 py-2 border border-border rounded-xl text-[13px] font-bold text-slate-600 hover:bg-muted/50 transition-all">Add Parts</button>
                         </div>
                         {dropdowns.parts && (
-                            <div className="bg-white border border-slate-200 rounded-2xl p-4 shadow-xl max-h-48 overflow-y-auto">
+                            <div className="bg-card border border-border rounded-2xl p-4 shadow-xl max-h-48 overflow-y-auto">
                                 <p className="text-[11px] font-bold text-slate-400 mb-2 uppercase tracking-widest">Select Part to Add</p>
                                 {allParts.length === 0 && <p className="text-[12px] text-slate-400 italic">No parts found in inventory.</p>}
                                 {allParts.map((p: any) => (
@@ -501,7 +501,7 @@ export const EditWorkOrderModal: React.FC<EditWorkOrderModalProps> = ({ isOpen, 
                                             addPart(p); 
                                             toggleDropdown('parts'); 
                                         }} 
-                                        className="w-full text-left px-4 py-2 hover:bg-slate-50 rounded-lg text-[13px] font-bold text-slate-600 transition-all flex items-center justify-between"
+                                        className="w-full text-left px-4 py-2 hover:bg-muted/50 rounded-lg text-[13px] font-bold text-slate-600 transition-all flex items-center justify-between"
                                     >
                                         <span>{p.name}</span>
                                         <span className="text-[11px] text-slate-400">#{p.partNumber || 'N/A'}</span>
@@ -509,7 +509,7 @@ export const EditWorkOrderModal: React.FC<EditWorkOrderModalProps> = ({ isOpen, 
                                 ))}
                             </div>
                         )}
-                        <div className="w-full border border-slate-200 rounded-2xl bg-white shadow-sm overflow-hidden">
+                        <div className="w-full border border-border rounded-2xl bg-card shadow-sm overflow-hidden">
                             <table className="w-full text-left border-collapse">
                                 <thead>
                                     <tr className="border-b border-slate-100 bg-slate-50/20">
@@ -539,7 +539,7 @@ export const EditWorkOrderModal: React.FC<EditWorkOrderModalProps> = ({ isOpen, 
                                                 <td className="px-6 py-5">
                                                     <div className="flex flex-col">
                                                         <span 
-                                                            className="text-[15px] font-bold text-blue-600 group-hover/row:underline text-left w-fit"
+                                                            className="text-[15px] font-bold text-primary group-hover/row:underline text-left w-fit"
                                                         >
                                                             {p.name || actualPart?.name || 'Unknown Part'}
                                                         </span>
@@ -553,20 +553,20 @@ export const EditWorkOrderModal: React.FC<EditWorkOrderModalProps> = ({ isOpen, 
                                                         {rawStatus}
                                                     </span>
                                                 </td>
-                                                <td className="px-6 py-5 text-[15px] font-bold text-slate-700">
+                                                <td className="px-6 py-5 text-[15px] font-bold text-foreground/90">
                                                     ${unitCost.toFixed(2)}
                                                 </td>
                                                 <td className="px-6 py-5">
                                                     <input 
                                                         type="number" 
                                                         min="1"
-                                                        className="w-16 px-2 py-1 bg-white border border-slate-200 rounded-lg text-[13px] font-bold text-slate-700 outline-none focus:border-blue-400" 
+                                                        className="w-16 px-2 py-1 bg-card border border-border rounded-lg text-[13px] font-bold text-foreground/90 outline-none focus:border-primary/80" 
                                                         value={qty} 
                                                         onClick={(e) => e.stopPropagation()}
                                                         onChange={(e) => updatePartQuantity(p.partId, Math.max(1, Number(e.target.value)))}
                                                     />
                                                 </td>
-                                                <td className="px-6 py-5 text-[15px] font-bold text-slate-700">
+                                                <td className="px-6 py-5 text-[15px] font-bold text-foreground/90">
                                                     ${totalCost.toFixed(2)}
                                                 </td>
                                                 <td className="px-6 py-5 text-right">
@@ -595,7 +595,7 @@ export const EditWorkOrderModal: React.FC<EditWorkOrderModalProps> = ({ isOpen, 
                         {parts.length > 0 && (
                             <div className="flex justify-end items-center gap-3 pr-6 pt-2">
                                 <span className="text-[18px] font-black text-slate-800">Total:</span>
-                                <span className="text-[18px] font-black text-slate-900">
+                                <span className="text-[18px] font-black text-foreground">
                                     ${parts.reduce((acc: number, p: any) => {
                                         const actualPart = p.part || p;
                                         const unitCost = Number(p.unitCost || actualPart?.cost || 0);
@@ -613,15 +613,15 @@ export const EditWorkOrderModal: React.FC<EditWorkOrderModalProps> = ({ isOpen, 
                         <div className="flex items-center justify-between">
                             <h3 className="text-[18px] font-black text-slate-800">Tasks & Checklists</h3>
                             <div className="flex gap-3">
-                                <button onClick={addTask} className="px-5 py-2.5 border border-slate-200 bg-white rounded-xl text-[13px] font-black uppercase tracking-widest hover:bg-slate-50 shadow-sm">Add Task</button>
-                                <button className="px-5 py-2.5 border border-slate-200 bg-white rounded-xl text-[13px] font-black uppercase tracking-widest hover:bg-slate-50 shadow-sm">Add Checklist</button>
+                                <button onClick={addTask} className="px-5 py-2.5 border border-border bg-card rounded-xl text-[13px] font-black uppercase tracking-widest hover:bg-muted/50 shadow-sm">Add Task</button>
+                                <button className="px-5 py-2.5 border border-border bg-card rounded-xl text-[13px] font-black uppercase tracking-widest hover:bg-muted/50 shadow-sm">Add Checklist</button>
                             </div>
                         </div>
 
                         <div className="space-y-6">
                             {tasks.map((task) => (
                                 <div key={task.id} className="relative group/task">
-                                    <div className="bg-white border border-slate-200 rounded-[24px] overflow-hidden shadow-sm hover:shadow-md transition-all">
+                                    <div className="bg-card border border-border rounded-[24px] overflow-hidden shadow-sm hover:shadow-md transition-all">
                                         <div className="p-8 space-y-6">
                                             {/* Task Header Row */}
                                             <div className="flex items-center gap-4">
@@ -636,7 +636,7 @@ export const EditWorkOrderModal: React.FC<EditWorkOrderModalProps> = ({ isOpen, 
                                                 </div>
                                                 <div className="relative group/type">
                                                     <select 
-                                                        className="appearance-none flex items-center gap-2 px-6 py-3 bg-white border-2 border-slate-200 rounded-xl text-[14px] font-bold text-slate-600 outline-none pr-10 cursor-pointer hover:border-primary/30 transition-all"
+                                                        className="appearance-none flex items-center gap-2 px-6 py-3 bg-card border-2 border-border rounded-xl text-[14px] font-bold text-slate-600 outline-none pr-10 cursor-pointer hover:border-primary/30 transition-all"
                                                         value={task.type || 'Inspection'}
                                                         onChange={(e) => updateTask(task.id, { type: e.target.value })}
                                                     >
@@ -655,22 +655,22 @@ export const EditWorkOrderModal: React.FC<EditWorkOrderModalProps> = ({ isOpen, 
                                             {/* Action Buttons & Toggle Row */}
                                             <div className="flex items-center justify-between">
                                                 <div className="flex items-center gap-4">
-                                                    <button className="flex items-center gap-2 px-5 py-2.5 bg-white text-blue-600 rounded-[14px] text-[12px] font-[900] uppercase tracking-wider hover:bg-blue-50 transition-all border-2 border-blue-100 shadow-sm">
+                                                    <button className="flex items-center gap-2 px-5 py-2.5 bg-card text-primary rounded-[14px] text-[12px] font-[900] uppercase tracking-wider hover:bg-blue-50 transition-all border-2 border-blue-100 shadow-sm">
                                                         <Box className="w-4 h-4" />
                                                         ADD ASSET
                                                     </button>
                                                     
-                                                    <div className="flex items-center gap-2 px-3.5 py-1.5 bg-white rounded-full border-2 border-slate-100 shadow-sm">
-                                                        <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-[12px] font-black text-slate-600">
+                                                    <div className="flex items-center gap-2 px-3.5 py-1.5 bg-card rounded-full border-2 border-slate-100 shadow-sm">
+                                                        <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center text-[12px] font-black text-slate-600">
                                                             {workOrder.assignee?.[0] || 'J'}
                                                         </div>
-                                                        <span className="text-[13px] font-black text-slate-500 pr-2">{workOrder.assignee || 'jason daniel'}</span>
-                                                        <button className="p-1 text-blue-500 hover:bg-blue-50 rounded-lg transition-all">
+                                                        <span className="text-[13px] font-black text-muted-foreground pr-2">{workOrder.assignee || 'jason daniel'}</span>
+                                                        <button className="p-1 text-primary hover:bg-blue-50 rounded-lg transition-all">
                                                             <Edit3 className="w-4 h-4" />
                                                         </button>
                                                     </div>
 
-                                                    <button className="flex items-center gap-2 px-5 py-2.5 bg-white text-blue-600 rounded-[14px] text-[12px] font-[900] uppercase tracking-wider hover:bg-blue-50 transition-all border-2 border-blue-100 shadow-sm">
+                                                    <button className="flex items-center gap-2 px-5 py-2.5 bg-card text-primary rounded-[14px] text-[12px] font-[900] uppercase tracking-wider hover:bg-blue-50 transition-all border-2 border-blue-100 shadow-sm">
                                                         <Wrench className="w-4 h-4" />
                                                         INSTRUCTIONS
                                                     </button>
@@ -682,11 +682,11 @@ export const EditWorkOrderModal: React.FC<EditWorkOrderModalProps> = ({ isOpen, 
                                                         onClick={() => updateTask(task.id, { isRequired: !task.isRequired })}
                                                         className={cn(
                                                             "w-12 h-6 rounded-full transition-all relative",
-                                                            task.isRequired ? "bg-blue-500" : "bg-slate-200"
+                                                            task.isRequired ? "bg-primary" : "bg-slate-200"
                                                         )}
                                                     >
                                                         <div className={cn(
-                                                            "absolute top-1 w-4 h-4 bg-white rounded-full transition-all shadow-sm",
+                                                            "absolute top-1 w-4 h-4 bg-card rounded-full transition-all shadow-sm",
                                                             task.isRequired ? "left-7" : "left-1"
                                                         )} />
                                                     </button>
@@ -699,7 +699,7 @@ export const EditWorkOrderModal: React.FC<EditWorkOrderModalProps> = ({ isOpen, 
                                                     onClick={() => updateTask(task.id, { isExpanded: !task.isExpanded })}
                                                     className="w-full flex items-center justify-between group/expand"
                                                 >
-                                                    <span className="text-[15px] font-[900] text-slate-900">Additional Requirements</span>
+                                                    <span className="text-[15px] font-[900] text-foreground">Additional Requirements</span>
                                                     <ChevronDown className={cn("w-6 h-6 text-slate-300 group-hover/expand:text-slate-600 transition-all", !task.isExpanded && "-rotate-90")} />
                                                 </button>
                                                 
@@ -713,13 +713,13 @@ export const EditWorkOrderModal: React.FC<EditWorkOrderModalProps> = ({ isOpen, 
                                                             { id: 'signature', label: 'Signature', desc: 'Require technician to sign off on this task.', icon: <FileSignature className="w-5 h-5" /> },
                                                             { id: 'barcode', label: 'Barcode', desc: 'Require technician to scan a barcode/QR code.', icon: <Barcode className="w-5 h-5" /> }
                                                         ].map((item) => (
-                                                            <div key={item.id} className="p-5 bg-[#fdfdfd] border border-slate-100 rounded-[20px] flex items-center justify-between hover:border-slate-200 transition-all shadow-sm">
+                                                            <div key={item.id} className="p-5 bg-[#fdfdfd] border border-slate-100 rounded-[20px] flex items-center justify-between hover:border-border transition-all shadow-sm">
                                                                 <div className="flex items-center gap-5">
-                                                                    <div className="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-500 border border-blue-100/50">
+                                                                    <div className="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-primary border border-blue-100/50">
                                                                         {item.icon}
                                                                     </div>
                                                                     <div>
-                                                                        <p className="text-[15px] font-[900] text-slate-900">{item.label}</p>
+                                                                        <p className="text-[15px] font-[900] text-foreground">{item.label}</p>
                                                                         <p className="text-[13px] font-bold text-slate-400">{item.desc}</p>
                                                                     </div>
                                                                 </div>
@@ -727,11 +727,11 @@ export const EditWorkOrderModal: React.FC<EditWorkOrderModalProps> = ({ isOpen, 
                                                                     onClick={() => updateTask(task.id, { requirements: { ...task.requirements, [item.id]: !task.requirements[item.id] } })}
                                                                     className={cn(
                                                                         "w-12 h-6 rounded-full transition-all relative",
-                                                                        task.requirements?.[item.id] ? "bg-blue-500" : "bg-slate-200"
+                                                                        task.requirements?.[item.id] ? "bg-primary" : "bg-slate-200"
                                                                     )}
                                                                 >
                                                                     <div className={cn(
-                                                                        "absolute top-1 w-4 h-4 bg-white rounded-full transition-all shadow-sm",
+                                                                        "absolute top-1 w-4 h-4 bg-card rounded-full transition-all shadow-sm",
                                                                         task.requirements?.[item.id] ? "left-7" : "left-1"
                                                                     )} />
                                                                 </button>
@@ -752,7 +752,7 @@ export const EditWorkOrderModal: React.FC<EditWorkOrderModalProps> = ({ isOpen, 
 
                         <button 
                             onClick={addTask}
-                            className="w-full py-4 border-2 border-blue-100 bg-blue-50/10 rounded-2xl flex items-center justify-center gap-3 text-blue-600 hover:bg-blue-50 transition-all group"
+                            className="w-full py-4 border-2 border-blue-100 bg-blue-50/10 rounded-2xl flex items-center justify-center gap-3 text-primary hover:bg-blue-50 transition-all group"
                         >
                             <Plus className="w-5 h-5 group-hover:scale-110 transition-transform" />
                             <span className="text-[15px] font-black uppercase tracking-widest">Add Tasks</span>
@@ -767,24 +767,24 @@ export const EditWorkOrderModal: React.FC<EditWorkOrderModalProps> = ({ isOpen, 
 
                         <div className="space-y-6">
                             <div className="space-y-3">
-                                <label className="text-[12px] font-black text-slate-500 uppercase tracking-widest">Files</label>
+                                <label className="text-[12px] font-black text-muted-foreground uppercase tracking-widest">Files</label>
                                 <div className="border border-dashed border-slate-300 rounded-2xl p-10 flex flex-col items-center justify-center gap-3 bg-[#fafafa]/30">
                                     <button 
                                         onClick={() => photoInputRef.current?.click()}
-                                        className="px-8 py-3 border border-slate-200 bg-white rounded-xl text-[13px] font-black uppercase tracking-widest hover:bg-slate-50 transition-all shadow-sm"
+                                        className="px-8 py-3 border border-border bg-card rounded-xl text-[13px] font-black uppercase tracking-widest hover:bg-muted/50 transition-all shadow-sm"
                                     >
                                         Upload
                                     </button>
                                     <p className="text-[13px] font-bold text-slate-400">or Drop Files</p>
                                 </div>
-                                <button className="text-[14px] font-bold text-blue-600 hover:underline">Add from Saved Files</button>
+                                <button className="text-[14px] font-bold text-primary hover:underline">Add from Saved Files</button>
                             </div>
 
                             <div className="space-y-3 pt-6 relative">
-                                <label className="text-[12px] font-black text-slate-500 uppercase tracking-widest">Purchase Order</label>
+                                <label className="text-[12px] font-black text-muted-foreground uppercase tracking-widest">Purchase Order</label>
                                 <div 
                                     onClick={() => toggleDropdown('po')}
-                                    className="w-full px-5 py-4 bg-white border border-slate-200 rounded-xl flex items-center justify-between cursor-pointer hover:border-slate-300 transition-all"
+                                    className="w-full px-5 py-4 bg-card border border-border rounded-xl flex items-center justify-between cursor-pointer hover:border-slate-300 transition-all"
                                 >
                                     <span className={cn("text-[14px] font-bold", selectedPoId ? "text-slate-800" : "text-slate-400")}>
                                         {purchaseOrders.find((p: any) => p.id === selectedPoId)?.number || 'Select...'}
@@ -796,7 +796,7 @@ export const EditWorkOrderModal: React.FC<EditWorkOrderModalProps> = ({ isOpen, 
                                     <div className="absolute top-full left-0 right-0 mt-2 popover-solid rounded-xl shadow-xl z-50 py-2 border border-slate-100 max-h-48 overflow-y-auto custom-scrollbar">
                                         <button 
                                             onClick={() => { setSelectedPoId(null); toggleDropdown('po'); }}
-                                            className="w-full text-left px-5 py-2.5 text-[14px] font-bold text-slate-400 hover:bg-slate-50 transition-all"
+                                            className="w-full text-left px-5 py-2.5 text-[14px] font-bold text-slate-400 hover:bg-muted/50 transition-all"
                                         >
                                             None / Clear
                                         </button>
@@ -804,7 +804,7 @@ export const EditWorkOrderModal: React.FC<EditWorkOrderModalProps> = ({ isOpen, 
                                             <button 
                                                 key={p.id} 
                                                 onClick={() => { setSelectedPoId(p.id); toggleDropdown('po'); }}
-                                                className="w-full text-left px-5 py-2.5 text-[14px] font-bold text-slate-600 hover:bg-slate-50 transition-all"
+                                                className="w-full text-left px-5 py-2.5 text-[14px] font-bold text-slate-600 hover:bg-muted/50 transition-all"
                                             >
                                                 {p.number} - {p.vendor?.name || 'No Vendor'}
                                             </button>
@@ -822,11 +822,11 @@ export const EditWorkOrderModal: React.FC<EditWorkOrderModalProps> = ({ isOpen, 
                                     onClick={() => setSignatureRequired(!signatureRequired)}
                                     className={cn(
                                         "w-12 h-6 rounded-full transition-all relative",
-                                        signatureRequired ? "bg-blue-600" : "bg-slate-200"
+                                        signatureRequired ? "bg-primary" : "bg-slate-200"
                                     )}
                                 >
                                     <div className={cn(
-                                        "absolute top-1 w-4 h-4 bg-white rounded-full transition-all",
+                                        "absolute top-1 w-4 h-4 bg-card rounded-full transition-all",
                                         signatureRequired ? "left-7" : "left-1"
                                     )} />
                                 </button>
@@ -836,16 +836,16 @@ export const EditWorkOrderModal: React.FC<EditWorkOrderModalProps> = ({ isOpen, 
                 </div>
 
                 {/* Footer */}
-                <div className="px-10 py-3 border-t border-slate-100 flex items-center justify-end gap-3 bg-white z-10">
-                    <button onClick={onClose} className="px-8 py-2.5 border border-slate-200 rounded-xl text-[14px] font-black text-slate-600 hover:bg-slate-50 transition-all">Cancel</button>
+                <div className="px-10 py-3 border-t border-slate-100 flex items-center justify-end gap-3 bg-card z-10">
+                    <button onClick={onClose} className="px-8 py-2.5 border border-border rounded-xl text-[14px] font-black text-slate-600 hover:bg-muted/50 transition-all">Cancel</button>
                     <button 
                         disabled={isLocked}
                         onClick={handleSave} 
                         className={cn(
                             "px-8 py-2.5 rounded-xl text-[14px] font-black transition-all",
                             isLocked 
-                                ? "bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-200" 
-                                : "bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-100 active:scale-95"
+                                ? "bg-muted text-slate-400 cursor-not-allowed border border-border" 
+                                : "bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20 active:scale-95"
                         )}
                     >
                         {isLocked ? 'Locked (Signed)' : 'Save Changes'}

@@ -59,7 +59,7 @@ const LocationItem = ({
     return (
         <div className="flex flex-col">
             <div 
-                className={`flex items-center gap-3 py-2.5 px-4 hover:bg-slate-50 cursor-pointer group transition-colors ${isSelected ? 'bg-blue-50/50' : ''}`}
+                className={`flex items-center gap-3 py-2.5 px-4 hover:bg-muted/50 cursor-pointer group transition-colors ${isSelected ? 'bg-blue-50/50' : ''}`}
                 style={{ paddingLeft: `${(level * 24) + 12}px` }}
                 onClick={() => onToggle(location.id, location.children || [])}
             >
@@ -76,12 +76,12 @@ const LocationItem = ({
                 </div>
                 
                 <div className={`w-4 h-4 rounded border flex items-center justify-center transition-all ${
-                    isSelected ? 'bg-blue-600 border-blue-600' : 'border-slate-300 bg-white group-hover:border-blue-400'
+                    isSelected ? 'bg-primary border-primary' : 'border-slate-300 bg-card group-hover:border-primary/80'
                 }`}>
                     {isSelected && <Check className="w-3 h-3 text-white stroke-[3]" />}
                 </div>
 
-                <span className={`text-[13px] ${isSelected ? 'font-bold text-slate-900' : 'text-slate-700 font-medium'}`}>
+                <span className={`text-[13px] ${isSelected ? 'font-bold text-foreground' : 'text-foreground/90 font-medium'}`}>
                     {location.name}
                 </span>
 
@@ -155,7 +155,7 @@ export const LocationFilterModal: React.FC<LocationFilterModalProps> = ({
             
             <div 
                 className={cn(
-                    "fixed z-[250] bg-white w-[380px] rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] overflow-hidden flex flex-col max-h-[60vh] border border-slate-200 animate-in fade-in zoom-in-95 duration-200",
+                    "fixed z-[250] bg-card w-[380px] rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] overflow-hidden flex flex-col max-h-[60vh] border border-border animate-in fade-in zoom-in-95 duration-200",
                     className
                 )}
                 style={{ 
@@ -166,27 +166,27 @@ export const LocationFilterModal: React.FC<LocationFilterModalProps> = ({
                 {/* Search */}
                 <div className="p-3 border-b border-slate-100 bg-slate-50/30">
                     <div className="relative group">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-blue-500 transition-colors" />
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-primary transition-colors" />
                         <input
                             type="text"
                             placeholder="Filter locations..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full h-9 bg-white border border-slate-200 rounded-lg pl-9 pr-4 text-xs focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all font-medium text-slate-900 placeholder-slate-400"
+                            className="w-full h-9 bg-card border border-border rounded-lg pl-9 pr-4 text-xs focus:outline-none focus:ring-4 focus:ring-primary/10 focus:border-primary/80 transition-all font-medium text-foreground placeholder-slate-400"
                         />
                     </div>
                 </div>
 
                 {/* Toggle Section */}
                 <div className="px-4 py-2 flex items-center justify-between border-b border-slate-50">
-                    <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Include Sub-locations</span>
+                    <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider">Include Sub-locations</span>
                     <button 
                         onClick={() => setIncludeSublocations(!includeSublocations)}
                         className={`w-9 h-4.5 rounded-full transition-colors relative flex items-center px-1 ${
-                            includeSublocations ? 'bg-blue-600' : 'bg-slate-200'
+                            includeSublocations ? 'bg-primary' : 'bg-slate-200'
                         }`}
                     >
-                        <div className={`w-3 h-3 bg-white rounded-full transition-all shadow-sm ${
+                        <div className={`w-3 h-3 bg-card rounded-full transition-all shadow-sm ${
                             includeSublocations ? 'translate-x-3.5' : 'translate-x-0'
                         }`} />
                     </button>
@@ -197,7 +197,7 @@ export const LocationFilterModal: React.FC<LocationFilterModalProps> = ({
                     {isLoading ? (
                         <div className="flex flex-col gap-2 p-4">
                             {[1, 2, 3].map(i => (
-                                <div key={i} className="h-6 bg-slate-50 rounded animate-pulse" />
+                                <div key={i} className="h-6 bg-muted/50 rounded animate-pulse" />
                             ))}
                         </div>
                     ) : filteredTree.length > 0 ? (
@@ -224,7 +224,7 @@ export const LocationFilterModal: React.FC<LocationFilterModalProps> = ({
                 </div>
 
                 {/* Footer */}
-                <div className="px-4 py-3 flex items-center justify-between border-t border-slate-100 bg-slate-50/50">
+                <div className="px-4 py-3 flex items-center justify-between border-t border-slate-100 bg-transparent">
                     <span className="text-[11px] font-bold text-slate-400 uppercase">{selectedIds.length} Selected</span>
                     <div className="flex items-center gap-2">
                         <button 
@@ -233,13 +233,13 @@ export const LocationFilterModal: React.FC<LocationFilterModalProps> = ({
                                 onSave([], includeSublocations);
                                 onClose();
                             }}
-                            className="h-8 px-3 text-[11px] font-bold text-slate-600 hover:bg-white rounded-lg transition-all"
+                            className="h-8 px-3 text-[11px] font-bold text-slate-600 hover:bg-card rounded-lg transition-all"
                         >
                             Reset
                         </button>
                         <button 
                             onClick={() => onSave(selectedIds, includeSublocations)}
-                            className="bg-blue-600 text-white px-4 h-8 rounded-lg text-[11px] font-bold hover:bg-blue-700 transition-all shadow-sm"
+                            className="bg-primary text-white px-4 h-8 rounded-lg text-[11px] font-bold hover:bg-primary/90 transition-all shadow-sm"
                         >
                             Apply Selection
                         </button>

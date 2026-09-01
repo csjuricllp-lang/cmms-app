@@ -36,12 +36,12 @@ export const CreateCustomStatusModal: React.FC<CreateCustomStatusModalProps> = (
                     initial={{ opacity: 0, scale: 0.95, y: 20 }}
                     animate={{ opacity: 1, scale: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                    className="relative w-full max-w-[500px] bg-white rounded-[24px] shadow-[0_32px_128px_rgba(0,0,0,0.18)] overflow-hidden"
+                    className="relative w-full max-w-[500px] bg-card rounded-[24px] shadow-[0_32px_128px_rgba(0,0,0,0.18)] overflow-hidden"
                 >
                     {/* Header */}
                     <div className="flex items-center justify-between px-8 py-6">
                         <h2 className="text-[20px] font-bold text-slate-800">Create Custom Status</h2>
-                        <button onClick={onClose} className="p-2 hover:bg-slate-50 rounded-full transition-colors">
+                        <button onClick={onClose} className="p-2 hover:bg-muted/50 rounded-full transition-colors">
                             <X className="w-5 h-5 text-slate-400" />
                         </button>
                     </div>
@@ -50,7 +50,7 @@ export const CreateCustomStatusModal: React.FC<CreateCustomStatusModalProps> = (
                     <div className="px-8 pb-8 space-y-8">
                         {/* Type Picker */}
                         <div className="space-y-4">
-                            <label className="text-[13px] font-bold text-slate-500 uppercase tracking-widest ml-1">Type</label>
+                            <label className="text-[13px] font-bold text-muted-foreground uppercase tracking-widest ml-1">Type</label>
                             <div className="relative group">
                                 <select 
                                     value={selectedType.value}
@@ -58,7 +58,7 @@ export const CreateCustomStatusModal: React.FC<CreateCustomStatusModalProps> = (
                                         const type = SYSTEM_STATUSES.find(s => s.value === e.target.value);
                                         if (type) setSelectedType(type);
                                     }}
-                                    className="w-full bg-slate-50 hover:bg-white border border-slate-100 hover:border-slate-200 rounded-xl px-5 py-4 text-[15px] font-bold text-slate-700 transition-all appearance-none cursor-pointer pr-12 outline-none focus:ring-2 focus:ring-indigo-500/10"
+                                    className="w-full bg-muted/50 hover:bg-card border border-slate-100 hover:border-border rounded-xl px-5 py-4 text-[15px] font-bold text-foreground/90 transition-all appearance-none cursor-pointer pr-12 outline-none focus:ring-2 focus:ring-primary/10"
                                 >
                                     {SYSTEM_STATUSES.map((type) => (
                                         <option key={type.value} value={type.value}>{type.label}</option>
@@ -71,25 +71,25 @@ export const CreateCustomStatusModal: React.FC<CreateCustomStatusModalProps> = (
                             </p>
                         </div>
 
-                        <div className="h-[1px] bg-slate-50 w-full" />
+                        <div className="h-[1px] bg-muted/50 w-full" />
 
                         {/* Status Label */}
                         <div className="space-y-4">
-                            <label className="text-[13px] font-bold text-slate-500 uppercase tracking-widest ml-1">Status</label>
+                            <label className="text-[13px] font-bold text-muted-foreground uppercase tracking-widest ml-1">Status</label>
                             <input 
                                 value={statusLabel}
                                 onChange={(e) => setStatusLabel(e.target.value)}
                                 placeholder=""
-                                className="w-full bg-white border border-slate-200 rounded-xl px-5 py-4 text-[15px] font-bold text-slate-700 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/10 transition-all"
+                                className="w-full bg-card border border-border rounded-xl px-5 py-4 text-[15px] font-bold text-foreground/90 outline-none focus:border-primary/80 focus:ring-2 focus:ring-primary/10 transition-all"
                             />
                         </div>
                     </div>
 
                     {/* Footer */}
-                    <div className="flex items-center justify-end gap-3 px-8 py-6 bg-slate-50/50">
+                    <div className="flex items-center justify-end gap-3 px-8 py-6 bg-transparent">
                         <button 
                             onClick={onClose}
-                            className="px-6 py-3 rounded-xl text-[14px] font-bold text-slate-600 hover:bg-slate-100 transition-all border border-slate-200"
+                            className="px-6 py-3 rounded-xl text-[14px] font-bold text-slate-600 hover:bg-muted transition-all border border-border"
                         >
                             Cancel
                         </button>
@@ -104,7 +104,7 @@ export const CreateCustomStatusModal: React.FC<CreateCustomStatusModalProps> = (
                                 onClose();
                             }}
                             disabled={!statusLabel}
-                            className="px-8 py-3 bg-indigo-600 disabled:bg-slate-100 disabled:text-slate-400 text-white rounded-xl text-[14px] font-bold shadow-lg shadow-indigo-100 transition-all active:scale-95"
+                            className="px-8 py-3 bg-primary disabled:bg-muted disabled:text-slate-400 text-white rounded-xl text-[14px] font-bold shadow-lg shadow-primary/20 transition-all active:scale-95"
                         >
                             Create Custom Status
                         </button>

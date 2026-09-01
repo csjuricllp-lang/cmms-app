@@ -22,11 +22,11 @@ export const MaintenanceCompliance = ({ data }: { data: AnalyticsData }) => {
         <div className="space-y-10 pb-20 font-inter">
             {/* Header & Filters */}
             <div className="space-y-8">
-                <h2 className="text-[42px] font-medium text-slate-900 tracking-tight">Maintenance Compliance</h2>
+                <h2 className="text-[42px] font-medium text-foreground tracking-tight">Maintenance Compliance</h2>
             </div>
 
-            <div className="h-px bg-slate-100" />
-            <p className="text-center text-[12px] font-medium text-slate-500 italic">What does our compliance look like for completed work orders?</p>
+            <div className="h-px bg-muted" />
+            <p className="text-center text-[12px] font-medium text-muted-foreground italic">What does our compliance look like for completed work orders?</p>
 
             {/* Big Stats */}
             <div className="grid grid-cols-3 gap-6">
@@ -35,8 +35,8 @@ export const MaintenanceCompliance = ({ data }: { data: AnalyticsData }) => {
                     { label: 'Compliant Count', value: summarySafe.compliant ?? 0, info: true },
                     { label: 'Non-Compliant Count', value: summarySafe.nonCompliant ?? 0 },
                 ].map((stat, i) => (
-                    <div key={i} className="bg-white rounded-3xl border border-slate-200 p-12 flex flex-col items-center justify-center text-center shadow-sm relative overflow-hidden group">
-                        <div className="absolute top-0 left-0 w-full h-1 bg-slate-50 group-hover:bg-indigo-500 transition-colors" />
+                    <div key={i} className="bg-card rounded-3xl border border-border p-12 flex flex-col items-center justify-center text-center shadow-sm relative overflow-hidden group">
+                        <div className="absolute top-0 left-0 w-full h-1 bg-transparent group-hover:bg-primary/80 transition-colors" />
                         <div className="flex items-center gap-2 mb-2">
                             <span className="text-[12px] font-black text-slate-400 uppercase tracking-[0.2em]">{stat.label}</span>
                             {stat.info && <Info className="w-3 h-3 text-slate-300" />}
@@ -64,7 +64,7 @@ export const MaintenanceCompliance = ({ data }: { data: AnalyticsData }) => {
                                 </ResponsiveContainer>
                             ) : (
                                 <div className="flex flex-col items-center gap-4 text-slate-300">
-                                    <div className="w-12 h-12 rounded-full border-2 border-dashed border-slate-200 flex items-center justify-center"><Info className="w-6 h-6" /></div>
+                                    <div className="w-12 h-12 rounded-full border-2 border-dashed border-border flex items-center justify-center"><Info className="w-6 h-6" /></div>
                                     <span className="text-[12px] font-bold uppercase tracking-widest">No results</span>
                                 </div>
                             )}
@@ -92,8 +92,8 @@ export const MaintenanceCompliance = ({ data }: { data: AnalyticsData }) => {
                 <div className="lg:col-span-5 space-y-6">
                     <Widget title="Compliance Rate" className="h-[250px]">
                         <div className="h-full flex items-center justify-center relative">
-                            <div className="relative w-32 h-32 flex items-center justify-center rounded-full border-[12px] border-indigo-100 shadow-inner">
-                                <span className="text-[28px] font-black text-indigo-600">{summarySafe.rate ?? "0.0"}%</span>
+                            <div className="relative w-32 h-32 flex items-center justify-center rounded-full border-[12px] border-primary/10 shadow-inner">
+                                <span className="text-[28px] font-black text-primary">{summarySafe.rate ?? "0.0"}%</span>
                                 <svg className="absolute -inset-[12px] w-[152px] h-[152px] -rotate-90">
                                     <circle cx="76" cy="76" r="68" fill="none" stroke="#6366F1" strokeWidth="12" strokeDasharray={`${parseFloat(summarySafe.rate || "0") * 4.27} 427`} strokeLinecap="round" className="transition-all duration-1000" />
                                 </svg>
@@ -105,7 +105,7 @@ export const MaintenanceCompliance = ({ data }: { data: AnalyticsData }) => {
                         <div className="h-full flex flex-col items-center justify-center text-center">
                             <div className="w-48 h-24 overflow-hidden relative">
                                 <div className="w-48 h-48 rounded-full border-[16px] border-slate-100 absolute top-0" />
-                                <div className="w-48 h-48 rounded-full border-[16px] border-indigo-500 absolute top-0 rotate-[180deg] origin-center" style={{ clipPath: 'polygon(50% 50%, -50% 100%, 0 100%)' }} />
+                                <div className="w-48 h-48 rounded-full border-[16px] border-primary/80 absolute top-0 rotate-[180deg] origin-center" style={{ clipPath: 'polygon(50% 50%, -50% 100%, 0 100%)' }} />
                                 <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-4 bg-slate-400 rounded-full border-2 border-white shadow-sm" />
                             </div>
                             <span className="text-[20px] font-black text-slate-800 mt-2">0%</span>

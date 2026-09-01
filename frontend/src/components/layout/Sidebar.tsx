@@ -112,17 +112,17 @@ export const Sidebar = () => {
 
     return (
         <aside className={cn(
-            "flex w-60 h-screen glass-panel fixed left-0 top-0 z-[150] flex-col transition-transform duration-300",
+            "flex w-60 h-screen bg-background border-r border-border/40 fixed left-0 top-0 z-[150] flex-col transition-transform duration-300",
             sidebarCollapsed ? "-translate-x-full" : "translate-x-0"
         )}>
             {/* Logo */}
             <div className="px-6 py-5 border-b border-border/40 shrink-0">
                 <div className="flex items-center gap-3">
                     <div className="w-8 h-8 rounded-xl bg-primary flex items-center justify-center shadow-lg shadow-primary/30 shrink-0">
-                        <Settings className="w-4 h-4 text-white" />
+                        <span className="text-white font-black text-lg italic leading-none pr-0.5">J</span>
                     </div>
                     <h1 className="text-[15px] font-black bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent tracking-tighter uppercase italic">
-                        CMMS ENGINE
+                        CMMS Juric
                     </h1>
                 </div>
             </div>

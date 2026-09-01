@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Shield, Lock, Mail, AlertCircle, ArrowRight, Loader2 } from 'lucide-react';
@@ -12,6 +12,12 @@ export const LoginPage = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const navigate = useNavigate();
+
+    // Force the global organization theme on the login page, overriding any cached user preferences
+    useEffect(() => {
+        useThemeStore.getState().setTheme('light-peach');
+        useThemeStore.getState().setAccentColor('346.8 77.2% 49.8%');
+    }, []);
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -28,7 +34,9 @@ export const LoginPage = () => {
             localStorage.setItem('token', response.data.access_token);
             localStorage.setItem('user', JSON.stringify(response.data.user));
             
-            // Reset sidebar collapse state to make it visible by default after login
+            // Enforce default branding accent and workspace mood for the organization
+            useThemeStore.getState().setTheme('light-peach');
+            useThemeStore.getState().setAccentColor('346.8 77.2% 49.8%');
             useThemeStore.setState({ sidebarCollapsed: false });
             
             navigate('/');
@@ -40,10 +48,10 @@ export const LoginPage = () => {
     };
 
     return (
-        <div className="min-h-screen w-full flex items-center justify-center p-4 relative overflow-hidden bg-[#050505]">
+        <div className="min-h-[100dvh] w-full flex items-center justify-center p-4 sm:p-6 relative overflow-hidden bg-background">
             {/* Background Decorative Elements */}
-            <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/10 rounded-full blur-[120px] animate-pulse" />
-            <div className="absolute bottom-[-10%] right-[-10%] w-[30%] h-[30%] bg-blue-500/10 rounded-full blur-[100px]" />
+            <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/80/10 rounded-full blur-[120px] animate-pulse" />
+            <div className="absolute bottom-[-10%] right-[-10%] w-[30%] h-[30%] bg-primary/10 rounded-full blur-[100px]" />
 
             <motion.div 
                 initial={{ opacity: 0, y: 20 }}
@@ -51,27 +59,27 @@ export const LoginPage = () => {
                 transition={{ duration: 0.8, ease: "easeOut" }}
                 className="w-full max-w-md z-10"
             >
-                <div className="text-center mb-6">
-                    <div className="inline-flex p-3 rounded-2xl bg-white/5 border border-white/10 mb-4 shadow-2xl backdrop-blur-xl">
-                        <Shield className="w-8 h-8 text-primary" />
+                <div className="text-center mb-5">
+                    <div className="inline-flex w-12 h-12 rounded-2xl bg-card border border-border mb-3 shadow-sm items-center justify-center">
+                        <span className="text-primary font-black text-2xl italic leading-none pr-1">J</span>
                     </div>
-                    <h1 className="text-3xl font-black italic tracking-tighter text-white mb-1 uppercase">
-                        CMMS ENGINE
+                    <h1 className="text-2xl sm:text-3xl font-black italic tracking-tighter text-foreground mb-1 uppercase">
+                        CMMS Juric
                     </h1>
-                    <p className="text-muted-foreground text-sm font-medium tracking-wide">
-                        Enterprise Asset Intelligence by Antigravity
+                    <p className="text-muted-foreground text-xs sm:text-sm font-medium tracking-wide">
+                        Enterprise Asset Intelligence for Reliability Teams
                     </p>
                 </div>
 
-                <div className="glass-panel p-6 sm:p-8 rounded-[32px] shadow-2xl border-white/10">
-                    <form onSubmit={handleLogin} className="space-y-5">
+                <div className="bg-card p-5 sm:p-7 rounded-[32px] shadow-2xl shadow-slate-200/50 border border-slate-100">
+                    <form onSubmit={handleLogin} className="space-y-4">
                         <AnimatePresence mode="wait">
                             {error && (
                                 <motion.div 
                                     initial={{ opacity: 0, height: 0 }}
                                     animate={{ opacity: 1, height: 'auto' }}
                                     exit={{ opacity: 0, height: 0 }}
-                                    className="p-3 mb-2 rounded-xl bg-destructive/10 border border-destructive/20 flex items-center gap-3 text-destructive text-sm font-bold italic"
+                                    className="p-3 mb-2 rounded-xl bg-rose-50 border border-rose-200 flex items-center gap-3 text-rose-600 text-sm font-bold italic"
                                 >
                                     <AlertCircle className="w-4 h-4 shrink-0" />
                                     {error}
@@ -80,16 +88,16 @@ export const LoginPage = () => {
                         </AnimatePresence>
 
                         <div className="space-y-1.5">
-                             <label className="text-[9px] font-black uppercase tracking-[0.2em] text-muted-foreground ml-1 italic opacity-60">
+                             <label className="text-[9px] font-black uppercase tracking-[0.2em] text-muted-foreground ml-1 italic opacity-80">
                                  Secure Email
                              </label>
                             <div className="relative group">
-                                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
+                                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-primary transition-colors" />
                                 <input 
                                     type="email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-11 pr-4 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/40 transition-all placeholder:text-white/10"
+                                    className="w-full bg-transparent border border-border rounded-xl py-2.5 pl-11 pr-4 text-sm font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/40 transition-all placeholder:text-slate-400"
                                     placeholder="verify@example.com"
                                     required
                                 />
@@ -97,16 +105,16 @@ export const LoginPage = () => {
                         </div>
 
                         <div className="space-y-1.5">
-                            <label className="text-[9px] font-black uppercase tracking-[0.2em] text-muted-foreground ml-1 italic opacity-60">
+                            <label className="text-[9px] font-black uppercase tracking-[0.2em] text-muted-foreground ml-1 italic opacity-80">
                                 Passphrase
                             </label>
                             <div className="relative group">
-                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
+                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-primary transition-colors" />
                                 <input 
                                     type="password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-11 pr-4 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/40 transition-all placeholder:text-white/10"
+                                    className="w-full bg-transparent border border-border rounded-xl py-2.5 pl-11 pr-4 text-sm font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/40 transition-all placeholder:text-slate-400"
                                     placeholder="••••••••"
                                     required
                                 />
@@ -115,10 +123,10 @@ export const LoginPage = () => {
 
                         <div className="flex items-center justify-between mt-1">
                             <label className="flex items-center gap-2 cursor-pointer group">
-                                <div className={`w-3.5 h-3.5 rounded border flex items-center justify-center transition-colors ${rememberMe ? 'bg-primary border-primary' : 'border-white/20 group-hover:border-white/40'}`}>
-                                    {rememberMe && <motion.div initial={{scale:0}} animate={{scale:1}} className="w-1.5 h-1.5 bg-white rounded-sm" />}
+                                <div className={`w-3.5 h-3.5 rounded border flex items-center justify-center transition-colors ${rememberMe ? 'bg-primary border-primary' : 'border-slate-300 group-hover:border-slate-400 bg-card'}`}>
+                                    {rememberMe && <motion.div initial={{scale:0}} animate={{scale:1}} className="w-1.5 h-1.5 bg-card rounded-sm" />}
                                 </div>
-                                <span className="text-[9px] font-black uppercase tracking-[0.1em] text-muted-foreground italic group-hover:text-white/80 transition-colors" onClick={() => setRememberMe(!rememberMe)}>
+                                <span className="text-[9px] font-black uppercase tracking-[0.1em] text-muted-foreground italic group-hover:text-foreground/90 transition-colors" onClick={() => setRememberMe(!rememberMe)}>
                                     Remember Me
                                 </span>
                             </label>
@@ -130,7 +138,7 @@ export const LoginPage = () => {
                         <button 
                             type="submit"
                             disabled={isLoading}
-                            className="w-full btn-primary h-12 flex items-center justify-center gap-2 active:scale-[0.98] transition-transform group text-sm"
+                            className="w-full btn-primary h-11 flex items-center justify-center gap-2 active:scale-[0.98] transition-transform group text-sm font-bold shadow-md shadow-primary/20"
                         >
                             {isLoading ? (
                                 <Loader2 className="w-4 h-4 animate-spin" />
@@ -143,11 +151,11 @@ export const LoginPage = () => {
                         </button>
                     </form>
 
-                    <div className="mt-5 flex flex-col gap-3">
-                        <div className="flex items-center justify-center gap-3 my-1 opacity-40">
-                            <div className="w-full h-[1px] bg-white/10" />
-                            <span className="text-[9px] font-black text-white whitespace-nowrap tracking-widest">OR</span>
-                            <div className="w-full h-[1px] bg-white/10" />
+                    <div className="mt-4 flex flex-col gap-3">
+                        <div className="flex items-center justify-center gap-3 my-0.5">
+                            <div className="w-full h-[1px] bg-slate-200" />
+                            <span className="text-[9px] font-black text-slate-400 whitespace-nowrap tracking-widest uppercase">OR</span>
+                            <div className="w-full h-[1px] bg-slate-200" />
                         </div>
 
                         <button
@@ -159,26 +167,27 @@ export const LoginPage = () => {
                                     window.location.href = `${backendUrl}/sso/initiate?email=${encodeURIComponent(emailInput.trim())}`;
                                 }
                             }}
-                            className="w-full h-12 bg-white/5 hover:bg-white/10 border border-white/15 rounded-xl flex items-center justify-center gap-2 text-xs font-bold text-white transition-all active:scale-[0.98]"
+                            className="w-full h-11 bg-card hover:bg-transparent border border-border rounded-xl flex items-center justify-center gap-2 text-xs font-bold text-foreground/90 transition-all active:scale-[0.98] shadow-sm"
                         >
                             <Shield className="w-4 h-4 text-primary" />
                             SIGN IN WITH SSO
                         </button>
                     </div>
 
-                    <div className="mt-6 text-center pt-2 border-t border-white/5">
-                        <p className="text-muted-foreground text-[9px] font-black italic opacity-40 uppercase tracking-[0.2em]">
+                    <div className="mt-5 text-center pt-3 border-t border-slate-100">
+                        <p className="text-muted-foreground text-[9px] font-black italic opacity-80 uppercase tracking-[0.2em]">
                             New to CMMS?{' '}
-                            <Link to="/register" className="text-primary hover:text-primary/80 transition-colors opacity-100">Create Tenant ID</Link>
+                            <Link to="/register" className="text-primary hover:text-primary/80 transition-colors">Create Tenant ID</Link>
                         </p>
                     </div>
                 </div>
 
-                <p className="mt-6 text-center text-[10px] text-muted-foreground font-medium tracking-widest opacity-40 uppercase italic">
+                <p className="mt-5 text-center text-[9px] text-slate-400 font-medium tracking-widest uppercase italic">
                     Certified Security • Flowchart Compliant • v2.1.0
                 </p>
             </motion.div>
         </div>
     );
 };
+
 

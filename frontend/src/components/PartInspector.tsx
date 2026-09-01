@@ -255,34 +255,34 @@ export const PartInspector = ({ part, onClose }: PartInspectorProps) => {
                 className="w-full max-w-[1240px] h-full max-h-[900px] bg-[#F8F9FA] rounded-[2.5rem] shadow-[0_32px_120px_-15px_rgba(0,0,0,0.3)] overflow-hidden flex flex-col border border-white/20"
             >
                 {/* Immersive Header Hub */}
-                <div className="bg-white px-8 py-3.5 border-b border-slate-100 flex items-center justify-between shrink-0">
+                <div className="bg-card px-8 py-3.5 border-b border-slate-100 flex items-center justify-between shrink-0">
                     <div className="flex items-center gap-4">
                         <div className="flex items-center gap-2">
                             {/* Sidebar Split-Pane toggle button icon */}
-                            <button className="p-2 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-50 transition-colors">
+                            <button className="p-2 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-muted/50 transition-colors">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/></svg>
                             </button>
                             {/* Back arrow */}
                             <button 
                                 onClick={onClose}
-                                className="p-2 text-slate-400 hover:text-slate-900 transition-colors"
+                                className="p-2 text-slate-400 hover:text-foreground transition-colors"
                             >
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
                             </button>
                         </div>
-                        <h2 className="text-[18px] font-bold text-slate-900 tracking-tight">{displayPart.name}</h2>
+                        <h2 className="text-[18px] font-bold text-foreground tracking-tight">{displayPart.name}</h2>
                     </div>
 
                     <div className="flex items-center gap-2 relative">
                         <button 
                             onClick={() => setIsEditModalOpen(true)}
-                            className="px-5 py-2 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 transition-all font-bold text-[13px] text-slate-700 shadow-sm"
+                            className="px-5 py-2 bg-card border border-border rounded-lg hover:bg-muted/50 transition-all font-bold text-[13px] text-foreground/90 shadow-sm"
                         >
                             Edit
                         </button>
                         <button 
                             onClick={() => setIsMenuOpen(!isMenuOpen)}
-                            className="p-2 hover:bg-slate-50 border border-slate-200 rounded-lg text-slate-500 hover:text-slate-700 transition-colors"
+                            className="p-2 hover:bg-muted/50 border border-border rounded-lg text-muted-foreground hover:text-foreground/90 transition-colors"
                         >
                             <MoreHorizontal className="w-5 h-5" />
                         </button>
@@ -293,7 +293,7 @@ export const PartInspector = ({ part, onClose }: PartInspectorProps) => {
                                     initial={{ opacity: 0, y: 10, scale: 0.95 }}
                                     animate={{ opacity: 1, y: 5, scale: 1 }}
                                     exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                                    className="absolute right-0 top-full mt-2 w-48 bg-white border border-slate-100 rounded-xl shadow-xl py-2 z-50 animate-in fade-in slide-in-from-top-1 duration-100"
+                                    className="absolute right-0 top-full mt-2 w-48 bg-card border border-slate-100 rounded-xl shadow-xl py-2 z-50 animate-in fade-in slide-in-from-top-1 duration-100"
                                 >
                                     <button
                                         onClick={() => {
@@ -315,7 +315,7 @@ export const PartInspector = ({ part, onClose }: PartInspectorProps) => {
                     {/* Left Main Column */}
                     <div className="flex-1 flex flex-col border-r border-slate-100 overflow-hidden bg-[#F8F9FA]">
                         {/* Tactical Navigation Sub-Header */}
-                        <div className="bg-white px-8 flex items-center justify-between shrink-0 border-b border-slate-100">
+                        <div className="bg-card px-8 flex items-center justify-between shrink-0 border-b border-slate-100">
                             <div className="flex items-center gap-6 h-full">
                                 {tabs.map((tab) => (
                                     <button
@@ -324,7 +324,7 @@ export const PartInspector = ({ part, onClose }: PartInspectorProps) => {
                                         className={cn(
                                             "py-4 text-[13px] font-bold transition-all relative flex items-center",
                                             activeTab === tab.id 
-                                                ? "text-blue-500" 
+                                                ? "text-primary" 
                                                 : "text-slate-400 hover:text-slate-600"
                                         )}
                                     >
@@ -332,7 +332,7 @@ export const PartInspector = ({ part, onClose }: PartInspectorProps) => {
                                         {activeTab === tab.id && (
                                             <motion.div 
                                                 layoutId="activeTab"
-                                                className="absolute bottom-0 left-0 right-0 h-[2px] bg-blue-500"
+                                                className="absolute bottom-0 left-0 right-0 h-[2px] bg-primary"
                                             />
                                         )}
                                     </button>
@@ -344,11 +344,11 @@ export const PartInspector = ({ part, onClose }: PartInspectorProps) => {
                                     onClick={() => setIsQrMenuOpen(!isQrMenuOpen)}
                                     className={cn(
                                         "flex items-center gap-2 px-3 py-2 rounded-lg transition-colors group",
-                                        isQrMenuOpen ? "bg-[#E2E8F0] text-slate-900" : "text-slate-700 hover:text-slate-900 hover:bg-slate-100"
+                                        isQrMenuOpen ? "bg-[#E2E8F0] text-foreground" : "text-foreground/90 hover:text-foreground hover:bg-muted"
                                     )}
                                 >
                                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={cn(
-                                        isQrMenuOpen ? "text-slate-900" : "text-slate-400 group-hover:text-slate-700"
+                                        isQrMenuOpen ? "text-foreground" : "text-slate-400 group-hover:text-foreground/90"
                                     )}><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
                                     <span className="text-[13px] font-black">QR Code</span>
                                 </button>
@@ -359,12 +359,12 @@ export const PartInspector = ({ part, onClose }: PartInspectorProps) => {
                                             initial={{ opacity: 0, y: 10, scale: 0.95 }}
                                             animate={{ opacity: 1, y: 5, scale: 1 }}
                                             exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                                            className="absolute top-full right-0 mt-2 bg-white rounded-2xl shadow-[0_12px_44px_-10px_rgba(0,0,0,0.15)] border border-slate-100 p-8 z-50 flex flex-col items-center w-[260px]"
+                                            className="absolute top-full right-0 mt-2 bg-card rounded-2xl shadow-[0_12px_44px_-10px_rgba(0,0,0,0.15)] border border-slate-100 p-8 z-50 flex flex-col items-center w-[260px]"
                                         >
-                                            <div className="mb-6 bg-white p-1">
+                                            <div className="mb-6 bg-card p-1">
                                                  <QRCodeSVG value={displayPart.barcode || displayPart.id || 'N/A'} size={140} level="H" />
                                             </div>
-                                            <p className="text-[14px] font-medium text-slate-500 text-center leading-relaxed">
+                                            <p className="text-[14px] font-medium text-muted-foreground text-center leading-relaxed">
                                                 Scan this QR code with the {companyName} app.
                                             </p>
                                         </motion.div>
@@ -386,41 +386,41 @@ export const PartInspector = ({ part, onClose }: PartInspectorProps) => {
                                     >
                                 <div className="flex items-center justify-between">
                                     <div className="flex items-center gap-4">
-                                        <span className="text-[14px] font-bold text-slate-900">{inventoryLines.length} Inventory Lines</span>
+                                        <span className="text-[14px] font-bold text-foreground">{inventoryLines.length} Inventory Lines</span>
                                         <div className="w-1.5 h-1.5 rounded-full bg-slate-200" />
-                                        <span className="text-[14px] font-medium text-slate-500">
-                                            Total Available <span className="font-black text-slate-900 ml-1">
+                                        <span className="text-[14px] font-medium text-muted-foreground">
+                                            Total Available <span className="font-black text-foreground ml-1">
                                                 {inventoryLines.reduce((acc: number, line: any) => acc + Number(line.availableQty || 0), 0).toFixed(2)}
                                             </span>
                                         </span>
                                     </div>
                                     <button 
                                         onClick={() => setShowAddLine(true)}
-                                        className="px-8 py-3 bg-white border border-slate-200 rounded-2xl text-[11px] font-black text-slate-700 hover:bg-slate-50 hover:border-slate-300 transition-all shadow-sm uppercase tracking-widest"
+                                        className="px-8 py-3 bg-card border border-border rounded-2xl text-[11px] font-black text-foreground/90 hover:bg-muted/50 hover:border-slate-300 transition-all shadow-sm uppercase tracking-widest"
                                     >
                                         Add Inventory Line
                                     </button>
                                 </div>
 
-                                <div className="bg-white border border-slate-200 rounded-[2rem] overflow-hidden shadow-sm">
+                                <div className="bg-card border border-border rounded-[2rem] overflow-hidden shadow-sm">
                                     <div className="overflow-x-auto custom-scrollbar">
                                         <table className="w-full text-left border-separate min-w-[1300px]" style={{ borderSpacing: 0 }}>
                                             <thead>
                                                 <tr className="bg-slate-50/40 border-b border-slate-100">
-                                                    <th className="py-5 px-8 text-[14px] font-extrabold text-slate-700 sticky left-0 bg-[#F8F9FA] z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.05)] border-b border-slate-100">Location</th>
-                                                    <th className="py-5 px-4 text-[14px] font-extrabold text-slate-700 border-b border-slate-100">Area</th>
-                                                    <th className="py-5 px-4 text-[14px] font-extrabold text-slate-700 border-b border-slate-100">Status</th>
-                                                    <th className="py-5 px-4 text-[14px] font-extrabold text-slate-700 text-center border-b border-slate-100">Available Qty</th>
-                                                    <th className="py-5 px-4 text-[14px] font-extrabold text-slate-700 text-center border-b border-slate-100">Allocated Qty</th>
-                                                    <th className="py-5 px-4 text-[14px] font-extrabold text-slate-700 text-center border-b border-slate-100">On Hand Qty</th>
-                                                    <th className="py-5 px-4 text-[14px] font-extrabold text-slate-700 text-center border-b border-slate-100">Minimum Qty</th>
-                                                    <th className="py-5 px-4 text-[14px] font-extrabold text-slate-700 text-center border-b border-slate-100">Maximum Qty</th>
-                                                    <th className="py-5 px-4 text-[14px] font-extrabold text-slate-700 border-b border-slate-100">Barcode</th>
-                                                    <th className="py-5 px-8 text-[14px] font-extrabold text-slate-700 text-center border-b border-slate-100">Cost</th>
-                                                    <th className="py-5 px-6 text-[14px] font-extrabold text-slate-700 sticky right-0 bg-[#F8F9FA] z-20 shadow-[-2px_0_5px_-2px_rgba(0,0,0,0.05)] border-b border-slate-100 w-12"></th>
+                                                    <th className="py-5 px-8 text-[14px] font-extrabold text-foreground/90 sticky left-0 bg-[#F8F9FA] z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.05)] border-b border-slate-100">Location</th>
+                                                    <th className="py-5 px-4 text-[14px] font-extrabold text-foreground/90 border-b border-slate-100">Area</th>
+                                                    <th className="py-5 px-4 text-[14px] font-extrabold text-foreground/90 border-b border-slate-100">Status</th>
+                                                    <th className="py-5 px-4 text-[14px] font-extrabold text-foreground/90 text-center border-b border-slate-100">Available Qty</th>
+                                                    <th className="py-5 px-4 text-[14px] font-extrabold text-foreground/90 text-center border-b border-slate-100">Allocated Qty</th>
+                                                    <th className="py-5 px-4 text-[14px] font-extrabold text-foreground/90 text-center border-b border-slate-100">On Hand Qty</th>
+                                                    <th className="py-5 px-4 text-[14px] font-extrabold text-foreground/90 text-center border-b border-slate-100">Minimum Qty</th>
+                                                    <th className="py-5 px-4 text-[14px] font-extrabold text-foreground/90 text-center border-b border-slate-100">Maximum Qty</th>
+                                                    <th className="py-5 px-4 text-[14px] font-extrabold text-foreground/90 border-b border-slate-100">Barcode</th>
+                                                    <th className="py-5 px-8 text-[14px] font-extrabold text-foreground/90 text-center border-b border-slate-100">Cost</th>
+                                                    <th className="py-5 px-6 text-[14px] font-extrabold text-foreground/90 sticky right-0 bg-[#F8F9FA] z-20 shadow-[-2px_0_5px_-2px_rgba(0,0,0,0.05)] border-b border-slate-100 w-12"></th>
                                                 </tr>
                                             </thead>
-                                            <tbody className="divide-y divide-slate-100 bg-white">
+                                            <tbody className="divide-y divide-slate-100 bg-card">
                                                 {inventoryLines.map((line: any) => {
                                                     const available = Number(line.availableQty || 0);
                                                     const allocated = Number(displayPart.allocatedQuantity || 0);
@@ -433,10 +433,10 @@ export const PartInspector = ({ part, onClose }: PartInspectorProps) => {
 
                                                     return (
                                                         <tr key={line.id} className="hover:bg-slate-50/20 transition-colors group">
-                                                            <td className="py-6 px-8 font-bold text-[14px] text-slate-900 sticky left-0 bg-white z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.05)] border-b border-slate-100">
+                                                            <td className="py-6 px-8 font-bold text-[14px] text-foreground sticky left-0 bg-primary z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.05)] border-b border-slate-100">
                                                                 {line.location?.name || '---'}
                                                             </td>
-                                                            <td className="py-6 px-4 text-[14px] text-slate-500 font-semibold border-b border-slate-100">
+                                                            <td className="py-6 px-4 text-[14px] text-muted-foreground font-semibold border-b border-slate-100">
                                                                 {line.area || '---'}
                                                             </td>
                                                             <td className="py-6 px-4 border-b border-slate-100">
@@ -447,20 +447,20 @@ export const PartInspector = ({ part, onClose }: PartInspectorProps) => {
                                                             <td className="py-6 px-4 text-center font-bold text-slate-800 text-[14px] border-b border-slate-100">
                                                                 {available.toFixed(2)}
                                                             </td>
-                                                            <td className="py-6 px-4 text-center text-slate-500 font-semibold text-[14px] border-b border-slate-100">
+                                                            <td className="py-6 px-4 text-center text-muted-foreground font-semibold text-[14px] border-b border-slate-100">
                                                                 {allocated.toFixed(2)}
                                                             </td>
                                                             <td className="py-6 px-4 text-center font-bold text-slate-800 text-[14px] border-b border-slate-100">
                                                                 {onHand.toFixed(2)}
                                                             </td>
-                                                            <td className="py-6 px-4 text-center text-slate-500 font-semibold text-[14px] border-b border-slate-100">
+                                                            <td className="py-6 px-4 text-center text-muted-foreground font-semibold text-[14px] border-b border-slate-100">
                                                                 {minQty}
                                                             </td>
-                                                            <td className="py-6 px-4 text-center text-slate-500 font-semibold text-[14px] border-b border-slate-100">
+                                                            <td className="py-6 px-4 text-center text-muted-foreground font-semibold text-[14px] border-b border-slate-100">
                                                                 {maxQty}
                                                             </td>
                                                             <td className="py-6 px-4 font-mono text-[13px] text-slate-600 border-b border-slate-100">
-                                                                <div className="flex items-center gap-1.5 cursor-pointer hover:text-blue-600 transition-colors">
+                                                                <div className="flex items-center gap-1.5 cursor-pointer hover:text-primary transition-colors">
                                                                     <span>{barcode}</span>
                                                                     {barcode !== '-' && (
                                                                         <ChevronDown className="w-4 h-4 text-slate-400" />
@@ -470,8 +470,8 @@ export const PartInspector = ({ part, onClose }: PartInspectorProps) => {
                                                             <td className="py-6 px-8 text-center font-bold text-slate-800 text-[14px] border-b border-slate-100">
                                                                 ${cost.toFixed(2)}
                                                             </td>
-                                                            <td className="py-6 px-6 sticky right-0 bg-white z-10 shadow-[-2px_0_5px_-2px_rgba(0,0,0,0.05)] text-center border-b border-slate-100">
-                                                                <button className="p-1 hover:bg-slate-50 rounded-lg text-slate-400 hover:text-slate-600">
+                                                            <td className="py-6 px-6 sticky right-0 bg-card z-10 shadow-[-2px_0_5px_-2px_rgba(0,0,0,0.05)] text-center border-b border-slate-100">
+                                                                <button className="p-1 hover:bg-muted/50 rounded-lg text-slate-400 hover:text-slate-600">
                                                                     <MoreHorizontal className="w-5 h-5" />
                                                                 </button>
                                                             </td>
@@ -494,8 +494,8 @@ export const PartInspector = ({ part, onClose }: PartInspectorProps) => {
                                 className="space-y-6 pt-2"
                             >
                                 {/* Group 1: Details */}
-                                <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-8">
-                                    <h3 className="text-[15px] font-black text-slate-900 mb-6">Details</h3>
+                                <div className="bg-card rounded-2xl border border-slate-100 shadow-sm p-8">
+                                    <h3 className="text-[15px] font-black text-foreground mb-6">Details</h3>
                                     <div className="space-y-0">
                                         {[
                                             { label: 'Name', value: displayPart.name },
@@ -510,15 +510,15 @@ export const PartInspector = ({ part, onClose }: PartInspectorProps) => {
                                         ].map((item, i) => (
                                             <div key={i} className="py-4 border-t border-slate-100 flex items-center">
                                                 <span className="w-48 text-[13px] font-medium text-slate-400 shrink-0">{item.label}</span>
-                                                <span className="text-[13px] font-medium text-slate-700 leading-relaxed">{item.value}</span>
+                                                <span className="text-[13px] font-medium text-foreground/90 leading-relaxed">{item.value}</span>
                                             </div>
                                         ))}
                                     </div>
                                 </div>
 
                                 {/* Group 2: More Information */}
-                                <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-8">
-                                    <h3 className="text-[15px] font-black text-slate-900 mb-6">More Information</h3>
+                                <div className="bg-card rounded-2xl border border-slate-100 shadow-sm p-8">
+                                    <h3 className="text-[15px] font-black text-foreground mb-6">More Information</h3>
                                     <div className="space-y-0">
                                         {[
                                             { label: 'Vendors', value: displayPart.vendor?.name || 'None' },
@@ -527,7 +527,7 @@ export const PartInspector = ({ part, onClose }: PartInspectorProps) => {
                                         ].map((item, i) => (
                                             <div key={i} className="py-4 border-t border-slate-100 flex items-center">
                                                 <span className="w-48 text-[13px] font-medium text-slate-400 shrink-0">{item.label}</span>
-                                                <span className="text-[13px] font-medium text-slate-700 leading-relaxed">{item.value}</span>
+                                                <span className="text-[13px] font-medium text-foreground/90 leading-relaxed">{item.value}</span>
                                             </div>
                                         ))}
                                     </div>
@@ -545,7 +545,7 @@ export const PartInspector = ({ part, onClose }: PartInspectorProps) => {
                             >
                                 {/* KPI Cards */}
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex flex-col justify-between">
+                                    <div className="bg-card p-6 rounded-2xl border border-slate-100 shadow-sm flex flex-col justify-between">
                                         <span className="text-[13px] font-bold text-slate-400 uppercase tracking-wider">Average Purchase Cost</span>
                                         <span className="text-[28px] font-black text-slate-800 mt-2">
                                             {purchaseHistoryData?.averageCost 
@@ -556,7 +556,7 @@ export const PartInspector = ({ part, onClose }: PartInspectorProps) => {
                                             Calculated dynamically based on historical received purchase orders.
                                         </p>
                                     </div>
-                                    <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex flex-col justify-between">
+                                    <div className="bg-card p-6 rounded-2xl border border-slate-100 shadow-sm flex flex-col justify-between">
                                         <span className="text-[13px] font-bold text-slate-400 uppercase tracking-wider">Total Purchases</span>
                                         <span className="text-[28px] font-black text-slate-800 mt-2">
                                             {purchaseHistoryData?.history?.length || 0} Orders
@@ -568,36 +568,36 @@ export const PartInspector = ({ part, onClose }: PartInspectorProps) => {
                                 </div>
 
                                 {/* Purchase History Table */}
-                                <div className="bg-white border border-slate-200 rounded-[2rem] overflow-hidden shadow-sm">
+                                <div className="bg-card border border-border rounded-[2rem] overflow-hidden shadow-sm">
                                     <div className="overflow-x-auto custom-scrollbar">
                                         <table className="w-full text-left border-separate" style={{ borderSpacing: 0 }}>
                                             <thead>
                                                 <tr className="bg-slate-50/40 border-b border-slate-100">
-                                                    <th className="py-5 px-8 text-[14px] font-extrabold text-slate-700 border-b border-slate-100">PO Number</th>
-                                                    <th className="py-5 px-4 text-[14px] font-extrabold text-slate-700 border-b border-slate-100">Date Received</th>
-                                                    <th className="py-5 px-4 text-[14px] font-extrabold text-slate-700 border-b border-slate-100">Vendor</th>
-                                                    <th className="py-5 px-4 text-[14px] font-extrabold text-slate-700 text-center border-b border-slate-100">Quantity</th>
-                                                    <th className="py-5 px-4 text-[14px] font-extrabold text-slate-700 text-right border-b border-slate-100">Unit Cost</th>
-                                                    <th className="py-5 px-8 text-[14px] font-extrabold text-slate-700 text-right border-b border-slate-100">Total Cost</th>
+                                                    <th className="py-5 px-8 text-[14px] font-extrabold text-foreground/90 border-b border-slate-100">PO Number</th>
+                                                    <th className="py-5 px-4 text-[14px] font-extrabold text-foreground/90 border-b border-slate-100">Date Received</th>
+                                                    <th className="py-5 px-4 text-[14px] font-extrabold text-foreground/90 border-b border-slate-100">Vendor</th>
+                                                    <th className="py-5 px-4 text-[14px] font-extrabold text-foreground/90 text-center border-b border-slate-100">Quantity</th>
+                                                    <th className="py-5 px-4 text-[14px] font-extrabold text-foreground/90 text-right border-b border-slate-100">Unit Cost</th>
+                                                    <th className="py-5 px-8 text-[14px] font-extrabold text-foreground/90 text-right border-b border-slate-100">Total Cost</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {purchaseHistoryData?.history && purchaseHistoryData.history.length > 0 ? (
                                                     purchaseHistoryData.history.map((record: any) => (
                                                         <tr key={record.id} className="hover:bg-slate-50/40 transition-colors">
-                                                            <td className="py-4 px-8 text-[13px] font-bold text-slate-900 border-b border-slate-100">
+                                                            <td className="py-4 px-8 text-[13px] font-bold text-foreground border-b border-slate-100">
                                                                 #{record.poNumber}
                                                             </td>
-                                                            <td className="py-4 px-4 text-[13px] font-medium text-slate-500 border-b border-slate-100">
+                                                            <td className="py-4 px-4 text-[13px] font-medium text-muted-foreground border-b border-slate-100">
                                                                 {format(new Date(record.date), 'MMM dd, yyyy')}
                                                             </td>
-                                                            <td className="py-4 px-4 text-[13px] font-bold text-slate-700 border-b border-slate-100">
+                                                            <td className="py-4 px-4 text-[13px] font-bold text-foreground/90 border-b border-slate-100">
                                                                 {record.vendorName}
                                                             </td>
                                                             <td className="py-4 px-4 text-[13px] font-black text-slate-800 text-center border-b border-slate-100">
                                                                 {record.quantity}
                                                             </td>
-                                                            <td className="py-4 px-4 text-[13px] font-bold text-slate-700 text-right border-b border-slate-100">
+                                                            <td className="py-4 px-4 text-[13px] font-bold text-foreground/90 text-right border-b border-slate-100">
                                                                 ${Number(record.unitCost).toFixed(2)}
                                                             </td>
                                                             <td className="py-4 px-8 text-[13px] font-black text-slate-800 text-right border-b border-slate-100">
@@ -631,10 +631,10 @@ export const PartInspector = ({ part, onClose }: PartInspectorProps) => {
                                     <div className="relative inline-block">
                                         <button 
                                             onClick={() => setIsWoLineSelectorOpen(!isWoLineSelectorOpen)}
-                                            className="h-9 px-4 flex items-center gap-4 bg-white border border-slate-200 rounded-lg text-[13px] font-bold text-slate-700 hover:border-slate-300 transition-all shadow-sm"
+                                            className="h-9 px-4 flex items-center gap-4 bg-card border border-border rounded-lg text-[13px] font-bold text-foreground/90 hover:border-slate-300 transition-all shadow-sm"
                                         >
-                                            <span className="text-slate-900 font-bold">Inventory Line:</span> 
-                                            <span className="font-medium text-slate-500 w-20 text-left truncate">{inventoryLines.find((l:any) => l.id === selectedWoLineId)?.location?.name || 'Suite B'}</span>
+                                            <span className="text-foreground font-bold">Inventory Line:</span> 
+                                            <span className="font-medium text-muted-foreground w-20 text-left truncate">{inventoryLines.find((l:any) => l.id === selectedWoLineId)?.location?.name || 'Suite B'}</span>
                                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-slate-400 ml-2"><path d="m6 9 6 6 6-6"/></svg>
                                         </button>
                                         
@@ -644,7 +644,7 @@ export const PartInspector = ({ part, onClose }: PartInspectorProps) => {
                                                     initial={{ opacity: 0, y: 10, scale: 0.95 }}
                                                     animate={{ opacity: 1, y: 5, scale: 1 }}
                                                     exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                                                    className="absolute top-full left-0 w-[240px] bg-white rounded-xl shadow-[0_12px_44px_-10px_rgba(0,0,0,0.15)] border border-slate-100 z-50 p-2 mt-1"
+                                                    className="absolute top-full left-0 w-[240px] bg-card rounded-xl shadow-[0_12px_44px_-10px_rgba(0,0,0,0.15)] border border-slate-100 z-50 p-2 mt-1"
                                                 >
                                                     <div className="relative mb-2">
                                                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
@@ -653,7 +653,7 @@ export const PartInspector = ({ part, onClose }: PartInspectorProps) => {
                                                             placeholder="Search"
                                                             value={woLineSearchQuery}
                                                             onChange={(e) => setWoLineSearchQuery(e.target.value)}
-                                                            className="w-full h-9 pl-9 pr-3 bg-blue-50/30 border border-blue-200 rounded-lg text-[13px] font-medium text-slate-900 focus:outline-none focus:border-blue-400 transition-all placeholder:text-slate-400"
+                                                            className="w-full h-9 pl-9 pr-3 bg-blue-50/30 border border-blue-200 rounded-lg text-[13px] font-medium text-foreground focus:outline-none focus:border-primary/80 transition-all placeholder:text-slate-400"
                                                         />
                                                     </div>
                                                     <div className="space-y-1">
@@ -664,10 +664,10 @@ export const PartInspector = ({ part, onClose }: PartInspectorProps) => {
                                                                     setSelectedWoLineId(opt.id);
                                                                     setIsWoLineSelectorOpen(false);
                                                                 }}
-                                                                className="w-full flex items-center justify-between px-3 py-2 hover:bg-slate-50 rounded-lg text-left group"
+                                                                className="w-full flex items-center justify-between px-3 py-2 hover:bg-muted/50 rounded-lg text-left group"
                                                             >
-                                                                <span className="text-[13px] font-bold text-slate-700">{opt.name}</span>
-                                                                {(selectedWoLineId === opt.id || (!selectedWoLineId && !opt.id)) && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="text-blue-500"><path d="M20 6 9 17l-5-5"/></svg>}
+                                                                <span className="text-[13px] font-bold text-foreground/90">{opt.name}</span>
+                                                                {(selectedWoLineId === opt.id || (!selectedWoLineId && !opt.id)) && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="text-primary"><path d="M20 6 9 17l-5-5"/></svg>}
                                                             </button>
                                                         ))}
                                                     </div>
@@ -678,7 +678,7 @@ export const PartInspector = ({ part, onClose }: PartInspectorProps) => {
                                 </div>
 
                                 <div className="flex-1 flex flex-col items-center justify-center -mt-20">
-                                    <p className="text-[13px] font-bold text-slate-700">No work orders with this part yet</p>
+                                    <p className="text-[13px] font-bold text-foreground/90">No work orders with this part yet</p>
                                 </div>
                             </motion.div>
                         )}
@@ -694,24 +694,24 @@ export const PartInspector = ({ part, onClose }: PartInspectorProps) => {
                                 {displayPart.assetParts?.length > 0 ? (
                                     <div className="space-y-4 px-2">
                                         <div className="flex items-center justify-between">
-                                            <h3 className="text-[14px] font-black text-slate-900">Linked Assets</h3>
+                                            <h3 className="text-[14px] font-black text-foreground">Linked Assets</h3>
                                         </div>
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                             {displayPart.assetParts.map((ap: any) => (
-                                                <div key={ap.id || ap.asset.id} className="bg-white border border-slate-200 rounded-2xl p-6 flex items-start gap-4 hover:border-slate-300 transition-colors shadow-[0_4px_24px_-8px_rgba(0,0,0,0.05)]">
-                                                    <div className="w-12 h-12 rounded-xl bg-slate-50 border border-slate-100 flex flex-col items-center justify-center shrink-0">
+                                                <div key={ap.id || ap.asset.id} className="bg-card border border-border rounded-2xl p-6 flex items-start gap-4 hover:border-slate-300 transition-colors shadow-[0_4px_24px_-8px_rgba(0,0,0,0.05)]">
+                                                    <div className="w-12 h-12 rounded-xl bg-muted/50 border border-slate-100 flex flex-col items-center justify-center shrink-0">
                                                         <Package className="w-5 h-5 text-slate-400" />
                                                     </div>
                                                     <div className="flex-1 space-y-1">
-                                                        <h4 className="text-[14px] font-black text-slate-900 line-clamp-1">{ap.asset.name}</h4>
+                                                        <h4 className="text-[14px] font-black text-foreground line-clamp-1">{ap.asset.name}</h4>
                                                         {ap.asset.location && (
-                                                            <div className="flex items-center gap-1.5 text-slate-500">
+                                                            <div className="flex items-center gap-1.5 text-muted-foreground">
                                                                 <MapPin className="w-3.5 h-3.5" />
                                                                 <span className="text-[12px] font-bold truncate">{ap.asset.location.name}</span>
                                                             </div>
                                                         )}
                                                     </div>
-                                                    <button className="p-2 border border-slate-200 rounded-lg text-slate-400 hover:text-slate-900 hover:bg-slate-50 transition-colors mt-0.5">
+                                                    <button className="p-2 border border-border rounded-lg text-slate-400 hover:text-foreground hover:bg-muted/50 transition-colors mt-0.5">
                                                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
                                                     </button>
                                                 </div>
@@ -720,11 +720,11 @@ export const PartInspector = ({ part, onClose }: PartInspectorProps) => {
                                     </div>
                                 ) : (
                                     <div className="flex-1 flex flex-col items-center justify-center p-10 text-center">
-                                        <div className="w-20 h-20 rounded-full bg-slate-100 flex items-center justify-center mb-6">
+                                        <div className="w-20 h-20 rounded-full bg-muted flex items-center justify-center mb-6">
                                             <Package className="w-8 h-8 text-slate-400" />
                                         </div>
-                                        <h3 className="text-[15px] font-black text-slate-900 mb-2">No Assets Linked</h3>
-                                        <p className="text-[13px] font-medium text-slate-500 max-w-[250px]">
+                                        <h3 className="text-[15px] font-black text-foreground mb-2">No Assets Linked</h3>
+                                        <p className="text-[13px] font-medium text-muted-foreground max-w-[250px]">
                                             This part is not linked to any asset yet. Edit the part to map it to equipment.
                                         </p>
                                     </div>
@@ -741,21 +741,21 @@ export const PartInspector = ({ part, onClose }: PartInspectorProps) => {
                                 className="h-full flex flex-col space-y-6 pt-2"
                             >
                                 <div className="flex items-center justify-between pb-6 border-b border-slate-100 px-2">
-                                    <span className="text-[13px] font-bold text-slate-700">{displayPart.attachments?.length || 0} Files</span>
+                                    <span className="text-[13px] font-bold text-foreground/90">{displayPart.attachments?.length || 0} Files</span>
                                     <button 
                                         onClick={() => setShowSavedFilesModal(true)}
-                                        className="px-4 py-2 bg-white border border-slate-200 rounded-lg text-[13px] font-bold text-slate-700 hover:bg-slate-50 transition-all shadow-sm"
+                                        className="px-4 py-2 bg-card border border-border rounded-lg text-[13px] font-bold text-foreground/90 hover:bg-muted/50 transition-all shadow-sm"
                                     >
                                         Add from Saved Files
                                     </button>
                                 </div>
 
                                 <div className="mx-2">
-                                    <div className="border border-dashed border-slate-300 rounded-[12px] bg-white py-5 flex items-center justify-center transition-colors">
+                                    <div className="border border-dashed border-slate-300 rounded-[12px] bg-card py-5 flex items-center justify-center transition-colors">
                                         <div className="flex items-center gap-3">
                                             <button 
                                                 onClick={() => fileInputRef.current?.click()}
-                                                className="px-6 py-2 bg-white shadow-sm border border-slate-200 text-slate-700 font-bold text-[13px] hover:bg-slate-50 transition-colors rounded-lg"
+                                                className="px-6 py-2 bg-card shadow-sm border border-border text-foreground/90 font-bold text-[13px] hover:bg-muted/50 transition-colors rounded-lg"
                                             >
                                                 Upload
                                             </button>
@@ -776,14 +776,14 @@ export const PartInspector = ({ part, onClose }: PartInspectorProps) => {
                                 {displayPart.attachments?.length > 0 ? (
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 px-2">
                                         {displayPart.attachments.map((file: any) => (
-                                            <div key={file.id} className="bg-white border border-slate-200 rounded-xl p-4 flex items-center justify-between shadow-sm">
+                                            <div key={file.id} className="bg-card border border-border rounded-xl p-4 flex items-center justify-between shadow-sm">
                                                 <div className="flex items-center gap-4 overflow-hidden">
-                                                    <div className="w-10 h-10 rounded-lg bg-blue-50 text-blue-500 flex items-center justify-center shrink-0">
+                                                    <div className="w-10 h-10 rounded-lg bg-blue-50 text-primary flex items-center justify-center shrink-0">
                                                         <FileText className="w-5 h-5" />
                                                     </div>
                                                     <div className="flex flex-col min-w-0">
-                                                        <span className="text-[13px] font-bold text-slate-900 truncate">{file.name || 'Document'}</span>
-                                                        <span className="text-[11px] font-medium text-slate-500 uppercase tracking-wider">{file.size ? (file.size / 1024 / 1024).toFixed(2) : '0.00'} MB</span>
+                                                        <span className="text-[13px] font-bold text-foreground truncate">{file.name || 'Document'}</span>
+                                                        <span className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider">{file.size ? (file.size / 1024 / 1024).toFixed(2) : '0.00'} MB</span>
                                                     </div>
                                                 </div>
                                                 <button 
@@ -797,7 +797,7 @@ export const PartInspector = ({ part, onClose }: PartInspectorProps) => {
                                     </div>
                                 ) : (
                                     <div className="flex-1 flex flex-col items-center justify-center py-20 -mt-8">
-                                        <p className="text-[13px] font-bold text-slate-700">No files added yet</p>
+                                        <p className="text-[13px] font-bold text-foreground/90">No files added yet</p>
                                     </div>
                                 )}
                             </motion.div>
@@ -813,7 +813,7 @@ export const PartInspector = ({ part, onClose }: PartInspectorProps) => {
                                 <div className="p-2 flex items-center justify-between pb-6 border-b border-slate-100">
                                     <div className="flex items-center gap-4">
                                         <History className="w-5 h-5 text-slate-400" />
-                                        <span className="text-[14px] font-bold text-slate-900">
+                                        <span className="text-[14px] font-bold text-foreground">
                                             {transactions?.length || 0} Adjustments Logged
                                         </span>
                                     </div>
@@ -827,7 +827,7 @@ export const PartInspector = ({ part, onClose }: PartInspectorProps) => {
                                             });
                                             setShowAdjustModal(true);
                                         }}
-                                        className="px-6 py-2.5 bg-blue-500 hover:bg-blue-600 text-white rounded-xl text-[12px] font-bold transition-all shadow-md shadow-blue-500/10 flex items-center gap-2"
+                                        className="px-6 py-2.5 bg-primary hover:bg-primary text-white rounded-xl text-[12px] font-bold transition-all shadow-md shadow-primary/20 flex items-center gap-2"
                                     >
                                         <Plus className="w-4 h-4" />
                                         Adjust Stock
@@ -837,12 +837,12 @@ export const PartInspector = ({ part, onClose }: PartInspectorProps) => {
                                 <div className="flex-1 overflow-y-auto custom-scrollbar pt-4">
                                     {isTxLoading ? (
                                         <div className="flex flex-col items-center justify-center py-20 gap-4">
-                                            <div className="w-8 h-8 border-4 border-slate-200 border-t-blue-500 rounded-full animate-spin" />
+                                            <div className="w-8 h-8 border-4 border-border border-t-blue-500 rounded-full animate-spin" />
                                             <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Loading Adjustments...</p>
                                         </div>
                                     ) : !transactions || transactions.length === 0 ? (
                                         <div className="flex flex-col items-center justify-center py-20 text-center">
-                                            <div className="w-16 h-16 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center mb-4 text-slate-400">
+                                            <div className="w-16 h-16 rounded-full bg-muted/50 border border-slate-100 flex items-center justify-center mb-4 text-slate-400">
                                                 <History className="w-6 h-6" />
                                             </div>
                                             <p className="text-[14px] font-black text-slate-950 mb-1">No manual adjustments yet</p>
@@ -851,27 +851,27 @@ export const PartInspector = ({ part, onClose }: PartInspectorProps) => {
                                             </p>
                                         </div>
                                     ) : (
-                                        <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+                                        <div className="bg-card border border-border rounded-2xl overflow-hidden shadow-sm">
                                             <div className="overflow-x-auto custom-scrollbar">
                                                 <table className="w-full text-left border-separate" style={{ borderSpacing: 0 }}>
                                                     <thead>
                                                         <tr className="bg-slate-50/40 border-b border-slate-100">
-                                                            <th className="py-4 px-6 text-[13px] font-extrabold text-slate-700 border-b border-slate-100">Date</th>
-                                                            <th className="py-4 px-6 text-[13px] font-extrabold text-slate-700 border-b border-slate-100">Type</th>
-                                                            <th className="py-4 px-6 text-[13px] font-extrabold text-slate-700 text-center border-b border-slate-100">Adjustment</th>
-                                                            <th className="py-4 px-6 text-[13px] font-extrabold text-slate-700 border-b border-slate-100">Adjusted By</th>
-                                                            <th className="py-4 px-6 text-[13px] font-extrabold text-slate-700 border-b border-slate-100">Notes</th>
+                                                            <th className="py-4 px-6 text-[13px] font-extrabold text-foreground/90 border-b border-slate-100">Date</th>
+                                                            <th className="py-4 px-6 text-[13px] font-extrabold text-foreground/90 border-b border-slate-100">Type</th>
+                                                            <th className="py-4 px-6 text-[13px] font-extrabold text-foreground/90 text-center border-b border-slate-100">Adjustment</th>
+                                                            <th className="py-4 px-6 text-[13px] font-extrabold text-foreground/90 border-b border-slate-100">Adjusted By</th>
+                                                            <th className="py-4 px-6 text-[13px] font-extrabold text-foreground/90 border-b border-slate-100">Notes</th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody className="divide-y divide-slate-100 bg-white">
+                                                    <tbody className="divide-y divide-slate-100 bg-card">
                                                         {transactions.map((tx: any) => {
                                                             const isPositive = tx.quantity > 0;
                                                             const qtyFormatted = `${isPositive ? '+' : ''}${tx.quantity}`;
                                                             const typeStyles: Record<string, string> = {
                                                                 RESTOCK: 'bg-emerald-50 text-emerald-700 border border-emerald-100',
                                                                 CONSUME: 'bg-amber-50 text-amber-700 border border-amber-100',
-                                                                RETURN: 'bg-blue-50 text-blue-700 border border-blue-100',
-                                                                AUDIT: 'bg-slate-50 text-slate-700 border border-slate-100',
+                                                                RETURN: 'bg-blue-50 text-primary/90 border border-blue-100',
+                                                                AUDIT: 'bg-muted/50 text-foreground/90 border border-slate-100',
                                                                 SHRINKAGE: 'bg-rose-50 text-rose-700 border border-rose-100',
                                                             };
                                                             const userDisplayName = tx.user?.user 
@@ -880,13 +880,13 @@ export const PartInspector = ({ part, onClose }: PartInspectorProps) => {
 
                                                             return (
                                                                 <tr key={tx.id} className="hover:bg-slate-50/30 transition-colors">
-                                                                    <td className="py-4 px-6 text-[13px] text-slate-500 font-semibold">
+                                                                    <td className="py-4 px-6 text-[13px] text-muted-foreground font-semibold">
                                                                         {format(new Date(tx.createdAt), 'MMM d, yyyy h:mm a')}
                                                                     </td>
                                                                     <td className="py-4 px-6">
                                                                         <span className={cn(
                                                                             "inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold uppercase tracking-wider",
-                                                                            typeStyles[tx.type] || 'bg-slate-100 text-slate-700 border border-slate-200'
+                                                                            typeStyles[tx.type] || 'bg-muted text-foreground/90 border border-border'
                                                                         )}>
                                                                             {tx.type}
                                                                         </span>
@@ -897,10 +897,10 @@ export const PartInspector = ({ part, onClose }: PartInspectorProps) => {
                                                                     )}>
                                                                         {qtyFormatted}
                                                                     </td>
-                                                                    <td className="py-4 px-6 text-[13px] text-slate-700 font-bold">
+                                                                    <td className="py-4 px-6 text-[13px] text-foreground/90 font-bold">
                                                                         {userDisplayName}
                                                                     </td>
-                                                                    <td className="py-4 px-6 text-[13px] text-slate-500 font-medium max-w-[240px] truncate" title={tx.notes || ''}>
+                                                                    <td className="py-4 px-6 text-[13px] text-muted-foreground font-medium max-w-[240px] truncate" title={tx.notes || ''}>
                                                                         {tx.notes || '—'}
                                                                     </td>
                                                                 </tr>
@@ -923,7 +923,7 @@ export const PartInspector = ({ part, onClose }: PartInspectorProps) => {
                                 animate={{ opacity: 1 }}
                                 className="h-full flex flex-col items-center justify-center p-20 text-center opacity-30"
                             >
-                                <div className="w-24 h-24 rounded-full bg-slate-100 flex items-center justify-center mb-6">
+                                <div className="w-24 h-24 rounded-full bg-muted flex items-center justify-center mb-6">
                                     <Box className="w-10 h-10 text-slate-400" />
                                 </div>
                                 <h3 className="text-[11px] font-black uppercase tracking-[0.2em] mb-2">{activeTab.toUpperCase()} HUB</h3>
@@ -936,15 +936,15 @@ export const PartInspector = ({ part, onClose }: PartInspectorProps) => {
 
             {/* Right Side Column */}
             {!['adjustments'].includes(activeTab) && (
-                <div className="w-[300px] bg-white flex flex-col shrink-0 overflow-y-auto custom-scrollbar">
+                <div className="w-[300px] bg-card flex flex-col shrink-0 overflow-y-auto custom-scrollbar">
                     <div className="p-8">
-                        <h3 className="text-[14px] font-black text-slate-900 mb-6">Assigned To</h3>
+                        <h3 className="text-[14px] font-black text-foreground mb-6">Assigned To</h3>
                         {displayPart.assignedTo && displayPart.assignedTo.user ? (
                             <div className="flex items-center gap-3">
                                 <div className="w-8 h-8 rounded-full bg-emerald-700 text-white flex items-center justify-center text-[12px] font-bold">
                                     {(displayPart.assignedTo?.user?.firstName || displayPart.assignedTo?.user?.name || 'T')[0].toUpperCase()}
                                 </div>
-                                <span className="text-[13px] font-semibold text-slate-700">
+                                <span className="text-[13px] font-semibold text-foreground/90">
                                     {displayPart.assignedTo?.user?.firstName} {displayPart.assignedTo?.user?.lastName}
                                 </span>
                             </div>
@@ -953,7 +953,7 @@ export const PartInspector = ({ part, onClose }: PartInspectorProps) => {
                                 <div className="w-8 h-8 rounded-full bg-[#c0b080] text-white flex items-center justify-center text-[12px] font-bold shadow-sm">
                                     T
                                 </div>
-                                <span className="text-[13px] font-semibold text-slate-700">telecast r r</span>
+                                <span className="text-[13px] font-semibold text-foreground/90">telecast r r</span>
                             </div>
                         )}
                     </div>
@@ -965,7 +965,7 @@ export const PartInspector = ({ part, onClose }: PartInspectorProps) => {
                 {isFreshLoading && !freshPart && (
                     <div className="absolute inset-0 bg-white/80 backdrop-blur-sm z-[10001] flex items-center justify-center">
                         <div className="flex flex-col items-center gap-4">
-                            <div className="w-12 h-12 border-4 border-slate-200 border-t-blue-500 rounded-full animate-spin" />
+                            <div className="w-12 h-12 border-4 border-border border-t-blue-500 rounded-full animate-spin" />
                             <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] animate-pulse">Syncing Tactical Data...</p>
                         </div>
                     </div>
@@ -991,11 +991,11 @@ export const PartInspector = ({ part, onClose }: PartInspectorProps) => {
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
                             exit={{ opacity: 0, scale: 0.95 }}
-                            className="w-full max-w-lg bg-white rounded-[2rem] shadow-2xl overflow-hidden"
+                            className="w-full max-w-lg bg-card rounded-[2rem] shadow-2xl overflow-hidden"
                         >
                             <div className="p-8 border-b border-slate-100 flex items-center justify-between">
-                                <h3 className="text-[18px] font-black text-slate-900">Adjust Stock</h3>
-                                <button onClick={() => setShowAdjustModal(false)} className="p-2 hover:bg-slate-50 rounded-xl">
+                                <h3 className="text-[18px] font-black text-foreground">Adjust Stock</h3>
+                                <button onClick={() => setShowAdjustModal(false)} className="p-2 hover:bg-muted/50 rounded-xl">
                                     <X className="w-6 h-6 text-slate-300" />
                                 </button>
                             </div>
@@ -1012,7 +1012,7 @@ export const PartInspector = ({ part, onClose }: PartInspectorProps) => {
                                                     "flex-1 py-3 border rounded-xl font-bold text-[13px] flex items-center justify-center gap-2 transition-all",
                                                     adjustFormData.direction === 'add'
                                                         ? "border-emerald-500 bg-emerald-50/50 text-emerald-700"
-                                                        : "border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
+                                                        : "border-border bg-card text-slate-600 hover:bg-muted/50"
                                                 )}
                                             >
                                                 <ArrowUpRight className="w-4 h-4 text-emerald-600" />
@@ -1025,7 +1025,7 @@ export const PartInspector = ({ part, onClose }: PartInspectorProps) => {
                                                     "flex-1 py-3 border rounded-xl font-bold text-[13px] flex items-center justify-center gap-2 transition-all",
                                                     adjustFormData.direction === 'remove'
                                                         ? "border-rose-500 bg-rose-50/50 text-rose-700"
-                                                        : "border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
+                                                        : "border-border bg-card text-slate-600 hover:bg-muted/50"
                                                 )}
                                             >
                                                 <ArrowDownLeft className="w-4 h-4 text-rose-600" />
@@ -1040,7 +1040,7 @@ export const PartInspector = ({ part, onClose }: PartInspectorProps) => {
                                         <input 
                                             type="number"
                                             min="1"
-                                            className="w-full bg-slate-50 border border-slate-100 rounded-xl p-4 text-[14px] font-bold outline-none focus:border-slate-200 focus:bg-white transition-all"
+                                            className="w-full bg-muted/50 border border-slate-100 rounded-xl p-4 text-[14px] font-bold outline-none focus:border-border focus:bg-card transition-all"
                                             value={adjustFormData.quantity}
                                             onChange={(e) => setAdjustFormData({ ...adjustFormData, quantity: Math.max(1, Number(e.target.value)) })}
                                         />
@@ -1050,7 +1050,7 @@ export const PartInspector = ({ part, onClose }: PartInspectorProps) => {
                                     <div className="space-y-2">
                                         <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Adjustment Type</label>
                                         <select 
-                                            className="w-full bg-slate-50 border border-slate-100 rounded-xl p-4 text-[14px] font-bold outline-none focus:border-slate-200 focus:bg-white transition-all"
+                                            className="w-full bg-muted/50 border border-slate-100 rounded-xl p-4 text-[14px] font-bold outline-none focus:border-border focus:bg-card transition-all"
                                             value={adjustFormData.type}
                                             onChange={(e) => setAdjustFormData({ ...adjustFormData, type: e.target.value })}
                                         >
@@ -1067,7 +1067,7 @@ export const PartInspector = ({ part, onClose }: PartInspectorProps) => {
                                         <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Notes / Comments</label>
                                         <textarea
                                             placeholder="Reason for adjustment, purchase order reference, or work order ID..."
-                                            className="w-full bg-slate-50 border border-slate-100 rounded-xl p-4 text-[13px] font-medium outline-none focus:border-slate-200 focus:bg-white transition-all h-24 resize-none"
+                                            className="w-full bg-muted/50 border border-slate-100 rounded-xl p-4 text-[13px] font-medium outline-none focus:border-border focus:bg-card transition-all h-24 resize-none"
                                             value={adjustFormData.notes}
                                             onChange={(e) => setAdjustFormData({ ...adjustFormData, notes: e.target.value })}
                                         />
@@ -1107,7 +1107,7 @@ export const PartInspector = ({ part, onClose }: PartInspectorProps) => {
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
                             exit={{ opacity: 0, scale: 0.95 }}
-                            className="w-full max-w-lg bg-white rounded-2xl shadow-2xl overflow-hidden text-slate-800 font-sans"
+                            className="w-full max-w-lg bg-card rounded-2xl shadow-2xl overflow-hidden text-slate-800 font-sans"
                         >
                             {/* Header */}
                             <div className="px-6 py-5 border-b border-slate-100 flex items-center justify-between">
@@ -1125,7 +1125,7 @@ export const PartInspector = ({ part, onClose }: PartInspectorProps) => {
                                         <label className="text-[13px] font-semibold text-slate-600">Location</label>
                                         <div className="relative">
                                             <select 
-                                                className="w-full bg-white border border-slate-200 rounded-lg px-3 py-2.5 text-sm text-slate-800 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 appearance-none cursor-pointer pr-10"
+                                                className="w-full bg-card border border-border rounded-lg px-3 py-2.5 text-sm text-slate-800 outline-none focus:border-primary/80 focus:ring-1 focus:ring-primary appearance-none cursor-pointer pr-10"
                                                 value={lineFormData.locationId}
                                                 onChange={(e) => setLineFormData({...lineFormData, locationId: e.target.value})}
                                             >
@@ -1139,7 +1139,7 @@ export const PartInspector = ({ part, onClose }: PartInspectorProps) => {
                                         <label className="text-[13px] font-semibold text-slate-600">Area</label>
                                         <input 
                                             type="text"
-                                            className="w-full bg-white border border-slate-200 rounded-lg px-3 py-2.5 text-sm text-slate-800 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                                            className="w-full bg-card border border-border rounded-lg px-3 py-2.5 text-sm text-slate-800 outline-none focus:border-primary/80 focus:ring-1 focus:ring-primary"
                                             value={lineFormData.area}
                                             onChange={(e) => setLineFormData({...lineFormData, area: e.target.value})}
                                         />
@@ -1154,7 +1154,7 @@ export const PartInspector = ({ part, onClose }: PartInspectorProps) => {
                                         <label className="text-[13px] font-semibold text-slate-600">Available Qty</label>
                                         <input 
                                             type="number"
-                                            className="w-full bg-white border border-slate-200 rounded-lg px-3 py-2.5 text-sm text-slate-800 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                                            className="w-full bg-card border border-border rounded-lg px-3 py-2.5 text-sm text-slate-800 outline-none focus:border-primary/80 focus:ring-1 focus:ring-primary"
                                             value={lineFormData.availableQty}
                                             onChange={(e) => setLineFormData({...lineFormData, availableQty: Number(e.target.value)})}
                                         />
@@ -1163,7 +1163,7 @@ export const PartInspector = ({ part, onClose }: PartInspectorProps) => {
                                         <label className="text-[13px] font-semibold text-slate-600">Minimum Qty</label>
                                         <input 
                                             type="number"
-                                            className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2.5 text-sm text-slate-800 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                                            className="w-full bg-muted/50 border border-border rounded-lg px-3 py-2.5 text-sm text-slate-800 outline-none focus:border-primary/80 focus:ring-1 focus:ring-primary"
                                             value={lineFormData.minQty}
                                             onChange={(e) => setLineFormData({...lineFormData, minQty: e.target.value})}
                                         />
@@ -1172,7 +1172,7 @@ export const PartInspector = ({ part, onClose }: PartInspectorProps) => {
                                         <label className="text-[13px] font-semibold text-slate-600">Maximum Qty</label>
                                         <input 
                                             type="number"
-                                            className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2.5 text-sm text-slate-800 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                                            className="w-full bg-muted/50 border border-border rounded-lg px-3 py-2.5 text-sm text-slate-800 outline-none focus:border-primary/80 focus:ring-1 focus:ring-primary"
                                             value={lineFormData.maxQty}
                                             onChange={(e) => setLineFormData({...lineFormData, maxQty: e.target.value})}
                                         />
@@ -1186,7 +1186,7 @@ export const PartInspector = ({ part, onClose }: PartInspectorProps) => {
                                     <label className="text-[13px] font-semibold text-slate-600">Barcode</label>
                                     <input 
                                         type="text"
-                                        className="w-full bg-white border border-slate-200 rounded-lg px-3 py-2.5 text-sm text-slate-800 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                                        className="w-full bg-card border border-border rounded-lg px-3 py-2.5 text-sm text-slate-800 outline-none focus:border-primary/80 focus:ring-1 focus:ring-primary"
                                         value={lineFormData.barcode}
                                         onChange={(e) => setLineFormData({...lineFormData, barcode: e.target.value})}
                                     />
@@ -1201,7 +1201,7 @@ export const PartInspector = ({ part, onClose }: PartInspectorProps) => {
                                         <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm font-medium">$</span>
                                         <input 
                                             type="number"
-                                            className="w-full bg-white border border-slate-200 rounded-lg pl-8 pr-3 py-2.5 text-sm text-slate-800 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-right"
+                                            className="w-full bg-card border border-border rounded-lg pl-8 pr-3 py-2.5 text-sm text-slate-800 outline-none focus:border-primary/80 focus:ring-1 focus:ring-primary text-right"
                                             value={lineFormData.cost}
                                             onChange={(e) => setLineFormData({...lineFormData, cost: Number(e.target.value)})}
                                         />
@@ -1215,14 +1215,14 @@ export const PartInspector = ({ part, onClose }: PartInspectorProps) => {
                                     <button 
                                         type="button"
                                         onClick={() => setShowAddLine(false)}
-                                        className="px-5 py-2.5 border border-slate-300 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors bg-white"
+                                        className="px-5 py-2.5 border border-slate-300 rounded-lg text-sm font-medium text-foreground/90 hover:bg-muted/50 transition-colors bg-card"
                                     >
                                         Cancel
                                     </button>
                                     <button 
                                         type="button"
                                         onClick={() => addLineMutation.mutate(lineFormData)}
-                                        className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-semibold transition-colors shadow-sm"
+                                        className="px-5 py-2.5 bg-primary hover:bg-primary/90 text-white rounded-lg text-sm font-semibold transition-colors shadow-sm"
                                     >
                                         Add Inventory Line
                                     </button>

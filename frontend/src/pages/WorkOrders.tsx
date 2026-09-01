@@ -84,6 +84,44 @@ interface FilterDropdownProps {
 
 // --- HELPER COMPONENTS ---
 
+const getThemeClasses = (color: string, isActive: boolean) => {
+    switch (color) {
+        case 'amber':
+            return isActive 
+                ? "bg-amber-500/15 border-amber-500/30 text-amber-600 hover:bg-amber-500/25 shadow-[0_0_15px_rgba(245,158,11,0.15)]"
+                : "bg-amber-500/5 border-amber-500/10 text-amber-600/70 hover:bg-amber-500/10";
+        case 'emerald':
+            return isActive 
+                ? "bg-emerald-500/15 border-emerald-500/30 text-emerald-600 hover:bg-emerald-500/25 shadow-[0_0_15px_rgba(16,185,129,0.15)]"
+                : "bg-emerald-500/5 border-emerald-500/10 text-emerald-600/70 hover:bg-emerald-500/10";
+        case 'cyan':
+            return isActive 
+                ? "bg-cyan-500/15 border-cyan-500/30 text-cyan-600 hover:bg-cyan-500/25 shadow-[0_0_15px_rgba(6,182,212,0.15)]"
+                : "bg-cyan-500/5 border-cyan-500/10 text-cyan-600/70 hover:bg-cyan-500/10";
+        case 'rose':
+            return isActive 
+                ? "bg-rose-500/15 border-rose-500/30 text-rose-600 hover:bg-rose-500/25 shadow-[0_0_15px_rgba(244,63,94,0.15)]"
+                : "bg-rose-500/5 border-rose-500/10 text-rose-600/70 hover:bg-rose-500/10";
+        case 'indigo':
+            return isActive 
+                ? "bg-primary/80/15 border-primary/80/30 text-primary hover:bg-primary/80/25 shadow-[0_0_15px_rgba(99,102,241,0.15)]"
+                : "bg-primary/80/5 border-primary/80/10 text-primary/70 hover:bg-primary/80/10";
+        case 'violet':
+            return isActive 
+                ? "bg-primary/80/15 border-violet-500/30 text-primary hover:bg-primary/80/25 shadow-[0_0_15px_rgba(139,92,246,0.15)]"
+                : "bg-primary/80/5 border-violet-500/10 text-primary/70 hover:bg-primary/80/10";
+        case 'pink':
+            return isActive 
+                ? "bg-pink-500/15 border-pink-500/30 text-pink-600 hover:bg-pink-500/25 shadow-[0_0_15px_rgba(236,72,153,0.15)]"
+                : "bg-pink-500/5 border-pink-500/10 text-pink-600/70 hover:bg-pink-500/10";
+        case 'primary':
+        default:
+            return isActive 
+                ? "bg-primary/15 border-primary/30 text-primary hover:bg-primary/25 shadow-[0_0_15px_hsla(var(--primary-raw)/0.15)]"
+                : "bg-primary/5 border-primary/10 text-primary/70 hover:bg-primary/10";
+    }
+};
+
 const FilterDropdown = ({ label, icon: Icon, isOpen, onToggle, children, badgeValue, color = "primary", onApply, onCancel, onClear }: FilterDropdownProps) => {
     const buttonRef = useRef<HTMLButtonElement>(null);
     const [coords, setCoords] = useState({ top: 0, left: 0 });
@@ -113,9 +151,7 @@ const FilterDropdown = ({ label, icon: Icon, isOpen, onToggle, children, badgeVa
                 onClick={onToggle}
                 className={cn(
                     "flex items-center gap-2 px-4 py-2 rounded-xl text-[13px] font-black transition-all border shrink-0",
-                    badgeValue && badgeValue > 0 
-                        ? `bg-${color}/10 border-${color}/20 text-${color} hover:bg-${color}/20` 
-                        : "bg-card border-border text-muted-foreground hover:bg-muted"
+                    getThemeClasses(color, !!(badgeValue && badgeValue > 0))
                 )}
             >
                 <Icon className="w-4 h-4 opacity-50" />
@@ -133,16 +169,16 @@ const FilterDropdown = ({ label, icon: Icon, isOpen, onToggle, children, badgeVa
                             left: `${coords.left}px`,
                         }}
                     >
-                        <div className="flex items-center justify-between px-5 py-4 border-b border-gray-50 bg-white">
-                            <span className="text-[15px] font-black text-slate-900">{label}</span>
-                            <button onClick={onToggle} className="p-1.5 hover:bg-gray-100 rounded-lg transition-colors text-slate-400">
+                        <div className="flex items-center justify-between px-5 py-4 border-b border-gray-50 bg-card">
+                            <span className="text-[15px] font-black text-foreground">{label}</span>
+                            <button onClick={onToggle} className="p-1.5 hover:bg-muted rounded-lg transition-colors text-slate-400">
                                 <XIcon className="w-5 h-5" />
                             </button>
                         </div>
-                        <div className="bg-white">
+                        <div className="bg-card">
                             {children}
                         </div>
-                        <div className="flex items-center justify-between px-4 py-3 bg-slate-50 border-t border-slate-100">
+                        <div className="flex items-center justify-between px-4 py-3 bg-card border-t border-slate-100">
                             <div>
                                 {onClear && (
                                     <button 
@@ -156,13 +192,13 @@ const FilterDropdown = ({ label, icon: Icon, isOpen, onToggle, children, badgeVa
                             <div className="flex items-center gap-2">
                                 <button 
                                     onClick={onCancel}
-                                    className="px-3.5 py-1.5 border border-slate-200 bg-white hover:bg-slate-50 text-[12px] font-bold text-slate-700 rounded-lg transition-colors"
+                                    className="px-3.5 py-1.5 border border-border bg-card hover:bg-transparent text-[12px] font-bold text-foreground/90 rounded-lg transition-colors"
                                 >
                                     Cancel
                                 </button>
                                 <button 
                                     onClick={onApply}
-                                    className="px-4 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-[12px] font-black rounded-lg shadow-sm transition-all active:scale-95"
+                                    className="px-4 py-1.5 bg-primary hover:bg-primary/90 text-white text-[12px] font-black rounded-lg shadow-sm transition-all active:scale-95"
                                 >
                                     Save
                                 </button>
@@ -210,19 +246,19 @@ const KanbanCard = ({ order, onClick, onAddTime }: { order: WorkOrderSync, onCli
         >
             <div className="flex justify-between items-start mb-4">
                 <div className="flex gap-2 flex-wrap items-center">
-                    <span className="px-1.5 py-0.5 bg-slate-50 rounded text-[10px] font-bold text-slate-400 border border-slate-100 uppercase tracking-wider">
+                    <span className="px-1.5 py-0.5 bg-transparent rounded text-[10px] font-bold text-slate-400 border border-slate-100 uppercase tracking-wider">
                         #{String(order.woNumber || order.id.slice(0, 3)).padStart(3, '0')}
                     </span>
                     <div className={cn(
                         "px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-wider",
                         order.priority === 'High' ? "bg-rose-100/50 text-rose-700" :
                         order.priority === 'Medium' ? "bg-amber-100/50 text-amber-700" :
-                        order.priority === 'Low' ? "bg-emerald-100/50 text-emerald-700" : "bg-slate-100/50 text-slate-700"
+                        order.priority === 'Low' ? "bg-emerald-100/50 text-emerald-700" : "bg-slate-100/50 text-foreground/90"
                     )}>
                         {order.priority || 'Normal'}
                     </div>
                     {((order as any).request?.id || (order as any).requestId) && (
-                        <div className="px-1.5 py-0.5 rounded text-[9px] font-black uppercase tracking-wider bg-indigo-50 text-indigo-700 border border-indigo-200 shadow-sm" title="Originated from Request">
+                        <div className="px-1.5 py-0.5 rounded text-[9px] font-black uppercase tracking-wider bg-primary/10 text-primary/90 border border-primary/20 shadow-sm" title="Originated from Request">
                             From REQ-{((order as any).request?.id || (order as any).requestId).split('-')[0].toUpperCase()}
                         </div>
                     )}
@@ -251,12 +287,12 @@ const KanbanCard = ({ order, onClick, onAddTime }: { order: WorkOrderSync, onCli
                 </div>
             </div>
 
-            <h3 className="text-[16px] font-black text-slate-900 leading-[1.2] mb-5 group-hover:text-primary transition-colors">
+            <h3 className="text-[16px] font-black text-foreground leading-[1.2] mb-5 group-hover:text-primary transition-colors">
                 {order.title}
             </h3>
 
             <div className="space-y-3.5">
-                <div className="flex items-center gap-2.5 text-slate-500">
+                <div className="flex items-center gap-2.5 text-muted-foreground">
                     <Clock className="w-4 h-4" />
                     <span className="text-[13px] font-bold">
                         {order.dueDate ? new Date(order.dueDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Flexible'}
@@ -267,14 +303,14 @@ const KanbanCard = ({ order, onClick, onAddTime }: { order: WorkOrderSync, onCli
                 </div>
 
                 {order.assetName && (
-                    <div className="flex items-center gap-2.5 text-slate-500 min-w-0">
+                    <div className="flex items-center gap-2.5 text-muted-foreground min-w-0">
                         <Box className="w-4 h-4 shrink-0" />
                         <span className="text-[13px] font-bold truncate tracking-tight">{order.assetName}</span>
                     </div>
                 )}
 
                 {order.locationName && (
-                    <div className="flex items-center gap-2.5 text-slate-500 min-w-0">
+                    <div className="flex items-center gap-2.5 text-muted-foreground min-w-0">
                         <MapPin className="w-4 h-4 shrink-0" />
                         <span className="text-[13px] font-bold truncate tracking-tight">{order.locationName}</span>
                     </div>
@@ -293,7 +329,7 @@ const KanbanCard = ({ order, onClick, onAddTime }: { order: WorkOrderSync, onCli
                 ) : <div />}
 
                 {order.estimatedHours && (
-                    <div className="flex items-center gap-1.5 px-2 py-1 bg-slate-50 rounded-md border border-slate-100 text-[10px] font-black text-slate-600">
+                    <div className="flex items-center gap-1.5 px-2 py-1 bg-transparent rounded-md border border-slate-100 text-[10px] font-black text-slate-600">
                         <Timer className="w-3 h-3 text-slate-400" />
                         {order.estimatedHours}H
                     </div>
@@ -321,7 +357,7 @@ const KanbanColumn = ({ id, orders, onCardClick, onAddTime }: { id: string, orde
                     ))}
                 </div>
             ) : (
-                <div className="flex-1 min-h-[120px] border-2 border-dashed border-slate-200 bg-slate-50/30 rounded-2xl hover:border-slate-300 transition-all flex flex-col items-center justify-center p-4">
+                <div className="flex-1 min-h-[120px] border-2 border-dashed border-border bg-transparent/30 rounded-2xl hover:border-slate-300 transition-all flex flex-col items-center justify-center p-4">
                     <span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">No work orders</span>
                     <span className="text-[10px] text-slate-300 mt-1">Drag items here</span>
                 </div>
@@ -770,7 +806,7 @@ export const WorkOrdersPage = () => {
                         {!showExportSubmenu ? (
                             <>
                                 <button
-                                    className="w-full flex items-center justify-between px-5 py-3.5 hover:bg-gray-50 transition-colors text-gray-700 text-left"
+                                    className="w-full flex items-center justify-between px-5 py-3.5 hover:bg-muted/50 transition-colors text-foreground/90 text-left"
                                     onClick={() => setShowExportSubmenu(true)}
                                 >
                                     <div className="flex items-center gap-3">
@@ -783,14 +819,14 @@ export const WorkOrdersPage = () => {
                         ) : (
                             <>
                                 <button
-                                    className="w-full flex items-center gap-2 px-4 py-2 hover:bg-gray-50 transition-colors text-gray-500 border-b border-gray-100 text-left"
+                                    className="w-full flex items-center gap-2 px-4 py-2 hover:bg-muted/50 transition-colors text-muted-foreground border-b border-gray-100 text-left"
                                     onClick={() => setShowExportSubmenu(false)}
                                 >
                                     <ChevronLeft className="w-4 h-4 text-gray-400" />
                                     <span className="text-[13px] font-bold">Back to Options</span>
                                 </button>
                                 <button
-                                    className="w-full flex items-center gap-3 px-5 py-3.5 hover:bg-gray-50 transition-colors text-gray-700 text-left"
+                                    className="w-full flex items-center gap-3 px-5 py-3.5 hover:bg-muted/50 transition-colors text-foreground/90 text-left"
                                     onClick={() => {
                                         handleExportCSV();
                                         setIsWorkOrderOptionsOpen(false);
@@ -800,7 +836,7 @@ export const WorkOrdersPage = () => {
                                     <span className="text-[16px] font-medium text-foreground">Export to CSV</span>
                                 </button>
                                 <button
-                                    className="w-full flex items-center gap-3 px-5 py-3.5 hover:bg-gray-50 transition-colors text-gray-700 text-left"
+                                    className="w-full flex items-center gap-3 px-5 py-3.5 hover:bg-muted/50 transition-colors text-foreground/90 text-left"
                                     onClick={() => {
                                         handleExportExcel();
                                         setIsWorkOrderOptionsOpen(false);
@@ -810,7 +846,7 @@ export const WorkOrdersPage = () => {
                                     <span className="text-[16px] font-medium text-foreground">Export to Excel</span>
                                 </button>
                                 <button
-                                    className="w-full flex items-center gap-3 px-5 py-3.5 hover:bg-gray-50 transition-colors text-gray-700 text-left"
+                                    className="w-full flex items-center gap-3 px-5 py-3.5 hover:bg-muted/50 transition-colors text-foreground/90 text-left"
                                     onClick={() => {
                                         handleExportPDF();
                                         setIsWorkOrderOptionsOpen(false);
@@ -832,14 +868,14 @@ export const WorkOrdersPage = () => {
             <div className="flex items-center gap-2">
                 <button 
                     onClick={() => window.history.back()}
-                    className="flex items-center gap-1.5 px-2.5 py-1.5 hover:bg-slate-50 rounded-lg transition-all group shrink-0"
+                    className="flex items-center gap-1.5 px-2.5 py-1.5 hover:bg-transparent rounded-lg transition-all group shrink-0"
                 >
-                    <ChevronLeft className="w-4 h-4 text-slate-500 group-hover:text-primary transition-colors" />
-                    <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest group-hover:text-primary transition-colors">Dashboard</span>
+                    <ChevronLeft className="w-4 h-4 text-cyan-500 group-hover:text-cyan-600 transition-colors" />
+                    <span className="text-[10px] font-black text-cyan-500 uppercase tracking-widest group-hover:text-cyan-600 transition-colors">Dashboard</span>
                 </button>
-                <div className="h-6 w-px bg-slate-100 mx-1" />
+                <div className="h-6 w-px bg-muted mx-1" />
                 <div className="flex items-center gap-2">
-                    <h1 className="text-[18px] font-black text-foreground tracking-tight whitespace-nowrap">Work Orders</h1>
+                    <h1 className="text-[18px] font-black text-blue-600 tracking-tight whitespace-nowrap">Work Orders</h1>
                 </div>
 
 
@@ -847,11 +883,11 @@ export const WorkOrdersPage = () => {
                 <div className="relative">
                     <button
                         onClick={() => setIsViewDropdownOpen(!isViewDropdownOpen)}
-                        className="flex items-center gap-2 px-3 py-1.5 bg-card hover:bg-slate-50 border border-border rounded-xl text-[13px] font-black text-slate-800 transition-all shrink-0 active:scale-95 shadow-sm"
+                        className="flex items-center gap-2 px-3 py-1.5 bg-fuchsia-500/10 hover:bg-fuchsia-500/20 border border-fuchsia-500/20 rounded-xl text-[13px] font-black text-fuchsia-600 transition-all shrink-0 active:scale-95 shadow-sm"
                     >
-                        {currentView === 'Table' && <List className="w-4 h-4 text-slate-500" />}
-                        {currentView === 'Column' && <LayoutGrid className="w-4 h-4 text-slate-500" />}
-                        {currentView === 'Calendar' && <Calendar className="w-4 h-4 text-slate-500" />}
+                        {currentView === 'Table' && <List className="w-4 h-4 text-muted-foreground" />}
+                        {currentView === 'Column' && <LayoutGrid className="w-4 h-4 text-muted-foreground" />}
+                        {currentView === 'Calendar' && <Calendar className="w-4 h-4 text-muted-foreground" />}
                         <span>{currentView === 'Table' ? 'Table' : currentView === 'Column' ? 'Column' : 'Calendar'}</span>
                         <ChevronDown className={cn("w-4 h-4 opacity-50 transition-transform", isViewDropdownOpen && "rotate-180")} />
                     </button>
@@ -859,7 +895,7 @@ export const WorkOrdersPage = () => {
                     {isViewDropdownOpen && (
                         <>
                             <div className="fixed inset-0 z-[110]" onClick={() => setIsViewDropdownOpen(false)} />
-                            <div className="absolute top-full left-0 mt-2 w-48 bg-white border border-slate-100 rounded-2xl z-[120] overflow-hidden shadow-2xl animate-in fade-in slide-in-from-top-2 duration-200">
+                            <div className="absolute top-full left-0 mt-2 w-48 bg-card border border-slate-100 rounded-2xl z-[120] overflow-hidden shadow-2xl animate-in fade-in slide-in-from-top-2 duration-200">
                                 <div className="p-1 space-y-0.5">
                                     {[
                                         { id: 'Table', label: 'Table View', icon: List },
@@ -873,8 +909,8 @@ export const WorkOrdersPage = () => {
                                                 setIsViewDropdownOpen(false);
                                             }}
                                             className={cn(
-                                                "w-full flex items-center gap-2.5 px-4 py-2.5 hover:bg-slate-50 transition-colors text-left rounded-xl text-[13px]",
-                                                currentView === opt.id ? "text-primary bg-primary/5 font-black" : "text-slate-700 font-bold"
+                                                "w-full flex items-center gap-2.5 px-4 py-2.5 hover:bg-transparent transition-colors text-left rounded-xl text-[13px]",
+                                                currentView === opt.id ? "text-primary bg-primary/5 font-black" : "text-foreground/90 font-bold"
                                             )}
                                         >
                                             <opt.icon className={cn("w-4 h-4", currentView === opt.id ? "text-primary" : "text-slate-400")} />
@@ -921,13 +957,14 @@ export const WorkOrdersPage = () => {
 
     const renderSavedViews = () => (
         <FilterDropdown 
-            label="Saved Views" 
+            label="Saved Views"
+            color="indigo" 
             icon={Star} 
             isOpen={isSavedViewsOpen} 
             onToggle={() => setIsSavedViewsOpen(!isSavedViewsOpen)}
             badgeValue={savedViews.length}
         >
-            <div className="p-2 max-h-64 overflow-y-auto custom-scrollbar bg-white">
+            <div className="p-2 max-h-64 overflow-y-auto custom-scrollbar bg-card">
                 {savedViews.length === 0 && (
                     <div className="px-4 py-6 text-center">
                         <Star className="w-8 h-8 text-slate-200 mx-auto mb-2" />
@@ -951,10 +988,10 @@ export const WorkOrdersPage = () => {
                                 setIsSavedViewsOpen(false);
                                 toast.success(`View applied: ${view.name}`);
                             }}
-                            className="w-full flex items-center justify-between px-4 py-3 hover:bg-slate-50 transition-colors text-left rounded-xl pr-10"
+                            className="w-full flex items-center justify-between px-4 py-3 hover:bg-transparent transition-colors text-left rounded-xl pr-10"
                         >
                             <div className="flex flex-col gap-0.5">
-                                <span className="text-[14px] font-black text-slate-900">{view.name}</span>
+                                <span className="text-[14px] font-black text-foreground">{view.name}</span>
                                 <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Created {new Date(view.createdAt).toLocaleDateString()}</span>
                             </div>
                         </button>
@@ -1240,7 +1277,7 @@ export const WorkOrdersPage = () => {
     };
 
     const renderFilterBar = () => (
-        <div className="relative group/filter-bar bg-white border-b border-slate-100 flex items-center z-[80] h-12">
+        <div className="relative group/filter-bar bg-card border-b border-slate-100 flex items-center z-[80] h-12">
             <div className="flex items-center justify-between px-4 w-full py-1 min-w-0">
                 {/* Left side wrapper to hold scroll buttons and scroll container */}
                 <div className="relative flex-1 min-w-0 flex items-center mr-4">
@@ -1249,7 +1286,7 @@ export const WorkOrdersPage = () => {
                         <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-white via-white/80 to-transparent z-10 flex items-center pointer-events-none">
                             <button 
                                 onClick={() => scrollFilters('left')}
-                                className="w-7 h-7 rounded-full bg-white border border-slate-200 shadow-sm flex items-center justify-center text-slate-600 hover:text-primary hover:border-primary/20 pointer-events-auto transition-all active:scale-90"
+                                className="w-7 h-7 rounded-full bg-card border border-border shadow-sm flex items-center justify-center text-slate-600 hover:text-primary hover:border-primary/20 pointer-events-auto transition-all active:scale-90"
                             >
                                 <ChevronLeft className="w-4 h-4" />
                             </button>
@@ -1265,7 +1302,7 @@ export const WorkOrdersPage = () => {
                     {/* Filters (N) */}
                     <button
                         onClick={() => setIsAdvancedFiltersModalOpen(true)}
-                        className="flex items-center gap-2 px-3 py-1.5 bg-primary/10 border border-primary/20 text-primary rounded-xl text-[12px] font-black hover:bg-primary/20 transition-all shrink-0 active:scale-95 shadow-sm"
+                        className="flex items-center gap-2 px-3 py-1.5 bg-sky-500/10 border border-sky-500/20 text-sky-600 rounded-xl text-[12px] font-black hover:bg-sky-500/20 transition-all shrink-0 active:scale-95 shadow-sm"
                     >
                         <SlidersHorizontal className="w-3.5 h-3.5" />
                         <span>Filters {getActiveFiltersCount() > 0 ? `(${getActiveFiltersCount()})` : ''}</span>
@@ -1276,6 +1313,7 @@ export const WorkOrdersPage = () => {
                     {/* Status Filter */}
                     <FilterDropdown 
                         label={getStatusFilterLabel()} 
+                        color="pink"
                         icon={Activity} 
                         isOpen={isStatusDropdownOpen} 
                         onToggle={() => {
@@ -1291,7 +1329,7 @@ export const WorkOrdersPage = () => {
                         onCancel={() => setIsStatusDropdownOpen(false)}
                         onClear={() => setStagedStatuses([])}
                     >
-                        <div className="p-2 space-y-1 bg-white">
+                        <div className="p-2 space-y-1 bg-card">
                             {[
                                 { label: 'Open', dbKey: 'Open' },
                                 { label: 'Pending Approval', dbKey: 'PENDING_APPROVAL' },
@@ -1308,8 +1346,8 @@ export const WorkOrdersPage = () => {
                                         setStagedStatuses(next);
                                     }}
                                     className={cn(
-                                        "w-full flex items-center justify-between px-4 py-2.5 hover:bg-slate-50 transition-colors text-left rounded-xl",
-                                        stagedStatuses.includes(s.dbKey) ? "text-primary bg-primary/5 font-black" : "text-slate-700 font-bold"
+                                        "w-full flex items-center justify-between px-4 py-2.5 hover:bg-transparent transition-colors text-left rounded-xl",
+                                        stagedStatuses.includes(s.dbKey) ? "text-primary bg-primary/5 font-black" : "text-foreground/90 font-bold"
                                     )}
                                 >
                                     <span className="text-[13px]">{s.label}</span>
@@ -1321,7 +1359,8 @@ export const WorkOrdersPage = () => {
 
                     {/* Priority Filter */}
                     <FilterDropdown 
-                        label="Priority" 
+                        label="Priority"
+                        color="amber" 
                         icon={Flag} 
                         isOpen={isPriorityDropdownOpen} 
                         onToggle={() => {
@@ -1337,7 +1376,7 @@ export const WorkOrdersPage = () => {
                         onCancel={() => setIsPriorityDropdownOpen(false)}
                         onClear={() => setStagedPriorities([])}
                     >
-                        <div className="p-2 space-y-1 bg-white">
+                        <div className="p-2 space-y-1 bg-card">
                             {[
                                 { label: 'High', value: 'High', colorClass: 'text-rose-500 fill-rose-500' },
                                 { label: 'Medium', value: 'Medium', colorClass: 'text-amber-500 fill-amber-500' },
@@ -1355,13 +1394,13 @@ export const WorkOrdersPage = () => {
                                             setStagedPriorities(next);
                                         }}
                                         className={cn(
-                                            "w-full flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 transition-colors text-left rounded-xl",
-                                            isActive ? "text-slate-900 bg-slate-50/50 font-black" : "text-slate-700 font-bold"
+                                            "w-full flex items-center gap-3 px-4 py-2.5 hover:bg-transparent transition-colors text-left rounded-xl",
+                                            isActive ? "text-foreground bg-transparent/50 font-black" : "text-foreground/90 font-bold"
                                         )}
                                     >
                                         <div className={cn(
                                             "w-5 h-5 rounded border flex items-center justify-center transition-all shrink-0",
-                                            isActive ? "bg-blue-600 border-blue-600 text-white" : "border-slate-300 bg-white"
+                                            isActive ? "bg-primary border-primary text-white" : "border-slate-300 bg-card"
                                         )}>
                                             {isActive && <Check className="w-3 h-3 text-white stroke-[3.5px]" />}
                                         </div>
@@ -1375,7 +1414,8 @@ export const WorkOrdersPage = () => {
 
                     {/* Location Filter */}
                     <FilterDropdown 
-                        label="Location" 
+                        label="Location"
+                        color="emerald" 
                         icon={MapPin} 
                         isOpen={isLocationDropdownOpen} 
                         onToggle={() => {
@@ -1391,7 +1431,7 @@ export const WorkOrdersPage = () => {
                         onCancel={() => setIsLocationDropdownOpen(false)}
                         onClear={() => setStagedLocationIds([])}
                     >
-                        <div className="p-2 max-h-64 overflow-y-auto custom-scrollbar bg-white">
+                        <div className="p-2 max-h-64 overflow-y-auto custom-scrollbar bg-card">
                             {(() => {
                                 // Build location tree
                                 const map: Record<string, any> = {};
@@ -1413,8 +1453,8 @@ export const WorkOrdersPage = () => {
                                         <div key={node.id}>
                                             <div 
                                                 className={cn(
-                                                    "w-full flex items-center justify-between px-4 py-2 hover:bg-slate-50 transition-colors text-left rounded-xl",
-                                                    stagedLocationIds.includes(node.id) ? "text-primary bg-primary/5 font-black" : "text-slate-700 font-bold"
+                                                    "w-full flex items-center justify-between px-4 py-2 hover:bg-transparent transition-colors text-left rounded-xl",
+                                                    stagedLocationIds.includes(node.id) ? "text-primary bg-primary/5 font-black" : "text-foreground/90 font-bold"
                                                 )}
                                                 style={{ paddingLeft: `${(level * 16) + 16}px` }}
                                             >
@@ -1458,7 +1498,8 @@ export const WorkOrdersPage = () => {
 
                     {/* Asset Filter */}
                     <FilterDropdown 
-                        label="Asset" 
+                        label="Asset"
+                        color="cyan" 
                         icon={Box} 
                         isOpen={isAssetDropdownOpen} 
                         onToggle={() => {
@@ -1474,7 +1515,7 @@ export const WorkOrdersPage = () => {
                         onCancel={() => setIsAssetDropdownOpen(false)}
                         onClear={() => setStagedAssetIds([])}
                     >
-                        <div className="p-2 max-h-64 overflow-y-auto custom-scrollbar bg-white">
+                        <div className="p-2 max-h-64 overflow-y-auto custom-scrollbar bg-card">
                             {assets.map(a => (
                                 <button
                                     key={a.id}
@@ -1485,8 +1526,8 @@ export const WorkOrdersPage = () => {
                                         setStagedAssetIds(next);
                                     }}
                                     className={cn(
-                                        "w-full flex items-center justify-between px-4 py-2.5 hover:bg-slate-50 transition-colors text-left rounded-xl",
-                                        stagedAssetIds.includes(a.id) ? "text-primary bg-primary/5 font-black" : "text-slate-700 font-bold"
+                                        "w-full flex items-center justify-between px-4 py-2.5 hover:bg-transparent transition-colors text-left rounded-xl",
+                                        stagedAssetIds.includes(a.id) ? "text-primary bg-primary/5 font-black" : "text-foreground/90 font-bold"
                                     )}
                                 >
                                     <span className="text-[13px]">{a.name}</span>
@@ -1498,7 +1539,8 @@ export const WorkOrdersPage = () => {
 
                     {/* Assigned To Filter */}
                     <FilterDropdown 
-                        label="Assigned To" 
+                        label="Assigned To"
+                        color="cyan" 
                         icon={Users} 
                         isOpen={isEveryoneDropdownOpen} 
                         onToggle={() => {
@@ -1514,7 +1556,7 @@ export const WorkOrdersPage = () => {
                         onCancel={() => setIsEveryoneDropdownOpen(false)}
                         onClear={() => setStagedAssigneeIds([])}
                     >
-                        <div className="p-2 max-h-64 overflow-y-auto custom-scrollbar bg-white">
+                        <div className="p-2 max-h-64 overflow-y-auto custom-scrollbar bg-card">
                             {users.map((u: any) => {
                                 const targetId = u.userOrgId || u.id;
                                 return (
@@ -1527,12 +1569,12 @@ export const WorkOrdersPage = () => {
                                             setStagedAssigneeIds(next);
                                         }}
                                         className={cn(
-                                            "w-full flex items-center justify-between px-4 py-2.5 hover:bg-slate-50 transition-colors text-left rounded-xl",
-                                            stagedAssigneeIds.includes(targetId) ? "text-primary bg-primary/5 font-black" : "text-slate-700 font-bold"
+                                            "w-full flex items-center justify-between px-4 py-2.5 hover:bg-transparent transition-colors text-left rounded-xl",
+                                            stagedAssigneeIds.includes(targetId) ? "text-primary bg-primary/5 font-black" : "text-foreground/90 font-bold"
                                         )}
                                     >
                                         <div className="flex items-center gap-3">
-                                            <div className="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-[10px] font-black text-slate-500 uppercase">
+                                            <div className="w-6 h-6 rounded-full bg-muted flex items-center justify-center text-[10px] font-black text-muted-foreground uppercase">
                                                 {u.name[0]}
                                             </div>
                                             <span className="text-[13px]">{u.name}</span>
@@ -1546,7 +1588,8 @@ export const WorkOrdersPage = () => {
 
                     {/* Date Filter */}
                     <FilterDropdown 
-                        label={dateFilter} 
+                        label={dateFilter}
+                        color="emerald" 
                         icon={Calendar} 
                         isOpen={isDateDropdownOpen} 
                         onToggle={() => {
@@ -1561,14 +1604,14 @@ export const WorkOrdersPage = () => {
                         onCancel={() => setIsDateDropdownOpen(false)}
                         onClear={() => setStagedDateFilter('Any Day')}
                     >
-                        <div className="p-2 space-y-1 bg-white">
+                        <div className="p-2 space-y-1 bg-card">
                             {['Any Day', 'Today', 'Past Due', 'Next 7 Days'].map(opt => (
                                 <button
                                     key={opt}
                                     onClick={() => setStagedDateFilter(opt)}
                                     className={cn(
-                                        "w-full flex items-center justify-between px-4 py-2.5 hover:bg-slate-50 transition-colors text-left rounded-xl",
-                                        stagedDateFilter === opt ? "text-primary bg-primary/5 font-black" : "text-slate-700 font-bold"
+                                        "w-full flex items-center justify-between px-4 py-2.5 hover:bg-transparent transition-colors text-left rounded-xl",
+                                        stagedDateFilter === opt ? "text-primary bg-primary/5 font-black" : "text-foreground/90 font-bold"
                                     )}
                                 >
                                     <span className="text-[13px]">{opt}</span>
@@ -1589,7 +1632,7 @@ export const WorkOrdersPage = () => {
                             "flex items-center gap-2 px-3 py-1.5 rounded-xl text-[12px] font-black transition-all active:scale-95 whitespace-nowrap border h-9",
                             isBookmarkedOnly 
                                 ? "bg-amber-50 text-amber-600 border-amber-200 shadow-sm" 
-                                : "bg-white text-slate-500 border-transparent hover:bg-slate-50",
+                                : "bg-card text-muted-foreground border-transparent hover:bg-transparent",
                             "shrink-0"
                         )}
                     >
@@ -1603,7 +1646,7 @@ export const WorkOrdersPage = () => {
                     <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-white via-white/80 to-transparent z-10 flex items-center justify-end pointer-events-none">
                         <button 
                             onClick={() => scrollFilters('right')}
-                            className="w-7 h-7 rounded-full bg-white border border-slate-200 shadow-sm flex items-center justify-center text-slate-600 hover:text-primary hover:border-primary/20 pointer-events-auto transition-all active:scale-90"
+                            className="w-7 h-7 rounded-full bg-card border border-border shadow-sm flex items-center justify-center text-slate-600 hover:text-primary hover:border-primary/20 pointer-events-auto transition-all active:scale-90"
                         >
                             <ChevronRight className="w-4 h-4" />
                         </button>
@@ -1615,13 +1658,13 @@ export const WorkOrdersPage = () => {
             <div className="flex items-center gap-4 shrink-0 pl-2">
                 <button 
                     onClick={handleResetFilters}
-                    className="text-[13px] font-black text-slate-500 hover:text-slate-800 transition-colors whitespace-nowrap"
+                    className="text-[13px] font-black text-muted-foreground hover:text-slate-800 transition-colors whitespace-nowrap"
                 >
                     Reset Filters
                 </button>
                 <button 
                     onClick={() => queryClient.invalidateQueries({ queryKey: ['work-orders'] })}
-                    className="p-1.5 hover:bg-slate-100 rounded-lg transition-colors text-slate-400 hover:text-primary animate-none"
+                    className="p-1.5 hover:bg-muted rounded-lg transition-colors text-slate-400 hover:text-primary animate-none"
                 >
                     <RefreshCcw className="w-3.5 h-3.5" />
                 </button>
@@ -1644,7 +1687,7 @@ export const WorkOrdersPage = () => {
         <div className="grid grid-cols-5 gap-6">
             {[
                 { label: 'Open', color: 'bg-rose-500', dbKey: 'OPEN' },
-                { label: 'PENDING_APPROVAL', color: 'bg-purple-500', display: 'Pending Approval', dbKey: 'PENDING_APPROVAL' },
+                { label: 'PENDING_APPROVAL', color: 'bg-primary/80', display: 'Pending Approval', dbKey: 'PENDING_APPROVAL' },
                 { label: 'In Progress', color: 'bg-emerald-500', dbKey: 'IN_PROGRESS' },
                 { label: 'On Hold', color: 'bg-amber-500', dbKey: 'ON_HOLD' },
                 { label: 'Complete', color: 'bg-slate-400', dbKey: 'COMPLETED' }
@@ -1658,15 +1701,15 @@ export const WorkOrdersPage = () => {
                         key={stat.label}
                         onClick={() => handleStatusClick(stat.label)}
                         className={cn(
-                            "bg-white rounded-xl border p-6 flex justify-between items-center shadow-sm relative overflow-hidden group transition-all select-none hover:shadow-md cursor-pointer text-left w-full",
+                            "bg-white/40 backdrop-blur-2xl rounded-xl border p-6 flex justify-between items-center shadow-sm relative overflow-hidden group transition-all select-none hover:shadow-md cursor-pointer text-left w-full",
                             isActive
-                                ? "border-slate-200 ring-2 ring-primary/10 opacity-100"
+                                ? "border-border ring-2 ring-primary/10 opacity-100"
                                 : "border-slate-100 opacity-40 hover:opacity-75 grayscale-[20%]"
                         )}
                     >
                         <div className={cn("absolute left-0 top-0 bottom-0 w-1.5", stat.color)} />
                         <span className="text-[18px] font-black text-slate-800 tracking-tight">{stat.display || stat.label}</span>
-                        <span className="text-[28px] font-black text-slate-900 leading-none">{count}</span>
+                        <span className="text-[28px] font-black text-foreground leading-none">{count}</span>
                     </button>
                 );
             })}
@@ -1674,9 +1717,9 @@ export const WorkOrdersPage = () => {
     );
 
     const renderSubHeader = () => (
-        <div className="h-14 flex items-center justify-between px-6 bg-white border-b border-gray-100 z-40 py-2">
+        <div className="h-14 flex items-center justify-between px-6 bg-card border-b border-gray-100 z-40 py-2">
             <div className="flex items-center gap-6">
-                <span className="text-[12px] font-black text-slate-400 uppercase tracking-widest leading-none">
+                <span className="text-[12px] font-black text-indigo-500 uppercase tracking-widest leading-none">
                     {meta?.total || apiWorkOrders.length} {meta?.total === 1 ? 'Work Order' : 'Work Orders'}
                 </span>
             </div>
@@ -1709,7 +1752,7 @@ export const WorkOrdersPage = () => {
                                 <div className="absolute top-full left-0 mt-3 w-64 popover-solid rounded-2xl z-[120] overflow-hidden animate-in fade-in zoom-in-95 duration-200 shadow-2xl">
                                     <div className="flex items-center justify-between px-5 py-4 border-b border-gray-50">
                                         <span className="text-[15px] font-bold text-foreground">Sort By</span>
-                                        <button onClick={() => setIsSortDropdownOpen(false)} className="p-1.5 hover:bg-gray-100 rounded-lg transition-colors text-slate-400">
+                                        <button onClick={() => setIsSortDropdownOpen(false)} className="p-1.5 hover:bg-muted rounded-lg transition-colors text-slate-400">
                                             <XIcon className="w-4 h-4" />
                                         </button>
                                     </div>
@@ -1722,8 +1765,8 @@ export const WorkOrdersPage = () => {
                                                     setIsSortDropdownOpen(false);
                                                 }}
                                                 className={cn(
-                                                    "w-full flex items-center justify-between px-4 py-2.5 hover:bg-slate-50 transition-colors text-left rounded-xl mx-0",
-                                                    sortBy === option ? "text-primary bg-primary/10" : "text-gray-700"
+                                                    "w-full flex items-center justify-between px-4 py-2.5 hover:bg-transparent transition-colors text-left rounded-xl mx-0",
+                                                    sortBy === option ? "text-primary bg-primary/10" : "text-foreground/90"
                                                 )}
                                             >
                                                 <span className="text-[13px] font-semibold">{option}</span>
@@ -1737,7 +1780,7 @@ export const WorkOrdersPage = () => {
                     </div>
                 </div>
 
-                <div className="h-6 w-px bg-slate-100 mx-2" />
+                <div className="h-6 w-px bg-muted mx-2" />
                 
                 <div className="relative w-64">
                     <input
@@ -1745,7 +1788,7 @@ export const WorkOrdersPage = () => {
                         placeholder="Search current view..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="w-full pl-3 pr-10 py-1.5 bg-gray-50 border border-transparent rounded-lg text-[13px] text-slate-900 outline-none focus:bg-white focus:border-primary/40 transition-all font-medium"
+                        className="w-full pl-3 pr-10 py-1.5 bg-muted/50 border border-transparent rounded-lg text-[13px] text-foreground outline-none focus:bg-card focus:border-primary/40 transition-all font-medium"
                     />
                     <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                 </div>
@@ -1759,7 +1802,7 @@ export const WorkOrdersPage = () => {
     }
 
     return (
-        <div className="flex h-full bg-slate-50 overflow-hidden animate-in fade-in duration-500">
+        <div className="flex h-full bg-transparent overflow-hidden animate-in fade-in duration-500">
             <AdvancedFiltersModal
                 isOpen={isAdvancedFiltersModalOpen}
                 onClose={() => setIsAdvancedFiltersModalOpen(false)}
@@ -1799,14 +1842,14 @@ export const WorkOrdersPage = () => {
 
 
             {/* --- MAIN PAGE CONTENT --- */}
-            <div className="flex-1 flex flex-col h-full overflow-hidden bg-slate-50">
+            <div className="flex-1 flex flex-col h-full overflow-hidden bg-transparent">
                 {renderPageHeader()}
                 {renderSubHeader()}
                 {renderFilterBar()}
                 {/* --- MAIN CONTENT --- */}
                 {currentView === 'Column' && (
                     <DndContext sensors={sensors} collisionDetection={closestCorners} onDragEnd={handleDragEnd}>
-                        <div className="flex-1 bg-slate-50/50 min-h-0 overflow-y-auto custom-scrollbar p-6 space-y-8">
+                        <div className="flex-1 bg-transparent/50 min-h-0 overflow-y-auto custom-scrollbar p-6 space-y-8">
                             {/* 1. Global Status Summary Bar */}
                             {renderStatusSummaryBar()}
 
@@ -1834,7 +1877,7 @@ export const WorkOrdersPage = () => {
                                         const userProfile = users.find(u => u.name === assignee);
                                         
                                         return (
-                                            <div key={assignee} className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
+                                            <div key={assignee} className="bg-white/40 backdrop-blur-2xl rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
                                                 {/* Assignee Header */}
                                                 <button 
                                                     onClick={() => setCollapsedGroups(prev => 
@@ -1843,7 +1886,7 @@ export const WorkOrdersPage = () => {
                                                     className="w-full flex items-center justify-between p-4 bg-gray-50/50 hover:bg-gray-100/50 transition-colors text-left"
                                                 >
                                                     <div className="flex items-center gap-4">
-                                                        <div className="bg-white border border-slate-200 rounded-lg p-1">
+                                                        <div className="bg-card border border-border rounded-lg p-1">
                                                             {isCollapsed ? <ChevronRight className="w-4 h-4 text-slate-400" /> : <ChevronDown className="w-4 h-4 text-slate-600" />}
                                                         </div>
                                                         <div className="relative">
@@ -1881,7 +1924,7 @@ export const WorkOrdersPage = () => {
                                                 </button>
 
                                                 {!isCollapsed && (
-                                                    <div className="p-4 grid gap-6 bg-white border-t border-slate-50 overflow-x-auto custom-scrollbar" style={{ gridTemplateColumns: `repeat(${allDynamicStatuses.length}, minmax(320px, 1fr))` }}>
+                                                    <div className="p-4 grid gap-6 bg-card border-t border-slate-50 overflow-x-auto custom-scrollbar" style={{ gridTemplateColumns: `repeat(${allDynamicStatuses.length}, minmax(320px, 1fr))` }}>
                                                         {allDynamicStatuses.map(status => {
                                                             const columnOrders = userOrders.filter(o => o.status === status);
                                                             return (
@@ -1906,20 +1949,20 @@ export const WorkOrdersPage = () => {
                 )}
 
                 {currentView === 'Table' && (
-                    <div className="flex-1 min-h-0 bg-slate-50 p-6 overflow-hidden flex flex-col">
-                        <div className="flex-1 bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col overflow-hidden">
+                    <div className="flex-1 min-h-0 bg-transparent p-6 overflow-hidden flex flex-col">
+                        <div className="flex-1 bg-card rounded-2xl border border-border shadow-sm flex flex-col overflow-hidden">
                             <div className="flex-1 overflow-x-auto overflow-y-auto custom-scrollbar">
                             <table className="w-full min-w-[1800px] text-left border-collapse">
-                                <thead className="bg-slate-50 border-b border-slate-200">
+                                <thead className="bg-primary border-b border-primary/20">
                                     <tr>
-                                        <th className="w-[32px] min-w-[32px] max-w-[32px] px-2 py-2 sticky top-0 left-0 z-40 bg-slate-50 border-b border-slate-200">
+                                        <th className="w-[32px] min-w-[32px] max-w-[32px] px-2 py-2 sticky top-0 left-0 z-40 bg-primary border-b border-primary/20">
                                             <div
                                                 onClick={toggleAll}
                                                 className={cn(
                                                     "w-4 h-4 rounded border flex items-center justify-center transition-all cursor-pointer",
                                                     selectedRows.length === (filteredWorkOrders?.length || 0) && (filteredWorkOrders?.length || 0) > 0
                                                         ? "bg-primary border-primary"
-                                                        : "border-slate-200 bg-white hover:border-primary/50"
+                                                        : "border-border bg-card hover:border-primary/50"
                                                 )}
                                             >
                                                 {selectedRows.length === (filteredWorkOrders?.length || 0) && (filteredWorkOrders?.length || 0) > 0 && (
@@ -1927,37 +1970,37 @@ export const WorkOrdersPage = () => {
                                                 )}
                                             </div>
                                         </th>
-                                        <th className="w-[80px] min-w-[80px] max-w-[80px] px-2 py-2 text-[9px] font-black uppercase tracking-widest text-slate-600 whitespace-nowrap sticky top-0 left-[32px] z-40 bg-slate-50 border-b border-slate-200">WO #</th>
-                                        <th className="w-[220px] min-w-[220px] max-w-[220px] px-4 py-2 text-[10px] font-black uppercase tracking-widest text-slate-600 whitespace-nowrap sticky top-0 left-[112px] z-40 bg-slate-50 border-r border-slate-100 border-b border-slate-200">Work Order Title</th>
-                                        <th className="px-6 py-3 text-[11px] font-black uppercase tracking-widest text-slate-600 min-w-[300px] whitespace-nowrap sticky top-0 z-30 bg-slate-50 border-b border-slate-200">Description</th>
-                                        <th className="px-6 py-3 text-[11px] font-black uppercase tracking-widest text-slate-600 min-w-[150px] whitespace-nowrap sticky top-0 z-30 bg-slate-50 border-b border-slate-200">Due Date</th>
-                                        <th className="px-6 py-3 text-[11px] font-black uppercase tracking-widest text-slate-600 min-w-[150px] whitespace-nowrap sticky top-0 z-30 bg-slate-50 border-b border-slate-200">Start Date</th>
-                                        <th className="px-6 py-3 text-[11px] font-black uppercase tracking-widest text-slate-600 min-w-[120px] whitespace-nowrap sticky top-0 z-30 bg-slate-50 border-b border-slate-200">Status</th>
-                                        <th className="px-6 py-3 text-[11px] font-black uppercase tracking-widest text-slate-600 min-w-[120px] whitespace-nowrap sticky top-0 z-30 bg-slate-50 border-b border-slate-200">Priority</th>
-                                        <th className="px-6 py-3 text-[11px] font-black uppercase tracking-widest text-slate-600 min-w-[150px] whitespace-nowrap sticky top-0 z-30 bg-slate-50 border-b border-slate-200">Category</th>
+                                        <th className="w-[80px] min-w-[80px] max-w-[80px] px-2 py-2 text-[9px] font-black uppercase tracking-widest text-white/90 whitespace-nowrap sticky top-0 left-[32px] z-40 bg-primary border-b border-primary/20">WO #</th>
+                                        <th className="w-[220px] min-w-[220px] max-w-[220px] px-4 py-2 text-[10px] font-black uppercase tracking-widest text-white/90 whitespace-nowrap sticky top-0 left-[112px] z-40 bg-primary border-r border-primary/20 border-b border-primary/20">Work Order Title</th>
+                                        <th className="px-6 py-3 text-[11px] font-black uppercase tracking-widest text-white/90 min-w-[300px] whitespace-nowrap sticky top-0 z-30 bg-primary border-b border-primary/20">Description</th>
+                                        <th className="px-6 py-3 text-[11px] font-black uppercase tracking-widest text-white/90 min-w-[150px] whitespace-nowrap sticky top-0 z-30 bg-primary border-b border-primary/20">Due Date</th>
+                                        <th className="px-6 py-3 text-[11px] font-black uppercase tracking-widest text-white/90 min-w-[150px] whitespace-nowrap sticky top-0 z-30 bg-primary border-b border-primary/20">Start Date</th>
+                                        <th className="px-6 py-3 text-[11px] font-black uppercase tracking-widest text-white/90 min-w-[120px] whitespace-nowrap sticky top-0 z-30 bg-primary border-b border-primary/20">Status</th>
+                                        <th className="px-6 py-3 text-[11px] font-black uppercase tracking-widest text-white/90 min-w-[120px] whitespace-nowrap sticky top-0 z-30 bg-primary border-b border-primary/20">Priority</th>
+                                        <th className="px-6 py-3 text-[11px] font-black uppercase tracking-widest text-white/90 min-w-[150px] whitespace-nowrap sticky top-0 z-30 bg-primary border-b border-primary/20">Category</th>
                                         
-                                        {visibleColumns.includes('Asset') && <th className="px-6 py-3 text-[11px] font-black uppercase tracking-widest text-slate-600 min-w-[200px] sticky top-0 z-30 bg-slate-50 border-b border-slate-200">Asset</th>}
-                                        {visibleColumns.includes('Sector / Location') && <th className="px-6 py-3 text-[11px] font-black uppercase tracking-widest text-slate-600 min-w-[200px] sticky top-0 z-30 bg-slate-50 border-b border-slate-200">Sector / Location</th>}
-                                        {visibleColumns.includes('Assigned To') && <th className="px-6 py-3 text-[11px] font-black uppercase tracking-widest text-slate-600 sticky top-0 z-30 bg-slate-50 border-b border-slate-200">Assigned To</th>}
-                                        {visibleColumns.includes('Labor Est.') && <th className="px-6 py-3 text-[11px] font-black uppercase tracking-widest text-slate-600 text-center sticky top-0 z-30 bg-slate-50 border-b border-slate-200">Labor Est.</th>}
-                                        {visibleColumns.includes('Team') && <th className="px-6 py-3 text-[11px] font-black uppercase tracking-widest text-slate-600 sticky top-0 z-30 bg-slate-50 border-b border-slate-200">Team</th>}
-                                        {visibleColumns.includes('Requested By') && <th className="px-6 py-3 text-[11px] font-black uppercase tracking-widest text-slate-600 sticky top-0 z-30 bg-slate-50 border-b border-slate-200">Requested By</th>}
-                                        {visibleColumns.includes('Date Created') && <th className="px-6 py-3 text-[11px] font-black uppercase tracking-widest text-slate-600 sticky top-0 z-30 bg-slate-50 border-b border-slate-200">Date Created</th>}
-                                        {visibleColumns.includes('Last Updated') && <th className="px-6 py-3 text-[11px] font-black uppercase tracking-widest text-slate-600 sticky top-0 z-30 bg-slate-50 border-b border-slate-200">Last Updated</th>}
-                                        {visibleColumns.includes('Date Completed') && <th className="px-6 py-3 text-[11px] font-black uppercase tracking-widest text-slate-600 sticky top-0 z-30 bg-slate-50 border-b border-slate-200">Date Completed</th>}
-                                        {visibleColumns.includes('Archived') && <th className="px-6 py-3 text-[11px] font-black uppercase tracking-widest text-slate-600 text-center sticky top-0 z-30 bg-slate-50 border-b border-slate-200">Archived</th>}
-                                        {visibleColumns.includes('Closeout Notes') && <th className="px-6 py-3 text-[11px] font-black uppercase tracking-widest text-slate-600 sticky top-0 z-30 bg-slate-50 border-b border-slate-200">Closeout Notes</th>}
-                                        {visibleColumns.includes('Source Type') && <th className="px-6 py-3 text-[11px] font-black uppercase tracking-widest text-slate-600 sticky top-0 z-30 bg-slate-50 border-b border-slate-200">Source Type</th>}
+                                        {visibleColumns.includes('Asset') && <th className="px-6 py-3 text-[11px] font-black uppercase tracking-widest text-white/90 min-w-[200px] sticky top-0 z-30 bg-primary border-b border-primary/20">Asset</th>}
+                                        {visibleColumns.includes('Sector / Location') && <th className="px-6 py-3 text-[11px] font-black uppercase tracking-widest text-white/90 min-w-[200px] sticky top-0 z-30 bg-primary border-b border-primary/20">Sector / Location</th>}
+                                        {visibleColumns.includes('Assigned To') && <th className="px-6 py-3 text-[11px] font-black uppercase tracking-widest text-white/90 sticky top-0 z-30 bg-primary border-b border-primary/20">Assigned To</th>}
+                                        {visibleColumns.includes('Labor Est.') && <th className="px-6 py-3 text-[11px] font-black uppercase tracking-widest text-white/90 text-center sticky top-0 z-30 bg-primary border-b border-primary/20">Labor Est.</th>}
+                                        {visibleColumns.includes('Team') && <th className="px-6 py-3 text-[11px] font-black uppercase tracking-widest text-white/90 sticky top-0 z-30 bg-primary border-b border-primary/20">Team</th>}
+                                        {visibleColumns.includes('Requested By') && <th className="px-6 py-3 text-[11px] font-black uppercase tracking-widest text-white/90 sticky top-0 z-30 bg-primary border-b border-primary/20">Requested By</th>}
+                                        {visibleColumns.includes('Date Created') && <th className="px-6 py-3 text-[11px] font-black uppercase tracking-widest text-white/90 sticky top-0 z-30 bg-primary border-b border-primary/20">Date Created</th>}
+                                        {visibleColumns.includes('Last Updated') && <th className="px-6 py-3 text-[11px] font-black uppercase tracking-widest text-white/90 sticky top-0 z-30 bg-primary border-b border-primary/20">Last Updated</th>}
+                                        {visibleColumns.includes('Date Completed') && <th className="px-6 py-3 text-[11px] font-black uppercase tracking-widest text-white/90 sticky top-0 z-30 bg-primary border-b border-primary/20">Date Completed</th>}
+                                        {visibleColumns.includes('Archived') && <th className="px-6 py-3 text-[11px] font-black uppercase tracking-widest text-white/90 text-center sticky top-0 z-30 bg-primary border-b border-primary/20">Archived</th>}
+                                        {visibleColumns.includes('Closeout Notes') && <th className="px-6 py-3 text-[11px] font-black uppercase tracking-widest text-white/90 sticky top-0 z-30 bg-primary border-b border-primary/20">Closeout Notes</th>}
+                                        {visibleColumns.includes('Source Type') && <th className="px-6 py-3 text-[11px] font-black uppercase tracking-widest text-white/90 sticky top-0 z-30 bg-primary border-b border-primary/20">Source Type</th>}
                                         
-                                        <th className="px-2 py-3 text-[10px] font-black uppercase tracking-widest text-slate-600 text-right sticky top-0 right-0 z-40 bg-slate-50 border-l border-slate-200 border-b border-slate-200">Actions</th>
+                                        <th className="px-2 py-3 text-[10px] font-black uppercase tracking-widest text-white/90 text-right sticky top-0 right-0 z-40 bg-primary border-l border-primary/20 border-b border-primary/20">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-slate-100">
                                     {isLoading ? (
                                         [...Array(5)].map((_, i) => (
                                             <tr key={i} className="animate-pulse">
-                                                <td className="px-6 py-6"><div className="w-5 h-5 bg-slate-100 rounded" /></td>
-                                                <td colSpan={visibleColumns.length + 9} className="px-4 py-6"><div className="h-4 bg-slate-50 rounded w-full" /></td>
+                                                <td className="px-6 py-6"><div className="w-5 h-5 bg-muted rounded" /></td>
+                                                <td colSpan={visibleColumns.length + 9} className="px-4 py-6"><div className="h-4 bg-transparent rounded w-full" /></td>
                                             </tr>
                                         ))
                                     ) : (
@@ -1968,7 +2011,7 @@ export const WorkOrdersPage = () => {
                                                     "group transition-all cursor-pointer",
                                                     selectedRows.includes(order.id) 
                                                         ? "bg-primary/[0.04] hover:bg-primary/[0.08]" 
-                                                        : "hover:bg-slate-50/80"
+                                                        : "hover:bg-transparent/80"
                                                 )}
                                                 onClick={() => {
                                                     setSelectedWorkOrder(order);
@@ -1976,7 +2019,7 @@ export const WorkOrdersPage = () => {
                                                 }}
                                             >
                                                 <td 
-                                                    className="w-[32px] min-w-[32px] max-w-[32px] px-2 py-2 sticky left-0 z-20 bg-white group-hover:bg-slate-50"
+                                                    className="w-[32px] min-w-[32px] max-w-[32px] px-2 py-2 sticky left-0 z-20 bg-card group-hover:bg-transparent"
                                                     onClick={(e) => {
                                                         e.stopPropagation();
                                                         toggleRow(order.id);
@@ -1984,13 +2027,13 @@ export const WorkOrdersPage = () => {
                                                 >
                                                     <div className={cn(
                                                         "w-4 h-4 rounded border flex items-center justify-center transition-all",
-                                                        selectedRows.includes(order.id) ? "bg-primary border-primary" : "border-slate-200 bg-white group-hover:border-primary/50"
+                                                        selectedRows.includes(order.id) ? "bg-primary border-primary" : "border-border bg-card group-hover:border-primary/50"
                                                     )}>
                                                         {selectedRows.includes(order.id) && <Check className="w-3 h-3 text-white stroke-[3px]" />}
                                                     </div>
                                                 </td>
                                                 
-                                                <td className="w-[80px] min-w-[80px] max-w-[80px] px-2 py-2 sticky left-[32px] z-20 bg-white group-hover:bg-slate-50">
+                                                <td className="w-[80px] min-w-[80px] max-w-[80px] px-2 py-2 sticky left-[32px] z-20 bg-card group-hover:bg-transparent">
                                                     <div className="flex items-center gap-1.5">
                                                         <span className="text-[11px] font-black text-primary bg-primary/5 px-1.5 py-0.5 rounded">
                                                             {String(order.woNumber || '').padStart(3, '0')}
@@ -2001,8 +2044,8 @@ export const WorkOrdersPage = () => {
                                                     </div>
                                                 </td>
 
-                                                <td className="w-[220px] min-w-[220px] max-w-[220px] px-4 py-2 sticky left-[112px] z-20 bg-white group-hover:bg-slate-50 border-r border-slate-50">
-                                                    <span className="text-[13px] font-black text-slate-900 group-hover:text-primary transition-colors leading-tight truncate block max-w-[180px]">
+                                                <td className="w-[220px] min-w-[220px] max-w-[220px] px-4 py-2 sticky left-[112px] z-20 bg-card group-hover:bg-transparent border-r border-slate-50">
+                                                    <span className="text-[13px] font-black text-foreground group-hover:text-primary transition-colors leading-tight truncate block max-w-[180px]">
                                                         {order.title}
                                                     </span>
                                                     <div className="flex items-center gap-1.5 flex-wrap mt-1">
@@ -2013,8 +2056,8 @@ export const WorkOrdersPage = () => {
                                                             </div>
                                                         )}
                                                         {((order as any).request?.id || (order as any).requestId) && (
-                                                            <div className="flex items-center gap-1 px-1.5 py-0.5 w-fit bg-indigo-50 border border-indigo-200 rounded-md shadow-sm" title="Originated from Request">
-                                                                <span className="text-[9px] font-black text-indigo-700 uppercase tracking-tight italic">
+                                                            <div className="flex items-center gap-1 px-1.5 py-0.5 w-fit bg-primary/10 border border-primary/20 rounded-md shadow-sm" title="Originated from Request">
+                                                                <span className="text-[9px] font-black text-primary/90 uppercase tracking-tight italic">
                                                                     From REQ-{((order as any).request?.id || (order as any).requestId).split('-')[0].toUpperCase()}
                                                                 </span>
                                                             </div>
@@ -2048,12 +2091,12 @@ export const WorkOrdersPage = () => {
                                                 <td className="px-6 py-3 whitespace-nowrap">
                                                     <div className="flex items-center gap-2">
                                                         <div className={cn("w-2 h-2 rounded-full shadow-[0_0_8px]",
-                                                            order.status === 'Open' ? 'bg-blue-500 shadow-blue-500/40' :
+                                                            order.status === 'Open' ? 'bg-primary shadow-primary/20' :
                                                             order.status === 'In Progress' ? 'bg-amber-500 shadow-amber-500/40' :
                                                             order.status === 'Complete' ? 'bg-emerald-500 shadow-emerald-500/40' :
-                                                            order.status === 'PENDING_APPROVAL' ? 'bg-purple-500 shadow-purple-500/40' : 'bg-slate-400'
+                                                            order.status === 'PENDING_APPROVAL' ? 'bg-primary/80 shadow-purple-500/40' : 'bg-slate-400'
                                                         )} />
-                                                        <span className="text-[12px] font-black text-slate-700 uppercase tracking-tight">{order.status === 'PENDING_APPROVAL' ? 'PENDING APPROVAL' : order.status}</span>
+                                                        <span className="text-[12px] font-black text-foreground/90 uppercase tracking-tight">{order.status === 'PENDING_APPROVAL' ? 'PENDING APPROVAL' : order.status}</span>
                                                     </div>
                                                 </td>
 
@@ -2064,7 +2107,7 @@ export const WorkOrdersPage = () => {
                                                             (order.priority === 'High' || (order as any).priority === 'CRITICAL') ? 'bg-rose-100/50 text-rose-700 border-rose-200' :
                                                             order.priority === 'Medium' ? 'bg-amber-100/50 text-amber-700 border-amber-200' :
                                                             order.priority === 'Low' ? 'bg-emerald-100/50 text-emerald-700 border-emerald-200' :
-                                                            'bg-slate-100/50 text-slate-700 border-slate-200'
+                                                            'bg-slate-100/50 text-foreground/90 border-border'
                                                         )}>
                                                             {order.priority || 'NONE'}
                                                         </div>
@@ -2089,8 +2132,8 @@ export const WorkOrdersPage = () => {
                                                 {visibleColumns.includes('Asset') && (
                                                     <td className="px-6 py-3">
                                                         <div className="flex items-center gap-2 min-w-0 max-w-[200px]">
-                                                            <Box className="w-3.5 h-3.5 text-slate-500 shrink-0" />
-                                                            <span className="text-[13px] font-bold text-slate-700 truncate">{order.assetName || 'UNASSIGNED'}</span>
+                                                            <Box className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
+                                                            <span className="text-[13px] font-bold text-foreground/90 truncate">{order.assetName || 'UNASSIGNED'}</span>
                                                         </div>
                                                     </td>
                                                 )}
@@ -2106,17 +2149,17 @@ export const WorkOrdersPage = () => {
                                                 {visibleColumns.includes('Assigned To') && (
                                                     <td className="px-6 py-3">
                                                         <div className="flex items-center gap-2 min-w-0 max-w-[180px]">
-                                                            <div className="w-7 h-7 rounded-full bg-slate-100 flex items-center justify-center text-[10px] font-black text-slate-500 border border-slate-200 shrink-0">
+                                                            <div className="w-7 h-7 rounded-full bg-muted flex items-center justify-center text-[10px] font-black text-muted-foreground border border-border shrink-0">
                                                                 {(order.assignee || 'U')[0]}
                                                             </div>
-                                                            <span className="text-[13px] font-bold text-slate-700 truncate">{order.assignee || 'Unassigned'}</span>
+                                                            <span className="text-[13px] font-bold text-foreground/90 truncate">{order.assignee || 'Unassigned'}</span>
                                                         </div>
                                                     </td>
                                                 )}
 
                                                 {visibleColumns.includes('Labor Est.') && (
                                                     <td className="px-6 py-3 text-center">
-                                                        <span className="text-[13px] font-black text-slate-500 bg-slate-50 px-2 py-1 rounded">
+                                                        <span className="text-[13px] font-black text-muted-foreground bg-transparent px-2 py-1 rounded">
                                                             {order.estimatedHours || 0}h
                                                         </span>
                                                     </td>
@@ -2125,8 +2168,8 @@ export const WorkOrdersPage = () => {
                                                 {visibleColumns.includes('Team') && (
                                                     <td className="px-6 py-3">
                                                         <div className="flex items-center gap-2">
-                                                            <Users className="w-3.5 h-3.5 text-slate-500" />
-                                                            <span className="text-[13px] font-bold text-slate-700">{order.teamName || 'N/A'}</span>
+                                                            <Users className="w-3.5 h-3.5 text-muted-foreground" />
+                                                            <span className="text-[13px] font-bold text-foreground/90">{order.teamName || 'N/A'}</span>
                                                         </div>
                                                     </td>
                                                 )}
@@ -2134,8 +2177,8 @@ export const WorkOrdersPage = () => {
                                                 {visibleColumns.includes('Requested By') && (
                                                     <td className="px-6 py-3">
                                                         <div className="flex items-center gap-2">
-                                                            <UserCircle className="w-3.5 h-3.5 text-slate-500" />
-                                                            <span className="text-[13px] font-bold text-slate-700">{order.requestedBy || 'SYSTEM'}</span>
+                                                            <UserCircle className="w-3.5 h-3.5 text-muted-foreground" />
+                                                            <span className="text-[13px] font-bold text-foreground/90">{order.requestedBy || 'SYSTEM'}</span>
                                                         </div>
                                                     </td>
                                                 )}
@@ -2182,7 +2225,7 @@ export const WorkOrdersPage = () => {
                                                                     <div className="w-2.5 h-2.5 rounded-full bg-current opacity-60" /> REACTIVE
                                                                 </span>
                                                             ) : (
-                                                                <span className="w-fit px-2 py-0.5 rounded-md text-[9px] font-black bg-slate-100/50 text-slate-700 border border-slate-200 flex items-center gap-1 italic uppercase tracking-wider">
+                                                                <span className="w-fit px-2 py-0.5 rounded-md text-[9px] font-black bg-slate-100/50 text-foreground/90 border border-border flex items-center gap-1 italic uppercase tracking-wider">
                                                                     <Plus className="w-2.5 h-2.5" /> MANUAL
                                                                 </span>
                                                             )}
@@ -2190,7 +2233,7 @@ export const WorkOrdersPage = () => {
                                                     </td>
                                                 )}
 
-                                                <td className="px-2 py-3 text-right sticky right-0 z-10 bg-white/95 backdrop-blur-sm group-hover:bg-slate-50 border-l border-slate-200 shadow-[-4px_0_12px_rgba(0,0,0,0.02)]">
+                                                <td className="px-2 py-3 text-right sticky right-0 z-10 bg-white/95 backdrop-blur-sm group-hover:bg-transparent border-l border-border shadow-[-4px_0_12px_rgba(0,0,0,0.02)]">
                                                     <div className="flex items-center justify-end gap-0.5">
                                                         <button 
                                                             onClick={(e) => {
@@ -2198,7 +2241,7 @@ export const WorkOrdersPage = () => {
                                                                 setWorkOrderToDelete(order.id);
                                                                 setIsSingleDeleteModalOpen(true);
                                                             }}
-                                                            className="w-7 h-7 rounded-lg bg-slate-50 hover:bg-rose-500 text-slate-400 hover:text-white flex items-center justify-center transition-all group/delete border border-slate-200 shadow-sm active:scale-90"
+                                                            className="w-7 h-7 rounded-lg bg-transparent hover:bg-rose-500 text-slate-400 hover:text-white flex items-center justify-center transition-all group/delete border border-border shadow-sm active:scale-90"
                                                             title="Delete Work Order"
                                                         >
                                                             <Trash2 className="w-3.5 h-3.5 group-hover/delete:scale-110 transition-transform" />
@@ -2250,19 +2293,19 @@ export const WorkOrdersPage = () => {
         )}
 
                 {currentView === 'Calendar' && (
-                    <div className="flex flex-col flex-1 overflow-hidden bg-slate-50 dark:bg-slate-950 animate-in fade-in duration-700">
+                    <div className="flex flex-col flex-1 overflow-hidden bg-transparent animate-in fade-in duration-700">
                         {/* EXECUTIVE MASTER HEADER */}
                         <div className="flex items-center justify-between px-10 py-6 border-b border-white/5 bg-white/[0.02] backdrop-blur-3xl">
                             <div className="flex items-center gap-10">
                                 <div>
                                     <div className="flex items-center gap-3">
-                                        <button onClick={handlePrevMonth} className="p-2 hover:bg-slate-100 dark:hover:bg-white/5 rounded-full transition-colors text-slate-400 dark:text-white/40 hover:text-primary dark:hover:text-white">
+                                        <button onClick={handlePrevMonth} className="p-2 hover:bg-muted dark:hover:bg-white/5 rounded-full transition-colors text-slate-400 dark:text-white/40 hover:text-primary dark:hover:text-white">
                                             <ChevronLeft className="w-6 h-6" />
                                         </button>
-                                        <h2 className="text-[28px] font-black text-slate-900 dark:text-white italic tracking-tighter uppercase min-w-[280px] text-center">
+                                        <h2 className="text-[28px] font-black text-foreground dark:text-white italic tracking-tighter uppercase min-w-[280px] text-center">
                                             {calendarDate.toLocaleString('default', { month: 'long', year: 'numeric' })}
                                         </h2>
-                                        <button onClick={handleNextMonth} className="p-2 hover:bg-slate-100 dark:hover:bg-white/5 rounded-full transition-colors text-slate-400 dark:text-white/40 hover:text-primary dark:hover:text-white">
+                                        <button onClick={handleNextMonth} className="p-2 hover:bg-muted dark:hover:bg-white/5 rounded-full transition-colors text-slate-400 dark:text-white/40 hover:text-primary dark:hover:text-white">
                                             <ChevronRight className="w-6 h-6" />
                                         </button>
                                     </div>
@@ -2282,8 +2325,8 @@ export const WorkOrdersPage = () => {
                         </div>
 
                         {/* MASTER CALENDAR GRID */}
-                        <div className="flex-1 overflow-auto bg-slate-50 dark:bg-black p-6 custom-scrollbar">
-                            <div className="min-w-[1000px] h-full flex flex-col bg-white dark:bg-white/[0.01] rounded-[48px] border border-slate-200 dark:border-white/5 shadow-2xl overflow-hidden backdrop-blur-3xl">
+                        <div className="flex-1 overflow-auto bg-transparent dark:bg-black p-6 custom-scrollbar">
+                            <div className="min-w-[1000px] h-full flex flex-col bg-card dark:bg-white/[0.01] rounded-[48px] border border-border dark:border-white/5 shadow-2xl overflow-hidden backdrop-blur-3xl">
                                 {/* DAYS OF WEEK */}
                                 <div className="grid grid-cols-7 border-b border-white/5 bg-white/[0.02] sticky top-0 z-20">
                                     {['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].map((day) => (
@@ -2315,7 +2358,7 @@ export const WorkOrdersPage = () => {
 
                                         return (
                                             <div key={i} className={cn(
-                                                "border-r border-b border-slate-100 dark:border-white/5 p-4 min-h-[160px] transition-all hover:bg-slate-50 dark:hover:bg-white/[0.04] group relative",
+                                                "border-r border-b border-slate-100 dark:border-white/5 p-4 min-h-[160px] transition-all hover:bg-transparent dark:hover:bg-white/[0.04] group relative",
                                                 isToday ? "bg-primary/[0.03]" : "bg-transparent",
                                                 isOutsideMonth && "opacity-20 pointer-events-none"
                                             )}>
@@ -2340,7 +2383,7 @@ export const WorkOrdersPage = () => {
                                                             className="cursor-pointer group/wo"
                                                             onClick={() => { setSelectedWorkOrder(wo); setIsDetailModalOpen(true); }}
                                                         >
-                                                            <div className="px-3 py-2 bg-white dark:bg-white/5 border border-slate-100 dark:border-white/10 rounded-xl hover:border-primary/40 hover:bg-slate-50 dark:hover:bg-white/10 transition-all shadow-lg backdrop-blur-sm">
+                                                            <div className="px-3 py-2 bg-card dark:bg-white/5 border border-slate-100 dark:border-white/10 rounded-xl hover:border-primary/40 hover:bg-transparent dark:hover:bg-white/10 transition-all shadow-lg backdrop-blur-sm">
                                                                 <div className="flex flex-col gap-1 min-w-0">
                                                                     <div className="flex items-center justify-between gap-2">
                                                                         <span className="text-[9px] font-black text-primary uppercase italic opacity-80 shrink-0">
@@ -2369,7 +2412,7 @@ export const WorkOrdersPage = () => {
 
                 {/* Pagination Footer - Optimized for space and persistence (Visible across all views) */}
                 {meta && meta.totalPages > 1 && (
-                    <div className="flex items-center justify-between px-6 py-2 border-t border-gray-200 bg-white shadow-[0_-4px_20px_rgba(0,0,0,0.05)] z-[100] shrink-0">
+                    <div className="flex items-center justify-between px-6 py-2 border-t border-border bg-card shadow-[0_-4px_20px_rgba(0,0,0,0.05)] z-[100] shrink-0">
                         <div className="text-[10px] font-black italic text-muted-foreground uppercase tracking-widest opacity-60">
                             {(meta.page - 1) * meta.limit + 1}-{Math.min(meta.page * meta.limit, meta.total)} OF {meta.total} MISSION RECORDS
                         </div>
@@ -2377,7 +2420,7 @@ export const WorkOrdersPage = () => {
                             <button 
                                 onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
                                 disabled={meta.page === 1}
-                                className="px-3 py-1.5 bg-gray-50 border border-gray-200 rounded-xl text-[10px] font-black uppercase tracking-widest italic text-foreground hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed transition-all active:scale-95 flex items-center gap-2"
+                                className="px-3 py-1.5 bg-muted/50 border border-border rounded-xl text-[10px] font-black uppercase tracking-widest italic text-foreground hover:bg-muted disabled:opacity-30 disabled:cursor-not-allowed transition-all active:scale-95 flex items-center gap-2"
                             >
                                 <ChevronLeft className="w-3 h-3" />
                                 PREV
@@ -2392,7 +2435,7 @@ export const WorkOrdersPage = () => {
                                             onClick={() => setCurrentPage(pageNum)}
                                             className={cn(
                                                 "w-8 h-8 rounded-xl text-[11px] font-black italic transition-all",
-                                                meta.page === pageNum ? "bg-primary text-white shadow-lg shadow-primary/20 rotate-6" : "text-muted-foreground hover:text-foreground hover:bg-gray-50"
+                                                meta.page === pageNum ? "bg-primary text-white shadow-lg shadow-primary/20 rotate-6" : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
                                             )}
                                         >
                                             {pageNum}
@@ -2403,7 +2446,7 @@ export const WorkOrdersPage = () => {
                             <button 
                                 onClick={() => setCurrentPage(prev => Math.min(meta.totalPages || 1, prev + 1))}
                                 disabled={meta.page === meta.totalPages}
-                                className="px-3 py-1.5 bg-gray-50 border border-gray-200 rounded-xl text-[10px] font-black uppercase tracking-widest italic text-foreground hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed transition-all active:scale-95 flex items-center gap-2"
+                                className="px-3 py-1.5 bg-muted/50 border border-border rounded-xl text-[10px] font-black uppercase tracking-widest italic text-foreground hover:bg-muted disabled:opacity-30 disabled:cursor-not-allowed transition-all active:scale-95 flex items-center gap-2"
                             >
                                 NEXT
                                 <ChevronRight className="w-3 h-3" />

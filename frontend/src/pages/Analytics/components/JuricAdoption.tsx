@@ -56,21 +56,21 @@ export const JuricAdoption = ({ data }: { data: AnalyticsData }) => {
         <div className="space-y-10 pb-20 font-inter">
             {/* Header & Filters */}
             <div className="space-y-8">
-                <h2 className="text-[42px] font-medium text-slate-900 tracking-tight">Juric Adoption Metrics</h2>
+                <h2 className="text-[42px] font-medium text-foreground tracking-tight">Juric Adoption Metrics</h2>
             </div>
 
-            <div className="h-px bg-slate-100" />
+            <div className="h-px bg-muted" />
 
             {/* Section 1: Work Order Health */}
             <div className="space-y-6">
-                <h3 className="text-[14px] font-bold text-slate-500 uppercase tracking-widest text-center">Work Order Health</h3>
+                <h3 className="text-[14px] font-bold text-muted-foreground uppercase tracking-widest text-center">Work Order Health</h3>
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
                     <div className="lg:col-span-1 space-y-6">
-                        <div className="bg-white rounded-xl border border-slate-200 p-8 flex flex-col items-center justify-center text-center shadow-sm h-[200px]">
+                        <div className="bg-card rounded-xl border border-border p-8 flex flex-col items-center justify-center text-center shadow-sm h-[200px]">
                             <span className="text-[42px] font-black tracking-tighter text-slate-800 mb-1">{health.completionPercentage}%</span>
                             <span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Completion Percentage</span>
                         </div>
-                        <div className="bg-white rounded-xl border border-slate-200 p-8 flex flex-col items-center justify-center text-center shadow-sm h-[200px]">
+                        <div className="bg-card rounded-xl border border-border p-8 flex flex-col items-center justify-center text-center shadow-sm h-[200px]">
                             <span className="text-[42px] font-black tracking-tighter text-slate-800 mb-1">{health.onTimePercentage}%</span>
                             <span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">On-Time Percentage</span>
                         </div>
@@ -109,7 +109,7 @@ export const JuricAdoption = ({ data }: { data: AnalyticsData }) => {
                         { title: 'Work Orders with an Asset', data: [{ name: 'Yes', value: health.pieCharts.hasAsset.yes }, { name: 'No', value: health.pieCharts.hasAsset.no }] },
                         { title: 'Work Orders with a Location', data: [{ name: 'Yes', value: health.pieCharts.hasLocation.yes }, { name: 'No', value: health.pieCharts.hasLocation.no }] },
                     ].map((chart, i) => (
-                        <div key={i} className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm h-[200px] flex flex-col items-center">
+                        <div key={i} className="bg-card rounded-xl border border-border p-6 shadow-sm h-[200px] flex flex-col items-center">
                             <span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-4 text-center">{chart.title}</span>
                             <ResponsiveContainer width="100%" height="100%">
                                 <PieChart>
@@ -126,7 +126,7 @@ export const JuricAdoption = ({ data }: { data: AnalyticsData }) => {
 
             {/* Section 2: PM Health */}
             <div className="space-y-6">
-                <h3 className="text-[14px] font-bold text-slate-500 uppercase tracking-widest text-center">PM Health</h3>
+                <h3 className="text-[14px] font-bold text-muted-foreground uppercase tracking-widest text-center">PM Health</h3>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     <Widget title="Reactive vs Recurring Work Orders" className="h-[250px] flex flex-col items-center" data={[{ name: 'Recurring', value: pmHealth.reactiveVsRecurring.recurring }, { name: 'Reactive', value: pmHealth.reactiveVsRecurring.reactive }]}>
                         <ResponsiveContainer width="100%" height="100%">
@@ -153,7 +153,7 @@ export const JuricAdoption = ({ data }: { data: AnalyticsData }) => {
 
             {/* Section 3: User Adoption Health */}
             <div className="space-y-6">
-                <h3 className="text-[14px] font-bold text-slate-500 uppercase tracking-widest text-center">User Adoption Health</h3>
+                <h3 className="text-[14px] font-bold text-muted-foreground uppercase tracking-widest text-center">User Adoption Health</h3>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     <Widget title="Users Active within 7 Days" data={[{ name: 'Active', value: userAdoption.activeUsersLast7Days }]}>
                         <div className="h-[200px] w-full mt-4">
@@ -182,27 +182,27 @@ export const JuricAdoption = ({ data }: { data: AnalyticsData }) => {
 
             {/* Section 4: Time by Worker Report */}
             <div className="space-y-6">
-                <h3 className="text-[14px] font-bold text-slate-500 uppercase tracking-widest text-center">Time by Worker Report</h3>
+                <h3 className="text-[14px] font-bold text-muted-foreground uppercase tracking-widest text-center">Time by Worker Report</h3>
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-                    <div className="lg:col-span-1 flex flex-col items-center justify-center bg-white rounded-xl border border-slate-200 p-8 shadow-sm h-[300px]">
+                    <div className="lg:col-span-1 flex flex-col items-center justify-center bg-card rounded-xl border border-border p-8 shadow-sm h-[300px]">
                         <span className="text-[42px] font-black text-slate-800 mb-1">{timeReport.percentWithTime}%</span>
                         <span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest text-center">Percent of Work Orders with Time Logged</span>
                     </div>
-                    <div className="lg:col-span-3 bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden h-[300px]">
+                    <div className="lg:col-span-3 bg-card rounded-xl border border-border shadow-sm overflow-hidden h-[300px]">
                         <table className="w-full text-left">
-                            <thead>
-                                <tr className="bg-slate-50/50 border-b border-slate-200">
+                            <thead className="text-white/90 bg-primary">
+                            <tr className="border-b border-primary/20">
                                     {['Full Name', 'Last Logged Date', 'Time Recorded', 'Work Order Count'].map((h, i) => (
-                                        <th key={i} className="px-6 py-4 text-[11px] font-bold text-slate-500 uppercase tracking-widest">{h}</th>
+                                        <th key={i} className="px-6 py-4 text-[11px] font-black text-white/90 uppercase tracking-widestst">{h}</th>
                                     ))}
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-100">
                                 {timeReport.workerTable.map((worker: any, i: number) => (
-                                    <tr key={i} className="hover:bg-slate-50 transition-colors">
-                                        <td className="px-6 py-4 text-[13px] font-bold text-slate-700">{worker.name}</td>
-                                        <td className="px-6 py-4 text-[13px] text-slate-500">{worker.lastLogged}</td>
-                                        <td className="px-6 py-4 text-[13px] font-bold text-indigo-600">{worker.totalTime} hrs</td>
+                                    <tr key={i} className="hover:bg-transparent transition-colors">
+                                        <td className="px-6 py-4 text-[13px] font-bold text-foreground/90">{worker.name}</td>
+                                        <td className="px-6 py-4 text-[13px] text-muted-foreground">{worker.lastLogged}</td>
+                                        <td className="px-6 py-4 text-[13px] font-bold text-primary">{worker.totalTime} hrs</td>
                                         <td className="px-6 py-4 text-[13px] font-medium text-slate-600">{worker.woCount}</td>
                                     </tr>
                                 ))}

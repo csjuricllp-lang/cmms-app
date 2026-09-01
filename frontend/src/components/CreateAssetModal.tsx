@@ -211,11 +211,11 @@ export const CreateAssetModal: React.FC<CreateAssetModalProps> = ({ isOpen, onCl
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 z-[1000] bg-white flex flex-col animate-in fade-in duration-300">
+        <div className="fixed inset-0 z-[1000] bg-card flex flex-col animate-in fade-in duration-300">
             {/* Immersive Header */}
-            <header className="h-16 md:h-[80px] border-b border-slate-100 flex items-center justify-between px-4 md:px-10 bg-white sticky top-0 z-[100]">
+            <header className="h-16 md:h-[80px] border-b border-slate-100 flex items-center justify-between px-4 md:px-10 bg-card sticky top-0 z-[100]">
                 <div className="flex items-center gap-2 md:gap-6">
-                    <button onClick={onClose} className="p-2 hover:bg-slate-50 rounded-xl transition-all text-slate-400">
+                    <button onClick={onClose} className="p-2 hover:bg-muted/50 rounded-xl transition-all text-slate-400">
                         <X className="w-6 h-6" />
                     </button>
                     <div className="flex items-center gap-4">
@@ -223,14 +223,14 @@ export const CreateAssetModal: React.FC<CreateAssetModalProps> = ({ isOpen, onCl
                     </div>
                 </div>
                 <div className="flex items-center gap-4">
-                    <button onClick={onClose} className="px-6 py-2.5 text-[14px] font-bold text-slate-500 hover:text-slate-800 transition-colors">
+                    <button onClick={onClose} className="px-6 py-2.5 text-[14px] font-bold text-muted-foreground hover:text-slate-800 transition-colors">
                         Cancel
                     </button>
                     <button 
                         onClick={handleSubmit}
                         disabled={createAsset.isPending || updateAsset.isPending}
                         className={cn(
-                            "px-8 py-2.5 rounded-xl bg-[#3B82F6] text-white text-[14px] font-black shadow-lg shadow-blue-500/20 active:scale-95 transition-all flex items-center gap-2",
+                            "px-8 py-2.5 rounded-xl bg-primary text-white text-[14px] font-black shadow-lg shadow-primary/20 active:scale-95 transition-all flex items-center gap-2",
                             (createAsset.isPending || updateAsset.isPending) && "opacity-50 grayscale cursor-not-allowed"
                         )}
                     >
@@ -241,13 +241,13 @@ export const CreateAssetModal: React.FC<CreateAssetModalProps> = ({ isOpen, onCl
 
             <div className="flex-1 flex flex-col md:flex-row overflow-y-auto md:overflow-hidden">
                 {/* Main Content Area */}
-                <main className="flex-1 overflow-y-visible md:overflow-y-auto scrollbar-hide bg-white px-5 py-6 md:px-[120px] md:py-[80px]">
+                <main className="flex-1 overflow-y-visible md:overflow-y-auto scrollbar-hide bg-card px-5 py-6 md:px-[120px] md:py-[80px]">
                     <div className="max-w-[800px] space-y-[50px] md:space-y-[100px]">
                         
                         {/* Section: Asset Information */}
                         <section className="space-y-12">
                             <div className="space-y-2">
-                                <h3 className="text-[22px] font-black text-slate-900 tracking-tight">Asset Information</h3>
+                                <h3 className="text-[22px] font-black text-foreground tracking-tight">Asset Information</h3>
                                 <p className="text-[14px] text-slate-400 font-medium">Core telemetry and identity parameters for the new asset node.</p>
                             </div>
 
@@ -262,8 +262,8 @@ export const CreateAssetModal: React.FC<CreateAssetModalProps> = ({ isOpen, onCl
                                         value={name} 
                                         onChange={(e) => setName(e.target.value)}
                                         className={cn(
-                                            "w-full h-14 bg-white border rounded-2xl px-6 text-[15px] font-bold outline-none transition-all",
-                                            !name ? "border-rose-100 bg-rose-50/20 focus:border-rose-300" : "border-slate-100 focus:border-blue-400"
+                                            "w-full h-14 bg-card border rounded-2xl px-6 text-[15px] font-bold outline-none transition-all",
+                                            !name ? "border-rose-100 bg-rose-50/20 focus:border-rose-300" : "border-slate-100 focus:border-primary/80"
                                         )}
                                         placeholder="e.g. Centrifugal Pump CP-01"
                                     />
@@ -274,7 +274,7 @@ export const CreateAssetModal: React.FC<CreateAssetModalProps> = ({ isOpen, onCl
                                     <textarea 
                                         value={description}
                                         onChange={(e) => setDescription(e.target.value)}
-                                        className="w-full min-h-[120px] bg-white border border-slate-100 rounded-2xl p-6 text-[15px] font-bold outline-none focus:border-blue-400 resize-none"
+                                        className="w-full min-h-[120px] bg-card border border-slate-100 rounded-2xl p-6 text-[15px] font-bold outline-none focus:border-primary/80 resize-none"
                                         placeholder="Operational context or identification notes..."
                                     />
                                     <div className="flex justify-end">
@@ -285,29 +285,29 @@ export const CreateAssetModal: React.FC<CreateAssetModalProps> = ({ isOpen, onCl
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 mt-6 md:mt-12">
                                     <div className="space-y-3">
                                         <label className="text-[12px] font-black text-slate-400 uppercase tracking-widest">Model</label>
-                                        <input type="text" value={model} onChange={(e) => setModel(e.target.value)} className="w-full h-14 bg-white border border-slate-100 rounded-2xl px-6 text-[15px] font-bold outline-none focus:border-blue-400" />
+                                        <input type="text" value={model} onChange={(e) => setModel(e.target.value)} className="w-full h-14 bg-card border border-slate-100 rounded-2xl px-6 text-[15px] font-bold outline-none focus:border-primary/80" />
                                     </div>
                                     <div className="space-y-3">
                                         <label className="text-[12px] font-black text-slate-400 uppercase tracking-widest">Manufacturer</label>
-                                        <input type="text" value={manufacturer} onChange={(e) => setManufacturer(e.target.value)} className="w-full h-14 bg-white border border-slate-100 rounded-2xl px-6 text-[15px] font-bold outline-none focus:border-blue-400" />
+                                        <input type="text" value={manufacturer} onChange={(e) => setManufacturer(e.target.value)} className="w-full h-14 bg-card border border-slate-100 rounded-2xl px-6 text-[15px] font-bold outline-none focus:border-primary/80" />
                                     </div>
                                     <div className="space-y-3">
                                         <label className="text-[12px] font-black text-slate-400 uppercase tracking-widest">Serial Number</label>
-                                        <input type="text" value={serialNumber} onChange={(e) => setSerialNumber(e.target.value)} className="w-full h-14 bg-white border border-slate-100 rounded-2xl px-6 text-[15px] font-bold outline-none focus:border-blue-400" />
+                                        <input type="text" value={serialNumber} onChange={(e) => setSerialNumber(e.target.value)} className="w-full h-14 bg-card border border-slate-100 rounded-2xl px-6 text-[15px] font-bold outline-none focus:border-primary/80" />
                                     </div>
                                     <div className="space-y-3">
                                         <label className="text-[12px] font-black text-slate-400 uppercase tracking-widest">Category</label>
                                         <div className="relative">
-                                            <button onClick={() => toggleDropdown('category')} className="w-full h-14 bg-white border border-slate-100 rounded-2xl px-6 flex items-center justify-between text-[15px] font-bold text-slate-700">
+                                            <button onClick={() => toggleDropdown('category')} className="w-full h-14 bg-card border border-slate-100 rounded-2xl px-6 flex items-center justify-between text-[15px] font-bold text-foreground/90">
                                                 <span>{category || "Select Category"}</span>
                                                 <ChevronDown className="w-5 h-5 text-slate-300" />
                                             </button>
                                             {dropdowns.category && (
-                                                <div className="absolute top-[calc(100%+8px)] left-0 right-0 py-2 bg-white rounded-2xl border border-slate-100 shadow-2xl z-[50] max-h-[250px] overflow-y-auto overflow-x-hidden">
+                                                <div className="absolute top-[calc(100%+8px)] left-0 right-0 py-2 bg-card rounded-2xl border border-slate-100 shadow-2xl z-[50] max-h-[250px] overflow-y-auto overflow-x-hidden">
                                                     {categoryData.map((c: any) => (
-                                                        <button key={c.id} onClick={() => { setCategory(c.name); toggleDropdown('category'); }} className="w-full text-left px-6 py-4 hover:bg-slate-50 text-[14px] font-bold text-slate-600 transition-all flex items-center justify-between group">
+                                                        <button key={c.id} onClick={() => { setCategory(c.name); toggleDropdown('category'); }} className="w-full text-left px-6 py-4 hover:bg-muted/50 text-[14px] font-bold text-slate-600 transition-all flex items-center justify-between group">
                                                             {c.name}
-                                                            {category === c.name && <Check className="w-4 h-4 text-blue-500" />}
+                                                            {category === c.name && <Check className="w-4 h-4 text-primary" />}
                                                         </button>
                                                     ))}
                                                 </div>
@@ -322,17 +322,17 @@ export const CreateAssetModal: React.FC<CreateAssetModalProps> = ({ isOpen, onCl
                                             <label className="text-[12px] font-black text-slate-400 uppercase tracking-widest uppercase tracking-widest">Barcode</label>
                                             <div className="flex gap-4">
                                                 <button onClick={() => setBarcode('')} className="text-[11px] font-black text-slate-300 uppercase underline">Clear</button>
-                                                <button onClick={generateBarcode} className="text-[11px] font-black text-blue-500 uppercase">Generate Random</button>
+                                                <button onClick={generateBarcode} className="text-[11px] font-black text-primary uppercase">Generate Random</button>
                                             </div>
                                         </div>
                                         <div className="relative">
                                             <Barcode className="absolute left-6 top-1/2 -translate-y-1/2 w-6 h-6 text-slate-200" />
-                                            <input type="text" value={barcode} onChange={(e) => setBarcode(e.target.value)} className="w-full h-14 bg-white border border-slate-100 rounded-2xl pl-16 pr-6 text-[15px] font-mono font-black" placeholder="SCAN OR TYPE BARCODE" />
+                                            <input type="text" value={barcode} onChange={(e) => setBarcode(e.target.value)} className="w-full h-14 bg-card border border-slate-100 rounded-2xl pl-16 pr-6 text-[15px] font-mono font-black" placeholder="SCAN OR TYPE BARCODE" />
                                         </div>
                                     </div>
                                     <div className="space-y-3">
                                         <label className="text-[12px] font-black text-slate-400 uppercase tracking-widest">Area</label>
-                                        <input type="text" value={area} onChange={(e) => setArea(e.target.value)} className="w-full h-14 bg-white border border-slate-100 rounded-2xl px-6 text-[15px] font-bold outline-none focus:border-blue-400" />
+                                        <input type="text" value={area} onChange={(e) => setArea(e.target.value)} className="w-full h-14 bg-card border border-slate-100 rounded-2xl px-6 text-[15px] font-bold outline-none focus:border-primary/80" />
                                     </div>
                                 </div>
                             </div>
@@ -341,7 +341,7 @@ export const CreateAssetModal: React.FC<CreateAssetModalProps> = ({ isOpen, onCl
                         {/* Section: Image */}
                         <section className="space-y-8">
                             <div className="space-y-2">
-                                <h3 className="text-[20px] font-black text-slate-900 tracking-tight">Main Image</h3>
+                                <h3 className="text-[20px] font-black text-foreground tracking-tight">Main Image</h3>
                                 <p className="text-[14px] text-slate-400 font-medium italic">High-fidelity visual blueprint for Field ID.</p>
                             </div>
 
@@ -370,7 +370,7 @@ export const CreateAssetModal: React.FC<CreateAssetModalProps> = ({ isOpen, onCl
                             />
                             <label 
                                 htmlFor="asset-image-raw"
-                                className="w-full h-[280px] border-4 border-dashed border-slate-50 rounded-[40px] bg-slate-50/30 flex flex-col items-center justify-center group hover:bg-white hover:border-blue-100 transition-all cursor-pointer overflow-hidden relative"
+                                className="w-full h-[280px] border-4 border-dashed border-slate-50 rounded-[40px] bg-slate-50/30 flex flex-col items-center justify-center group hover:bg-card hover:border-blue-100 transition-all cursor-pointer overflow-hidden relative"
                             >
                                 {imageUrl ? (
                                     <img src={imageUrl} className="absolute inset-0 w-full h-full object-cover" />
@@ -378,7 +378,7 @@ export const CreateAssetModal: React.FC<CreateAssetModalProps> = ({ isOpen, onCl
                                     <>
                                         <Camera className="w-12 h-12 text-slate-200 group-hover:text-blue-300 transition-all mb-4" />
                                         <p className="text-[14px] font-bold text-slate-400">
-                                            <span className="text-blue-500 font-black">Browse Blueprints</span> or Drop Internal Files
+                                            <span className="text-primary font-black">Browse Blueprints</span> or Drop Internal Files
                                         </p>
                                     </>
                                 )}
@@ -388,7 +388,7 @@ export const CreateAssetModal: React.FC<CreateAssetModalProps> = ({ isOpen, onCl
                         {/* Section: Depreciation */}
                         <section className="space-y-10">
                             <div className="space-y-2">
-                                <h3 className="text-[20px] font-black text-slate-900 tracking-tight">Depreciation</h3>
+                                <h3 className="text-[20px] font-black text-foreground tracking-tight">Depreciation</h3>
                                 <p className="text-[14px] text-slate-400 font-medium">Lifecycle valuation data for procurement synchronization.</p>
                             </div>
 
@@ -397,30 +397,30 @@ export const CreateAssetModal: React.FC<CreateAssetModalProps> = ({ isOpen, onCl
                                     <label className="text-[12px] font-black text-slate-400 uppercase tracking-widest">Purchase Price</label>
                                     <div className="relative group">
                                         <span className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-300 font-black">$</span>
-                                        <input type="number" value={purchasePrice} onChange={(e) => setPurchasePrice(e.target.value === '' ? '' : Number(e.target.value))} className="w-full h-14 bg-white border border-slate-100 rounded-2xl pl-12 pr-6 text-[15px] font-bold outline-none focus:border-blue-400" />
+                                        <input type="number" value={purchasePrice} onChange={(e) => setPurchasePrice(e.target.value === '' ? '' : Number(e.target.value))} className="w-full h-14 bg-card border border-slate-100 rounded-2xl pl-12 pr-6 text-[15px] font-bold outline-none focus:border-primary/80" />
                                     </div>
                                 </div>
                                 <div className="space-y-3">
                                     <label className="text-[12px] font-black text-slate-400 uppercase tracking-widest">Purchase Date</label>
-                                    <input type="date" value={purchaseDate} onChange={(e) => setPurchaseDate(e.target.value)} className="w-full h-14 bg-white border border-slate-100 rounded-2xl px-6 text-[15px] font-bold outline-none focus:border-blue-400" />
+                                    <input type="date" value={purchaseDate} onChange={(e) => setPurchaseDate(e.target.value)} className="w-full h-14 bg-card border border-slate-100 rounded-2xl px-6 text-[15px] font-bold outline-none focus:border-primary/80" />
                                 </div>
                                 <div className="space-y-3">
                                     <label className="text-[12px] font-black text-slate-400 uppercase tracking-widest">Residual Value</label>
                                     <div className="relative group">
                                         <span className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-300 font-black">$</span>
-                                        <input type="number" value={residualValue} onChange={(e) => setResidualValue(e.target.value === '' ? '' : Number(e.target.value))} className="w-full h-14 bg-white border border-slate-100 rounded-2xl pl-12 pr-6 text-[15px] font-bold outline-none focus:border-blue-400" />
+                                        <input type="number" value={residualValue} onChange={(e) => setResidualValue(e.target.value === '' ? '' : Number(e.target.value))} className="w-full h-14 bg-card border border-slate-100 rounded-2xl pl-12 pr-6 text-[15px] font-bold outline-none focus:border-primary/80" />
                                     </div>
                                 </div>
                                 <div className="space-y-3">
                                     <label className="text-[12px] font-black text-slate-400 uppercase tracking-widest">Useful Life</label>
                                     <div className="grid grid-cols-[1fr,100px] gap-2 h-14">
-                                        <input type="number" value={usefulLife} onChange={(e) => setUsefulLife(e.target.value === '' ? '' : Number(e.target.value))} className="h-full bg-white border border-slate-100 rounded-l-2xl rounded-r-none px-6 text-[15px] font-bold outline-none focus:border-blue-400" />
-                                        <div className="h-full bg-slate-50 border border-l-0 border-slate-100 rounded-r-2xl flex items-center justify-center text-[11px] font-black text-slate-400 uppercase tracking-widest">Years</div>
+                                        <input type="number" value={usefulLife} onChange={(e) => setUsefulLife(e.target.value === '' ? '' : Number(e.target.value))} className="h-full bg-card border border-slate-100 rounded-l-2xl rounded-r-none px-6 text-[15px] font-bold outline-none focus:border-primary/80" />
+                                        <div className="h-full bg-muted/50 border border-l-0 border-slate-100 rounded-r-2xl flex items-center justify-center text-[11px] font-black text-slate-400 uppercase tracking-widest">Years</div>
                                     </div>
                                 </div>
                             </div>
                             
-                            <button className="flex items-center gap-2 text-[12px] font-bold text-blue-500 hover:scale-[1.02] transition-all">
+                            <button className="flex items-center gap-2 text-[12px] font-bold text-primary hover:scale-[1.02] transition-all">
                                 <Download className="w-4 h-4" /> Upload purchase receipt
                             </button>
                         </section>
@@ -428,27 +428,27 @@ export const CreateAssetModal: React.FC<CreateAssetModalProps> = ({ isOpen, onCl
                         {/* Section: Assigned To */}
                         <section className="space-y-10">
                             <div className="space-y-2">
-                                <h3 className="text-[20px] font-black text-slate-900 tracking-tight">Assigned To</h3>
+                                <h3 className="text-[20px] font-black text-foreground tracking-tight">Assigned To</h3>
                                 <p className="text-[14px] text-slate-400 font-medium">Mission specialists and tactical teams maintaining the asset node.</p>
                             </div>
 
                             <div className="space-y-10">
                                 <div className="space-y-3 relative">
                                     <label className="text-[12px] font-black text-slate-400 uppercase tracking-widest">Worker (Owner)</label>
-                                    <button onClick={() => toggleDropdown('assignee')} className="w-full h-14 bg-white border border-slate-100 rounded-2xl px-6 flex items-center justify-between text-[15px] font-bold text-slate-700">
+                                    <button onClick={() => toggleDropdown('assignee')} className="w-full h-14 bg-card border border-slate-100 rounded-2xl px-6 flex items-center justify-between text-[15px] font-bold text-foreground/90">
                                         <div className="flex items-center gap-4">
-                                            <div className="w-6 h-6 rounded-lg bg-blue-50 flex items-center justify-center"><Users className="w-3.5 h-3.5 text-blue-500" /></div>
+                                            <div className="w-6 h-6 rounded-lg bg-blue-50 flex items-center justify-center"><Users className="w-3.5 h-3.5 text-primary" /></div>
                                             <span className={cn(!assignedToId && "text-slate-300")}>{users.find(u => u.userOrgId === assignedToId)?.name || "Select Technician"}</span>
                                         </div>
                                         <ChevronDown className="w-5 h-5 text-slate-300" />
                                     </button>
                                     {dropdowns.assignee && (
-                                        <div className="absolute top-[calc(100%+8px)] left-0 right-0 py-2 bg-white rounded-2xl border border-slate-100 shadow-2xl z-[70] max-h-[300px] overflow-y-auto">
-                                            <button onClick={() => { setAssignedToId(null); toggleDropdown('assignee'); }} className="w-full text-left px-8 py-4 hover:bg-slate-50 text-[14px] font-bold text-slate-400 transition-all">Unassigned</button>
+                                        <div className="absolute top-[calc(100%+8px)] left-0 right-0 py-2 bg-card rounded-2xl border border-slate-100 shadow-2xl z-[70] max-h-[300px] overflow-y-auto">
+                                            <button onClick={() => { setAssignedToId(null); toggleDropdown('assignee'); }} className="w-full text-left px-8 py-4 hover:bg-muted/50 text-[14px] font-bold text-slate-400 transition-all">Unassigned</button>
                                             {users.map(u => (
-                                                <button key={u.userOrgId} onClick={() => { setAssignedToId(u.userOrgId); toggleDropdown('assignee'); }} className="w-full text-left px-8 py-4 hover:bg-slate-50 flex items-center justify-between transition-all font-bold text-slate-600">
+                                                <button key={u.userOrgId} onClick={() => { setAssignedToId(u.userOrgId); toggleDropdown('assignee'); }} className="w-full text-left px-8 py-4 hover:bg-muted/50 flex items-center justify-between transition-all font-bold text-slate-600">
                                                     {u.name}
-                                                    {assignedToId === u.userOrgId && <Check className="w-4 h-4 text-blue-500" />}
+                                                    {assignedToId === u.userOrgId && <Check className="w-4 h-4 text-primary" />}
                                                 </button>
                                             ))}
                                         </div>
@@ -457,27 +457,27 @@ export const CreateAssetModal: React.FC<CreateAssetModalProps> = ({ isOpen, onCl
 
                                 <div className="space-y-3 relative">
                                     <label className="text-[12px] font-black text-slate-400 uppercase tracking-widest">Additional Workers</label>
-                                    <button onClick={() => toggleDropdown('workers')} className="w-full h-14 bg-white border border-slate-100 rounded-2xl px-6 flex items-center justify-between text-[15px] font-bold text-slate-300 group">
+                                    <button onClick={() => toggleDropdown('workers')} className="w-full h-14 bg-card border border-slate-100 rounded-2xl px-6 flex items-center justify-between text-[15px] font-bold text-slate-300 group">
                                         <span>{additionalWorkerIds.length > 0 ? `${additionalWorkerIds.length} Workers Chosen` : "Select Workers"}</span>
                                         <UserPlus className="w-5 h-5 text-slate-300 group-hover:text-blue-400 transition-colors" />
                                     </button>
                                     {dropdowns.workers && (
-                                        <div className="absolute top-[calc(100%+8px)] left-0 right-0 py-4 bg-white rounded-2xl border border-slate-100 shadow-2xl z-[60] max-h-[350px] overflow-y-auto px-4 space-y-2">
+                                        <div className="absolute top-[calc(100%+8px)] left-0 right-0 py-4 bg-card rounded-2xl border border-slate-100 shadow-2xl z-[60] max-h-[350px] overflow-y-auto px-4 space-y-2">
                                             {users.map(u => (
                                                 <div 
                                                     key={u.userOrgId} 
                                                     onClick={() => setAdditionalWorkerIds(prev => prev.includes(u.userOrgId) ? prev.filter(i => i !== u.userOrgId) : [...prev, u.userOrgId])}
                                                     className={cn(
                                                         "w-full px-6 py-4 rounded-xl transition-all cursor-pointer flex items-center justify-between font-bold text-[14px]",
-                                                        additionalWorkerIds.includes(u.userOrgId) ? "bg-blue-50 text-blue-600" : "hover:bg-slate-50 text-slate-600"
+                                                        additionalWorkerIds.includes(u.userOrgId) ? "bg-blue-50 text-primary" : "hover:bg-muted/50 text-slate-600"
                                                     )}
                                                 >
                                                     {u.name}
                                                     {additionalWorkerIds.includes(u.userOrgId) && <Check className="w-4 h-4" />}
                                                 </div>
                                             ))}
-                                            <div className="sticky bottom-0 bg-white pt-4 pb-2 border-t border-slate-50">
-                                                <button onClick={() => toggleDropdown('workers')} className="w-full py-3 bg-[#3B82F6] text-white rounded-xl font-black text-[12px] uppercase tracking-widest shadow-lg shadow-blue-200">Synchronize Selection</button>
+                                            <div className="sticky bottom-0 bg-card pt-4 pb-2 border-t border-slate-50">
+                                                <button onClick={() => toggleDropdown('workers')} className="w-full py-3 bg-primary text-white rounded-xl font-black text-[12px] uppercase tracking-widest shadow-lg shadow-primary/20">Synchronize Selection</button>
                                             </div>
                                         </div>
                                     )}
@@ -485,19 +485,19 @@ export const CreateAssetModal: React.FC<CreateAssetModalProps> = ({ isOpen, onCl
 
                                 <div className="space-y-3 relative">
                                     <label className="text-[12px] font-black text-slate-400 uppercase tracking-widest">Teams</label>
-                                    <button onClick={() => toggleDropdown('team')} className="w-full h-14 bg-white border border-slate-100 rounded-2xl px-6 flex items-center justify-between text-[15px] font-bold text-slate-700">
+                                    <button onClick={() => toggleDropdown('team')} className="w-full h-14 bg-card border border-slate-100 rounded-2xl px-6 flex items-center justify-between text-[15px] font-bold text-foreground/90">
                                         <div className="flex items-center gap-4">
-                                            <div className="w-6 h-6 rounded-lg bg-indigo-50 flex items-center justify-center"><Briefcase className="w-3.5 h-3.5 text-indigo-500" /></div>
+                                            <div className="w-6 h-6 rounded-lg bg-primary/10 flex items-center justify-center"><Briefcase className="w-3.5 h-3.5 text-primary/80" /></div>
                                             <span className={cn(!teamId && "text-slate-300")}>{teams.find(t => t.id === teamId)?.name || "Select Team"}</span>
                                         </div>
                                         <ChevronDown className="w-5 h-5 text-slate-300" />
                                     </button>
                                     {dropdowns.team && (
-                                        <div className="absolute top-[calc(100%+8px)] left-0 right-0 py-2 bg-white rounded-2xl border border-slate-100 shadow-2xl z-[50]">
+                                        <div className="absolute top-[calc(100%+8px)] left-0 right-0 py-2 bg-card rounded-2xl border border-slate-100 shadow-2xl z-[50]">
                                             {teams.map(t => (
-                                                <button key={t.id} onClick={() => { setTeamId(t.id); toggleDropdown('team'); }} className="w-full text-left px-8 py-4 hover:bg-slate-50 flex items-center justify-between transition-all font-bold text-slate-600">
+                                                <button key={t.id} onClick={() => { setTeamId(t.id); toggleDropdown('team'); }} className="w-full text-left px-8 py-4 hover:bg-muted/50 flex items-center justify-between transition-all font-bold text-slate-600">
                                                     {t.name}
-                                                    {teamId === t.id && <Check className="w-4 h-4 text-blue-500" />}
+                                                    {teamId === t.id && <Check className="w-4 h-4 text-primary" />}
                                                 </button>
                                             ))}
                                         </div>
@@ -509,7 +509,7 @@ export const CreateAssetModal: React.FC<CreateAssetModalProps> = ({ isOpen, onCl
                         {/* Section: More Information */}
                         <section className="space-y-12">
                             <div className="space-y-2">
-                                <h3 className="text-[20px] font-black text-slate-900 tracking-tight">More Information</h3>
+                                <h3 className="text-[20px] font-black text-foreground tracking-tight">More Information</h3>
                                 <p className="text-[14px] text-slate-400 font-medium">Extended telemetry and third-party entity associations.</p>
                             </div>
 
@@ -517,22 +517,22 @@ export const CreateAssetModal: React.FC<CreateAssetModalProps> = ({ isOpen, onCl
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
                                     <div className="space-y-3">
                                         <label className="text-[12px] font-black text-slate-400 uppercase tracking-widest">Vendors</label>
-                                        <input type="text" value={vendors} onChange={(e) => setVendors(e.target.value)} className="w-full h-14 bg-white border border-slate-100 rounded-2xl px-6 text-[15px] font-bold outline-none focus:border-blue-400" placeholder="Associations..." />
+                                        <input type="text" value={vendors} onChange={(e) => setVendors(e.target.value)} className="w-full h-14 bg-card border border-slate-100 rounded-2xl px-6 text-[15px] font-bold outline-none focus:border-primary/80" placeholder="Associations..." />
                                     </div>
                                     <div className="space-y-3">
                                         <label className="text-[12px] font-black text-slate-400 uppercase tracking-widest">Customers</label>
-                                        <input type="text" value={customers} onChange={(e) => setCustomers(e.target.value)} className="w-full h-14 bg-white border border-slate-100 rounded-2xl px-6 text-[15px] font-bold outline-none focus:border-blue-400" placeholder="Associations..." />
+                                        <input type="text" value={customers} onChange={(e) => setCustomers(e.target.value)} className="w-full h-14 bg-card border border-slate-100 rounded-2xl px-6 text-[15px] font-bold outline-none focus:border-primary/80" placeholder="Associations..." />
                                     </div>
                                 </div>
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
                                     <div className="space-y-3">
                                         <label className="text-[12px] font-black text-slate-400 uppercase tracking-widest font-black text-slate-400 uppercase tracking-widest">Placed in Service Date</label>
-                                        <input type="date" value={placedInServiceDate} onChange={(e) => setPlacedInServiceDate(e.target.value)} className="w-full h-14 bg-white border border-slate-100 rounded-2xl px-6 text-[15px] font-bold outline-none focus:border-blue-400" />
+                                        <input type="date" value={placedInServiceDate} onChange={(e) => setPlacedInServiceDate(e.target.value)} className="w-full h-14 bg-card border border-slate-100 rounded-2xl px-6 text-[15px] font-bold outline-none focus:border-primary/80" />
                                     </div>
                                     <div className="space-y-3">
                                         <label className="text-[12px] font-black text-slate-400 uppercase tracking-widest font-black text-slate-400 uppercase tracking-widest">Warranty Expiration Date</label>
-                                        <input type="date" value={warrantyExpiry} onChange={(e) => setWarrantyExpiry(e.target.value)} className="w-full h-14 bg-white border border-slate-100 rounded-2xl px-6 text-[15px] font-bold outline-none focus:border-blue-400" />
+                                        <input type="date" value={warrantyExpiry} onChange={(e) => setWarrantyExpiry(e.target.value)} className="w-full h-14 bg-card border border-slate-100 rounded-2xl px-6 text-[15px] font-bold outline-none focus:border-primary/80" />
                                     </div>
                                 </div>
 
@@ -540,7 +540,7 @@ export const CreateAssetModal: React.FC<CreateAssetModalProps> = ({ isOpen, onCl
                                 {customFields.length > 0 && (
                                     <div className="space-y-8 pt-4 border-t border-slate-100">
                                         <div className="space-y-1">
-                                            <h4 className="text-[14px] font-black text-slate-700">Custom Fields</h4>
+                                            <h4 className="text-[14px] font-black text-foreground/90">Custom Fields</h4>
                                             <p className="text-[12px] text-slate-400 font-medium">Fields configured in Asset Settings.</p>
                                         </div>
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
@@ -552,14 +552,14 @@ export const CreateAssetModal: React.FC<CreateAssetModalProps> = ({ isOpen, onCl
                                                             value={customFieldValues[field.label] || ''}
                                                             onChange={(e) => setCustomFieldValues(prev => ({ ...prev, [field.label]: e.target.value }))}
                                                             rows={3}
-                                                            className="w-full bg-white border border-slate-100 rounded-2xl p-4 text-[14px] font-bold outline-none focus:border-blue-400 resize-none"
+                                                            className="w-full bg-card border border-slate-100 rounded-2xl p-4 text-[14px] font-bold outline-none focus:border-primary/80 resize-none"
                                                             placeholder={`Enter ${field.label}...`}
                                                         />
                                                     ) : field.type === 'Dropdown' && field.options?.length > 0 ? (
                                                         <select
                                                             value={customFieldValues[field.label] || ''}
                                                             onChange={(e) => setCustomFieldValues(prev => ({ ...prev, [field.label]: e.target.value }))}
-                                                            className="w-full h-14 bg-white border border-slate-100 rounded-2xl px-6 text-[14px] font-bold outline-none focus:border-blue-400 appearance-none cursor-pointer"
+                                                            className="w-full h-14 bg-card border border-slate-100 rounded-2xl px-6 text-[14px] font-bold outline-none focus:border-primary/80 appearance-none cursor-pointer"
                                                         >
                                                             <option value="">Select {field.label}...</option>
                                                             {field.options.map((opt: string) => (
@@ -571,14 +571,14 @@ export const CreateAssetModal: React.FC<CreateAssetModalProps> = ({ isOpen, onCl
                                                             type="date"
                                                             value={customFieldValues[field.label] || ''}
                                                             onChange={(e) => setCustomFieldValues(prev => ({ ...prev, [field.label]: e.target.value }))}
-                                                            className="w-full h-14 bg-white border border-slate-100 rounded-2xl px-6 text-[14px] font-bold outline-none focus:border-blue-400"
+                                                            className="w-full h-14 bg-card border border-slate-100 rounded-2xl px-6 text-[14px] font-bold outline-none focus:border-primary/80"
                                                         />
                                                     ) : field.type === 'Number' || field.type === 'Currency' ? (
                                                         <input
                                                             type="number"
                                                             value={customFieldValues[field.label] || ''}
                                                             onChange={(e) => setCustomFieldValues(prev => ({ ...prev, [field.label]: e.target.value }))}
-                                                            className="w-full h-14 bg-white border border-slate-100 rounded-2xl px-6 text-[14px] font-bold outline-none focus:border-blue-400"
+                                                            className="w-full h-14 bg-card border border-slate-100 rounded-2xl px-6 text-[14px] font-bold outline-none focus:border-primary/80"
                                                             placeholder={field.type === 'Currency' ? '0.00' : '0'}
                                                         />
                                                     ) : (
@@ -586,7 +586,7 @@ export const CreateAssetModal: React.FC<CreateAssetModalProps> = ({ isOpen, onCl
                                                             type="text"
                                                             value={customFieldValues[field.label] || ''}
                                                             onChange={(e) => setCustomFieldValues(prev => ({ ...prev, [field.label]: e.target.value }))}
-                                                            className="w-full h-14 bg-white border border-slate-100 rounded-2xl px-6 text-[14px] font-bold outline-none focus:border-blue-400"
+                                                            className="w-full h-14 bg-card border border-slate-100 rounded-2xl px-6 text-[14px] font-bold outline-none focus:border-primary/80"
                                                             placeholder={`Enter ${field.label}...`}
                                                         />
                                                     )}
@@ -598,7 +598,7 @@ export const CreateAssetModal: React.FC<CreateAssetModalProps> = ({ isOpen, onCl
 
                                 <div className="space-y-3">
                                     <label className="text-[12px] font-black text-slate-400 uppercase tracking-widest">Add Internal Documentation</label>
-                                    <textarea value={notes} onChange={(e) => setNotes(e.target.value)} rows={6} className="w-full bg-white border border-slate-100 rounded-[32px] p-8 text-[15px] font-bold outline-none focus:border-blue-400 resize-none" placeholder="Extended tactical specifications..." />
+                                    <textarea value={notes} onChange={(e) => setNotes(e.target.value)} rows={6} className="w-full bg-card border border-slate-100 rounded-[32px] p-8 text-[15px] font-bold outline-none focus:border-primary/80 resize-none" placeholder="Extended tactical specifications..." />
                                 </div>
 
                                 <button onClick={() => toast.info('Please create the Asset first to attach warranty files.')} className="flex items-center gap-2 text-[12px] font-bold text-orange-500 hover:scale-[1.02] transition-all bg-orange-50/50 p-6 rounded-[24px] border border-orange-100/50 w-full justify-center">
@@ -611,13 +611,13 @@ export const CreateAssetModal: React.FC<CreateAssetModalProps> = ({ isOpen, onCl
                         <section className="space-y-[40px]">
                             <div className="flex items-center justify-between border-b border-slate-100 pb-6">
                                 <div className="space-y-1">
-                                    <h3 className="text-[20px] font-black text-slate-900 tracking-tight">Parts</h3>
+                                    <h3 className="text-[20px] font-black text-foreground tracking-tight">Parts</h3>
                                     <p className="text-[13px] text-slate-400 font-medium">BOM associations for technical maintenance.</p>
                                 </div>
-                                <button onClick={() => toast.info('Please create the Asset first. You can link parts from the Asset Dashboard.')} className="h-10 px-6 bg-slate-50 border border-slate-100 rounded-xl text-[12px] font-black uppercase tracking-widest text-slate-600 hover:bg-white transition-all">Add Parts</button>
+                                <button onClick={() => toast.info('Please create the Asset first. You can link parts from the Asset Dashboard.')} className="h-10 px-6 bg-muted/50 border border-slate-100 rounded-xl text-[12px] font-black uppercase tracking-widest text-slate-600 hover:bg-card transition-all">Add Parts</button>
                             </div>
                             <div className="p-20 flex flex-col items-center justify-center text-center space-y-4 bg-slate-50/20 rounded-[40px] border-4 border-dotted border-slate-50">
-                                <div className="w-16 h-16 rounded-full bg-slate-50 flex items-center justify-center"><Package className="w-7 h-7 text-slate-200" /></div>
+                                <div className="w-16 h-16 rounded-full bg-muted/50 flex items-center justify-center"><Package className="w-7 h-7 text-slate-200" /></div>
                                 <p className="text-[14px] font-bold text-slate-300 italic uppercase tracking-[0.2em]">No parts added yet</p>
                             </div>
                         </section>
@@ -626,16 +626,16 @@ export const CreateAssetModal: React.FC<CreateAssetModalProps> = ({ isOpen, onCl
                         <section className="space-y-[40px] pb-[100px]">
                             <div className="flex items-center justify-between border-b border-slate-100 pb-6">
                                 <div className="space-y-1">
-                                    <h3 className="text-[20px] font-black text-slate-900 tracking-tight">Files</h3>
+                                    <h3 className="text-[20px] font-black text-foreground tracking-tight">Files</h3>
                                     <p className="text-[13px] text-slate-400 font-medium">External technical documentation and tactical blueprints.</p>
                                 </div>
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 min-h-[120px] md:min-h-[160px]">
-                                <div onClick={() => toast.info('Please create the Asset first. You can upload files from the Asset Dashboard.')} className="border-4 border-dashed border-slate-50 rounded-[40px] flex flex-col items-center justify-center gap-2 group hover:bg-slate-50/50 transition-all cursor-pointer">
+                                <div onClick={() => toast.info('Please create the Asset first. You can upload files from the Asset Dashboard.')} className="border-4 border-dashed border-slate-50 rounded-[40px] flex flex-col items-center justify-center gap-2 group hover:bg-transparent transition-all cursor-pointer">
                                     <FileText className="w-8 h-8 text-slate-200 group-hover:text-blue-300 transition-all" />
                                     <p className="text-[11px] font-black text-slate-300 uppercase tracking-widest"><span className="text-blue-400">Upload</span> or Drop Files</p>
                                 </div>
-                                <div onClick={() => toast.info('Please create the Asset first. You can attach files from the Asset Dashboard.')} className="border-4 border-dashed border-slate-50 rounded-[40px] flex flex-col items-center justify-center gap-2 group hover:bg-slate-50/50 transition-all cursor-pointer">
+                                <div onClick={() => toast.info('Please create the Asset first. You can attach files from the Asset Dashboard.')} className="border-4 border-dashed border-slate-50 rounded-[40px] flex flex-col items-center justify-center gap-2 group hover:bg-transparent transition-all cursor-pointer">
                                     <Link className="w-8 h-8 text-slate-200 group-hover:text-indigo-300 transition-all" />
                                     <p className="text-[11px] font-black text-slate-300 uppercase tracking-widest">Add from Saved Files</p>
                                 </div>
@@ -647,7 +647,7 @@ export const CreateAssetModal: React.FC<CreateAssetModalProps> = ({ isOpen, onCl
                 {/* Right Sidebar: Structure And Settings */}
                 <aside className="w-full md:w-[360px] border-t md:border-t-0 md:border-l border-slate-100 bg-slate-50/30 flex flex-col p-6 md:p-10 overflow-y-visible md:overflow-y-auto h-auto md:h-full space-y-8 md:space-y-12">
                     <div className="space-y-1">
-                        <h4 className="text-[16px] font-black text-slate-900 tracking-tight">Structure And Settings</h4>
+                        <h4 className="text-[16px] font-black text-foreground tracking-tight">Structure And Settings</h4>
                         <p className="text-[11px] text-slate-400 font-black uppercase tracking-[0.05em] leading-relaxed">Topographical logic and environmental parameters.</p>
                     </div>
 
@@ -660,7 +660,7 @@ export const CreateAssetModal: React.FC<CreateAssetModalProps> = ({ isOpen, onCl
                         <div className="relative">
                             <button 
                                 onClick={() => setIsAssetModalOpen(true)} 
-                                className="w-full flex items-center justify-center py-4 bg-white border border-slate-100 rounded-2xl text-[12px] font-black text-slate-500 hover:text-blue-500 hover:border-blue-200 transition-all hover:bg-blue-50/10"
+                                className="w-full flex items-center justify-center py-4 bg-card border border-slate-100 rounded-2xl text-[12px] font-black text-muted-foreground hover:text-primary hover:border-blue-200 transition-all hover:bg-blue-50/10"
                             >
                                 <span>{parentAssetId ? "Parent: " + (assets as any[]).find(a => a.id === parentAssetId)?.name : "Set Parent Asset..."}</span>
                             </button>
@@ -684,24 +684,24 @@ export const CreateAssetModal: React.FC<CreateAssetModalProps> = ({ isOpen, onCl
                             <h5 className="text-[13px] font-black text-slate-800 uppercase tracking-widest">Location</h5>
                          </div>
                          <div className="relative">
-                            <button onClick={() => toggleDropdown('location')} className="w-full h-12 bg-white border border-slate-100 rounded-2xl px-6 flex items-center justify-between text-[12px] font-black text-slate-600 hover:border-blue-200 transition-all">
+                            <button onClick={() => toggleDropdown('location')} className="w-full h-12 bg-card border border-slate-100 rounded-2xl px-6 flex items-center justify-between text-[12px] font-black text-slate-600 hover:border-blue-200 transition-all">
                                 <span className={cn(!selectedLocationId && "text-slate-400")}>{locations.find(l => l.id === selectedLocationId)?.name || "Set Location..."}</span>
                                 <ChevronDown className="w-4 h-4 text-slate-300" />
                             </button>
                             {dropdowns.location && (
-                                <div className="absolute top-[calc(100%+8px)] left-0 right-0 py-2 bg-white rounded-2xl border border-slate-100 shadow-2xl z-[80] overflow-hidden flex flex-col animate-in slide-in-from-top-2">
-                                    <div className="p-3 bg-slate-50 border-b border-slate-100">
+                                <div className="absolute top-[calc(100%+8px)] left-0 right-0 py-2 bg-card rounded-2xl border border-slate-100 shadow-2xl z-[80] overflow-hidden flex flex-col animate-in slide-in-from-top-2">
+                                    <div className="p-3 bg-muted/50 border-b border-slate-100">
                                         <div className="relative">
                                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" />
-                                            <input className="w-full pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-xl text-[12px] font-bold outline-none" placeholder="Filter Area..." value={locationSearch} onChange={(e) => setLocationSearch(e.target.value)} autoFocus />
+                                            <input className="w-full pl-9 pr-4 py-2 bg-card border border-border rounded-xl text-[12px] font-bold outline-none" placeholder="Filter Area..." value={locationSearch} onChange={(e) => setLocationSearch(e.target.value)} autoFocus />
                                         </div>
                                     </div>
                                     <div className="max-h-[250px] overflow-y-auto">
-                                        <button onClick={() => { setSelectedLocationId(null); toggleDropdown('location'); }} className="w-full text-left px-6 py-4 hover:bg-slate-50 text-[12px] font-bold text-slate-400 italic">Global / Mobile</button>
+                                        <button onClick={() => { setSelectedLocationId(null); toggleDropdown('location'); }} className="w-full text-left px-6 py-4 hover:bg-muted/50 text-[12px] font-bold text-slate-400 italic">Global / Mobile</button>
                                         {locations.filter(l => l.name.toLowerCase().includes(locationSearch.toLowerCase())).map(l => (
-                                            <button key={l.id} onClick={() => { setSelectedLocationId(l.id); toggleDropdown('location'); }} className="w-full text-left px-6 py-4 hover:bg-slate-50 text-[12px] font-bold text-slate-600 transition-all flex items-center justify-between">
+                                            <button key={l.id} onClick={() => { setSelectedLocationId(l.id); toggleDropdown('location'); }} className="w-full text-left px-6 py-4 hover:bg-muted/50 text-[12px] font-bold text-slate-600 transition-all flex items-center justify-between">
                                                 {l.name}
-                                                {selectedLocationId === l.id && <Check className="w-4 h-4 text-blue-500" />}
+                                                {selectedLocationId === l.id && <Check className="w-4 h-4 text-primary" />}
                                             </button>
                                         ))}
                                     </div>
@@ -716,7 +716,7 @@ export const CreateAssetModal: React.FC<CreateAssetModalProps> = ({ isOpen, onCl
                             <h5 className="text-[13px] font-black text-slate-800 uppercase tracking-widest">Operating Hours</h5>
                             <p className="text-[11px] text-slate-400 font-medium italic">Asset-specific operational availability windows.</p>
                         </div>
-                        <button className="w-full h-11 bg-white border border-slate-100 rounded-2xl flex items-center justify-between px-6 text-[12px] font-black text-slate-600 group hover:border-slate-300 transition-all">
+                        <button className="w-full h-11 bg-card border border-slate-100 rounded-2xl flex items-center justify-between px-6 text-[12px] font-black text-slate-600 group hover:border-slate-300 transition-all">
                             <span>{operatingHours.length > 0 ? `${operatingHours.length} Schedules Selected` : "Select Schedules..."}</span>
                             <ChevronDown className="w-4 h-4 text-slate-200 group-hover:text-slate-400 transition-colors" />
                         </button>
@@ -732,15 +732,15 @@ export const CreateAssetModal: React.FC<CreateAssetModalProps> = ({ isOpen, onCl
                                 onClick={() => setTrackCheckInOut(!trackCheckInOut)}
                                 className={cn(
                                     "w-12 h-6 rounded-full relative transition-all duration-300",
-                                    trackCheckInOut ? "bg-blue-500" : "bg-slate-200"
+                                    trackCheckInOut ? "bg-primary" : "bg-slate-200"
                                 )}
                              >
                                 <div className={cn(
-                                    "absolute top-1 w-4 h-4 bg-white rounded-full transition-all duration-300",
+                                    "absolute top-1 w-4 h-4 bg-card rounded-full transition-all duration-300",
                                     trackCheckInOut ? "left-7 shadow-[0_0_8px_rgba(255,255,255,0.4)]" : "left-1"
                                 )} />
                              </div>
-                             <span className="text-[12px] font-black text-slate-600 uppercase tracking-[0.05em] group-hover:text-slate-900 transition-colors">Track Check Ins/Outs</span>
+                             <span className="text-[12px] font-black text-slate-600 uppercase tracking-[0.05em] group-hover:text-foreground transition-colors">Track Check Ins/Outs</span>
                         </label>
                     </div>
                 </aside>

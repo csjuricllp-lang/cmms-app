@@ -60,12 +60,12 @@ export const PartsSettingsWorkspace: React.FC = () => {
                             onClick={() => setActiveTab(tab as any)}
                             className={cn(
                                 "pb-4 text-[14px] font-bold transition-all relative",
-                                activeTab === tab ? "text-indigo-600" : "text-gray-400 hover:text-gray-600"
+                                activeTab === tab ? "text-primary" : "text-gray-400 hover:text-gray-600"
                             )}
                         >
                             {tab}
                             {activeTab === tab && (
-                                <motion.div layoutId="parts-tab-underline" className="absolute bottom-0 left-0 right-0 h-[3px] bg-indigo-600 rounded-full" />
+                                <motion.div layoutId="parts-tab-underline" className="absolute bottom-0 left-0 right-0 h-[3px] bg-primary rounded-full" />
                             )}
                         </button>
                     ))}
@@ -83,7 +83,7 @@ export const PartsSettingsWorkspace: React.FC = () => {
                     {activeTab === 'General' ? (
                         <>
                             {/* Card 1: Multiple Inventory Lines */}
-                            <div className="bg-white border border-gray-100 rounded-lg p-10 space-y-8">
+                            <div className="bg-card border border-gray-100 rounded-lg p-10 space-y-8">
                                 <div className="flex items-start gap-8">
                                     <button 
                                         onClick={() => updateSetting.mutate({ 
@@ -92,26 +92,26 @@ export const PartsSettingsWorkspace: React.FC = () => {
                                         })}
                                         className={cn(
                                             "w-12 h-6 rounded-full transition-all flex items-center px-0.5 shrink-0 mt-1",
-                                            isMultipleInventoryEnabled ? "bg-indigo-600" : "bg-slate-200"
+                                            isMultipleInventoryEnabled ? "bg-primary" : "bg-slate-200"
                                         )}
                                     >
                                         <motion.div 
                                             animate={{ x: isMultipleInventoryEnabled ? 24 : 0 }}
                                             transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                                            className="w-5 h-5 bg-white rounded-full shadow-md"
+                                            className="w-5 h-5 bg-card rounded-full shadow-md"
                                         />
                                     </button>
                                     <div className="space-y-2">
-                                        <h3 className="text-[14px] font-bold text-slate-700 leading-none">Enable Parts with multiple inventory lines</h3>
-                                        <p className="text-[13px] text-slate-500 font-medium leading-relaxed">
-                                            Please follow <a href="#" className="text-indigo-600 hover:underline">this import process</a> to update your data
+                                        <h3 className="text-[14px] font-bold text-foreground/90 leading-none">Enable Parts with multiple inventory lines</h3>
+                                        <p className="text-[13px] text-muted-foreground font-medium leading-relaxed">
+                                            Please follow <a href="#" className="text-primary hover:underline">this import process</a> to update your data
                                         </p>
                                     </div>
                                 </div>
                                 <div className="pl-20">
                                     <button 
                                         onClick={() => setIsGroupModalOpen(true)}
-                                        className="px-6 py-2.5 bg-indigo-600 text-white text-[13px] font-bold rounded-lg shadow-sm hover:bg-indigo-700 transition-all"
+                                        className="px-6 py-2.5 bg-primary text-white text-[13px] font-bold rounded-lg shadow-sm hover:bg-primary/90 transition-all"
                                     >
                                         Group Parts
                                     </button>
@@ -119,10 +119,10 @@ export const PartsSettingsWorkspace: React.FC = () => {
                             </div>
 
                             {/* Card 2: Sync Allocated Quantities */}
-                            <div className="bg-white border border-gray-100 rounded-lg p-10 space-y-8">
+                            <div className="bg-card border border-gray-100 rounded-lg p-10 space-y-8">
                                 <div className="space-y-4">
-                                    <h3 className="text-[14px] font-bold text-slate-700">Sync allocated part quantities</h3>
-                                    <p className="text-[13px] text-slate-500 font-medium leading-relaxed max-w-[700px]">
+                                    <h3 className="text-[14px] font-bold text-foreground/90">Sync allocated part quantities</h3>
+                                    <p className="text-[13px] text-muted-foreground font-medium leading-relaxed max-w-[700px]">
                                         The allocated quantity field on your parts to be synced to match the total quantity of parts on incomplete work orders. Parts on deleted, archived, or complete work orders do not get counted as allocated.
                                     </p>
                                 </div>
@@ -130,7 +130,7 @@ export const PartsSettingsWorkspace: React.FC = () => {
                                     <button 
                                         onClick={handleSync}
                                         disabled={syncAllocatedMutation.isPending}
-                                        className="px-8 py-2.5 bg-indigo-600 text-white text-[13px] font-bold rounded-lg shadow-sm hover:bg-indigo-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                                        className="px-8 py-2.5 bg-primary text-white text-[13px] font-bold rounded-lg shadow-sm hover:bg-primary/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                                     >
                                         {syncAllocatedMutation.isPending ? 'Syncing...' : 'Sync'}
                                     </button>
@@ -138,7 +138,7 @@ export const PartsSettingsWorkspace: React.FC = () => {
                             </div>
 
                             {/* Card 3: Purchase History */}
-                            <div className="bg-white border border-gray-100 rounded-lg p-10">
+                            <div className="bg-card border border-gray-100 rounded-lg p-10">
                                 <div className="flex items-start gap-8">
                                     <button 
                                         onClick={() => updateSetting.mutate({ 
@@ -147,18 +147,18 @@ export const PartsSettingsWorkspace: React.FC = () => {
                                         })}
                                         className={cn(
                                             "w-12 h-6 rounded-full transition-all flex items-center px-0.5 shrink-0 mt-1",
-                                            isPurchaseHistoryEnabled ? "bg-indigo-600" : "bg-slate-200"
+                                            isPurchaseHistoryEnabled ? "bg-primary" : "bg-slate-200"
                                         )}
                                     >
                                         <motion.div 
                                             animate={{ x: isPurchaseHistoryEnabled ? 24 : 0 }}
                                             transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                                            className="w-5 h-5 bg-white rounded-full shadow-md"
+                                            className="w-5 h-5 bg-card rounded-full shadow-md"
                                         />
                                     </button>
                                     <div className="space-y-2">
-                                        <h3 className="text-[14px] font-bold text-slate-700 leading-none">Enable Purchase History</h3>
-                                        <p className="text-[13px] text-slate-500 font-medium leading-relaxed max-w-[700px]">
+                                        <h3 className="text-[14px] font-bold text-foreground/90 leading-none">Enable Purchase History</h3>
+                                        <p className="text-[13px] text-muted-foreground font-medium leading-relaxed max-w-[700px]">
                                             Track historical purchase costs and view average cost over time for your parts. This allows you to see purchase history, unit costs, and calculated average costs.
                                         </p>
                                     </div>
@@ -177,7 +177,7 @@ export const PartsSettingsWorkspace: React.FC = () => {
                                 <div className="relative">
                                     <button 
                                         onClick={() => setShowCreateDropdown(!showCreateDropdown)}
-                                        className="h-12 px-6 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl shadow-xl shadow-indigo-100 flex items-center gap-3 transition-all active:scale-95 z-20"
+                                        className="h-12 px-6 bg-primary hover:bg-primary/90 text-white rounded-xl shadow-xl shadow-primary/20 flex items-center gap-3 transition-all active:scale-95 z-20"
                                     >
                                         <span className="text-[14px] font-black uppercase tracking-widest">Create Field</span>
                                         <ChevronDown className={cn("w-4 h-4 transition-transform duration-300", showCreateDropdown && "rotate-180")} />
@@ -191,7 +191,7 @@ export const PartsSettingsWorkspace: React.FC = () => {
                                                     initial={{ opacity: 0, y: 10, scale: 0.95 }}
                                                     animate={{ opacity: 1, y: 0, scale: 1 }}
                                                     exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                                                    className="absolute right-0 mt-3 w-64 bg-white border border-gray-100 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] z-30 overflow-hidden py-2"
+                                                    className="absolute right-0 mt-3 w-64 bg-card border border-gray-100 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] z-30 overflow-hidden py-2"
                                                 >
                                                     {[
                                                         { id: 'Single Line Text', label: 'Single Line Text', icon: Type },
@@ -208,12 +208,12 @@ export const PartsSettingsWorkspace: React.FC = () => {
                                                                 setIsCreateFieldModalOpen(true);
                                                                 setShowCreateDropdown(false);
                                                             }}
-                                                            className="w-full px-5 py-3.5 flex items-center gap-4 hover:bg-slate-50 transition-colors group text-left"
+                                                            className="w-full px-5 py-3.5 flex items-center gap-4 hover:bg-muted/50 transition-colors group text-left"
                                                         >
-                                                            <div className="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-indigo-50 group-hover:text-indigo-600 transition-colors">
+                                                            <div className="w-8 h-8 rounded-lg bg-muted/50 flex items-center justify-center text-slate-400 group-hover:bg-primary/10 group-hover:text-primary transition-colors">
                                                                 <item.icon className="w-4 h-4" />
                                                             </div>
-                                                            <span className="text-[14px] font-bold text-slate-600 group-hover:text-slate-900 transition-colors">{item.label}</span>
+                                                            <span className="text-[14px] font-bold text-slate-600 group-hover:text-foreground transition-colors">{item.label}</span>
                                                         </button>
                                                     ))}
                                                 </motion.div>
@@ -226,12 +226,12 @@ export const PartsSettingsWorkspace: React.FC = () => {
                             {/* Fields Table */}
                             {fields.isLoading ? (
                                 <div className="py-20 flex flex-col items-center justify-center space-y-4">
-                                    <div className="w-12 h-12 border-4 border-indigo-600/20 border-t-indigo-600 rounded-full animate-spin" />
+                                    <div className="w-12 h-12 border-4 border-primary/20 border-t-indigo-600 rounded-full animate-spin" />
                                     <p className="text-slate-400 font-bold uppercase tracking-widest text-[11px]">Loading Registry...</p>
                                 </div>
                             ) : fields.data?.length === 0 ? (
-                                <div className="bg-white border border-gray-100 rounded-[2.5rem] p-24 flex flex-col items-center justify-center text-center space-y-6 shadow-sm">
-                                    <div className="w-24 h-24 rounded-full bg-slate-50 flex items-center justify-center border border-slate-100">
+                                <div className="bg-card border border-gray-100 rounded-[2.5rem] p-24 flex flex-col items-center justify-center text-center space-y-6 shadow-sm">
+                                    <div className="w-24 h-24 rounded-full bg-muted/50 flex items-center justify-center border border-slate-100">
                                         <Type className="w-10 h-10 text-slate-200" />
                                     </div>
                                     <div className="space-y-2">
@@ -240,16 +240,16 @@ export const PartsSettingsWorkspace: React.FC = () => {
                                     </div>
                                     <button 
                                         onClick={() => setShowCreateDropdown(true)}
-                                        className="text-indigo-600 font-black uppercase tracking-widest text-[12px] hover:text-indigo-700 transition-colors"
+                                        className="text-primary font-black uppercase tracking-widest text-[12px] hover:text-primary/90 transition-colors"
                                     >
                                         Create your first field
                                     </button>
                                 </div>
                             ) : (
-                                <div className="bg-white border border-gray-100 rounded-[2.5rem] overflow-hidden shadow-sm">
+                                <div className="bg-card border border-gray-100 rounded-[2.5rem] overflow-hidden shadow-sm">
                                     <table className="w-full text-left">
                                         <thead>
-                                            <tr className="bg-slate-50/50 border-b border-gray-100">
+                                            <tr className="bg-transparent border-b border-gray-100">
                                                 <th className="px-10 py-6 text-[11px] font-black text-slate-400 uppercase tracking-widest">Field Label</th>
                                                 <th className="px-10 py-6 text-[11px] font-black text-slate-400 uppercase tracking-widest">Type</th>
                                                 <th className="px-10 py-6 text-[11px] font-black text-slate-400 uppercase tracking-widest">Created At</th>
@@ -260,11 +260,11 @@ export const PartsSettingsWorkspace: React.FC = () => {
                                             {fields.data?.map((field) => (
                                                 <tr key={field.id} className="group hover:bg-slate-50/30 transition-colors">
                                                     <td className="px-10 py-6">
-                                                        <span className="text-[15px] font-bold text-slate-700">{field.label}</span>
+                                                        <span className="text-[15px] font-bold text-foreground/90">{field.label}</span>
                                                     </td>
                                                     <td className="px-10 py-6">
                                                         <div className="flex items-center gap-3">
-                                                            <div className="w-8 h-8 rounded-lg bg-white border border-gray-200 flex items-center justify-center text-slate-400">
+                                                            <div className="w-8 h-8 rounded-lg bg-card border border-border flex items-center justify-center text-slate-400">
                                                                 {field.type === 'Single Line Text' && <Type className="w-4 h-4" />}
                                                                 {field.type === 'Multi-Line Text' && <AlignLeft className="w-4 h-4" />}
                                                                 {field.type === 'Dropdown' && <List className="w-4 h-4" />}

@@ -31,17 +31,17 @@ export const SuccessModal: React.FC<SuccessModalProps> = ({
                         initial={{ opacity: 0, scale: 0.9, y: 20 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                        className="relative w-full max-w-sm bg-white rounded-[40px] shadow-2xl overflow-hidden border border-emerald-100 p-10 text-center"
+                        className="relative w-full max-w-sm bg-card rounded-[40px] shadow-2xl overflow-hidden border border-emerald-100 p-10 text-center"
                     >
                         <div className="w-20 h-20 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6">
                             <CircleCheck className="w-10 h-10" />
                         </div>
                         
-                        <h3 className="text-[22px] font-black text-gray-900 tracking-tight mb-2">
+                        <h3 className="text-[22px] font-black text-foreground tracking-tight mb-2">
                             {title}
                         </h3>
                         
-                        <p className="text-[15px] font-medium text-gray-500 leading-relaxed mb-10">
+                        <p className="text-[15px] font-medium text-muted-foreground leading-relaxed mb-10">
                             {message}
                         </p>
                         
@@ -54,7 +54,7 @@ export const SuccessModal: React.FC<SuccessModalProps> = ({
 
                         <button 
                             onClick={onClose}
-                            className="absolute top-6 right-6 p-2 hover:bg-gray-50 rounded-xl transition-all text-gray-400"
+                            className="absolute top-6 right-6 p-2 hover:bg-muted/50 rounded-xl transition-all text-gray-400"
                         >
                             <X className="w-4 h-4" />
                         </button>

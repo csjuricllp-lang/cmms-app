@@ -40,11 +40,11 @@ const SaveViewModal = ({ onSave, onClose, isPending }: any) => {
                 initial={{ opacity: 0, scale: 0.95, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                className="relative w-full max-w-[500px] bg-white rounded-xl shadow-[0_20px_70px_rgba(0,0,0,0.2)] p-8"
+                className="relative w-full max-w-[500px] bg-card rounded-xl shadow-[0_20px_70px_rgba(0,0,0,0.2)] p-8"
             >
                 <div className="flex items-center justify-between mb-8">
                     <h3 className="text-[20px] font-bold text-slate-800">Save View</h3>
-                    <button onClick={onClose} className="p-2 hover:bg-slate-50 rounded-full text-slate-400 transition-colors">
+                    <button onClick={onClose} className="p-2 hover:bg-transparent rounded-full text-slate-400 transition-colors">
                         <X className="w-5 h-5" />
                     </button>
                 </div>
@@ -54,7 +54,7 @@ const SaveViewModal = ({ onSave, onClose, isPending }: any) => {
                     <input 
                         type="text" 
                         autoFocus
-                        className="w-full border-2 border-indigo-200 rounded-lg px-4 py-3 text-[15px] focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all"
+                        className="w-full border-2 border-primary/20 rounded-lg px-4 py-3 text-[15px] focus:ring-4 focus:ring-primary/10 outline-none transition-all"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                     />
@@ -63,7 +63,7 @@ const SaveViewModal = ({ onSave, onClose, isPending }: any) => {
                 <div className="flex items-center justify-end gap-3">
                     <button 
                         onClick={onClose}
-                        className="px-6 py-2.5 border border-slate-200 rounded-lg text-[15px] font-bold text-slate-500 hover:bg-slate-50 transition-colors"
+                        className="px-6 py-2.5 border border-border rounded-lg text-[15px] font-bold text-muted-foreground hover:bg-transparent transition-colors"
                     >
                         Cancel
                     </button>
@@ -71,8 +71,8 @@ const SaveViewModal = ({ onSave, onClose, isPending }: any) => {
                         disabled={!name || isPending}
                         onClick={() => onSave(name)}
                         className={cn(
-                            "px-8 py-2.5 bg-slate-100 text-slate-400 rounded-lg text-[15px] font-bold transition-all",
-                            name && !isPending && "bg-indigo-600 text-white shadow-lg shadow-indigo-100 active:scale-95"
+                            "px-8 py-2.5 bg-muted text-slate-400 rounded-lg text-[15px] font-bold transition-all",
+                            name && !isPending && "bg-primary text-white shadow-lg shadow-primary/20 active:scale-95"
                         )}
                     >
                         {isPending ? 'Saving...' : 'Save'}
@@ -105,12 +105,12 @@ const TagsFilter = ({ isOpen, onClose, selectedTags, onSave, availableTags }: an
                 initial={{ opacity: 0, scale: 0.95, y: -10 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: -10 }}
-                className="w-[340px] bg-white rounded-xl shadow-[0_20px_70px_rgba(0,0,0,0.2)] border border-slate-100 overflow-hidden flex flex-col"
+                className="w-[340px] bg-card rounded-xl shadow-[0_20px_70px_rgba(0,0,0,0.2)] border border-slate-100 overflow-hidden flex flex-col"
             >
                 {/* Header */}
-                <div className="px-6 py-4 flex items-center justify-between border-b border-slate-100 bg-slate-50/30">
+                <div className="px-6 py-4 flex items-center justify-between border-b border-slate-100 bg-transparent/30">
                     <h3 className="text-[15px] font-black text-slate-800 uppercase tracking-tight">Tags</h3>
-                    <button onClick={onClose} className="p-1.5 hover:bg-slate-100 rounded-full text-slate-400 transition-colors">
+                    <button onClick={onClose} className="p-1.5 hover:bg-muted rounded-full text-slate-400 transition-colors">
                         <X className="w-5 h-5" />
                     </button>
                 </div>
@@ -122,7 +122,7 @@ const TagsFilter = ({ isOpen, onClose, selectedTags, onSave, availableTags }: an
                         <input 
                             type="text" 
                             placeholder="Search Tags..."
-                            className="w-full border-2 border-slate-100 rounded-lg pl-10 pr-4 py-2.5 text-[14px] font-medium focus:border-indigo-500/20 focus:ring-4 focus:ring-indigo-500/5 outline-none transition-all placeholder:text-slate-300"
+                            className="w-full border-2 border-slate-100 rounded-lg pl-10 pr-4 py-2.5 text-[14px] font-medium focus:border-primary/80/20 focus:ring-4 focus:ring-primary/5 outline-none transition-all placeholder:text-slate-300"
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
                         />
@@ -139,14 +139,14 @@ const TagsFilter = ({ isOpen, onClose, selectedTags, onSave, availableTags }: an
                                     onClick={() => toggleTag(tag)}
                                     className={cn(
                                         "flex items-center justify-between px-4 py-2.5 rounded-lg cursor-pointer transition-all group mx-2",
-                                        localTags.includes(tag) ? "bg-indigo-50/50" : "hover:bg-slate-50"
+                                        localTags.includes(tag) ? "bg-primary/10/50" : "hover:bg-transparent"
                                     )}
                                 >
                                     <span className={cn(
                                         "text-[14px] font-medium",
-                                        localTags.includes(tag) ? "text-indigo-600" : "text-slate-600 group-hover:text-slate-900"
+                                        localTags.includes(tag) ? "text-primary" : "text-slate-600 group-hover:text-foreground"
                                     )}>{tag}</span>
-                                    {localTags.includes(tag) && <Check className="w-4 h-4 text-indigo-500 stroke-[3]" />}
+                                    {localTags.includes(tag) && <Check className="w-4 h-4 text-primary/80 stroke-[3]" />}
                                 </div>
                             ))}
                         </div>
@@ -158,23 +158,23 @@ const TagsFilter = ({ isOpen, onClose, selectedTags, onSave, availableTags }: an
                 </div>
 
                 {/* Footer */}
-                <div className="px-6 py-4 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
+                <div className="px-6 py-4 bg-transparent border-t border-slate-100 flex items-center justify-between">
                     <button 
                         onClick={() => setLocalTags([])}
-                        className="text-[14px] font-black text-slate-400 hover:text-indigo-600 transition-colors uppercase tracking-tight"
+                        className="text-[14px] font-black text-slate-400 hover:text-primary transition-colors uppercase tracking-tight"
                     >
                         Clear All
                     </button>
                     <div className="flex items-center gap-3">
                         <button 
                             onClick={onClose}
-                            className="px-5 py-2 hover:bg-slate-200/50 rounded-lg text-[14px] font-bold text-slate-500 transition-colors"
+                            className="px-5 py-2 hover:bg-slate-200/50 rounded-lg text-[14px] font-bold text-muted-foreground transition-colors"
                         >
                             Cancel
                         </button>
                         <button 
                             onClick={() => { onSave(localTags); onClose(); }}
-                            className="px-7 py-2 bg-indigo-600 text-white rounded-lg text-[14px] font-bold shadow-lg shadow-indigo-100 hover:bg-indigo-700 transition-all active:scale-95"
+                            className="px-7 py-2 bg-primary text-white rounded-lg text-[14px] font-bold shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all active:scale-95"
                         >
                             Save
                         </button>
@@ -213,12 +213,12 @@ const StatusFilter = ({ isOpen, onClose, selectedStatuses, onSave }: any) => {
                 initial={{ opacity: 0, scale: 0.95, y: -10 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: -10 }}
-                className="w-[280px] bg-white rounded-xl shadow-[0_15px_60px_rgba(0,0,0,0.15)] border border-slate-100 overflow-hidden flex flex-col"
+                className="w-[280px] bg-card rounded-xl shadow-[0_15px_60px_rgba(0,0,0,0.15)] border border-slate-100 overflow-hidden flex flex-col"
             >
                 {/* Header */}
                 <div className="px-6 py-4 flex items-center justify-between border-b border-slate-100">
                     <h3 className="text-[16px] font-bold text-slate-800">Status</h3>
-                    <button onClick={onClose} className="p-1 hover:bg-slate-50 rounded-full text-slate-400">
+                    <button onClick={onClose} className="p-1 hover:bg-transparent rounded-full text-slate-400">
                         <X className="w-5 h-5" />
                     </button>
                 </div>
@@ -229,24 +229,24 @@ const StatusFilter = ({ isOpen, onClose, selectedStatuses, onSave }: any) => {
                         <div 
                             key={s.value}
                             onClick={() => toggleStatus(s.value)}
-                            className="flex items-center gap-3 px-3 py-2 rounded-lg cursor-pointer transition-colors hover:bg-slate-50 group"
+                            className="flex items-center gap-3 px-3 py-2 rounded-lg cursor-pointer transition-colors hover:bg-transparent group"
                         >
                             <div className={cn(
                                 "w-5 h-5 rounded border-2 flex items-center justify-center transition-all",
-                                localStatuses.includes(s.value) ? "bg-indigo-600 border-indigo-600 shadow-sm" : "border-slate-200 group-hover:border-slate-300"
+                                localStatuses.includes(s.value) ? "bg-primary border-primary shadow-sm" : "border-border group-hover:border-slate-300"
                             )}>
                                 {localStatuses.includes(s.value) && <Check className="w-3.5 h-3.5 text-white stroke-[4]" />}
                             </div>
                             <span className={cn(
                                 "text-[14px] font-medium transition-colors",
-                                localStatuses.includes(s.value) ? "text-slate-900" : "text-slate-600"
+                                localStatuses.includes(s.value) ? "text-foreground" : "text-slate-600"
                             )}>{s.label}</span>
                         </div>
                     ))}
                 </div>
 
                 {/* Footer */}
-                <div className="px-6 py-4 bg-slate-50/50 border-t border-slate-100 flex items-center justify-between">
+                <div className="px-6 py-4 bg-transparent/50 border-t border-slate-100 flex items-center justify-between">
                     <button 
                         onClick={() => setLocalStatuses([])}
                         className="text-[14px] font-bold text-slate-400 hover:text-slate-600 transition-colors"
@@ -256,13 +256,13 @@ const StatusFilter = ({ isOpen, onClose, selectedStatuses, onSave }: any) => {
                     <div className="flex items-center gap-2">
                         <button 
                             onClick={onClose}
-                            className="px-4 py-2 bg-white border border-slate-200 rounded-lg text-[14px] font-bold text-slate-700 hover:bg-slate-50 transition-colors"
+                            className="px-4 py-2 bg-card border border-border rounded-lg text-[14px] font-bold text-foreground/90 hover:bg-transparent transition-colors"
                         >
                             Cancel
                         </button>
                         <button 
                             onClick={() => { onSave(localStatuses); onClose(); }}
-                            className="px-6 py-2 bg-indigo-600 text-white rounded-lg text-[14px] font-bold shadow-lg shadow-indigo-100 hover:bg-indigo-700 transition-all active:scale-95"
+                            className="px-6 py-2 bg-primary text-white rounded-lg text-[14px] font-bold shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all active:scale-95"
                         >
                             Save
                         </button>
@@ -274,10 +274,10 @@ const StatusFilter = ({ isOpen, onClose, selectedStatuses, onSave }: any) => {
 };
 
 const statusStyles: any = {
-    'DRAFT': 'bg-slate-100 text-slate-500 border-slate-200',
+    'DRAFT': 'bg-muted text-muted-foreground border-border',
     'PENDING_APPROVAL': 'bg-[#FFF4E5] text-[#B76E00] border-[#FFE2C2]', // Awaiting Approval style
-    'APPROVED': 'bg-blue-50 text-blue-600 border-blue-100',
-    'ORDERED': 'bg-indigo-50 text-indigo-600 border-indigo-100',
+    'APPROVED': 'bg-blue-50 text-primary border-blue-100',
+    'ORDERED': 'bg-primary/10 text-primary border-primary/10',
     'RECEIVED': 'bg-green-50 text-green-600 border-green-100',
     'DENIED': 'bg-red-50 text-red-600 border-red-100',
 };
@@ -687,9 +687,9 @@ export const PurchaseOrdersPage = () => {
     }
 
     return (
-        <div className="h-full bg-white flex flex-col overflow-hidden">
+        <div className="h-full bg-card flex flex-col overflow-hidden">
             {/* Top Header Bar */}
-            <div className="relative z-30 flex items-center justify-between px-6 py-3 border-b border-slate-100 shrink-0 bg-white">
+            <div className="relative z-30 flex items-center justify-between px-6 py-3 border-b border-slate-100 shrink-0 bg-card">
                 <div className="flex items-center gap-4">
                     <LayoutGrid className="w-5 h-5 text-slate-300" />
                     <h1 className="text-[18px] font-bold text-[#1E293B]">Purchase Orders</h1>
@@ -697,13 +697,13 @@ export const PurchaseOrdersPage = () => {
                 <div className="flex items-center gap-3">
                     <button
                         onClick={() => setShowSaveViewModal(true)}
-                        className="px-4 py-2 border border-slate-200 text-slate-600 rounded-md text-[13px] font-bold hover:bg-slate-50 transition-colors"
+                        className="px-4 py-2 border border-border text-slate-600 rounded-md text-[13px] font-bold hover:bg-transparent transition-colors"
                     >
                         Save View
                     </button>
                     <button
                         onClick={() => setShowCreateModal(true)}
-                        className="px-6 py-2 bg-[#4F7CFF] hover:bg-indigo-700 text-white rounded-md text-[13px] font-bold shadow-sm transition-all active:scale-95"
+                        className="px-6 py-2 bg-[#4F7CFF] hover:bg-primary/90 text-white rounded-md text-[13px] font-bold shadow-sm transition-all active:scale-95"
                     >
                         Create Purchase Order
                     </button>
@@ -711,8 +711,8 @@ export const PurchaseOrdersPage = () => {
                         <button 
                             onClick={() => setShowExportDropdown(!showExportDropdown)}
                             className={cn(
-                                "p-2 hover:bg-slate-50 rounded-md transition-colors",
-                                showExportDropdown && "bg-slate-100"
+                                "p-2 hover:bg-transparent rounded-md transition-colors",
+                                showExportDropdown && "bg-muted"
                             )}
                         >
                             <MoreHorizontal className="w-5 h-5 text-slate-400" />
@@ -726,23 +726,23 @@ export const PurchaseOrdersPage = () => {
                                         initial={{ opacity: 0, y: 10, scale: 0.95 }}
                                         animate={{ opacity: 1, y: 0, scale: 1 }}
                                         exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                                        className="absolute right-0 top-full mt-2 w-52 bg-white rounded-xl shadow-[0_15px_50px_rgba(0,0,0,0.18)] border border-slate-100 py-2 z-[110]"
+                                        className="absolute right-0 top-full mt-2 w-52 bg-card rounded-xl shadow-[0_15px_50px_rgba(0,0,0,0.18)] border border-slate-100 py-2 z-[110]"
                                     >
                                         <button 
                                             onClick={() => {
                                                 exportToExcel();
                                                 setShowExportDropdown(false);
                                             }}
-                                            className="w-full flex items-center gap-4 px-5 py-3 hover:bg-slate-50 transition-colors text-left group"
+                                            className="w-full flex items-center gap-4 px-5 py-3 hover:bg-transparent transition-colors text-left group"
                                         >
-                                            <div className="shrink-0 w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center group-hover:bg-white transition-colors border border-slate-100">
-                                                <svg className="w-4 h-4 text-slate-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                            <div className="shrink-0 w-8 h-8 rounded-lg bg-transparent flex items-center justify-center group-hover:bg-card transition-colors border border-slate-100">
+                                                <svg className="w-4 h-4 text-muted-foreground" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                                                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
                                                     <polyline points="7 10 12 15 17 10" />
                                                     <line x1="12" y1="15" x2="12" y2="3" />
                                                 </svg>
                                             </div>
-                                            <span className="text-[14px] font-bold text-slate-700 leading-tight">Export Filtered View</span>
+                                            <span className="text-[14px] font-bold text-foreground/90 leading-tight">Export Filtered View</span>
                                         </button>
                                     </motion.div>
                                 </>
@@ -753,20 +753,20 @@ export const PurchaseOrdersPage = () => {
             </div>
 
             {/* Filter Toolbar */}
-            <div className="relative z-20 px-6 py-2.5 flex items-center justify-between border-b border-slate-100 shrink-0 gap-4 bg-white">
+            <div className="relative z-20 px-6 py-2.5 flex items-center justify-between border-b border-slate-100 shrink-0 gap-4 bg-card">
                 <div className="flex items-center gap-3">
                     <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mr-2">{filteredOrders.length} Result Returned</span>
                     
                     <button 
                         onClick={() => setShowFiltersModal(true)}
-                        className="flex items-center gap-2 px-3 py-1.5 border border-slate-200 rounded text-[13px] font-medium text-slate-600 hover:bg-slate-50"
+                        className="flex items-center gap-2 px-3 py-1.5 border border-border rounded text-[13px] font-medium text-slate-600 hover:bg-transparent"
                     >
                         <Filter className="w-3.5 h-3.5" />
                         Filters
                     </button>
 
                     {activeCustomFilters.map((filter, idx) => (
-                        <div key={idx} className="flex items-center gap-1.5 px-2.5 py-1 bg-indigo-50/75 text-indigo-600 border border-indigo-100/60 rounded-md text-[12px] font-bold animate-fadeIn">
+                        <div key={idx} className="flex items-center gap-1.5 px-2.5 py-1 bg-primary/10/75 text-primary border border-primary/10/60 rounded-md text-[12px] font-bold animate-fadeIn">
                             <span className="capitalize">{filter.type}: {filter.operator.replace('_', ' ')} "{filter.value}"</span>
                             <button 
                                 onClick={() => {
@@ -774,7 +774,7 @@ export const PurchaseOrdersPage = () => {
                                     setActiveCustomFilters(nextActive);
                                     setCustomFilters(nextActive);
                                 }}
-                                className="hover:bg-indigo-100 rounded-full p-0.5 transition-colors"
+                                className="hover:bg-primary/15 rounded-full p-0.5 transition-colors"
                             >
                                 <X className="w-3.5 h-3.5" />
                             </button>
@@ -785,8 +785,8 @@ export const PurchaseOrdersPage = () => {
                         <button 
                             onClick={() => setShowTagsFilter(!showTagsFilter)}
                             className={cn(
-                                "flex items-center gap-2 px-3 py-1.5 border border-slate-200 rounded text-[13px] font-medium transition-colors hover:bg-slate-50",
-                                showTagsFilter ? "bg-slate-50 border-indigo-200 text-indigo-600" : "text-slate-600"
+                                "flex items-center gap-2 px-3 py-1.5 border border-border rounded text-[13px] font-medium transition-colors hover:bg-transparent",
+                                showTagsFilter ? "bg-transparent border-primary/20 text-primary" : "text-slate-600"
                             )}
                         >
                             <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -820,8 +820,8 @@ export const PurchaseOrdersPage = () => {
                         <button 
                             onClick={() => setShowStatusFilter(!showStatusFilter)}
                             className={cn(
-                                "flex items-center gap-2 px-3 py-1.5 border border-slate-200 rounded text-[13px] font-medium transition-colors hover:bg-slate-50",
-                                showStatusFilter ? "bg-slate-50 border-indigo-200 text-indigo-600" : "text-slate-600"
+                                "flex items-center gap-2 px-3 py-1.5 border border-border rounded text-[13px] font-medium transition-colors hover:bg-transparent",
+                                showStatusFilter ? "bg-transparent border-primary/20 text-primary" : "text-slate-600"
                             )}
                         >
                             Status
@@ -847,7 +847,7 @@ export const PurchaseOrdersPage = () => {
                             setCustomFilters([]);
                             setActiveCustomFilters([]);
                         }}
-                        className="text-[13px] font-bold text-indigo-500 hover:text-indigo-700 ml-2 transition-colors active:scale-95"
+                        className="text-[13px] font-bold text-primary/80 hover:text-primary/90 ml-2 transition-colors active:scale-95"
                     >
                         Reset Filters
                     </button>
@@ -858,8 +858,8 @@ export const PurchaseOrdersPage = () => {
                         <div 
                             onClick={() => setShowSortDropdown(!showSortDropdown)}
                             className={cn(
-                                "flex items-center gap-2 text-[13px] font-medium transition-colors cursor-pointer hover:text-indigo-600",
-                                showSortDropdown ? "text-indigo-600" : "text-slate-600"
+                                "flex items-center gap-2 text-[13px] font-medium transition-colors cursor-pointer hover:text-primary",
+                                showSortDropdown ? "text-primary" : "text-slate-600"
                             )}
                         >
                             <ArrowUpDown className={cn("w-4 h-4 transition-transform", sortOrder === 'asc' ? "" : "rotate-180")} />
@@ -874,7 +874,7 @@ export const PurchaseOrdersPage = () => {
                                         initial={{ opacity: 0, y: 10, scale: 0.95 }}
                                         animate={{ opacity: 1, y: 0, scale: 1 }}
                                         exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                                        className="absolute right-0 top-full mt-2 w-56 bg-white rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.15)] border border-slate-100 py-4 z-[70]"
+                                        className="absolute right-0 top-full mt-2 w-56 bg-card rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.15)] border border-slate-100 py-4 z-[70]"
                                     >
                                         <div className="px-4 mb-2">
                                             <span className="text-[14px] font-black text-slate-800">Sort By</span>
@@ -885,8 +885,8 @@ export const PurchaseOrdersPage = () => {
                                                     key={opt}
                                                     onClick={() => setSortBy(opt)}
                                                     className={cn(
-                                                        "px-3 py-2 text-[14px] font-medium transition-colors cursor-pointer rounded-lg hover:bg-slate-50 mx-1",
-                                                        sortBy === opt ? "bg-slate-100 text-slate-800" : "text-slate-500 hover:text-slate-700"
+                                                        "px-3 py-2 text-[14px] font-medium transition-colors cursor-pointer rounded-lg hover:bg-transparent mx-1",
+                                                        sortBy === opt ? "bg-muted text-slate-800" : "text-muted-foreground hover:text-foreground/90"
                                                     )}
                                                 >
                                                     {opt}
@@ -906,12 +906,12 @@ export const PurchaseOrdersPage = () => {
                                                     key={opt.label}
                                                     onClick={() => setSortOrder(opt.value)}
                                                     className={cn(
-                                                        "flex items-center justify-between px-3 py-2 text-[14px] font-medium transition-colors cursor-pointer rounded-lg hover:bg-slate-50 mx-1",
-                                                        sortOrder === opt.value ? "text-slate-800" : "text-slate-500 hover:text-slate-700"
+                                                        "flex items-center justify-between px-3 py-2 text-[14px] font-medium transition-colors cursor-pointer rounded-lg hover:bg-transparent mx-1",
+                                                        sortOrder === opt.value ? "text-slate-800" : "text-muted-foreground hover:text-foreground/90"
                                                     )}
                                                 >
                                                     {opt.label}
-                                                    {sortOrder === opt.value && <Check className="w-4 h-4 text-indigo-500 stroke-[3]" />}
+                                                    {sortOrder === opt.value && <Check className="w-4 h-4 text-primary/80 stroke-[3]" />}
                                                 </div>
                                             ))}
                                         </div>
@@ -925,8 +925,8 @@ export const PurchaseOrdersPage = () => {
                         <div 
                             onClick={() => setShowColumnsDropdown(!showColumnsDropdown)}
                             className={cn(
-                                "flex items-center gap-2 text-[13px] font-medium transition-colors cursor-pointer hover:text-indigo-600",
-                                showColumnsDropdown ? "text-indigo-600" : "text-slate-600"
+                                "flex items-center gap-2 text-[13px] font-medium transition-colors cursor-pointer hover:text-primary",
+                                showColumnsDropdown ? "text-primary" : "text-slate-600"
                             )}
                         >
                             <svg className="w-4 h-4" viewBox="0 0 16 16" fill="currentColor">
@@ -943,7 +943,7 @@ export const PurchaseOrdersPage = () => {
                                         initial={{ opacity: 0, y: 10, scale: 0.95 }}
                                         animate={{ opacity: 1, y: 0, scale: 1 }}
                                         exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                                        className="absolute right-0 top-full mt-2 w-[280px] bg-white rounded-xl shadow-[0_12px_48px_rgba(0,0,0,0.12)] border border-[#E2E8F0]/80 py-3 z-[70] flex flex-col"
+                                        className="absolute right-0 top-full mt-2 w-[280px] bg-card rounded-xl shadow-[0_12px_48px_rgba(0,0,0,0.12)] border border-[#E2E8F0]/80 py-3 z-[70] flex flex-col"
                                     >
                                         <div className="max-h-[420px] overflow-y-auto custom-scrollbar px-1 flex flex-col">
                                             {columnsList.map((col, idx) => (
@@ -956,7 +956,7 @@ export const PurchaseOrdersPage = () => {
                                                     onClick={() => toggleColumn(col)}
                                                     className={cn(
                                                         "group flex items-center gap-3.5 px-4 py-2.5 rounded-lg cursor-pointer transition-all mx-1.5 select-none",
-                                                        draggedIndex === idx ? "opacity-30 bg-slate-50" : "hover:bg-slate-50",
+                                                        draggedIndex === idx ? "opacity-30 bg-transparent" : "hover:bg-transparent",
                                                         col === 'Title' && "cursor-default"
                                                     )}
                                                 >
@@ -980,18 +980,18 @@ export const PurchaseOrdersPage = () => {
                                                             </svg>
                                                         </div>
                                                     ) : visibleColumns.includes(col) ? (
-                                                        <div className="w-5 h-5 rounded-md bg-[#3B82F6] border border-[#3B82F6] flex items-center justify-center shadow-sm">
+                                                        <div className="w-5 h-5 rounded-md bg-primary border border-primary flex items-center justify-center shadow-sm">
                                                             <svg className="w-3.5 h-3.5 text-white stroke-[3.5]" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
                                                                 <polyline points="2.5 6 5 8.5 9.5 3.5" />
                                                             </svg>
                                                         </div>
                                                     ) : (
-                                                        <div className="w-5 h-5 rounded-md bg-white border border-[#CBD5E1] flex items-center justify-center shadow-sm group-hover:border-slate-400" />
+                                                        <div className="w-5 h-5 rounded-md bg-card border border-[#CBD5E1] flex items-center justify-center shadow-sm group-hover:border-slate-400" />
                                                     )}
 
                                                     <span className={cn(
                                                         "text-[14.5px] font-medium leading-none select-none tracking-tight transition-colors",
-                                                        col === 'Title' ? "text-[#94A3B8]" : visibleColumns.includes(col) ? "text-slate-700" : "text-slate-400"
+                                                        col === 'Title' ? "text-[#94A3B8]" : visibleColumns.includes(col) ? "text-foreground/90" : "text-slate-400"
                                                     )}>
                                                         {col}
                                                     </span>
@@ -1011,41 +1011,41 @@ export const PurchaseOrdersPage = () => {
                             placeholder="Search"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full pl-10 pr-4 py-1.5 bg-white border border-slate-200 rounded-md text-[13px] focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                            className="w-full pl-10 pr-4 py-1.5 bg-card border border-border rounded-md text-[13px] focus:outline-none focus:ring-1 focus:ring-primary"
                         />
                     </div>
                 </div>
             </div>
 
             {/* Main Table */}
-            <div className="flex-1 overflow-auto bg-slate-50/30">
+            <div className="flex-1 overflow-auto bg-transparent/30">
                 <table className="w-full border-separate border-spacing-0">
-                    <thead className="sticky top-0 z-10 bg-white">
+                    <thead className="sticky top-0 z-10 bg-card">
                         <tr className="text-left">
-                            <th className="px-4 py-4 border-b border-slate-200 w-12">
+                            <th className="px-4 py-4 border-b border-border w-12">
                                 <div 
                                     onClick={toggleAll}
                                     className={cn(
                                         "w-4 h-4 rounded border flex items-center justify-center cursor-pointer transition-colors",
-                                        selectedRows.length === filteredOrders.length && filteredOrders.length > 0 ? "bg-indigo-600 border-indigo-600" : "bg-white border-slate-300"
+                                        selectedRows.length === filteredOrders.length && filteredOrders.length > 0 ? "bg-primary border-primary" : "bg-card border-slate-300"
                                     )}
                                 >
                                     {selectedRows.length === filteredOrders.length && filteredOrders.length > 0 && <Check className="w-3 h-3 text-white" />}
                                 </div>
                             </th>
                             {columnsList.map((col) => visibleColumns.includes(col) && (
-                                <th key={col} className="px-4 py-4 border-b border-slate-200 text-[11px] font-bold text-slate-400 uppercase tracking-wider whitespace-nowrap">
+                                <th key={col} className="px-4 py-4 border-b border-primary/20 text-[11px] font-bold text-slate-400 uppercase tracking-wider whitespace-nowrap">
                                     {col}
                                 </th>
                             ))}
                         </tr>
                     </thead>
-                    <tbody className="bg-white">
+                    <tbody className="bg-card">
                         {isLoading ? (
                             Array(10).fill(0).map((_, i) => (
                                 <tr key={i} className="animate-pulse border-b border-slate-100">
-                                    <td className="px-4 py-6 w-12"><div className="w-4 h-4 bg-slate-50 rounded"></div></td>
-                                    {columnsList.map(c => visibleColumns.includes(c) && <td key={c} className="px-4 py-6"><div className="h-4 bg-slate-50 rounded w-full"></div></td>)}
+                                    <td className="px-4 py-6 w-12"><div className="w-4 h-4 bg-transparent rounded"></div></td>
+                                    {columnsList.map(c => visibleColumns.includes(c) && <td key={c} className="px-4 py-6"><div className="h-4 bg-transparent rounded w-full"></div></td>)}
                                 </tr>
                             ))
                         ) : filteredOrders.length === 0 ? (
@@ -1060,8 +1060,8 @@ export const PurchaseOrdersPage = () => {
                                 key={order.id} 
                                 onClick={() => setSelectedPoId(order.id)}
                                 className={cn(
-                                    "hover:bg-slate-50/50 cursor-pointer group transition-colors border-b border-slate-100",
-                                    selectedPoId === order.id && "bg-indigo-50/30"
+                                    "hover:bg-transparent/50 cursor-pointer group transition-colors border-b border-slate-100",
+                                    selectedPoId === order.id && "bg-primary/10/30"
                                 )}
                             >
                                 <td className="px-4 py-4 border-b border-slate-100" onClick={(e) => e.stopPropagation()}>
@@ -1069,7 +1069,7 @@ export const PurchaseOrdersPage = () => {
                                         onClick={() => toggleRow(order.id)}
                                         className={cn(
                                             "w-4 h-4 rounded border flex items-center justify-center cursor-pointer transition-colors",
-                                            selectedRows.includes(order.id) ? "bg-indigo-600 border-indigo-600" : "bg-white border-slate-300 hover:border-indigo-400"
+                                            selectedRows.includes(order.id) ? "bg-primary border-primary" : "bg-card border-slate-300 hover:border-primary/80"
                                         )}
                                     >
                                         {selectedRows.includes(order.id) && <Check className="w-3 h-3 text-white" />}
@@ -1081,20 +1081,20 @@ export const PurchaseOrdersPage = () => {
                                     
                                     switch (col) {
                                         case 'Title':
-                                            return <td key="Title" className="px-4 py-4 border-b border-slate-100 text-[13px] font-medium text-slate-700 whitespace-nowrap">{order.title || `Restock: ${order.vendor?.name || 'Inventory'}`}</td>;
+                                            return <td key="Title" className="px-4 py-4 border-b border-slate-100 text-[13px] font-medium text-foreground/90 whitespace-nowrap">{order.title || `Restock: ${order.vendor?.name || 'Inventory'}`}</td>;
                                         case 'PO Number':
-                                            return <td key="PO Number" className="px-4 py-4 border-b border-slate-100 text-[13px] font-bold text-indigo-600">{order.number || i + 1}</td>;
+                                            return <td key="PO Number" className="px-4 py-4 border-b border-slate-100 text-[13px] font-bold text-primary">{order.number || i + 1}</td>;
                                         case '# of Items':
                                             return <td key="# of Items" className="px-4 py-4 border-b border-slate-100 text-[13px] text-slate-600">{order._count?.items || 0}</td>;
                                         case 'Total Quantity':
                                             return <td key="Total Quantity" className="px-4 py-4 border-b border-slate-100 text-[13px] text-slate-600">10</td>;
                                         case 'Total Cost':
-                                            return <td key="Total Cost" className="px-4 py-4 border-b border-slate-100 text-[13px] font-bold text-slate-700">₹{order.totalCost?.toLocaleString()}</td>;
+                                            return <td key="Total Cost" className="px-4 py-4 border-b border-slate-100 text-[13px] font-bold text-foreground/90">₹{order.totalCost?.toLocaleString()}</td>;
                                         case 'Created By':
                                             return (
                                                 <td key="Created By" className="px-4 py-4 border-b border-slate-100" onClick={(e) => e.stopPropagation()}>
                                                     <div className="flex items-center gap-2">
-                                                        <div className="w-6 h-6 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-[10px] font-bold text-slate-500">
+                                                        <div className="w-6 h-6 rounded-full bg-muted border border-border flex items-center justify-center text-[10px] font-bold text-muted-foreground">
                                                             {order.user?.name?.[0] || 'U'}
                                                         </div>
                                                         <span className="text-[13px] text-slate-600">{order.user?.name || 'Jason Daniel'}</span>
@@ -1108,7 +1108,7 @@ export const PurchaseOrdersPage = () => {
                                                 <td key="Tags" className="px-4 py-4 border-b border-slate-100">
                                                     <div className="flex gap-1">
                                                         {order.tags?.map((t: string) => (
-                                                            <span key={t} className="px-2 py-0.5 bg-slate-100 text-slate-500 rounded text-[10px] font-bold">{t}</span>
+                                                            <span key={t} className="px-2 py-0.5 bg-muted text-muted-foreground rounded text-[10px] font-bold">{t}</span>
                                                         )) || '-'}
                                                     </div>
                                                 </td>
@@ -1122,7 +1122,7 @@ export const PurchaseOrdersPage = () => {
                                                 <td key="Status" className="px-4 py-4 border-b border-slate-100">
                                                     <span className={cn(
                                                         "text-[10px] font-bold px-2.5 py-1 rounded-full border whitespace-nowrap",
-                                                        statusStyles[order.status] || 'bg-slate-50 text-slate-500 border-slate-200'
+                                                        statusStyles[order.status] || 'bg-transparent text-muted-foreground border-border'
                                                     )}>
                                                         {order.status === 'PENDING_APPROVAL' ? 'Awaiting Approval' : order.status.replace('_', ' ')}
                                                     </span>
@@ -1179,12 +1179,12 @@ export const PurchaseOrdersPage = () => {
                             initial={{ opacity: 0, scale: 0.95, y: 20 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                            className="relative w-full max-w-[600px] bg-white rounded-xl shadow-[0_20px_70px_rgba(0,0,0,0.2)] overflow-hidden"
+                            className="relative w-full max-w-[600px] bg-card rounded-xl shadow-[0_20px_70px_rgba(0,0,0,0.2)] overflow-hidden"
                         >
                             {/* Header */}
                             <div className="px-8 py-6 flex items-center justify-between border-b border-slate-100">
                                 <h3 className="text-[20px] font-bold text-slate-800">Filters</h3>
-                                <button onClick={() => setShowFiltersModal(false)} className="p-2 hover:bg-slate-50 rounded-full text-slate-400 transition-colors">
+                                <button onClick={() => setShowFiltersModal(false)} className="p-2 hover:bg-transparent rounded-full text-slate-400 transition-colors">
                                     <X className="w-6 h-6" />
                                 </button>
                             </div>
@@ -1209,7 +1209,7 @@ export const PurchaseOrdersPage = () => {
 
                                 {customFilters.length === 0 ? (
                                     <div className="py-16 flex flex-col items-center justify-center text-center">
-                                        <p className="text-[15px] font-bold text-slate-700">No filters added yet.</p>
+                                        <p className="text-[15px] font-bold text-foreground/90">No filters added yet.</p>
                                         <p className="text-[14px] text-slate-400 mt-2">When you add filters, they'll appear here.</p>
                                     </div>
                                 ) : (
@@ -1217,9 +1217,9 @@ export const PurchaseOrdersPage = () => {
                                         {customFilters.map((filter, index) => {
                                             const fieldDef = filterFields.find(f => f.label === filter.type) || { type: 'text' };
                                             return (
-                                                <div key={index} className="flex items-center gap-3.5 bg-slate-50/50 border border-slate-100 rounded-xl p-4 animate-fadeIn">
+                                                <div key={index} className="flex items-center gap-3.5 bg-transparent/50 border border-slate-100 rounded-xl p-4 animate-fadeIn">
                                                     {/* Field Label */}
-                                                    <span className="w-32 text-[14px] font-bold text-slate-700 tracking-tight">{filter.type}</span>
+                                                    <span className="w-32 text-[14px] font-bold text-foreground/90 tracking-tight">{filter.type}</span>
                                                     
                                                     {/* Operator Select */}
                                                     <select
@@ -1229,7 +1229,7 @@ export const PurchaseOrdersPage = () => {
                                                             newFilters[index].operator = e.target.value;
                                                             setCustomFilters(newFilters);
                                                         }}
-                                                        className="border border-slate-200 bg-white rounded-lg px-3 py-2 text-[14px] font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all outline-none"
+                                                        className="border border-border bg-card rounded-lg px-3 py-2 text-[14px] font-semibold text-foreground/90 focus:outline-none focus:ring-2 focus:ring-primary/10 focus:border-primary/80 transition-all outline-none"
                                                     >
                                                         {fieldDef.type === 'text' && (
                                                             <>
@@ -1264,7 +1264,7 @@ export const PurchaseOrdersPage = () => {
                                                             setCustomFilters(newFilters);
                                                         }}
                                                         placeholder="Enter value..."
-                                                        className="flex-1 border border-slate-200 bg-white rounded-lg px-4 py-2 text-[14px] font-medium text-slate-700 placeholder:text-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all outline-none"
+                                                        className="flex-1 border border-border bg-card rounded-lg px-4 py-2 text-[14px] font-medium text-foreground/90 placeholder:text-slate-300 focus:outline-none focus:ring-2 focus:ring-primary/10 focus:border-primary/80 transition-all outline-none"
                                                     />
 
                                                     {/* Remove Button */}
@@ -1284,11 +1284,11 @@ export const PurchaseOrdersPage = () => {
                             </div>
 
                             {/* Footer */}
-                            <div className="px-8 py-5 border-t border-slate-100 flex items-center justify-between bg-slate-50/50">
+                            <div className="px-8 py-5 border-t border-slate-100 flex items-center justify-between bg-transparent/50">
                                 <div className="relative">
                                     <button 
                                         onClick={() => setIsAddFilterMenuOpen(!isAddFilterMenuOpen)}
-                                        className="flex items-center gap-2 text-indigo-600 hover:text-indigo-800 text-[15px] font-bold group"
+                                        className="flex items-center gap-2 text-primary hover:text-indigo-800 text-[15px] font-bold group"
                                     >
                                         <Plus className="w-5 h-5 group-hover:scale-110 transition-transform" />
                                         Add Filter
@@ -1303,7 +1303,7 @@ export const PurchaseOrdersPage = () => {
                                                     initial={{ opacity: 0, y: 10, scale: 0.95 }}
                                                     animate={{ opacity: 1, y: 0, scale: 1 }}
                                                     exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                                                    className="absolute bottom-full left-0 mb-3 w-[260px] bg-white rounded-xl shadow-[0_15px_60px_rgba(0,0,0,0.2)] border border-slate-100 py-2.5 z-[130] flex flex-col max-h-[300px] overflow-y-auto custom-filter-scrollbar"
+                                                    className="absolute bottom-full left-0 mb-3 w-[260px] bg-card rounded-xl shadow-[0_15px_60px_rgba(0,0,0,0.2)] border border-slate-100 py-2.5 z-[130] flex flex-col max-h-[300px] overflow-y-auto custom-filter-scrollbar"
                                                 >
                                                     {filterFields.map((field) => (
                                                         <button
@@ -1313,7 +1313,7 @@ export const PurchaseOrdersPage = () => {
                                                                 setCustomFilters(prev => [...prev, { type: field.label, operator: defaultOp, value: '' }]);
                                                                 setIsAddFilterMenuOpen(false);
                                                             }}
-                                                            className="w-full text-left px-5 py-2.5 hover:bg-slate-50 text-[14.5px] text-slate-700 font-medium transition-colors select-none"
+                                                            className="w-full text-left px-5 py-2.5 hover:bg-transparent text-[14.5px] text-foreground/90 font-medium transition-colors select-none"
                                                         >
                                                             {field.label}
                                                         </button>
@@ -1329,7 +1329,7 @@ export const PurchaseOrdersPage = () => {
                                             setCustomFilters(activeCustomFilters);
                                             setShowFiltersModal(false);
                                         }}
-                                        className="px-6 py-2.5 border border-slate-300 rounded-lg text-[15px] font-bold text-slate-600 hover:bg-slate-50 transition-all font-inter"
+                                        className="px-6 py-2.5 border border-slate-300 rounded-lg text-[15px] font-bold text-slate-600 hover:bg-transparent transition-all font-inter"
                                     >
                                         Cancel
                                     </button>
@@ -1338,7 +1338,7 @@ export const PurchaseOrdersPage = () => {
                                             setActiveCustomFilters(customFilters);
                                             setShowFiltersModal(false);
                                         }}
-                                        className="px-8 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-[15px] font-bold shadow-lg shadow-indigo-100 transition-all active:scale-95"
+                                        className="px-8 py-2.5 bg-primary hover:bg-primary/90 text-white rounded-lg text-[15px] font-bold shadow-lg shadow-primary/20 transition-all active:scale-95"
                                     >
                                         Apply
                                     </button>

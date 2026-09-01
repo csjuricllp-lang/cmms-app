@@ -50,7 +50,7 @@ const FilterDropdown = ({ label, icon: Icon, children, isOpen, onToggle, badgeVa
             onClick={onToggle}
             className={cn(
                 "flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-black transition-all active:scale-95 whitespace-nowrap border h-10",
-                isOpen || badgeValue ? "bg-primary/5 text-primary border-primary/20 shadow-sm" : "bg-white text-slate-500 border-transparent hover:bg-slate-50"
+                isOpen || badgeValue ? "bg-primary/5 text-primary border-primary/20 shadow-sm" : "bg-card text-muted-foreground border-transparent hover:bg-transparent"
             )}
         >
             <Icon className={cn("w-4 h-4", (isOpen || badgeValue) ? "text-primary" : "text-slate-400")} />
@@ -71,15 +71,15 @@ const FilterDropdown = ({ label, icon: Icon, children, isOpen, onToggle, badgeVa
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 8, scale: 0.95 }}
                         transition={{ duration: 0.15, ease: "easeOut" }}
-                        className="absolute top-full left-0 mt-2 w-64 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl shadow-2xl ring-1 ring-black/5 z-[120] overflow-hidden"
+                        className="absolute top-full left-0 mt-2 w-64 bg-card dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl shadow-2xl ring-1 ring-black/5 z-[120] overflow-hidden"
                     >
                         <div className="p-1 max-h-[300px] overflow-y-auto custom-scrollbar">
                             {children}
                         </div>
                         {(onApply || onCancel) && (
-                            <div className="flex items-center justify-end gap-2 p-2 bg-slate-50 border-t border-slate-100">
+                            <div className="flex items-center justify-end gap-2 p-2 bg-transparent border-t border-slate-100">
                                 {onCancel && (
-                                    <button onClick={onCancel} className="px-3 py-1.5 text-[11px] font-black uppercase text-slate-500 hover:text-slate-700">
+                                    <button onClick={onCancel} className="px-3 py-1.5 text-[11px] font-black uppercase text-muted-foreground hover:text-foreground/90">
                                         Cancel
                                     </button>
                                 )}
@@ -226,7 +226,7 @@ export const PreventiveMaintenanceDetailPage = () => {
 
     if (isPMLoading) {
         return (
-            <div className="h-full flex flex-col items-center justify-center gap-4 bg-slate-50">
+            <div className="h-full flex flex-col items-center justify-center gap-4 bg-transparent">
                 <div className="w-12 h-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin" />
                 <span className="text-[11px] font-black uppercase tracking-widest text-slate-400">Loading PM Strategy...</span>
             </div>
@@ -235,9 +235,9 @@ export const PreventiveMaintenanceDetailPage = () => {
 
     if (!pm) {
         return (
-            <div className="h-full flex flex-col items-center justify-center gap-4 bg-slate-50">
+            <div className="h-full flex flex-col items-center justify-center gap-4 bg-transparent">
                 <AlertCircle className="w-12 h-12 text-slate-300" />
-                <span className="text-slate-500 font-bold">PM Protocol Not Found</span>
+                <span className="text-muted-foreground font-bold">PM Protocol Not Found</span>
                 <button onClick={() => navigate('/pm')} className="text-primary font-black uppercase text-[12px]">Back to Registry</button>
             </div>
         );
@@ -412,14 +412,14 @@ export const PreventiveMaintenanceDetailPage = () => {
         );
     }
     return (
-        <div className="min-h-full flex flex-col bg-slate-50 dark:bg-slate-950 relative overflow-x-hidden">
+        <div className="min-h-full flex flex-col bg-transparent dark:bg-background relative overflow-x-hidden">
             {/* Header */}
-            <div className="relative z-10 bg-white dark:bg-slate-900 border-b border-slate-200/80 px-8 pt-6 pb-0 shadow-sm">
+            <div className="relative z-10 bg-card dark:bg-slate-900 border-b border-slate-200/80 px-8 pt-6 pb-0 shadow-sm">
                 <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center gap-4">
                         <button 
                             onClick={() => navigate('/pm')}
-                            className="p-2 hover:bg-slate-50 rounded-xl transition-colors group"
+                            className="p-2 hover:bg-transparent rounded-xl transition-colors group"
                         >
                             <ChevronLeft className="w-5 h-5 text-slate-400 group-hover:text-slate-650" />
                         </button>
@@ -429,7 +429,7 @@ export const PreventiveMaintenanceDetailPage = () => {
                             <div className="flex items-center gap-2 mt-1">
                                 <span className={cn(
                                     "px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider",
-                                    pm.status === 'ACTIVE' ? "bg-emerald-500/10 text-emerald-500 border border-emerald-500/20" : "bg-slate-500/10 text-slate-500 border border-slate-500/20"
+                                    pm.status === 'ACTIVE' ? "bg-emerald-500/10 text-emerald-500 border border-emerald-500/20" : "bg-transparent0/10 text-muted-foreground border border-slate-500/20"
                                 )}>
                                     {pm.status}
                                 </span>
@@ -441,7 +441,7 @@ export const PreventiveMaintenanceDetailPage = () => {
                     <div className="flex items-center gap-3">
                         <button 
                             onClick={() => setIsEditModalOpen(true)}
-                            className="flex items-center gap-2 px-4 py-2 bg-card hover:bg-slate-50 border border-border rounded-xl text-[13px] font-black text-foreground transition-all shadow-sm active:scale-95"
+                            className="flex items-center gap-2 px-4 py-2 bg-card hover:bg-transparent border border-border rounded-xl text-[13px] font-black text-foreground transition-all shadow-sm active:scale-95"
                         >
                             <Edit2 className="w-4 h-4 text-muted-foreground" />
                             Edit Details
@@ -492,11 +492,11 @@ export const PreventiveMaintenanceDetailPage = () => {
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -10 }}
-                            className="bg-white dark:bg-slate-900 rounded-[16px] border border-slate-200/80 shadow-sm overflow-visible"
+                            className="bg-card dark:bg-slate-900 rounded-[16px] border border-slate-200/80 shadow-sm overflow-visible"
                         >
                             {renderFilterBar()}
                             
-                            <div className="h-px bg-slate-100 dark:bg-slate-800" />
+                            <div className="h-px bg-muted dark:bg-slate-800" />
 
                             <div className="overflow-x-auto custom-scrollbar">
                                 <table className="w-full text-left min-w-[1100px] border-collapse">
@@ -509,7 +509,7 @@ export const PreventiveMaintenanceDetailPage = () => {
                                                         "w-4 h-4 rounded border flex items-center justify-center transition-all cursor-pointer mx-auto",
                                                         selectedRows.length === (filteredAssets?.length || 0) && (filteredAssets?.length || 0) > 0
                                                             ? "bg-primary border-primary"
-                                                            : "border-slate-250 bg-white hover:border-primary/50"
+                                                            : "border-slate-250 bg-card hover:border-primary/50"
                                                     )}
                                                 >
                                                     {selectedRows.length === (filteredAssets?.length || 0) && (filteredAssets?.length || 0) > 0 && (
@@ -521,14 +521,14 @@ export const PreventiveMaintenanceDetailPage = () => {
                                                 <th 
                                                     key={col} 
                                                     className={cn(
-                                                        "px-6 py-4 text-[11px] font-black text-slate-500 uppercase tracking-widest whitespace-nowrap border-r border-slate-200/60",
+                                                        "px-6 py-4 text-[11px] font-black text-muted-foreground uppercase tracking-widest whitespace-nowrap border-r border-slate-200/60",
                                                         columnWidths[col] || ""
                                                     )}
                                                 >
                                                     {col}
                                                 </th>
                                             ))}
-                                            <th className="w-[80px] min-w-[80px] max-w-[80px] px-6 py-4 text-[11px] font-black text-slate-500 uppercase tracking-widest text-right whitespace-nowrap">Action</th>
+                                            <th className="w-[80px] min-w-[80px] max-w-[80px] px-6 py-4 text-[11px] font-black text-muted-foreground uppercase tracking-widest text-right whitespace-nowrap">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-border">
@@ -536,8 +536,8 @@ export const PreventiveMaintenanceDetailPage = () => {
                                             <tr 
                                                 key={index} 
                                                 className={cn(
-                                                    "group transition-colors border-b border-border hover:bg-slate-50/50",
-                                                    selectedRows.includes(assetItem.id) ? "bg-primary/[0.02]" : "bg-white"
+                                                    "group transition-colors border-b border-border hover:bg-transparent/50",
+                                                    selectedRows.includes(assetItem.id) ? "bg-primary/[0.02]" : "bg-card"
                                                 )}
                                             >
                                                 <td className="w-[48px] min-w-[48px] max-w-[48px] px-4 py-5 text-center border-r border-slate-100">
@@ -548,7 +548,7 @@ export const PreventiveMaintenanceDetailPage = () => {
                                                         }}
                                                         className={cn(
                                                             "w-4 h-4 rounded border flex items-center justify-center transition-all cursor-pointer mx-auto",
-                                                            selectedRows.includes(assetItem.id) ? "bg-primary border-primary" : "border-slate-200 bg-white group-hover:border-primary/50"
+                                                            selectedRows.includes(assetItem.id) ? "bg-primary border-primary" : "border-border bg-card group-hover:border-primary/50"
                                                         )}
                                                     >
                                                         {selectedRows.includes(assetItem.id) && <Check className="w-3 h-3 text-white stroke-[3px]" />}
@@ -656,7 +656,7 @@ export const PreventiveMaintenanceDetailPage = () => {
                                             <tr>
                                                 <td colSpan={visibleColumns.length + 2} className="px-6 py-12 text-center">
                                                     <div className="flex flex-col items-center gap-3">
-                                                        <div className="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center">
+                                                        <div className="w-12 h-12 rounded-2xl bg-transparent flex items-center justify-center">
                                                             <Search className="w-6 h-6 text-slate-300" />
                                                         </div>
                                                         <div className="text-[14px] font-black text-slate-400 uppercase tracking-widest">No assets match your search</div>
@@ -694,7 +694,7 @@ export const PreventiveMaintenanceDetailPage = () => {
                             MEDIUM: { bg: 'bg-amber-50', text: 'text-amber-700', border: 'border-amber-200', label: 'Medium' },
                             LOW: { bg: 'bg-emerald-50', text: 'text-emerald-700', border: 'border-emerald-200', label: 'Low' },
                             CRITICAL: { bg: 'bg-rose-100', text: 'text-rose-800', border: 'border-rose-300', label: 'Critical' },
-                            NONE: { bg: 'bg-slate-50', text: 'text-slate-700', border: 'border-slate-200', label: 'None' }
+                            NONE: { bg: 'bg-transparent', text: 'text-foreground/90', border: 'border-border', label: 'None' }
                         } as any;
                         const priority = pm.priority || 'MEDIUM';
                         const cfg = priorityConfig[priority] || priorityConfig.MEDIUM;
@@ -734,11 +734,11 @@ export const PreventiveMaintenanceDetailPage = () => {
                                 {/* Left Column: 2/3 width */}
                                 <div className="col-span-2 space-y-6">
                                     {/* PM General Info Card */}
-                                    <div className="bg-white rounded-[32px] border border-slate-200 p-8 shadow-sm">
+                                    <div className="bg-card rounded-[32px] border border-border p-8 shadow-sm">
                                         <div className="flex justify-between items-start gap-4 mb-4">
                                             <div>
-                                                <h2 className="text-xl font-black text-slate-900 tracking-tight">{pm.name}</h2>
-                                                <p className="text-slate-500 text-[14px] mt-1.5 font-medium leading-relaxed">
+                                                <h2 className="text-xl font-black text-foreground tracking-tight">{pm.name}</h2>
+                                                <p className="text-muted-foreground text-[14px] mt-1.5 font-medium leading-relaxed">
                                                     {pm.description || pm.woDescription || 'No description provided.'}
                                                 </p>
                                             </div>
@@ -751,7 +751,7 @@ export const PreventiveMaintenanceDetailPage = () => {
                                                 {/* Edit Details Action Link */}
                                                 <button 
                                                     onClick={() => setIsEditModalOpen(true)}
-                                                    className="flex items-center gap-1.5 px-3 py-1.5 text-slate-500 hover:text-slate-800 text-[13px] font-black transition-colors"
+                                                    className="flex items-center gap-1.5 px-3 py-1.5 text-muted-foreground hover:text-slate-800 text-[13px] font-black transition-colors"
                                                 >
                                                     <Edit2 className="w-3.5 h-3.5 text-slate-400" />
                                                     Edit Details
@@ -760,7 +760,7 @@ export const PreventiveMaintenanceDetailPage = () => {
                                             </div>
                                         </div>
 
-                                        <div className="h-px bg-slate-100 my-6" />
+                                        <div className="h-px bg-muted my-6" />
 
                                         <div className="space-y-4">
                                             <div className="flex items-center justify-between py-1">
@@ -775,14 +775,14 @@ export const PreventiveMaintenanceDetailPage = () => {
                                     </div>
 
                                     {/* Checklist Card */}
-                                    <div className="bg-white rounded-[32px] border border-slate-200 p-8 shadow-sm">
+                                    <div className="bg-card rounded-[32px] border border-border p-8 shadow-sm">
                                         <div className="flex justify-between items-center mb-6">
-                                            <h3 className="text-[17px] font-black text-slate-900 tracking-tight">
+                                            <h3 className="text-[17px] font-black text-foreground tracking-tight">
                                                 {pm.checklist?.title || 'Misc'}
                                             </h3>
                                             <button 
                                                 onClick={() => setIsEditModalOpen(true)}
-                                                className="flex items-center gap-1.5 px-3 py-1 text-slate-500 hover:text-slate-800 text-[13px] font-black transition-colors"
+                                                className="flex items-center gap-1.5 px-3 py-1 text-muted-foreground hover:text-slate-800 text-[13px] font-black transition-colors"
                                             >
                                                 <Edit2 className="w-3.5 h-3.5 text-slate-400" />
                                                 Edit Checklist
@@ -803,22 +803,22 @@ export const PreventiveMaintenanceDetailPage = () => {
 
                                 {/* Right Column: 1/3 width (Activity Card) */}
                                 <div className="space-y-6">
-                                    <div className="bg-white rounded-[32px] border border-slate-200 p-8 shadow-sm">
-                                        <h3 className="text-[17px] font-black text-slate-900 mb-6 tracking-tight">
+                                    <div className="bg-card rounded-[32px] border border-border p-8 shadow-sm">
+                                        <h3 className="text-[17px] font-black text-foreground mb-6 tracking-tight">
                                             Activity
                                         </h3>
                                         <div className="space-y-6">
                                             {logsToRender.map((act: any, idx: number) => (
                                                 <div key={act.id || idx} className="flex items-start justify-between gap-3 group">
                                                     <div className="flex items-start gap-3">
-                                                        <div className="w-9 h-9 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-[12px] font-black text-slate-650 shrink-0">
+                                                        <div className="w-9 h-9 rounded-full bg-muted border border-border flex items-center justify-center text-[12px] font-black text-slate-650 shrink-0">
                                                             {act.userInitial}
                                                         </div>
                                                         <div>
-                                                            <div className="text-[13px] font-black text-slate-900 leading-tight">
+                                                            <div className="text-[13px] font-black text-foreground leading-tight">
                                                                 {act.userName} <span className="text-[11px] text-slate-400 font-bold ml-1.5">{act.time}</span>
                                                             </div>
-                                                            <div className="text-[13px] text-slate-500 font-bold mt-1">
+                                                            <div className="text-[13px] text-muted-foreground font-bold mt-1">
                                                                 {act.action}
                                                             </div>
                                                         </div>
@@ -883,7 +883,7 @@ export const PreventiveMaintenanceDetailPage = () => {
                                                         <span className={cn(
                                                             "px-2 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider",
                                                             wo.status === 'Complete' ? "bg-emerald-500/10 text-emerald-500 border border-emerald-500/20" :
-                                                            wo.status === 'In Progress' ? "bg-blue-500/10 text-blue-500 border border-blue-500/20" : "bg-slate-500/10 text-slate-500 border border-slate-500/20"
+                                                            wo.status === 'In Progress' ? "bg-primary/10 text-primary border border-primary/80/20" : "bg-transparent0/10 text-muted-foreground border border-slate-500/20"
                                                         )}>
                                                             {wo.status}
                                                         </span>
@@ -951,11 +951,11 @@ export const PreventiveMaintenanceDetailPage = () => {
                             initial={{ opacity: 0, scale: 0.95, y: 20 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                            className="relative w-full max-w-lg bg-white rounded-[32px] shadow-2xl flex flex-col"
+                            className="relative w-full max-w-lg bg-card rounded-[32px] shadow-2xl flex flex-col"
                         >
                             <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between">
-                                <h3 className="text-xl font-black text-slate-900 tracking-tight">Filters</h3>
-                                <button onClick={() => setIsAdvancedFiltersOpen(false)} className="p-2 hover:bg-slate-50 rounded-xl transition-colors">
+                                <h3 className="text-xl font-black text-foreground tracking-tight">Filters</h3>
+                                <button onClick={() => setIsAdvancedFiltersOpen(false)} className="p-2 hover:bg-transparent rounded-xl transition-colors">
                                     <Plus className="w-5 h-5 text-slate-400 rotate-45" />
                                 </button>
                             </div>
@@ -964,10 +964,10 @@ export const PreventiveMaintenanceDetailPage = () => {
                                 {activeFilters.length > 0 ? (
                                     <div className="space-y-4">
                                         {activeFilters.map((filter, index) => (
-                                            <div key={index} className="flex items-center gap-3 bg-slate-50 p-4 rounded-2xl border border-slate-100 group animate-in fade-in slide-in-from-top-2">
+                                            <div key={index} className="flex items-center gap-3 bg-transparent p-4 rounded-2xl border border-slate-100 group animate-in fade-in slide-in-from-top-2">
                                                 <div className="min-w-[100px]">
                                                     <span className="text-[11px] font-black text-slate-400 uppercase tracking-widest block mb-1">Field</span>
-                                                    <span className="text-[13px] font-black text-slate-900 capitalize">{filter.field}</span>
+                                                    <span className="text-[13px] font-black text-foreground capitalize">{filter.field}</span>
                                                 </div>
                                                 <div className="flex-1">
                                                     <span className="text-[11px] font-black text-slate-400 uppercase tracking-widest block mb-1">Value</span>
@@ -980,7 +980,7 @@ export const PreventiveMaintenanceDetailPage = () => {
                                                             setActiveFilters(newFilters);
                                                         }}
                                                         placeholder={`Filter by ${filter.field}...`}
-                                                        className="w-full bg-white border border-slate-200 rounded-lg px-3 py-1.5 text-[13px] font-bold outline-none focus:border-primary/30"
+                                                        className="w-full bg-card border border-border rounded-lg px-3 py-1.5 text-[13px] font-bold outline-none focus:border-primary/30"
                                                     />
                                                 </div>
                                                 <button 
@@ -994,16 +994,16 @@ export const PreventiveMaintenanceDetailPage = () => {
                                     </div>
                                 ) : (
                                     <div className="py-12 text-center">
-                                        <div className="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                                        <div className="w-16 h-16 bg-transparent rounded-2xl flex items-center justify-center mx-auto mb-4">
                                             <SlidersHorizontal className="w-8 h-8 text-slate-300" />
                                         </div>
-                                        <h4 className="text-[15px] font-black text-slate-900 mb-2">No filters added yet.</h4>
+                                        <h4 className="text-[15px] font-black text-foreground mb-2">No filters added yet.</h4>
                                         <p className="text-[13px] font-bold text-slate-400">When you add filters, they'll appear here.</p>
                                     </div>
                                 )}
                             </div>
 
-                            <div className="px-8 py-6 bg-slate-50/80 border-t border-slate-100 flex items-center justify-between relative overflow-visible">
+                            <div className="px-8 py-6 bg-transparent/80 border-t border-slate-100 flex items-center justify-between relative overflow-visible">
                                 <div className="relative">
                                     <button 
                                         onClick={() => setIsAddFieldOpen(!isAddFieldOpen)}
@@ -1022,7 +1022,7 @@ export const PreventiveMaintenanceDetailPage = () => {
                                                     initial={{ opacity: 0, y: -10, scale: 0.95 }}
                                                     animate={{ opacity: 1, y: 0, scale: 1 }}
                                                     exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                                                    className="absolute bottom-full left-0 mb-0.5 w-56 bg-white rounded-2xl shadow-2xl ring-1 ring-black/5 z-[220] overflow-y-auto max-h-[300px] custom-scrollbar p-1.5"
+                                                    className="absolute bottom-full left-0 mb-0.5 w-56 bg-card rounded-2xl shadow-2xl ring-1 ring-black/5 z-[220] overflow-y-auto max-h-[300px] custom-scrollbar p-1.5"
                                                 >
                                                     {[
                                                         { id: 'asset', label: 'Asset' },
@@ -1038,7 +1038,7 @@ export const PreventiveMaintenanceDetailPage = () => {
                                                                 setActiveFilters(prev => [...prev, { field: field.id, value: '' }]);
                                                                 setIsAddFieldOpen(false);
                                                             }}
-                                                            className="w-full px-4 py-2.5 hover:bg-slate-50 transition-colors text-left text-[14px] font-medium text-slate-700 hover:text-slate-900"
+                                                            className="w-full px-4 py-2.5 hover:bg-transparent transition-colors text-left text-[14px] font-medium text-foreground/90 hover:text-foreground"
                                                         >
                                                             {field.label}
                                                         </button>

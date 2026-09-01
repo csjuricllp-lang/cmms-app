@@ -6,12 +6,12 @@ import { toast } from 'react-hot-toast';
 
 const SectionHeader = ({ title }: { title: string }) => (
     <div className="mb-6">
-        <h3 className="text-[16px] font-bold text-slate-900 border-b border-slate-100 pb-2">{title}</h3>
+        <h3 className="text-[16px] font-bold text-foreground border-b border-slate-100 pb-2">{title}</h3>
     </div>
 );
 
 const Label = ({ children, required }: { children: React.ReactNode, required?: boolean }) => (
-    <label className="block text-[13px] font-semibold text-slate-700 mb-1.5">
+    <label className="block text-[13px] font-semibold text-foreground/90 mb-1.5">
         {children} {required && <span className="text-red-500">*</span>}
     </label>
 );
@@ -19,14 +19,14 @@ const Label = ({ children, required }: { children: React.ReactNode, required?: b
 const Input = (props: React.InputHTMLAttributes<HTMLInputElement>) => (
     <input
         {...props}
-        className="w-full h-10 px-3 bg-white border border-slate-200 rounded-md text-[14px] focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all placeholder:text-slate-400"
+        className="w-full h-10 px-3 bg-card border border-border rounded-md text-[14px] focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/80 transition-all placeholder:text-slate-400"
     />
 );
 
 const Select = (props: React.SelectHTMLAttributes<HTMLSelectElement>) => (
     <select
         {...props}
-        className="w-full h-10 px-3 bg-white border border-slate-200 rounded-md text-[14px] focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all appearance-none"
+        className="w-full h-10 px-3 bg-card border border-border rounded-md text-[14px] focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/80 transition-all appearance-none"
     />
 );
 
@@ -160,26 +160,26 @@ export const CreateLocationModal: React.FC<CreateLocationModalProps> = ({ isOpen
     ];
 
     return (
-        <div className="fixed inset-0 z-[100] bg-white flex flex-col animate-in slide-in-from-right duration-300">
+        <div className="fixed inset-0 z-[100] bg-card flex flex-col animate-in slide-in-from-right duration-300">
             {/* Top Bar */}
             <header className="h-14 border-b border-slate-100 flex items-center justify-between px-4 shrink-0">
                 <div className="flex items-center gap-4">
-                    <button onClick={onClose} className="p-2 hover:bg-slate-50 rounded-lg transition-colors">
+                    <button onClick={onClose} className="p-2 hover:bg-muted/50 rounded-lg transition-colors">
                         <X className="w-5 h-5 text-slate-400" />
                     </button>
-                    <h2 className="text-[15px] font-bold text-slate-900">{location ? 'Edit Location' : 'Create Location'}</h2>
+                    <h2 className="text-[15px] font-bold text-foreground">{location ? 'Edit Location' : 'Create Location'}</h2>
                 </div>
                 <div className="flex items-center gap-3">
                     <button 
                         onClick={onClose}
-                        className="h-9 px-4 text-[13px] font-semibold text-slate-600 hover:text-slate-900"
+                        className="h-9 px-4 text-[13px] font-semibold text-slate-600 hover:text-foreground"
                     >
                         Cancel
                     </button>
                     <button 
                         onClick={handleSubmit}
                         disabled={createLocation.isPending || updateLocation.isPending}
-                        className="h-9 px-6 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-[13px] font-bold transition-all shadow-sm flex items-center gap-2 disabled:opacity-50"
+                        className="h-9 px-6 bg-primary hover:bg-primary/90 text-white rounded-md text-[13px] font-bold transition-all shadow-sm flex items-center gap-2 disabled:opacity-50"
                     >
                         {(createLocation.isPending || updateLocation.isPending) && <Loader2 className="w-4 h-4 animate-spin" />}
                         {location ? 'Save Changes' : 'Create Location'}
@@ -216,7 +216,7 @@ export const CreateLocationModal: React.FC<CreateLocationModalProps> = ({ isOpen
                                             id="includeMap"
                                             checked={formData.includeMap}
                                             onChange={e => setFormData({ ...formData, includeMap: e.target.checked })}
-                                            className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+                                            className="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary"
                                         />
                                         <label htmlFor="includeMap" className="text-[13px] text-slate-600">Include Map Coordinates</label>
                                     </div>
@@ -244,7 +244,7 @@ export const CreateLocationModal: React.FC<CreateLocationModalProps> = ({ isOpen
                                                     />
                                                 </div>
                                             </div>
-                                            <div className="relative aspect-[16/9] bg-slate-200 rounded-lg overflow-hidden border border-slate-200 group">
+                                            <div className="relative aspect-[16/9] bg-slate-200 rounded-lg overflow-hidden border border-border group">
                                                 <img 
                                                     src="https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80&w=1000" 
                                                     alt="Map"
@@ -252,7 +252,7 @@ export const CreateLocationModal: React.FC<CreateLocationModalProps> = ({ isOpen
                                                 />
                                                 <div className="absolute inset-0 flex items-center justify-center">
                                                     <div className="bg-white/90 backdrop-blur-sm p-4 rounded-xl shadow-xl flex items-center gap-3">
-                                                        <Globe className="w-6 h-6 text-blue-600" />
+                                                        <Globe className="w-6 h-6 text-primary" />
                                                         <div className="text-[12px] font-bold text-slate-800">Geospatial Intelligence Active</div>
                                                     </div>
                                                 </div>
@@ -352,8 +352,8 @@ export const CreateLocationModal: React.FC<CreateLocationModalProps> = ({ isOpen
                     {/* Custom Data */}
                     <section className="pb-20">
                         <SectionHeader title="Custom Data" />
-                        <p className="text-[12px] text-slate-500 mb-4 italic">After creating custom fields, you can enter data planned and ...</p>
-                        <button className="flex items-center gap-2 px-4 h-9 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-md text-[13px] font-bold transition-all">
+                        <p className="text-[12px] text-muted-foreground mb-4 italic">After creating custom fields, you can enter data planned and ...</p>
+                        <button className="flex items-center gap-2 px-4 h-9 bg-muted hover:bg-slate-200 text-foreground/90 rounded-md text-[13px] font-bold transition-all">
                             <Plus className="w-4 h-4" />
                             Add Custom Field
                         </button>

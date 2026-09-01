@@ -1,4 +1,4 @@
-export type Theme = 'light' | 'dark' | 'midnight' | 'emerald' | 'slate' | 'amethyst' | 'sand' | 'ruby';
+export type Theme = 'light' | 'dark' | 'midnight' | 'emerald' | 'slate' | 'amethyst' | 'sand' | 'ruby' | 'light-blue' | 'light-mint' | 'light-peach';
 
 export const ACCENT_COLORS = [
     { name: 'Classic Blue', value: '217.2 91.2% 59.8%' },
@@ -14,6 +14,9 @@ export const ACCENT_COLORS = [
 
 export const THEME_OPTIONS: { id: Theme; name: string; color: string }[] = [
     { id: 'light', name: 'Porcelain (Light)', color: '#ffffff' },
+    { id: 'light-blue', name: 'Frost Blue (Light)', color: '#f0f9ff' },
+    { id: 'light-mint', name: 'Mint Breeze (Light)', color: '#f0fdf4' },
+    { id: 'light-peach', name: 'Peach Dawn (Light)', color: '#fff7ed' },
     { id: 'dark', name: 'Onyx (Dark)', color: '#0a0a0c' },
     { id: 'midnight', name: 'Midnight Navy', color: '#0f172a' },
     { id: 'emerald', name: 'Emerald Forest', color: '#022c22' },

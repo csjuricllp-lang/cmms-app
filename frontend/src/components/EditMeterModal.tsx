@@ -47,26 +47,26 @@ export const EditMeterModal = ({ isOpen, onClose, meter }: EditMeterModalProps) 
 
     return (
         <div className="fixed inset-0 z-[10002] flex items-center justify-center bg-gray-900/40 backdrop-blur-sm p-4">
-            <div className="bg-white rounded-xl shadow-2xl w-full max-w-[800px] max-h-[90vh] flex flex-col overflow-hidden animate-in zoom-in-95 duration-200">
+            <div className="bg-card rounded-xl shadow-2xl w-full max-w-[800px] max-h-[90vh] flex flex-col overflow-hidden animate-in zoom-in-95 duration-200">
                 {/* Header */}
-                <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 bg-white">
+                <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 bg-card">
                     <div className="flex items-center gap-4">
-                        <button onClick={onClose} className="p-1 hover:bg-gray-100 rounded-md transition-colors">
-                            <X className="w-5 h-5 text-gray-500" />
+                        <button onClick={onClose} className="p-1 hover:bg-muted rounded-md transition-colors">
+                            <X className="w-5 h-5 text-muted-foreground" />
                         </button>
-                        <h2 className="text-xl font-bold text-gray-900">Edit Meter</h2>
+                        <h2 className="text-xl font-bold text-foreground">Edit Meter</h2>
                     </div>
                     <div className="flex items-center gap-3">
                         <button 
                             onClick={onClose}
-                            className="px-6 py-2 bg-white border border-gray-300 rounded-lg text-[15px] font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+                            className="px-6 py-2 bg-card border border-gray-300 rounded-lg text-[15px] font-medium text-foreground/90 hover:bg-muted/50 transition-colors"
                         >
                             Cancel
                         </button>
                         <button 
                             onClick={() => editMutation.mutate(formData)}
                             disabled={editMutation.isPending}
-                            className="px-6 py-2 bg-blue-600 text-white rounded-lg text-[15px] font-medium hover:bg-blue-700 transition-colors shadow-sm disabled:opacity-50"
+                            className="px-6 py-2 bg-primary text-white rounded-lg text-[15px] font-medium hover:bg-primary/90 transition-colors shadow-sm disabled:opacity-50"
                         >
                             {editMutation.isPending ? 'Saving...' : 'Save Changes'}
                         </button>
@@ -77,64 +77,64 @@ export const EditMeterModal = ({ isOpen, onClose, meter }: EditMeterModalProps) 
                 <div className="flex-1 overflow-auto p-8">
                     <div className="max-w-[500px] mx-auto space-y-8">
                         <div>
-                            <h3 className="text-xl font-semibold text-gray-900 mb-6">Details</h3>
+                            <h3 className="text-xl font-semibold text-foreground mb-6">Details</h3>
                             
                             <div className="space-y-5">
                                 {/* Name */}
                                 <div className="space-y-1.5">
-                                    <label className="text-[14px] font-medium text-gray-700">Name <span className="text-red-500">*</span></label>
+                                    <label className="text-[14px] font-medium text-foreground/90">Name <span className="text-red-500">*</span></label>
                                     <input 
                                         type="text" 
                                         value={formData.name}
                                         onChange={e => setFormData({...formData, name: e.target.value})}
-                                        className="w-full h-11 px-4 bg-white border border-gray-300 rounded-md text-[15px] focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+                                        className="w-full h-11 px-4 bg-card border border-gray-300 rounded-md text-[15px] focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/80 transition-all"
                                     />
                                 </div>
 
                                 {/* Unit */}
                                 <div className="space-y-1.5">
-                                    <label className="text-[14px] font-medium text-gray-700">Unit of Measurement <span className="text-red-500">*</span></label>
+                                    <label className="text-[14px] font-medium text-foreground/90">Unit of Measurement <span className="text-red-500">*</span></label>
                                     <input 
                                         type="text" 
                                         value={formData.unit}
                                         onChange={e => setFormData({...formData, unit: e.target.value})}
-                                        className="w-full h-11 px-4 bg-white border border-gray-300 rounded-md text-[15px] focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+                                        className="w-full h-11 px-4 bg-card border border-gray-300 rounded-md text-[15px] focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/80 transition-all"
                                     />
                                 </div>
 
                                 {/* Threshold */}
                                 <div className="space-y-1.5">
-                                    <label className="text-[14px] font-medium text-gray-700">Threshold (Overdue Level)</label>
+                                    <label className="text-[14px] font-medium text-foreground/90">Threshold (Overdue Level)</label>
                                     <input 
                                         type="number" 
                                         value={formData.threshold}
                                         onChange={e => setFormData({...formData, threshold: parseInt(e.target.value) || 0})}
-                                        className="w-full h-11 px-4 bg-white border border-gray-300 rounded-md text-[15px] focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+                                        className="w-full h-11 px-4 bg-card border border-gray-300 rounded-md text-[15px] focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/80 transition-all"
                                     />
                                 </div>
 
                                 {/* Frequency */}
                                 <div className="space-y-1.5">
-                                    <label className="text-[14px] font-medium text-gray-700">Frequency <span className="text-red-500">*</span></label>
+                                    <label className="text-[14px] font-medium text-foreground/90">Frequency <span className="text-red-500">*</span></label>
                                     <div className="relative">
                                         <input 
                                             type="number" 
                                             value={formData.frequency}
                                             onChange={e => setFormData({...formData, frequency: parseInt(e.target.value) || 0})}
-                                            className="w-full h-11 px-4 bg-white border border-gray-300 rounded-md text-[15px] focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all appearance-none"
+                                            className="w-full h-11 px-4 bg-card border border-gray-300 rounded-md text-[15px] focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/80 transition-all appearance-none"
                                         />
                                         <div className="absolute right-2 top-1/2 -translate-y-1/2 flex flex-col gap-0.5">
                                             <button 
                                                 type="button"
                                                 onClick={() => setFormData(prev => ({...prev, frequency: prev.frequency + 1}))}
-                                                className="p-0.5 hover:bg-gray-100 rounded text-gray-400"
+                                                className="p-0.5 hover:bg-muted rounded text-gray-400"
                                             >
                                                 <ChevronDown className="w-3 h-3 rotate-180" />
                                             </button>
                                             <button 
                                                 type="button"
                                                 onClick={() => setFormData(prev => ({...prev, frequency: Math.max(0, prev.frequency - 1)}))}
-                                                className="p-0.5 hover:bg-gray-100 rounded text-gray-400"
+                                                className="p-0.5 hover:bg-muted rounded text-gray-400"
                                             >
                                                 <ChevronDown className="w-3 h-3" />
                                             </button>
@@ -144,12 +144,12 @@ export const EditMeterModal = ({ isOpen, onClose, meter }: EditMeterModalProps) 
 
                                 {/* Worker */}
                                 <div className="space-y-1.5 pt-4">
-                                    <label className="text-[14px] font-medium text-gray-700">Worker</label>
+                                    <label className="text-[14px] font-medium text-foreground/90">Worker</label>
                                     <div className="relative">
                                         <select 
                                             value={formData.assignedToId}
                                             onChange={e => setFormData({...formData, assignedToId: e.target.value})}
-                                            className="w-full h-11 pl-4 pr-10 bg-white border border-gray-300 rounded-md text-[15px] focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all appearance-none"
+                                            className="w-full h-11 pl-4 pr-10 bg-card border border-gray-300 rounded-md text-[15px] focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/80 transition-all appearance-none"
                                         >
                                             <option value="">Select Worker</option>
                                             {users?.map(u => (
@@ -162,12 +162,12 @@ export const EditMeterModal = ({ isOpen, onClose, meter }: EditMeterModalProps) 
 
                                 {/* Location */}
                                 <div className="space-y-1.5">
-                                    <label className="text-[14px] font-medium text-gray-700">Location</label>
+                                    <label className="text-[14px] font-medium text-foreground/90">Location</label>
                                     <div className="relative">
                                         <select 
                                             value={formData.locationId}
                                             onChange={e => setFormData({...formData, locationId: e.target.value})}
-                                            className="w-full h-11 pl-4 pr-10 bg-white border border-gray-300 rounded-md text-[15px] focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all appearance-none"
+                                            className="w-full h-11 pl-4 pr-10 bg-card border border-gray-300 rounded-md text-[15px] focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/80 transition-all appearance-none"
                                         >
                                             <option value="">Select Location</option>
                                             {locations?.map((l:any) => (
@@ -180,12 +180,12 @@ export const EditMeterModal = ({ isOpen, onClose, meter }: EditMeterModalProps) 
 
                                 {/* Asset */}
                                 <div className="space-y-1.5">
-                                    <label className="text-[14px] font-medium text-gray-700">Asset <span className="text-red-500">*</span></label>
+                                    <label className="text-[14px] font-medium text-foreground/90">Asset <span className="text-red-500">*</span></label>
                                     <div className="relative">
                                         <select 
                                             value={formData.assetId}
                                             onChange={e => setFormData({...formData, assetId: e.target.value})}
-                                            className="w-full h-11 pl-4 pr-10 bg-white border border-gray-300 rounded-md text-[15px] focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all appearance-none"
+                                            className="w-full h-11 pl-4 pr-10 bg-card border border-gray-300 rounded-md text-[15px] focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/80 transition-all appearance-none"
                                         >
                                             <option value="">Select Asset</option>
                                             {assets?.map((a:any) => (
@@ -198,12 +198,12 @@ export const EditMeterModal = ({ isOpen, onClose, meter }: EditMeterModalProps) 
 
                                 {/* Category */}
                                 <div className="space-y-1.5">
-                                    <label className="text-[14px] font-medium text-gray-700">Category</label>
+                                    <label className="text-[14px] font-medium text-foreground/90">Category</label>
                                     <div className="relative">
                                         <select 
                                             value={formData.categoryId}
                                             onChange={e => setFormData({...formData, categoryId: e.target.value})}
-                                            className="w-full h-11 pl-4 pr-10 bg-white border border-gray-300 rounded-md text-[15px] focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all appearance-none"
+                                            className="w-full h-11 pl-4 pr-10 bg-card border border-gray-300 rounded-md text-[15px] focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/80 transition-all appearance-none"
                                         >
                                             <option value="">Select Category</option>
                                             {categories?.map((c:any) => (

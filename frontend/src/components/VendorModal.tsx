@@ -65,14 +65,14 @@ export const VendorModal = ({ onClose, vendor }: VendorModalProps) => {
     });
 
     return (
-        <div className="fixed inset-0 z-[100] flex flex-col bg-white animate-in fade-in duration-200 font-outfit overflow-hidden">
+        <div className="fixed inset-0 z-[100] flex flex-col bg-card animate-in fade-in duration-200 font-outfit overflow-hidden">
             {/* Header */}
-            <div className="h-16 px-6 border-b border-gray-100 flex items-center justify-between bg-white sticky top-0 z-10">
+            <div className="h-16 px-6 border-b border-gray-100 flex items-center justify-between bg-card sticky top-0 z-10">
                 <div className="flex items-center gap-4">
-                    <button onClick={onClose} className="p-1 hover:bg-gray-100 rounded-md transition-colors text-gray-400">
+                    <button onClick={onClose} className="p-1 hover:bg-muted rounded-md transition-colors text-gray-400">
                         <X className="w-5 h-5" />
                     </button>
-                    <h2 className="text-[18px] font-semibold text-gray-900">
+                    <h2 className="text-[18px] font-semibold text-foreground">
                         {vendor?.id ? 'Edit Provider' : 'Create Provider'}
                     </h2>
                 </div>
@@ -80,14 +80,14 @@ export const VendorModal = ({ onClose, vendor }: VendorModalProps) => {
                 <div className="flex items-center gap-2">
                     <button 
                         onClick={onClose}
-                        className="h-9 px-4 text-[14px] font-medium text-gray-600 border border-gray-200 rounded-md hover:bg-gray-50 transition-colors"
+                        className="h-9 px-4 text-[14px] font-medium text-gray-600 border border-border rounded-md hover:bg-muted/50 transition-colors"
                     >
                         Cancel
                     </button>
                     <button
                         onClick={() => saveMutation.mutate(formData)}
                         disabled={saveMutation.isPending || !formData.name}
-                        className="h-9 px-4 bg-indigo-600 text-white rounded-md text-[14px] font-medium hover:bg-indigo-700 transition-colors flex items-center gap-2 disabled:opacity-50"
+                        className="h-9 px-4 bg-primary text-white rounded-md text-[14px] font-medium hover:bg-primary/90 transition-colors flex items-center gap-2 disabled:opacity-50"
                     >
                         {saveMutation.isPending && <Loader2 className="w-4 h-4 animate-spin" />}
                         {vendor?.id ? 'Save Changes' : 'Create Provider'}
@@ -98,66 +98,66 @@ export const VendorModal = ({ onClose, vendor }: VendorModalProps) => {
             {/* Content Area */}
             <div className="flex-1 overflow-y-auto pt-12 pb-24">
                 <div className="max-w-[600px] mx-auto px-4">
-                    <h3 className="text-[18px] font-bold text-gray-900 mb-6">Details</h3>
+                    <h3 className="text-[18px] font-bold text-foreground mb-6">Details</h3>
                     
                     <div className="space-y-5">
                         <div className="space-y-2">
-                            <label className="text-[13px] font-semibold text-gray-700">
+                            <label className="text-[13px] font-semibold text-foreground/90">
                                 Company Name <span className="text-red-500">*</span>
                             </label>
                             <input
                                 type="text"
-                                className="w-full h-10 px-3 bg-white border border-gray-200 rounded-md text-[14px] focus:outline-none focus:border-indigo-500 transition-colors placeholder:text-gray-300"
+                                className="w-full h-10 px-3 bg-card border border-border rounded-md text-[14px] focus:outline-none focus:border-primary/80 transition-colors placeholder:text-gray-300"
                                 value={formData.name}
                                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                             />
                         </div>
 
                         <div className="space-y-2">
-                            <label className="text-[13px] font-semibold text-gray-700">Address</label>
+                            <label className="text-[13px] font-semibold text-foreground/90">Address</label>
                             <input
                                 type="text"
-                                className="w-full h-10 px-3 bg-white border border-gray-200 rounded-md text-[14px] focus:outline-none focus:border-indigo-500 transition-colors"
+                                className="w-full h-10 px-3 bg-card border border-border rounded-md text-[14px] focus:outline-none focus:border-primary/80 transition-colors"
                                 value={formData.address}
                                 onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                             />
                         </div>
 
                         <div className="space-y-2">
-                            <label className="text-[13px] font-semibold text-gray-700">Phone Number</label>
+                            <label className="text-[13px] font-semibold text-foreground/90">Phone Number</label>
                             <input
                                 type="text"
-                                className="w-full h-10 px-3 bg-white border border-gray-200 rounded-md text-[14px] focus:outline-none focus:border-indigo-500 transition-colors"
+                                className="w-full h-10 px-3 bg-card border border-border rounded-md text-[14px] focus:outline-none focus:border-primary/80 transition-colors"
                                 value={formData.phone}
                                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                             />
                         </div>
 
                         <div className="space-y-2">
-                            <label className="text-[13px] font-semibold text-gray-700">Website</label>
+                            <label className="text-[13px] font-semibold text-foreground/90">Website</label>
                             <input
                                 type="text"
-                                className="w-full h-10 px-3 bg-white border border-gray-200 rounded-md text-[14px] focus:outline-none focus:border-indigo-500 transition-colors"
+                                className="w-full h-10 px-3 bg-card border border-border rounded-md text-[14px] focus:outline-none focus:border-primary/80 transition-colors"
                                 value={formData.website}
                                 onChange={(e) => setFormData({ ...formData, website: e.target.value })}
                             />
                         </div>
 
                         <div className="space-y-2">
-                            <label className="text-[13px] font-semibold text-gray-700">Contact Name</label>
+                            <label className="text-[13px] font-semibold text-foreground/90">Contact Name</label>
                             <input
                                 type="text"
-                                className="w-full h-10 px-3 bg-white border border-gray-200 rounded-md text-[14px] focus:outline-none focus:border-indigo-500 transition-colors"
+                                className="w-full h-10 px-3 bg-card border border-border rounded-md text-[14px] focus:outline-none focus:border-primary/80 transition-colors"
                                 value={formData.contactName}
                                 onChange={(e) => setFormData({ ...formData, contactName: e.target.value })}
                             />
                         </div>
 
                         <div className="space-y-2">
-                            <label className="text-[13px] font-semibold text-gray-700">Email</label>
+                            <label className="text-[13px] font-semibold text-foreground/90">Email</label>
                             <input
                                 type="email"
-                                className="w-full h-10 px-3 bg-white border border-gray-200 rounded-md text-[14px] focus:outline-none focus:border-indigo-500 transition-colors"
+                                className="w-full h-10 px-3 bg-card border border-border rounded-md text-[14px] focus:outline-none focus:border-primary/80 transition-colors"
                                 value={formData.email}
                                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                             />
@@ -165,9 +165,9 @@ export const VendorModal = ({ onClose, vendor }: VendorModalProps) => {
 
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
-                                <label className="text-[13px] font-semibold text-gray-700">Type</label>
+                                <label className="text-[13px] font-semibold text-foreground/90">Type</label>
                                 <select
-                                    className="w-full h-10 px-3 bg-white border border-gray-200 rounded-md text-[14px] focus:outline-none focus:border-indigo-500 transition-colors"
+                                    className="w-full h-10 px-3 bg-card border border-border rounded-md text-[14px] focus:outline-none focus:border-primary/80 transition-colors"
                                     value={formData.type}
                                     onChange={(e) => setFormData({ ...formData, type: e.target.value })}
                                 >
@@ -178,9 +178,9 @@ export const VendorModal = ({ onClose, vendor }: VendorModalProps) => {
                                 </select>
                             </div>
                             <div className="space-y-2">
-                                <label className="text-[13px] font-semibold text-gray-700">Verification Status</label>
+                                <label className="text-[13px] font-semibold text-foreground/90">Verification Status</label>
                                 <select
-                                    className="w-full h-10 px-3 bg-white border border-gray-200 rounded-md text-[14px] focus:outline-none focus:border-indigo-500 transition-colors"
+                                    className="w-full h-10 px-3 bg-card border border-border rounded-md text-[14px] focus:outline-none focus:border-primary/80 transition-colors"
                                     value={formData.verificationStatus}
                                     onChange={(e) => setFormData({ ...formData, verificationStatus: e.target.value })}
                                 >
@@ -192,22 +192,22 @@ export const VendorModal = ({ onClose, vendor }: VendorModalProps) => {
 
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
-                                <label className="text-[13px] font-semibold text-gray-700">Hourly Rate</label>
+                                <label className="text-[13px] font-semibold text-foreground/90">Hourly Rate</label>
                                 <div className="relative">
                                     <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-[14px]">$</span>
                                     <input
                                         type="text"
-                                        className="w-full h-10 pl-7 pr-3 bg-white border border-gray-200 rounded-md text-[14px] focus:outline-none focus:border-indigo-500 transition-colors"
+                                        className="w-full h-10 pl-7 pr-3 bg-card border border-border rounded-md text-[14px] focus:outline-none focus:border-primary/80 transition-colors"
                                         value={formData.hourlyRate}
                                         onChange={(e) => setFormData({ ...formData, hourlyRate: e.target.value })}
                                     />
                                 </div>
                             </div>
                             <div className="space-y-2">
-                                <label className="text-[13px] font-semibold text-gray-700">Service Radius (miles)</label>
+                                <label className="text-[13px] font-semibold text-foreground/90">Service Radius (miles)</label>
                                 <input
                                     type="number"
-                                    className="w-full h-10 px-3 bg-white border border-gray-200 rounded-md text-[14px] focus:outline-none focus:border-indigo-500 transition-colors"
+                                    className="w-full h-10 px-3 bg-card border border-border rounded-md text-[14px] focus:outline-none focus:border-primary/80 transition-colors"
                                     value={formData.serviceRadius}
                                     onChange={(e) => setFormData({ ...formData, serviceRadius: parseInt(e.target.value, 10) || 25 })}
                                 />
@@ -215,32 +215,32 @@ export const VendorModal = ({ onClose, vendor }: VendorModalProps) => {
                         </div>
 
                         <div className="space-y-2">
-                            <label className="text-[13px] font-semibold text-gray-700">Specialties (comma-separated)</label>
+                            <label className="text-[13px] font-semibold text-foreground/90">Specialties (comma-separated)</label>
                             <input
                                 type="text"
                                 placeholder="HVAC, Plumbing, Electrical"
-                                className="w-full h-10 px-3 bg-white border border-gray-200 rounded-md text-[14px] focus:outline-none focus:border-indigo-500 transition-colors"
+                                className="w-full h-10 px-3 bg-card border border-border rounded-md text-[14px] focus:outline-none focus:border-primary/80 transition-colors"
                                 value={formData.specialties}
                                 onChange={(e) => setFormData({ ...formData, specialties: e.target.value })}
                             />
                         </div>
 
                         <div className="space-y-2">
-                            <label className="text-[13px] font-semibold text-gray-700">Services (comma-separated)</label>
+                            <label className="text-[13px] font-semibold text-foreground/90">Services (comma-separated)</label>
                             <input
                                 type="text"
                                 placeholder="AC Repair, Pipe Fitting, Wiring"
-                                className="w-full h-10 px-3 bg-white border border-gray-200 rounded-md text-[14px] focus:outline-none focus:border-indigo-500 transition-colors"
+                                className="w-full h-10 px-3 bg-card border border-border rounded-md text-[14px] focus:outline-none focus:border-primary/80 transition-colors"
                                 value={formData.services}
                                 onChange={(e) => setFormData({ ...formData, services: e.target.value })}
                             />
                         </div>
 
                         <div className="space-y-2">
-                            <label className="text-[13px] font-semibold text-gray-700">Description</label>
+                            <label className="text-[13px] font-semibold text-foreground/90">Description</label>
                             <textarea
                                 rows={4}
-                                className="w-full px-3 py-2 bg-white border border-gray-200 rounded-md text-[14px] focus:outline-none focus:border-indigo-500 transition-colors resize-none"
+                                className="w-full px-3 py-2 bg-card border border-border rounded-md text-[14px] focus:outline-none focus:border-primary/80 transition-colors resize-none"
                                 value={formData.description}
                                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                             />
@@ -249,13 +249,13 @@ export const VendorModal = ({ onClose, vendor }: VendorModalProps) => {
                         <div className="flex items-center gap-3 pt-2">
                             <div 
                                 onClick={() => setFormData({ ...formData, isLocationBased: !formData.isLocationBased })}
-                                className={`w-9 h-5 rounded-full transition-colors relative cursor-pointer ${formData.isLocationBased ? 'bg-indigo-600' : 'bg-gray-200'}`}
+                                className={`w-9 h-5 rounded-full transition-colors relative cursor-pointer ${formData.isLocationBased ? 'bg-primary' : 'bg-gray-200'}`}
                             >
                                 <div 
-                                    className={`absolute top-1 w-3 h-3 rounded-full bg-white shadow-sm transition-all ${formData.isLocationBased ? 'left-5' : 'left-1'}`}
+                                    className={`absolute top-1 w-3 h-3 rounded-full bg-card shadow-sm transition-all ${formData.isLocationBased ? 'left-5' : 'left-1'}`}
                                 />
                             </div>
-                            <span className="text-[13px] font-medium text-gray-700">Is Location Based</span>
+                            <span className="text-[13px] font-medium text-foreground/90">Is Location Based</span>
                         </div>
                     </div>
                 </div>

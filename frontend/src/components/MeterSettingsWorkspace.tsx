@@ -40,7 +40,7 @@ export const MeterSettingsWorkspace: React.FC = () => {
                 <div className="flex items-center">
                     <button className="pb-4 px-2 text-[14px] font-bold text-slate-800 relative">
                         Categories
-                        <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-indigo-600 rounded-t-full" />
+                        <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-primary rounded-t-full" />
                     </button>
                 </div>
                 <div className="pb-4">
@@ -50,7 +50,7 @@ export const MeterSettingsWorkspace: React.FC = () => {
                             setNewName('');
                             setIsAddModalOpen(true);
                         }}
-                        className="px-6 py-2.5 bg-[#4F7CFF] text-white text-[13px] font-bold rounded-lg hover:bg-blue-600 transition-all shadow-md shadow-blue-500/10"
+                        className="px-6 py-2.5 bg-[#4F7CFF] text-white text-[13px] font-bold rounded-lg hover:bg-primary transition-all shadow-md shadow-primary/20"
                     >
                         Add
                     </button>
@@ -58,10 +58,10 @@ export const MeterSettingsWorkspace: React.FC = () => {
             </div>
 
             {/* Table Container */}
-            <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,0.03)] mt-8">
+            <div className="bg-card border border-border rounded-2xl overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,0.03)] mt-8">
                 <table className="w-full text-left border-collapse">
                     <thead>
-                        <tr className="bg-white border-b border-gray-100">
+                        <tr className="bg-card border-b border-gray-100">
                             <th className="px-10 py-5 text-[14px] font-bold text-slate-800">Name</th>
                             <th className="px-10 py-5 text-[14px] font-bold text-slate-800 text-center">Date Created</th>
                             <th className="px-10 py-5 text-[14px] font-bold text-slate-800 w-[100px]"></th>
@@ -80,7 +80,7 @@ export const MeterSettingsWorkspace: React.FC = () => {
                                     <td className="px-10 py-6 text-right relative">
                                         <button 
                                             onClick={() => setActiveMenu(activeMenu === cat.id ? null : cat.id)}
-                                            className="p-2 hover:bg-white rounded-lg transition-all"
+                                            className="p-2 hover:bg-card rounded-lg transition-all"
                                         >
                                             <MoreHorizontal className="w-6 h-6 text-slate-400" />
                                         </button>
@@ -93,7 +93,7 @@ export const MeterSettingsWorkspace: React.FC = () => {
                                                         initial={{ opacity: 0, scale: 0.95, y: -10 }}
                                                         animate={{ opacity: 1, scale: 1, y: 0 }}
                                                         exit={{ opacity: 0, scale: 0.95, y: -10 }}
-                                                        className="absolute right-10 top-14 w-40 bg-white border border-slate-100 rounded-2xl shadow-2xl z-20 overflow-hidden"
+                                                        className="absolute right-10 top-14 w-40 bg-card border border-slate-100 rounded-2xl shadow-2xl z-20 overflow-hidden"
                                                     >
                                                         <button 
                                                             onClick={() => {
@@ -102,7 +102,7 @@ export const MeterSettingsWorkspace: React.FC = () => {
                                                                 setIsAddModalOpen(true);
                                                                 setActiveMenu(null);
                                                             }}
-                                                            className="w-full px-5 py-4 text-left text-[14px] font-bold text-slate-600 hover:bg-slate-50 flex items-center gap-3 transition-all border-b border-slate-50"
+                                                            className="w-full px-5 py-4 text-left text-[14px] font-bold text-slate-600 hover:bg-muted/50 flex items-center gap-3 transition-all border-b border-slate-50"
                                                         >
                                                             <Edit2 className="w-4 h-4" />
                                                             Edit
@@ -155,12 +155,12 @@ export const MeterSettingsWorkspace: React.FC = () => {
                             initial={{ opacity: 0, scale: 0.95, y: 20 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                            className="relative w-full max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden"
+                            className="relative w-full max-w-md bg-card rounded-2xl shadow-2xl overflow-hidden"
                         >
                             <div className="p-8 space-y-8">
                                 <div className="flex items-center justify-between">
                                     <h2 className="text-[20px] font-bold text-slate-800">{editingCategory ? 'Edit Category' : 'Add Category'}</h2>
-                                    <button onClick={() => setIsAddModalOpen(false)} className="p-2 hover:bg-slate-50 rounded-lg">
+                                    <button onClick={() => setIsAddModalOpen(false)} className="p-2 hover:bg-muted/50 rounded-lg">
                                         <X className="w-5 h-5 text-slate-400" />
                                     </button>
                                 </div>
@@ -171,20 +171,20 @@ export const MeterSettingsWorkspace: React.FC = () => {
                                         value={newName}
                                         onChange={(e) => setNewName(e.target.value)}
                                         onKeyDown={(e) => e.key === 'Enter' && handleConfirm()}
-                                        className="w-full px-4 py-3 bg-white border border-blue-400 rounded-lg text-[15px] font-medium outline-none focus:ring-4 focus:ring-blue-500/10 transition-all"
+                                        className="w-full px-4 py-3 bg-card border border-primary/80 rounded-lg text-[15px] font-medium outline-none focus:ring-4 focus:ring-primary/10 transition-all"
                                     />
                                 </div>
                                 <div className="flex items-center justify-end gap-3 pt-4">
                                     <button 
                                         onClick={() => setIsAddModalOpen(false)}
-                                        className="px-6 py-2.5 border border-slate-200 text-slate-600 text-[14px] font-bold rounded-lg hover:bg-slate-50"
+                                        className="px-6 py-2.5 border border-border text-slate-600 text-[14px] font-bold rounded-lg hover:bg-muted/50"
                                     >
                                         Cancel
                                     </button>
                                     <button 
                                         onClick={handleConfirm}
                                         disabled={!newName.trim()}
-                                        className="px-8 py-2.5 bg-slate-100 text-slate-400 text-[14px] font-bold rounded-lg hover:bg-blue-600 hover:text-white transition-all disabled:opacity-50"
+                                        className="px-8 py-2.5 bg-muted text-slate-400 text-[14px] font-bold rounded-lg hover:bg-primary hover:text-white transition-all disabled:opacity-50"
                                     >
                                         Confirm
                                     </button>

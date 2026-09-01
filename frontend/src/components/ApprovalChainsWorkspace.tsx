@@ -133,23 +133,23 @@ export const ApprovalChainsWorkspace = () => {
     return (
         <div className="space-y-8 pb-12 animate-in fade-in duration-500 slide-in-from-bottom-4">
             <div>
-                <h2 className="text-2xl font-black text-slate-900 tracking-tight">Approval Chains</h2>
-                <p className="text-slate-500 font-medium mt-1 text-[15px]">Design multi-step, role-based approval workflows for critical platform actions.</p>
+                <h2 className="text-2xl font-black text-foreground tracking-tight">Approval Chains</h2>
+                <p className="text-muted-foreground font-medium mt-1 text-[15px]">Design multi-step, role-based approval workflows for critical platform actions.</p>
             </div>
 
             {isLoading ? (
-                <div className="h-[600px] flex items-center justify-center bg-white border border-slate-200 rounded-2xl shadow-sm">
-                    <div className="w-8 h-8 rounded-full border-4 border-indigo-100 border-t-indigo-600 animate-spin" />
+                <div className="h-[600px] flex items-center justify-center bg-card border border-border rounded-2xl shadow-sm">
+                    <div className="w-8 h-8 rounded-full border-4 border-primary/10 border-t-indigo-600 animate-spin" />
                 </div>
             ) : (
                 <div className="grid grid-cols-12 gap-8 h-[600px]">
                     {/* Left: Chain List */}
-                    <div className="col-span-4 bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col overflow-hidden">
-                        <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50">
+                    <div className="col-span-4 bg-card rounded-2xl border border-border shadow-sm flex flex-col overflow-hidden">
+                        <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-muted/50">
                             <h3 className="text-[13px] font-black text-slate-800 uppercase tracking-widest">Configured Chains</h3>
                             <button 
                                 onClick={handleCreateChain}
-                                className="p-1.5 hover:bg-indigo-100 text-indigo-600 rounded-lg transition-colors"
+                                className="p-1.5 hover:bg-primary/15 text-primary rounded-lg transition-colors"
                             >
                                 <Plus className="w-4 h-4" />
                             </button>
@@ -162,8 +162,8 @@ export const ApprovalChainsWorkspace = () => {
                                     className={cn(
                                         "p-4 rounded-xl border cursor-pointer transition-all hover:shadow-md",
                                         selectedChainId === chain.id 
-                                            ? "bg-indigo-600 border-indigo-700 text-white shadow-lg shadow-indigo-200" 
-                                            : "bg-white border-slate-200 hover:border-indigo-300"
+                                            ? "bg-primary border-indigo-700 text-white shadow-lg shadow-primary/20" 
+                                            : "bg-card border-border hover:border-indigo-300"
                                     )}
                                 >
                                     <div className="flex items-start justify-between">
@@ -172,7 +172,7 @@ export const ApprovalChainsWorkspace = () => {
                                     <div className="mt-3 flex items-center gap-2">
                                         <span className={cn(
                                             "px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-wider",
-                                            selectedChainId === chain.id ? "bg-white/20 text-white" : "bg-slate-100 text-slate-500"
+                                            selectedChainId === chain.id ? "bg-white/20 text-white" : "bg-muted text-muted-foreground"
                                         )}>
                                             {chain.module.replace('_', ' ')}
                                         </span>
@@ -189,16 +189,16 @@ export const ApprovalChainsWorkspace = () => {
                     </div>
 
                     {/* Right: Builder Canvas */}
-                    <div className="col-span-8 bg-slate-50/50 rounded-2xl border border-slate-200 shadow-inner flex flex-col relative overflow-hidden">
+                    <div className="col-span-8 bg-transparent rounded-2xl border border-border shadow-inner flex flex-col relative overflow-hidden">
                         {activeChain ? (
                             <div className="flex-1 flex flex-col h-full overflow-hidden">
-                                <div className="p-6 border-b border-slate-200 bg-white">
+                                <div className="p-6 border-b border-border bg-card">
                                     <div className="flex justify-between items-center mb-4">
                                         <input 
                                             type="text" 
                                             value={activeChain.name}
                                             onChange={(e) => setChains(chains.map(c => c.id === activeChain.id ? { ...c, name: e.target.value } : c))}
-                                            className="text-2xl font-black text-slate-900 bg-transparent border-none outline-none w-full focus:ring-0 p-0 placeholder-slate-300"
+                                            className="text-2xl font-black text-foreground bg-transparent border-none outline-none w-full focus:ring-0 p-0 placeholder-slate-300"
                                             placeholder="Chain Name"
                                         />
                                         <div className="flex gap-2 shrink-0">
@@ -211,7 +211,7 @@ export const ApprovalChainsWorkspace = () => {
                                             <button 
                                                 onClick={() => handleSaveChain(activeChain)}
                                                 disabled={createApprovalChain.isPending || updateApprovalChain.isPending}
-                                                className="px-4 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-[13px] font-black transition-all shadow-sm active:scale-95 disabled:opacity-50"
+                                                className="px-4 py-1.5 bg-primary hover:bg-primary/90 text-white rounded-lg text-[13px] font-black transition-all shadow-sm active:scale-95 disabled:opacity-50"
                                             >
                                                 {(createApprovalChain.isPending || updateApprovalChain.isPending) ? 'Saving...' : 'Save Chain'}
                                             </button>
@@ -223,7 +223,7 @@ export const ApprovalChainsWorkspace = () => {
                                             <select 
                                                 value={activeChain.module}
                                                 onChange={(e) => setChains(chains.map(c => c.id === activeChain.id ? { ...c, module: e.target.value as any } : c))}
-                                                className="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-[13px] font-bold text-slate-700 outline-none"
+                                                className="px-3 py-1.5 bg-muted/50 border border-border rounded-lg text-[13px] font-bold text-foreground/90 outline-none"
                                             >
                                                 <option value="WORK_ORDER">Work Orders</option>
                                                 <option value="PURCHASE_ORDER">Purchase Orders</option>
@@ -232,12 +232,12 @@ export const ApprovalChainsWorkspace = () => {
                                         <div className="flex flex-col gap-1.5">
                                             <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Trigger Condition (Optional)</label>
                                             <div className="flex items-center gap-2">
-                                                <span className="text-[13px] font-bold text-slate-500">Amount &gt; $</span>
+                                                <span className="text-[13px] font-bold text-muted-foreground">Amount &gt; $</span>
                                                 <input 
                                                     type="number" 
                                                     value={activeChain.triggerAmount || ''}
                                                     onChange={(e) => setChains(chains.map(c => c.id === activeChain.id ? { ...c, triggerAmount: Number(e.target.value) } : c))}
-                                                    className="w-24 px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-[13px] font-bold text-slate-700 outline-none"
+                                                    className="w-24 px-3 py-1.5 bg-muted/50 border border-border rounded-lg text-[13px] font-bold text-foreground/90 outline-none"
                                                     placeholder="None"
                                                 />
                                             </div>
@@ -247,7 +247,7 @@ export const ApprovalChainsWorkspace = () => {
                                 
                                 <div className="flex-1 overflow-y-auto p-8 relative">
                                     <div className="max-w-md mx-auto relative pb-20">
-                                        <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-indigo-100" />
+                                        <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-primary/15" />
                                         
                                         <AnimatePresence>
                                             {activeChain.steps.map((step) => (
@@ -259,12 +259,12 @@ export const ApprovalChainsWorkspace = () => {
                                                     className="relative mb-8 pl-20"
                                                 >
                                                     {/* Node */}
-                                                    <div className="absolute left-[26px] top-4 w-4 h-4 rounded-full bg-indigo-500 ring-4 ring-indigo-50 shadow-sm z-10" />
+                                                    <div className="absolute left-[26px] top-4 w-4 h-4 rounded-full bg-primary/80 ring-4 ring-primary shadow-sm z-10" />
                                                     
                                                     {/* Card */}
-                                                    <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-4 group hover:border-indigo-300 transition-all">
+                                                    <div className="bg-card rounded-xl border border-border shadow-sm p-4 group hover:border-indigo-300 transition-all">
                                                         <div className="flex justify-between items-center mb-3">
-                                                            <span className="text-[10px] font-black uppercase tracking-widest text-indigo-500 bg-indigo-50 px-2 py-0.5 rounded">Step {step.order}</span>
+                                                            <span className="text-[10px] font-black uppercase tracking-widest text-primary/80 bg-primary/10 px-2 py-0.5 rounded">Step {step.order}</span>
                                                             <button 
                                                                 onClick={() => handleRemoveStep(step.id)}
                                                                 className="text-slate-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-all"
@@ -278,7 +278,7 @@ export const ApprovalChainsWorkspace = () => {
                                                                 <select 
                                                                     value={step.role}
                                                                     onChange={(e) => handleUpdateStepRole(step.id, e.target.value)}
-                                                                    className="w-full pl-3 pr-8 py-2 bg-slate-50 border border-slate-200 rounded-lg text-[14px] font-black text-slate-800 appearance-none outline-none focus:border-indigo-500"
+                                                                    className="w-full pl-3 pr-8 py-2 bg-muted/50 border border-border rounded-lg text-[14px] font-black text-slate-800 appearance-none outline-none focus:border-primary/80"
                                                                 >
                                                                     {ROLES.map(r => <option key={r} value={r}>{r}</option>)}
                                                                 </select>
@@ -295,9 +295,9 @@ export const ApprovalChainsWorkspace = () => {
                                             <div className="absolute left-[26px] top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-slate-200 ring-4 ring-slate-50 z-10" />
                                             <button 
                                                 onClick={handleAddStep}
-                                                className="flex items-center gap-2 px-4 py-3 bg-white border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/50 rounded-xl text-[13px] font-black text-indigo-600 transition-all shadow-sm group"
+                                                className="flex items-center gap-2 px-4 py-3 bg-card border border-border hover:border-indigo-300 hover:bg-primary/10/50 rounded-xl text-[13px] font-black text-primary transition-all shadow-sm group"
                                             >
-                                                <div className="w-5 h-5 rounded-md bg-indigo-100 flex items-center justify-center group-hover:scale-110 transition-transform">
+                                                <div className="w-5 h-5 rounded-md bg-primary/15 flex items-center justify-center group-hover:scale-110 transition-transform">
                                                     <Plus className="w-3.5 h-3.5" />
                                                 </div>
                                                 Add Approval Step
@@ -308,11 +308,11 @@ export const ApprovalChainsWorkspace = () => {
                             </div>
                         ) : (
                             <div className="flex-1 flex flex-col items-center justify-center text-center p-8">
-                                <div className="w-16 h-16 rounded-2xl bg-indigo-50 flex items-center justify-center mb-4">
+                                <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-4">
                                     <GitCommit className="w-8 h-8 text-indigo-300" />
                                 </div>
                                 <h3 className="text-lg font-black text-slate-800">Select a Chain</h3>
-                                <p className="text-[14px] text-slate-500 max-w-[250px] mt-2">Choose an existing approval chain to edit, or create a new one to get started.</p>
+                                <p className="text-[14px] text-muted-foreground max-w-[250px] mt-2">Choose an existing approval chain to edit, or create a new one to get started.</p>
                             </div>
                         )}
                     </div>

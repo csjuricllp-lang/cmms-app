@@ -58,12 +58,12 @@ export const VendorWorkOrderView = () => {
         switch(status) {
             case 'COMPLETED': return 'bg-emerald-500';
             case 'IN_PROGRESS': return 'bg-amber-500';
-            default: return 'bg-slate-500';
+            default: return 'bg-transparent0';
         }
     };
 
     return (
-        <div className="min-h-screen bg-slate-50">
+        <div className="min-h-screen bg-transparent">
             {/* Header / Security Banner */}
             <div className="bg-slate-900 px-6 py-4 flex items-center justify-between">
                 <div className="flex items-center gap-3">
@@ -79,7 +79,7 @@ export const VendorWorkOrderView = () => {
 
             <div className="max-w-md mx-auto p-6 space-y-6">
                 {/* Mission Summary Card */}
-                <div className="bg-white rounded-[40px] p-8 shadow-xl shadow-slate-200/50 border border-white">
+                <div className="bg-card rounded-[40px] p-8 shadow-xl shadow-slate-200/50 border border-white">
                     <div className="flex items-center gap-3 mb-6">
                         <span className={`px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest italic text-white ${getStatusColor(wo.status)}`}>
                             {wo.status}
@@ -95,22 +95,22 @@ export const VendorWorkOrderView = () => {
 
                     <div className="space-y-4">
                         <div className="flex items-start gap-4">
-                            <div className="w-10 h-10 rounded-2xl bg-slate-50 flex items-center justify-center shrink-0">
+                            <div className="w-10 h-10 rounded-2xl bg-transparent flex items-center justify-center shrink-0">
                                 <MapPin className="w-5 h-5 text-slate-400" />
                             </div>
                             <div>
                                 <span className="text-[9px] font-black uppercase tracking-widest text-slate-400 block">Location</span>
-                                <span className="text-[13px] font-black italic uppercase text-slate-700">{wo.location?.name || 'Main Facility'}</span>
+                                <span className="text-[13px] font-black italic uppercase text-foreground/90">{wo.location?.name || 'Main Facility'}</span>
                             </div>
                         </div>
 
                         <div className="flex items-start gap-4">
-                            <div className="w-10 h-10 rounded-2xl bg-slate-50 flex items-center justify-center shrink-0">
+                            <div className="w-10 h-10 rounded-2xl bg-transparent flex items-center justify-center shrink-0">
                                 <Calendar className="w-5 h-5 text-slate-400" />
                             </div>
                             <div>
                                 <span className="text-[9px] font-black uppercase tracking-widest text-slate-400 block">Deadline</span>
-                                <span className="text-[13px] font-black italic uppercase text-slate-700">
+                                <span className="text-[13px] font-black italic uppercase text-foreground/90">
                                     {wo.dueDate ? format(new Date(wo.dueDate), 'MMMM dd, yyyy') : 'As Soon As Possible'}
                                 </span>
                             </div>
@@ -119,7 +119,7 @@ export const VendorWorkOrderView = () => {
                 </div>
 
                 {/* Description */}
-                <div className="bg-white rounded-[40px] p-8 shadow-lg shadow-slate-200/40">
+                <div className="bg-card rounded-[40px] p-8 shadow-lg shadow-slate-200/40">
                     <div className="flex items-center gap-3 mb-4">
                         <Info className="w-5 h-5 text-primary" />
                         <h2 className="text-[14px] font-black uppercase tracking-widest italic text-slate-800">Job Description</h2>
@@ -149,7 +149,7 @@ export const VendorWorkOrderView = () => {
                         </button>
                     )}
 
-                    <button className="w-full py-6 bg-white border-2 border-slate-100 text-slate-400 rounded-[32px] text-[13px] font-black uppercase tracking-widest italic flex items-center justify-center gap-4">
+                    <button className="w-full py-6 bg-card border-2 border-slate-100 text-slate-400 rounded-[32px] text-[13px] font-black uppercase tracking-widest italic flex items-center justify-center gap-4">
                         <Camera className="w-5 h-5" /> Evidence Capture
                     </button>
                 </div>
@@ -158,16 +158,16 @@ export const VendorWorkOrderView = () => {
                 <div className="bg-slate-100/50 rounded-[40px] p-8">
                     <div className="flex items-center gap-3 mb-6">
                         <MessageSquare className="w-5 h-5 text-slate-400" />
-                        <h2 className="text-[12px] font-black uppercase tracking-widest italic text-slate-500">Service Notes</h2>
+                        <h2 className="text-[12px] font-black uppercase tracking-widest italic text-muted-foreground">Service Notes</h2>
                     </div>
                     
                     <div className="space-y-4 mb-6">
                         {wo.comments?.map((c: any) => (
-                            <div key={c.id} className="bg-white p-4 rounded-3xl shadow-sm border border-white">
+                            <div key={c.id} className="bg-card p-4 rounded-3xl shadow-sm border border-white">
                                 <span className="text-[9px] font-black uppercase tracking-widest text-primary block mb-1">
                                     {c.user?.user?.name || 'System'}
                                 </span>
-                                <p className="text-[12px] font-medium text-slate-700 italic">{c.text}</p>
+                                <p className="text-[12px] font-medium text-foreground/90 italic">{c.text}</p>
                             </div>
                         ))}
                     </div>
@@ -176,7 +176,7 @@ export const VendorWorkOrderView = () => {
                         <input 
                             type="text"
                             placeholder="Add a field update..."
-                            className="w-full px-6 py-4 bg-white border-2 border-white rounded-[24px] text-[13px] font-bold italic outline-none focus:border-primary/20 transition-all placeholder:text-slate-300"
+                            className="w-full px-6 py-4 bg-card border-2 border-white rounded-[24px] text-[13px] font-bold italic outline-none focus:border-primary/20 transition-all placeholder:text-slate-300"
                             value={commentText}
                             onChange={(e) => setCommentText(e.target.value)}
                         />

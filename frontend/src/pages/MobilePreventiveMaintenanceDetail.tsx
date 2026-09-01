@@ -102,8 +102,8 @@ export const MobilePreventiveMaintenanceDetail: React.FC<MobilePreventiveMainten
     const getWOStatusStyle = (status: string) => {
         switch (status?.toUpperCase()) {
             case 'COMPLETED': return 'bg-emerald-500/10 border-emerald-500/20 text-emerald-500';
-            case 'IN_PROGRESS': return 'bg-blue-500/10 border-blue-500/20 text-blue-500';
-            case 'OPEN': return 'bg-slate-500/10 border-slate-500/20 text-slate-500';
+            case 'IN_PROGRESS': return 'bg-primary/10 border-primary/80/20 text-primary';
+            case 'OPEN': return 'bg-transparent0/10 border-slate-500/20 text-muted-foreground';
             default: return 'bg-amber-500/10 border-amber-500/20 text-amber-500';
         }
     };

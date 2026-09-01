@@ -28,6 +28,10 @@ export const SsoCallbackPage = () => {
                 });
                 
                 localStorage.setItem('user', JSON.stringify(response.data));
+                
+                // Enforce default branding accent and workspace mood for the organization
+                useThemeStore.getState().setTheme('light-peach');
+                useThemeStore.getState().setAccentColor('346.8 77.2% 49.8%');
                 useThemeStore.setState({ sidebarCollapsed: false });
                 toast.success('Successfully signed in with SSO');
                 navigate('/');

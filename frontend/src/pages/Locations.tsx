@@ -187,17 +187,17 @@ export const LocationsPage = () => {
                     onSaveView={() => setIsSaveViewModalOpen(true)}
                 />
             ) : (
-                <div className="flex flex-col h-full bg-white overflow-hidden font-sans">
+                <div className="flex flex-col h-full bg-transparent overflow-hidden font-sans">
             {/* Main Header */}
             <header className="h-[72px] border-b border-slate-100 flex items-center justify-between px-6 shrink-0">
                 <div className="flex items-center gap-4 h-full">
-                    <h1 className="text-[22px] font-semibold text-slate-900">Locations</h1>
+                    <h1 className="text-[22px] font-semibold text-foreground">Locations</h1>
                     <div className="relative">
                         <button 
                             onClick={() => {
                                 setIsSavedViewsOpen(!isSavedViewsOpen);
                             }}
-                            className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-[13px] font-semibold text-slate-600 hover:bg-slate-100 transition-all active:scale-95"
+                            className="flex items-center gap-1.5 px-3 py-1.5 bg-transparent border border-border rounded-lg text-[13px] font-semibold text-slate-600 hover:bg-muted transition-all active:scale-95"
                         >
                             <Settings2 className="w-4 h-4 text-slate-400" />
                             Default View
@@ -212,7 +212,7 @@ export const LocationsPage = () => {
                                         initial={{ opacity: 0, y: 8, scale: 0.95 }}
                                         animate={{ opacity: 1, y: 0, scale: 1 }}
                                         exit={{ opacity: 0, y: 8, scale: 0.95 }}
-                                        className="absolute top-full left-0 mt-2 w-56 bg-white rounded-xl shadow-2xl ring-1 ring-black/5 z-[120] overflow-hidden"
+                                        className="absolute top-full left-0 mt-2 w-56 bg-card rounded-xl shadow-2xl ring-1 ring-black/5 z-[120] overflow-hidden"
                                     >
                                         <div className="p-1">
                                             <div className="px-3 py-2 text-[11px] font-black text-slate-400 uppercase tracking-widest">Your Saved Views</div>
@@ -235,7 +235,7 @@ export const LocationsPage = () => {
                                                         if (config.sortOrder) setSortOrder(config.sortOrder);
                                                         setIsSavedViewsOpen(false);
                                                     }}
-                                                    className="w-full text-left px-3 py-2.5 rounded-lg text-[13px] font-semibold text-slate-600 hover:bg-slate-50 transition-colors"
+                                                    className="w-full text-left px-3 py-2.5 rounded-lg text-[13px] font-semibold text-slate-600 hover:bg-transparent transition-colors"
                                                 >
                                                     {view.name}
                                                 </button>
@@ -259,7 +259,7 @@ export const LocationsPage = () => {
                                 onClick={() => setActiveTab(tab as any)}
                                 className={cn(
                                     "relative h-full px-1 text-[14px] font-medium transition-colors flex items-center",
-                                    activeTab === tab ? "text-blue-600" : "text-slate-500 hover:text-slate-800"
+                                    activeTab === tab ? "text-primary" : "text-muted-foreground hover:text-slate-800"
                                 )}
                             >
                                 {tab === 'List' ? <List className="w-4 h-4 mr-2" /> : <MapIcon className="w-4 h-4 mr-2" />}
@@ -267,7 +267,7 @@ export const LocationsPage = () => {
                                 {activeTab === tab && (
                                     <motion.div 
                                         layoutId="tab-underline"
-                                        className="absolute bottom-0 left-0 right-0 h-[2px] bg-blue-600"
+                                        className="absolute bottom-0 left-0 right-0 h-[2px] bg-primary"
                                     />
                                 )}
                             </button>
@@ -283,7 +283,7 @@ export const LocationsPage = () => {
                                     setEditingLocation(null);
                                     setIsCreateModalOpen(true);
                                 }}
-                                className="bg-blue-600 hover:bg-blue-700 text-white px-5 h-10 rounded-lg flex items-center gap-2 text-[14px] font-semibold transition-all shadow-sm active:scale-95"
+                                className="bg-primary hover:bg-primary/90 text-white px-5 h-10 rounded-lg flex items-center gap-2 text-[14px] font-semibold transition-all shadow-sm active:scale-95"
                             >
                                 <Plus className="w-4 h-4" />
                                 Create Location
@@ -293,9 +293,9 @@ export const LocationsPage = () => {
                                     setHeaderAnchorRect(e.currentTarget.getBoundingClientRect());
                                     setIsHeaderActionsOpen(true);
                                 }}
-                                className="bg-white border border-slate-200 h-10 w-10 rounded-lg flex items-center justify-center hover:bg-slate-50 transition-colors shadow-sm"
+                                className="bg-card border border-border h-10 w-10 rounded-lg flex items-center justify-center hover:bg-transparent transition-colors shadow-sm"
                             >
-                                <MoreHorizontal className="w-5 h-5 text-slate-500" />
+                                <MoreHorizontal className="w-5 h-5 text-muted-foreground" />
                             </button>
                         </div>
                     )}
@@ -303,9 +303,9 @@ export const LocationsPage = () => {
             </header>
 
             {/* Sub-Header / Action Bar */}
-            <div className="h-14 border-b border-slate-100 flex items-center justify-between px-6 shrink-0 bg-white">
-                <div className="text-[13px] font-medium text-slate-500">
-                    <span className="text-slate-900 font-bold">{filteredLocations?.length || 0}</span> Results Returned
+            <div className="h-14 border-b border-slate-100 flex items-center justify-between px-6 shrink-0 bg-card">
+                <div className="text-[13px] font-medium text-muted-foreground">
+                    <span className="text-foreground font-bold">{filteredLocations?.length || 0}</span> Results Returned
                 </div>
 
                 <div className="flex items-center gap-6">
@@ -314,7 +314,7 @@ export const LocationsPage = () => {
                             setSortAnchorRect(e.currentTarget.getBoundingClientRect());
                             setIsSortOpen(true);
                         }}
-                        className="flex items-center gap-2 text-[13px] font-medium text-slate-600 hover:text-slate-900 transition-colors"
+                        className="flex items-center gap-2 text-[13px] font-medium text-slate-600 hover:text-foreground transition-colors"
                     >
                         <ArrowUpDown className="w-4 h-4 text-slate-400" />
                         Sort: {sortBy}
@@ -324,37 +324,37 @@ export const LocationsPage = () => {
                             setColumnAnchorRect(e.currentTarget.getBoundingClientRect());
                             setIsColumnPickerOpen(true);
                         }}
-                        className="flex items-center gap-2 text-[13px] font-medium text-slate-600 hover:text-slate-900 transition-colors"
+                        className="flex items-center gap-2 text-[13px] font-medium text-slate-600 hover:text-foreground transition-colors"
                     >
                         <Columns className="w-4 h-4 text-slate-400" />
                         Columns
                     </button>
                     <div className="relative group">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-blue-500 transition-colors" />
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-primary transition-colors" />
                         <input 
                             type="text"
                             placeholder="Search"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="h-9 w-64 bg-slate-100 border border-transparent rounded-lg pl-10 pr-4 text-[13px] focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+                            className="h-9 w-64 bg-muted border border-transparent rounded-lg pl-10 pr-4 text-[13px] focus:bg-card focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/80 transition-all"
                         />
                     </div>
                 </div>
             </div>
 
             {/* Filter Bar */}
-            <div className="h-14 border-b border-slate-100 flex items-center justify-between px-6 shrink-0 bg-white">
+            <div className="h-14 border-b border-slate-100 flex items-center justify-between px-6 shrink-0 bg-card">
                 <div className="flex items-center gap-3">
                     <button 
                         onClick={() => setIsFiltersModalOpen(true)}
-                        className="h-9 px-4 border border-slate-200 rounded-lg flex items-center gap-2 text-[13px] font-semibold text-slate-700 hover:bg-slate-50 transition-colors"
+                        className="h-9 px-4 border border-border rounded-lg flex items-center gap-2 text-[13px] font-semibold text-foreground/90 hover:bg-transparent transition-colors"
                     >
                         <Filter className="w-4 h-4 text-slate-400" />
                         Filters
                     </button>
                     <button 
                         onClick={() => setIsAssignedToModalOpen(true)}
-                        className="h-9 px-4 border border-slate-200 rounded-lg flex items-center gap-2 text-[13px] font-semibold text-slate-700 hover:bg-slate-50 transition-colors"
+                        className="h-9 px-4 border border-border rounded-lg flex items-center gap-2 text-[13px] font-semibold text-foreground/90 hover:bg-transparent transition-colors"
                     >
                         <Users className="w-4 h-4 text-slate-400" />
                         Assigned To
@@ -362,7 +362,7 @@ export const LocationsPage = () => {
                     </button>
                     <button 
                         onClick={handleResetFilters}
-                        className="text-[13px] font-semibold text-blue-600 hover:text-blue-700 ml-2"
+                        className="text-[13px] font-semibold text-primary hover:text-primary/90 ml-2"
                     >
                         Reset Filters
                     </button>
@@ -377,39 +377,39 @@ export const LocationsPage = () => {
             </div>
 
             {/* Content Area */}
-            <main className="flex-1 overflow-auto bg-slate-50/30">
+            <main className="flex-1 overflow-auto bg-transparent/30">
                 {activeTab === 'List' ? (
                     <div className="min-w-full">
                         <table className="w-full border-collapse text-left">
-                            <thead className="sticky top-0 bg-white shadow-sm z-10">
+                            <thead className="sticky top-0 bg-primary shadow-sm z-10">
                                 <tr>
                                     <th className="w-12 px-6 py-4">
                                         <input 
                                             type="checkbox" 
                                             checked={locations?.length ? selectedRows.length === locations.length : false}
                                             onChange={toggleAll}
-                                            className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500" 
+                                            className="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary" 
                                         />
                                     </th>
-                                    {visibleColumnIds.includes('Name') && <th className="px-4 py-4 text-[12px] font-bold text-slate-800 uppercase tracking-wider">Name</th>}
-                                    {visibleColumnIds.includes('Hierarchy') && <th className="px-4 py-4 text-[12px] font-bold text-slate-800 uppercase tracking-wider">Hierarchy</th>}
-                                    {visibleColumnIds.includes('Address') && <th className="px-4 py-4 text-[12px] font-bold text-slate-800 uppercase tracking-wider">Address</th>}
-                                    {visibleColumnIds.includes('No. of Children') && <th className="px-4 py-4 text-[12px] font-bold text-slate-800 uppercase tracking-wider">No. of Children</th>}
-                                    {visibleColumnIds.includes('Workers') && <th className="px-4 py-4 text-[12px] font-bold text-slate-800 uppercase tracking-wider">Workers</th>}
-                                    {visibleColumnIds.includes('Teams') && <th className="px-4 py-4 text-[12px] font-bold text-slate-800 uppercase tracking-wider">Teams</th>}
-                                    {visibleColumnIds.includes('Customers') && <th className="px-4 py-4 text-[12px] font-bold text-slate-800 uppercase tracking-wider">Customers</th>}
-                                    {visibleColumnIds.includes('Vendors') && <th className="px-4 py-4 text-[12px] font-bold text-slate-800 uppercase tracking-wider">Vendors</th>}
-                                    {visibleColumnIds.includes('Date Created') && <th className="px-4 py-4 text-[12px] font-bold text-slate-800 uppercase tracking-wider">Date Created</th>}
+                                    {visibleColumnIds.includes('Name') && <th className="px-4 py-4 text-[12px] font-bold text-white/90 uppercase tracking-widest">Name</th>}
+                                    {visibleColumnIds.includes('Hierarchy') && <th className="px-4 py-4 text-[12px] font-bold text-white/90 uppercase tracking-widest">Hierarchy</th>}
+                                    {visibleColumnIds.includes('Address') && <th className="px-4 py-4 text-[12px] font-bold text-white/90 uppercase tracking-widest">Address</th>}
+                                    {visibleColumnIds.includes('No. of Children') && <th className="px-4 py-4 text-[12px] font-bold text-white/90 uppercase tracking-widest">No. of Children</th>}
+                                    {visibleColumnIds.includes('Workers') && <th className="px-4 py-4 text-[12px] font-bold text-white/90 uppercase tracking-widest">Workers</th>}
+                                    {visibleColumnIds.includes('Teams') && <th className="px-4 py-4 text-[12px] font-bold text-white/90 uppercase tracking-widest">Teams</th>}
+                                    {visibleColumnIds.includes('Customers') && <th className="px-4 py-4 text-[12px] font-bold text-white/90 uppercase tracking-widest">Customers</th>}
+                                    {visibleColumnIds.includes('Vendors') && <th className="px-4 py-4 text-[12px] font-bold text-white/90 uppercase tracking-widest">Vendors</th>}
+                                    {visibleColumnIds.includes('Date Created') && <th className="px-4 py-4 text-[12px] font-bold text-white/90 uppercase tracking-widest">Date Created</th>}
                                     <th className="w-12 px-4 py-4"></th>
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-slate-100 bg-white">
+                            <tbody className="divide-y divide-slate-100 bg-card">
                                 <AnimatePresence mode="popLayout">
                                     {isLoading ? (
                                         [1, 2, 3, 4, 5].map(i => (
                                             <tr key={i} className="animate-pulse">
                                                 <td colSpan={10} className="px-6 py-4">
-                                                    <div className="h-6 bg-slate-100 rounded w-full" />
+                                                    <div className="h-6 bg-muted rounded w-full" />
                                                 </td>
                                             </tr>
                                         ))
@@ -429,24 +429,24 @@ export const LocationsPage = () => {
                                                 animate={{ opacity: 1 }}
                                                 exit={{ opacity: 0 }}
                                                 className={cn(
-                                                    "group hover:bg-slate-50/80 transition-colors cursor-pointer",
+                                                    "group hover:bg-transparent/80 transition-colors cursor-pointer",
                                                     selectedRows.includes(location.id) && "bg-blue-50/50"
                                                 )}
                                                 onClick={() => navigate(`/locations/${location.id}`)}
                                             >
                                                 <td className="px-6 py-3.5 flex items-center gap-3">
-                                                    <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-slate-500 transition-colors" />
+                                                    <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-muted-foreground transition-colors" />
                                                     <input 
                                                         type="checkbox" 
                                                         checked={selectedRows.includes(location.id)}
                                                         onChange={() => toggleRow(location.id)}
-                                                        className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+                                                        className="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary"
                                                         onClick={(e) => e.stopPropagation()}
                                                     />
                                                 </td>
                                                 {visibleColumnIds.includes('Name') && (
                                                     <td className="px-4 py-3.5">
-                                                        <span className="text-[14px] font-semibold text-slate-700 group-hover:text-blue-600 transition-colors">
+                                                        <span className="text-[14px] font-semibold text-foreground/90 group-hover:text-primary transition-colors">
                                                             {location.name}
                                                         </span>
                                                     </td>
@@ -467,7 +467,7 @@ export const LocationsPage = () => {
                                                 )}
                                                 {visibleColumnIds.includes('No. of Children') && (
                                                     <td className="px-4 py-3.5">
-                                                        <span className="text-[14px] font-medium text-blue-600 hover:underline">
+                                                        <span className="text-[14px] font-medium text-primary hover:underline">
                                                             {location._count?.children || 0}
                                                         </span>
                                                     </td>
@@ -518,7 +518,7 @@ export const LocationsPage = () => {
                                                             setCurrentRowId(location.id);
                                                             setIsRowActionsOpen(true);
                                                         }}
-                                                        className="w-8 h-8 flex items-center justify-center hover:bg-white rounded-lg transition-all text-slate-400 hover:text-slate-600 opacity-0 group-hover:opacity-100"
+                                                        className="w-8 h-8 flex items-center justify-center hover:bg-card rounded-lg transition-all text-slate-400 hover:text-slate-600 opacity-0 group-hover:opacity-100"
                                                     >
                                                         <MoreHorizontal className="w-5 h-5" />
                                                     </button>

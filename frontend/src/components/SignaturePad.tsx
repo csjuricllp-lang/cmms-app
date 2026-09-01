@@ -76,7 +76,7 @@ export const SignaturePad: React.FC<SignaturePadProps> = ({ onSave, onCancel }) 
                         </h3>
                         <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest italic mt-1">Legally binding electronic signature</p>
                     </div>
-                    <button onClick={onCancel} className="p-2 hover:bg-white/5 rounded-full transition-colors text-slate-500 hover:text-white">
+                    <button onClick={onCancel} className="p-2 hover:bg-white/5 rounded-full transition-colors text-muted-foreground hover:text-white">
                         <X className="w-6 h-6" />
                     </button>
                 </div>

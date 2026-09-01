@@ -213,7 +213,7 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
     const categories = ['Preventive', 'Corrective', 'Emergency', 'Inspection', 'Safety', 'Other'];
     const priorities = [
         { label: 'None', color: 'bg-white/5 text-muted-foreground/60', icon: <AlertCircle className="w-3.5 h-3.5" /> },
-        { label: 'Low', color: 'bg-blue-500/10 text-blue-400', icon: <AlertCircle className="w-3.5 h-3.5" /> },
+        { label: 'Low', color: 'bg-primary/10 text-blue-400', icon: <AlertCircle className="w-3.5 h-3.5" /> },
         { label: 'Medium', color: 'bg-orange-500/10 text-orange-400', icon: <AlertCircle className="w-3.5 h-3.5" /> },
         { label: 'High', color: 'bg-red-500/10 text-red-400', icon: <AlertCircle className="w-3.5 h-3.5" /> }
     ];
@@ -253,11 +253,11 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
     const getDocIcon = (file: File) => {
         const ext = file.name.split('.').pop()?.toLowerCase() || '';
         if (['pdf'].includes(ext)) return { bg: 'bg-red-50', text: 'text-red-500', label: 'PDF' };
-        if (['doc', 'docx'].includes(ext)) return { bg: 'bg-blue-50', text: 'text-blue-500', label: 'DOC' };
+        if (['doc', 'docx'].includes(ext)) return { bg: 'bg-blue-50', text: 'text-primary', label: 'DOC' };
         if (['xls', 'xlsx', 'csv'].includes(ext)) return { bg: 'bg-emerald-50', text: 'text-emerald-500', label: 'XLS' };
         if (['ppt', 'pptx'].includes(ext)) return { bg: 'bg-orange-50', text: 'text-orange-500', label: 'PPT' };
-        if (['zip', 'rar', '7z'].includes(ext)) return { bg: 'bg-purple-50', text: 'text-purple-500', label: 'ZIP' };
-        return { bg: 'bg-slate-50', text: 'text-slate-500', label: ext.toUpperCase() || 'FILE' };
+        if (['zip', 'rar', '7z'].includes(ext)) return { bg: 'bg-primary/10', text: 'text-purple-500', label: 'ZIP' };
+        return { bg: 'bg-muted/50', text: 'text-muted-foreground', label: ext.toUpperCase() || 'FILE' };
     };
 
     const formatFileSize = (bytes: number) => {
@@ -427,15 +427,15 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
         <div className="fixed inset-0 z-[1000] flex items-end sm:items-center justify-center sm:p-4">
             <div className="absolute inset-0 bg-[#0F172A]/80 backdrop-blur-sm animate-in fade-in duration-300" onClick={onClose} />
             
-            <div className="relative bg-[#F8FAFC] w-full max-w-[1200px] h-[95vh] sm:h-[92vh] rounded-t-[28px] sm:rounded-[24px] shadow-2xl flex flex-col overflow-hidden animate-in slide-in-from-bottom sm:zoom-in-95 duration-300 border border-white/20">
+            <div className="relative bg-background w-full max-w-[1200px] h-[95vh] sm:h-[92vh] rounded-t-[28px] sm:rounded-[24px] shadow-2xl flex flex-col overflow-hidden animate-in slide-in-from-bottom sm:zoom-in-95 duration-300 border border-white/20">
                 {/* Mobile drag indicator */}
                 <div className="flex justify-center pt-3 pb-1 sm:hidden">
                     <div className="w-10 h-1 rounded-full bg-slate-300" />
                 </div>
                 {/* Header */}
-                <div className="bg-[#F8FAFC] px-4 sm:px-8 py-2 sm:py-3 border-b border-slate-200 flex items-center justify-between z-10">
+                <div className="bg-background px-4 sm:px-8 py-2 sm:py-3 border-b border-border flex items-center justify-between z-10">
                     <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-primary flex items-center justify-center shadow-lg shadow-indigo-200 shrink-0">
+                        <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-primary flex items-center justify-center shadow-lg shadow-primary/20 shrink-0">
                             <Plus className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
                         </div>
                         <div>
@@ -444,21 +444,21 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                         </div>
                     </div>
                     <div className="flex items-center gap-2 sm:gap-4">
-                        <div className="flex bg-slate-100 p-1 rounded-xl">
-                            <button onClick={() => setActiveTab('Create')} className={cn("px-3 sm:px-4 py-1.5 text-[11px] sm:text-[12px] font-bold rounded-lg transition-all", activeTab === 'Create' ? "bg-white text-primary shadow-sm" : "text-slate-500 hover:text-slate-700")}>Create</button>
-                            <button onClick={() => setActiveTab('Templates')} className={cn("px-3 sm:px-4 py-1.5 text-[11px] sm:text-[12px] font-bold rounded-lg transition-all", activeTab === 'Templates' ? "bg-white text-primary shadow-sm" : "text-slate-500 hover:text-slate-700")}>Templates</button>
+                        <div className="flex bg-muted p-1 rounded-xl">
+                            <button onClick={() => setActiveTab('Create')} className={cn("px-3 sm:px-4 py-1.5 text-[11px] sm:text-[12px] font-bold rounded-lg transition-all", activeTab === 'Create' ? "bg-card text-primary shadow-sm" : "text-muted-foreground hover:text-foreground/90")}>Create</button>
+                            <button onClick={() => setActiveTab('Templates')} className={cn("px-3 sm:px-4 py-1.5 text-[11px] sm:text-[12px] font-bold rounded-lg transition-all", activeTab === 'Templates' ? "bg-card text-primary shadow-sm" : "text-muted-foreground hover:text-foreground/90")}>Templates</button>
                         </div>
-                        <button onClick={onClose} className="p-2 hover:bg-slate-100 rounded-full transition-colors text-slate-400">
+                        <button onClick={onClose} className="p-2 hover:bg-muted rounded-full transition-colors text-slate-400">
                             <X className="w-5 h-5" />
                         </button>
                     </div>
                 </div>
 
-                <div className="flex-1 flex flex-col sm:flex-row overflow-hidden bg-white">
+                <div className="flex-1 flex flex-col sm:flex-row overflow-hidden bg-card">
                     {activeTab === 'Create' ? (
                         <>
                             {/* Mobile Section Nav — horizontal scrollable pills */}
-                            <div className="sm:hidden bg-slate-50 border-b border-slate-100 px-3 py-2 flex gap-2 overflow-x-auto scrollbar-none shrink-0">
+                            <div className="sm:hidden bg-muted/50 border-b border-slate-100 px-3 py-2 flex gap-2 overflow-x-auto scrollbar-none shrink-0">
                                 {sections.map(section => (
                                     <button
                                         key={section.id}
@@ -467,7 +467,7 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                             "flex items-center gap-1.5 px-3 py-1.5 rounded-full whitespace-nowrap text-[11px] font-black transition-all shrink-0",
                                             activeSection === section.id
                                                 ? "bg-primary text-white shadow-md shadow-primary/30"
-                                                : "bg-white border border-slate-200 text-slate-500"
+                                                : "bg-card border border-border text-muted-foreground"
                                         )}
                                     >
                                         {section.icon}
@@ -477,7 +477,7 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                             </div>
 
                             {/* Desktop Side Navigation */}
-                            <div className="hidden sm:flex w-[260px] bg-slate-50 border-r border-slate-100 p-6 flex-col gap-2 overflow-y-auto custom-scrollbar">
+                            <div className="hidden sm:flex w-[260px] bg-muted/50 border-r border-slate-100 p-6 flex-col gap-2 overflow-y-auto custom-scrollbar">
                                 <p className="px-4 text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Sections</p>
                                 {sections.map(section => (
                                     <button
@@ -487,10 +487,10 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                             "flex items-center gap-3 px-4 py-3 rounded-2xl transition-all font-bold text-[13px]",
                                             activeSection === section.id 
                                                 ? "bg-primary/10 text-primary" 
-                                                : "text-slate-500 hover:bg-slate-50 hover:text-slate-700"
+                                                : "text-muted-foreground hover:bg-muted/50 hover:text-foreground/90"
                                         )}
                                     >
-                                        <div className={cn("p-2 rounded-xl transition-colors", activeSection === section.id ? "bg-white shadow-sm" : "bg-slate-50")}>
+                                        <div className={cn("p-2 rounded-xl transition-colors", activeSection === section.id ? "bg-card shadow-sm" : "bg-muted/50")}>
                                             {section.icon}
                                         </div>
                                         {section.label}
@@ -498,7 +498,7 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                 ))}
                                 
                                 <div className="mt-auto pt-6 border-t border-slate-50">
-                                    <div className="bg-slate-50 rounded-2xl p-4 border border-slate-100">
+                                    <div className="bg-muted/50 rounded-2xl p-4 border border-slate-100">
                                         <p className="text-[11px] font-bold text-slate-600 mb-2 flex items-center gap-2">
                                             <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
                                             Data Integrity
@@ -515,14 +515,14 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                             </div>
 
                             {/* Main Scrollable Form */}
-                            <div className="flex-1 overflow-y-auto p-3 sm:p-6 space-y-4 sm:space-y-6 custom-scrollbar bg-slate-50/50 shadow-[inset_0_-20px_40px_-20px_rgba(0,0,0,0.05)]" id="modal-form-content">
+                            <div className="flex-1 overflow-y-auto p-3 sm:p-6 space-y-4 sm:space-y-6 custom-scrollbar bg-transparent shadow-[inset_0_-20px_40px_-20px_rgba(0,0,0,0.05)]" id="modal-form-content">
                                 {/* Section Details */}
                                 <section id="section-details" className="space-y-6">
                                     <div className="space-y-1">
                                         <h3 className="text-[20px] font-black text-black">Basic Information</h3>
-                                        <p className="text-[13px] text-slate-900 font-bold">Provide the core details for this maintenance operation.</p>
+                                        <p className="text-[13px] text-foreground font-bold">Provide the core details for this maintenance operation.</p>
                                     </div>
-                                    <div className="bg-white p-4 sm:p-8 rounded-[16px] sm:rounded-[24px] border border-slate-200 shadow-sm space-y-4 sm:space-y-6">
+                                    <div className="bg-card p-4 sm:p-8 rounded-[16px] sm:rounded-[24px] border border-border shadow-sm space-y-4 sm:space-y-6">
                                         <div className="space-y-2">
                                             <label className="text-[13px] font-black text-slate-950 uppercase tracking-tight flex items-center gap-2">
                                                 Work Order Title <span className="text-red-500">*</span>
@@ -531,7 +531,7 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                             <input
                                                 type="text"
                                                 placeholder="E.g. Monthly maintenance for HVAC System B"
-                                                className="w-full px-5 py-3.5 bg-white border-2 border-slate-200 rounded-2xl text-[15px] focus:outline-none focus:ring-4 focus:ring-indigo-50 focus:border-primary transition-all font-bold text-slate-900 placeholder:text-slate-500"
+                                                className="w-full px-5 py-3.5 bg-card border-2 border-border rounded-2xl text-[15px] focus:outline-none focus:ring-4 focus:ring-primary focus:border-primary transition-all font-bold text-foreground placeholder:text-muted-foreground"
                                                 value={title}
                                                 onChange={(e) => setTitle(e.target.value)}
                                             />
@@ -544,7 +544,7 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                             <textarea
                                                 rows={4}
                                                 placeholder="Outline the steps, potential risks, and expected outcome..."
-                                                className="w-full px-5 py-3.5 bg-white border-2 border-slate-200 rounded-2xl text-[15px] focus:outline-none focus:ring-4 focus:ring-indigo-50 focus:border-primary transition-all font-bold text-slate-900 placeholder:text-slate-300 resize-none"
+                                                className="w-full px-5 py-3.5 bg-card border-2 border-border rounded-2xl text-[15px] focus:outline-none focus:ring-4 focus:ring-primary focus:border-primary transition-all font-bold text-foreground placeholder:text-slate-300 resize-none"
                                                 value={description}
                                                 onChange={(e) => setDescription(e.target.value)}
                                             />
@@ -552,14 +552,14 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                                             <div className="space-y-2 relative">
                                                 <label className="text-[13px] font-black text-slate-950 uppercase tracking-tight">Category</label>
-                                                <button onClick={() => toggleDropdown('category')} className="w-full flex items-center justify-between px-5 py-3.5 bg-white border-2 border-slate-400 rounded-2xl group hover:border-slate-500 transition-all">
-                                                    <span className={cn("text-[14px] font-bold", category ? "text-slate-900" : "text-slate-400")}>{category || "Select category"}</span>
+                                                <button onClick={() => toggleDropdown('category')} className="w-full flex items-center justify-between px-5 py-3.5 bg-card border-2 border-slate-400 rounded-2xl group hover:border-slate-500 transition-all">
+                                                    <span className={cn("text-[14px] font-bold", category ? "text-foreground" : "text-slate-400")}>{category || "Select category"}</span>
                                                     <ChevronDown className={cn("w-4 h-4 text-slate-400 transition-transform", dropdowns.category && "rotate-180")} />
                                                 </button>
                                                 {dropdowns.category && (
                                                     <div className="absolute top-full left-0 right-0 mt-2 popover-solid rounded-2xl shadow-2xl z-[50] py-2 animate-in slide-in-from-top-2 duration-200">
                                                         {categories.map(cat => (
-                                                            <button key={cat} onClick={() => { setCategory(cat); toggleDropdown('category'); }} className="w-full text-left px-5 py-3 text-[14px] font-bold text-slate-600 hover:bg-slate-50 hover:text-primary transition-all">{cat}</button>
+                                                            <button key={cat} onClick={() => { setCategory(cat); toggleDropdown('category'); }} className="w-full text-left px-5 py-3 text-[14px] font-bold text-slate-600 hover:bg-muted/50 hover:text-primary transition-all">{cat}</button>
                                                         ))}
                                                     </div>
                                                 )}
@@ -569,7 +569,7 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                                     Priority Level
                                                     {fieldConf('priority') === 'Required' && <span className="text-red-500">*</span>}
                                                 </label>
-                                                <button onClick={() => toggleDropdown('priority')} className="w-full flex items-center justify-between px-5 py-3.5 bg-white border-2 border-slate-400 rounded-2xl group hover:border-slate-500 transition-all">
+                                                <button onClick={() => toggleDropdown('priority')} className="w-full flex items-center justify-between px-5 py-3.5 bg-card border-2 border-slate-400 rounded-2xl group hover:border-slate-500 transition-all">
                                                     <div className="flex items-center gap-2">
                                                         {priorities.find(p => p.label === priority)?.icon}
                                                         <span className={cn("px-3 py-1 rounded-lg text-[11px] font-black uppercase tracking-wider", priorities.find(p => p.label === priority)?.color)}>{priority}</span>
@@ -583,7 +583,7 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                                                 key={p.label} 
                                                                 id={`priority-${p.label.toLowerCase()}`}
                                                                 onClick={() => { setPriority(p.label); toggleDropdown('priority'); }} 
-                                                                className="w-full flex items-center justify-between px-5 py-3 text-[14px] font-bold text-slate-600 hover:bg-slate-50 transition-all"
+                                                                className="w-full flex items-center justify-between px-5 py-3 text-[14px] font-bold text-slate-600 hover:bg-muted/50 transition-all"
                                                             >
                                                                 <span className={cn("px-2 py-0.5 rounded-lg text-[11px] font-black uppercase tracking-wider", p.color)}>{p.label}</span>
                                                                 {priority === p.label && <Check className="w-4 h-4 text-primary" />}
@@ -608,7 +608,7 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                                     onClick={() => setHaltProduction(!haltProduction)}
                                                     className={cn("relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none", haltProduction ? "bg-red-500" : "bg-red-200")}
                                                 >
-                                                    <span className={cn("pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out", haltProduction ? "translate-x-5" : "translate-x-0")} />
+                                                    <span className={cn("pointer-events-none inline-block h-5 w-5 transform rounded-full bg-card shadow ring-0 transition duration-200 ease-in-out", haltProduction ? "translate-x-5" : "translate-x-0")} />
                                                 </button>
                                             </div>
                                         )}
@@ -619,22 +619,22 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                 <section id="section-photos" className="space-y-6">
                                     <div className="space-y-1">
                                         <h3 className="text-[20px] font-black text-black">Photos</h3>
-                                        <p className="text-[13px] text-slate-900 font-bold">Attach before/after images or evidence of the issue.</p>
+                                        <p className="text-[13px] text-foreground font-bold">Attach before/after images or evidence of the issue.</p>
                                     </div>
-                                    <div className="bg-white p-4 sm:p-8 rounded-[16px] sm:rounded-[24px] border border-slate-200 shadow-sm space-y-4 sm:space-y-5">
+                                    <div className="bg-card p-4 sm:p-8 rounded-[16px] sm:rounded-[24px] border border-border shadow-sm space-y-4 sm:space-y-5">
                                         {/* Upload Zone */}
                                         <div
-                                            className="relative border-2 border-dashed border-slate-300 rounded-2xl p-8 flex flex-col items-center justify-center gap-3 hover:border-primary/50 hover:bg-indigo-50/30 transition-all cursor-pointer group"
+                                            className="relative border-2 border-dashed border-slate-300 rounded-2xl p-8 flex flex-col items-center justify-center gap-3 hover:border-primary/50 hover:bg-primary/10/30 transition-all cursor-pointer group"
                                             onClick={() => photoInputRef.current?.click()}
-                                            onDragOver={(e) => { e.preventDefault(); e.currentTarget.classList.add('border-primary', 'bg-indigo-50/50'); }}
-                                            onDragLeave={(e) => { e.currentTarget.classList.remove('border-primary', 'bg-indigo-50/50'); }}
-                                            onDrop={(e) => { e.preventDefault(); e.currentTarget.classList.remove('border-primary', 'bg-indigo-50/50'); handleAddPhotos(e.dataTransfer.files); }}
+                                            onDragOver={(e) => { e.preventDefault(); e.currentTarget.classList.add('border-primary', 'bg-primary/10/50'); }}
+                                            onDragLeave={(e) => { e.currentTarget.classList.remove('border-primary', 'bg-primary/10/50'); }}
+                                            onDrop={(e) => { e.preventDefault(); e.currentTarget.classList.remove('border-primary', 'bg-primary/10/50'); handleAddPhotos(e.dataTransfer.files); }}
                                         >
-                                            <div className="w-12 h-12 rounded-2xl bg-indigo-50 border border-indigo-100 flex items-center justify-center group-hover:scale-110 transition-transform">
+                                            <div className="w-12 h-12 rounded-2xl bg-primary/10 border border-primary/10 flex items-center justify-center group-hover:scale-110 transition-transform">
                                                 <Camera className="w-6 h-6 text-primary" />
                                             </div>
                                             <div className="text-center">
-                                                <p className="text-[14px] font-black text-slate-700">Drop images here or <span className="text-primary underline underline-offset-2">browse</span></p>
+                                                <p className="text-[14px] font-black text-foreground/90">Drop images here or <span className="text-primary underline underline-offset-2">browse</span></p>
                                                 <p className="text-[11px] text-slate-400 font-medium mt-1">PNG, JPG, WEBP up to 20MB each</p>
                                             </div>
                                             <div className="flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-xl">
@@ -673,7 +673,7 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                                 {/* Add more slot */}
                                                 <button
                                                     onClick={() => photoInputRef.current?.click()}
-                                                    className="aspect-square rounded-2xl border-2 border-dashed border-slate-200 flex flex-col items-center justify-center gap-2 hover:border-primary/50 hover:bg-indigo-50/20 transition-all"
+                                                    className="aspect-square rounded-2xl border-2 border-dashed border-border flex flex-col items-center justify-center gap-2 hover:border-primary/50 hover:bg-primary/10/20 transition-all"
                                                 >
                                                     <ImageIcon className="w-5 h-5 text-slate-300" />
                                                     <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider">Add More</span>
@@ -682,7 +682,7 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                         )}
 
                                         {photos.length > 0 && (
-                                            <div className="flex items-center justify-between px-4 py-2.5 bg-slate-50 rounded-xl border border-slate-100">
+                                            <div className="flex items-center justify-between px-4 py-2.5 bg-muted/50 rounded-xl border border-slate-100">
                                                 <span className="text-[12px] font-bold text-slate-600 flex items-center gap-2">
                                                     <Camera className="w-3.5 h-3.5 text-primary" />
                                                     {photos.length} photo{photos.length !== 1 ? 's' : ''} selected — will upload after save
@@ -697,27 +697,27 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                 <section id="section-specs" className="space-y-6">
                                     <div className="space-y-1">
                                         <h3 className="text-[20px] font-black text-black">Job Specifications</h3>
-                                        <p className="text-[13px] text-slate-900 font-bold">Connect this work order to specific equipment and locations.</p>
+                                        <p className="text-[13px] text-foreground font-bold">Connect this work order to specific equipment and locations.</p>
                                     </div>
-                                    <div className="bg-white p-4 sm:p-8 rounded-[16px] sm:rounded-[24px] border border-slate-200 shadow-sm space-y-4 sm:space-y-6">
+                                    <div className="bg-card p-4 sm:p-8 rounded-[16px] sm:rounded-[24px] border border-border shadow-sm space-y-4 sm:space-y-6">
                                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                                             <div className="space-y-2 relative">
                                                 <label className="text-[13px] font-black text-slate-950 uppercase tracking-tight">Asset</label>
-                                                <button onClick={() => toggleDropdown('asset')} className="w-full flex items-center justify-between px-5 py-4 bg-white border-2 border-slate-400 rounded-2xl hover:border-slate-500 transition-all">
+                                                <button onClick={() => toggleDropdown('asset')} className="w-full flex items-center justify-between px-5 py-4 bg-card border-2 border-slate-400 rounded-2xl hover:border-slate-500 transition-all">
                                                     <div className="flex items-center gap-3">
-                                                        <div className="w-8 h-8 rounded-lg bg-white border border-slate-100 flex items-center justify-center shadow-sm">
+                                                        <div className="w-8 h-8 rounded-lg bg-card border border-slate-100 flex items-center justify-center shadow-sm">
                                                             <Wrench className="w-4 h-4 text-slate-400" />
                                                         </div>
-                                                        <span className={cn("text-[14px] font-bold", selectedAsset ? "text-slate-900" : "text-slate-400")}>{selectedAsset?.name || "Scan or Find Asset"}</span>
+                                                        <span className={cn("text-[14px] font-bold", selectedAsset ? "text-foreground" : "text-slate-400")}>{selectedAsset?.name || "Scan or Find Asset"}</span>
                                                     </div>
                                                     <ChevronDown className="w-4 h-4 text-slate-400" />
                                                 </button>
                                                 {dropdowns.asset && (
                                                     <div className="absolute top-full left-0 right-0 mt-2 popover-solid rounded-2xl shadow-2xl z-[60] overflow-hidden flex flex-col">
-                                                        <div className="p-4 bg-slate-50 border-b border-slate-100">
+                                                        <div className="p-4 bg-muted/50 border-b border-slate-100">
                                                             <div className="relative">
                                                                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" />
-                                                                <input className="w-full pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-xl text-[13px] font-medium outline-none" placeholder="Search assets..." value={assetSearch} onChange={(e) => setAssetSearch(e.target.value)} autoFocus />
+                                                                <input className="w-full pl-9 pr-4 py-2 bg-card border border-border rounded-xl text-[13px] font-medium outline-none" placeholder="Search assets..." value={assetSearch} onChange={(e) => setAssetSearch(e.target.value)} autoFocus />
                                                             </div>
                                                         </div>
                                                         <div className="max-h-[250px] overflow-y-auto custom-scrollbar">
@@ -725,7 +725,7 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                                                 <div className="px-5 py-8 text-center text-slate-400 text-[13px] font-medium italic">No assets found</div>
                                                             ) : (
                                                                 filteredAssets.map((a: Asset) => (
-                                                                    <button key={a.id} onClick={() => { setSelectedAssetId(a.id); toggleDropdown('asset'); }} className="w-full text-left px-5 py-3.5 text-[13px] font-bold text-slate-600 hover:bg-slate-50 border-b border-slate-50 last:border-0 flex items-center justify-between">
+                                                                    <button key={a.id} onClick={() => { setSelectedAssetId(a.id); toggleDropdown('asset'); }} className="w-full text-left px-5 py-3.5 text-[13px] font-bold text-slate-600 hover:bg-muted/50 border-b border-slate-50 last:border-0 flex items-center justify-between">
                                                                         <span>{a.name} <span className="text-[10px] text-slate-400 ml-2">SN: {a.serialNumber || 'N/A'}</span></span>
                                                                         {selectedAssetId === a.id && <Check className="w-4 h-4 text-primary" />}
                                                                     </button>
@@ -737,21 +737,21 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                             </div>
                                             <div className="space-y-2 relative">
                                                 <label className="text-[13px] font-black text-slate-950 uppercase tracking-tight">Location</label>
-                                                <button onClick={() => toggleDropdown('location')} className="w-full flex items-center justify-between px-5 py-4 bg-white border-2 border-slate-400 rounded-2xl hover:border-slate-500 transition-all">
+                                                <button onClick={() => toggleDropdown('location')} className="w-full flex items-center justify-between px-5 py-4 bg-card border-2 border-slate-400 rounded-2xl hover:border-slate-500 transition-all">
                                                     <div className="flex items-center gap-3">
-                                                        <div className="w-8 h-8 rounded-lg bg-white border border-slate-100 flex items-center justify-center shadow-sm">
+                                                        <div className="w-8 h-8 rounded-lg bg-card border border-slate-100 flex items-center justify-center shadow-sm">
                                                             <ExternalLink className="w-4 h-4 text-slate-400" />
                                                         </div>
-                                                        <span className={cn("text-[14px] font-bold", selectedLocation ? "text-slate-900" : "text-slate-400")}>{selectedLocation?.name || "Select Location"}</span>
+                                                        <span className={cn("text-[14px] font-bold", selectedLocation ? "text-foreground" : "text-slate-400")}>{selectedLocation?.name || "Select Location"}</span>
                                                     </div>
                                                     <ChevronDown className="w-4 h-4 text-slate-400" />
                                                 </button>
                                                 {dropdowns.location && (
                                                     <div className="absolute top-full left-0 right-0 mt-2 popover-solid rounded-2xl shadow-2xl z-[60] overflow-hidden flex flex-col">
-                                                        <div className="p-4 bg-slate-50 border-b border-slate-100">
+                                                        <div className="p-4 bg-muted/50 border-b border-slate-100">
                                                             <div className="relative">
                                                                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" />
-                                                                <input className="w-full pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-xl text-[13px] font-medium outline-none" placeholder="Search locations..." value={locationSearch} onChange={(e) => setLocationSearch(e.target.value)} autoFocus />
+                                                                <input className="w-full pl-9 pr-4 py-2 bg-card border border-border rounded-xl text-[13px] font-medium outline-none" placeholder="Search locations..." value={locationSearch} onChange={(e) => setLocationSearch(e.target.value)} autoFocus />
                                                             </div>
                                                         </div>
                                                         <div className="max-h-[250px] overflow-y-auto custom-scrollbar">
@@ -762,11 +762,11 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                                                     <button 
                                                                         key={l.id} 
                                                                         onClick={() => { setSelectedLocationId(l.id); toggleDropdown('location'); }} 
-                                                                        className="w-full text-left px-5 py-3.5 hover:bg-slate-50 border-b border-slate-50 last:border-0 flex items-center justify-between group transition-all"
+                                                                        className="w-full text-left px-5 py-3.5 hover:bg-muted/50 border-b border-slate-50 last:border-0 flex items-center justify-between group transition-all"
                                                                         style={{ paddingLeft: `${(l.level * 16) + 20}px` }}
                                                                     >
                                                                         <div className="flex flex-col">
-                                                                            <span className={cn("text-[13px] font-bold transition-colors", selectedLocationId === l.id ? "text-primary" : "text-slate-700 group-hover:text-primary")}>
+                                                                            <span className={cn("text-[13px] font-bold transition-colors", selectedLocationId === l.id ? "text-primary" : "text-foreground/90 group-hover:text-primary")}>
                                                                                 {locationSearch ? l.path : l.name}
                                                                             </span>
                                                                             {!locationSearch && l.level > 0 && (
@@ -789,22 +789,22 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                 <section id="section-dates" className="space-y-6">
                                     <div className="space-y-1">
                                         <h3 className="text-[20px] font-black text-black">Timeline & Planning</h3>
-                                        <p className="text-[13px] text-slate-900 font-bold">Set scheduling parameters and time allocation.</p>
+                                        <p className="text-[13px] text-foreground font-bold">Set scheduling parameters and time allocation.</p>
                                     </div>
-                                    <div className="bg-white p-4 sm:p-8 rounded-[16px] sm:rounded-[24px] border border-slate-200 shadow-sm space-y-4 sm:space-y-8">
+                                    <div className="bg-card p-4 sm:p-8 rounded-[16px] sm:rounded-[24px] border border-border shadow-sm space-y-4 sm:space-y-8">
                                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8">
                                             <div className="space-y-2">
                                                 <label className="text-[13px] font-black text-slate-950 uppercase tracking-tight">Deployment Date</label>
                                                 <div className="relative group">
                                                     <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-black group-focus-within:text-primary transition-colors pointer-events-none" />
-                                                    <input type="datetime-local" className="w-full pl-12 pr-5 py-3.5 bg-white border-2 border-slate-400 rounded-2xl text-[14px] font-black text-black focus:outline-none focus:ring-4 focus:ring-indigo-50 transition-all cursor-pointer shadow-sm" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
+                                                    <input type="datetime-local" className="w-full pl-12 pr-5 py-3.5 bg-card border-2 border-slate-400 rounded-2xl text-[14px] font-black text-black focus:outline-none focus:ring-4 focus:ring-primary transition-all cursor-pointer shadow-sm" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
                                                 </div>
                                             </div>
                                             <div className="space-y-2">
                                                 <label className="text-[13px] font-black text-slate-950 uppercase tracking-tight">SLA Due Date</label>
                                                 <div className="relative group">
                                                     <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-black group-focus-within:text-red-500 transition-colors pointer-events-none" />
-                                                    <input type="datetime-local" className="w-full pl-12 pr-5 py-3.5 bg-white border-2 border-slate-400 rounded-2xl text-[14px] font-black text-black focus:outline-none focus:ring-4 focus:ring-indigo-50 transition-all cursor-pointer shadow-sm" value={dueDate} onChange={(e) => setDueDate(e.target.value)} />
+                                                    <input type="datetime-local" className="w-full pl-12 pr-5 py-3.5 bg-card border-2 border-slate-400 rounded-2xl text-[14px] font-black text-black focus:outline-none focus:ring-4 focus:ring-primary transition-all cursor-pointer shadow-sm" value={dueDate} onChange={(e) => setDueDate(e.target.value)} />
                                                 </div>
                                             </div>
                                         </div>
@@ -812,7 +812,7 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                             <label className="text-[13px] font-black text-slate-950 uppercase tracking-tight">Estimated Labor Duration <span className="text-[10px] text-slate-400 ml-1 font-bold">(In Hours)</span></label>
                                             <div className="relative group">
                                                 <Clock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-black group-focus-within:text-primary transition-colors pointer-events-none" />
-                                                <input type="number" step="0.5" placeholder="0.0" className="w-full pl-12 pr-5 py-3.5 bg-white border-2 border-slate-400 rounded-2xl text-[15px] font-black text-black focus:outline-none focus:ring-4 focus:ring-indigo-50 transition-all shadow-sm placeholder:text-slate-500" value={duration} onChange={(e) => setDuration(e.target.value === '' ? '' : Number(e.target.value))} />
+                                                <input type="number" step="0.5" placeholder="0.0" className="w-full pl-12 pr-5 py-3.5 bg-card border-2 border-slate-400 rounded-2xl text-[15px] font-black text-black focus:outline-none focus:ring-4 focus:ring-primary transition-all shadow-sm placeholder:text-muted-foreground" value={duration} onChange={(e) => setDuration(e.target.value === '' ? '' : Number(e.target.value))} />
                                             </div>
                                         </div>
                                     </div>
@@ -822,17 +822,17 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                 <section id="section-assignment" className="space-y-6">
                                     <div className="space-y-1">
                                         <h3 className="text-[20px] font-black text-black">Assign Operations</h3>
-                                        <p className="text-[13px] text-slate-900 font-bold">Designate the primary technician and operational team.</p>
+                                        <p className="text-[13px] text-foreground font-bold">Designate the primary technician and operational team.</p>
                                     </div>
-                                    <div className="bg-white p-4 sm:p-8 rounded-[16px] sm:rounded-[24px] border border-slate-200 shadow-sm grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8">
+                                    <div className="bg-card p-4 sm:p-8 rounded-[16px] sm:rounded-[24px] border border-border shadow-sm grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8">
                                         <div className="space-y-2 relative">
                                             <label className="text-[13px] font-black text-slate-950 uppercase tracking-tight">Lead Technician</label>
-                                            <button onClick={() => toggleDropdown('assignee')} className="w-full flex items-center justify-between px-5 py-4 bg-white border-2 border-slate-400 rounded-2xl hover:border-slate-500 transition-all">
+                                            <button onClick={() => toggleDropdown('assignee')} className="w-full flex items-center justify-between px-5 py-4 bg-card border-2 border-slate-400 rounded-2xl hover:border-slate-500 transition-all">
                                                 <div className="flex items-center gap-3">
                                                     <div className="w-8 h-8 rounded-full bg-primary/10 text-primary border border-primary/20 flex items-center justify-center">
                                                         <Users className="w-4 h-4 transition-transform group-hover:scale-110" />
                                                     </div>
-                                                    <span className={cn("text-[14px] font-bold", primaryAssigneeId ? "text-slate-900" : "text-slate-400")}>
+                                                    <span className={cn("text-[14px] font-bold", primaryAssigneeId ? "text-foreground" : "text-slate-400")}>
                                                         {userList.find((u: any) => u.id === primaryAssigneeId || u.userOrgId === primaryAssigneeId)?.name || "Assign Member"}
                                                     </span>
                                                 </div>
@@ -840,13 +840,13 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                             </button>
                                             {dropdowns.assignee && (
                                                 <div className="absolute top-full left-0 right-0 mt-2 popover-solid rounded-2xl shadow-2xl z-[50] py-2 max-h-64 overflow-y-auto custom-scrollbar">
-                                                    <button onClick={() => { setPrimaryAssigneeId('unassigned'); toggleDropdown('assignee'); }} className="w-full text-left px-5 py-3 hover:bg-slate-50 flex items-center gap-3 transition-all border-b border-slate-50">
-                                                        <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-[12px] font-bold shadow-sm">U</div>
+                                                    <button onClick={() => { setPrimaryAssigneeId('unassigned'); toggleDropdown('assignee'); }} className="w-full text-left px-5 py-3 hover:bg-muted/50 flex items-center gap-3 transition-all border-b border-slate-50">
+                                                        <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center text-[12px] font-bold shadow-sm">U</div>
                                                         <span className="text-[14px] font-bold text-slate-600">Unassigned</span>
                                                         {primaryAssigneeId === 'unassigned' && <Check className="w-4 h-4 text-primary ml-auto" />}
                                                     </button>
                                                     {userList.map((u: User) => (
-                                                        <button key={u.userOrgId || u.id} onClick={() => { setPrimaryAssigneeId(u.userOrgId || u.id); toggleDropdown('assignee'); }} className="w-full text-left px-5 py-3 hover:bg-slate-50 flex items-center gap-3 transition-all">
+                                                        <button key={u.userOrgId || u.id} onClick={() => { setPrimaryAssigneeId(u.userOrgId || u.id); toggleDropdown('assignee'); }} className="w-full text-left px-5 py-3 hover:bg-muted/50 flex items-center gap-3 transition-all">
                                                             <div className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center text-[12px] font-bold shadow-sm">{u.name[0]}</div>
                                                             <span className="text-[14px] font-bold text-slate-600">{u.name}</span>
                                                             {(primaryAssigneeId === u.id || primaryAssigneeId === u.userOrgId) && <Check className="w-4 h-4 text-primary ml-auto" />}
@@ -857,12 +857,12 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                         </div>
                                         <div className="space-y-2 relative">
                                             <label className="text-[13px] font-black text-slate-950 uppercase tracking-tight">Maintenance Team</label>
-                                            <button onClick={() => toggleDropdown('team')} className="w-full flex items-center justify-between px-5 py-4 bg-white border-2 border-slate-400 rounded-2xl hover:border-slate-500 transition-all">
+                                            <button onClick={() => toggleDropdown('team')} className="w-full flex items-center justify-between px-5 py-4 bg-card border-2 border-slate-400 rounded-2xl hover:border-slate-500 transition-all">
                                                 <div className="flex items-center gap-3">
                                                     <div className="w-8 h-8 rounded-lg bg-emerald-50 border border-emerald-100 flex items-center justify-center shadow-sm">
                                                         <Users className="w-4 h-4 text-emerald-500" />
                                                     </div>
-                                                    <span className={cn("text-[14px] font-bold", teamId ? "text-slate-900" : "text-slate-400")}>
+                                                    <span className={cn("text-[14px] font-bold", teamId ? "text-foreground" : "text-slate-400")}>
                                                         {teamList.find((t: any) => t.id === teamId)?.name || "Assign Team"}
                                                     </span>
                                                 </div>
@@ -871,7 +871,7 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                             {dropdowns.team && (
                                                 <div className="absolute top-full left-0 right-0 mt-2 popover-solid rounded-2xl shadow-2xl z-[50] py-2 max-h-64 overflow-y-auto custom-scrollbar">
                                                     {teamList.map((t: Team) => (
-                                                        <button key={t.id} onClick={() => { setTeamId(t.id); toggleDropdown('team'); }} className="w-full text-left px-5 py-3.5 hover:bg-slate-50 flex items-center justify-between transition-all">
+                                                        <button key={t.id} onClick={() => { setTeamId(t.id); toggleDropdown('team'); }} className="w-full text-left px-5 py-3.5 hover:bg-muted/50 flex items-center justify-between transition-all">
                                                             <span className="text-[14px] font-bold text-slate-600">{t.name}</span>
                                                             {teamId === t.id && <Check className="w-4 h-4 text-primary" />}
                                                         </button>
@@ -882,7 +882,7 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                         {/* Additional Assignees */}
                                         <div className="col-span-2 space-y-2 relative">
                                             <label className="text-[13px] font-black text-slate-950 uppercase tracking-tight">Additional Assignee(s)</label>
-                                            <button onClick={() => toggleDropdown('additionalAssignee')} className="w-full flex items-center justify-between px-5 py-4 bg-white border-2 border-slate-400 rounded-2xl hover:border-slate-500 transition-all">
+                                            <button onClick={() => toggleDropdown('additionalAssignee')} className="w-full flex items-center justify-between px-5 py-4 bg-card border-2 border-slate-400 rounded-2xl hover:border-slate-500 transition-all">
                                                 <div className="flex items-center gap-2 flex-wrap">
                                                     {additionalAssigneeIds.length === 0 ? (
                                                         <span className="text-[14px] font-bold text-slate-400">Select additional technicians...</span>
@@ -890,7 +890,7 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                                         additionalAssigneeIds.map(id => {
                                                             const u = userList.find((u: any) => u.id === id || u.userOrgId === id);
                                                             return u ? (
-                                                                <span key={id} className="inline-flex items-center gap-1.5 px-3 py-1 bg-indigo-50 text-primary rounded-lg text-[12px] font-black">
+                                                                <span key={id} className="inline-flex items-center gap-1.5 px-3 py-1 bg-primary/10 text-primary rounded-lg text-[12px] font-black">
                                                                     <span className="w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center text-[10px] font-black">{u.name[0]}</span>
                                                                     {u.name}
                                                                     <button onClick={(e) => { e.stopPropagation(); setAdditionalAssigneeIds(prev => prev.filter(pid => pid !== id)); }} className="ml-0.5 hover:text-red-500 transition-colors">
@@ -918,7 +918,7 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                                                             isSelected ? prev.filter(id => id !== uid) : [...prev, uid]
                                                                         );
                                                                     }}
-                                                                    className="w-full text-left px-5 py-3 hover:bg-slate-50 flex items-center gap-3 transition-all"
+                                                                    className="w-full text-left px-5 py-3 hover:bg-muted/50 flex items-center gap-3 transition-all"
                                                                 >
                                                                     <div className={cn("w-8 h-8 rounded-full flex items-center justify-center text-[12px] font-bold shadow-sm", isSelected ? "bg-primary text-white" : "bg-primary/10 text-primary")}>{u.name[0]}</div>
                                                                     <span className="text-[14px] font-bold text-slate-600 flex-1">{u.name}</span>
@@ -938,7 +938,7 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                     <div className="flex items-center justify-between">
                                         <div className="space-y-1">
                                             <h3 className="text-[20px] font-black text-black">Tasks & Checklists</h3>
-                                            <p className="text-[13px] text-slate-900 font-bold">Attach a saved checklist and/or add inline tasks.</p>
+                                            <p className="text-[13px] text-foreground font-bold">Attach a saved checklist and/or add inline tasks.</p>
                                         </div>
                                         <div className="flex items-center gap-2">
                                             <div className="relative">
@@ -953,18 +953,18 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                                 {dropdowns.checklist && (
                                                     <div className="absolute top-full right-0 mt-2 w-[340px] popover-solid rounded-2xl shadow-2xl z-[60] overflow-hidden flex flex-col animate-in slide-in-from-top-2 duration-200">
                                                         {/* ... (existing dropdown content kept) ... */}
-                                                        <div className="p-4 bg-slate-50 border-b border-slate-100">
-                                                            <p className="text-[11px] font-black text-slate-500 uppercase tracking-widest mb-3">Select a Saved Checklist</p>
+                                                        <div className="p-4 bg-muted/50 border-b border-slate-100">
+                                                            <p className="text-[11px] font-black text-muted-foreground uppercase tracking-widest mb-3">Select a Saved Checklist</p>
                                                             <div className="relative">
                                                                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" />
-                                                                <input className="w-full pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-xl text-[13px] font-medium outline-none" placeholder="Search checklists..." value={checklistSearch} onChange={(e) => setChecklistSearch(e.target.value)} autoFocus />
+                                                                <input className="w-full pl-9 pr-4 py-2 bg-card border border-border rounded-xl text-[13px] font-medium outline-none" placeholder="Search checklists..." value={checklistSearch} onChange={(e) => setChecklistSearch(e.target.value)} autoFocus />
                                                             </div>
                                                         </div>
                                                         <div className="max-h-[260px] overflow-y-auto custom-scrollbar">
                                                             {(checklists as Checklist[]).filter(c => c.title.toLowerCase().includes(checklistSearch.toLowerCase())).map((cl: Checklist) => (
-                                                                <button key={cl.id} onClick={() => { setSelectedChecklistId(cl.id); setChecklistSearch(''); toggleDropdown('checklist'); }} className="w-full text-left px-5 py-3.5 hover:bg-slate-50 border-b border-slate-50 last:border-0 flex items-center justify-between group transition-all">
+                                                                <button key={cl.id} onClick={() => { setSelectedChecklistId(cl.id); setChecklistSearch(''); toggleDropdown('checklist'); }} className="w-full text-left px-5 py-3.5 hover:bg-muted/50 border-b border-slate-50 last:border-0 flex items-center justify-between group transition-all">
                                                                     <div className="flex flex-col gap-0.5">
-                                                                        <span className={cn("text-[13px] font-bold transition-colors", selectedChecklistId === cl.id ? "text-primary" : "text-slate-700 group-hover:text-primary")}>{cl.title}</span>
+                                                                        <span className={cn("text-[13px] font-bold transition-colors", selectedChecklistId === cl.id ? "text-primary" : "text-foreground/90 group-hover:text-primary")}>{cl.title}</span>
                                                                         <span className="text-[11px] text-slate-400 font-medium">{cl._count?.items ?? cl.items?.length ?? 0} items</span>
                                                                     </div>
                                                                     {selectedChecklistId === cl.id && <Check className="w-4 h-4 text-primary stroke-[3px]" />}
@@ -976,7 +976,7 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                             </div>
                                             <button
                                                 onClick={addTask}
-                                                className="px-5 py-2.5 bg-primary/10 text-primary rounded-xl text-[13px] font-black uppercase tracking-wider flex items-center gap-2 hover:bg-indigo-100 transition-all border border-primary/20 shadow-sm"
+                                                className="px-5 py-2.5 bg-primary/10 text-primary rounded-xl text-[13px] font-black uppercase tracking-wider flex items-center gap-2 hover:bg-primary/15 transition-all border border-primary/20 shadow-sm"
                                             >
                                                 <Plus className="w-4 h-4" /> Add Task
                                             </button>
@@ -985,8 +985,8 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                     
                                     <div className="space-y-6">
                                         {tasks.length === 0 && !selectedChecklistId && (
-                                            <div className="bg-white p-12 rounded-[24px] border-2 border-dashed border-slate-200 flex flex-col items-center justify-center text-center">
-                                                <div className="w-16 h-16 rounded-3xl bg-slate-50 flex items-center justify-center text-slate-300 mb-4">
+                                            <div className="bg-card p-12 rounded-[24px] border-2 border-dashed border-border flex flex-col items-center justify-center text-center">
+                                                <div className="w-16 h-16 rounded-3xl bg-muted/50 flex items-center justify-center text-slate-300 mb-4">
                                                     <ClipboardList className="w-8 h-8" />
                                                 </div>
                                                 <p className="text-[14px] font-black text-slate-400 italic uppercase tracking-widest">No protocols currently active for this mission.</p>
@@ -1016,17 +1016,17 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                         <Reorder.Group axis="y" values={tasks} onReorder={setTasks} className="space-y-6">
                                             {tasks.map((task) => (
                                                 <Reorder.Item key={task.id} value={task} className="relative group/task">
-                                                    <div className="p-8 pb-10 bg-white border border-slate-200 rounded-[32px] space-y-8 relative overflow-hidden hover:border-primary/30 transition-all shadow-sm">
+                                                    <div className="p-8 pb-10 bg-card border border-border rounded-[32px] space-y-8 relative overflow-hidden hover:border-primary/30 transition-all shadow-sm">
                                                         <div className="flex items-start gap-4">
                                                             {/* Grip Handle */}
-                                                            <div className="mt-4 text-slate-400 cursor-grab active:cursor-grabbing hover:bg-slate-50 p-2 rounded-xl transition-all">
+                                                            <div className="mt-4 text-slate-400 cursor-grab active:cursor-grabbing hover:bg-muted/50 p-2 rounded-xl transition-all">
                                                                 <GripVertical className="w-5 h-5" />
                                                             </div>
                                                             <div className="flex-1 space-y-4">
                                                                 <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
                                                                 <div className="flex-1 relative group/input">
                                                                     <input 
-                                                                        className="w-full px-6 py-4 bg-slate-50 border-2 border-slate-300 rounded-[22px] text-[15px] font-black text-slate-800 focus:bg-white focus:border-primary outline-none transition-all placeholder:text-slate-300 placeholder:italic pr-12"
+                                                                        className="w-full px-6 py-4 bg-muted/50 border-2 border-slate-300 rounded-[22px] text-[15px] font-black text-slate-800 focus:bg-card focus:border-primary outline-none transition-all placeholder:text-slate-300 placeholder:italic pr-12"
                                                                         placeholder="Describe the specialized task..."
                                                                         value={task.text}
                                                                         onChange={(e) => updateTask(task.id, { text: e.target.value })}
@@ -1038,7 +1038,7 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                                                 
                                                                 <div className="relative group/type">
                                                                     <select 
-                                                                        className="appearance-none px-8 py-4 bg-white border-2 border-slate-300 rounded-[22px] text-[15px] font-black text-slate-700 outline-none focus:border-primary transition-all cursor-pointer pr-12"
+                                                                        className="appearance-none px-8 py-4 bg-card border-2 border-slate-300 rounded-[22px] text-[15px] font-black text-foreground/90 outline-none focus:border-primary transition-all cursor-pointer pr-12"
                                                                         value={task.type}
                                                                         onChange={(e) => updateTask(task.id, { type: e.target.value })}
                                                                     >
@@ -1059,22 +1059,22 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                                             {/* Action Row */}
                                                             <div className="flex items-center justify-between">
                                                                 <div className="flex items-center gap-4">
-                                                                    <button className="flex items-center gap-2 px-5 py-2.5 bg-white text-blue-600 rounded-[14px] text-[12px] font-[900] uppercase tracking-wider hover:bg-blue-50 transition-all border-2 border-blue-100 shadow-sm">
+                                                                    <button className="flex items-center gap-2 px-5 py-2.5 bg-card text-primary rounded-[14px] text-[12px] font-[900] uppercase tracking-wider hover:bg-blue-50 transition-all border-2 border-blue-100 shadow-sm">
                                                                         <Box className="w-4 h-4" />
                                                                         ADD ASSET
                                                                     </button>
                                                                     
-                                                                    <div className="flex items-center gap-2 px-3.5 py-1.5 bg-white rounded-full border-2 border-slate-100 shadow-sm">
-                                                                        <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-[12px] font-black text-slate-600">
+                                                                    <div className="flex items-center gap-2 px-3.5 py-1.5 bg-card rounded-full border-2 border-slate-100 shadow-sm">
+                                                                        <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center text-[12px] font-black text-slate-600">
                                                                             {primaryAssigneeId ? users.find(u => u.id === primaryAssigneeId)?.name?.[0] : 'J'}
                                                                         </div>
-                                                                        <span className="text-[13px] font-black text-slate-500 pr-2">{primaryAssigneeId ? users.find(u => u.id === primaryAssigneeId)?.name : 'jason daniel'}</span>
-                                                                        <button className="p-1 text-blue-500 hover:bg-blue-50 rounded-lg transition-all">
+                                                                        <span className="text-[13px] font-black text-muted-foreground pr-2">{primaryAssigneeId ? users.find(u => u.id === primaryAssigneeId)?.name : 'jason daniel'}</span>
+                                                                        <button className="p-1 text-primary hover:bg-blue-50 rounded-lg transition-all">
                                                                             <Edit3 className="w-4 h-4" />
                                                                         </button>
                                                                     </div>
 
-                                                                    <button className="flex items-center gap-2 px-5 py-2.5 bg-white text-blue-600 rounded-[14px] text-[12px] font-[900] uppercase tracking-wider hover:bg-blue-50 transition-all border-2 border-blue-100 shadow-sm">
+                                                                    <button className="flex items-center gap-2 px-5 py-2.5 bg-card text-primary rounded-[14px] text-[12px] font-[900] uppercase tracking-wider hover:bg-blue-50 transition-all border-2 border-blue-100 shadow-sm">
                                                                         <Wrench className="w-4 h-4" />
                                                                         INSTRUCTIONS
                                                                     </button>
@@ -1086,11 +1086,11 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                                                         onClick={() => updateTask(task.id, { isRequired: !task.isRequired })}
                                                                         className={cn(
                                                                             "w-12 h-6 rounded-full transition-all relative",
-                                                                            task.isRequired ? "bg-blue-500" : "bg-slate-200"
+                                                                            task.isRequired ? "bg-primary" : "bg-slate-200"
                                                                         )}
                                                                     >
                                                                         <div className={cn(
-                                                                            "absolute top-1 w-4 h-4 bg-white rounded-full transition-all shadow-sm",
+                                                                            "absolute top-1 w-4 h-4 bg-card rounded-full transition-all shadow-sm",
                                                                             task.isRequired ? "left-7" : "left-1"
                                                                         )} />
                                                                     </button>
@@ -1103,7 +1103,7 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                                                     onClick={() => updateTask(task.id, { isExpanded: !task.isExpanded })}
                                                                     className="w-full flex items-center justify-between group/expand"
                                                                 >
-                                                                    <span className="text-[15px] font-[900] text-slate-900">Additional Requirements</span>
+                                                                    <span className="text-[15px] font-[900] text-foreground">Additional Requirements</span>
                                                                     <ChevronDown className={cn("w-6 h-6 text-slate-300 group-hover/expand:text-slate-600 transition-all", !task.isExpanded && "-rotate-90")} />
                                                                 </button>
                                                                 
@@ -1117,13 +1117,13 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                                                             { id: 'signature', label: 'Signature', desc: 'Require technician to sign off on this task.', icon: <FileSignature className="w-5 h-5" /> },
                                                                             { id: 'barcode', label: 'Barcode', desc: 'Require technician to scan a barcode/QR code.', icon: <Barcode className="w-5 h-5" /> }
                                                                         ].map((item) => (
-                                                                            <div key={item.id} className="p-5 bg-[#fdfdfd] border border-slate-100 rounded-[20px] flex items-center justify-between hover:border-slate-200 transition-all shadow-sm">
+                                                                            <div key={item.id} className="p-5 bg-[#fdfdfd] border border-slate-100 rounded-[20px] flex items-center justify-between hover:border-border transition-all shadow-sm">
                                                                                 <div className="flex items-center gap-5">
-                                                                                    <div className="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-500 border border-blue-100/50">
+                                                                                    <div className="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-primary border border-blue-100/50">
                                                                                         {item.icon}
                                                                                     </div>
                                                                                     <div>
-                                                                                        <p className="text-[15px] font-[900] text-slate-900">{item.label}</p>
+                                                                                        <p className="text-[15px] font-[900] text-foreground">{item.label}</p>
                                                                                         <p className="text-[13px] font-bold text-slate-400">{item.desc}</p>
                                                                                     </div>
                                                                                 </div>
@@ -1131,11 +1131,11 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                                                                     onClick={() => updateTask(task.id, { requirements: { ...task.requirements, [item.id]: !task.requirements[item.id] } })}
                                                                                     className={cn(
                                                                                         "w-12 h-6 rounded-full transition-all relative",
-                                                                                        task.requirements?.[item.id] ? "bg-blue-500" : "bg-slate-200"
+                                                                                        task.requirements?.[item.id] ? "bg-primary" : "bg-slate-200"
                                                                                     )}
                                                                                 >
                                                                                     <div className={cn(
-                                                                                        "absolute top-1 w-4 h-4 bg-white rounded-full transition-all shadow-sm",
+                                                                                        "absolute top-1 w-4 h-4 bg-card rounded-full transition-all shadow-sm",
                                                                                         task.requirements?.[item.id] ? "left-7" : "left-1"
                                                                                     )} />
                                                                                 </button>
@@ -1157,27 +1157,27 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                 <section id="section-documents" className="space-y-6 pb-4">
                                     <div className="space-y-1">
                                         <h3 className="text-[20px] font-black text-black">Documents & Reference</h3>
-                                        <p className="text-[13px] text-slate-900 font-bold">Attach manuals, SOPs, safety data sheets, or any reference files.</p>
+                                        <p className="text-[13px] text-foreground font-bold">Attach manuals, SOPs, safety data sheets, or any reference files.</p>
                                     </div>
-                                    <div className="bg-white p-8 rounded-[24px] border border-slate-200 shadow-sm space-y-5">
+                                    <div className="bg-card p-8 rounded-[24px] border border-border shadow-sm space-y-5">
                                         {/* Upload Zone */}
                                         <div
-                                            className="relative border-2 border-dashed border-slate-300 rounded-2xl p-7 flex flex-col items-center justify-center gap-3 hover:border-primary/50 hover:bg-indigo-50/20 transition-all cursor-pointer group"
+                                            className="relative border-2 border-dashed border-slate-300 rounded-2xl p-7 flex flex-col items-center justify-center gap-3 hover:border-primary/50 hover:bg-primary/10/20 transition-all cursor-pointer group"
                                             onClick={() => documentInputRef.current?.click()}
-                                            onDragOver={(e) => { e.preventDefault(); e.currentTarget.classList.add('border-primary', 'bg-indigo-50/40'); }}
-                                            onDragLeave={(e) => { e.currentTarget.classList.remove('border-primary', 'bg-indigo-50/40'); }}
-                                            onDrop={(e) => { e.preventDefault(); e.currentTarget.classList.remove('border-primary', 'bg-indigo-50/40'); handleAddDocuments(e.dataTransfer.files); }}
+                                            onDragOver={(e) => { e.preventDefault(); e.currentTarget.classList.add('border-primary', 'bg-primary/10/40'); }}
+                                            onDragLeave={(e) => { e.currentTarget.classList.remove('border-primary', 'bg-primary/10/40'); }}
+                                            onDrop={(e) => { e.preventDefault(); e.currentTarget.classList.remove('border-primary', 'bg-primary/10/40'); handleAddDocuments(e.dataTransfer.files); }}
                                         >
-                                            <div className="w-12 h-12 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:scale-110 transition-transform">
+                                            <div className="w-12 h-12 rounded-2xl bg-muted/50 border border-slate-100 flex items-center justify-center group-hover:scale-110 transition-transform">
                                                 <Paperclip className="w-6 h-6 text-slate-400 group-hover:text-primary transition-colors" />
                                             </div>
                                             <div className="text-center">
-                                                <p className="text-[14px] font-black text-slate-700">Drop files here or <span className="text-primary underline underline-offset-2">browse</span></p>
+                                                <p className="text-[14px] font-black text-foreground/90">Drop files here or <span className="text-primary underline underline-offset-2">browse</span></p>
                                                 <p className="text-[11px] text-slate-400 font-medium mt-1">PDF, DOCX, XLSX, PPT, ZIP and more · Up to 20MB</p>
                                             </div>
-                                            <div className="flex items-center gap-2 px-4 py-2 bg-slate-100 rounded-xl group-hover:bg-primary/10 transition-colors">
-                                                <Upload className="w-3.5 h-3.5 text-slate-500 group-hover:text-primary transition-colors" />
-                                                <span className="text-[12px] font-black text-slate-500 group-hover:text-primary uppercase tracking-wider transition-colors">Upload Files</span>
+                                            <div className="flex items-center gap-2 px-4 py-2 bg-muted rounded-xl group-hover:bg-primary/10 transition-colors">
+                                                <Upload className="w-3.5 h-3.5 text-muted-foreground group-hover:text-primary transition-colors" />
+                                                <span className="text-[12px] font-black text-muted-foreground group-hover:text-primary uppercase tracking-wider transition-colors">Upload Files</span>
                                             </div>
                                             <input
                                                 ref={documentInputRef}
@@ -1195,7 +1195,7 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                                 {documents.map((doc, i) => {
                                                     const icon = getDocIcon(doc);
                                                     return (
-                                                        <div key={i} className="flex items-center gap-3 px-4 py-3 bg-slate-50 rounded-2xl border border-slate-100 group hover:border-slate-200 transition-all">
+                                                        <div key={i} className="flex items-center gap-3 px-4 py-3 bg-muted/50 rounded-2xl border border-slate-100 group hover:border-border transition-all">
                                                             <div className={`w-10 h-10 rounded-xl ${icon.bg} flex items-center justify-center flex-shrink-0`}>
                                                                 <span className={`text-[10px] font-black ${icon.text}`}>{icon.label}</span>
                                                             </div>
@@ -1213,7 +1213,7 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                                         </div>
                                                     );
                                                 })}
-                                                <div className="flex items-center justify-between px-4 py-2.5 bg-slate-50 rounded-xl border border-slate-100 mt-2">
+                                                <div className="flex items-center justify-between px-4 py-2.5 bg-muted/50 rounded-xl border border-slate-100 mt-2">
                                                     <span className="text-[12px] font-bold text-slate-600 flex items-center gap-2">
                                                         <File className="w-3.5 h-3.5 text-primary" />
                                                         {documents.length} file{documents.length !== 1 ? 's' : ''} staged — will upload after save
@@ -1236,15 +1236,15 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                         onClick={() => setRequiresLOTO(!requiresLOTO)}
                                         className={cn(
                                             "p-6 rounded-[24px] border-2 transition-all cursor-pointer group relative overflow-hidden",
-                                            requiresLOTO ? "bg-red-50 border-red-200" : "bg-white border-slate-200 hover:border-slate-300"
+                                            requiresLOTO ? "bg-red-50 border-red-200" : "bg-card border-border hover:border-slate-300"
                                         )}
                                     >
                                         <div className="flex items-center gap-4 relative z-10">
-                                            <div className={cn("w-12 h-12 rounded-2xl flex items-center justify-center transition-all", requiresLOTO ? "bg-red-500 text-white shadow-lg shadow-red-200" : "bg-slate-50 text-slate-400")}>
+                                            <div className={cn("w-12 h-12 rounded-2xl flex items-center justify-center transition-all", requiresLOTO ? "bg-red-500 text-white shadow-lg shadow-red-200" : "bg-muted/50 text-slate-400")}>
                                                 <ShieldAlert className="w-6 h-6" />
                                             </div>
                                             <div>
-                                                <h4 className={cn("text-[15px] font-black italic uppercase", requiresLOTO ? "text-red-700" : "text-slate-700")}>LOTO Required</h4>
+                                                <h4 className={cn("text-[15px] font-black italic uppercase", requiresLOTO ? "text-red-700" : "text-foreground/90")}>LOTO Required</h4>
                                                 <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">Safety Lock-out/Tag-out</p>
                                             </div>
                                         </div>
@@ -1254,15 +1254,15 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                         onClick={() => setIsDowntimeEvent(!isDowntimeEvent)}
                                         className={cn(
                                             "p-6 rounded-[24px] border-2 transition-all cursor-pointer group relative overflow-hidden",
-                                            isDowntimeEvent ? "bg-amber-50 border-amber-200" : "bg-white border-slate-200 hover:border-slate-300"
+                                            isDowntimeEvent ? "bg-amber-50 border-amber-200" : "bg-card border-border hover:border-slate-300"
                                         )}
                                     >
                                         <div className="flex items-center gap-4 relative z-10">
-                                            <div className={cn("w-12 h-12 rounded-2xl flex items-center justify-center transition-all", isDowntimeEvent ? "bg-amber-500 text-white shadow-lg shadow-amber-200" : "bg-slate-50 text-slate-400")}>
+                                            <div className={cn("w-12 h-12 rounded-2xl flex items-center justify-center transition-all", isDowntimeEvent ? "bg-amber-500 text-white shadow-lg shadow-amber-200" : "bg-muted/50 text-slate-400")}>
                                                 <TrendingUp className="w-6 h-6" />
                                             </div>
                                             <div>
-                                                <h4 className={cn("text-[15px] font-black italic uppercase", isDowntimeEvent ? "text-amber-700" : "text-slate-700")}>Downtime Event</h4>
+                                                <h4 className={cn("text-[15px] font-black italic uppercase", isDowntimeEvent ? "text-amber-700" : "text-foreground/90")}>Downtime Event</h4>
                                                 <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">Asset Health Impact</p>
                                             </div>
                                         </div>
@@ -1273,25 +1273,25 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                 <section id="section-purchase-order" className="space-y-6 pb-4">
                                     <div className="space-y-1">
                                         <h3 className="text-[20px] font-black text-black">Purchase Order</h3>
-                                        <p className="text-[13px] text-slate-900 font-bold">Link an existing Purchase Order to track parts procurement for this work order.</p>
+                                        <p className="text-[13px] text-foreground font-bold">Link an existing Purchase Order to track parts procurement for this work order.</p>
                                     </div>
-                                    <div className="bg-white p-8 rounded-[24px] border border-slate-200 shadow-sm space-y-5">
+                                    <div className="bg-card p-8 rounded-[24px] border border-border shadow-sm space-y-5">
                                         {/* Selected PO card */}
                                         {selectedPoId ? (() => {
                                             const po = (purchaseOrders as PurchaseOrder[]).find(p => p.id === selectedPoId);
                                             if (!po) return null;
                                             const statusColors: Record<string, string> = {
-                                                DRAFT: 'bg-slate-100 text-slate-600',
+                                                DRAFT: 'bg-muted text-slate-600',
                                                 PENDING_APPROVAL: 'bg-amber-50 text-amber-700',
                                                 APPROVED: 'bg-emerald-50 text-emerald-700',
-                                                ORDERED: 'bg-blue-50 text-blue-700',
+                                                ORDERED: 'bg-blue-50 text-primary/90',
                                                 RECEIVED: 'bg-teal-50 text-teal-700',
                                                 COMPLETED: 'bg-green-50 text-green-700',
                                                 DENIED: 'bg-red-50 text-red-600',
-                                                CANCELLED: 'bg-slate-50 text-slate-400',
+                                                CANCELLED: 'bg-muted/50 text-slate-400',
                                             };
                                             return (
-                                                <div className="flex items-center justify-between px-5 py-4 bg-indigo-50 border-2 border-primary/30 rounded-2xl">
+                                                <div className="flex items-center justify-between px-5 py-4 bg-primary/10 border-2 border-primary/30 rounded-2xl">
                                                     <div className="flex items-center gap-3">
                                                         <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center shadow shadow-primary/30">
                                                             <Package className="w-5 h-5 text-white" />
@@ -1299,8 +1299,8 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                                         <div>
                                                             <p className="text-[14px] font-black text-primary">{po.number}</p>
                                                             <div className="flex items-center gap-2 mt-0.5">
-                                                                {po.vendor && <span className="text-[11px] text-slate-500 font-medium">{po.vendor.name}</span>}
-                                                                <span className={cn('text-[10px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider', statusColors[po.status] || 'bg-slate-100 text-slate-600')}>{po.status.replace('_', ' ')}</span>
+                                                                {po.vendor && <span className="text-[11px] text-muted-foreground font-medium">{po.vendor.name}</span>}
+                                                                <span className={cn('text-[10px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider', statusColors[po.status] || 'bg-muted text-slate-600')}>{po.status.replace('_', ' ')}</span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1324,10 +1324,10 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                         <div className="relative">
                                             <button
                                                 onClick={() => toggleDropdown('po')}
-                                                className="w-full flex items-center justify-between px-5 py-4 bg-white border-2 border-slate-300 rounded-2xl hover:border-primary/40 transition-all"
+                                                className="w-full flex items-center justify-between px-5 py-4 bg-card border-2 border-slate-300 rounded-2xl hover:border-primary/40 transition-all"
                                             >
                                                 <div className="flex items-center gap-3">
-                                                    <div className="w-8 h-8 rounded-lg bg-indigo-50 flex items-center justify-center border border-indigo-100">
+                                                    <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center border border-primary/10">
                                                         <Package className="w-4 h-4 text-primary" />
                                                     </div>
                                                     <span className="text-[14px] font-bold text-slate-400">
@@ -1339,12 +1339,12 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
 
                                             {dropdowns.po && (
                                                 <div className="absolute top-full left-0 right-0 mt-2 popover-solid rounded-2xl shadow-2xl z-[60] overflow-hidden flex flex-col">
-                                                    <div className="p-4 bg-slate-50 border-b border-slate-100">
-                                                        <p className="text-[11px] font-black text-slate-500 uppercase tracking-widest mb-3">Select Purchase Order</p>
+                                                    <div className="p-4 bg-muted/50 border-b border-slate-100">
+                                                        <p className="text-[11px] font-black text-muted-foreground uppercase tracking-widest mb-3">Select Purchase Order</p>
                                                         <div className="relative">
                                                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" />
                                                             <input
-                                                                className="w-full pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-xl text-[13px] font-medium outline-none"
+                                                                className="w-full pl-9 pr-4 py-2 bg-card border border-border rounded-xl text-[13px] font-medium outline-none"
                                                                 placeholder="Search by PO number or vendor..."
                                                                 value={poSearch}
                                                                 onChange={(e) => setPoSearch(e.target.value)}
@@ -1366,14 +1366,14 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                                                 );
                                                             }
                                                             const statusColors: Record<string, string> = {
-                                                                DRAFT: 'bg-slate-100 text-slate-500',
+                                                                DRAFT: 'bg-muted text-muted-foreground',
                                                                 PENDING_APPROVAL: 'bg-amber-50 text-amber-600',
                                                                 APPROVED: 'bg-emerald-50 text-emerald-600',
-                                                                ORDERED: 'bg-blue-50 text-blue-600',
+                                                                ORDERED: 'bg-blue-50 text-primary',
                                                                 RECEIVED: 'bg-teal-50 text-teal-600',
                                                                 COMPLETED: 'bg-green-50 text-green-600',
                                                                 DENIED: 'bg-red-50 text-red-500',
-                                                                CANCELLED: 'bg-slate-50 text-slate-400',
+                                                                CANCELLED: 'bg-muted/50 text-slate-400',
                                                             };
                                                             return filtered.map((po: PurchaseOrder) => {
                                                                 const alreadyLinked = !!po.workOrderId && po.workOrderId !== selectedPoId;
@@ -1389,13 +1389,13 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                                                         }}
                                                                         className={cn(
                                                                             'w-full text-left px-5 py-3.5 border-b border-slate-50 last:border-0 flex items-center justify-between gap-3 transition-all',
-                                                                            alreadyLinked ? 'opacity-40 cursor-not-allowed bg-slate-50' : 'hover:bg-slate-50 cursor-pointer'
+                                                                            alreadyLinked ? 'opacity-40 cursor-not-allowed bg-muted/50' : 'hover:bg-muted/50 cursor-pointer'
                                                                         )}
                                                                     >
                                                                         <div className="flex flex-col gap-0.5 flex-1 min-w-0">
                                                                             <div className="flex items-center gap-2">
                                                                                 <span className={cn('text-[13px] font-bold truncate', isSelected ? 'text-primary' : 'text-slate-800')}>{po.number}</span>
-                                                                                <span className={cn('text-[10px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider flex-shrink-0', statusColors[po.status] || 'bg-slate-100 text-slate-500')}>{po.status.replace('_', ' ')}</span>
+                                                                                <span className={cn('text-[10px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider flex-shrink-0', statusColors[po.status] || 'bg-muted text-muted-foreground')}>{po.status.replace('_', ' ')}</span>
                                                                                 {alreadyLinked && <span className="text-[10px] font-black bg-orange-50 text-orange-500 px-2 py-0.5 rounded-full uppercase tracking-wider">Already Linked</span>}
                                                                             </div>
                                                                             <span className="text-[11px] text-slate-400 font-medium">
@@ -1424,7 +1424,7 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                         onClick={() => setSignatureRequired(!signatureRequired)}
                                         className={cn(
                                             "px-10 py-4 rounded-2xl transition-all font-black text-[13px] uppercase tracking-[0.1em] shadow-lg",
-                                            signatureRequired ? "bg-white text-primary" : "bg-primary/100/50 border-2 border-white/20 text-white"
+                                            signatureRequired ? "bg-card text-primary" : "bg-primary/100/50 border-2 border-white/20 text-white"
                                         )}
                                     >
                                         {signatureRequired ? 'Enabled' : 'Disabled'}
@@ -1436,18 +1436,18 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                     <div className="flex items-center justify-between">
                                         <div className="space-y-1">
                                             <h3 className="text-[20px] font-black text-black">Parts Inventory</h3>
-                                            <p className="text-[13px] text-slate-900 font-bold">Select parts from inventory to add to this work order.</p>
+                                            <p className="text-[13px] text-foreground font-bold">Select parts from inventory to add to this work order.</p>
                                         </div>
                                         <div className="relative">
                                             <button 
                                                 type="button"
                                                 onClick={() => toggleDropdown('parts')} 
-                                                className="px-5 py-2.5 bg-primary/10 text-primary rounded-xl text-[13px] font-black uppercase tracking-wider flex items-center gap-2 hover:bg-indigo-100 transition-all border border-primary/20 shadow-sm"
+                                                className="px-5 py-2.5 bg-primary/10 text-primary rounded-xl text-[13px] font-black uppercase tracking-wider flex items-center gap-2 hover:bg-primary/15 transition-all border border-primary/20 shadow-sm"
                                             >
                                                 <Plus className="w-4 h-4" /> Add Parts
                                             </button>
                                             {dropdowns.parts && (
-                                                <div className="absolute right-0 mt-2 w-[340px] bg-white border border-slate-200 rounded-2xl p-4 shadow-2xl max-h-48 overflow-y-auto z-[60]">
+                                                <div className="absolute right-0 mt-2 w-[340px] bg-card border border-border rounded-2xl p-4 shadow-2xl max-h-48 overflow-y-auto z-[60]">
                                                     <p className="text-[11px] font-bold text-slate-400 mb-2 uppercase tracking-widest">Select Part to Add</p>
                                                     {allParts.length === 0 && <p className="text-[12px] text-slate-400 italic">No parts found in inventory.</p>}
                                                     {allParts.map((p: any) => (
@@ -1458,7 +1458,7 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                                                 addPart(p); 
                                                                 toggleDropdown('parts'); 
                                                             }} 
-                                                            className="w-full text-left px-4 py-2 hover:bg-slate-50 rounded-lg text-[13px] font-bold text-slate-600 transition-all flex items-center justify-between"
+                                                            className="w-full text-left px-4 py-2 hover:bg-muted/50 rounded-lg text-[13px] font-bold text-slate-600 transition-all flex items-center justify-between"
                                                         >
                                                             <span>{p.name}</span>
                                                             <span className="text-[11px] text-slate-400">#{p.partNumber || 'N/A'}</span>
@@ -1469,7 +1469,7 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                         </div>
                                     </div>
 
-                                    <div className="w-full border border-slate-200 rounded-2xl bg-white shadow-sm overflow-hidden">
+                                    <div className="w-full border border-border rounded-2xl bg-card shadow-sm overflow-hidden">
                                         <table className="w-full text-left border-collapse">
                                             <thead>
                                                 <tr className="border-b border-slate-100 bg-slate-50/20">
@@ -1499,7 +1499,7 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                                             <td className="px-6 py-5">
                                                                 <div className="flex flex-col">
                                                                     <span 
-                                                                        className="text-[15px] font-bold text-blue-600 group-hover/row:underline text-left w-fit"
+                                                                        className="text-[15px] font-bold text-primary group-hover/row:underline text-left w-fit"
                                                                     >
                                                                         {p.name || actualPart?.name || 'Unknown Part'}
                                                                     </span>
@@ -1513,20 +1513,20 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                                                     {rawStatus}
                                                                 </span>
                                                             </td>
-                                                            <td className="px-6 py-5 text-[15px] font-bold text-slate-700">
+                                                            <td className="px-6 py-5 text-[15px] font-bold text-foreground/90">
                                                                 ${unitCost.toFixed(2)}
                                                             </td>
                                                             <td className="px-6 py-5">
                                                                 <input 
                                                                     type="number" 
                                                                     min="1"
-                                                                    className="w-16 px-2 py-1 bg-white border border-slate-200 rounded-lg text-[13px] font-bold text-slate-700 outline-none focus:border-blue-400" 
+                                                                    className="w-16 px-2 py-1 bg-card border border-border rounded-lg text-[13px] font-bold text-foreground/90 outline-none focus:border-primary/80" 
                                                                     value={qty} 
                                                                     onClick={(e) => e.stopPropagation()}
                                                                     onChange={(e) => updatePartQuantity(p.id, Math.max(1, Number(e.target.value)))}
                                                                 />
                                                             </td>
-                                                            <td className="px-6 py-5 text-[15px] font-bold text-slate-700">
+                                                            <td className="px-6 py-5 text-[15px] font-bold text-foreground/90">
                                                                 ${totalCost.toFixed(2)}
                                                             </td>
                                                             <td className="px-6 py-5 text-right">
@@ -1555,7 +1555,7 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                     {parts.length > 0 && (
                                         <div className="flex justify-end items-center gap-3 pr-6 pt-2">
                                             <span className="text-[18px] font-black text-slate-800">Total:</span>
-                                            <span className="text-[18px] font-black text-slate-900">
+                                            <span className="text-[18px] font-black text-foreground">
                                                 ${parts.reduce((acc: number, p: any) => {
                                                     const actualPart = p.part || p;
                                                     const unitCost = Number(p.unitCost || actualPart?.cost || 0);
@@ -1572,29 +1572,29 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                     ) : (
                         <div className="flex-1 flex flex-col">
                             {/* Templates Header / Toolbar */}
-                            <div className="px-8 py-5 border-b border-gray-100 flex items-center justify-between bg-white">
+                            <div className="px-8 py-5 border-b border-gray-100 flex items-center justify-between bg-card">
                                 <div className="relative flex-1 max-w-[800px]">
                                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                                     <input 
                                         type="text" 
                                         placeholder="Search" 
-                                        className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-[14px] focus:outline-none focus:ring-4 focus:ring-indigo-50 focus:border-indigo-400 transition-all font-medium"
+                                        className="w-full pl-12 pr-4 py-3 bg-muted/50 border border-border rounded-xl text-[14px] focus:outline-none focus:ring-4 focus:ring-primary focus:border-primary/80 transition-all font-medium"
                                     />
                                 </div>
-                                <button className="ml-6 px-6 py-3 bg-[#4F46E5] text-white rounded-xl text-[14px] font-bold flex items-center gap-2 hover:bg-[#4338CA] transition-all shadow-sm">
+                                <button className="ml-6 px-6 py-3 bg-primary/90 text-white rounded-xl text-[14px] font-bold flex items-center gap-2 hover:bg-[#4338CA] transition-all shadow-sm">
                                     <Plus className="w-4 h-4" />
                                     Add New Template
                                 </button>
                             </div>
                             
                             {/* Empty State */}
-                            <div className="flex-1 flex items-center justify-center p-20 bg-white">
+                            <div className="flex-1 flex items-center justify-center p-20 bg-card">
                                 <div className="max-w-md text-center">
-                                    <div className="w-full h-px bg-gray-100 mb-20" />
+                                    <div className="w-full h-px bg-muted mb-20" />
                                     <p className="text-[15px] text-[#1E293B] font-medium">
                                         You don't have any templates yet. Click 'Add New Template' to get started.
                                     </p>
-                                    <div className="w-full h-px bg-gray-100 mt-20" />
+                                    <div className="w-full h-px bg-muted mt-20" />
                                 </div>
                             </div>
                         </div>
@@ -1602,22 +1602,22 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                 </div>
 
                 {/* Footer */}
-                <div className="bg-[#F8FAFC] px-4 sm:px-10 py-3 border-t border-slate-100 flex items-center justify-between z-10 shadow-[0_-10px_40px_rgba(0,0,0,0.02)]">
+                <div className="bg-background px-4 sm:px-10 py-3 border-t border-slate-100 flex items-center justify-between z-10 shadow-[0_-10px_40px_rgba(0,0,0,0.02)]">
                     <div className="hidden sm:flex items-center gap-6">
                         <div className="flex items-center gap-2 group cursor-help">
                             <Info className="w-4 h-4 text-slate-400 group-hover:text-primary transition-colors" />
-                            <span className="text-[12px] text-slate-700 font-bold uppercase tracking-widest">Keyboard shortcuts active</span>
+                            <span className="text-[12px] text-foreground/90 font-bold uppercase tracking-widest">Keyboard shortcuts active</span>
                         </div>
                     </div>
                     <div className="flex items-center gap-2 sm:gap-4 w-full sm:w-auto">
                         {activeTab === 'Create' && (
                             <>
-                                <button onClick={onClose} className="px-4 sm:px-8 py-3 text-[13px] sm:text-[14px] font-black text-slate-950 hover:bg-slate-100 rounded-2xl transition-all border border-slate-200 sm:border-0">Discard</button>
+                                <button onClick={onClose} className="px-4 sm:px-8 py-3 text-[13px] sm:text-[14px] font-black text-slate-950 hover:bg-muted rounded-2xl transition-all border border-border sm:border-0">Discard</button>
                                 <button
                                     onClick={handleSubmit}
                                     disabled={!title || createWorkOrder.isPending}
                                     className={cn(
-                                        "flex-1 sm:flex-none px-6 sm:px-12 py-3 sm:py-4 bg-primary text-white rounded-[16px] sm:rounded-[20px] text-[13px] sm:text-[14px] font-black shadow-xl shadow-indigo-200 transition-all active:scale-95 group",
+                                        "flex-1 sm:flex-none px-6 sm:px-12 py-3 sm:py-4 bg-primary text-white rounded-[16px] sm:rounded-[20px] text-[13px] sm:text-[14px] font-black shadow-xl shadow-primary/20 transition-all active:scale-95 group",
                                         (!title || createWorkOrder.isPending) && "opacity-50 cursor-not-allowed"
                                     )}
                                 >

@@ -425,7 +425,7 @@ export const MobileWorkOrderDetail: React.FC<MobileWorkOrderDetailProps> = ({ id
           ) : (
             <button 
               onClick={() => setIsDeferModalOpen(true)}
-              className="px-4 py-2 bg-white border border-orange-200 text-orange-600 hover:bg-orange-50 rounded-xl text-[12px] font-black uppercase tracking-widest shadow-sm active:scale-95 transition-all"
+              className="px-4 py-2 bg-card border border-orange-200 text-orange-600 hover:bg-orange-50 rounded-xl text-[12px] font-black uppercase tracking-widest shadow-sm active:scale-95 transition-all"
             >
               Defer
             </button>
@@ -499,7 +499,7 @@ export const MobileWorkOrderDetail: React.FC<MobileWorkOrderDetailProps> = ({ id
             className="p-2 hover:text-primary active:scale-95 rounded-lg transition-all flex flex-col items-center gap-1"
             title="Edit Detail"
           >
-            <Edit3 className="w-5 h-5 text-blue-500" />
+            <Edit3 className="w-5 h-5 text-primary" />
             <span className="text-[9px] font-bold uppercase tracking-tight">Edit</span>
           </button>
 
@@ -508,7 +508,7 @@ export const MobileWorkOrderDetail: React.FC<MobileWorkOrderDetailProps> = ({ id
             className="p-2 hover:text-primary active:scale-95 rounded-lg transition-all flex flex-col items-center gap-1"
             title="Link Work Order"
           >
-            <Link className="w-5 h-5 text-indigo-500" />
+            <Link className="w-5 h-5 text-primary/80" />
             <span className="text-[9px] font-bold uppercase tracking-tight">Link</span>
           </button>
 
@@ -561,7 +561,7 @@ export const MobileWorkOrderDetail: React.FC<MobileWorkOrderDetailProps> = ({ id
                   }}
                   className="w-full text-left px-4 py-3 text-[12px] font-bold text-foreground hover:bg-muted transition-all uppercase tracking-wider flex items-center gap-2"
                 >
-                  <Link className="w-4 h-4 text-indigo-500" />
+                  <Link className="w-4 h-4 text-primary/80" />
                   Share Order
                 </button>
                 <button
@@ -997,7 +997,7 @@ export const MobileWorkOrderDetail: React.FC<MobileWorkOrderDetailProps> = ({ id
                         </div>
                       )}
                     </a>
-                    <div className="absolute inset-x-0 bottom-0 bg-slate-950/80 p-2.5 flex items-center justify-between gap-1.5 backdrop-blur-sm z-10">
+                    <div className="absolute inset-x-0 bottom-0 bg-background/80 p-2.5 flex items-center justify-between gap-1.5 backdrop-blur-sm z-10">
                       <a href={file.url} target="_blank" rel="noreferrer" className="text-[11px] font-black text-white truncate flex-1 uppercase tracking-tight hover:underline flex items-center gap-1">
                         <span className="truncate">{file.filename}</span>
                       </a>
@@ -1056,7 +1056,7 @@ export const MobileWorkOrderDetail: React.FC<MobileWorkOrderDetailProps> = ({ id
                 {/* Status history */}
                 {(order.statusHistory || []).map((history: any, idx: number) => (
                   <div key={`hist-${idx}`} className="flex items-start gap-2.5">
-                    <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-[12px] font-black text-slate-400 shrink-0 uppercase">
+                    <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center text-[12px] font-black text-slate-400 shrink-0 uppercase">
                       {history.user?.name?.[0] || 'U'}
                     </div>
                     <div>
@@ -1152,7 +1152,7 @@ export const MobileWorkOrderDetail: React.FC<MobileWorkOrderDetailProps> = ({ id
                         </div>
                         <div>
                           <p className="text-[13px] font-bold text-foreground">{target.title}</p>
-                          <p className="text-[10px] text-blue-500 font-bold uppercase tracking-widest mt-0.5">
+                          <p className="text-[10px] text-primary font-bold uppercase tracking-widest mt-0.5">
                             {isSource ? `→ ${link.linkType || 'RELATED'}` : `← ${link.linkType || 'RELATED'}`}
                           </p>
                         </div>
@@ -1200,7 +1200,7 @@ export const MobileWorkOrderDetail: React.FC<MobileWorkOrderDetailProps> = ({ id
                       else unshare.mutate(order.id);
                     }}
                   />
-                  <div className="w-11 h-6 bg-border peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                  <div className="w-11 h-6 bg-border peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-card after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
                 </div>
               </div>
 
@@ -1248,7 +1248,7 @@ export const MobileWorkOrderDetail: React.FC<MobileWorkOrderDetailProps> = ({ id
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setShowCompleteForm(false)}
-              className="absolute inset-0 bg-slate-950/60 backdrop-blur-sm"
+              className="absolute inset-0 bg-background/60 backdrop-blur-sm"
             />
 
             {/* Modal Body */}

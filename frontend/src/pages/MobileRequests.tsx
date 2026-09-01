@@ -477,21 +477,21 @@ export const MobileRequests: React.FC<MobileRequestsProps> = ({
                                     setIsMultiSelectMode(false);
                                     setSelectedRequestIds([]);
                                 }}
-                                className="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-full text-[11px] font-black uppercase tracking-wider transition-all"
+                                className="px-3 py-1.5 bg-muted dark:bg-slate-800 text-foreground/90 dark:text-slate-300 rounded-full text-[11px] font-black uppercase tracking-wider transition-all"
                             >
                                 Cancel
                             </button>
                         ) : (
                             <button
                                 onClick={() => setIsMultiSelectMode(true)}
-                                className="px-3 py-1.5 bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-400 border border-indigo-200/50 dark:border-indigo-900/50 rounded-full text-[11px] font-black uppercase tracking-wider transition-all"
+                                className="px-3 py-1.5 bg-primary/10 dark:bg-indigo-950/40 text-primary/90 dark:text-indigo-400 border border-primary/20/50 dark:border-indigo-900/50 rounded-full text-[11px] font-black uppercase tracking-wider transition-all"
                             >
                                 Select
                             </button>
                         )}
                         <button
                             onClick={() => setIsCreateDrawerOpen(true)}
-                            className="flex items-center gap-1 px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full text-[11px] font-black uppercase tracking-wider shadow-[0_4px_12px_rgba(79,70,229,0.3)] active:scale-95 transition-all"
+                            className="flex items-center gap-1 px-3 py-1.5 bg-primary hover:bg-primary/90 text-white rounded-full text-[11px] font-black uppercase tracking-wider shadow-[0_4px_12px_rgba(79,70,229,0.3)] active:scale-95 transition-all"
                         >
                             <Plus className="w-3.5 h-3.5" />
                             Create
@@ -511,14 +511,14 @@ export const MobileRequests: React.FC<MobileRequestsProps> = ({
                                             initial={{ opacity: 0, y: 10 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             exit={{ opacity: 0, y: 10 }}
-                                            className="absolute right-0 mt-2 w-48 bg-white dark:bg-slate-900 rounded-2xl shadow-xl border border-border z-[60] py-1 overflow-hidden"
+                                            className="absolute right-0 mt-2 w-48 bg-card dark:bg-slate-900 rounded-2xl shadow-xl border border-border z-[60] py-1 overflow-hidden"
                                         >
                                             <button 
                                                 onClick={() => {
                                                     setIsMoreActionsOpen(false);
                                                     setView('settings');
                                                 }}
-                                                className="w-full text-left px-4 py-3 text-xs font-black uppercase tracking-wider text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 flex items-center gap-2 border-b border-border/50"
+                                                className="w-full text-left px-4 py-3 text-xs font-black uppercase tracking-wider text-foreground/90 dark:text-slate-300 hover:bg-transparent dark:hover:bg-slate-800 flex items-center gap-2 border-b border-border/50"
                                             >
                                                 <SlidersHorizontal className="w-3.5 h-3.5 text-slate-400 rotate-90" />
                                                 Edit Form
@@ -528,7 +528,7 @@ export const MobileRequests: React.FC<MobileRequestsProps> = ({
                                                     setIsMoreActionsOpen(false);
                                                     setIsColumnsOpen(true);
                                                 }}
-                                                className="w-full text-left px-4 py-3 text-xs font-black uppercase tracking-wider text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 flex items-center gap-2 border-b border-border/50"
+                                                className="w-full text-left px-4 py-3 text-xs font-black uppercase tracking-wider text-foreground/90 dark:text-slate-300 hover:bg-transparent dark:hover:bg-slate-800 flex items-center gap-2 border-b border-border/50"
                                             >
                                                 <SlidersHorizontal className="w-3.5 h-3.5 text-slate-400" />
                                                 Columns
@@ -538,7 +538,7 @@ export const MobileRequests: React.FC<MobileRequestsProps> = ({
                                                     setIsMoreActionsOpen(false);
                                                     onExportCSV();
                                                 }}
-                                                className="w-full text-left px-4 py-3 text-xs font-black uppercase tracking-wider text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 flex items-center gap-2"
+                                                className="w-full text-left px-4 py-3 text-xs font-black uppercase tracking-wider text-foreground/90 dark:text-slate-300 hover:bg-transparent dark:hover:bg-slate-800 flex items-center gap-2"
                                             >
                                                 <ArrowUpDown className="w-3.5 h-3.5 text-slate-400 rotate-90" />
                                                 Export CSV
@@ -601,11 +601,11 @@ export const MobileRequests: React.FC<MobileRequestsProps> = ({
                                                 onClick={() => { setSortBy(opt.id); setIsSortOpen(false); }}
                                                 className={cn(
                                                     "w-full flex items-center justify-between px-4 py-2.5 text-[13px] font-bold transition-colors text-left",
-                                                    sortBy === opt.id ? "text-indigo-600 bg-indigo-50/10" : "text-foreground hover:bg-muted"
+                                                    sortBy === opt.id ? "text-primary bg-primary/10/10" : "text-foreground hover:bg-muted"
                                                 )}
                                             >
                                                 {opt.label}
-                                                {sortBy === opt.id && <Check className="w-3.5 h-3.5 text-indigo-600" />}
+                                                {sortBy === opt.id && <Check className="w-3.5 h-3.5 text-primary" />}
                                             </button>
                                         ))}
                                         <div className="h-px bg-border mx-3 my-1" />
@@ -616,11 +616,11 @@ export const MobileRequests: React.FC<MobileRequestsProps> = ({
                                                 onClick={() => { setSortOrder(o); setIsSortOpen(false); }}
                                                 className={cn(
                                                     "w-full flex items-center justify-between px-4 py-2.5 text-[13px] font-bold transition-colors text-left",
-                                                    sortOrder === o ? "text-indigo-600 bg-indigo-50/10" : "text-foreground hover:bg-muted"
+                                                    sortOrder === o ? "text-primary bg-primary/10/10" : "text-foreground hover:bg-muted"
                                                 )}
                                             >
                                                 {o === 'desc' ? 'Descending' : 'Ascending'}
-                                                {sortOrder === o && <Check className="w-3.5 h-3.5 text-indigo-600" />}
+                                                {sortOrder === o && <Check className="w-3.5 h-3.5 text-primary" />}
                                             </button>
                                         ))}
                                     </motion.div>
@@ -635,14 +635,14 @@ export const MobileRequests: React.FC<MobileRequestsProps> = ({
                         className={cn(
                             "h-11 w-11 border rounded-xl flex items-center justify-center transition-all bg-card active:scale-95 shrink-0 relative",
                             (selectedPriorityFilter !== 'ALL' || selectedLocationFilter !== 'ALL' || selectedAssigneeIds.length > 0 || selectedAssetIds.length > 0)
-                                ? "border-indigo-600 text-indigo-600 bg-indigo-50/10"
+                                ? "border-primary text-primary bg-primary/10/10"
                                 : "border-border text-muted-foreground hover:text-foreground"
                         )}
                         title="Filter Requests"
                     >
                         <SlidersHorizontal className="w-4 h-4" />
                         {(selectedPriorityFilter !== 'ALL' || selectedLocationFilter !== 'ALL' || selectedAssigneeIds.length > 0 || selectedAssetIds.length > 0) && (
-                            <span className="absolute -top-1 -right-1 min-w-[14px] h-[14px] bg-indigo-600 text-white text-[8px] font-black rounded-full flex items-center justify-center px-0.5">
+                            <span className="absolute -top-1 -right-1 min-w-[14px] h-[14px] bg-primary text-white text-[8px] font-black rounded-full flex items-center justify-center px-0.5">
                                 {[selectedPriorityFilter !== 'ALL' ? 1 : 0, selectedLocationFilter !== 'ALL' ? 1 : 0, selectedAssigneeIds.length > 0 ? 1 : 0, selectedAssetIds.length > 0 ? 1 : 0].reduce((a, b) => a + b, 0)}
                             </span>
                         )}
@@ -677,7 +677,7 @@ export const MobileRequests: React.FC<MobileRequestsProps> = ({
             <div className="px-4 py-4">
                 {isLoading ? (
                     <div className="flex flex-col items-center justify-center py-20 gap-3">
-                        <div className="w-8 h-8 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin" />
+                        <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" />
                         <span className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest">Loading Requests...</span>
                     </div>
                 ) : filteredRequests.length > 0 ? (
@@ -703,7 +703,7 @@ export const MobileRequests: React.FC<MobileRequestsProps> = ({
                                     }}
                                     className={cn(
                                         "bg-card rounded-2xl border transition-all cursor-pointer overflow-hidden flex",
-                                        isSelected ? "border-indigo-600 bg-indigo-50/5 dark:bg-indigo-950/10 shadow-md" : "border-border shadow-[0_2px_8px_rgba(0,0,0,0.04)]",
+                                        isSelected ? "border-primary bg-primary/10/5 dark:bg-indigo-950/10 shadow-md" : "border-border shadow-[0_2px_8px_rgba(0,0,0,0.04)]",
                                         isMultiSelectMode ? "active:scale-[0.99]" : "active:scale-[0.98]"
                                     )}
                                 >
@@ -714,7 +714,7 @@ export const MobileRequests: React.FC<MobileRequestsProps> = ({
                                                 type="checkbox" 
                                                 checked={isSelected}
                                                 onChange={() => toggleRequestSelection(req.id)}
-                                                className="w-5 h-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer" 
+                                                className="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer" 
                                             />
                                         </div>
                                     )}
@@ -858,18 +858,18 @@ export const MobileRequests: React.FC<MobileRequestsProps> = ({
                             initial={{ y: "100%" }}
                             animate={{ y: 0 }}
                             exit={{ y: "100%" }}
-                            className="fixed inset-x-0 bottom-0 max-h-[85vh] bg-white dark:bg-slate-900 rounded-t-3xl shadow-2xl z-[160] overflow-hidden flex flex-col"
+                            className="fixed inset-x-0 bottom-0 max-h-[85vh] bg-card dark:bg-slate-900 rounded-t-3xl shadow-2xl z-[160] overflow-hidden flex flex-col"
                         >
-                            <div className="p-5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-white dark:bg-slate-900 sticky top-0 shrink-0">
+                            <div className="p-5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-card dark:bg-slate-900 sticky top-0 shrink-0">
                                 <div className="flex items-center gap-2">
-                                    <SlidersHorizontal className="w-5 h-5 text-indigo-600" />
+                                    <SlidersHorizontal className="w-5 h-5 text-primary" />
                                     <span className="text-[16px] font-black text-slate-800 dark:text-slate-200 uppercase tracking-tight">Toggle Columns</span>
                                 </div>
-                                <button onClick={() => setIsColumnsOpen(false)} className="p-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-full transition-colors">
+                                <button onClick={() => setIsColumnsOpen(false)} className="p-2 hover:bg-transparent dark:hover:bg-slate-800 rounded-full transition-colors">
                                     <X className="w-5 h-5 text-slate-400" />
                                 </button>
                             </div>
-                            <div className="p-6 overflow-y-auto space-y-4 max-h-[50vh] bg-white dark:bg-slate-900">
+                            <div className="p-6 overflow-y-auto space-y-4 max-h-[50vh] bg-card dark:bg-slate-900">
                                 {[
                                     { id: 'image', label: 'Image' },
                                     { id: 'asset', label: 'Asset' },
@@ -882,21 +882,21 @@ export const MobileRequests: React.FC<MobileRequestsProps> = ({
                                     { id: 'team', label: 'Team' },
                                     { id: 'location', label: 'Location' }
                                 ].map((col) => (
-                                    <label key={col.id} className="flex items-center justify-between p-3.5 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-2xl cursor-pointer group transition-colors border border-slate-100 dark:border-slate-800">
-                                        <span className="text-[14px] font-semibold text-slate-700 dark:text-slate-300 group-hover:text-indigo-600">{col.label}</span>
+                                    <label key={col.id} className="flex items-center justify-between p-3.5 hover:bg-transparent dark:hover:bg-slate-800 rounded-2xl cursor-pointer group transition-colors border border-slate-100 dark:border-slate-800">
+                                        <span className="text-[14px] font-semibold text-foreground/90 dark:text-slate-300 group-hover:text-primary">{col.label}</span>
                                         <input 
                                             type="checkbox"
                                             checked={!!(visibleColumns as any)[col.id]}
                                             onChange={() => setVisibleColumns({ ...visibleColumns, [col.id]: !(visibleColumns as any)[col.id] })}
-                                            className="w-5 h-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
+                                            className="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer"
                                         />
                                     </label>
                                 ))}
                             </div>
-                            <div className="p-5 bg-slate-50 dark:bg-slate-800 flex items-center justify-end border-t border-slate-100 dark:border-slate-700 shrink-0">
+                            <div className="p-5 bg-transparent dark:bg-slate-800 flex items-center justify-end border-t border-slate-100 dark:border-slate-700 shrink-0">
                                 <button 
                                     onClick={() => setIsColumnsOpen(false)}
-                                    className="w-full py-3 bg-indigo-600 text-white font-black text-[15px] rounded-2xl shadow-lg shadow-indigo-200 hover:bg-indigo-700 transition-all text-center"
+                                    className="w-full py-3 bg-primary text-white font-black text-[15px] rounded-2xl shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all text-center"
                                 >
                                     Done
                                 </button>
@@ -913,7 +913,7 @@ export const MobileRequests: React.FC<MobileRequestsProps> = ({
                         initial={{ y: 100, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
                         exit={{ y: 100, opacity: 0 }}
-                        className="fixed bottom-6 inset-x-4 z-50 bg-slate-900 dark:bg-slate-950 text-white p-4 rounded-3xl shadow-2xl flex items-center justify-between gap-4"
+                        className="fixed bottom-6 inset-x-4 z-50 bg-slate-900 dark:bg-background text-white p-4 rounded-3xl shadow-2xl flex items-center justify-between gap-4"
                     >
                         <div className="flex flex-col pl-2">
                             <span className="text-xs font-bold text-slate-400">Selection</span>
@@ -928,7 +928,7 @@ export const MobileRequests: React.FC<MobileRequestsProps> = ({
                             </button>
                             <button
                                 onClick={handleBulkApprove}
-                                className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-black uppercase tracking-wider transition-all shadow-[0_4px_12px_rgba(79,70,229,0.3)]"
+                                className="px-4 py-2 bg-primary hover:bg-primary/90 text-white rounded-xl text-xs font-black uppercase tracking-wider transition-all shadow-[0_4px_12px_rgba(79,70,229,0.3)]"
                             >
                                 Approve
                             </button>
@@ -976,7 +976,7 @@ export const MobileRequests: React.FC<MobileRequestsProps> = ({
                                     className={cn(
                                         "flex-1 py-3 text-xs font-bold text-center border-b-2 transition-all",
                                         detailSubTab === 'overview'
-                                            ? "border-indigo-600 text-indigo-600"
+                                            ? "border-primary text-primary"
                                             : "border-transparent text-muted-foreground"
                                     )}
                                 >
@@ -987,13 +987,13 @@ export const MobileRequests: React.FC<MobileRequestsProps> = ({
                                     className={cn(
                                         "flex-1 py-3 text-xs font-bold text-center border-b-2 transition-all flex items-center justify-center gap-1.5",
                                         detailSubTab === 'comments'
-                                            ? "border-indigo-600 text-indigo-600"
+                                            ? "border-primary text-primary"
                                             : "border-transparent text-muted-foreground"
                                     )}
                                 >
                                     Discussion
                                     {(requestComments[selectedRequest.id] || []).length > 0 && (
-                                        <span className="px-1.5 py-0.25 bg-indigo-600 text-white text-[9px] rounded-full font-black">
+                                        <span className="px-1.5 py-0.25 bg-primary text-white text-[9px] rounded-full font-black">
                                             {(requestComments[selectedRequest.id] || []).length}
                                         </span>
                                     )}
@@ -1033,7 +1033,7 @@ export const MobileRequests: React.FC<MobileRequestsProps> = ({
                                                         value={detailTitle}
                                                         onChange={(e) => setDetailTitle(e.target.value)}
                                                         disabled={isReadOnly}
-                                                        className="w-full h-11 bg-card border border-border rounded-xl px-3 text-sm focus:outline-none focus:border-indigo-600 transition-all font-semibold disabled:opacity-75 disabled:bg-muted"
+                                                        className="w-full h-11 bg-card border border-border rounded-xl px-3 text-sm focus:outline-none focus:border-primary transition-all font-semibold disabled:opacity-75 disabled:bg-muted"
                                                     />
                                                 </div>
                                             )}
@@ -1048,7 +1048,7 @@ export const MobileRequests: React.FC<MobileRequestsProps> = ({
                                                         onChange={(e) => setDetailDescription(e.target.value)}
                                                         disabled={isReadOnly}
                                                         rows={3}
-                                                        className="w-full bg-card border border-border rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-indigo-600 transition-all font-medium disabled:opacity-75 disabled:bg-muted resize-none"
+                                                        className="w-full bg-card border border-border rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-primary transition-all font-medium disabled:opacity-75 disabled:bg-muted resize-none"
                                                     />
                                                 </div>
                                             )}
@@ -1062,7 +1062,7 @@ export const MobileRequests: React.FC<MobileRequestsProps> = ({
                                                         value={detailPriority}
                                                         onChange={(e) => setDetailPriority(e.target.value)}
                                                         disabled={isReadOnly}
-                                                        className="w-full h-11 bg-card border border-border rounded-xl px-3 text-sm focus:outline-none focus:border-indigo-600 transition-all font-semibold disabled:opacity-75 disabled:bg-muted"
+                                                        className="w-full h-11 bg-card border border-border rounded-xl px-3 text-sm focus:outline-none focus:border-primary transition-all font-semibold disabled:opacity-75 disabled:bg-muted"
                                                     >
                                                         <option value="NONE">None</option>
                                                         <option value="LOW">Low</option>
@@ -1098,7 +1098,7 @@ export const MobileRequests: React.FC<MobileRequestsProps> = ({
                                                 ) : (
                                                     <label className={cn(
                                                         "flex flex-col items-center justify-center w-full h-24 border-2 border-dashed border-border rounded-xl cursor-pointer transition-all",
-                                                        isReadOnly ? "opacity-50 cursor-not-allowed" : "hover:border-indigo-400 hover:bg-indigo-50/5 active:scale-98"
+                                                        isReadOnly ? "opacity-50 cursor-not-allowed" : "hover:border-primary/80 hover:bg-primary/10/5 active:scale-98"
                                                     )}>
                                                         <input
                                                             type="file"
@@ -1124,7 +1124,7 @@ export const MobileRequests: React.FC<MobileRequestsProps> = ({
                                                             }}
                                                         />
                                                         {uploadingImage ? (
-                                                            <div className="w-5 h-5 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin" />
+                                                            <div className="w-5 h-5 border-2 border-primary border-t-transparent rounded-full animate-spin" />
                                                         ) : (
                                                             <>
                                                                 <Paperclip className="w-5 h-5 text-muted-foreground/50 mb-1" />
@@ -1146,7 +1146,7 @@ export const MobileRequests: React.FC<MobileRequestsProps> = ({
                                                 <input 
                                                     type="file"
                                                     disabled={isReadOnly}
-                                                    className="w-full h-11 bg-card border border-border rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-indigo-600 transition-all font-semibold"
+                                                    className="w-full h-11 bg-card border border-border rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-primary transition-all font-semibold"
                                                     onChange={(e) => {
                                                         const file = e.target.files?.[0];
                                                         if (file) toast.success(`Attached: ${file.name}`);
@@ -1168,14 +1168,14 @@ export const MobileRequests: React.FC<MobileRequestsProps> = ({
                                                             value={detailStartDate}
                                                             onChange={(e) => setDetailStartDate(e.target.value)}
                                                             disabled={isReadOnly}
-                                                            className="w-full h-11 bg-card border border-border rounded-xl px-3 text-xs focus:outline-none focus:border-indigo-600 transition-all font-semibold disabled:opacity-75 disabled:bg-muted"
+                                                            className="w-full h-11 bg-card border border-border rounded-xl px-3 text-xs focus:outline-none focus:border-primary transition-all font-semibold disabled:opacity-75 disabled:bg-muted"
                                                         />
                                                         <input
                                                             type="time"
                                                             value={detailStartTime}
                                                             onChange={(e) => setDetailStartTime(e.target.value)}
                                                             disabled={isReadOnly}
-                                                            className="w-full h-11 bg-card border border-border rounded-xl px-3 text-xs focus:outline-none focus:border-indigo-600 transition-all font-semibold disabled:opacity-75 disabled:bg-muted"
+                                                            className="w-full h-11 bg-card border border-border rounded-xl px-3 text-xs focus:outline-none focus:border-primary transition-all font-semibold disabled:opacity-75 disabled:bg-muted"
                                                         />
                                                     </div>
                                                 </div>
@@ -1192,14 +1192,14 @@ export const MobileRequests: React.FC<MobileRequestsProps> = ({
                                                             value={detailDueDate}
                                                             onChange={(e) => setDetailDueDate(e.target.value)}
                                                             disabled={isReadOnly}
-                                                            className="w-full h-11 bg-card border border-border rounded-xl px-3 text-xs focus:outline-none focus:border-indigo-600 transition-all font-semibold disabled:opacity-75 disabled:bg-muted"
+                                                            className="w-full h-11 bg-card border border-border rounded-xl px-3 text-xs focus:outline-none focus:border-primary transition-all font-semibold disabled:opacity-75 disabled:bg-muted"
                                                         />
                                                         <input
                                                             type="time"
                                                             value={detailDueTime}
                                                             onChange={(e) => setDetailDueTime(e.target.value)}
                                                             disabled={isReadOnly}
-                                                            className="w-full h-11 bg-card border border-border rounded-xl px-3 text-xs focus:outline-none focus:border-indigo-600 transition-all font-semibold disabled:opacity-75 disabled:bg-muted"
+                                                            className="w-full h-11 bg-card border border-border rounded-xl px-3 text-xs focus:outline-none focus:border-primary transition-all font-semibold disabled:opacity-75 disabled:bg-muted"
                                                         />
                                                     </div>
                                                 </div>
@@ -1214,7 +1214,7 @@ export const MobileRequests: React.FC<MobileRequestsProps> = ({
                                                         value={detailCategory}
                                                         onChange={(e) => setDetailCategory(e.target.value)}
                                                         disabled={isReadOnly}
-                                                        className="w-full h-11 bg-card border border-border rounded-xl px-3 text-sm focus:outline-none focus:border-indigo-600 transition-all font-semibold disabled:opacity-75 disabled:bg-muted"
+                                                        className="w-full h-11 bg-card border border-border rounded-xl px-3 text-sm focus:outline-none focus:border-primary transition-all font-semibold disabled:opacity-75 disabled:bg-muted"
                                                     >
                                                         <option value="">Select Category...</option>
                                                         {(categories || []).map((cat: any) => (
@@ -1233,7 +1233,7 @@ export const MobileRequests: React.FC<MobileRequestsProps> = ({
                                                         value={detailLocationId}
                                                         onChange={(e) => setDetailLocationId(e.target.value)}
                                                         disabled={isReadOnly}
-                                                        className="w-full h-11 bg-card border border-border rounded-xl px-3 text-sm focus:outline-none focus:border-indigo-600 transition-all font-semibold disabled:opacity-75 disabled:bg-muted"
+                                                        className="w-full h-11 bg-card border border-border rounded-xl px-3 text-sm focus:outline-none focus:border-primary transition-all font-semibold disabled:opacity-75 disabled:bg-muted"
                                                     >
                                                         <option value="">Select Location...</option>
                                                         {locations.map(loc => (
@@ -1252,7 +1252,7 @@ export const MobileRequests: React.FC<MobileRequestsProps> = ({
                                                         value={detailAssetId}
                                                         onChange={(e) => setDetailAssetId(e.target.value)}
                                                         disabled={isReadOnly}
-                                                        className="w-full h-11 bg-card border border-border rounded-xl px-3 text-sm focus:outline-none focus:border-indigo-600 transition-all font-semibold disabled:opacity-75 disabled:bg-muted"
+                                                        className="w-full h-11 bg-card border border-border rounded-xl px-3 text-sm focus:outline-none focus:border-primary transition-all font-semibold disabled:opacity-75 disabled:bg-muted"
                                                     >
                                                         <option value="">Select Asset...</option>
                                                         {assets.map(asset => (
@@ -1266,7 +1266,7 @@ export const MobileRequests: React.FC<MobileRequestsProps> = ({
                                         {/* Approval Options Section (Only when status is PENDING) */}
                                         {!isReadOnly && (
                                             <div className="bg-card border border-border rounded-2xl p-4 space-y-4 mt-6">
-                                                <h4 className="text-xs font-black uppercase tracking-wider text-indigo-500 border-b border-border pb-2">
+                                                <h4 className="text-xs font-black uppercase tracking-wider text-primary/80 border-b border-border pb-2">
                                                     Dispatch & Approval Configuration
                                                 </h4>
 
@@ -1278,7 +1278,7 @@ export const MobileRequests: React.FC<MobileRequestsProps> = ({
                                                         <select
                                                             value={detailPrimaryWorkerId}
                                                             onChange={(e) => setDetailPrimaryWorkerId(e.target.value)}
-                                                            className="w-full h-11 bg-background border border-border rounded-xl px-3 text-sm focus:outline-none focus:border-indigo-600 transition-all font-semibold"
+                                                            className="w-full h-11 bg-background border border-border rounded-xl px-3 text-sm focus:outline-none focus:border-primary transition-all font-semibold"
                                                         >
                                                             <option value="">Select Worker...</option>
                                                             {users.map(u => (
@@ -1296,7 +1296,7 @@ export const MobileRequests: React.FC<MobileRequestsProps> = ({
                                                         <select
                                                             value={detailTeamId}
                                                             onChange={(e) => setDetailTeamId(e.target.value)}
-                                                            className="w-full h-11 bg-background border border-border rounded-xl px-3 text-sm focus:outline-none focus:border-indigo-600 transition-all font-semibold"
+                                                            className="w-full h-11 bg-background border border-border rounded-xl px-3 text-sm focus:outline-none focus:border-primary transition-all font-semibold"
                                                         >
                                                             <option value="">Select Team...</option>
                                                             {teams.map(t => (
@@ -1314,7 +1314,7 @@ export const MobileRequests: React.FC<MobileRequestsProps> = ({
                                                         <select
                                                             value={detailChecklistId}
                                                             onChange={(e) => setDetailChecklistId(e.target.value)}
-                                                            className="w-full h-11 bg-background border border-border rounded-xl px-3 text-sm focus:outline-none focus:border-indigo-600 transition-all font-semibold"
+                                                            className="w-full h-11 bg-background border border-border rounded-xl px-3 text-sm focus:outline-none focus:border-primary transition-all font-semibold"
                                                         >
                                                             <option value="">Select Checklist...</option>
                                                             {checklists.map(chk => (
@@ -1333,7 +1333,7 @@ export const MobileRequests: React.FC<MobileRequestsProps> = ({
                                                             value={detailEstimatedDuration}
                                                             onChange={(e) => setDetailEstimatedDuration(e.target.value)}
                                                             placeholder="e.g. 2.5"
-                                                            className="w-full h-11 bg-background border border-border rounded-xl px-3 text-sm focus:outline-none focus:border-indigo-600 transition-all font-semibold"
+                                                            className="w-full h-11 bg-background border border-border rounded-xl px-3 text-sm focus:outline-none focus:border-primary transition-all font-semibold"
                                                         />
                                                     </div>
                                                 )}
@@ -1345,7 +1345,7 @@ export const MobileRequests: React.FC<MobileRequestsProps> = ({
                                                             id="mobDetailSig"
                                                             checked={detailSignatureRequired}
                                                             onChange={(e) => setDetailSignatureRequired(e.target.checked)}
-                                                            className="w-4 h-4 rounded border-border text-indigo-600 focus:ring-indigo-500 cursor-pointer" 
+                                                            className="w-4 h-4 rounded border-border text-primary focus:ring-primary cursor-pointer" 
                                                         />
                                                         <label htmlFor="mobDetailSig" className="text-xs font-bold text-foreground cursor-pointer select-none">
                                                             Signature Required upon Completion {fieldSettings.signature?.approve === 'Required' && <span className="text-rose-500 ml-0.5">*</span>}
@@ -1374,7 +1374,7 @@ export const MobileRequests: React.FC<MobileRequestsProps> = ({
                                                     <div key={comment.id} className="bg-card border border-border rounded-2xl p-3 shadow-sm space-y-2 animate-in fade-in slide-in-from-bottom duration-300">
                                                         <div className="flex items-center justify-between">
                                                             <div className="flex items-center gap-2">
-                                                                <div className="w-6 h-6 rounded-full bg-indigo-50 dark:bg-indigo-950 border border-indigo-100 dark:border-indigo-900 flex items-center justify-center text-[10px] font-bold text-indigo-700 dark:text-indigo-300 uppercase shrink-0">
+                                                                <div className="w-6 h-6 rounded-full bg-primary/10 dark:bg-indigo-950 border border-primary/10 dark:border-indigo-900 flex items-center justify-center text-[10px] font-bold text-primary/90 dark:text-indigo-300 uppercase shrink-0">
                                                                     {getInitials(comment.sender)}
                                                                 </div>
                                                                 <span className="text-[11px] font-bold text-foreground lowercase">{comment.sender}</span>
@@ -1400,12 +1400,12 @@ export const MobileRequests: React.FC<MobileRequestsProps> = ({
                                                     if (e.key === 'Enter') handleSendComment();
                                                 }}
                                                 placeholder="Write a note..."
-                                                className="flex-1 h-11 bg-card border border-border rounded-xl px-3 text-xs focus:outline-none focus:border-indigo-600 transition-all font-semibold"
+                                                className="flex-1 h-11 bg-card border border-border rounded-xl px-3 text-xs focus:outline-none focus:border-primary transition-all font-semibold"
                                             />
                                             <button 
                                                 onClick={handleSendComment}
                                                 disabled={!chatMessage.trim()}
-                                                className="w-11 h-11 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl flex items-center justify-center transition-all disabled:opacity-50"
+                                                className="w-11 h-11 bg-primary hover:bg-primary/90 text-white rounded-xl flex items-center justify-center transition-all disabled:opacity-50"
                                             >
                                                 <Send className="w-4 h-4" />
                                             </button>
@@ -1436,7 +1436,7 @@ export const MobileRequests: React.FC<MobileRequestsProps> = ({
                                     <button 
                                         onClick={handleApproveRequest}
                                         disabled={approveRequest.isPending || !detailTitle.trim()}
-                                        className="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-black uppercase tracking-wider rounded-xl transition-all shadow-md hover:shadow-indigo-500/20 active:scale-95 disabled:opacity-50"
+                                        className="w-full py-3 bg-primary hover:bg-primary/90 text-white text-xs font-black uppercase tracking-wider rounded-xl transition-all shadow-md hover:shadow-primary/20 active:scale-95 disabled:opacity-50"
                                     >
                                         {approveRequest.isPending ? 'Spawning Work Order...' : 'Approve & Dispatch'}
                                     </button>
@@ -1480,7 +1480,7 @@ export const MobileRequests: React.FC<MobileRequestsProps> = ({
                                             value={createForm.title}
                                             onChange={(e) => setCreateForm({ ...createForm, title: e.target.value })}
                                             placeholder="Summarize the problem..."
-                                            className="w-full h-11 bg-card border border-border rounded-xl px-3 text-sm focus:outline-none focus:border-indigo-600 transition-all font-semibold"
+                                            className="w-full h-11 bg-card border border-border rounded-xl px-3 text-sm focus:outline-none focus:border-primary transition-all font-semibold"
                                         />
                                     </div>
                                 )}
@@ -1495,7 +1495,7 @@ export const MobileRequests: React.FC<MobileRequestsProps> = ({
                                             onChange={(e) => setCreateForm({ ...createForm, description: e.target.value })}
                                             placeholder="Add details, symptoms, context..."
                                             rows={3}
-                                            className="w-full bg-card border border-border rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-indigo-600 transition-all font-medium resize-none"
+                                            className="w-full bg-card border border-border rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-primary transition-all font-medium resize-none"
                                         />
                                     </div>
                                 )}
@@ -1508,7 +1508,7 @@ export const MobileRequests: React.FC<MobileRequestsProps> = ({
                                         <select
                                             value={createForm.priority}
                                             onChange={(e) => setCreateForm({ ...createForm, priority: e.target.value })}
-                                            className="w-full h-11 bg-card border border-border rounded-xl px-3 text-sm focus:outline-none focus:border-indigo-600 transition-all font-semibold"
+                                            className="w-full h-11 bg-card border border-border rounded-xl px-3 text-sm focus:outline-none focus:border-primary transition-all font-semibold"
                                         >
                                             <option value="NONE">None</option>
                                             <option value="LOW">Low</option>
@@ -1527,7 +1527,7 @@ export const MobileRequests: React.FC<MobileRequestsProps> = ({
                                         <select
                                             value={createForm.locationId}
                                             onChange={(e) => setCreateForm({ ...createForm, locationId: e.target.value })}
-                                            className="w-full h-11 bg-card border border-border rounded-xl px-3 text-sm focus:outline-none focus:border-indigo-600 transition-all font-semibold"
+                                            className="w-full h-11 bg-card border border-border rounded-xl px-3 text-sm focus:outline-none focus:border-primary transition-all font-semibold"
                                         >
                                             <option value="">Select Location...</option>
                                             {locations.map(loc => (
@@ -1545,7 +1545,7 @@ export const MobileRequests: React.FC<MobileRequestsProps> = ({
                                         <select
                                             value={createForm.assetId}
                                             onChange={(e) => setCreateForm({ ...createForm, assetId: e.target.value })}
-                                            className="w-full h-11 bg-card border border-border rounded-xl px-3 text-sm focus:outline-none focus:border-indigo-600 transition-all font-semibold"
+                                            className="w-full h-11 bg-card border border-border rounded-xl px-3 text-sm focus:outline-none focus:border-primary transition-all font-semibold"
                                         >
                                             <option value="">Select Asset...</option>
                                             {assets.map(asset => (
@@ -1566,7 +1566,7 @@ export const MobileRequests: React.FC<MobileRequestsProps> = ({
                                                         type="checkbox" 
                                                         checked={!!taskResponses[task.id]}
                                                         onChange={() => toggleTaskResponse(task.id)}
-                                                        className="w-4 h-4 rounded border-border text-indigo-600 focus:ring-indigo-500" 
+                                                        className="w-4 h-4 rounded border-border text-primary focus:ring-primary" 
                                                     />
                                                     <span className="text-xs font-bold text-foreground">{task.label}</span>
                                                 </div>
@@ -1581,7 +1581,7 @@ export const MobileRequests: React.FC<MobileRequestsProps> = ({
                                         <label className="text-[11px] font-black uppercase text-muted-foreground tracking-wider">
                                             Upload File/Image {(fieldSettings.images?.create === 'Required' || fieldSettings.files?.create === 'Required') && <span className="text-rose-500">*</span>}
                                         </label>
-                                        <div className="border border-dashed border-border rounded-xl p-4 bg-card relative flex flex-col items-center justify-center hover:border-indigo-500 transition-all">
+                                        <div className="border border-dashed border-border rounded-xl p-4 bg-card relative flex flex-col items-center justify-center hover:border-primary/80 transition-all">
                                             <input 
                                                 type="file"
                                                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
@@ -1608,7 +1608,7 @@ export const MobileRequests: React.FC<MobileRequestsProps> = ({
                                 <button 
                                     onClick={handleCreateRequest}
                                     disabled={createRequest.isPending || !createForm.title.trim()}
-                                    className="flex-1 py-3 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-black uppercase tracking-wider rounded-xl transition-all shadow-md disabled:opacity-50"
+                                    className="flex-1 py-3 bg-primary hover:bg-primary/90 text-white text-xs font-black uppercase tracking-wider rounded-xl transition-all shadow-md disabled:opacity-50"
                                 >
                                     {createRequest.isPending ? 'Submitting...' : 'Submit Request'}
                                 </button>
@@ -1657,7 +1657,7 @@ export const MobileRequests: React.FC<MobileRequestsProps> = ({
                                                 className={cn(
                                                     "py-2.5 rounded-xl text-xs font-black uppercase border transition-all active:scale-95",
                                                     selectedPriorityFilter === prio
-                                                        ? "bg-indigo-600 border-indigo-600 text-white shadow-md shadow-indigo-600/10"
+                                                        ? "bg-primary border-primary text-white shadow-md shadow-primary/20"
                                                         : "bg-card border-border text-muted-foreground hover:text-foreground"
                                                 )}
                                             >
@@ -1693,7 +1693,7 @@ export const MobileRequests: React.FC<MobileRequestsProps> = ({
                                                 }}
                                                 className={cn(
                                                     "w-full text-left px-4 py-3 text-xs font-bold transition-colors border-b border-border/30 last:border-0",
-                                                    selectedLocationFilter === 'ALL' ? "bg-indigo-50/20 text-indigo-600 font-black" : "text-muted-foreground hover:bg-muted/10 hover:text-foreground"
+                                                    selectedLocationFilter === 'ALL' ? "bg-primary/10/20 text-primary font-black" : "text-muted-foreground hover:bg-muted/10 hover:text-foreground"
                                                 )}
                                             >
                                                 All Locations
@@ -1708,7 +1708,7 @@ export const MobileRequests: React.FC<MobileRequestsProps> = ({
                                                     }}
                                                     className={cn(
                                                         "w-full text-left px-4 py-3 text-xs font-bold transition-colors border-b border-border/30 last:border-0",
-                                                        selectedLocationFilter === loc.id ? "bg-indigo-50/20 text-indigo-600 font-black" : "text-muted-foreground hover:bg-muted/10 hover:text-foreground"
+                                                        selectedLocationFilter === loc.id ? "bg-primary/10/20 text-primary font-black" : "text-muted-foreground hover:bg-muted/10 hover:text-foreground"
                                                     )}
                                                 >
                                                     {loc.name}
@@ -1731,7 +1731,7 @@ export const MobileRequests: React.FC<MobileRequestsProps> = ({
                                                     onClick={() => setSelectedAssigneeIds(prev => isSelected ? prev.filter(x => x !== uid) : [...prev, uid])}
                                                     className={cn(
                                                         "w-full flex items-center justify-between px-3 py-2.5 rounded-xl border text-[12px] font-bold transition-all text-left",
-                                                        isSelected ? "bg-indigo-600/10 border-indigo-600/30 text-indigo-600" : "bg-card border-border text-foreground"
+                                                        isSelected ? "bg-primary/10 border-primary/30 text-primary" : "bg-card border-border text-foreground"
                                                     )}
                                                 >
                                                     <div className="flex items-center gap-2">
@@ -1762,7 +1762,7 @@ export const MobileRequests: React.FC<MobileRequestsProps> = ({
                                                     onClick={() => setSelectedAssetIds(prev => isSelected ? prev.filter(x => x !== a.id) : [...prev, a.id])}
                                                     className={cn(
                                                         "w-full flex items-center justify-between px-3 py-2.5 rounded-xl border text-[12px] font-bold transition-all text-left",
-                                                        isSelected ? "bg-indigo-600/10 border-indigo-600/30 text-indigo-600" : "bg-card border-border text-foreground"
+                                                        isSelected ? "bg-primary/10 border-primary/30 text-primary" : "bg-card border-border text-foreground"
                                                     )}
                                                 >
                                                     <span className="truncate">{a.name}</span>
@@ -1794,7 +1794,7 @@ export const MobileRequests: React.FC<MobileRequestsProps> = ({
                                 </button>
                                 <button 
                                     onClick={() => setIsFilterDrawerOpen(false)}
-                                    className="flex-1 py-3 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-black uppercase tracking-wider rounded-xl transition-all shadow-md active:scale-95"
+                                    className="flex-1 py-3 bg-primary hover:bg-primary/90 text-white text-xs font-black uppercase tracking-wider rounded-xl transition-all shadow-md active:scale-95"
                                 >
                                     Apply Filters
                                 </button>
@@ -1807,7 +1807,7 @@ export const MobileRequests: React.FC<MobileRequestsProps> = ({
             {/* Floating Action Button for Create Request */}
             <button
                 onClick={() => setIsCreateDrawerOpen(true)}
-                className="fixed bottom-20 right-4 w-12 h-12 bg-indigo-600 text-white rounded-full flex items-center justify-center shadow-lg shadow-indigo-600/30 hover:scale-105 active:scale-95 transition-all z-40"
+                className="fixed bottom-20 right-4 w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center shadow-lg shadow-primary/20 hover:scale-105 active:scale-95 transition-all z-40"
             >
                 <Plus className="w-6 h-6" />
             </button>

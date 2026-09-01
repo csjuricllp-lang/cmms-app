@@ -69,7 +69,7 @@ const CHART_TYPES = [
     { id: 'table', label: 'Data Table', icon: TableIcon }
 ];
 
-const PALETTE = ['#6366F1', '#F43F5E', '#10B981', '#F59E0B', '#3B82F6', '#8B5CF6', '#EC4899', '#14B8A6'];
+const PALETTE = ['hsl(var(--primary-raw))', '#F43F5E', '#10B981', '#F59E0B', '#3B82F6', '#8B5CF6', '#EC4899', '#14B8A6'];
 
 export const CustomReportBuilder = ({ data }: CustomReportBuilderProps) => {
     const rawLogs = data?.itemizedTimeReport || [];
@@ -282,9 +282,9 @@ export const CustomReportBuilder = ({ data }: CustomReportBuilderProps) => {
     return (
         <div className="space-y-8 font-inter select-none">
             {/* Control Strip */}
-            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 bg-white p-4 border border-slate-200 rounded-2xl shadow-sm">
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 bg-card p-4 border border-border rounded-2xl shadow-sm">
                 <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 shadow-sm shrink-0">
+                    <div className="w-10 h-10 rounded-xl bg-primary/10 border border-primary/10 flex items-center justify-center text-primary shadow-sm shrink-0">
                         <LayoutGrid className="w-5 h-5" />
                     </div>
                     <div>
@@ -303,7 +303,7 @@ export const CustomReportBuilder = ({ data }: CustomReportBuilderProps) => {
                                     if (rep) handleLoadReport(rep);
                                 }}
                                 value=""
-                                className="h-9 px-4 bg-slate-50 border border-slate-200 rounded-xl text-[12px] font-bold text-slate-700 focus:outline-none focus:border-indigo-500/50 hover:bg-slate-100 transition-colors appearance-none pr-8 cursor-pointer"
+                                className="h-9 px-4 bg-transparent border border-border rounded-xl text-[12px] font-bold text-foreground/90 focus:outline-none focus:border-primary/80/50 hover:bg-muted transition-colors appearance-none pr-8 cursor-pointer"
                             >
                                 <option value="" disabled>📁 Saved Reports ({savedReports.length})</option>
                                 {savedReports.map(r => (
@@ -316,7 +316,7 @@ export const CustomReportBuilder = ({ data }: CustomReportBuilderProps) => {
 
                     <button 
                         onClick={resetCanvas}
-                        className="h-9 px-3.5 border border-slate-200 bg-white hover:bg-slate-50 text-[12px] font-bold text-slate-500 rounded-xl transition-all active:scale-95 flex items-center gap-2"
+                        className="h-9 px-3.5 border border-border bg-card hover:bg-transparent text-[12px] font-bold text-muted-foreground rounded-xl transition-all active:scale-95 flex items-center gap-2"
                     >
                         Clear Canvas
                     </button>
@@ -324,7 +324,7 @@ export const CustomReportBuilder = ({ data }: CustomReportBuilderProps) => {
                     <button 
                         onClick={() => setIsSaveModalOpen(true)}
                         disabled={!selectedDimension || !selectedMetric}
-                        className="h-9 px-3.5 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-[12px] font-bold text-white rounded-xl shadow-lg shadow-indigo-100 transition-all active:scale-95 flex items-center gap-2"
+                        className="h-9 px-3.5 bg-primary hover:bg-primary/90 disabled:opacity-50 text-[12px] font-bold text-white rounded-xl shadow-lg shadow-primary/20 transition-all active:scale-95 flex items-center gap-2"
                     >
                         <Save className="w-3.5 h-3.5" /> Save Configuration
                     </button>
@@ -332,7 +332,7 @@ export const CustomReportBuilder = ({ data }: CustomReportBuilderProps) => {
                     <button 
                         onClick={exportCSV}
                         disabled={chartData.length === 0}
-                        className="h-9 px-3.5 border border-slate-200 bg-white hover:bg-slate-50 disabled:opacity-50 text-[12px] font-bold text-slate-600 rounded-xl transition-all active:scale-95 flex items-center gap-2"
+                        className="h-9 px-3.5 border border-border bg-card hover:bg-transparent disabled:opacity-50 text-[12px] font-bold text-slate-600 rounded-xl transition-all active:scale-95 flex items-center gap-2"
                     >
                         <Download className="w-3.5 h-3.5" /> Export CSV
                     </button>
@@ -346,9 +346,9 @@ export const CustomReportBuilder = ({ data }: CustomReportBuilderProps) => {
                 <div className="lg:col-span-3 space-y-6">
                     
                     {/* Dimension Library */}
-                    <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
+                    <div className="bg-card rounded-2xl border border-border p-6 shadow-sm space-y-4">
                         <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-                            <span className="text-[11px] font-black text-slate-500 uppercase tracking-widest">1. Dimensions (X-Axis)</span>
+                            <span className="text-[11px] font-black text-muted-foreground uppercase tracking-widest">1. Dimensions (X-Axis)</span>
                             <span title="Drag to X-Axis drop zone or click to select"><HelpCircle className="w-3.5 h-3.5 text-slate-300" /></span>
                         </div>
                         
@@ -364,13 +364,13 @@ export const CustomReportBuilder = ({ data }: CustomReportBuilderProps) => {
                                         className={cn(
                                             "p-3 rounded-xl border transition-all cursor-grab active:cursor-grabbing text-left group",
                                             isSelected 
-                                                ? "bg-indigo-50 border-indigo-200 ring-2 ring-indigo-500/20" 
-                                                : "bg-slate-50/50 border-slate-200/60 hover:bg-slate-50 hover:border-slate-300"
+                                                ? "bg-primary/10 border-primary/20 ring-2 ring-primary/20" 
+                                                : "bg-transparent/50 border-slate-200/60 hover:bg-transparent hover:border-slate-300"
                                         )}
                                     >
                                         <div className="flex items-center justify-between">
-                                            <span className="text-[13px] font-bold text-slate-700">{dim.label}</span>
-                                            {isSelected && <Check className="w-4 h-4 text-indigo-600 shrink-0 animate-in fade-in zoom-in-75" />}
+                                            <span className="text-[13px] font-bold text-foreground/90">{dim.label}</span>
+                                            {isSelected && <Check className="w-4 h-4 text-primary shrink-0 animate-in fade-in zoom-in-75" />}
                                         </div>
                                         <p className="text-[10px] text-slate-400 font-medium leading-normal mt-1 opacity-70 group-hover:opacity-100 transition-opacity">{dim.description}</p>
                                     </div>
@@ -380,9 +380,9 @@ export const CustomReportBuilder = ({ data }: CustomReportBuilderProps) => {
                     </div>
 
                     {/* Metric Library */}
-                    <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
+                    <div className="bg-card rounded-2xl border border-border p-6 shadow-sm space-y-4">
                         <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-                            <span className="text-[11px] font-black text-slate-500 uppercase tracking-widest">2. Metrics (Y-Axis)</span>
+                            <span className="text-[11px] font-black text-muted-foreground uppercase tracking-widest">2. Metrics (Y-Axis)</span>
                             <span title="Drag to Y-Axis drop zone or click to select"><HelpCircle className="w-3.5 h-3.5 text-slate-300" /></span>
                         </div>
 
@@ -399,12 +399,12 @@ export const CustomReportBuilder = ({ data }: CustomReportBuilderProps) => {
                                             "p-3 rounded-xl border transition-all cursor-grab active:cursor-grabbing text-left group",
                                             isSelected 
                                                 ? "bg-emerald-50 border-emerald-200 ring-2 ring-emerald-500/20" 
-                                                : "bg-slate-50/50 border-slate-200/60 hover:bg-slate-50 hover:border-slate-300"
+                                                : "bg-transparent/50 border-slate-200/60 hover:bg-transparent hover:border-slate-300"
                                         )}
                                     >
                                         <div className="flex items-center justify-between">
-                                            <span className="text-[13px] font-bold text-slate-700">{metric.label}</span>
-                                            <span className="px-1.5 py-0.5 rounded-md bg-white border border-slate-200 text-[9px] font-black text-slate-500 font-mono">{metric.unit}</span>
+                                            <span className="text-[13px] font-bold text-foreground/90">{metric.label}</span>
+                                            <span className="px-1.5 py-0.5 rounded-md bg-card border border-border text-[9px] font-black text-muted-foreground font-mono">{metric.unit}</span>
                                         </div>
                                         <p className="text-[10px] text-slate-400 font-medium leading-normal mt-1 opacity-70 group-hover:opacity-100 transition-opacity">{metric.description}</p>
                                     </div>
@@ -429,23 +429,23 @@ export const CustomReportBuilder = ({ data }: CustomReportBuilderProps) => {
                             className={cn(
                                 "border-2 border-dashed rounded-2xl p-5 flex flex-col items-center justify-center text-center transition-all min-h-[100px]",
                                 dragOverX 
-                                    ? "border-indigo-500 bg-indigo-50/40 scale-[1.01]" 
+                                    ? "border-primary/80 bg-primary/10/40 scale-[1.01]" 
                                     : selectedDimension 
-                                        ? "border-indigo-100 bg-indigo-50/10" 
-                                        : "border-slate-200 bg-white"
+                                        ? "border-primary/10 bg-primary/10/10" 
+                                        : "border-border bg-card"
                             )}
                         >
                             {selectedDimension ? (
                                 <div className="space-y-1">
-                                    <span className="text-[10px] font-black text-indigo-500 uppercase tracking-widest block">X-Axis Grouping</span>
-                                    <div className="flex items-center gap-2 bg-indigo-600 text-white px-3.5 py-1.5 rounded-full text-xs font-bold shadow-md shadow-indigo-100">
+                                    <span className="text-[10px] font-black text-primary/80 uppercase tracking-widest block">X-Axis Grouping</span>
+                                    <div className="flex items-center gap-2 bg-primary text-white px-3.5 py-1.5 rounded-full text-xs font-bold shadow-md shadow-primary/20">
                                         <span>{DIMENSIONS.find(d => d.id === selectedDimension)?.label}</span>
                                         <button onClick={() => setSelectedDimension(null)} className="hover:text-red-200 font-bold ml-1">×</button>
                                     </div>
                                 </div>
                             ) : (
                                 <div>
-                                    <p className="text-sm font-bold text-slate-500">Drag a Dimension Here</p>
+                                    <p className="text-sm font-bold text-muted-foreground">Drag a Dimension Here</p>
                                     <p className="text-[11px] text-slate-400 font-medium mt-0.5">X-Axis representation</p>
                                 </div>
                             )}
@@ -462,7 +462,7 @@ export const CustomReportBuilder = ({ data }: CustomReportBuilderProps) => {
                                     ? "border-emerald-500 bg-emerald-50/40 scale-[1.01]" 
                                     : selectedMetric 
                                         ? "border-emerald-100 bg-emerald-50/10" 
-                                        : "border-slate-200 bg-white"
+                                        : "border-border bg-card"
                             )}
                         >
                             {selectedMetric ? (
@@ -475,7 +475,7 @@ export const CustomReportBuilder = ({ data }: CustomReportBuilderProps) => {
                                 </div>
                             ) : (
                                 <div>
-                                    <p className="text-sm font-bold text-slate-500">Drag a Metric Here</p>
+                                    <p className="text-sm font-bold text-muted-foreground">Drag a Metric Here</p>
                                     <p className="text-[11px] text-slate-400 font-medium mt-0.5">Y-Axis representation</p>
                                 </div>
                             )}
@@ -484,7 +484,7 @@ export const CustomReportBuilder = ({ data }: CustomReportBuilderProps) => {
                     </div>
 
                     {/* Chart Canvas */}
-                    <div className="bg-white rounded-3xl border border-slate-200 p-8 shadow-sm min-h-[480px] flex flex-col relative overflow-hidden">
+                    <div className="bg-card rounded-3xl border border-border p-8 shadow-sm min-h-[480px] flex flex-col relative overflow-hidden">
                         
                         {/* Selector Controls for Chart Type */}
                         {selectedDimension && selectedMetric && (
@@ -493,7 +493,7 @@ export const CustomReportBuilder = ({ data }: CustomReportBuilderProps) => {
                                     <h4 className="text-[14px] font-bold text-slate-800">Visualizer Output</h4>
                                 </div>
 
-                                <div className="flex bg-slate-100 p-1 rounded-xl border border-slate-200/50">
+                                <div className="flex bg-muted p-1 rounded-xl border border-slate-200/50">
                                     {CHART_TYPES.map((type) => {
                                         const isSelected = chartType === type.id;
                                         return (
@@ -502,7 +502,7 @@ export const CustomReportBuilder = ({ data }: CustomReportBuilderProps) => {
                                                 onClick={() => setChartType(type.id)}
                                                 className={cn(
                                                     "p-2 rounded-lg flex items-center justify-center transition-all",
-                                                    isSelected ? "bg-white text-indigo-600 shadow-sm" : "text-slate-400 hover:text-slate-600"
+                                                    isSelected ? "bg-card text-primary shadow-sm" : "text-slate-400 hover:text-slate-600"
                                                 )}
                                                 title={type.label}
                                             >
@@ -518,11 +518,11 @@ export const CustomReportBuilder = ({ data }: CustomReportBuilderProps) => {
                         <div className="flex-1 w-full flex flex-col justify-center">
                             {!selectedDimension || !selectedMetric ? (
                                 <div className="text-center py-20 max-w-sm mx-auto space-y-4">
-                                    <div className="w-16 h-16 bg-slate-50 rounded-2xl border border-slate-100 flex items-center justify-center text-slate-300 mx-auto animate-bounce-subtle">
+                                    <div className="w-16 h-16 bg-transparent rounded-2xl border border-slate-100 flex items-center justify-center text-slate-300 mx-auto animate-bounce-subtle">
                                         <LayoutGrid className="w-8 h-8" />
                                     </div>
                                     <div className="space-y-1">
-                                        <p className="text-[15px] font-black text-slate-700">Canvas Awaiting Configuration</p>
+                                        <p className="text-[15px] font-black text-foreground/90">Canvas Awaiting Configuration</p>
                                         <p className="text-[12px] text-slate-400 font-medium leading-relaxed">
                                             Select fields from the left menu or drag them onto the active dashed drop zones to build your custom business intelligence report.
                                         </p>
@@ -534,7 +534,7 @@ export const CustomReportBuilder = ({ data }: CustomReportBuilderProps) => {
                                         <FileText className="w-8 h-8" />
                                     </div>
                                     <div className="space-y-1">
-                                        <p className="text-[15px] font-black text-slate-700">No Relational Match Found</p>
+                                        <p className="text-[15px] font-black text-foreground/90">No Relational Match Found</p>
                                         <p className="text-[12px] text-slate-400 font-medium">The selected dimensions have no corresponding time logs matching this profile.</p>
                                     </div>
                                 </div>
@@ -545,21 +545,21 @@ export const CustomReportBuilder = ({ data }: CustomReportBuilderProps) => {
                                     {chartType === 'table' ? (
                                         <div className="border border-slate-150 rounded-2xl overflow-hidden mt-2 max-h-[360px] overflow-y-auto custom-scrollbar">
                                             <table className="w-full text-left border-collapse">
-                                                <thead className="bg-slate-50 border-b border-slate-200">
-                                                    <tr>
-                                                        <th className="px-6 py-3 text-[11px] font-black uppercase tracking-widest text-slate-500">
+                                                <thead className="text-white/90 bg-primary">
+                            <tr className="border-b border-primary/20">
+                                                        <th className="px-6 py-3 text-[11px] font-black uppercase tracking-widestst text-white/90">
                                                             {DIMENSIONS.find(d => d.id === selectedDimension)?.label}
                                                         </th>
-                                                        <th className="px-6 py-3 text-[11px] font-black uppercase tracking-widest text-slate-500 text-right">
+                                                        <th className="px-6 py-3 text-[11px] font-black uppercase tracking-widestst text-white/90 text-right">
                                                             {METRICS.find(m => m.id === selectedMetric)?.label} ({currentUnit})
                                                         </th>
                                                     </tr>
                                                 </thead>
                                                 <tbody className="divide-y divide-slate-100 text-[13px]">
                                                     {chartData.map((d, index) => (
-                                                        <tr key={index} className="hover:bg-slate-50/50 transition-colors">
-                                                            <td className="px-6 py-3.5 font-bold text-slate-700">{d.name}</td>
-                                                            <td className="px-6 py-3.5 font-mono text-slate-900 text-right font-bold">
+                                                        <tr key={index} className="hover:bg-transparent/50 transition-colors">
+                                                            <td className="px-6 py-3.5 font-bold text-foreground/90">{d.name}</td>
+                                                            <td className="px-6 py-3.5 font-mono text-foreground text-right font-bold">
                                                                 {currentUnit === '$' ? `$${d.value.toLocaleString()}` : `${d.value.toLocaleString()} ${currentUnit}`}
                                                             </td>
                                                         </tr>
@@ -591,7 +591,7 @@ export const CustomReportBuilder = ({ data }: CustomReportBuilderProps) => {
                                                     <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#64748B' }} />
                                                     <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#64748B' }} tickFormatter={(v) => currentUnit === '$' ? `$${v}` : v} />
                                                     <Tooltip formatter={(value: any) => [currentUnit === '$' ? `$${value.toLocaleString()}` : `${value.toLocaleString()} ${currentUnit}`, METRICS.find(m => m.id === selectedMetric)?.label]} />
-                                                    <Line type="monotone" dataKey="value" stroke="#6366F1" strokeWidth={3} dot={{ r: 5, fill: '#ffffff', strokeWidth: 3, stroke: '#6366F1' }} activeDot={{ r: 7 }} />
+                                                    <Line type="monotone" dataKey="value" stroke="#6366F1" strokeWidth={3} dot={{ r: 5, fill: '#ffffff', strokeWidth: 3, stroke: 'hsl(var(--primary-raw))' }} activeDot={{ r: 7 }} />
                                                 </LineChart>
                                             ) :
                                             
@@ -646,8 +646,8 @@ export const CustomReportBuilder = ({ data }: CustomReportBuilderProps) => {
 
             {/* Saved Reports Table/Admin Drawer */}
             {savedReports.length > 0 && (
-                <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
-                    <h4 className="text-[12px] font-black text-slate-500 uppercase tracking-widest border-b border-slate-100 pb-3">
+                <div className="bg-card rounded-2xl border border-border p-6 shadow-sm space-y-4">
+                    <h4 className="text-[12px] font-black text-muted-foreground uppercase tracking-widest border-b border-slate-100 pb-3">
                         📁 Saved Reports Ledger
                     </h4>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -658,10 +658,10 @@ export const CustomReportBuilder = ({ data }: CustomReportBuilderProps) => {
                                 <div 
                                     key={report.id}
                                     onClick={() => handleLoadReport(report)}
-                                    className="p-4 rounded-xl border border-slate-200 hover:border-indigo-300 bg-slate-50/50 hover:bg-indigo-50/5 hover:shadow-sm transition-all cursor-pointer flex justify-between items-start group"
+                                    className="p-4 rounded-xl border border-border hover:border-indigo-300 bg-transparent/50 hover:bg-primary/10/5 hover:shadow-sm transition-all cursor-pointer flex justify-between items-start group"
                                 >
                                     <div className="space-y-1">
-                                        <p className="text-[13px] font-bold text-slate-700">{report.name}</p>
+                                        <p className="text-[13px] font-bold text-foreground/90">{report.name}</p>
                                         <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
                                             {metricLabel} by {dimLabel} • <span className="font-mono text-[9px]">{report.chartType.toUpperCase()}</span>
                                         </p>
@@ -688,7 +688,7 @@ export const CustomReportBuilder = ({ data }: CustomReportBuilderProps) => {
                             initial={{ opacity: 0, scale: 0.95, y: 15 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 15 }}
-                            className="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-md p-6 space-y-5"
+                            className="bg-card rounded-2xl shadow-2xl border border-border w-full max-w-md p-6 space-y-5"
                         >
                             <div className="space-y-2">
                                 <h3 className="text-md font-bold text-slate-800">Save Custom BI Configuration</h3>
@@ -696,26 +696,26 @@ export const CustomReportBuilder = ({ data }: CustomReportBuilderProps) => {
                             </div>
 
                             <div className="space-y-1.5">
-                                <label className="text-[10px] font-black uppercase text-slate-500 tracking-wider">Report Name</label>
+                                <label className="text-[10px] font-black uppercase text-muted-foreground tracking-wider">Report Name</label>
                                 <input 
                                     type="text" 
                                     value={reportName}
                                     onChange={(e) => setReportName(e.target.value)}
                                     placeholder="e.g., Q3 Mechanical Repairs Cost"
-                                    className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold text-slate-900 focus:bg-white focus:border-indigo-500/50 outline-none transition-colors placeholder:text-slate-400"
+                                    className="w-full px-4 py-2 bg-transparent border border-border rounded-xl text-sm font-semibold text-foreground focus:bg-card focus:border-primary/80/50 outline-none transition-colors placeholder:text-slate-400"
                                 />
                             </div>
 
                             <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-100">
                                 <button 
                                     onClick={() => { setIsSaveModalOpen(false); setReportName(''); }}
-                                    className="px-4 py-2 border border-slate-200 text-slate-500 hover:bg-slate-50 text-[12px] font-bold rounded-xl transition-colors"
+                                    className="px-4 py-2 border border-border text-muted-foreground hover:bg-transparent text-[12px] font-bold rounded-xl transition-colors"
                                 >
                                     Cancel
                                 </button>
                                 <button 
                                     onClick={handleSaveReport}
-                                    className="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-[12px] font-bold text-white rounded-xl shadow-lg shadow-indigo-100 transition-colors"
+                                    className="px-5 py-2 bg-primary hover:bg-primary/90 text-[12px] font-bold text-white rounded-xl shadow-lg shadow-primary/20 transition-colors"
                                 >
                                     Save Config
                                 </button>

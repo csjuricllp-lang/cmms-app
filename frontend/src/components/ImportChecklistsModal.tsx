@@ -76,14 +76,14 @@ export const ImportChecklistsModal: React.FC<ImportChecklistsModalProps> = ({
                 initial={{ opacity: 0, scale: 0.95, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                className="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-hidden"
+                className="relative w-full max-w-lg bg-card rounded-3xl shadow-2xl border border-slate-100 overflow-hidden"
             >
                 <div className="p-8 space-y-6">
                     <div className="flex items-center justify-between">
                         <h2 className="text-[20px] font-black text-slate-800 tracking-tight">Import Checklists</h2>
                         <button 
                             onClick={onClose}
-                            className="p-2 hover:bg-slate-50 rounded-xl transition-all"
+                            className="p-2 hover:bg-muted/50 rounded-xl transition-all"
                         >
                             <X className="w-5 h-5 text-slate-400" />
                         </button>
@@ -92,19 +92,19 @@ export const ImportChecklistsModal: React.FC<ImportChecklistsModalProps> = ({
                     {!result && (
                         <div className="space-y-6">
                             <div className="flex items-start justify-between gap-4">
-                                <p className="text-[14px] text-slate-500 font-medium leading-relaxed">
+                                <p className="text-[14px] text-muted-foreground font-medium leading-relaxed">
                                     Upload your Excel/CSV file containing your checklists and tasks.
                                 </p>
                                 <button 
                                     onClick={handleDownloadTemplate}
-                                    className="flex items-center gap-2 px-3 py-1.5 bg-blue-50 text-blue-600 rounded-lg text-[12px] font-bold hover:bg-blue-100 transition-all shrink-0"
+                                    className="flex items-center gap-2 px-3 py-1.5 bg-blue-50 text-primary rounded-lg text-[12px] font-bold hover:bg-blue-100 transition-all shrink-0"
                                 >
                                     <Download className="w-3.5 h-3.5" />
                                     Template
                                 </button>
                             </div>
 
-                            <div className="border-2 border-dashed border-slate-200 hover:border-blue-400 rounded-2xl p-8 flex flex-col items-center justify-center transition-all bg-slate-50/50 relative">
+                            <div className="border-2 border-dashed border-border hover:border-primary/80 rounded-2xl p-8 flex flex-col items-center justify-center transition-all bg-transparent relative">
                                 <Upload className="w-10 h-10 text-slate-300 mb-3" />
                                 <span className="text-[14px] font-bold text-slate-600 mb-1">
                                     {file ? file.name : 'Choose file or drag & drop'}
@@ -124,7 +124,7 @@ export const ImportChecklistsModal: React.FC<ImportChecklistsModalProps> = ({
                             <div className="flex items-center justify-end gap-4 pt-2">
                                 <button 
                                     onClick={onClose}
-                                    className="px-6 py-3 text-slate-500 text-[14px] font-bold hover:bg-slate-50 rounded-2xl transition-all"
+                                    className="px-6 py-3 text-muted-foreground text-[14px] font-bold hover:bg-muted/50 rounded-2xl transition-all"
                                     disabled={isUploading}
                                 >
                                     Cancel
@@ -132,7 +132,7 @@ export const ImportChecklistsModal: React.FC<ImportChecklistsModalProps> = ({
                                 <button 
                                     disabled={!file || isUploading}
                                     onClick={handleUpload}
-                                    className="px-8 py-3 bg-blue-600 text-white text-[14px] font-black rounded-2xl shadow-xl shadow-blue-500/20 hover:bg-blue-700 disabled:opacity-50 disabled:shadow-none transition-all flex items-center gap-2"
+                                    className="px-8 py-3 bg-primary text-white text-[14px] font-black rounded-2xl shadow-xl shadow-primary/20 hover:bg-primary/90 disabled:opacity-50 disabled:shadow-none transition-all flex items-center gap-2"
                                 >
                                     {isUploading ? (
                                         <>

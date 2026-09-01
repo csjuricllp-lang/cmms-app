@@ -79,12 +79,12 @@ export const AssetSettingsWorkspace: React.FC = () => {
                             onClick={() => setActiveTab(tab.id as TabId)}
                             className={cn(
                                 "pb-4 text-[14px] font-bold transition-all relative",
-                                activeTab === tab.id ? "text-indigo-600" : "text-gray-400 hover:text-gray-600"
+                                activeTab === tab.id ? "text-primary" : "text-gray-400 hover:text-gray-600"
                             )}
                         >
                             {tab.label}
                             {activeTab === tab.id && (
-                                <motion.div layoutId="asset-tab-underline" className="absolute bottom-0 left-0 right-0 h-[3px] bg-indigo-600 rounded-full" />
+                                <motion.div layoutId="asset-tab-underline" className="absolute bottom-0 left-0 right-0 h-[3px] bg-primary rounded-full" />
                             )}
                         </button>
                     ))}
@@ -98,7 +98,7 @@ export const AssetSettingsWorkspace: React.FC = () => {
                         <div className="relative">
                             <button 
                                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                                className="px-6 py-2.5 bg-indigo-600 text-white text-[13px] font-black rounded-xl shadow-xl shadow-indigo-100 hover:bg-indigo-700 transition-all flex items-center gap-2"
+                                className="px-6 py-2.5 bg-primary text-white text-[13px] font-black rounded-xl shadow-xl shadow-primary/20 hover:bg-primary/90 transition-all flex items-center gap-2"
                             >
                                 <span>Create Field</span>
                                 <ChevronDown className={cn("w-4 h-4 transition-transform duration-300", isDropdownOpen && "rotate-180")} />
@@ -112,7 +112,7 @@ export const AssetSettingsWorkspace: React.FC = () => {
                                             initial={{ opacity: 0, y: 10, scale: 0.95 }}
                                             animate={{ opacity: 1, y: 0, scale: 1 }}
                                             exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                                            className="absolute right-0 mt-3 w-[260px] bg-white rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-gray-100 py-3 z-[60] overflow-hidden"
+                                            className="absolute right-0 mt-3 w-[260px] bg-card rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-gray-100 py-3 z-[60] overflow-hidden"
                                         >
                                             {fieldTypes.map((type) => (
                                                 <button 
@@ -122,10 +122,10 @@ export const AssetSettingsWorkspace: React.FC = () => {
                                                         setIsCreateModalOpen(true);
                                                         setIsDropdownOpen(false);
                                                     }}
-                                                    className="w-full px-6 py-4 flex items-center gap-4 hover:bg-slate-50 transition-colors group text-left"
+                                                    className="w-full px-6 py-4 flex items-center gap-4 hover:bg-muted/50 transition-colors group text-left"
                                                 >
-                                                    <type.icon className="w-5 h-5 text-slate-400 group-hover:text-indigo-600 transition-colors" />
-                                                    <span className="text-[14px] font-bold text-slate-700 group-hover:text-indigo-600 transition-colors">{type.label}</span>
+                                                    <type.icon className="w-5 h-5 text-slate-400 group-hover:text-primary transition-colors" />
+                                                    <span className="text-[14px] font-bold text-foreground/90 group-hover:text-primary transition-colors">{type.label}</span>
                                                 </button>
                                             ))}
                                         </motion.div>
@@ -143,32 +143,32 @@ export const AssetSettingsWorkspace: React.FC = () => {
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 placeholder="Search by Name"
-                                className="w-full pl-4 pr-10 py-2 bg-white border border-gray-200 rounded-lg text-[13px] font-medium focus:ring-2 focus:ring-indigo-600/10 focus:border-indigo-600 outline-none transition-all placeholder:text-slate-300"
+                                className="w-full pl-4 pr-10 py-2 bg-card border border-border rounded-lg text-[13px] font-medium focus:ring-2 focus:ring-primary/10 focus:border-primary outline-none transition-all placeholder:text-slate-300"
                             />
                         </div>
                     </div>
 
                     {/* Table */}
-                    <div className="bg-white rounded-2xl border border-gray-100 overflow-x-auto max-h-[500px] overflow-y-auto shadow-sm">
+                    <div className="bg-card rounded-2xl border border-gray-100 overflow-x-auto max-h-[500px] overflow-y-auto shadow-sm">
                         <table className="w-full border-collapse">
                             <thead>
                                 <tr className="border-b border-gray-50 bg-slate-50/30 sticky top-0 z-10">
-                                    <th className="px-8 py-4 text-left text-[11px] font-black uppercase tracking-widest text-slate-400 sticky top-0 bg-slate-50 z-10">Name</th>
-                                    <th className="px-8 py-4 text-left text-[11px] font-black uppercase tracking-widest text-slate-400 sticky top-0 bg-slate-50 z-10">Type</th>
-                                    <th className="px-8 py-4 text-left text-[11px] font-black uppercase tracking-widest text-slate-400 text-right sticky top-0 bg-slate-50 z-10">Source</th>
+                                    <th className="px-8 py-4 text-left text-[11px] font-black uppercase tracking-widest text-slate-400 sticky top-0 bg-muted/50 z-10">Name</th>
+                                    <th className="px-8 py-4 text-left text-[11px] font-black uppercase tracking-widest text-slate-400 sticky top-0 bg-muted/50 z-10">Type</th>
+                                    <th className="px-8 py-4 text-left text-[11px] font-black uppercase tracking-widest text-slate-400 text-right sticky top-0 bg-muted/50 z-10">Source</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-50">
                                 {defaultFields.filter(f => f.name.toLowerCase().includes(searchQuery.toLowerCase())).map((field) => (
-                                    <tr key={field.id} className="hover:bg-slate-50/50 transition-colors group cursor-pointer">
+                                    <tr key={field.id} className="hover:bg-transparent transition-colors group cursor-pointer">
                                         <td className="px-8 py-5">
-                                            <span className="text-[14px] font-bold text-slate-700">{field.name}</span>
+                                            <span className="text-[14px] font-bold text-foreground/90">{field.name}</span>
                                         </td>
                                         <td className="px-8 py-5">
-                                            <span className="text-[13px] font-medium text-slate-500">{field.type}</span>
+                                            <span className="text-[13px] font-medium text-muted-foreground">{field.type}</span>
                                         </td>
                                         <td className="px-8 py-5 text-right">
-                                            <span className="px-3 py-1 bg-slate-100 text-slate-500 text-[10px] font-black uppercase tracking-widest rounded-lg">
+                                            <span className="px-3 py-1 bg-muted text-muted-foreground text-[10px] font-black uppercase tracking-widest rounded-lg">
                                                 {field.source}
                                             </span>
                                         </td>
@@ -182,9 +182,9 @@ export const AssetSettingsWorkspace: React.FC = () => {
                                     </tr>
                                 ) : (
                                     fields.data?.filter(f => f.label.toLowerCase().includes(searchQuery.toLowerCase())).map((field) => (
-                                        <tr key={field.id} className="hover:bg-slate-50/50 transition-colors group cursor-pointer">
+                                        <tr key={field.id} className="hover:bg-transparent transition-colors group cursor-pointer">
                                             <td className="px-8 py-5 flex items-center justify-between">
-                                                <span className="text-[14px] font-bold text-slate-700">{field.label}</span>
+                                                <span className="text-[14px] font-bold text-foreground/90">{field.label}</span>
                                                 <button 
                                                     onClick={(e) => {
                                                         e.stopPropagation();
@@ -198,10 +198,10 @@ export const AssetSettingsWorkspace: React.FC = () => {
                                                 </button>
                                             </td>
                                             <td className="px-8 py-5">
-                                                <span className="text-[13px] font-medium text-slate-500">{field.type}</span>
+                                                <span className="text-[13px] font-medium text-muted-foreground">{field.type}</span>
                                             </td>
                                             <td className="px-8 py-5 text-right">
-                                                <span className="px-3 py-1 bg-indigo-50 text-indigo-600 text-[10px] font-black uppercase tracking-widest rounded-lg border border-indigo-100">
+                                                <span className="px-3 py-1 bg-primary/10 text-primary text-[10px] font-black uppercase tracking-widest rounded-lg border border-primary/10">
                                                     Custom
                                                 </span>
                                             </td>
@@ -216,7 +216,7 @@ export const AssetSettingsWorkspace: React.FC = () => {
                     <div className="flex items-center justify-between pt-4">
                         <div className="flex items-center gap-2 cursor-pointer group">
                             <span className="text-[13px] font-bold text-slate-400 group-hover:text-slate-600 transition-colors">Show 25 per page</span>
-                            <ChevronDown className="w-4 h-4 text-slate-300 group-hover:text-slate-500 transition-colors" />
+                            <ChevronDown className="w-4 h-4 text-slate-300 group-hover:text-muted-foreground transition-colors" />
                         </div>
                         <div className="flex items-center gap-6">
                             <button className="flex items-center gap-2 text-slate-300 cursor-not-allowed">
@@ -252,7 +252,7 @@ export const AssetSettingsWorkspace: React.FC = () => {
                             <span className="text-[14px] font-bold text-slate-400">{schedules.data?.length || 0} Schedules</span>
                             <button 
                                 onClick={() => setShowCreateSchedule(true)}
-                                className="px-6 py-2.5 bg-indigo-600 text-white text-[13px] font-black rounded-xl shadow-xl shadow-indigo-100 hover:bg-indigo-700 transition-all font-bold"
+                                className="px-6 py-2.5 bg-primary text-white text-[13px] font-black rounded-xl shadow-xl shadow-primary/20 hover:bg-primary/90 transition-all font-bold"
                             >
                                 Create Schedule
                             </button>
@@ -272,16 +272,16 @@ export const AssetSettingsWorkspace: React.FC = () => {
                                 setEditingCategory(null);
                                 setIsAddCategoryModalOpen(true);
                             }}
-                            className="px-6 py-2.5 bg-indigo-600 text-white text-[13px] font-black rounded-xl shadow-xl shadow-indigo-100 hover:bg-indigo-700 transition-all font-bold"
+                            className="px-6 py-2.5 bg-primary text-white text-[13px] font-black rounded-xl shadow-xl shadow-primary/20 hover:bg-primary/90 transition-all font-bold"
                         >
                             Add Category
                         </button>
                     </div>
 
                     {assetCategories.length === 0 ? (
-                        <div className="w-full py-32 flex flex-col items-center justify-center gap-6 bg-white border border-gray-100 rounded-2xl">
+                        <div className="w-full py-32 flex flex-col items-center justify-center gap-6 bg-card border border-gray-100 rounded-2xl">
                             <div className="space-y-2 text-center">
-                                <h3 className="text-[16px] font-bold text-slate-700">You don't have any categories yet</h3>
+                                <h3 className="text-[16px] font-bold text-foreground/90">You don't have any categories yet</h3>
                                 <p className="text-[14px] text-slate-400 font-medium font-bold">Create a new category to get started</p>
                             </div>
                             <button 
@@ -289,19 +289,19 @@ export const AssetSettingsWorkspace: React.FC = () => {
                                     setEditingCategory(null);
                                     setIsAddCategoryModalOpen(true);
                                 }}
-                                className="px-8 py-3 bg-white border border-gray-200 text-slate-600 text-[14px] font-bold rounded-lg hover:bg-slate-50 transition-all shadow-sm"
+                                className="px-8 py-3 bg-card border border-border text-slate-600 text-[14px] font-bold rounded-lg hover:bg-muted/50 transition-all shadow-sm"
                             >
                                 Add Category
                             </button>
                         </div>
                     ) : (
-                        <div className="bg-white rounded-2xl border border-gray-100 overflow-x-auto max-h-[500px] overflow-y-auto shadow-sm">
+                        <div className="bg-card rounded-2xl border border-gray-100 overflow-x-auto max-h-[500px] overflow-y-auto shadow-sm">
                             <table className="w-full border-collapse">
                                 <thead>
                                     <tr className="border-b border-gray-50 bg-slate-50/30 sticky top-0 z-10">
-                                        <th className="px-8 py-4 text-left text-[11px] font-black uppercase tracking-widest text-slate-400 sticky top-0 bg-slate-50 z-10">Category Name</th>
-                                        <th className="px-8 py-4 text-left text-[11px] font-black uppercase tracking-widest text-slate-400 sticky top-0 bg-slate-50 z-10">Parent Category</th>
-                                        <th className="px-8 py-4 text-right text-[11px] font-black uppercase tracking-widest text-slate-400 sticky top-0 bg-slate-50 z-10">Actions</th>
+                                        <th className="px-8 py-4 text-left text-[11px] font-black uppercase tracking-widest text-slate-400 sticky top-0 bg-muted/50 z-10">Category Name</th>
+                                        <th className="px-8 py-4 text-left text-[11px] font-black uppercase tracking-widest text-slate-400 sticky top-0 bg-muted/50 z-10">Parent Category</th>
+                                        <th className="px-8 py-4 text-right text-[11px] font-black uppercase tracking-widest text-slate-400 sticky top-0 bg-muted/50 z-10">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-gray-50">
@@ -309,7 +309,7 @@ export const AssetSettingsWorkspace: React.FC = () => {
                                         const parentCat = assetCategories.find((p: any) => p.id === cat.parentId);
                                         return (
                                             <tr key={cat.id} className="hover:bg-slate-50/30 transition-colors group">
-                                                <td className="px-8 py-5 text-[14px] font-bold text-slate-700">{cat.name}</td>
+                                                <td className="px-8 py-5 text-[14px] font-bold text-foreground/90">{cat.name}</td>
                                                 <td className="px-8 py-5 text-[13px] font-medium text-slate-400">{parentCat ? parentCat.name : '—'}</td>
                                                 <td className="px-8 py-5 text-right">
                                                     <div className="flex items-center justify-end gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -318,7 +318,7 @@ export const AssetSettingsWorkspace: React.FC = () => {
                                                                 setEditingCategory(cat);
                                                                 setIsAddCategoryModalOpen(true);
                                                             }}
-                                                            className="text-[12px] font-bold text-indigo-600 hover:text-indigo-700"
+                                                            className="text-[12px] font-bold text-primary hover:text-primary/90"
                                                         >
                                                             Edit
                                                         </button>
@@ -345,7 +345,7 @@ export const AssetSettingsWorkspace: React.FC = () => {
             )}
             {activeTab === 'checkin' && (
                 <div className="space-y-6">
-                    <div className="bg-white border border-gray-100 rounded-2xl p-10 shadow-sm flex items-start gap-8">
+                    <div className="bg-card border border-gray-100 rounded-2xl p-10 shadow-sm flex items-start gap-8">
                         {(() => {
                             const isCascadingEnabled = (settings.data || []).find((s: any) => s.key === 'asset.cascadingCheck')?.value === 'true';
                             
@@ -359,19 +359,19 @@ export const AssetSettingsWorkspace: React.FC = () => {
                                     }}
                                     className={cn(
                                         "w-14 h-7 rounded-full transition-all flex items-center px-1 shrink-0",
-                                        isCascadingEnabled ? "bg-indigo-600" : "bg-slate-200"
+                                        isCascadingEnabled ? "bg-primary" : "bg-slate-200"
                                     )}
                                 >
                                     <motion.div 
                                         animate={{ x: isCascadingEnabled ? 28 : 0 }}
                                         transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                                        className="w-5 h-5 bg-white rounded-full shadow-lg shadow-black/5"
+                                        className="w-5 h-5 bg-card rounded-full shadow-lg shadow-black/5"
                                     />
                                 </button>
                             );
                         })()}
                         <div className="space-y-4">
-                            <h3 className="text-[14px] font-bold text-slate-700">Enable cascading hierarchy check in and check out.</h3>
+                            <h3 className="text-[14px] font-bold text-foreground/90">Enable cascading hierarchy check in and check out.</h3>
                             <p className="text-[14px] text-slate-400 font-medium leading-relaxed max-w-[600px]">
                                 When enabled, checking in or out a parent asset will also check in/out all of its descendants. Only descendants with check in/out enabled will be affected.
                             </p>

@@ -144,8 +144,8 @@ export const TeamScheduleSection = ({
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <h2 className="text-[18px] font-black text-[#1E293B]">Team Schedule</h2>
                 <div className="flex flex-wrap items-center gap-3">
-                    <div className="flex bg-white border border-gray-100 rounded-xl p-1 shadow-sm">
-                        <button onClick={handleToday} className="px-3 py-1.5 hover:bg-gray-50 rounded-lg text-[13px] font-bold text-gray-600 transition-colors active:bg-gray-100">Today</button>
+                    <div className="flex bg-card border border-gray-100 rounded-xl p-1 shadow-sm">
+                        <button onClick={handleToday} className="px-3 py-1.5 hover:bg-muted/50 rounded-lg text-[13px] font-bold text-gray-600 transition-colors active:bg-muted">Today</button>
                         <div className="flex items-center px-4 gap-4 border-l border-gray-50 ml-1">
                             <button onClick={handlePrevDay} className="p-1 hover:text-primary transition-colors active:scale-125"><ChevronLeft className="w-4 h-4" /></button>
                             <div className="flex items-center gap-2 text-[13px] font-bold text-gray-600 min-w-[180px] justify-center">
@@ -160,7 +160,7 @@ export const TeamScheduleSection = ({
                             <button 
                                 onClick={() => setShowAlerts(!showAlerts)} 
                                 className={cn(
-                                    "p-2.5 bg-white border border-gray-100 rounded-xl text-gray-400 hover:text-rose-500 transition-all relative shadow-sm active:scale-95",
+                                    "p-2.5 bg-card border border-gray-100 rounded-xl text-gray-400 hover:text-rose-500 transition-all relative shadow-sm active:scale-95",
                                     showAlerts && "text-rose-500 border-rose-200 bg-rose-50/30"
                                 )}
                             >
@@ -173,7 +173,7 @@ export const TeamScheduleSection = ({
                             </button>
 
                             {showAlerts && (
-                                <div className="absolute top-full right-0 mt-2 w-80 bg-white border border-gray-100 rounded-2xl shadow-2xl z-50 overflow-hidden animate-in fade-in zoom-in slide-in-from-top-2 duration-200">
+                                <div className="absolute top-full right-0 mt-2 w-80 bg-card border border-gray-100 rounded-2xl shadow-2xl z-50 overflow-hidden animate-in fade-in zoom-in slide-in-from-top-2 duration-200">
                                     <div className="px-4 py-3 bg-rose-50 border-b border-rose-100 flex items-center justify-between">
                                         <span className="text-[12px] font-black text-rose-600 uppercase tracking-widest">Critical Missions</span>
                                         <button 
@@ -197,11 +197,11 @@ export const TeamScheduleSection = ({
                                                         setSelectedWo(wo);
                                                         setShowAlerts(false);
                                                     }}
-                                                    className="w-full text-left p-3 hover:bg-slate-50 rounded-xl transition-all group flex items-start gap-3"
+                                                    className="w-full text-left p-3 hover:bg-muted/50 rounded-xl transition-all group flex items-start gap-3"
                                                 >
                                                     <div className="w-2 h-2 mt-1.5 rounded-full bg-rose-500 animate-pulse ring-4 ring-rose-500/10" />
                                                     <div className="flex-1">
-                                                        <div className="text-[13px] font-black text-slate-700 leading-none mb-1 group-hover:text-primary transition-colors">#{wo.woNumber?.padStart(3, '0')}: {wo.title}</div>
+                                                        <div className="text-[13px] font-black text-foreground/90 leading-none mb-1 group-hover:text-primary transition-colors">#{wo.woNumber?.padStart(3, '0')}: {wo.title}</div>
                                                         <div className="text-[11px] font-bold text-slate-400 capitalize">{wo.assetName || 'Primary System'} • {format(parseISO(wo.startDate!), 'h:mm a')}</div>
                                                     </div>
                                                     <Eye className="w-4 h-4 text-slate-300 group-hover:text-primary transition-colors mt-1" />
@@ -215,13 +215,13 @@ export const TeamScheduleSection = ({
                         <div ref={filtersRef} className="relative">
                             <button 
                                 onClick={() => setShowScheduleFilters(!showScheduleFilters)} 
-                                className={cn("p-2.5 bg-white border border-gray-100 rounded-xl text-gray-400 hover:text-primary transition-colors shadow-sm active:scale-95", showScheduleFilters && "text-primary border-primary/20")}
+                                className={cn("p-2.5 bg-card border border-gray-100 rounded-xl text-gray-400 hover:text-primary transition-colors shadow-sm active:scale-95", showScheduleFilters && "text-primary border-primary/20")}
                             >
                                 <Filter className="w-5 h-5" />
                             </button>
                             
                             {showScheduleFilters && (
-                                <div className="absolute top-full right-0 mt-3 w-[600px] bg-white border border-gray-100 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] z-[60] overflow-hidden animate-in fade-in zoom-in slide-in-from-top-2 duration-300">
+                                <div className="absolute top-full right-0 mt-3 w-[600px] bg-card border border-gray-100 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] z-[60] overflow-hidden animate-in fade-in zoom-in slide-in-from-top-2 duration-300">
                                     <div className="flex h-[320px]">
                                         <div className="w-1/2 p-6 border-r border-gray-100">
                                             <h3 className="text-[16px] font-black text-slate-800 mb-6">Sort</h3>
@@ -232,7 +232,7 @@ export const TeamScheduleSection = ({
                                                         onClick={() => setSortField(f as any)}
                                                         className={cn(
                                                             "w-full px-4 py-3 rounded-xl text-[14px] font-bold text-left transition-all flex items-center justify-between group",
-                                                            sortField === f ? "bg-slate-50 text-primary border border-primary/10 shadow-sm" : "text-slate-500 hover:bg-slate-50"
+                                                            sortField === f ? "bg-muted/50 text-primary border border-primary/10 shadow-sm" : "text-muted-foreground hover:bg-muted/50"
                                                         )}
                                                     >
                                                         {f === 'firstName' ? 'First Name' : 'Last Name'}
@@ -246,33 +246,33 @@ export const TeamScheduleSection = ({
                                             <h3 className="text-[16px] font-black text-slate-800">Filters</h3>
                                             <div className="space-y-4">
                                                 <div className="space-y-1.5">
-                                                    <label className="text-[12px] font-black text-slate-500">Location</label>
+                                                    <label className="text-[12px] font-black text-muted-foreground">Location</label>
                                                     <select 
                                                         value={localLocation}
                                                         onChange={(e) => setLocalLocation(e.target.value)}
-                                                        className="w-full px-4 py-2.5 bg-white border border-gray-200 rounded-xl text-[13px] font-bold text-slate-600 focus:ring-2 focus:ring-primary/20 outline-none appearance-none pr-8"
+                                                        className="w-full px-4 py-2.5 bg-card border border-border rounded-xl text-[13px] font-bold text-slate-600 focus:ring-2 focus:ring-primary/20 outline-none appearance-none pr-8"
                                                     >
                                                         <option value="">Select Location</option>
                                                         {locations?.map(l => <option key={l.id} value={l.id}>{l.name}</option>)}
                                                     </select>
                                                 </div>
                                                 <div className="space-y-1.5">
-                                                    <label className="text-[12px] font-black text-slate-500">Team</label>
+                                                    <label className="text-[12px] font-black text-muted-foreground">Team</label>
                                                     <select 
                                                         value={localTeam}
                                                         onChange={(e) => setLocalTeam(e.target.value)}
-                                                        className="w-full px-4 py-2.5 bg-white border border-gray-200 rounded-xl text-[13px] font-bold text-slate-600 focus:ring-2 focus:ring-primary/20 outline-none appearance-none pr-8"
+                                                        className="w-full px-4 py-2.5 bg-card border border-border rounded-xl text-[13px] font-bold text-slate-600 focus:ring-2 focus:ring-primary/20 outline-none appearance-none pr-8"
                                                     >
                                                         <option value="">Select Team</option>
                                                         {teams?.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
                                                     </select>
                                                 </div>
                                                 <div className="space-y-1.5">
-                                                    <label className="text-[12px] font-black text-slate-500">Account Type</label>
+                                                    <label className="text-[12px] font-black text-muted-foreground">Account Type</label>
                                                     <select 
                                                         value={localRole}
                                                         onChange={(e) => setLocalRole(e.target.value)}
-                                                        className="w-full px-4 py-2.5 bg-white border border-gray-200 rounded-xl text-[13px] font-bold text-slate-600 focus:ring-2 focus:ring-primary/20 outline-none appearance-none pr-8"
+                                                        className="w-full px-4 py-2.5 bg-card border border-border rounded-xl text-[13px] font-bold text-slate-600 focus:ring-2 focus:ring-primary/20 outline-none appearance-none pr-8"
                                                     >
                                                         <option value="">Select Account Type</option>
                                                         {['Technician', 'Administrator', 'Manager'].map(r => <option key={r} value={r}>{r}</option>)}
@@ -281,7 +281,7 @@ export const TeamScheduleSection = ({
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="px-6 py-4 bg-slate-50 border-t border-gray-100 flex items-center justify-between">
+                                    <div className="px-6 py-4 bg-muted/50 border-t border-gray-100 flex items-center justify-between">
                                         <button 
                                             onClick={() => {
                                                 setLocalLocation('');
@@ -292,7 +292,7 @@ export const TeamScheduleSection = ({
                                                 setRoleFilter('');
                                                 setSortField('firstName');
                                             }}
-                                            className="px-5 py-2 bg-white border border-gray-200 text-blue-600 rounded-xl text-[13px] font-black hover:bg-red-50 hover:text-red-600 hover:border-red-100 transition-all active:scale-95 shadow-sm"
+                                            className="px-5 py-2 bg-card border border-border text-primary rounded-xl text-[13px] font-black hover:bg-red-50 hover:text-red-600 hover:border-red-100 transition-all active:scale-95 shadow-sm"
                                         >
                                             Reset Filters
                                         </button>
@@ -314,7 +314,7 @@ export const TeamScheduleSection = ({
                         <div className="relative">
                             <button 
                                 onClick={() => setShowSettingsModal(true)} 
-                                className={cn("p-2.5 bg-white border border-gray-100 rounded-xl text-gray-400 hover:text-primary transition-colors shadow-sm active:scale-95", false && "text-primary border-primary/20")}
+                                className={cn("p-2.5 bg-card border border-gray-100 rounded-xl text-gray-400 hover:text-primary transition-colors shadow-sm active:scale-95", false && "text-primary border-primary/20")}
                             >
                                 <Settings className="w-5 h-5" />
                             </button>
@@ -323,7 +323,7 @@ export const TeamScheduleSection = ({
                     <div ref={viewDropdownRef} className="relative group/view">
                         <button 
                             onClick={() => setShowViewDropdown(!showViewDropdown)}
-                            className="flex items-center gap-3 px-4 py-2 bg-white border border-gray-200 rounded-xl text-[14px] font-black text-slate-700 shadow-sm hover:border-gray-300 transition-all active:scale-95 whitespace-nowrap"
+                            className="flex items-center gap-3 px-4 py-2 bg-card border border-border rounded-xl text-[14px] font-black text-foreground/90 shadow-sm hover:border-gray-300 transition-all active:scale-95 whitespace-nowrap"
                         >
                             <Calendar className="w-4 h-4 text-slate-400" />
                             {activeView}
@@ -331,7 +331,7 @@ export const TeamScheduleSection = ({
                         </button>
 
                         {showViewDropdown && (
-                            <div className="absolute top-full right-0 mt-2 w-48 bg-white border border-gray-100 rounded-2xl shadow-2xl z-[70] overflow-hidden animate-in fade-in zoom-in slide-in-from-top-2 duration-200 p-2">
+                            <div className="absolute top-full right-0 mt-2 w-48 bg-card border border-gray-100 rounded-2xl shadow-2xl z-[70] overflow-hidden animate-in fade-in zoom-in slide-in-from-top-2 duration-200 p-2">
                                 {['Day', 'Week', 'Month'].map(view => (
                                     <button 
                                         key={view}
@@ -341,11 +341,11 @@ export const TeamScheduleSection = ({
                                         }}
                                         className={cn(
                                             "w-full flex items-center justify-between px-4 py-3 rounded-xl text-[15px] font-bold transition-all",
-                                            activeView === view ? "bg-slate-50 text-slate-900" : "text-slate-500 hover:bg-slate-50 hover:text-slate-800"
+                                            activeView === view ? "bg-muted/50 text-foreground" : "text-muted-foreground hover:bg-muted/50 hover:text-slate-800"
                                         )}
                                     >
                                         <span className="flex items-center gap-3">
-                                            {activeView === view ? <Check className="w-4 h-4 text-slate-900" /> : <div className="w-4" />}
+                                            {activeView === view ? <Check className="w-4 h-4 text-foreground" /> : <div className="w-4" />}
                                             {view}
                                         </span>
                                     </button>
@@ -356,10 +356,10 @@ export const TeamScheduleSection = ({
                 </div>
             </div>
 
-            <div className="bg-white border border-gray-100 rounded-[24px] shadow-sm overflow-hidden flex flex-col">
+            <div className="bg-card border border-gray-100 rounded-[24px] shadow-sm overflow-hidden flex flex-col">
                 <div className="flex border-b border-gray-100 scheduler-sidebar-bg">
-                    <div className="w-[300px] p-5 flex items-center gap-3 border-r border-slate-200 relative z-30 scheduler-sidebar-bg scheduler-sidebar-shadow">
-                        <UserIcon className="w-4 h-4 text-slate-500" />
+                    <div className="w-[300px] p-5 flex items-center gap-3 border-r border-border relative z-30 scheduler-sidebar-bg scheduler-sidebar-shadow">
+                        <UserIcon className="w-4 h-4 text-muted-foreground" />
                         <span className="text-[14px] font-bold text-slate-600 pt-0.5">Team Members</span>
                     </div>
                     <div className="flex-1 flex overflow-x-auto custom-scrollbar-h relative">
@@ -397,14 +397,14 @@ export const TeamScheduleSection = ({
                     })
                     .map((user: User) => (
                     <div key={user.userOrgId} className="flex border-b border-gray-50 last:border-0 group">
-                        <div className="w-[300px] p-5 border-r border-slate-200 flex items-center justify-between transition-colors relative z-20 scheduler-sidebar-bg scheduler-sidebar-bg-hover scheduler-sidebar-shadow">
+                        <div className="w-[300px] p-5 border-r border-border flex items-center justify-between transition-colors relative z-20 scheduler-sidebar-bg scheduler-sidebar-bg-hover scheduler-sidebar-shadow">
                             <div className="flex items-center gap-4">
                                 <div className="w-10 h-10 rounded-full flex items-center justify-center text-[15px] font-bold bg-[#EFF6FF] text-[#2563EB] border border-blue-100/80 shadow-sm uppercase">
                                     {user.name?.trim()[0]?.toUpperCase() || '?'}
                                 </div>
                                 <div>
                                     <div className="text-[14px] font-bold text-slate-800 tracking-tight leading-none mb-1.5">{user.name}</div>
-                                    <div className="text-[12px] font-medium text-slate-500 leading-none">{user.roleName || 'Technician'}</div>
+                                    <div className="text-[12px] font-medium text-muted-foreground leading-none">{user.roleName || 'Technician'}</div>
                                 </div>
                             </div>
                             <div className="flex items-center gap-3 pr-2">
@@ -414,7 +414,7 @@ export const TeamScheduleSection = ({
                                     return (
                                         <>
                                             <span className="text-[13px] font-semibold text-amber-600">{techHours}h</span>
-                                            <div className="w-[18px] h-[18px] rounded-full border-2 border-slate-300 bg-white" />
+                                            <div className="w-[18px] h-[18px] rounded-full border-2 border-slate-300 bg-card" />
                                         </>
                                     );
                                 })()}

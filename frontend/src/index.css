@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-@variant dark (html:not([data-theme="light"]) &);
+@variant dark (html:not([data-theme^="light"]) &);
 
 :root {
   /* --- Onyx (Default Dark) --- */
@@ -16,41 +16,138 @@
 }
 
 :root[data-theme='light'] {
-  /* --- Clean Bright White Modern Theme — Brand: Indigo #4F46E5 --- */
-  --background-raw: 0 0% 100%;
-  --foreground-raw: 222 47% 11%;
-  --primary-raw: 243 75% 59%;
-  --muted-raw: 220 14% 96%;
-  --muted-foreground-raw: 220 13% 32%;
-  --glass-bg: hsla(0, 0%, 100%, 1);
-  --glass-border: hsla(220, 13%, 88%, 1);
+  /* --- Clean Bright White Modern Theme — Crimson Red Palette (Default) --- */
+  --background-raw: 245 40% 98.2%;
+  --foreground-raw: 222 47% 11%; /* #0F172A Primary Text */
+  --primary-raw: 346.8 77.2% 49.8%; /* Crimson Rose — signature brand red */
+  --muted-raw: 245 20% 96%;
+  --muted-foreground-raw: 215 14% 34%; /* Secondary Text */
+  --glass-bg: hsla(0, 0%, 100%, 1); /* Pure White Cards */
+  --glass-border: hsla(214, 32%, 91%, 0.8);
   --card-bg: hsla(0, 0%, 100%, 1);
   --bg-gradient: none;
 }
 
-/* In light mode, remove all backdrop blur and opacity overlays for a strong white crisp layout */
-[data-theme='light'] .glass-panel,
-[data-theme='light'] .glass-card,
-[data-theme='light'] header,
-[data-theme='light'] [class*='bg-background/'],
-[data-theme='light'] .bg-slate-50,
-[data-theme='light'] [class*='bg-slate-50/'],
-[data-theme='light'] div[class*="bg-[#F8FAFC]"],
-[data-theme='light'] div[class*="bg-[#FAFAFA]"],
-[data-theme='light'] div[class*="bg-[#F9FAFB]"],
-[data-theme='light'] div[class*="bg-[#FAFBFC]"],
-[data-theme='light'] div[class*="bg-[#FCFDFF]"] {
-  background-color: hsl(var(--background-raw)) !important;
+:root[data-theme='light-blue'] {
+  --background-raw: 204 80% 93%;
+  --foreground-raw: 204 80% 15%;
+  --primary-raw: 204 90% 38%;   /* Deep Sky Blue — matches Frost Blue mood */
+  --muted-raw: 204 50% 88%;
+  --muted-foreground-raw: 204 20% 35%;
+  --glass-bg: hsl(204, 70%, 96%);
+  --glass-border: hsla(204, 30%, 80%, 0.8);
+  --card-bg: hsl(204, 70%, 96%);
+  --bg-gradient: none;
+}
+
+:root[data-theme='light-mint'] {
+  --background-raw: 140 60% 93%;
+  --foreground-raw: 140 80% 12%;
+  --primary-raw: 140 55% 35%;   /* Forest Green — matches Mint Breeze mood */
+  --muted-raw: 140 40% 88%;
+  --muted-foreground-raw: 140 20% 35%;
+  --glass-bg: hsl(140, 50%, 96%);
+  --glass-border: hsla(140, 30%, 80%, 0.8);
+  --card-bg: hsl(140, 50%, 96%);
+  --bg-gradient: none;
+}
+
+:root[data-theme='light-peach'] {
+  --background-raw: 28 80% 92%;
+  --foreground-raw: 28 70% 15%;
+  --primary-raw: 20 85% 45%;    /* Warm Terracotta — matches Peach Dawn mood */
+  --muted-raw: 28 50% 87%;
+  --muted-foreground-raw: 28 20% 40%;
+  --glass-bg: hsl(28, 70%, 95%);
+  --glass-border: hsla(28, 30%, 80%, 0.8);
+  --card-bg: hsl(28, 70%, 95%);
+  --bg-gradient: none;
+}
+
+/* In light mode, remove all backdrop blur and opacity overlays for a strong crisp layout */
+[data-theme^='light'] .glass-panel,
+[data-theme^='light'] .glass-card {
+  background-color: var(--card-bg) !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
 }
 
-[data-theme='light'] header {
-  border-bottom: 1px solid var(--glass-border) !important;
+[data-theme^='light'] [class*='border-white/'] {
+  border-color: var(--glass-border) !important;
 }
 
-[data-theme='light'] [class*='border-white/'] {
-  border-color: var(--glass-border) !important;
+/* ======================================================
+   TRUE GLOBAL WORKSPACE MOOD ENGINE
+   
+   Instead of overriding individual CSS classes file-by-file,
+   we redefine Tailwind's own color tokens at the theme level.
+   
+   This means every utility class in the ENTIRE app:
+     bg-white, bg-slate-50, bg-gray-50, bg-slate-100,
+     hover:bg-gray-100, border-gray-200, etc.
+   ...automatically uses the workspace mood color.
+   
+   No per-file changes needed. This is the single source of truth.
+   ====================================================== */
+
+/* --- Shared token overrides for ALL custom light themes --- */
+[data-theme^='light-'] {
+  /* Redefine 'white' so bg-white = theme card color */
+  --color-white: var(--card-bg);
+
+  /* Redefine near-white slate/gray shades */
+  --color-slate-50: hsl(var(--muted-raw));
+  --color-slate-100: hsl(var(--muted-raw));
+  --color-slate-200: hsl(var(--muted-raw) / 0.7);
+  --color-gray-50: hsl(var(--muted-raw));
+  --color-gray-100: hsl(var(--muted-raw));
+  --color-gray-200: hsl(var(--muted-raw) / 0.7);
+
+  /* Redefine zinc/neutral near-white shades */
+  --color-zinc-50: hsl(var(--muted-raw));
+  --color-zinc-100: hsl(var(--muted-raw));
+  --color-neutral-50: hsl(var(--muted-raw));
+  --color-neutral-100: hsl(var(--muted-raw));
+
+  /* Body background always equals the theme background */
+  background-color: hsl(var(--background-raw));
+}
+
+/* ======================================================
+   GLOBAL ACCENT COLOR SAFETY NET
+   Remap Tailwind's blue-600/700 tokens to always use
+   --primary-raw. This ensures any component that still
+   uses bg-blue-600, text-blue-600, bg-indigo-600, etc.
+   will automatically use the selected accent color.
+   ====================================================== */
+:root {
+  /* Override blue-600/700 to be the primary accent color */
+  --color-blue-600: hsl(var(--primary-raw));
+  --color-blue-700: hsl(var(--primary-raw) / 0.9);
+  --color-blue-500: hsl(var(--primary-raw) / 0.8);
+
+  /* Override indigo-600/700 to be the primary accent color */
+  --color-indigo-600: hsl(var(--primary-raw));
+  --color-indigo-700: hsl(var(--primary-raw) / 0.9);
+  --color-indigo-500: hsl(var(--primary-raw) / 0.8);
+
+  /* Override violet-600/700 to be the primary accent color */
+  --color-violet-600: hsl(var(--primary-raw));
+  --color-violet-700: hsl(var(--primary-raw) / 0.9);
+  --color-violet-500: hsl(var(--primary-raw) / 0.8);
+
+  /* Override purple-600/700 to be the primary accent color */
+  --color-purple-600: hsl(var(--primary-raw));
+  --color-purple-700: hsl(var(--primary-raw) / 0.9);
+  --color-purple-500: hsl(var(--primary-raw) / 0.8);
+}
+
+/* ======================================================
+   GLOBAL CHECKBOX/RADIO STYLING
+   Ensure all native form inputs match the workspace mood
+   ====================================================== */
+input[type="checkbox"], input[type="radio"] {
+  accent-color: hsl(var(--primary-raw));
 }
 
 :root[data-theme='midnight'] {
@@ -329,13 +426,13 @@
     border: 1px solid hsla(190, 100%, 100%, 0.05);
   }
   
-  [data-theme='light'] .glass-dashboard-container {
-    background: #ffffff !important;
-    border-color: hsla(220, 13%, 90%, 1) !important;
-    box-shadow: 0 4px 20px -2px rgba(0,0,0,0.02) !important;
+  [data-theme^='light'] .glass-dashboard-container {
+    background: transparent !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
   }
   
-  html:not([data-theme='light']) .glass-dashboard-container {
+  html:not([data-theme^='light']) .glass-dashboard-container {
     background: linear-gradient(135deg, #090e18 0%, #050a12 50%, #020408 100%) !important;
     border-color: hsla(190, 100%, 50%, 0.05) !important;
   }

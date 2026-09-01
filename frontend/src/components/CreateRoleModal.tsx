@@ -235,14 +235,14 @@ export const CreateRoleModal: React.FC<CreateRoleModalProps> = ({ isOpen, onClos
                 initial={{ opacity: 0, scale: 0.95, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                className="relative w-full max-w-[850px] max-h-[90vh] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden"
+                className="relative w-full max-w-[850px] max-h-[90vh] bg-card rounded-2xl shadow-2xl flex flex-col overflow-hidden"
             >
                 {/* Header */}
                 <div className="p-8 border-b border-gray-100 flex items-center justify-between shrink-0">
                     <h2 className="text-[20px] font-bold text-slate-800 tracking-tight">
                         {isReadOnly ? 'View Role' : roleToEdit ? 'Edit Role' : 'Create Role'}
                     </h2>
-                    <button onClick={onClose} className="p-2 hover:bg-gray-50 rounded-full transition-colors">
+                    <button onClick={onClose} className="p-2 hover:bg-muted/50 rounded-full transition-colors">
                         <X className="w-5 h-5 text-gray-400" />
                     </button>
                 </div>
@@ -252,38 +252,38 @@ export const CreateRoleModal: React.FC<CreateRoleModalProps> = ({ isOpen, onClos
                     {/* Basic Info */}
                     <div className="space-y-8">
                         <div className="space-y-3">
-                            <label className="text-[14px] font-bold text-slate-700">Name</label>
+                            <label className="text-[14px] font-bold text-foreground/90">Name</label>
                             <input 
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
                                 disabled={isReadOnly}
                                 placeholder="Name"
-                                className="w-full px-5 py-3.5 bg-white border border-gray-200 rounded-xl text-[15px] font-medium focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 outline-none transition-all placeholder:text-slate-300 disabled:bg-slate-50 disabled:text-slate-500"
+                                className="w-full px-5 py-3.5 bg-card border border-border rounded-xl text-[15px] font-medium focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all placeholder:text-slate-300 disabled:bg-muted/50 disabled:text-muted-foreground"
                             />
                             <p className="text-[12px] text-slate-400 font-medium">Name must be 50 characters or less.</p>
                         </div>
 
                         <div className="space-y-3">
-                            <label className="text-[14px] font-bold text-slate-700">Description</label>
+                            <label className="text-[14px] font-bold text-foreground/90">Description</label>
                             <textarea 
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
                                 disabled={isReadOnly}
                                 placeholder="Description"
                                 rows={3}
-                                className="w-full px-5 py-3.5 bg-white border border-gray-200 rounded-xl text-[15px] font-medium focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 outline-none transition-all placeholder:text-slate-300 resize-none disabled:bg-slate-50 disabled:text-slate-500"
+                                className="w-full px-5 py-3.5 bg-card border border-border rounded-xl text-[15px] font-medium focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all placeholder:text-slate-300 resize-none disabled:bg-muted/50 disabled:text-muted-foreground"
                             />
                             <p className="text-[12px] text-slate-400 font-medium">Description must be 150 characters or less.</p>
                         </div>
 
                         <div className="space-y-3">
-                            <label className="text-[14px] font-bold text-slate-700">External ID</label>
+                            <label className="text-[14px] font-bold text-foreground/90">External ID</label>
                             <input 
                                 value={externalId}
                                 onChange={(e) => setExternalId(e.target.value)}
                                 disabled={isReadOnly}
                                 placeholder="External ID"
-                                className="w-full px-5 py-3.5 bg-white border border-gray-200 rounded-xl text-[15px] font-medium focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 outline-none transition-all placeholder:text-slate-300 font-mono disabled:bg-slate-50 disabled:text-slate-500"
+                                className="w-full px-5 py-3.5 bg-card border border-border rounded-xl text-[15px] font-medium focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all placeholder:text-slate-300 font-mono disabled:bg-muted/50 disabled:text-muted-foreground"
                             />
                             <div className="space-y-1">
                                 <p className="text-[12px] text-slate-400 font-medium leading-relaxed">
@@ -300,7 +300,7 @@ export const CreateRoleModal: React.FC<CreateRoleModalProps> = ({ isOpen, onClos
                     <div className="space-y-6">
                         <div className="space-y-2 pb-6 border-b border-gray-50">
                             <h3 className="text-[20px] font-black text-slate-800 tracking-tight">Permissions</h3>
-                            <p className="text-[14px] text-slate-500 font-medium leading-relaxed">
+                            <p className="text-[14px] text-muted-foreground font-medium leading-relaxed">
                                 This role can do everything an Administrator can do in {companyName}, but you can customize some important permissions below.
                             </p>
                         </div>
@@ -317,7 +317,7 @@ export const CreateRoleModal: React.FC<CreateRoleModalProps> = ({ isOpen, onClos
                                     <div key={category.id} className="space-y-4">
                                         <div className="flex items-center justify-between group cursor-pointer" onClick={() => toggleCategory(category.id)}>
                                             <div className="flex items-center gap-3">
-                                                <h4 className="text-[16px] font-black text-slate-800 group-hover:text-indigo-600 transition-colors uppercase tracking-tight">{category.label}</h4>
+                                                <h4 className="text-[16px] font-black text-slate-800 group-hover:text-primary transition-colors uppercase tracking-tight">{category.label}</h4>
                                             </div>
                                             <div className="flex items-center gap-6" onClick={(e) => e.stopPropagation()}>
                                                 <div className="flex items-center gap-2">
@@ -346,7 +346,7 @@ export const CreateRoleModal: React.FC<CreateRoleModalProps> = ({ isOpen, onClos
                                                     exit={{ height: 0, opacity: 0 }}
                                                     className="overflow-hidden"
                                                 >
-                                                    <div className="p-8 bg-white border border-gray-100 rounded-2xl grid grid-cols-2 gap-x-12 gap-y-6">
+                                                    <div className="p-8 bg-card border border-gray-100 rounded-2xl grid grid-cols-2 gap-x-12 gap-y-6">
                                                         {category.actions.map((action) => (
                                                             <div 
                                                                 key={action.id} 
@@ -357,13 +357,13 @@ export const CreateRoleModal: React.FC<CreateRoleModalProps> = ({ isOpen, onClos
                                                                     disabled={isReadOnly}
                                                                     className={cn(
                                                                         "w-5 h-5 rounded border-2 flex items-center justify-center transition-all shrink-0",
-                                                                        selected.includes(action.key) ? "bg-indigo-600 border-indigo-600 shadow-sm" : "border-gray-200 group-hover:border-indigo-400",
+                                                                        selected.includes(action.key) ? "bg-primary border-primary shadow-sm" : "border-border group-hover:border-primary/80",
                                                                         isReadOnly && "opacity-50 cursor-not-allowed"
                                                                     )}
                                                                 >
                                                                     {selected.includes(action.key) && <Check className="w-3.5 h-3.5 text-white stroke-[4px]" />}
                                                                 </button>
-                                                                <span className={cn("text-[14px] font-bold transition-colors", isReadOnly ? "text-slate-500" : "text-slate-600 group-hover:text-slate-900")}>{action.label}</span>
+                                                                <span className={cn("text-[14px] font-bold transition-colors", isReadOnly ? "text-muted-foreground" : "text-slate-600 group-hover:text-foreground")}>{action.label}</span>
                                                                 {action.hasInfo && <Info className="w-3.5 h-3.5 text-slate-300" />}
                                                             </div>
                                                         ))}
@@ -382,7 +382,7 @@ export const CreateRoleModal: React.FC<CreateRoleModalProps> = ({ isOpen, onClos
                 <div className="p-8 border-t border-gray-100 bg-slate-50/30 flex items-center justify-end gap-4 shrink-0">
                     <button 
                         onClick={onClose}
-                        className="px-8 py-2.5 bg-white border border-gray-200 text-slate-600 text-[14px] font-bold rounded-xl hover:bg-slate-50 transition-all shadow-sm"
+                        className="px-8 py-2.5 bg-card border border-border text-slate-600 text-[14px] font-bold rounded-xl hover:bg-muted/50 transition-all shadow-sm"
                     >
                         {isReadOnly ? 'Close' : 'Cancel'}
                     </button>
@@ -393,8 +393,8 @@ export const CreateRoleModal: React.FC<CreateRoleModalProps> = ({ isOpen, onClos
                             className={cn(
                                 "px-10 py-2.5 text-[14px] font-bold rounded-xl transition-all",
                                 isFormValid && !createRole.isPending && !updateRole.isPending
-                                    ? "bg-indigo-600 text-white shadow-lg shadow-indigo-100 hover:bg-indigo-700" 
-                                    : "bg-gray-100 text-gray-400 cursor-not-allowed"
+                                    ? "bg-primary text-white shadow-lg shadow-primary/20 hover:bg-primary/90" 
+                                    : "bg-muted text-gray-400 cursor-not-allowed"
                             )}
                         >
                             {createRole.isPending || updateRole.isPending ? 'Submitting...' : roleToEdit ? 'Save' : 'Submit'}

@@ -262,18 +262,18 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
 
     return (
         <div className="fixed inset-0 z-[500] flex items-center justify-center p-4 md:p-6 animate-in fade-in duration-300">
-            <div className="absolute inset-0 bg-slate-950/20 backdrop-blur-[2px]" onClick={onClose} />
-            <div className="relative w-full max-w-4xl h-[85vh] max-h-[900px] bg-white shadow-2xl flex flex-col rounded-2xl animate-in zoom-in-95 duration-300 overflow-hidden ring-1 ring-black/5">
+            <div className="absolute inset-0 bg-background/20 backdrop-blur-[2px]" onClick={onClose} />
+            <div className="relative w-full max-w-4xl h-[85vh] max-h-[900px] bg-card shadow-2xl flex flex-col rounded-2xl animate-in zoom-in-95 duration-300 overflow-hidden ring-1 ring-black/5">
                 {/* Header */}
-                <div className="flex items-center justify-between px-8 py-7 border-b border-slate-50 bg-white sticky top-0 z-[60]">
+                <div className="flex items-center justify-between px-8 py-7 border-b border-slate-50 bg-card sticky top-0 z-[60]">
                     <h2 className="text-[26px] font-[900] text-slate-950 tracking-tight flex items-center gap-4 flex-wrap">
                         <div className="flex items-center gap-4">
-                            <div className="w-2.5 h-10 bg-blue-600 rounded-full shadow-lg shadow-blue-200" />
+                            <div className="w-2.5 h-10 bg-primary rounded-full shadow-lg shadow-primary/20" />
                             <span className="uppercase italic tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-slate-950 to-slate-700">WO #{(displayOrder as any).workOrderNo || displayOrder.id.substring(0,3).toUpperCase()}</span>
                         </div>
                         {((displayOrder as any).request?.id || (displayOrder as any).requestId) && (
-                            <div className="flex items-center gap-1.5 px-3 py-1 bg-indigo-50 border border-indigo-200 rounded-xl shadow-sm">
-                                <span className="text-[12px] font-black text-indigo-700 uppercase tracking-widest italic">
+                            <div className="flex items-center gap-1.5 px-3 py-1 bg-primary/10 border border-primary/20 rounded-xl shadow-sm">
+                                <span className="text-[12px] font-black text-primary/90 uppercase tracking-widest italic">
                                     From REQ-{((displayOrder as any).request?.id || (displayOrder as any).requestId).split('-')[0].toUpperCase()}
                                 </span>
                             </div>
@@ -282,22 +282,22 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                     <div className="flex items-center gap-2">
                         <button 
                             onClick={() => window.print()}
-                            className="p-2.5 hover:bg-blue-50 hover:text-blue-600 rounded-2xl text-slate-400 transition-all border border-transparent hover:border-blue-100 shadow-sm"
+                            className="p-2.5 hover:bg-blue-50 hover:text-primary rounded-2xl text-slate-400 transition-all border border-transparent hover:border-blue-100 shadow-sm"
                             title="Export to PDF"
                         >
                             <Printer className="w-5 h-5" />
                         </button>
                         <button 
                             onClick={onClose}
-                            className="p-2.5 hover:bg-slate-100/50 rounded-2xl text-slate-500 transition-all hover:text-slate-900 hover:rotate-90"
+                            className="p-2.5 hover:bg-slate-100/50 rounded-2xl text-muted-foreground transition-all hover:text-foreground hover:rotate-90"
                         >
                             <X className="w-6 h-6" />
                         </button>
                     </div>
                 </div>
 
-                <div className="flex-1 overflow-y-auto custom-scrollbar bg-white">
-                    <div className="sticky top-0 z-[60] bg-white flex flex-col">
+                <div className="flex-1 overflow-y-auto custom-scrollbar bg-card">
+                    <div className="sticky top-0 z-[60] bg-card flex flex-col">
                         {order.status === 'PENDING_APPROVAL' && (
                             <div className="px-8 py-4 bg-amber-50 border-b border-amber-100 flex items-center justify-between">
                                 <div className="flex items-center gap-4">
@@ -313,7 +313,7 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                                     <button 
                                         disabled={approveWorkOrder.isPending}
                                         onClick={() => handleApproval('REJECTED')}
-                                        className="px-6 py-2.5 bg-white border border-amber-200 text-amber-700 rounded-xl text-[12px] font-black uppercase tracking-widest hover:bg-amber-100 transition-all shadow-sm disabled:opacity-50"
+                                        className="px-6 py-2.5 bg-card border border-amber-200 text-amber-700 rounded-xl text-[12px] font-black uppercase tracking-widest hover:bg-amber-100 transition-all shadow-sm disabled:opacity-50"
                                     >
                                         Reject
                                     </button>
@@ -340,23 +340,23 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                                     <div className="ml-6 flex items-center gap-4 hidden md:flex">
                                         <div className="flex items-center gap-1.5" title={hasPhotos ? "Photos attached" : "No photos attached"}>
                                             {hasPhotos ? <CircleCheck className="w-3.5 h-3.5 text-emerald-500" /> : <Circle className="w-3.5 h-3.5 text-slate-300" />}
-                                            <span className={cn("text-[10px] font-black uppercase tracking-wider", hasPhotos ? "text-slate-700" : "text-slate-400 opacity-60")}>Photos</span>
+                                            <span className={cn("text-[10px] font-black uppercase tracking-wider", hasPhotos ? "text-foreground/90" : "text-slate-400 opacity-60")}>Photos</span>
                                         </div>
                                         <div className="flex items-center gap-1.5" title={hasNotes ? "Closeout notes documented" : "No closeout notes"}>
                                             {hasNotes ? <CircleCheck className="w-3.5 h-3.5 text-emerald-500" /> : <Circle className="w-3.5 h-3.5 text-slate-300" />}
-                                            <span className={cn("text-[10px] font-black uppercase tracking-wider", hasNotes ? "text-slate-700" : "text-slate-400 opacity-60")}>Notes</span>
+                                            <span className={cn("text-[10px] font-black uppercase tracking-wider", hasNotes ? "text-foreground/90" : "text-slate-400 opacity-60")}>Notes</span>
                                         </div>
                                         <div className="flex items-center gap-1.5" title={hasParts ? "Parts logged" : "No parts logged"}>
                                             {hasParts ? <CircleCheck className="w-3.5 h-3.5 text-emerald-500" /> : <Circle className="w-3.5 h-3.5 text-slate-300" />}
-                                            <span className={cn("text-[10px] font-black uppercase tracking-wider", hasParts ? "text-slate-700" : "text-slate-400 opacity-60")}>Parts</span>
+                                            <span className={cn("text-[10px] font-black uppercase tracking-wider", hasParts ? "text-foreground/90" : "text-slate-400 opacity-60")}>Parts</span>
                                         </div>
                                         <div className="flex items-center gap-1.5" title={hasTime ? "Labor hours recorded" : "No time recorded"}>
                                             {hasTime ? <CircleCheck className="w-3.5 h-3.5 text-emerald-500" /> : <Circle className="w-3.5 h-3.5 text-slate-300" />}
-                                            <span className={cn("text-[10px] font-black uppercase tracking-wider", hasTime ? "text-slate-700" : "text-slate-400 opacity-60")}>Time</span>
+                                            <span className={cn("text-[10px] font-black uppercase tracking-wider", hasTime ? "text-foreground/90" : "text-slate-400 opacity-60")}>Time</span>
                                         </div>
                                         <div className="flex items-center gap-1.5" title={hasChecklist ? "Checklist tasks present" : "No checklist tasks"}>
                                             {hasChecklist ? <CircleCheck className="w-3.5 h-3.5 text-emerald-500" /> : <Circle className="w-3.5 h-3.5 text-slate-300" />}
-                                            <span className={cn("text-[10px] font-black uppercase tracking-wider", hasChecklist ? "text-slate-700" : "text-slate-400 opacity-60")}>Checklist</span>
+                                            <span className={cn("text-[10px] font-black uppercase tracking-wider", hasChecklist ? "text-foreground/90" : "text-slate-400 opacity-60")}>Checklist</span>
                                         </div>
                                     </div>
                                 </div>
@@ -364,7 +364,7 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                                     <button 
                                         disabled={reviewWorkOrder.isPending}
                                         onClick={() => handleReview('IN_PROGRESS')}
-                                        className="px-6 py-2.5 bg-white border border-rose-200 text-rose-700 rounded-xl text-[12px] font-black uppercase tracking-widest hover:bg-rose-50 transition-all shadow-sm disabled:opacity-50"
+                                        className="px-6 py-2.5 bg-card border border-rose-200 text-rose-700 rounded-xl text-[12px] font-black uppercase tracking-widest hover:bg-rose-50 transition-all shadow-sm disabled:opacity-50"
                                     >
                                         Return to Tech
                                     </button>
@@ -383,7 +383,7 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                             <div className="flex flex-wrap items-center gap-4 md:gap-6">
                             {isLocked ? (
                                 <div className="flex items-center gap-3 select-none">
-                                    <div className="flex items-center gap-3 px-5 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-[14px] font-black text-slate-500 cursor-not-allowed">
+                                    <div className="flex items-center gap-3 px-5 py-3 bg-muted/50 border border-border rounded-2xl text-[14px] font-black text-muted-foreground cursor-not-allowed">
                                         <FileSignature className="w-4 h-4 text-slate-400" />
                                         <span className="uppercase tracking-tight">{displayOrder.status || 'Open'} (Signed)</span>
                                     </div>
@@ -411,14 +411,14 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                                          </div>
                                      )}
                                      <div className="relative group/status dropdown">
-                                         <button className="flex items-center gap-3 px-5 py-3 bg-white border border-slate-200 rounded-2xl text-[14px] font-black text-slate-800 hover:border-blue-400 transition-all shadow-sm active:scale-95">
+                                         <button className="flex items-center gap-3 px-5 py-3 bg-card border border-border rounded-2xl text-[14px] font-black text-slate-800 hover:border-primary/80 transition-all shadow-sm active:scale-95">
                                              <div className="w-4 h-4 rounded-full border-4 border-slate-100 border-t-blue-600" />
                                              <span className="uppercase tracking-tight">
                                                  {(displayOrder as any).deferredUntilDate ? 'DEFERRED' : (displayOrder.status || 'Open')}
                                              </span>
-                                             <ChevronDown className="w-4 h-4 text-slate-500" />
+                                             <ChevronDown className="w-4 h-4 text-muted-foreground" />
                                          </button>
-                                         <div className="hidden group-focus-within/status:block absolute top-full left-0 mt-2 bg-white border border-gray-100 rounded-xl shadow-xl z-[70] py-2 w-48">
+                                         <div className="hidden group-focus-within/status:block absolute top-full left-0 mt-2 bg-card border border-gray-100 rounded-xl shadow-xl z-[70] py-2 w-48">
                                              {['OPEN', 'IN_PROGRESS', 'ON_HOLD', 'DEFER', 'COMPLETED']
                                                  .filter(status => {
                                                      const isCurrentlyDeferred = !!(displayOrder as any).deferredUntilDate;
@@ -432,7 +432,7 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                                                      <button 
                                                          key={status}
                                                          onClick={() => handleStatusSelect(status)}
-                                                         className="w-full text-left px-4 py-2 text-[14px] font-bold text-gray-650 hover:bg-slate-50 hover:text-primary transition-all uppercase"
+                                                         className="w-full text-left px-4 py-2 text-[14px] font-bold text-gray-650 hover:bg-muted/50 hover:text-primary transition-all uppercase"
                                                      >
                                                          {status.replace('_', ' ')}
                                                      </button>
@@ -452,27 +452,27 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                                  </div>
                             )}
  
-                            <div className="flex flex-wrap items-center gap-1 text-slate-500 border-l border-slate-100 pl-4 ml-2">
+                            <div className="flex flex-wrap items-center gap-1 text-muted-foreground border-l border-slate-100 pl-4 ml-2">
                                 <div className="relative group/tooltip">
                                     <button 
                                         onClick={() => setIsAddTimeModalOpen(true)}
-                                        className="p-2 hover:text-primary hover:bg-slate-50 rounded-lg transition-all outline-none"
+                                        className="p-2 hover:text-primary hover:bg-muted/50 rounded-lg transition-all outline-none"
                                     >
                                         <Clock className="w-5 h-5" />
                                     </button>
-                                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-white border border-gray-100 rounded-lg shadow-xl text-[12px] font-bold text-slate-600 whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-all scale-95 group-hover:scale-100 z-[100]">
+                                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-card border border-gray-100 rounded-lg shadow-xl text-[12px] font-bold text-slate-600 whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-all scale-95 group-hover:scale-100 z-[100]">
                                         Add Time
                                         <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 border-4 border-transparent border-t-white" />
                                     </div>
                                 </div>
                                 <div className="relative group/tooltip">
                                     <button 
-                                        className="p-2 hover:text-primary hover:bg-slate-50 rounded-lg transition-all"
+                                        className="p-2 hover:text-primary hover:bg-muted/50 rounded-lg transition-all"
                                         onClick={() => setIsAddCostModalOpen(true)}
                                     >
                                         <DollarSign className="w-5 h-5" />
                                     </button>
-                                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-white border border-gray-100 rounded-lg shadow-xl text-[12px] font-bold text-slate-600 whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-all scale-95 group-hover:scale-100 z-[100]">
+                                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-card border border-gray-100 rounded-lg shadow-xl text-[12px] font-bold text-slate-600 whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-all scale-95 group-hover:scale-100 z-[100]">
                                         Add Cost
                                         <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 border-4 border-transparent border-t-white" />
                                     </div>
@@ -480,12 +480,12 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
 
                                 <div className="relative group/tooltip">
                                     <button 
-                                        className="p-2 hover:text-primary hover:bg-slate-50 rounded-lg transition-all"
+                                        className="p-2 hover:text-primary hover:bg-muted/50 rounded-lg transition-all"
                                         onClick={() => setIsAddPartModalOpen(true)}
                                     >
                                         <Package className="w-5 h-5" />
                                     </button>
-                                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-white border border-gray-100 rounded-lg shadow-xl text-[12px] font-bold text-slate-600 whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-all scale-95 group-hover:scale-100 z-[100]">
+                                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-card border border-gray-100 rounded-lg shadow-xl text-[12px] font-bold text-slate-600 whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-all scale-95 group-hover:scale-100 z-[100]">
                                         Add Part
                                         <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 border-4 border-transparent border-t-white" />
                                     </div>
@@ -495,13 +495,13 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                                     <button 
                                         className={cn(
                                             "p-2 rounded-lg transition-all",
-                                            order.isBookmarked ? "text-yellow-500 bg-yellow-50" : "hover:text-primary hover:bg-slate-50 text-slate-400"
+                                            order.isBookmarked ? "text-yellow-500 bg-yellow-50" : "hover:text-primary hover:bg-muted/50 text-slate-400"
                                         )}
                                         onClick={() => toggleBookmark.mutate({ id: order.id, isBookmarked: !order.isBookmarked })}
                                     >
                                         <Bookmark className={cn("w-5 h-5", order.isBookmarked && "fill-current")} />
                                     </button>
-                                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-white border border-gray-100 rounded-lg shadow-xl text-[12px] font-bold text-slate-600 whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-all scale-95 group-hover:scale-100 z-[100]">
+                                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-card border border-gray-100 rounded-lg shadow-xl text-[12px] font-bold text-slate-600 whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-all scale-95 group-hover:scale-100 z-[100]">
                                         {order.isBookmarked ? 'Remove Bookmark' : 'Bookmark Mission'}
                                         <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 border-4 border-transparent border-t-white" />
                                     </div>
@@ -510,11 +510,11 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                                 <div className="relative group/tooltip">
                                     <button 
                                         onClick={() => setIsEditModalOpen(true)}
-                                        className="p-2 hover:text-primary hover:bg-slate-50 rounded-lg transition-all"
+                                        className="p-2 hover:text-primary hover:bg-muted/50 rounded-lg transition-all"
                                     >
                                         <Edit3 className="w-5 h-5" />
                                     </button>
-                                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-white border border-gray-100 rounded-lg shadow-xl text-[12px] font-bold text-slate-600 whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-all scale-95 group-hover:scale-100 z-[100]">
+                                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-card border border-gray-100 rounded-lg shadow-xl text-[12px] font-bold text-slate-600 whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-all scale-95 group-hover:scale-100 z-[100]">
                                         Edit Detail
                                         <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 border-4 border-transparent border-t-white" />
                                     </div>
@@ -523,21 +523,21 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                                 <div className="relative group/tooltip">
                                     <button 
                                         onClick={() => setIsLinkModalOpen(true)}
-                                        className="p-2 hover:text-primary hover:bg-slate-50 text-slate-400 rounded-lg transition-all"
+                                        className="p-2 hover:text-primary hover:bg-muted/50 text-slate-400 rounded-lg transition-all"
                                     >
                                         <Link className="w-5 h-5" />
                                     </button>
-                                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-white border border-gray-100 rounded-lg shadow-xl text-[12px] font-bold text-slate-600 whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-all scale-95 group-hover:scale-100 z-[100]">
+                                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-card border border-gray-100 rounded-lg shadow-xl text-[12px] font-bold text-slate-600 whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-all scale-95 group-hover:scale-100 z-[100]">
                                         Link Work Order
                                         <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 border-4 border-transparent border-t-white" />
                                     </div>
                                 </div>
 
                                 <div className="relative group/tooltip">
-                                    <button className="p-2 hover:text-primary hover:bg-slate-50 rounded-lg transition-all">
+                                    <button className="p-2 hover:text-primary hover:bg-muted/50 rounded-lg transition-all">
                                         <MoreHorizontal className="w-5 h-5" />
                                     </button>
-                                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-white border border-gray-100 rounded-lg shadow-xl text-[12px] font-bold text-slate-600 whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-all scale-95 group-hover:scale-100 z-[100]">
+                                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-card border border-gray-100 rounded-lg shadow-xl text-[12px] font-bold text-slate-600 whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-all scale-95 group-hover:scale-100 z-[100]">
                                         More Actions
                                         <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 border-4 border-transparent border-t-white" />
                                     </div>
@@ -568,42 +568,42 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                                 "flex items-center gap-2 px-6 py-2.5 border rounded-xl text-[14px] font-black transition-all shadow-sm group",
                                 activeTimeLog 
                                     ? "bg-rose-50 border-rose-200 text-rose-600 hover:bg-rose-100" 
-                                    : "bg-white border-gray-200 text-blue-600 hover:bg-slate-50"
+                                    : "bg-card border-border text-primary hover:bg-muted/50"
                             )}
                         >
-                            <Clock className={cn("w-4 h-4", activeTimeLog ? "text-rose-500 animate-spin" : "text-blue-500")} style={{ animationDuration: activeTimeLog ? '8s' : undefined }} />
+                            <Clock className={cn("w-4 h-4", activeTimeLog ? "text-rose-500 animate-spin" : "text-primary")} style={{ animationDuration: activeTimeLog ? '8s' : undefined }} />
                             {activeTimeLog ? `Stop Timer (${elapsedTime})` : 'Start Timer'}
                         </button>
                     </div>
                     </div>
 
                     {/* Tabs Navigation */}
-                    <div className="px-8 border-b border-gray-50 flex items-center gap-8 bg-white sticky top-[84px] z-[40] overflow-x-auto scrollbar-hide">
+                    <div className="px-8 border-b border-gray-50 flex items-center gap-8 bg-card sticky top-[84px] z-[40] overflow-x-auto scrollbar-hide">
                         {['Overview', 'Tasks', 'Labor', 'Parts', 'Costs', 'Files', 'Activity', 'Links', 'Provider Portal', 'Permits'].map(tab => (
                             <button
                                 key={tab}
                                 onClick={() => setActiveTab(tab)}
                                 className={cn(
                                     "pb-5 pt-5 text-[14px] font-black transition-all relative whitespace-nowrap uppercase tracking-widest",
-                                    activeTab === tab ? "text-blue-600" : "text-slate-500 hover:text-slate-900"
+                                    activeTab === tab ? "text-primary" : "text-muted-foreground hover:text-foreground"
                                 )}
                             >
                                 {tab}
                                 {activeTab === tab && (
-                                    <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-blue-600 rounded-full shadow-lg shadow-blue-200" />
+                                    <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-primary rounded-full shadow-lg shadow-primary/20" />
                                 )}
                             </button>
                         ))}
                     </div>
 
                     {/* Mission Metrics Summary */}
-                    <div className="px-8 py-7 border-b border-gray-50 flex flex-wrap items-center justify-between bg-white gap-4">
+                    <div className="px-8 py-7 border-b border-gray-50 flex flex-wrap items-center justify-between bg-card gap-4">
                         <div className="flex flex-wrap items-center gap-6 md:gap-14">
                             <div className="space-y-1">
-                                <p className="text-[12px] font-black text-slate-500 uppercase tracking-widest">Active Parts</p>
+                                <p className="text-[12px] font-black text-muted-foreground uppercase tracking-widest">Active Parts</p>
                                 <p className="text-[18px] font-black text-slate-950">{order.partsUsed?.length || 0}</p>
                             </div>
-                            <div className="w-px h-10 bg-slate-100" />
+                            <div className="w-px h-10 bg-muted" />
                             <div className="space-y-1">
                                 <div className="flex items-center gap-2">
                                     <p className="text-[12px] font-black text-slate-400 uppercase tracking-widest">Mission Capital</p>
@@ -630,7 +630,7 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                                     }
                                 }}
                             />
-                            <div className="w-16 h-16 border-2 border-dashed border-slate-200 rounded-[22px] flex items-center justify-center text-slate-300 hover:border-blue-600 hover:text-blue-600 hover:bg-blue-50 transition-all shadow-sm">
+                            <div className="w-16 h-16 border-2 border-dashed border-border rounded-[22px] flex items-center justify-center text-slate-300 hover:border-primary hover:text-primary hover:bg-blue-50 transition-all shadow-sm">
                                  <ImageIcon className="w-7 h-7 group-hover:scale-110 transition-transform" />
                             </div>
                         </label>
@@ -639,27 +639,27 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
 
                     <div className="p-8">
                         {activeTab === 'Overview' && (
-                            <div className="bg-white rounded-3xl animate-in fade-in zoom-in duration-500">
+                            <div className="bg-card rounded-3xl animate-in fade-in zoom-in duration-500">
                                 <div className="space-y-8">
                                     {displayOrder.description && (
                                         <div className="space-y-4">
                                             <h3 className="text-[17px] font-[900] text-slate-800 tracking-tight uppercase italic underline decoration-blue-500/30 underline-offset-8 decoration-4">Mission Intelligence</h3>
-                                            <p className="text-[15px] text-slate-500 leading-relaxed max-w-2xl font-medium">
+                                            <p className="text-[15px] text-muted-foreground leading-relaxed max-w-2xl font-medium">
                                                 {displayOrder.description}
                                             </p>
-                                            <div className="h-px bg-gray-100 w-full pt-4" />
+                                            <div className="h-px bg-muted w-full pt-4" />
                                         </div>
                                     )}
 
                                     {/* Details Grid */}
                                     <div className="space-y-7">
                                         <div className="grid grid-cols-1 md:grid-cols-[200px,1fr] gap-1 md:gap-0 items-center">
-                                            <span className="text-[15px] font-bold text-slate-500">Asset</span>
+                                            <span className="text-[15px] font-bold text-muted-foreground">Asset</span>
                                             <div className="flex items-center justify-between">
-                                                <button className="text-[15px] font-extrabold text-blue-600 hover:underline text-left">
+                                                <button className="text-[15px] font-extrabold text-primary hover:underline text-left">
                                                     {(order.asset as any)?.name || order.assetName || 'No Asset Assigned'}
                                                 </button>
-                                                <select className="px-5 py-2 border border-gray-100 rounded-xl text-[13px] font-black uppercase tracking-widest text-emerald-600 bg-white outline-none cursor-pointer hover:border-blue-100 transition-all">
+                                                <select className="px-5 py-2 border border-gray-100 rounded-xl text-[13px] font-black uppercase tracking-widest text-emerald-600 bg-card outline-none cursor-pointer hover:border-blue-100 transition-all">
                                                     <option>{(order.asset as any)?.status || 'Operation'}</option>
                                                     <option>Down</option>
                                                     <option>Limited</option>
@@ -669,9 +669,9 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
 
                                         {((order as any).request?.id || (order as any).requestId) && (
                                             <div className="grid grid-cols-1 md:grid-cols-[200px,1fr] gap-1 md:gap-0 items-center">
-                                                <span className="text-[15px] font-bold text-slate-500">Originated From</span>
+                                                <span className="text-[15px] font-bold text-muted-foreground">Originated From</span>
                                                 <div className="flex items-center gap-3 flex-wrap">
-                                                    <span className="px-3 py-1 bg-indigo-50 border border-indigo-200 rounded-xl text-[13px] font-black text-indigo-700 uppercase tracking-widest italic shadow-sm">
+                                                    <span className="px-3 py-1 bg-primary/10 border border-primary/20 rounded-xl text-[13px] font-black text-primary/90 uppercase tracking-widest italic shadow-sm">
                                                         Request REQ-{((order as any).request?.id || (order as any).requestId).split('-')[0].toUpperCase()}
                                                     </span>
                                                     {((order as any).request?.guestName || (order as any).request?.requester?.user?.name) && (
@@ -684,21 +684,21 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                                         )}
 
                                         <div className="grid grid-cols-1 md:grid-cols-[200px,1fr] gap-1 md:gap-0 items-center">
-                                            <span className="text-[15px] font-bold text-slate-500">Priority</span>
+                                            <span className="text-[15px] font-bold text-muted-foreground">Priority</span>
                                             <div className="relative group w-fit">
-                                                <div className="flex items-center gap-3 px-4 py-1.5 rounded-lg bg-slate-50 border border-slate-100 transition-all cursor-pointer hover:border-blue-200">
-                                                    <span className="text-[13px] font-black text-slate-700 uppercase tracking-widest">{order.priority || 'MEDIUM'}</span>
+                                                <div className="flex items-center gap-3 px-4 py-1.5 rounded-lg bg-muted/50 border border-slate-100 transition-all cursor-pointer hover:border-blue-200">
+                                                    <span className="text-[13px] font-black text-foreground/90 uppercase tracking-widest">{order.priority || 'MEDIUM'}</span>
                                                     <ChevronDown className="w-4 h-4 text-slate-400 opacity-40 group-hover:opacity-100 transition-opacity" />
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div className="grid grid-cols-1 md:grid-cols-[200px,1fr] gap-1 md:gap-0 items-start">
-                                            <span className="text-[15px] font-bold text-slate-500 mt-2">Closeout Notes</span>
+                                            <span className="text-[15px] font-bold text-muted-foreground mt-2">Closeout Notes</span>
                                             <div className="relative group">
                                                 {!isEditingCloseoutNotes ? (
                                                     <div className="flex items-center justify-between min-h-[44px]">
-                                                        <span className="text-[15px] font-bold text-slate-700 opacity-60 italic py-2">
+                                                        <span className="text-[15px] font-bold text-foreground/90 opacity-60 italic py-2">
                                                             {order.resolutionNotes || 'No notes archived for this mission.'}
                                                         </span>
                                                         <button 
@@ -706,7 +706,7 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                                                                 setIsEditingCloseoutNotes(true);
                                                                 setCloseoutNotesValue(order.resolutionNotes || '');
                                                             }}
-                                                            className="p-2.5 hover:bg-blue-50 rounded-2xl text-blue-500 hover:text-blue-600 transition-all ml-4 shadow-sm bg-white border border-blue-50"
+                                                            className="p-2.5 hover:bg-blue-50 rounded-2xl text-primary hover:text-primary transition-all ml-4 shadow-sm bg-card border border-blue-50"
                                                         >
                                                             <Edit3 className="w-5 h-5" />
                                                         </button>
@@ -719,7 +719,7 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                                                                     autoFocus
                                                                     value={closeoutNotesValue}
                                                                     onChange={(e) => setCloseoutNotesValue(e.target.value)}
-                                                                    className="w-full min-h-[120px] p-4 bg-white border-2 border-blue-500 rounded-2xl text-[15px] font-bold text-slate-800 outline-none shadow-[0_0_0_4px_rgba(59,130,246,0.1)] transition-all resize-none"
+                                                                    className="w-full min-h-[120px] p-4 bg-card border-2 border-primary/80 rounded-2xl text-[15px] font-bold text-slate-800 outline-none shadow-[0_0_0_4px_rgba(59,130,246,0.1)] transition-all resize-none"
                                                                     placeholder="Transmit mission reconciliation intelligence..."
                                                                 />
                                                                 <button 
@@ -728,20 +728,20 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                                                                         updateStatus.mutate({ id: order.id, status: order.status, resolutionNotes: closeoutNotesValue });
                                                                         setIsEditingCloseoutNotes(false);
                                                                     }}
-                                                                    className="w-10 h-10 bg-white border border-emerald-100 rounded-xl flex items-center justify-center text-emerald-600 hover:bg-emerald-50 transition-all shadow-sm active:scale-95 disabled:opacity-50"
+                                                                    className="w-10 h-10 bg-card border border-emerald-100 rounded-xl flex items-center justify-center text-emerald-600 hover:bg-emerald-50 transition-all shadow-sm active:scale-95 disabled:opacity-50"
                                                                 >
                                                                     <Check className="w-5 h-5 text-emerald-600" />
                                                                 </button>
                                                                 <button 
                                                                     onClick={() => setIsEditingCloseoutNotes(false)}
-                                                                    className="w-10 h-10 bg-white border border-slate-100 rounded-xl flex items-center justify-center text-slate-400 hover:bg-slate-50 transition-all shadow-sm active:scale-95"
+                                                                    className="w-10 h-10 bg-card border border-slate-100 rounded-xl flex items-center justify-center text-slate-400 hover:bg-muted/50 transition-all shadow-sm active:scale-95"
                                                                 >
                                                                     <RotateCcw className="w-5 h-5" />
                                                                 </button>
                                                             </div>
                                                         </div>
                                                         <div className="flex justify-end">
-                                                            <button className="flex items-center gap-2 px-6 py-2.5 bg-blue-600 text-white rounded-xl text-[13px] font-black uppercase tracking-widest italic hover:scale-105 transition-all shadow-lg shadow-blue-200">
+                                                            <button className="flex items-center gap-2 px-6 py-2.5 bg-primary text-white rounded-xl text-[13px] font-black uppercase tracking-widest italic hover:scale-105 transition-all shadow-lg shadow-primary/20">
                                                                 Auto-generate summary
                                                             </button>
                                                         </div>
@@ -752,9 +752,9 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
 
                                         {(order as any).signatureUrl && (
                                             <div className="grid grid-cols-1 md:grid-cols-[200px,1fr] gap-1 md:gap-0 items-start">
-                                                <span className="text-[15px] font-bold text-slate-500 mt-2">Technician Sign-off</span>
-                                                <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 inline-block w-fit">
-                                                    <img src={(order as any).signatureUrl} alt="Technician Signature" className="max-h-24 object-contain rounded-lg bg-white p-2 border border-slate-100 shadow-sm" />
+                                                <span className="text-[15px] font-bold text-muted-foreground mt-2">Technician Sign-off</span>
+                                                <div className="p-4 bg-muted/50 rounded-2xl border border-border inline-block w-fit">
+                                                    <img src={(order as any).signatureUrl} alt="Technician Signature" className="max-h-24 object-contain rounded-lg bg-card p-2 border border-slate-100 shadow-sm" />
                                                     <div className="flex items-center gap-2 mt-2">
                                                         <CircleCheck className="w-3.5 h-3.5 text-emerald-500" />
                                                         <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest italic">Verified Digital Signature</p>
@@ -765,17 +765,17 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
 
                                         <div className="grid grid-cols-1 md:grid-cols-[200px,1fr] gap-1 md:gap-0 items-center">
                                             <span className="text-[15px] font-bold text-slate-400">Created</span>
-                                            <p className="text-[15px] font-bold text-slate-700">
+                                            <p className="text-[15px] font-bold text-foreground/90">
                                                 <span className="font-black opacity-40">
                                                     {order.createdAt ? new Date(order.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : ''} 
                                                     {order.createdAt ? new Date(order.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : ''}
-                                                </span> by <button className="text-blue-600 font-extrabold hover:underline italic">{(order as any).creator?.name || 'System Agent'}</button>
+                                                </span> by <button className="text-primary font-extrabold hover:underline italic">{(order as any).creator?.name || 'System Agent'}</button>
                                             </p>
                                         </div>
 
                                         <div className="grid grid-cols-1 md:grid-cols-[200px,1fr] gap-1 md:gap-0 items-center">
                                             <span className="text-[15px] font-bold text-slate-400">Last Updated</span>
-                                            <p className="text-[15px] font-bold text-slate-700">
+                                            <p className="text-[15px] font-bold text-foreground/90">
                                                 <span className="font-black opacity-40">
                                                     {order.updatedAt ? new Date(order.updatedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : ''} 
                                                     {order.updatedAt ? new Date(order.updatedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : ''}
@@ -785,7 +785,7 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
 
                                         <div className="grid grid-cols-1 md:grid-cols-[200px,1fr] gap-1 md:gap-0 items-center">
                                             <span className="text-[15px] font-bold text-slate-400">Due Date</span>
-                                            <p className="text-[15px] font-bold text-slate-700">
+                                            <p className="text-[15px] font-bold text-foreground/90">
                                                 {order.dueDate ? (
                                                     <span className="font-black opacity-40">{new Date(order.dueDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })} {new Date(order.dueDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                                                 ) : (
@@ -796,7 +796,7 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
 
                                         <div className="grid grid-cols-1 md:grid-cols-[200px,1fr] gap-1 md:gap-0 items-center">
                                             <span className="text-[15px] font-bold text-slate-400">Primary Assignee</span>
-                                            <button className="text-[15px] font-black uppercase tracking-tight text-blue-600 hover:underline w-fit italic">
+                                            <button className="text-[15px] font-black uppercase tracking-tight text-primary hover:underline w-fit italic">
                                                 {(order.assignedTo as any)?.user?.name || 'Mission Pending Assignment'}
                                             </button>
                                         </div>
@@ -806,7 +806,7 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                                     <div className="pt-10 space-y-6">
                                         <div className="flex items-center justify-between">
                                             <h3 className="text-[18px] font-black italic uppercase tracking-tight text-slate-800">Mission Tasks</h3>
-                                            <span className="px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-[11px] font-black uppercase tracking-widest border border-blue-100">
+                                            <span className="px-3 py-1 bg-blue-50 text-primary rounded-full text-[11px] font-black uppercase tracking-widest border border-blue-100">
                                                 {order.tasks?.length || 0} Protocols
                                             </span>
                                         </div>
@@ -815,17 +815,17 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                                             {(order.tasks || []).map((task: any, idx: number) => (
                                                 <div key={`task-view-${idx}`} className={cn(
                                                     "p-6 rounded-[24px] border transition-all flex items-center justify-between group",
-                                                    task.status === 'COMPLETED' ? "bg-emerald-50/30 border-emerald-100" : "bg-slate-50 border-slate-100 hover:border-blue-100"
+                                                    task.status === 'COMPLETED' ? "bg-emerald-50/30 border-emerald-100" : "bg-muted/50 border-slate-100 hover:border-blue-100"
                                                 )}>
                                                     <div className="flex items-center gap-4">
                                                         <div className={cn(
                                                             "w-10 h-10 rounded-xl flex items-center justify-center transition-all",
-                                                            task.status === 'COMPLETED' ? "bg-emerald-500 text-white shadow-lg shadow-emerald-200" : "bg-white border border-slate-200 text-slate-300"
+                                                            task.status === 'COMPLETED' ? "bg-emerald-500 text-white shadow-lg shadow-emerald-200" : "bg-card border border-border text-slate-300"
                                                         )}>
-                                                            {task.status === 'COMPLETED' ? <CircleCheck className="w-5 h-5" /> : <div className="w-5 h-5 rounded-md border-2 border-slate-200" />}
+                                                            {task.status === 'COMPLETED' ? <CircleCheck className="w-5 h-5" /> : <div className="w-5 h-5 rounded-md border-2 border-border" />}
                                                         </div>
                                                         <div>
-                                                            <p className={cn("text-[15px] font-bold italic transition-all", task.status === 'COMPLETED' ? "text-emerald-700 line-through opacity-50" : "text-slate-700 uppercase tracking-tight")}>
+                                                            <p className={cn("text-[15px] font-bold italic transition-all", task.status === 'COMPLETED' ? "text-emerald-700 line-through opacity-50" : "text-foreground/90 uppercase tracking-tight")}>
                                                                 {task.text}
                                                             </p>
                                                             <div className="flex items-center gap-2 mt-0.5">
@@ -834,12 +834,12 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                                                             </div>
                                                             {/* Requirement Indicators */}
                                                             <div className="flex items-center gap-1.5 mt-2">
-                                                                {task.requirements?.notes && <div className="p-1 bg-blue-50 text-blue-500 rounded-md border border-blue-100" title="Notes Required"><Type className="w-3 h-3" /></div>}
-                                                                {task.requirements?.photo && <div className="p-1 bg-blue-50 text-blue-500 rounded-md border border-blue-100" title="Photo Required"><ImageIcon className="w-3 h-3" /></div>}
-                                                                {task.requirements?.url && <div className="p-1 bg-blue-50 text-blue-500 rounded-md border border-blue-100" title="Link Required"><Link className="w-3 h-3" /></div>}
-                                                                {task.requirements?.reading && <div className="p-1 bg-blue-50 text-blue-500 rounded-md border border-blue-100" title="Reading Required"><Gauge className="w-3 h-3" /></div>}
-                                                                {task.requirements?.signature && <div className="p-1 bg-blue-50 text-blue-500 rounded-md border border-blue-100" title="Signature Required"><FileSignature className="w-3 h-3" /></div>}
-                                                                {task.requirements?.barcode && <div className="p-1 bg-blue-50 text-blue-500 rounded-md border border-blue-100" title="Barcode Required"><Barcode className="w-3 h-3" /></div>}
+                                                                {task.requirements?.notes && <div className="p-1 bg-blue-50 text-primary rounded-md border border-blue-100" title="Notes Required"><Type className="w-3 h-3" /></div>}
+                                                                {task.requirements?.photo && <div className="p-1 bg-blue-50 text-primary rounded-md border border-blue-100" title="Photo Required"><ImageIcon className="w-3 h-3" /></div>}
+                                                                {task.requirements?.url && <div className="p-1 bg-blue-50 text-primary rounded-md border border-blue-100" title="Link Required"><Link className="w-3 h-3" /></div>}
+                                                                {task.requirements?.reading && <div className="p-1 bg-blue-50 text-primary rounded-md border border-blue-100" title="Reading Required"><Gauge className="w-3 h-3" /></div>}
+                                                                {task.requirements?.signature && <div className="p-1 bg-blue-50 text-primary rounded-md border border-blue-100" title="Signature Required"><FileSignature className="w-3 h-3" /></div>}
+                                                                {task.requirements?.barcode && <div className="p-1 bg-blue-50 text-primary rounded-md border border-blue-100" title="Barcode Required"><Barcode className="w-3 h-3" /></div>}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -858,12 +858,12 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                                         <div className="pt-10 space-y-6">
                                             <div className="flex items-center justify-between">
                                                 <h3 className="text-[18px] font-black italic uppercase tracking-tight text-slate-800">Parts Consumed</h3>
-                                                <span className="px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-[11px] font-black uppercase tracking-widest border border-blue-100">
+                                                <span className="px-3 py-1 bg-blue-50 text-primary rounded-full text-[11px] font-black uppercase tracking-widest border border-blue-100">
                                                     {order.partsUsed.length} Line Item{order.partsUsed.length !== 1 ? 's' : ''}
                                                 </span>
                                             </div>
 
-                                            <div className="w-full border border-slate-200 rounded-2xl bg-white shadow-sm overflow-hidden">
+                                            <div className="w-full border border-border rounded-2xl bg-card shadow-sm overflow-hidden">
                                                 <table className="w-full text-left border-collapse">
                                                     <thead>
                                                         <tr className="border-b border-slate-100 bg-slate-50/20">
@@ -891,7 +891,7 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                                                                     <td className="px-6 py-5">
                                                                         <div className="flex flex-col">
                                                                             <span 
-                                                                                className="text-[15px] font-bold text-blue-600 group-hover/row:underline text-left w-fit"
+                                                                                className="text-[15px] font-bold text-primary group-hover/row:underline text-left w-fit"
                                                                             >
                                                                                 {part.part?.name || 'Unknown Part'}
                                                                             </span>
@@ -905,13 +905,13 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                                                                             {rawStatus}
                                                                         </span>
                                                                     </td>
-                                                                    <td className="px-6 py-5 text-[15px] font-bold text-slate-700">
+                                                                    <td className="px-6 py-5 text-[15px] font-bold text-foreground/90">
                                                                         ${unitCost.toFixed(2)}
                                                                     </td>
-                                                                    <td className="px-6 py-5 text-[15px] font-bold text-slate-700">
+                                                                    <td className="px-6 py-5 text-[15px] font-bold text-foreground/90">
                                                                         {qty}
                                                                     </td>
-                                                                    <td className="px-6 py-5 text-[15px] font-bold text-slate-700">
+                                                                    <td className="px-6 py-5 text-[15px] font-bold text-foreground/90">
                                                                         ${totalCost.toFixed(2)}
                                                                     </td>
                                                                 </tr>
@@ -923,7 +923,7 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
 
                                             <div className="flex justify-end items-center gap-3 pr-6 pt-2">
                                                 <span className="text-[18px] font-black text-slate-800">Total:</span>
-                                                <span className="text-[18px] font-black text-slate-900">
+                                                <span className="text-[18px] font-black text-foreground">
                                                     ${order.partsUsed.reduce((acc: number, part: any) => {
                                                         const unitCost = Number(part.unitCost || 0);
                                                         const qty = Number(part.quantity || 0);
@@ -939,12 +939,12 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                                     <div className="pt-10 space-y-6 pb-20">
                                         <h3 className="text-[18px] font-black italic uppercase tracking-tight text-slate-800">Documentation & Reference</h3>
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                            <div className="p-6 rounded-[24px] bg-slate-50 border border-slate-100 space-y-4">
+                                            <div className="p-6 rounded-[24px] bg-muted/50 border border-slate-100 space-y-4">
                                                 <div className="flex items-center gap-3">
-                                                    <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center text-blue-500">
+                                                    <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center text-primary">
                                                         <FileText className="w-4 h-4" />
                                                     </div>
-                                                    <span className="text-[13px] font-black uppercase tracking-widest text-slate-700">Reference Media</span>
+                                                    <span className="text-[13px] font-black uppercase tracking-widest text-foreground/90">Reference Media</span>
                                                 </div>
                                                 <div className="flex gap-3 overflow-x-auto pb-2 custom-scrollbar">
                                                     {(order.files || []).map((file: any) => (
@@ -954,14 +954,14 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                                                             target="_blank" 
                                                             rel="noreferrer"
                                                             title={file.filename}
-                                                            className="w-16 h-16 rounded-xl bg-white border border-slate-200 flex-shrink-0 overflow-hidden hover:border-blue-500 hover:scale-105 transition-all flex items-center justify-center relative group/media shadow-sm"
+                                                            className="w-16 h-16 rounded-xl bg-card border border-border flex-shrink-0 overflow-hidden hover:border-primary/80 hover:scale-105 transition-all flex items-center justify-center relative group/media shadow-sm"
                                                         >
                                                             {file.mimeType?.startsWith('image/') ? (
                                                                 <img src={file.url} alt={file.filename} className="w-full h-full object-cover" />
                                                             ) : (
-                                                                <div className="flex flex-col items-center justify-center text-blue-500 p-1">
+                                                                <div className="flex flex-col items-center justify-center text-primary p-1">
                                                                     <FileText className="w-6 h-6" />
-                                                                    <span className="text-[7px] font-black uppercase truncate max-w-[56px] text-slate-500 mt-0.5">{file.filename}</span>
+                                                                    <span className="text-[7px] font-black uppercase truncate max-w-[56px] text-muted-foreground mt-0.5">{file.filename}</span>
                                                                 </div>
                                                             )}
                                                         </a>
@@ -970,12 +970,12 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                                                 </div>
                                             </div>
 
-                                            <div className="p-6 rounded-[24px] bg-slate-50 border border-slate-100 space-y-4">
+                                            <div className="p-6 rounded-[24px] bg-muted/50 border border-slate-100 space-y-4">
                                                 <div className="flex items-center gap-3">
                                                     <div className="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-500">
                                                         <DollarSign className="w-4 h-4" />
                                                     </div>
-                                                    <span className="text-[13px] font-black uppercase tracking-widest text-slate-700">Procurement</span>
+                                                    <span className="text-[13px] font-black uppercase tracking-widest text-foreground/90">Procurement</span>
                                                 </div>
                                                 <p className="text-[14px] font-bold text-slate-600">
                                                     {order.purchaseOrderId ? `Linked PO Ref: ${order.purchaseOrderId}` : 'No PO Link Reconciliation Required'}
@@ -997,7 +997,7 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                             <div className="space-y-4 animate-in slide-in-from-bottom-4 duration-500">
                                 <div className="flex justify-end pr-2">
                                     <button 
-                                        className="flex items-center gap-2 px-5 py-2.5 border border-slate-200 bg-white text-slate-800 rounded-xl text-[14px] font-bold hover:bg-slate-50 transition-all shadow-sm active:scale-95"
+                                        className="flex items-center gap-2 px-5 py-2.5 border border-border bg-card text-slate-800 rounded-xl text-[14px] font-bold hover:bg-muted/50 transition-all shadow-sm active:scale-95"
                                         onClick={() => setIsAddTimeModalOpen(true)}
                                     >
                                         <Clock className="w-5 h-5 text-slate-800" />
@@ -1005,10 +1005,10 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                                     </button>
                                 </div>
 
-                                <div className="w-full border border-slate-100 rounded-2xl bg-white shadow-sm overflow-x-auto custom-scrollbar">
+                                <div className="w-full border border-slate-100 rounded-2xl bg-card shadow-sm overflow-x-auto custom-scrollbar">
                                     <table className="w-full text-left border-collapse min-w-[1000px]">
                                         <thead>
-                                            <tr className="border-b border-slate-100 bg-slate-50/50">
+                                            <tr className="border-b border-slate-100 bg-transparent">
                                                 <th className="px-6 py-4 text-[13px] font-black text-slate-600 uppercase tracking-wider">Worker</th>
                                                 <th className="px-6 py-4 text-[13px] font-black text-slate-600 uppercase tracking-wider">Start Date</th>
                                                 <th className="px-6 py-4 text-[13px] font-black text-slate-600 uppercase tracking-wider">Duration</th>
@@ -1043,11 +1043,11 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                                                 const categoryStr = categoryRaw.length > 7 ? categoryRaw.substring(0, 7) + '...' : categoryRaw;
 
                                                 return (
-                                                    <tr key={log.id} className="hover:bg-slate-50/50 transition-colors">
+                                                    <tr key={log.id} className="hover:bg-transparent transition-colors">
                                                         {/* Worker */}
                                                         <td className="px-6 py-4 whitespace-nowrap">
                                                             <div className="flex items-center gap-3">
-                                                                <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-[13px] font-black text-slate-700 uppercase">
+                                                                <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center text-[13px] font-black text-foreground/90 uppercase">
                                                                     {initial}
                                                                 </div>
                                                                 <span className="text-[14px] font-bold text-slate-800">{workerName}</span>
@@ -1080,7 +1080,7 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                                                         {/* Created By */}
                                                         <td className="px-6 py-4 whitespace-nowrap">
                                                             <div className="flex items-center gap-3">
-                                                                <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-[13px] font-black text-slate-700 uppercase">
+                                                                <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center text-[13px] font-black text-foreground/90 uppercase">
                                                                     {initial}
                                                                 </div>
                                                                 <span className="text-[14px] font-bold text-slate-800">{workerName}</span>
@@ -1106,12 +1106,12 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                                                                         navigator.clipboard.writeText(`${workerName} - ${durationStr} - ${categoryRaw}`);
                                                                         toast.success('Log details copied to clipboard');
                                                                     }}
-                                                                    className="p-1.5 hover:bg-slate-100 rounded-lg transition-colors"
+                                                                    className="p-1.5 hover:bg-muted rounded-lg transition-colors"
                                                                     title="Copy Log Details"
                                                                 >
                                                                     <Copy className="w-4 h-4 text-slate-400 hover:text-slate-600" />
                                                                 </button>
-                                                                <button className="p-1.5 hover:bg-slate-100 rounded-lg transition-colors">
+                                                                <button className="p-1.5 hover:bg-muted rounded-lg transition-colors">
                                                                     <MoreHorizontal className="w-5 h-5 text-slate-400 hover:text-slate-600" />
                                                                 </button>
                                                             </div>
@@ -1137,15 +1137,15 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                                 <div className="flex justify-end gap-3">
                                     <button 
                                         onClick={() => setIsAddPartModalOpen(true)}
-                                        className="px-5 py-2 bg-white border border-slate-200 text-slate-700 rounded-xl text-[14px] font-bold hover:bg-slate-50 transition-all shadow-sm active:scale-95 cursor-pointer"
+                                        className="px-5 py-2 bg-card border border-border text-foreground/90 rounded-xl text-[14px] font-bold hover:bg-muted/50 transition-all shadow-sm active:scale-95 cursor-pointer"
                                     >
                                         Edit
                                     </button>
                                     <button 
                                         onClick={() => setIsAddPartModalOpen(true)}
-                                        className="flex items-center gap-2 px-5 py-2 border border-slate-200 bg-white text-slate-700 rounded-xl text-[14px] font-bold hover:bg-slate-50 transition-all shadow-sm active:scale-95 cursor-pointer"
+                                        className="flex items-center gap-2 px-5 py-2 border border-border bg-card text-foreground/90 rounded-xl text-[14px] font-bold hover:bg-muted/50 transition-all shadow-sm active:scale-95 cursor-pointer"
                                     >
-                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="w-4.5 h-4.5 text-slate-700">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="w-4.5 h-4.5 text-foreground/90">
                                             <path d="M12 3l8 4.5v9l-8 4.5-8-4.5v-9z" />
                                             <circle cx="12" cy="12" r="3" />
                                             <path d="M16 16h5M18.5 13.5v5" />
@@ -1154,7 +1154,7 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                                     </button>
                                 </div>
 
-                                <div className="w-full border border-slate-200 rounded-2xl bg-white shadow-sm overflow-hidden">
+                                <div className="w-full border border-border rounded-2xl bg-card shadow-sm overflow-hidden">
                                     <table className="w-full text-left border-collapse">
                                         <thead>
                                             <tr className="border-b border-slate-100 bg-slate-50/20">
@@ -1182,7 +1182,7 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                                                         <td className="px-6 py-5">
                                                             <div className="flex flex-col">
                                                                 <span 
-                                                                    className="text-[15px] font-bold text-blue-600 group-hover/row:underline text-left w-fit"
+                                                                    className="text-[15px] font-bold text-primary group-hover/row:underline text-left w-fit"
                                                                 >
                                                                     {part.part?.name || 'Unknown Part'}
                                                                 </span>
@@ -1196,13 +1196,13 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                                                                 {rawStatus}
                                                             </span>
                                                         </td>
-                                                        <td className="px-6 py-5 text-[15px] font-bold text-slate-700">
+                                                        <td className="px-6 py-5 text-[15px] font-bold text-foreground/90">
                                                             ${unitCost.toFixed(2)}
                                                         </td>
-                                                        <td className="px-6 py-5 text-[15px] font-bold text-slate-700">
+                                                        <td className="px-6 py-5 text-[15px] font-bold text-foreground/90">
                                                             {qty}
                                                         </td>
-                                                        <td className="px-6 py-5 text-[15px] font-bold text-slate-700">
+                                                        <td className="px-6 py-5 text-[15px] font-bold text-foreground/90">
                                                             ${totalCost.toFixed(2)}
                                                         </td>
                                                     </tr>
@@ -1221,7 +1221,7 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
 
                                 <div className="flex justify-end items-center gap-3 pr-6 pt-4">
                                     <span className="text-[18px] font-black text-slate-800">Total:</span>
-                                    <span className="text-[18px] font-black text-slate-900">
+                                    <span className="text-[18px] font-black text-foreground">
                                         ${(order.partsUsed || []).reduce((acc: number, part: any) => {
                                             const unitCost = Number(part.unitCost || 0);
                                             const qty = Number(part.quantity || 0);
@@ -1250,9 +1250,9 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
 
                                 <div className="space-y-4">
                                     {((displayOrder as any).expenses || []).map((expense: any) => (
-                                        <div key={expense.id} className="p-8 rounded-[32px] bg-slate-50 border border-slate-100 flex items-center justify-between group">
+                                        <div key={expense.id} className="p-8 rounded-[32px] bg-muted/50 border border-slate-100 flex items-center justify-between group">
                                             <div className="flex items-center gap-5">
-                                                <div className="w-12 h-12 rounded-2xl bg-white border border-slate-200 flex items-center justify-center text-slate-400">
+                                                <div className="w-12 h-12 rounded-2xl bg-card border border-border flex items-center justify-center text-slate-400">
                                                     <DollarSign className="w-6 h-6" />
                                                 </div>
                                                 <div>
@@ -1268,7 +1268,7 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
 
                                     {((displayOrder as any).expenses || []).length === 0 && (
                                         <div className="py-20 border-2 border-dashed border-slate-100 rounded-[48px] flex flex-col items-center justify-center text-center bg-slate-50/20">
-                                            <div className="w-16 h-16 rounded-[24px] bg-white shadow-sm flex items-center justify-center mb-6">
+                                            <div className="w-16 h-16 rounded-[24px] bg-card shadow-sm flex items-center justify-center mb-6">
                                                 <DollarSign className="w-8 h-8 text-slate-200" />
                                             </div>
                                             <p className="text-[14px] font-black uppercase tracking-widest text-slate-300 italic mb-1">No Additional Expenses Logged</p>
@@ -1289,7 +1289,7 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                                     <div className="flex items-center gap-3">
                                         <button 
                                             onClick={() => setIsAddSavedFileModalOpen(true)}
-                                            className="px-6 py-3 bg-white border border-slate-200 text-slate-500 rounded-2xl text-[11px] font-black uppercase tracking-widest italic hover:bg-slate-50 transition-all shadow-sm"
+                                            className="px-6 py-3 bg-card border border-border text-muted-foreground rounded-2xl text-[11px] font-black uppercase tracking-widest italic hover:bg-muted/50 transition-all shadow-sm"
                                         >
                                             Add from Saved Files
                                         </button>
@@ -1314,8 +1314,8 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                     {(order.files || []).map((file: any) => (
-                                        <div key={file.id} className="relative group/file p-4 bg-white border border-slate-100 rounded-[32px] hover:border-blue-200 transition-all shadow-sm">
-                                            <div className="aspect-[4/3] rounded-[24px] bg-slate-50 border border-slate-100 overflow-hidden mb-4 relative">
+                                        <div key={file.id} className="relative group/file p-4 bg-card border border-slate-100 rounded-[32px] hover:border-blue-200 transition-all shadow-sm">
+                                            <div className="aspect-[4/3] rounded-[24px] bg-muted/50 border border-slate-100 overflow-hidden mb-4 relative">
                                                 {file.mimeType?.startsWith('image/') ? (
                                                     <img src={file.url} alt={file.filename} className="w-full h-full object-cover" />
                                                 ) : (
@@ -1328,7 +1328,7 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                                                         href={file.url} 
                                                         target="_blank" 
                                                         rel="noreferrer"
-                                                        className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-slate-600 hover:text-blue-600 transition-all active:scale-95"
+                                                        className="w-10 h-10 bg-card rounded-xl flex items-center justify-center text-slate-600 hover:text-primary transition-all active:scale-95"
                                                     >
                                                         <ImageIcon className="w-5 h-5" />
                                                     </a>
@@ -1349,7 +1349,7 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
 
                                     {(!order.files || order.files.length === 0) && (
                                         <div className="col-span-full py-20 border-2 border-dashed border-slate-100 rounded-[48px] flex flex-col items-center justify-center text-center bg-slate-50/20">
-                                            <div className="w-16 h-16 rounded-[24px] bg-white shadow-sm flex items-center justify-center mb-6">
+                                            <div className="w-16 h-16 rounded-[24px] bg-card shadow-sm flex items-center justify-center mb-6">
                                                 <ImageIcon className="w-8 h-8 text-slate-200" />
                                             </div>
                                             <p className="text-[14px] font-black uppercase tracking-widest text-slate-300 italic mb-1">No Mission Media Transmitted</p>
@@ -1366,9 +1366,9 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                                     <h3 className="text-[24px] font-black text-slate-800 tracking-tight">Links</h3>
                                     <button 
                                         onClick={() => setIsLinkModalOpen(true)}
-                                        className="flex items-center gap-2 px-6 py-3 bg-white border border-slate-200 text-slate-600 rounded-2xl text-[16px] font-bold hover:bg-slate-50 transition-all shadow-sm group"
+                                        className="flex items-center gap-2 px-6 py-3 bg-card border border-border text-slate-600 rounded-2xl text-[16px] font-bold hover:bg-muted/50 transition-all shadow-sm group"
                                     >
-                                        <Link2 className="w-5 h-5 text-slate-400 group-hover:text-blue-500 transition-colors" />
+                                        <Link2 className="w-5 h-5 text-slate-400 group-hover:text-primary transition-colors" />
                                         Link Work Orders
                                     </button>
                                 </div>
@@ -1386,14 +1386,14 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                                                 const target = link.targetWorkOrder || link.sourceWorkOrder;
                                                 const isSource = !!link.targetWorkOrder;
                                                 return (
-                                                    <div key={link.id} className="p-4 bg-white border border-slate-100 rounded-2xl flex items-center justify-between group/link-item hover:border-blue-200 transition-all">
+                                                    <div key={link.id} className="p-4 bg-card border border-slate-100 rounded-2xl flex items-center justify-between group/link-item hover:border-blue-200 transition-all">
                                                         <div className="flex items-center gap-4">
-                                                            <div className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-[12px] font-black text-slate-400">
+                                                            <div className="w-10 h-10 rounded-xl bg-muted/50 flex items-center justify-center text-[12px] font-black text-slate-400">
                                                                 #{String(target.workOrderNo || '').padStart(3, '0')}
                                                             </div>
                                                             <div className="flex-1 min-w-0">
                                                                 <p className="text-[13px] font-black text-slate-800 truncate">{target.title}</p>
-                                                                <p className="text-[11px] font-bold text-blue-500 uppercase tracking-widest">
+                                                                <p className="text-[11px] font-bold text-primary uppercase tracking-widest">
                                                                     {isSource ? `→ ${link.linkType || 'RELATED'}` : `← ${link.linkType || 'RELATED'}`}
                                                                 </p>
                                                             </div>
@@ -1431,14 +1431,14 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                                                 <span className="text-[14px] font-black text-slate-800 uppercase tracking-tight italic underline decoration-blue-500/20 underline-offset-4">{(displayOrder as any).creator?.name || 'System Agent'}</span>
                                                 <span className="text-[11px] font-black text-slate-300 uppercase tracking-widest">{displayOrder.createdAt ? new Date(displayOrder.createdAt).toLocaleString() : ''}</span>
                                             </div>
-                                            <p className="text-[14px] font-bold text-slate-500 italic">Mission Established: {displayOrder.title}</p>
+                                            <p className="text-[14px] font-bold text-muted-foreground italic">Mission Established: {displayOrder.title}</p>
                                         </div>
                                     </div>
 
                                     {/* Dynamic Status History */}
                                     {(order.statusHistory || []).map((history: any, idx: number) => (
                                         <div key={`hist-${idx}`} className="flex gap-4">
-                                            <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-[14px] font-black text-slate-400 shrink-0 uppercase">
+                                            <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center text-[14px] font-black text-slate-400 shrink-0 uppercase">
                                                 {history.user?.name?.[0] || 'U'}
                                             </div>
                                             <div className="space-y-1">
@@ -1454,7 +1454,7 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                                     {/* Comments */}
                                     {[...(order.comments || [])].sort((a: any, b: any) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()).map((comment: any, idx: number) => (
                                         <div key={`comment-${idx}`} className="flex gap-4">
-                                            <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-[14px] font-black text-slate-400 shrink-0 uppercase">
+                                            <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center text-[14px] font-black text-slate-400 shrink-0 uppercase">
                                                 {comment.user?.name?.[0] || 'U'}
                                             </div>
                                             <div className="space-y-1">
@@ -1470,7 +1470,7 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
 
                                 {/* Message Input */}
                                 <div className="absolute bottom-0 left-0 right-0 p-6 bg-slate-50/80 backdrop-blur-md border-t border-slate-100">
-                                    <div className="relative bg-white border border-slate-200 rounded-2xl shadow-sm focus-within:border-blue-400 focus-within:ring-4 focus-within:ring-blue-100/50 transition-all">
+                                    <div className="relative bg-card border border-border rounded-2xl shadow-sm focus-within:border-primary/80 focus-within:ring-4 focus-within:ring-blue-100/50 transition-all">
                                         <textarea 
                                             className="w-full pl-6 pr-12 pt-5 pb-16 bg-transparent text-[15px] font-bold text-slate-800 outline-none resize-none min-h-[120px]"
                                             placeholder="Write a message..."
@@ -1484,17 +1484,17 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                                             }}
                                         />
                                         <div className="absolute bottom-4 left-4 flex items-center gap-4">
-                                            <button className="p-2 hover:bg-slate-50 text-slate-400 hover:text-slate-600 rounded-lg transition-all">
+                                            <button className="p-2 hover:bg-muted/50 text-slate-400 hover:text-slate-600 rounded-lg transition-all">
                                                 <Paperclip className="w-5 h-5" />
                                             </button>
-                                            <button className="p-2 hover:bg-slate-50 text-slate-400 hover:text-slate-600 rounded-lg transition-all">
+                                            <button className="p-2 hover:bg-muted/50 text-slate-400 hover:text-slate-600 rounded-lg transition-all">
                                                 <Sparkles className="w-5 h-5" />
                                             </button>
                                         </div>
                                         <button 
                                             onClick={handleAddComment}
                                             disabled={!newComment.trim()}
-                                            className="absolute bottom-4 right-4 p-2 bg-transparent text-slate-300 hover:text-blue-600 disabled:opacity-30 disabled:hover:text-slate-300 transition-all active:scale-90"
+                                            className="absolute bottom-4 right-4 p-2 bg-transparent text-slate-300 hover:text-primary disabled:opacity-30 disabled:hover:text-slate-300 transition-all active:scale-90"
                                         >
                                             <Send className="w-5 h-5" />
                                         </button>
@@ -1507,7 +1507,7 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                                 <div className="flex items-center justify-between px-2">
                                     <div className="space-y-1">
                                         <h3 className="text-[20px] font-black italic uppercase tracking-tight text-slate-800">Provider Portal</h3>
-                                        <p className="text-[15px] font-bold text-slate-500">Create a public link for this Work Order.</p>
+                                        <p className="text-[15px] font-bold text-muted-foreground">Create a public link for this Work Order.</p>
                                     </div>
                                     <div className="relative inline-flex items-center cursor-pointer select-none">
                                         <input 
@@ -1519,7 +1519,7 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                                                 else unshare.mutate(order.id);
                                             }}
                                         />
-                                        <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                                        <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-card after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
                                     </div>
                                 </div>
 
@@ -1527,10 +1527,10 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                                     <div className="p-8 bg-blue-50 border border-blue-100 rounded-[32px] space-y-4 animate-in fade-in slide-in-from-top-4">
                                         <div className="space-y-1">
                                             <h4 className="text-[15px] font-black text-blue-800 uppercase tracking-widest italic">Mission Access Link Established</h4>
-                                            <p className="text-[13px] font-bold text-blue-600/60">Share this link with external agents for secure collaboration.</p>
+                                            <p className="text-[13px] font-bold text-primary/60">Share this link with external agents for secure collaboration.</p>
                                         </div>
                                         <div className="flex items-center gap-3">
-                                            <div className="flex-1 px-5 py-3 bg-white border border-blue-200 rounded-2xl text-[14px] font-bold text-slate-600 truncate shadow-inner">
+                                            <div className="flex-1 px-5 py-3 bg-card border border-blue-200 rounded-2xl text-[14px] font-bold text-slate-600 truncate shadow-inner">
                                                 {window.location.origin}/public/wo/{order.shareToken}
                                             </div>
                                             <button 
@@ -1538,7 +1538,7 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                                                     navigator.clipboard.writeText(`${window.location.origin}/public/wo/${order.shareToken}`);
                                                     toast.success('Link copied to mission clipboard.');
                                                 }}
-                                                className="px-6 py-3 bg-blue-600 text-white rounded-2xl text-[12px] font-black uppercase tracking-widest hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 active:scale-95"
+                                                className="px-6 py-3 bg-primary text-white rounded-2xl text-[12px] font-black uppercase tracking-widest hover:bg-primary/90 transition-all shadow-lg shadow-primary/20 active:scale-95"
                                             >
                                                 Copy Link
                                             </button>
@@ -1546,7 +1546,7 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                                     </div>
                                 )}
 
-                                <div className="p-20 bg-white border border-slate-100 rounded-[32px] shadow-sm flex flex-col items-center justify-center text-center space-y-6">
+                                <div className="p-20 bg-card border border-slate-100 rounded-[32px] shadow-sm flex flex-col items-center justify-center text-center space-y-6">
                                     <h4 className="text-[18px] font-black text-slate-800">Keep Vendors in the Loop</h4>
                                     <div className="space-y-1 max-w-md">
                                         <p className="text-[14px] font-bold text-slate-400">Assign a vendor to this Work Order to create the provider portal.</p>
@@ -1560,10 +1560,10 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                                 <div className="flex items-center justify-between px-2">
                                     <div className="space-y-1">
                                         <h3 className="text-[20px] font-black italic uppercase tracking-tight text-slate-800">Permit to Work</h3>
-                                        <p className="text-[15px] font-bold text-slate-500">Manage safety permits for this mission.</p>
+                                        <p className="text-[15px] font-bold text-muted-foreground">Manage safety permits for this mission.</p>
                                     </div>
                                     <button 
-                                        className="px-5 py-2.5 bg-blue-600 text-white rounded-xl text-[14px] font-black hover:bg-blue-700 transition-all shadow-sm flex items-center gap-2"
+                                        className="px-5 py-2.5 bg-primary text-white rounded-xl text-[14px] font-black hover:bg-primary/90 transition-all shadow-sm flex items-center gap-2"
                                         onClick={() => {
                                             toast.success('Permit creation modal to be implemented');
                                         }}
@@ -1572,7 +1572,7 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
                                         Request Permit
                                     </button>
                                 </div>
-                                <div className="p-20 bg-white border border-slate-100 rounded-[32px] shadow-sm flex flex-col items-center justify-center text-center space-y-6">
+                                <div className="p-20 bg-card border border-slate-100 rounded-[32px] shadow-sm flex flex-col items-center justify-center text-center space-y-6">
                                     <h4 className="text-[18px] font-black text-slate-800">No Permits Linked</h4>
                                     <div className="space-y-1 max-w-md">
                                         <p className="text-[14px] font-bold text-slate-400">If this mission requires a Permit to Work (PTW), you must request it here.</p>

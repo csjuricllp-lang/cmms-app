@@ -137,7 +137,7 @@ export const MobileAssetDetail: React.FC<MobileAssetDetailProps> = ({ id }) => {
           asset.status === 'OPERATIONAL' ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-500" :
           asset.status === 'DOWN' ? "bg-rose-500/10 border-rose-500/20 text-rose-500" :
           asset.status === 'MAINTENANCE' ? "bg-orange-500/10 border-orange-500/20 text-orange-500" :
-          "bg-blue-500/10 border-blue-500/20 text-blue-500"
+          "bg-primary/10 border-primary/80/20 text-primary"
         )}>
           {asset.status || 'OPERATIONAL'}
         </span>

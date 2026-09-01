@@ -19,7 +19,7 @@ export const TimeAndCostDashboard = ({ data }: { data: AnalyticsData }) => {
     return (
         <div className="space-y-12 pb-20 font-inter">
 
-            <p className="text-center text-[13px] font-medium text-slate-500 italic py-4">How are we spending our time and money?</p>
+            <p className="text-center text-[13px] font-medium text-muted-foreground italic py-4">How are we spending our time and money?</p>
 
             <div className="bg-[#FEFCE8] border border-amber-100 p-4 rounded-xl flex items-center gap-3">
                 <div className="w-1.5 h-1.5 rounded-full bg-amber-500" />
@@ -29,7 +29,7 @@ export const TimeAndCostDashboard = ({ data }: { data: AnalyticsData }) => {
             </div>
 
             {/* KPI Row */}
-            <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+            <div className="bg-card rounded-xl border border-border shadow-sm overflow-hidden">
                 <div className="grid grid-cols-5 divide-x divide-slate-100">
                     {[
                         { label: 'Hours Worked', value: Number(summarySafe.hoursWorked ?? 0).toFixed(2), prefix: '' },
@@ -38,7 +38,7 @@ export const TimeAndCostDashboard = ({ data }: { data: AnalyticsData }) => {
                         { label: 'Additional Cost', value: Number(summarySafe.additionalCost ?? 0).toFixed(2), prefix: '$' },
                         { label: 'Total Cost', value: Number(summarySafe.totalCost ?? 0).toFixed(2), prefix: '$' },
                     ].map((stat, i) => (
-                        <div key={i} className="p-8 flex flex-col items-center justify-center text-center group hover:bg-slate-50 transition-colors">
+                        <div key={i} className="p-8 flex flex-col items-center justify-center text-center group hover:bg-transparent transition-colors">
                             <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">{stat.label}</span>
                             <span className="text-[32px] font-black text-slate-800 tracking-tighter">
                                 {stat.prefix}{stat.value}
@@ -53,19 +53,19 @@ export const TimeAndCostDashboard = ({ data }: { data: AnalyticsData }) => {
                 <Widget title="Worker Time" className="h-[500px]" data={workerTimeSafe}>
                     <div className="overflow-auto h-full">
                         <table className="w-full text-left">
-                            <thead className="sticky top-0 bg-white z-10">
-                                <tr className="border-b border-slate-100">
+                            <thead className="text-white/90 bg-primary">
+                            <tr className="border-b border-primary/20">
                                     {['Worker Full Name', 'Work Orders', 'Total Time Logged (Hrs)', 'Total Labor Cost'].map((h, i) => (
-                                        <th key={i} className="px-4 py-3 text-[11px] font-black text-slate-400 uppercase tracking-widest">{h}</th>
+                                        <th key={i} className="px-4 py-3 text-[11px] font-black text-white/90 uppercase tracking-widestst">{h}</th>
                                     ))}
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-50">
                                 {workerTimeSafe.length > 0 ? (
                                     workerTimeSafe.map((row: any, i: number) => (
-                                        <tr key={i} className="hover:bg-slate-50/50 transition-colors">
-                                            <td className="px-4 py-4 text-[13px] font-bold text-slate-700">{row.name}</td>
-                                            <td className="px-4 py-4 text-[13px] text-slate-500">{row.workOrders}</td>
+                                        <tr key={i} className="hover:bg-transparent/50 transition-colors">
+                                            <td className="px-4 py-4 text-[13px] font-bold text-foreground/90">{row.name}</td>
+                                            <td className="px-4 py-4 text-[13px] text-muted-foreground">{row.workOrders}</td>
                                             <td className="px-4 py-4 text-[13px] font-bold text-slate-800">{row.time}</td>
                                             <td className="px-4 py-4 text-[13px] font-black text-emerald-600">${row.cost}</td>
                                         </tr>
@@ -104,7 +104,7 @@ export const TimeAndCostDashboard = ({ data }: { data: AnalyticsData }) => {
                                 </ResponsiveContainer>
                             ) : (
                                 <div className="h-full flex flex-col items-center justify-center gap-6">
-                                    <div className="w-px h-[200px] bg-slate-100 relative">
+                                    <div className="w-px h-[200px] bg-muted relative">
                                         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-slate-200" />
                                     </div>
                                     <div className="text-center">

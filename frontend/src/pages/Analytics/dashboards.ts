@@ -12,7 +12,7 @@ import {
 } from 'lucide-react';
 import type { Dashboard } from './types';
 
-export const CHART_COLORS = ['#6366F1', '#F43F5E', '#10B981', '#F59E0B', '#60A5FA', '#F97316'];
+export const CHART_COLORS = ['hsl(var(--primary-raw))', '#F43F5E', '#10B981', '#F59E0B', '#60A5FA', '#F97316'];
 
 export const ALL_DASHBOARDS: Dashboard[] = [
     { id: 'Performance', label: 'Team Performance', category: 'General', icon: Users, recommended: true },

@@ -538,33 +538,33 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
             <div className="space-y-6">
                 {/* PM Title */}
                 <div className="space-y-2">
-                    <label className="text-[14px] font-bold text-slate-700">PM Title <span className="text-rose-500">*</span></label>
+                    <label className="text-[14px] font-bold text-foreground/90">PM Title <span className="text-rose-500">*</span></label>
                     <input 
                         type="text" 
                         value={pmName}
                         onChange={(e) => setPmName(e.target.value)}
-                        className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-[14px] outline-none focus:border-primary transition-all font-medium"
+                        className="w-full bg-card border border-border rounded-xl px-4 py-3 text-[14px] outline-none focus:border-primary transition-all font-medium"
                     />
                 </div>
 
                 {/* Work Order Title */}
                 <div className="space-y-2">
-                    <label className="text-[14px] font-bold text-slate-700">Work Order Title <span className="text-rose-500">*</span></label>
+                    <label className="text-[14px] font-bold text-foreground/90">Work Order Title <span className="text-rose-500">*</span></label>
                     <input 
                         type="text" 
                         value={woTitle}
                         onChange={(e) => setWoTitle(e.target.value)}
-                        className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-[14px] outline-none focus:border-primary transition-all font-medium"
+                        className="w-full bg-card border border-border rounded-xl px-4 py-3 text-[14px] outline-none focus:border-primary transition-all font-medium"
                     />
                 </div>
 
                 {/* Description */}
                 <div className="space-y-2">
-                    <label className="text-[14px] font-bold text-slate-700">Description</label>
+                    <label className="text-[14px] font-bold text-foreground/90">Description</label>
                     <textarea 
                         value={woDescription}
                         onChange={(e) => setWoDescription(e.target.value)}
-                        className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-[14px] outline-none focus:border-primary transition-all font-medium min-h-[120px] resize-none"
+                        className="w-full bg-card border border-border rounded-xl px-4 py-3 text-[14px] outline-none focus:border-primary transition-all font-medium min-h-[120px] resize-none"
                     />
                 </div>
 
@@ -575,18 +575,18 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                             type="checkbox" 
                             checked={createNow}
                             onChange={(e) => setCreateNow(e.target.checked)}
-                            className="w-5 h-5 border-2 border-slate-200 rounded-md accent-primary cursor-pointer"
+                            className="w-5 h-5 border-2 border-border rounded-md accent-primary cursor-pointer"
                             id="createNow"
                         />
-                        <label htmlFor="createNow" className="text-[14px] font-bold text-slate-700 cursor-pointer flex items-center gap-2">
+                        <label htmlFor="createNow" className="text-[14px] font-bold text-foreground/90 cursor-pointer flex items-center gap-2">
                             Create first Work Order Now?
-                            <div className="p-1 bg-slate-50 rounded-full text-slate-400"><Info className="w-3.5 h-3.5" /></div>
+                            <div className="p-1 bg-muted/50 rounded-full text-slate-400"><Info className="w-3.5 h-3.5" /></div>
                         </label>
                     </div>
                     
                     {createNow && (
                         <div className="flex items-start gap-2.5 p-3.5 bg-blue-50/50 border border-blue-100/60 rounded-xl text-blue-800 text-[13px] font-medium leading-relaxed">
-                            <Info className="w-4 h-4 text-blue-500 shrink-0 mt-0.5" />
+                            <Info className="w-4 h-4 text-primary shrink-0 mt-0.5" />
                             <span>Create first work order cannot be edited after work order has been created</span>
                         </div>
                     )}
@@ -595,12 +595,12 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                 {/* Priority & Category */}
                 <div className="grid grid-cols-2 gap-6">
                     <div className="space-y-2">
-                        <label className="text-[14px] font-bold text-slate-700">Priority</label>
+                        <label className="text-[14px] font-bold text-foreground/90">Priority</label>
                         <div className="relative">
                             <select 
                                 value={priority}
                                 onChange={(e) => setPriority(e.target.value as any)}
-                                className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-[14px] outline-none appearance-none font-medium pr-10"
+                                className="w-full bg-card border border-border rounded-xl px-4 py-3 text-[14px] outline-none appearance-none font-medium pr-10"
                             >
                                 <option value="NONE">None</option>
                                 <option value="LOW">Low</option>
@@ -611,12 +611,12 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                         </div>
                     </div>
                     <div className="space-y-2">
-                        <label className="text-[14px] font-bold text-slate-700">Category</label>
+                        <label className="text-[14px] font-bold text-foreground/90">Category</label>
                         <div className="relative">
                             <select 
                                 value={categoryId}
                                 onChange={(e) => setCategoryId(e.target.value)}
-                                className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-[14px] outline-none appearance-none font-medium pr-10"
+                                className="w-full bg-card border border-border rounded-xl px-4 py-3 text-[14px] outline-none appearance-none font-medium pr-10"
                             >
                                 <option value="">Select Category...</option>
                                 {categories?.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
@@ -628,18 +628,18 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
 
                 {/* Duration */}
                 <div className="space-y-2">
-                    <label className="text-[14px] font-bold text-slate-700">Duration (as hours)</label>
+                    <label className="text-[14px] font-bold text-foreground/90">Duration (as hours)</label>
                     <input 
                         type="number" 
                         value={durationHours}
                         onChange={(e) => setDurationHours(Number(e.target.value))}
-                        className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-[14px] outline-none focus:border-primary transition-all font-medium"
+                        className="w-full bg-card border border-border rounded-xl px-4 py-3 text-[14px] outline-none focus:border-primary transition-all font-medium"
                     />
                 </div>
 
                 {/* Signature */}
                 <div className="space-y-4">
-                    <label className="text-[14px] font-bold text-slate-700">Signature</label>
+                    <label className="text-[14px] font-bold text-foreground/90">Signature</label>
                     <div className="flex items-center gap-3">
                         <button 
                             type="button"
@@ -650,7 +650,7 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                             )}
                         >
                             <div className={cn(
-                                "absolute top-1 w-4 h-4 rounded-full bg-white transition-all shadow-sm",
+                                "absolute top-1 w-4 h-4 rounded-full bg-card transition-all shadow-sm",
                                 requiresSignature ? "left-6" : "left-1"
                             )} />
                         </button>
@@ -660,7 +660,7 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
 
                 {/* Attachments */}
                 <div className="space-y-6 pt-4">
-                    <h4 className="text-[18px] font-bold text-slate-900">Attachments</h4>
+                    <h4 className="text-[18px] font-bold text-foreground">Attachments</h4>
                     
                     <div className="space-y-4">
                         <input 
@@ -683,9 +683,9 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                         />
                         <div className="space-y-2">
                             <label className="text-[13px] font-bold text-slate-600">Photos</label>
-                            <div className="border border-dashed border-slate-200 rounded-xl p-4 flex items-center justify-between group hover:border-primary/30 transition-all">
+                            <div className="border border-dashed border-border rounded-xl p-4 flex items-center justify-between group hover:border-primary/30 transition-all">
                                 <div className="flex items-center gap-3">
-                                    <button type="button" onClick={() => photoInputRef.current?.click()} className="px-5 py-2 border border-slate-200 rounded-lg text-[13px] font-bold text-slate-700 hover:bg-slate-50 shadow-sm transition-all bg-white">Upload</button>
+                                    <button type="button" onClick={() => photoInputRef.current?.click()} className="px-5 py-2 border border-border rounded-lg text-[13px] font-bold text-foreground/90 hover:bg-muted/50 shadow-sm transition-all bg-card">Upload</button>
                                     <span className="text-[13px] text-slate-400">or Drop Images</span>
                                 </div>
                             </div>
@@ -694,9 +694,9 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
 
                         <div className="space-y-2">
                             <label className="text-[13px] font-bold text-slate-600">Files</label>
-                            <div className="border border-dashed border-slate-200 rounded-xl p-4 flex items-center justify-between group hover:border-primary/30 transition-all">
+                            <div className="border border-dashed border-border rounded-xl p-4 flex items-center justify-between group hover:border-primary/30 transition-all">
                                 <div className="flex items-center gap-3">
-                                    <button type="button" onClick={() => fileInputRef.current?.click()} className="px-5 py-2 border border-slate-200 rounded-lg text-[13px] font-bold text-slate-700 hover:bg-slate-50 shadow-sm transition-all bg-white">Upload</button>
+                                    <button type="button" onClick={() => fileInputRef.current?.click()} className="px-5 py-2 border border-border rounded-lg text-[13px] font-bold text-foreground/90 hover:bg-muted/50 shadow-sm transition-all bg-card">Upload</button>
                                     <span className="text-[13px] text-slate-400">or Drop Files</span>
                                 </div>
                             </div>
@@ -710,11 +710,11 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                 {/* Parts */}
                 <div className="space-y-6 pt-4 border-t border-slate-50">
                     <div className="flex items-center justify-between">
-                        <h4 className="text-[18px] font-bold text-slate-900">Parts</h4>
+                        <h4 className="text-[18px] font-bold text-foreground">Parts</h4>
                         <button 
                             type="button"
                             onClick={() => setPlannedParts([...plannedParts, { partId: '', quantity: 1 }])}
-                            className="px-4 py-2 bg-white border border-slate-200 rounded-lg text-[13px] font-bold text-slate-700 hover:bg-slate-50 shadow-sm transition-all"
+                            className="px-4 py-2 bg-card border border-border rounded-lg text-[13px] font-bold text-foreground/90 hover:bg-muted/50 shadow-sm transition-all"
                         >
                             Add Parts
                         </button>
@@ -722,7 +722,7 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
 
                     <div className="space-y-3">
                         {plannedParts.map((p, idx) => (
-                            <div key={idx} className="flex items-center gap-4 p-4 bg-slate-50 rounded-xl border border-slate-100">
+                            <div key={idx} className="flex items-center gap-4 p-4 bg-muted/50 rounded-xl border border-slate-100">
                                 <Package className="w-5 h-5 text-slate-400" />
                                 <select 
                                     value={p.partId}
@@ -731,13 +731,13 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                                         next[idx].partId = e.target.value;
                                         setPlannedParts(next);
                                     }}
-                                    className="flex-1 bg-transparent text-[14px] font-bold text-slate-700 outline-none"
+                                    className="flex-1 bg-transparent text-[14px] font-bold text-foreground/90 outline-none"
                                 >
                                     <option value="">Select Replacement Part...</option>
                                     {parts?.map(part => <option key={part.id} value={part.id}>{part.name}</option>)}
                                 </select>
                                 
-                                <div className="flex items-center gap-2 bg-white border border-slate-200 rounded-lg px-2 py-1">
+                                <div className="flex items-center gap-2 bg-card border border-border rounded-lg px-2 py-1">
                                     <span className="text-[12px] font-bold text-slate-400">Qty:</span>
                                     <input 
                                         type="number" 
@@ -748,7 +748,7 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                                             next[idx].quantity = Math.max(1, parseInt(e.target.value) || 1);
                                             setPlannedParts(next);
                                         }}
-                                        className="w-12 text-[13px] font-bold text-slate-700 outline-none text-center"
+                                        className="w-12 text-[13px] font-bold text-foreground/90 outline-none text-center"
                                     />
                                 </div>
 
@@ -768,7 +768,7 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                 {/* Checklist Section */}
                 <div className="space-y-6 pt-4 border-t border-slate-50">
                     {checklists.map((c) => (
-                        <div key={c.id} className="bg-white border border-slate-200 rounded-[20px] p-6 space-y-4 shadow-sm">
+                        <div key={c.id} className="bg-card border border-border rounded-[20px] p-6 space-y-4 shadow-sm">
                             {/* Checklist Header */}
                             <div className="flex items-center justify-between pb-3 border-b border-slate-100">
                                 <input 
@@ -789,7 +789,7 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                                     <button 
                                         type="button"
                                         onClick={() => toggleChecklistCollapse(c.id)}
-                                        className="p-1 hover:bg-slate-50 rounded-lg transition-colors text-slate-500"
+                                        className="p-1 hover:bg-muted/50 rounded-lg transition-colors text-muted-foreground"
                                     >
                                         <ChevronDown className={cn("w-5 h-5 transition-transform duration-300", !c.isCollapsed && "rotate-180")} />
                                     </button>
@@ -803,7 +803,7 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                                         setChecklists(prev => prev.map(ch => ch.id === c.id ? { ...ch, tasks: newTasks } : ch));
                                     }} className="space-y-4">
                                         {c.tasks.map((task) => (
-                                            <Reorder.Item key={task.id} value={task} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 p-3 sm:p-3.5 bg-white border border-slate-200 rounded-xl shadow-sm">
+                                            <Reorder.Item key={task.id} value={task} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 p-3 sm:p-3.5 bg-card border border-border rounded-xl shadow-sm">
                                             <div className="flex items-center gap-2 flex-1">
                                                 {/* Grip Dots */}
                                                 <div className="text-slate-400 cursor-grab active:cursor-grabbing flex items-center justify-center p-1 shrink-0">
@@ -816,7 +816,7 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                                                     value={task.task}
                                                     onChange={(e) => updateTaskInChecklist(c.id, task.id, { task: e.target.value })}
                                                     placeholder="Describe the specialized task..."
-                                                    className="flex-1 bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-[14px] font-medium text-slate-800 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all placeholder:text-slate-300 min-w-0"
+                                                    className="flex-1 bg-card border border-border rounded-lg px-4 py-2.5 text-[14px] font-medium text-slate-800 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all placeholder:text-slate-300 min-w-0"
                                                 />
                                             </div>
                                             
@@ -829,7 +829,7 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                                                             e.stopPropagation();
                                                             setActiveDropdownTaskId(activeDropdownTaskId === task.id ? null : task.id);
                                                         }}
-                                                        className="w-full flex items-center justify-between bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-[14px] font-bold text-slate-700 outline-none hover:border-primary transition-all cursor-pointer h-[42px]"
+                                                        className="w-full flex items-center justify-between bg-card border border-border rounded-lg px-4 py-2.5 text-[14px] font-bold text-foreground/90 outline-none hover:border-primary transition-all cursor-pointer h-[42px]"
                                                     >
                                                         <span>{task.type}</span>
                                                         <ChevronDown className="w-4 h-4 text-slate-400" />
@@ -838,7 +838,7 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                                                     {activeDropdownTaskId === task.id && (
                                                         <>
                                                             <div className="fixed inset-0 z-[100]" onClick={() => setActiveDropdownTaskId(null)} />
-                                                            <div className="absolute right-0 bottom-full mb-2 w-64 bg-white border border-slate-200 rounded-2xl shadow-2xl py-2 z-[110] overflow-hidden animate-in fade-in slide-in-from-bottom-2 duration-150 max-h-[280px] overflow-y-auto custom-scrollbar">
+                                                            <div className="absolute right-0 bottom-full mb-2 w-64 bg-card border border-border rounded-2xl shadow-2xl py-2 z-[110] overflow-hidden animate-in fade-in slide-in-from-bottom-2 duration-150 max-h-[280px] overflow-y-auto custom-scrollbar">
                                                                 {TASK_TYPES_LIST.map((type) => (
                                                                     <button
                                                                         key={type}
@@ -848,13 +848,13 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                                                                             setActiveDropdownTaskId(null);
                                                                         }}
                                                                         className={cn(
-                                                                            "w-full flex items-center justify-between px-5 py-3 hover:bg-slate-50 text-[14px] font-bold transition-colors text-left",
-                                                                            task.type === type ? "text-blue-600 bg-blue-50/20" : "text-slate-700"
+                                                                            "w-full flex items-center justify-between px-5 py-3 hover:bg-muted/50 text-[14px] font-bold transition-colors text-left",
+                                                                            task.type === type ? "text-primary bg-blue-50/20" : "text-foreground/90"
                                                                         )}
                                                                     >
                                                                         <span>{type}</span>
                                                                         {task.type === type && (
-                                                                            <Check className="w-4 h-4 text-blue-600 stroke-[3px]" />
+                                                                            <Check className="w-4 h-4 text-primary stroke-[3px]" />
                                                                         )}
                                                                     </button>
                                                                 ))}
@@ -867,7 +867,7 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                                                 <button 
                                                     type="button"
                                                     onClick={() => removeTaskFromChecklist(c.id, task.id)}
-                                                    className="p-2.5 text-rose-500 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all h-[42px] flex items-center justify-center border border-slate-200"
+                                                    className="p-2.5 text-rose-500 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all h-[42px] flex items-center justify-center border border-border"
                                                 >
                                                     <Trash2 className="w-4 h-4" />
                                                 </button>
@@ -892,14 +892,14 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                         <button 
                             type="button"
                             onClick={addPlannedTask}
-                            className="flex items-center gap-2 px-6 py-2.5 bg-white border-2 border-primary/20 rounded-xl text-[13px] font-bold text-primary hover:bg-primary/5 transition-all"
+                            className="flex items-center gap-2 px-6 py-2.5 bg-card border-2 border-primary/20 rounded-xl text-[13px] font-bold text-primary hover:bg-primary/5 transition-all"
                         >
                             <Plus className="w-4 h-4" /> Add Tasks
                         </button>
                         <button 
                             type="button"
                             onClick={addChecklist}
-                            className="flex items-center gap-2 px-6 py-2.5 bg-white border-2 border-primary/20 rounded-xl text-[13px] font-bold text-primary hover:bg-primary/5 transition-all"
+                            className="flex items-center gap-2 px-6 py-2.5 bg-card border-2 border-primary/20 rounded-xl text-[13px] font-bold text-primary hover:bg-primary/5 transition-all"
                         >
                             <Plus className="w-4 h-4" /> Add Checklist
                         </button>
@@ -915,11 +915,11 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
         // Edit mode directly renders the centered Edit Work Order Details modal
         return (
             <div className="fixed inset-0 z-[1000] bg-black/50 flex items-center justify-center p-4 animate-in fade-in duration-200">
-                <div className="bg-white w-full max-w-2xl rounded-3xl shadow-2xl flex flex-col max-h-[90vh] overflow-hidden animate-in zoom-in-95 duration-200">
+                <div className="bg-card w-full max-w-2xl rounded-3xl shadow-2xl flex flex-col max-h-[90vh] overflow-hidden animate-in zoom-in-95 duration-200">
                     {/* Header */}
                     <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between">
-                        <h3 className="text-[20px] font-bold text-slate-900">Edit Work Order Details</h3>
-                        <button onClick={onClose} className="p-2 hover:bg-slate-50 rounded-xl transition-colors text-slate-400 hover:text-slate-600">
+                        <h3 className="text-[20px] font-bold text-foreground">Edit Work Order Details</h3>
+                        <button onClick={onClose} className="p-2 hover:bg-muted/50 rounded-xl transition-colors text-slate-400 hover:text-slate-600">
                             <X className="w-5 h-5" />
                         </button>
                     </div>
@@ -930,15 +930,15 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                     </div>
 
                     {/* Footer */}
-                    <div className="px-8 py-6 border-t border-slate-100 bg-slate-50/30 flex items-center justify-end gap-3">
-                        <button onClick={onClose} className="px-6 py-2.5 bg-white border border-slate-200 rounded-xl text-[14px] font-bold text-slate-600 hover:bg-slate-50 transition-all">Cancel</button>
+                    <div className="px-8 py-6 border-t border-border bg-card flex items-center justify-end gap-3">
+                        <button onClick={onClose} className="px-6 py-2.5 bg-card border border-border rounded-xl text-[14px] font-bold text-slate-600 hover:bg-muted/50 transition-all">Cancel</button>
                         <button 
                             onClick={handleCreate}
                             disabled={updatePM.isPending || !pmName}
                             className={cn(
                                 "px-8 py-2.5 rounded-xl text-[14px] font-black transition-all border shadow-sm",
                                 (updatePM.isPending || !pmName)
-                                ? "bg-slate-50 text-slate-300 cursor-not-allowed border-slate-100"
+                                ? "bg-muted/50 text-slate-300 cursor-not-allowed border-slate-100"
                                 : "bg-primary text-white border-transparent hover:opacity-90 active:scale-[0.98]"
                             )}
                         >
@@ -951,11 +951,11 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
     }
 
     return (
-        <div className="fixed inset-0 z-[1000] bg-white flex flex-col animate-in fade-in zoom-in-95 duration-300">
+        <div className="fixed inset-0 z-[1000] bg-card flex flex-col animate-in fade-in zoom-in-95 duration-300">
             {/* Header */}
-            <div className="flex items-center justify-between px-4 md:px-10 py-5 border-b border-slate-100 bg-white">
+            <div className="flex items-center justify-between px-4 md:px-10 py-5 border-b border-slate-100 bg-card">
                 <div className="flex items-center gap-4">
-                    <button onClick={onClose} className="p-2 hover:bg-slate-50 rounded-lg transition-all text-slate-400">
+                    <button onClick={onClose} className="p-2 hover:bg-muted/50 rounded-lg transition-all text-slate-400">
                         <X className="w-5 h-5" />
                     </button>
                     <div className="flex items-center gap-3">
@@ -965,26 +965,26 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                                 value={pmName}
                                 onChange={(e) => setPmName(e.target.value)}
                                 onBlur={() => setIsEditingName(false)}
-                                className="text-[20px] font-semibold text-slate-900 border-b-2 border-primary outline-none px-1"
+                                className="text-[20px] font-semibold text-foreground border-b-2 border-primary outline-none px-1"
                             />
                         ) : (
-                            <h2 className="text-[20px] font-semibold text-slate-900">{pmName}</h2>
+                            <h2 className="text-[20px] font-semibold text-foreground">{pmName}</h2>
                         )}
-                        <button onClick={() => setIsEditingName(true)} className="p-1 hover:bg-slate-50 rounded text-slate-400">
+                        <button onClick={() => setIsEditingName(true)} className="p-1 hover:bg-muted/50 rounded text-slate-400">
                             <Edit3 className="w-4 h-4" />
                         </button>
                     </div>
                 </div>
 
                 <div className="flex items-center gap-4">
-                    <button onClick={onClose} className="px-6 py-2.5 text-[14px] font-semibold text-slate-600 border border-slate-200 rounded-xl hover:bg-slate-50 transition-all">
+                    <button onClick={onClose} className="px-6 py-2.5 text-[14px] font-semibold text-slate-600 border border-border rounded-xl hover:bg-muted/50 transition-all">
                         Cancel
                     </button>
                 </div>
             </div>
 
             {/* Content Area */}
-            <div className="flex-1 overflow-y-auto px-4 md:px-12 py-6 md:py-16 bg-white">
+            <div className="flex-1 overflow-y-auto px-4 md:px-12 py-6 md:py-16 bg-card">
                 <div className="max-w-[1400px] mx-auto space-y-20">
                     
                     {/* Top Row: Details & Schedules */}
@@ -995,7 +995,7 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                             <h3 className="text-[18px] font-bold text-slate-800">
                                 Work Order details <span className="text-rose-500">*</span>
                             </h3>
-                            <p className="text-[14px] text-slate-500 font-medium leading-relaxed max-w-xl">
+                            <p className="text-[14px] text-muted-foreground font-medium leading-relaxed max-w-xl">
                                 Specify the details of the work order that will be generated by this preventive maintenance trigger.
                             </p>
                         </div>
@@ -1003,20 +1003,20 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                         {/* Schedules Header */}
                         <div className="space-y-2 order-3 lg:order-2 mt-6 lg:mt-0">
                             <h3 className="text-[18px] font-bold text-slate-800">Schedules</h3>
-                            <p className="text-[14px] text-slate-500 font-medium leading-relaxed max-w-xl">
+                            <p className="text-[14px] text-muted-foreground font-medium leading-relaxed max-w-xl">
                                 Specify maintenance triggers and blackout periods.
                             </p>
                         </div>
 
                         {/* Work Order Details Card */}
-                        <div className="border border-slate-100 rounded-3xl p-6 md:p-10 bg-slate-50/20 flex flex-col items-center justify-center min-h-[160px] order-2 lg:order-3">
+                        <div className="border border-primary rounded-2xl p-4 md:p-6 bg-primary flex flex-col items-center justify-center min-h-[100px] order-2 lg:order-3">
                                 {showAdvanced ? (
                                     <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/50 animate-in fade-in duration-200">
-                                        <div className="bg-white w-full max-w-2xl rounded-3xl shadow-2xl flex flex-col max-h-[90vh] overflow-hidden animate-in zoom-in-95 duration-200">
+                                        <div className="bg-card w-full max-w-2xl rounded-3xl shadow-2xl flex flex-col max-h-[90vh] overflow-hidden animate-in zoom-in-95 duration-200">
                                             {/* Header */}
                                             <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between">
-                                                <h3 className="text-[20px] font-bold text-slate-900">Add Work Order Details</h3>
-                                                <button onClick={() => setShowAdvanced(false)} className="p-2 hover:bg-slate-50 rounded-xl transition-colors text-slate-400 hover:text-slate-600">
+                                                <h3 className="text-[20px] font-bold text-foreground">Add Work Order Details</h3>
+                                                <button onClick={() => setShowAdvanced(false)} className="p-2 hover:bg-muted/50 rounded-xl transition-colors text-slate-400 hover:text-slate-600">
                                                     <X className="w-5 h-5" />
                                                 </button>
                                             </div>
@@ -1027,8 +1027,8 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                                             </div>
 
                                             {/* Footer */}
-                                            <div className="px-8 py-6 border-t border-slate-100 bg-slate-50/30 flex items-center justify-end gap-3">
-                                                <button onClick={() => setShowAdvanced(false)} className="px-6 py-2.5 bg-white border border-slate-200 rounded-xl text-[14px] font-bold text-slate-600 hover:bg-slate-50 transition-all">Cancel</button>
+                                            <div className="px-8 py-6 border-t border-slate-100 bg-card flex items-center justify-end gap-3">
+                                                <button onClick={() => setShowAdvanced(false)} className="px-6 py-2.5 bg-card border border-border rounded-xl text-[14px] font-bold text-slate-600 hover:bg-muted/50 transition-all">Cancel</button>
                                                 <button onClick={() => setShowAdvanced(false)} className="px-8 py-2.5 bg-primary text-white rounded-xl text-[14px] font-bold hover:bg-primary/90 shadow-lg shadow-primary/20 transition-all">Add Work Order Details</button>
                                             </div>
                                         </div>
@@ -1036,7 +1036,7 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                                 ) : (
                                     <button 
                                         onClick={() => setShowAdvanced(true)}
-                                        className="px-12 py-3 bg-white border border-slate-200 rounded-xl text-[14px] font-semibold text-slate-700 shadow-sm hover:shadow-md hover:bg-slate-50 transition-all w-full md:w-auto flex items-center gap-2 justify-center"
+                                        className="px-12 py-3 bg-card border border-border rounded-xl text-[14px] font-semibold text-foreground/90 shadow-sm hover:shadow-md hover:bg-muted/50 transition-all w-full md:w-auto flex items-center gap-2 justify-center"
                                     >
                                         <Plus className="w-4 h-4" /> Add Work Order Details
                                     </button>
@@ -1045,18 +1045,18 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
 
                         {/* Schedules Card */}
                         <div className="relative flex flex-col order-4 lg:order-4">
-                            <div className="border border-slate-100 rounded-3xl p-6 md:p-10 bg-slate-50/20 flex flex-col items-center justify-center min-h-[160px] flex-grow">
+                            <div className="border border-primary rounded-2xl p-4 md:p-6 bg-primary flex flex-col items-center justify-center min-h-[100px] flex-grow">
                                     {isScheduleActive ? (
-                                        <div className="w-full flex items-center justify-between p-6 bg-white rounded-2xl border border-slate-200/80 shadow-xs">
+                                        <div className="w-full flex items-center justify-between p-6 bg-card rounded-2xl border border-slate-200/80 shadow-xs">
                                             <div className="flex items-center gap-4">
                                                 <div className="w-10 h-10 rounded-xl bg-primary/5 flex items-center justify-center text-primary">
                                                     {freqType === 'METER' ? <Gauge className="w-5 h-5" /> : freqType === 'HYBRID' ? <Settings className="w-5 h-5" /> : <CalendarIcon className="w-5 h-5" />}
                                                 </div>
                                                 <div className="text-left">
-                                                    <h4 className="text-[15px] font-bold text-slate-900">
+                                                    <h4 className="text-[15px] font-bold text-foreground">
                                                         {freqType === 'METER' ? 'Meter Trigger' : freqType === 'HYBRID' ? 'Hybrid (Calendar + Meter)' : 'Calendar Schedule'}
                                                     </h4>
-                                                    <p className="text-[13px] text-slate-500 font-semibold mt-0.5">
+                                                    <p className="text-[13px] text-muted-foreground font-semibold mt-0.5">
                                                         {freqType === 'METER' 
                                                             ? `Triggers every ${meterInterval} units` 
                                                             : freqType === 'HYBRID'
@@ -1069,7 +1069,7 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                                                 <button 
                                                     type="button" 
                                                     onClick={() => setShowCalendarModal(true)} 
-                                                    className="px-4 py-2 bg-white border border-slate-200 rounded-xl text-[13px] font-bold text-slate-700 hover:bg-slate-50 transition-all shadow-xs"
+                                                    className="px-4 py-2 bg-card border border-border rounded-xl text-[13px] font-bold text-foreground/90 hover:bg-muted/50 transition-all shadow-xs"
                                                 >
                                                     Edit
                                                 </button>
@@ -1087,7 +1087,7 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                                             <button 
                                                 ref={scheduleButtonRef}
                                                 onClick={() => setShowScheduleMenu(!showScheduleMenu)}
-                                                className="flex-grow py-4 bg-white border border-slate-200 rounded-xl text-[15px] font-bold text-slate-700 shadow-sm hover:bg-slate-50 transition-all flex items-center justify-center gap-3 group"
+                                                className="flex-grow py-4 bg-card border border-border rounded-xl text-[15px] font-bold text-foreground/90 shadow-sm hover:bg-muted/50 transition-all flex items-center justify-center gap-3 group"
                                             >
                                                 <Plus className="w-5 h-5 text-primary group-hover:rotate-90 transition-transform duration-300" />
                                                 Add Schedule
@@ -1097,7 +1097,7 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                                                 <>
                                                     <div className="fixed inset-0 z-[9999]" onClick={() => setShowScheduleMenu(false)} />
                                                     <div 
-                                                        className="fixed w-[400px] bg-white rounded-[24px] shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-slate-100 p-3 z-[10000] animate-in fade-in zoom-in-95 duration-200"
+                                                        className="fixed w-[400px] bg-card rounded-[24px] shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-slate-100 p-3 z-[10000] animate-in fade-in zoom-in-95 duration-200"
                                                         style={{
                                                             bottom: `${window.innerHeight - scheduleMenuCoords.top + 8}px`,
                                                             left: `${scheduleMenuCoords.left + scheduleMenuCoords.width / 2}px`,
@@ -1106,32 +1106,32 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                                                     >
                                                         <button 
                                                             onClick={() => { setFreqType('MONTHS'); setShowCalendarModal(true); setShowScheduleMenu(false); setIsScheduleActive(true); }}
-                                                            className="w-full flex items-start gap-5 p-5 rounded-[20px] hover:bg-slate-50 transition-all text-left group"
+                                                            className="w-full flex items-start gap-5 p-5 rounded-[20px] hover:bg-muted/50 transition-all text-left group"
                                                         >
-                                                            <CalendarIcon className="w-6 h-6 text-indigo-500" />
+                                                            <CalendarIcon className="w-6 h-6 text-primary/80" />
                                                             <div className="flex-1">
-                                                                 <p className="text-[15px] font-bold text-slate-900 mb-1">Calendar</p>
-                                                                 <p className="text-[13px] text-slate-500">Fixed intervals vs trigger dates</p>
+                                                                 <p className="text-[15px] font-bold text-foreground mb-1">Calendar</p>
+                                                                 <p className="text-[13px] text-muted-foreground">Fixed intervals vs trigger dates</p>
                                                             </div>
                                                         </button>
                                                         <button 
                                                             onClick={() => { setFreqType('METER'); setShowCalendarModal(true); setShowScheduleMenu(false); setIsScheduleActive(true); }}
-                                                            className="w-full flex items-start gap-5 p-5 rounded-[20px] hover:bg-slate-50 transition-all text-left"
+                                                            className="w-full flex items-start gap-5 p-5 rounded-[20px] hover:bg-muted/50 transition-all text-left"
                                                         >
                                                             <Gauge className="w-6 h-6 text-amber-500" />
                                                             <div className="flex-1">
-                                                                 <p className="text-[15px] font-bold text-slate-900 mb-1">Meter Readings</p>
-                                                                 <p className="text-[13px] text-slate-500">Based on technical usage limits</p>
+                                                                 <p className="text-[15px] font-bold text-foreground mb-1">Meter Readings</p>
+                                                                 <p className="text-[13px] text-muted-foreground">Based on technical usage limits</p>
                                                             </div>
                                                         </button>
                                                         <button 
                                                             onClick={() => { setFreqType('HYBRID'); setShowCalendarModal(true); setShowScheduleMenu(false); setIsScheduleActive(true); }}
-                                                            className="w-full flex items-start gap-5 p-5 rounded-[20px] hover:bg-slate-50 transition-all text-left"
+                                                            className="w-full flex items-start gap-5 p-5 rounded-[20px] hover:bg-muted/50 transition-all text-left"
                                                         >
                                                             <Settings className="w-6 h-6 text-rose-500" />
                                                             <div className="flex-1">
-                                                                 <p className="text-[15px] font-bold text-slate-900 mb-1">Hybrid (Both)</p>
-                                                                 <p className="text-[13px] text-slate-500">Whichever comes first</p>
+                                                                 <p className="text-[15px] font-bold text-foreground mb-1">Hybrid (Both)</p>
+                                                                 <p className="text-[13px] text-muted-foreground">Whichever comes first</p>
                                                             </div>
                                                         </button>
                                                     </div>
@@ -1149,15 +1149,15 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                         <div className="flex items-center justify-between">
                             <div className="space-y-1">
                                 <h3 className="text-[16px] font-bold text-slate-800">Assets & Locations</h3>
-                                <p className="text-[13px] text-slate-500 font-medium">Select Asset and Locations, assign them to the schedule, and define assignees and start dates.</p>
+                                <p className="text-[13px] text-muted-foreground font-medium">Select Asset and Locations, assign them to the schedule, and define assignees and start dates.</p>
                             </div>
                             <div className="flex items-center gap-2">
-                                <button onClick={addRow} className="flex items-center gap-2 px-4 py-1.5 bg-white border border-slate-200 rounded-md text-[13px] font-bold text-slate-700 hover:bg-slate-50 transition-all shadow-sm">
+                                <button onClick={addRow} className="flex items-center gap-2 px-4 py-1.5 bg-card border border-border rounded-md text-[13px] font-bold text-foreground/90 hover:bg-muted/50 transition-all shadow-sm">
                                     <Plus className="w-3.5 h-3.5" /> Add Row
                                 </button>
                                 <button 
                                     onClick={() => setIsAssetPickerOpen(true)}
-                                    className="flex items-center gap-2 px-4 py-1.5 bg-white border border-slate-200 rounded-md text-[13px] font-bold text-slate-700 hover:bg-slate-50 transition-all shadow-sm"
+                                    className="flex items-center gap-2 px-4 py-1.5 bg-card border border-border rounded-md text-[13px] font-bold text-foreground/90 hover:bg-muted/50 transition-all shadow-sm"
                                 >
                                     Bulk Select Assets
                                 </button>
@@ -1167,11 +1167,11 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                         {/* Choose Assets Modal */}
                         {isAssetPickerOpen && (
                             <div className="fixed inset-0 z-[1001] bg-black/50 flex items-center justify-center p-4 animate-in fade-in duration-200">
-                                <div className="bg-white w-full max-w-4xl rounded-xl shadow-2xl flex flex-col max-h-[85vh] overflow-hidden animate-in zoom-in-95 duration-200">
+                                <div className="bg-card w-full max-w-4xl rounded-xl shadow-2xl flex flex-col max-h-[85vh] overflow-hidden animate-in zoom-in-95 duration-200">
                                     {/* Header */}
                                     <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
-                                        <h3 className="text-[18px] font-bold text-slate-900">Choose Assets</h3>
-                                        <button onClick={() => setIsAssetPickerOpen(false)} className="p-2 hover:bg-slate-50 rounded-lg transition-colors text-slate-400">
+                                        <h3 className="text-[18px] font-bold text-foreground">Choose Assets</h3>
+                                        <button onClick={() => setIsAssetPickerOpen(false)} className="p-2 hover:bg-muted/50 rounded-lg transition-colors text-slate-400">
                                             <X className="w-5 h-5" />
                                         </button>
                                     </div>
@@ -1185,7 +1185,7 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                                                 placeholder="Search"
                                                 value={assetPickerSearch}
                                                 onChange={(e) => setAssetPickerSearch(e.target.value)}
-                                                className="w-full pl-10 pr-4 py-2 border border-blue-400 rounded-md text-[14px] outline-none shadow-[0_0_0_2px_rgba(59,130,246,0.1)] transition-all"
+                                                className="w-full pl-10 pr-4 py-2 border border-primary/80 rounded-md text-[14px] outline-none shadow-[0_0_0_2px_rgba(59,130,246,0.1)] transition-all"
                                             />
                                         </div>
                                     </div>
@@ -1193,7 +1193,7 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                                     {/* Table Content */}
                                     <div className="flex-1 overflow-x-auto overflow-y-auto custom-scrollbar">
                                         <table className="w-full text-left min-w-[800px]">
-                                            <thead className="sticky top-0 bg-white border-b border-slate-100 z-10">
+                                            <thead className="sticky top-0 bg-primary border-b border-primary/20 z-10">
                                                 <tr>
                                                     <th className="w-12 px-6 py-4">
                                                         <div 
@@ -1205,16 +1205,16 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                                                             className={cn(
                                                                 "w-4 h-4 rounded border flex items-center justify-center transition-all cursor-pointer",
                                                                 pickerSelectedIds.length > 0 && pickerSelectedIds.length === (assets || []).filter(a => a.name.toLowerCase().includes(assetPickerSearch.toLowerCase())).length
-                                                                ? "bg-primary border-primary" : "border-slate-300"
+                                                                ? "bg-white border-white text-primary" : "border-white/40"
                                                             )}
                                                         >
-                                                            {pickerSelectedIds.length > 0 && <Check className="w-3 h-3 text-white" />}
+                                                            {pickerSelectedIds.length > 0 && <Check className="w-3 h-3" />}
                                                         </div>
                                                     </th>
-                                                    <th className="px-6 py-4 text-[13px] font-bold text-slate-700 border-l border-slate-50">Name</th>
-                                                    <th className="px-6 py-4 text-[13px] font-bold text-slate-700 border-l border-slate-50">Barcode</th>
-                                                    <th className="px-6 py-4 text-[13px] font-bold text-slate-700 border-l border-slate-50">Description</th>
-                                                    <th className="px-6 py-4 text-[13px] font-bold text-slate-700 border-l border-slate-50">Status</th>
+                                                    <th className="px-6 py-4 text-[13px] font-bold text-white/90 border-l border-primary/20">Name</th>
+                                                    <th className="px-6 py-4 text-[13px] font-bold text-white/90 border-l border-primary/20">Barcode</th>
+                                                    <th className="px-6 py-4 text-[13px] font-bold text-white/90 border-l border-primary/20">Description</th>
+                                                    <th className="px-6 py-4 text-[13px] font-bold text-white/90 border-l border-primary/20">Status</th>
                                                 </tr>
                                             </thead>
                                             <tbody className="divide-y divide-slate-50">
@@ -1236,18 +1236,18 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                                                                     </div>
                                                                 </div>
                                                             </td>
-                                                            <td className="px-6 py-4 text-[13px] font-bold text-slate-700">{asset.name}</td>
+                                                            <td className="px-6 py-4 text-[13px] font-bold text-foreground/90">{asset.name}</td>
                                                             <td className="px-6 py-4">
                                                                 <div className="flex items-center justify-between">
-                                                                    <span className="text-[13px] text-slate-500 font-mono">{asset.barCode || '-'}</span>
+                                                                    <span className="text-[13px] text-muted-foreground font-mono">{asset.barCode || '-'}</span>
                                                                     <Copy className="w-3.5 h-3.5 text-slate-300 opacity-0 group-hover:opacity-100 cursor-pointer hover:text-primary transition-all" />
                                                                 </div>
                                                             </td>
-                                                            <td className="px-6 py-4 text-[13px] text-slate-500 font-medium max-w-xs truncate" title={asset.description}>{asset.description || '-'}</td>
+                                                            <td className="px-6 py-4 text-[13px] text-muted-foreground font-medium max-w-xs truncate" title={asset.description}>{asset.description || '-'}</td>
                                                             <td className="px-6 py-4">
                                                                 <span className={cn(
                                                                     "text-[11px] font-black uppercase tracking-wider px-2 py-0.5 rounded",
-                                                                    asset.status === 'OPERATIONAL' ? "text-emerald-600 bg-emerald-50" : "text-slate-400 bg-slate-50"
+                                                                    asset.status === 'OPERATIONAL' ? "text-emerald-600 bg-emerald-50" : "text-slate-400 bg-muted/50"
                                                                 )}>
                                                                     {asset.status || '-'}
                                                                 </span>
@@ -1259,12 +1259,12 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                                     </div>
 
                                     {/* Footer */}
-                                    <div className="px-8 py-6 border-t border-slate-100 flex items-center justify-between bg-white">
-                                        <span className="text-[14px] font-black text-slate-900">{pickerSelectedIds.length} Assets selected</span>
+                                    <div className="px-8 py-6 border-t border-slate-100 flex items-center justify-between bg-card">
+                                        <span className="text-[14px] font-black text-foreground">{pickerSelectedIds.length} Assets selected</span>
                                         <div className="flex items-center gap-3">
                                             <button 
                                                 onClick={() => setIsAssetPickerOpen(false)}
-                                                className="px-6 py-2 border border-slate-200 rounded-xl text-[14px] font-bold text-slate-600 hover:bg-slate-50 transition-all"
+                                                className="px-6 py-2 border border-border rounded-xl text-[14px] font-bold text-slate-600 hover:bg-muted/50 transition-all"
                                             >
                                                 Cancel
                                             </button>
@@ -1274,7 +1274,7 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                                                 className={cn(
                                                     "px-8 py-2 rounded-xl text-[14px] font-black transition-all shadow-sm",
                                                     pickerSelectedIds.length === 0 
-                                                    ? "bg-slate-100 text-slate-400 cursor-not-allowed" 
+                                                    ? "bg-muted text-slate-400 cursor-not-allowed" 
                                                     : "bg-primary text-white hover:opacity-90 active:scale-[0.98]"
                                                 )}
                                             >
@@ -1287,37 +1287,37 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                         )}
 
                         {/* Desktop Table View */}
-                        <div className="hidden md:block w-full overflow-x-auto border border-slate-200 rounded-2xl shadow-sm custom-scrollbar bg-white">
+                        <div className="hidden md:block w-full overflow-x-auto border border-border rounded-2xl shadow-sm custom-scrollbar bg-card">
                             <table className="w-full border-collapse table-fixed min-w-[1400px]">
                                 <thead>
-                                    <tr className="bg-slate-50/60">
-                                        <th className="w-12 border-r border-b border-slate-100"></th>
-                                        <th className="px-4 py-3 text-left text-[11px] font-black text-slate-500 uppercase tracking-widest border-r border-b border-slate-100">Asset</th>
-                                        <th className="px-4 py-3 text-left text-[11px] font-black text-slate-500 uppercase tracking-widest border-r border-b border-slate-100">Location</th>
+                                    <tr className="bg-primary">
+                                        <th className="w-12 border-r border-b border-primary/20"></th>
+                                        <th className="px-4 py-3 text-left text-[11px] font-black text-white/90 uppercase tracking-widest border-r border-b border-primary/20">Asset</th>
+                                        <th className="px-4 py-3 text-left text-[11px] font-black text-white/90 uppercase tracking-widest border-r border-b border-primary/20">Location</th>
                                         {(freqType === 'METER' || freqType === 'HYBRID') && (
-                                            <th className="px-4 py-3 text-left text-[11px] font-black text-slate-500 uppercase tracking-widest border-r border-b border-slate-100">Target Meter</th>
+                                            <th className="px-4 py-3 text-left text-[11px] font-black text-white/90 uppercase tracking-widest border-r border-b border-primary/20">Target Meter</th>
                                         )}
-                                        <th className="px-4 py-3 text-left text-[11px] font-black text-slate-500 uppercase tracking-widest border-r border-b border-slate-100">Start Date</th>
-                                        <th className="px-4 py-3 text-left text-[11px] font-black text-slate-500 uppercase tracking-widest border-r border-b border-slate-100">End Date</th>
-                                        <th className="px-4 py-3 text-left text-[11px] font-black text-slate-500 uppercase tracking-widest border-r border-b border-slate-100">Timezone</th>
-                                        <th className="px-4 py-3 text-left text-[11px] font-black text-slate-500 uppercase tracking-widest border-r border-b border-slate-100">Assigned To</th>
-                                        <th className="px-4 py-3 text-left text-[11px] font-black text-slate-500 uppercase tracking-widest border-r border-b border-slate-100">Additional Workers</th>
-                                        <th className="px-4 py-3 text-left text-[11px] font-black text-slate-500 uppercase tracking-widest border-r border-b border-slate-100">Teams</th>
-                                        <th className="px-6 py-3 text-left text-[11px] font-black text-slate-500 uppercase tracking-widest border-b border-slate-100">Action</th>
+                                        <th className="px-4 py-3 text-left text-[11px] font-black text-white/90 uppercase tracking-widest border-r border-b border-primary/20">Start Date</th>
+                                        <th className="px-4 py-3 text-left text-[11px] font-black text-white/90 uppercase tracking-widest border-r border-b border-primary/20">End Date</th>
+                                        <th className="px-4 py-3 text-left text-[11px] font-black text-white/90 uppercase tracking-widest border-r border-b border-primary/20">Timezone</th>
+                                        <th className="px-4 py-3 text-left text-[11px] font-black text-white/90 uppercase tracking-widest border-r border-b border-primary/20">Assigned To</th>
+                                        <th className="px-4 py-3 text-left text-[11px] font-black text-white/90 uppercase tracking-widest border-r border-b border-primary/20">Additional Workers</th>
+                                        <th className="px-4 py-3 text-left text-[11px] font-black text-white/90 uppercase tracking-widest border-r border-b border-primary/20">Teams</th>
+                                        <th className="px-6 py-3 text-left text-[11px] font-black text-white/90 uppercase tracking-widest border-b border-primary/20">Action</th>
                                     </tr>
                                 </thead>
-                                <tbody className="bg-white">
+                                <tbody className="bg-card">
                                     {assetRows.map((row, index) => (
-                                        <tr key={row.id} className="hover:bg-slate-50/50">
-                                            <td className="border-r border-b border-slate-200 text-center text-[12px] font-semibold text-blue-400">
+                                        <tr key={row.id} className="hover:bg-transparent">
+                                            <td className="border-r border-b border-border text-center text-[12px] font-semibold text-blue-400">
                                                 {index + 1}
                                             </td>
-                                            <td className="border-r border-b border-slate-200 p-0">
+                                            <td className="border-r border-b border-border p-0">
                                                 <div className="relative h-full flex items-center px-4">
                                                     <select 
                                                         value={row.assetId} 
                                                         onChange={(e) => updateRow(row.id, 'assetId', e.target.value)}
-                                                        className="w-full bg-transparent text-[13px] font-medium text-slate-700 outline-none appearance-none pr-6 h-10"
+                                                        className="w-full bg-transparent text-[13px] font-medium text-foreground/90 outline-none appearance-none pr-6 h-10"
                                                     >
                                                         <option value="">Select Equipment...</option>
                                                         {assets?.map(a => <option key={a.id} value={a.id}>{a.name}</option>)}
@@ -1325,7 +1325,7 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                                                     <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400 pointer-events-none" />
                                                 </div>
                                             </td>
-                                            <td className="border-r border-b border-slate-200 p-0">
+                                            <td className="border-r border-b border-border p-0">
                                                 <div className="relative h-full flex items-center px-4">
                                                     <select
                                                         value={
@@ -1333,7 +1333,7 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                                                             (row.assetId ? (assets?.find(a => a.id === row.assetId)?.locationId || '') : '')
                                                         }
                                                         onChange={(e) => updateRow(row.id, 'locationId', e.target.value)}
-                                                        className="w-full bg-transparent text-[13px] font-medium text-slate-700 outline-none appearance-none pr-6 h-10"
+                                                        className="w-full bg-transparent text-[13px] font-medium text-foreground/90 outline-none appearance-none pr-6 h-10"
                                                     >
                                                         <option value="">Select Location...</option>
                                                         {locations?.map(l => (
@@ -1344,12 +1344,12 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                                                 </div>
                                             </td>
                                             {(freqType === 'METER' || freqType === 'HYBRID') && (
-                                                <td className="border-r border-b border-slate-200 p-0">
+                                                <td className="border-r border-b border-border p-0">
                                                     <div className="relative h-full flex items-center px-4">
                                                         <select 
                                                             value={row.meterId} 
                                                             onChange={(e) => updateRow(row.id, 'meterId', e.target.value)}
-                                                            className="w-full bg-transparent text-[13px] font-medium text-slate-700 outline-none appearance-none pr-6 h-10"
+                                                            className="w-full bg-transparent text-[13px] font-medium text-foreground/90 outline-none appearance-none pr-6 h-10"
                                                         >
                                                             <option value="">No Meter...</option>
                                                             {meters?.filter(m => m.assetId === row.assetId).map(m => (
@@ -1360,44 +1360,44 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                                                     </div>
                                                 </td>
                                             )}
-                                            <td className="border-r border-b border-slate-200 p-0">
+                                            <td className="border-r border-b border-border p-0">
                                                 <div className="relative h-full flex items-center px-4">
                                                     <input 
                                                         type="date" 
                                                         value={row.startDate} 
                                                         onChange={(e) => updateRow(row.id, 'startDate', e.target.value)} 
-                                                        className="w-full bg-transparent text-[13px] font-medium text-slate-700 outline-none h-10" 
+                                                        className="w-full bg-transparent text-[13px] font-medium text-foreground/90 outline-none h-10" 
                                                     />
                                                 </div>
                                             </td>
-                                            <td className="border-r border-b border-slate-200 p-0">
+                                            <td className="border-r border-b border-border p-0">
                                                 <div className="relative h-full flex items-center px-4">
                                                     <input 
                                                         type="date" 
                                                         value={row.endDate} 
                                                         onChange={(e) => updateRow(row.id, 'endDate', e.target.value)} 
-                                                        className="w-full bg-transparent text-[13px] font-medium text-slate-700 outline-none h-10" 
+                                                        className="w-full bg-transparent text-[13px] font-medium text-foreground/90 outline-none h-10" 
                                                     />
                                                 </div>
                                             </td>
-                                            <td className="border-r border-b border-slate-200 p-0">
+                                            <td className="border-r border-b border-border p-0">
                                                 <div className="relative h-full flex items-center px-4">
                                                     <select 
                                                         value={row.timezone} 
                                                         onChange={(e) => updateRow(row.id, 'timezone', e.target.value)}
-                                                        className="w-full bg-transparent text-[13px] font-medium text-slate-700 outline-none appearance-none pr-6 h-10"
+                                                        className="w-full bg-transparent text-[13px] font-medium text-foreground/90 outline-none appearance-none pr-6 h-10"
                                                     >
                                                         <option value="(UTC+05:30) Asia/Calcutta">(UTC+05:30) Asia/Calcutta</option>
                                                     </select>
                                                     <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400 pointer-events-none" />
                                                 </div>
                                             </td>
-                                            <td className="border-r border-b border-slate-200 p-0">
+                                            <td className="border-r border-b border-border p-0">
                                                 <div className="relative h-full flex items-center px-4">
                                                     <select 
                                                         value={row.assignedToId} 
                                                         onChange={(e) => updateRow(row.id, 'assignedToId', e.target.value)}
-                                                        className="w-full bg-transparent text-[13px] font-medium text-slate-700 outline-none appearance-none pr-6 h-10"
+                                                        className="w-full bg-transparent text-[13px] font-medium text-foreground/90 outline-none appearance-none pr-6 h-10"
                                                     >
                                                         <option value="">Select User...</option>
                                                         {users?.map(u => <option key={(u as any).userOrgId || u.id} value={(u as any).userOrgId || u.id}>{u.name}</option>)}
@@ -1405,12 +1405,12 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                                                     <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400 pointer-events-none" />
                                                 </div>
                                             </td>
-                                            <td className="border-r border-b border-slate-200 p-0">
+                                            <td className="border-r border-b border-border p-0">
                                                 <div className="relative h-full flex items-center px-4">
                                                     <select 
                                                         value={row.additionalWorkers} 
                                                         onChange={(e) => updateRow(row.id, 'additionalWorkers', e.target.value)}
-                                                        className="w-full bg-transparent text-[13px] font-medium text-slate-700 outline-none appearance-none pr-6 h-10"
+                                                        className="w-full bg-transparent text-[13px] font-medium text-foreground/90 outline-none appearance-none pr-6 h-10"
                                                     >
                                                         <option value="">Select Workers...</option>
                                                         {users?.map(u => <option key={(u as any).userOrgId || u.id} value={(u as any).userOrgId || u.id}>{u.name}</option>)}
@@ -1418,12 +1418,12 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                                                     <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400 pointer-events-none" />
                                                 </div>
                                             </td>
-                                            <td className="border-r border-b border-slate-200 p-0">
+                                            <td className="border-r border-b border-border p-0">
                                                 <div className="relative h-full flex items-center px-4">
                                                     <select 
                                                         value={row.teamId} 
                                                         onChange={(e) => updateRow(row.id, 'teamId', e.target.value)}
-                                                        className="w-full bg-transparent text-[13px] font-medium text-slate-700 outline-none appearance-none pr-6 h-10"
+                                                        className="w-full bg-transparent text-[13px] font-medium text-foreground/90 outline-none appearance-none pr-6 h-10"
                                                     >
                                                         <option value="">Select Team...</option>
                                                         {teams?.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
@@ -1431,7 +1431,7 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                                                     <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400 pointer-events-none" />
                                                 </div>
                                             </td>
-                                            <td className="border-b border-slate-200 p-0">
+                                            <td className="border-b border-border p-0">
                                                 <div className="flex items-center justify-center h-10">
                                                     <button onClick={() => removeRow(row.id)} className="text-slate-400 hover:text-rose-500 transition-colors">
                                                         <Trash2 className="w-4 h-4" />
@@ -1447,9 +1447,9 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                         {/* Mobile Card-Based List View */}
                         <div className="md:hidden space-y-4">
                             {assetRows.map((row, index) => (
-                                <div key={row.id} className="p-4 bg-slate-50 border border-slate-200 rounded-2xl space-y-3 relative shadow-xs">
+                                <div key={row.id} className="p-4 bg-muted/50 border border-border rounded-2xl space-y-3 relative shadow-xs">
                                     <div className="flex items-center justify-between border-b border-slate-200/60 pb-2">
-                                        <span className="text-[13px] font-black text-slate-800 uppercase tracking-wider">
+                                        <span className="text-[13px] font-black text-white/90 uppercase tracking-widest">
                                             Equipment Entry #{index + 1}
                                         </span>
                                         <button 
@@ -1464,11 +1464,11 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                                         {/* Asset Selection */}
                                         <div className="space-y-1">
                                             <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Asset</label>
-                                            <div className="relative bg-white border border-slate-200 rounded-xl px-3 h-11 flex items-center">
+                                            <div className="relative bg-card border border-border rounded-xl px-3 h-11 flex items-center">
                                                 <select 
                                                     value={row.assetId} 
                                                     onChange={(e) => updateRow(row.id, 'assetId', e.target.value)}
-                                                    className="w-full bg-transparent text-[13px] font-medium text-slate-700 outline-none appearance-none pr-6"
+                                                    className="w-full bg-transparent text-[13px] font-medium text-foreground/90 outline-none appearance-none pr-6"
                                                 >
                                                     <option value="">Select Equipment...</option>
                                                     {assets?.map(a => <option key={a.id} value={a.id}>{a.name}</option>)}
@@ -1480,11 +1480,11 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                                         {/* Location Selection */}
                                         <div className="space-y-1">
                                             <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Location</label>
-                                            <div className="relative bg-white border border-slate-200 rounded-xl px-3 h-11 flex items-center">
+                                            <div className="relative bg-card border border-border rounded-xl px-3 h-11 flex items-center">
                                                 <select
                                                     value={row.locationId || (row.assetId ? (assets?.find(a => a.id === row.assetId)?.locationId || '') : '')}
                                                     onChange={(e) => updateRow(row.id, 'locationId', e.target.value)}
-                                                    className="w-full bg-transparent text-[13px] font-medium text-slate-700 outline-none appearance-none pr-6"
+                                                    className="w-full bg-transparent text-[13px] font-medium text-foreground/90 outline-none appearance-none pr-6"
                                                 >
                                                     <option value="">Select Location...</option>
                                                     {locations?.map(l => <option key={l.id} value={l.id}>{l.name}</option>)}
@@ -1497,11 +1497,11 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                                         {(freqType === 'METER' || freqType === 'HYBRID') && (
                                             <div className="space-y-1">
                                                 <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Target Meter</label>
-                                                <div className="relative bg-white border border-slate-200 rounded-xl px-3 h-11 flex items-center">
+                                                <div className="relative bg-card border border-border rounded-xl px-3 h-11 flex items-center">
                                                     <select 
                                                         value={row.meterId} 
                                                         onChange={(e) => updateRow(row.id, 'meterId', e.target.value)}
-                                                        className="w-full bg-transparent text-[13px] font-medium text-slate-700 outline-none appearance-none pr-6"
+                                                        className="w-full bg-transparent text-[13px] font-medium text-foreground/90 outline-none appearance-none pr-6"
                                                     >
                                                         <option value="">No Meter...</option>
                                                         {meters?.filter(m => m.assetId === row.assetId).map(m => (
@@ -1520,7 +1520,7 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                                                 type="date" 
                                                 value={row.startDate} 
                                                 onChange={(e) => updateRow(row.id, 'startDate', e.target.value)} 
-                                                className="w-full h-11 bg-white border border-slate-200 rounded-xl px-3 text-[13px] font-medium text-slate-700 outline-none" 
+                                                className="w-full h-11 bg-card border border-border rounded-xl px-3 text-[13px] font-medium text-foreground/90 outline-none" 
                                             />
                                         </div>
 
@@ -1531,18 +1531,18 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                                                 type="date" 
                                                 value={row.endDate || ''} 
                                                 onChange={(e) => updateRow(row.id, 'endDate', e.target.value)} 
-                                                className="w-full h-11 bg-white border border-slate-200 rounded-xl px-3 text-[13px] font-medium text-slate-700 outline-none" 
+                                                className="w-full h-11 bg-card border border-border rounded-xl px-3 text-[13px] font-medium text-foreground/90 outline-none" 
                                             />
                                         </div>
 
                                         {/* Timezone */}
                                         <div className="space-y-1">
                                             <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Timezone</label>
-                                            <div className="relative bg-white border border-slate-200 rounded-xl px-3 h-11 flex items-center">
+                                            <div className="relative bg-card border border-border rounded-xl px-3 h-11 flex items-center">
                                                 <select 
                                                     value={row.timezone || '(UTC+05:30) Asia/Calcutta'} 
                                                     onChange={(e) => updateRow(row.id, 'timezone', e.target.value)}
-                                                    className="w-full bg-transparent text-[13px] font-medium text-slate-700 outline-none appearance-none pr-6"
+                                                    className="w-full bg-transparent text-[13px] font-medium text-foreground/90 outline-none appearance-none pr-6"
                                                 >
                                                     <option value="(UTC+05:30) Asia/Calcutta">(UTC+05:30) Asia/Calcutta</option>
                                                 </select>
@@ -1553,11 +1553,11 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                                         {/* Assigned To */}
                                         <div className="space-y-1">
                                             <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Assigned To</label>
-                                            <div className="relative bg-white border border-slate-200 rounded-xl px-3 h-11 flex items-center">
+                                            <div className="relative bg-card border border-border rounded-xl px-3 h-11 flex items-center">
                                                 <select 
                                                     value={row.assignedToId} 
                                                     onChange={(e) => updateRow(row.id, 'assignedToId', e.target.value)}
-                                                    className="w-full bg-transparent text-[13px] font-medium text-slate-700 outline-none appearance-none pr-6"
+                                                    className="w-full bg-transparent text-[13px] font-medium text-foreground/90 outline-none appearance-none pr-6"
                                                 >
                                                     <option value="">Select User...</option>
                                                     {users?.map(u => <option key={(u as any).userOrgId || u.id} value={(u as any).userOrgId || u.id}>{u.name}</option>)}
@@ -1569,11 +1569,11 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                                         {/* Additional Workers */}
                                         <div className="space-y-1">
                                             <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Additional Workers</label>
-                                            <div className="relative bg-white border border-slate-200 rounded-xl px-3 h-11 flex items-center">
+                                            <div className="relative bg-card border border-border rounded-xl px-3 h-11 flex items-center">
                                                 <select 
                                                     value={row.additionalWorkers || ''} 
                                                     onChange={(e) => updateRow(row.id, 'additionalWorkers', e.target.value)}
-                                                    className="w-full bg-transparent text-[13px] font-medium text-slate-700 outline-none appearance-none pr-6"
+                                                    className="w-full bg-transparent text-[13px] font-medium text-foreground/90 outline-none appearance-none pr-6"
                                                 >
                                                     <option value="">Select Workers...</option>
                                                     {users?.map(u => <option key={(u as any).userOrgId || u.id} value={(u as any).userOrgId || u.id}>{u.name}</option>)}
@@ -1585,11 +1585,11 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                                         {/* Teams */}
                                         <div className="space-y-1">
                                             <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Teams</label>
-                                            <div className="relative bg-white border border-slate-200 rounded-xl px-3 h-11 flex items-center">
+                                            <div className="relative bg-card border border-border rounded-xl px-3 h-11 flex items-center">
                                                 <select 
                                                     value={row.teamId || ''} 
                                                     onChange={(e) => updateRow(row.id, 'teamId', e.target.value)}
-                                                    className="w-full bg-transparent text-[13px] font-medium text-slate-700 outline-none appearance-none pr-6"
+                                                    className="w-full bg-transparent text-[13px] font-medium text-foreground/90 outline-none appearance-none pr-6"
                                                 >
                                                     <option value="">Select Team...</option>
                                                     {teams?.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
@@ -1606,8 +1606,8 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
             </div>
 
             {/* Sticky Footer */}
-            <div className="mt-auto px-4 md:px-10 py-6 md:py-8 border-t border-slate-100 bg-white flex items-center justify-between">
-                <button onClick={onClose} className="text-[14px] font-black uppercase tracking-widest text-slate-400 hover:text-slate-900 transition-colors">Cancel</button>
+            <div className="mt-auto px-4 md:px-10 py-6 md:py-8 border-t border-slate-100 bg-card flex items-center justify-between">
+                <button onClick={onClose} className="text-[14px] font-black uppercase tracking-widest text-slate-400 hover:text-foreground transition-colors">Cancel</button>
                 <div className="flex items-center gap-4">
                     <button 
                         onClick={handleCreate}
@@ -1623,13 +1623,13 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
             {/* Centered Add Calendar Schedule Modal */}
             {showCalendarModal && (
                 <div className="fixed inset-0 z-[2000] bg-black/50 backdrop-blur-[2px] flex items-center justify-center p-4 animate-in fade-in duration-200">
-                    <div className="bg-white w-full max-w-2xl rounded-3xl shadow-2xl flex flex-col max-h-[90vh] overflow-hidden animate-in zoom-in-95 duration-200">
+                    <div className="bg-card w-full max-w-2xl rounded-3xl shadow-2xl flex flex-col max-h-[90vh] overflow-hidden animate-in zoom-in-95 duration-200">
                         {/* Header */}
                         <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between">
-                            <h3 className="text-[20px] font-bold text-slate-900">
+                            <h3 className="text-[20px] font-bold text-foreground">
                                 {freqType === 'METER' ? 'Add Meter Schedule' : freqType === 'HYBRID' ? 'Add Hybrid Schedule' : 'Add Calendar Schedule'}
                             </h3>
-                            <button onClick={() => { setShowCalendarModal(false); }} className="p-2 hover:bg-slate-50 rounded-xl transition-colors text-slate-400 hover:text-slate-600">
+                            <button onClick={() => { setShowCalendarModal(false); }} className="p-2 hover:bg-muted/50 rounded-xl transition-colors text-slate-400 hover:text-slate-600">
                                 <X className="w-5 h-5" />
                             </button>
                         </div>
@@ -1638,11 +1638,11 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                         <div className="flex-1 overflow-y-auto p-8 pb-24 space-y-8 custom-scrollbar text-left">
                             {/* Schedule Type */}
                             <div className="space-y-2">
-                                <label className="text-[14px] font-bold text-slate-700">Schedule Type</label>
+                                <label className="text-[14px] font-bold text-foreground/90">Schedule Type</label>
                                 <div className="relative">
                                     <select 
                                         disabled
-                                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-[14px] appearance-none font-medium pr-10 text-slate-500 cursor-not-allowed"
+                                        className="w-full bg-muted/50 border border-border rounded-xl px-4 py-3 text-[14px] appearance-none font-medium pr-10 text-muted-foreground cursor-not-allowed"
                                     >
                                         <option>Regular Interval</option>
                                     </select>
@@ -1656,9 +1656,9 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                                     <div className="space-y-10">
                                         {freqType === 'HYBRID' && (
                                             <div className="flex items-center gap-3">
-                                                <CalendarIcon className="w-4 h-4 text-indigo-500" />
-                                                <span className="text-[13px] font-black uppercase tracking-widest text-indigo-500">Calendar Trigger</span>
-                                                <div className="flex-1 h-px bg-indigo-100" />
+                                                <CalendarIcon className="w-4 h-4 text-primary/80" />
+                                                <span className="text-[13px] font-black uppercase tracking-widest text-primary/80">Calendar Trigger</span>
+                                                <div className="flex-1 h-px bg-primary/15" />
                                             </div>
                                         )}
                                         {/* WOs Due Section */}
@@ -1668,15 +1668,15 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                                             </div>
                                             <div className="space-y-4">
                                                 <div className="flex items-center gap-3">
-                                                    <span className="text-[14px] text-slate-500 w-12">Every</span>
-                                                    <input type="number" value={freqValue} onChange={(e) => setFreqValue(parseInt(e.target.value))} className="w-24 h-11 border border-slate-200 rounded-lg px-3 font-bold text-slate-800 focus:border-primary outline-none" />
+                                                    <span className="text-[14px] text-muted-foreground w-12">Every</span>
+                                                    <input type="number" value={freqValue} onChange={(e) => setFreqValue(parseInt(e.target.value))} className="w-24 h-11 border border-border rounded-lg px-3 font-bold text-slate-800 focus:border-primary outline-none" />
                                                     <select
                                                         value={freqType === 'HYBRID' ? 'MONTHS' : freqType}
                                                         onChange={(e) => {
                                                             if (freqType !== 'HYBRID') setFreqType(e.target.value as any);
                                                             else setFreqType('HYBRID');
                                                         }}
-                                                        className="h-11 border border-slate-200 rounded-lg px-3 bg-white font-bold text-slate-700 min-w-[140px]"
+                                                        className="h-11 border border-border rounded-lg px-3 bg-card font-bold text-foreground/90 min-w-[140px]"
                                                     >
                                                         <option value="DAYS">Day(s)</option>
                                                         <option value="WEEKS">Week(s)</option>
@@ -1685,9 +1685,9 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                                                     </select>
                                                 </div>
                                                 <div className="flex items-center gap-3">
-                                                    <span className="text-[14px] text-slate-500 w-12">At</span>
+                                                    <span className="text-[14px] text-muted-foreground w-12">At</span>
                                                     <div className="relative">
-                                                        <input type="text" value={dueDateTime} onChange={(e) => setDueDateTime(e.target.value)} className="w-[180px] h-11 border border-slate-200 rounded-lg px-4 font-bold text-slate-800 focus:border-primary outline-none" />
+                                                        <input type="text" value={dueDateTime} onChange={(e) => setDueDateTime(e.target.value)} className="w-[180px] h-11 border border-border rounded-lg px-4 font-bold text-slate-800 focus:border-primary outline-none" />
                                                         <Clock className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                                                     </div>
                                                 </div>
@@ -1711,11 +1711,11 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                                                             {createWOType === 'AHEAD' && <div className="absolute w-2.5 h-2.5 rounded-full bg-primary" />}
                                                         </div>
                                                         <div className="flex items-center gap-3">
-                                                            <input type="number" value={advanceNoticeDays} onChange={(e) => setAdvanceNoticeDays(parseInt(e.target.value))} className="w-20 h-11 border border-slate-200 rounded-lg px-3 font-bold text-slate-800" />
-                                                            <select className="h-11 border border-slate-200 rounded-lg px-3 bg-white font-bold text-slate-700">
+                                                            <input type="number" value={advanceNoticeDays} onChange={(e) => setAdvanceNoticeDays(parseInt(e.target.value))} className="w-20 h-11 border border-border rounded-lg px-3 font-bold text-slate-800" />
+                                                            <select className="h-11 border border-border rounded-lg px-3 bg-card font-bold text-foreground/90">
                                                                 <option>Day(s)</option>
                                                             </select>
-                                                            <span className="text-[14px] text-slate-500">before the due date</span>
+                                                            <span className="text-[14px] text-muted-foreground">before the due date</span>
                                                         </div>
                                                     </label>
                                                     <label className="flex items-center gap-4 cursor-pointer group">
@@ -1725,14 +1725,14 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                                                             {createWOType === 'ON_DAY' && <div className="absolute w-2.5 h-2.5 rounded-full bg-primary" />}
                                                         </div>
                                                         <div className="flex items-center gap-3">
-                                                            <span className="text-[14px] text-slate-500">On the due date</span>
+                                                            <span className="text-[14px] text-muted-foreground">On the due date</span>
                                                         </div>
                                                     </label>
                                                 </div>
                                                 <div className="flex items-center gap-3 pt-2">
-                                                    <span className="text-[14px] text-slate-500 w-12 text-right invisible md:visible">At</span>
+                                                    <span className="text-[14px] text-muted-foreground w-12 text-right invisible md:visible">At</span>
                                                     <div className="relative">
-                                                        <input type="text" value={dueDateTime} onChange={(e) => setDueDateTime(e.target.value)} className="w-[220px] h-11 border border-slate-200 rounded-lg px-4 font-bold text-slate-800" />
+                                                        <input type="text" value={dueDateTime} onChange={(e) => setDueDateTime(e.target.value)} className="w-[220px] h-11 border border-border rounded-lg px-4 font-bold text-slate-800" />
                                                         <Clock className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                                                     </div>
                                                 </div>
@@ -1756,7 +1756,7 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                                         )}
 
                                         {/* Header Notice */}
-                                        <div className="bg-slate-50 border border-slate-100 rounded-2xl p-6 text-[14px] text-slate-500 font-medium leading-relaxed">
+                                        <div className="bg-muted/50 border border-slate-100 rounded-2xl p-6 text-[14px] text-muted-foreground font-medium leading-relaxed">
                                             When editing the PM's records, you can set a specific meter and unit baseline for each record applied to this schedule.
                                         </div>
 
@@ -1766,11 +1766,11 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                                                 <span className="text-[14px] font-bold text-slate-800">Create WOs</span>
                                             </div>
                                             <div className="flex items-center gap-4 flex-wrap">
-                                                <span className="text-[14px] text-slate-500">When a reading</span>
+                                                <span className="text-[14px] text-muted-foreground">When a reading</span>
                                                 <select
                                                     value={meterTriggerType}
                                                     onChange={(e) => setMeterTriggerType(e.target.value as any)}
-                                                    className="h-11 border border-slate-200 rounded-lg px-4 bg-white font-bold text-slate-700 min-w-[180px]"
+                                                    className="h-11 border border-border rounded-lg px-4 bg-card font-bold text-foreground/90 min-w-[180px]"
                                                 >
                                                     <option value="INTERVAL">Reaches every</option>
                                                     <option value="THRESHOLD">Reaches value</option>
@@ -1780,9 +1780,9 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                                                     type="number"
                                                     value={meterInterval}
                                                     onChange={(e) => setMeterInterval(parseFloat(e.target.value))}
-                                                    className="w-24 h-11 border border-slate-200 rounded-lg px-3 font-bold text-slate-800 text-center"
+                                                    className="w-24 h-11 border border-border rounded-lg px-3 font-bold text-slate-800 text-center"
                                                 />
-                                                <span className="text-[14px] text-slate-500">units</span>
+                                                <span className="text-[14px] text-muted-foreground">units</span>
                                             </div>
                                         </div>
 
@@ -1796,18 +1796,18 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                                                     type="number"
                                                     value={meterWODueValue}
                                                     onChange={(e) => setMeterWODueValue(parseInt(e.target.value))}
-                                                    className="w-24 h-11 border border-slate-200 rounded-lg px-3 font-bold text-slate-800 text-center"
+                                                    className="w-24 h-11 border border-border rounded-lg px-3 font-bold text-slate-800 text-center"
                                                 />
                                                 <select
                                                     value={meterWODueUnit}
                                                     onChange={(e) => setMeterWODueUnit(e.target.value as 'HOURS' | 'DAYS' | 'WEEKS')}
-                                                    className="h-11 border border-slate-200 rounded-lg px-4 bg-white font-bold text-slate-700 min-w-[140px]"
+                                                    className="h-11 border border-border rounded-lg px-4 bg-card font-bold text-foreground/90 min-w-[140px]"
                                                 >
                                                     <option value="HOURS">Hour(s)</option>
                                                     <option value="DAYS">Day(s)</option>
                                                     <option value="WEEKS">Week(s)</option>
                                                 </select>
-                                                <span className="text-[14px] text-slate-500">after creation</span>
+                                                <span className="text-[14px] text-muted-foreground">after creation</span>
                                             </div>
                                         </div>
                                     </div>
@@ -1825,11 +1825,11 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                                 </div>
                                 <div className="space-y-3">
                                     {inactivePeriods.map((p, idx) => (
-                                        <div key={idx} className="flex items-center gap-3 bg-white p-3 border border-slate-100 rounded-xl shadow-xs animate-in slide-in-from-left-2 duration-200">
+                                        <div key={idx} className="flex items-center gap-3 bg-card p-3 border border-slate-100 rounded-xl shadow-xs animate-in slide-in-from-left-2 duration-200">
                                             <CalendarIcon className="w-4 h-4 text-slate-300" />
-                                            <input type="date" value={p.startDate} onChange={(e) => { const n = [...inactivePeriods]; n[idx].startDate = e.target.value; setInactivePeriods(n); }} className="flex-1 text-[13px] outline-none font-bold text-slate-700" />
+                                            <input type="date" value={p.startDate} onChange={(e) => { const n = [...inactivePeriods]; n[idx].startDate = e.target.value; setInactivePeriods(n); }} className="flex-1 text-[13px] outline-none font-bold text-foreground/90" />
                                             <span className="text-slate-300">→</span>
-                                            <input type="date" value={p.endDate} onChange={(e) => { const n = [...inactivePeriods]; n[idx].endDate = e.target.value; setInactivePeriods(n); }} className="flex-1 text-[13px] outline-none font-bold text-slate-700" />
+                                            <input type="date" value={p.endDate} onChange={(e) => { const n = [...inactivePeriods]; n[idx].endDate = e.target.value; setInactivePeriods(n); }} className="flex-1 text-[13px] outline-none font-bold text-foreground/90" />
                                             <button type="button" onClick={() => setInactivePeriods(inactivePeriods.filter((_, i) => i !== idx))} className="p-1 text-slate-300 hover:text-rose-500"><Trash2 className="w-4 h-4" /></button>
                                         </div>
                                     ))}
@@ -1838,8 +1838,8 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                         </div>
 
                         {/* Footer */}
-                        <div className="px-8 py-6 border-t border-slate-100 bg-slate-50/30 flex items-center justify-end gap-3">
-                            <button type="button" onClick={() => { setShowCalendarModal(false); }} className="px-6 py-2.5 bg-white border border-slate-200 rounded-xl text-[14px] font-bold text-slate-600 hover:bg-slate-50 transition-all">Cancel</button>
+                        <div className="px-8 py-6 border-t border-slate-100 bg-card flex items-center justify-end gap-3">
+                            <button type="button" onClick={() => { setShowCalendarModal(false); }} className="px-6 py-2.5 bg-card border border-border rounded-xl text-[14px] font-bold text-slate-600 hover:bg-muted/50 transition-all">Cancel</button>
                             <button type="button" onClick={() => { setIsScheduleActive(true); setShowCalendarModal(false); }} className="px-8 py-2.5 bg-primary text-white rounded-xl text-[14px] font-bold hover:bg-primary/90 shadow-lg shadow-primary/20 transition-all">Done</button>
                         </div>
                     </div>

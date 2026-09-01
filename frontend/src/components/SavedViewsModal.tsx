@@ -50,12 +50,12 @@ export const SavedViewsModal: React.FC<SavedViewsModalProps> = ({
                 initial={{ opacity: 0, scale: 0.95, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                className="relative w-full max-w-[480px] bg-white rounded-xl shadow-[0_20px_70px_rgba(0,0,0,0.2)] overflow-hidden"
+                className="relative w-full max-w-[480px] bg-card rounded-xl shadow-[0_20px_70px_rgba(0,0,0,0.2)] overflow-hidden"
             >
                 {/* Header */}
                 <div className="px-6 py-4 flex items-center justify-between border-b border-slate-100">
                     <h2 className="text-[17px] font-bold text-slate-800">Saved Views</h2>
-                    <button onClick={onClose} className="p-1.5 hover:bg-slate-50 rounded-full text-slate-400 hover:text-slate-600 transition-colors">
+                    <button onClick={onClose} className="p-1.5 hover:bg-muted/50 rounded-full text-slate-400 hover:text-slate-600 transition-colors">
                         <X className="w-5 h-5" />
                     </button>
                 </div>
@@ -73,28 +73,28 @@ export const SavedViewsModal: React.FC<SavedViewsModalProps> = ({
                                 className="space-y-3 overflow-hidden"
                             >
                                 <div className="space-y-1.5">
-                                    <label className="text-[12px] font-bold text-slate-500 block">View Name</label>
+                                    <label className="text-[12px] font-bold text-muted-foreground block">View Name</label>
                                     <input 
                                         type="text"
                                         placeholder="e.g. My High Priority Tasks"
                                         autoFocus
                                         value={newViewName}
                                         onChange={(e) => setNewViewName(e.target.value)}
-                                        className="w-full px-3.5 py-2 border-2 border-slate-100 rounded-lg text-[14px] font-semibold focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all"
+                                        className="w-full px-3.5 py-2 border-2 border-slate-100 rounded-lg text-[14px] font-semibold focus:border-primary/80 focus:ring-4 focus:ring-primary/10 outline-none transition-all"
                                     />
                                 </div>
                                 <div className="flex items-center justify-end gap-2">
                                     <button 
                                         type="button"
                                         onClick={() => { setIsSaving(false); setNewViewName(''); }}
-                                        className="px-4 py-1.5 border border-slate-200 rounded-lg text-[12px] font-bold text-slate-500 hover:bg-slate-50 transition-colors"
+                                        className="px-4 py-1.5 border border-border rounded-lg text-[12px] font-bold text-muted-foreground hover:bg-muted/50 transition-colors"
                                     >
                                         Cancel
                                     </button>
                                     <button 
                                         type="submit"
                                         disabled={!newViewName.trim()}
-                                        className="px-4 py-1.5 bg-blue-600 text-white rounded-lg text-[12px] font-bold shadow-sm hover:bg-blue-700 disabled:opacity-50 transition-colors"
+                                        className="px-4 py-1.5 bg-primary text-white rounded-lg text-[12px] font-bold shadow-sm hover:bg-primary/90 disabled:opacity-50 transition-colors"
                                     >
                                         Save
                                     </button>
@@ -104,7 +104,7 @@ export const SavedViewsModal: React.FC<SavedViewsModalProps> = ({
                             hasActiveFilters && (
                                 <button 
                                     onClick={() => setIsSaving(true)}
-                                    className="w-full flex items-center justify-center gap-2 py-2.5 border-2 border-dashed border-slate-200 hover:border-blue-500 hover:bg-blue-50/20 text-blue-600 rounded-xl text-[13px] font-bold transition-all active:scale-[0.98]"
+                                    className="w-full flex items-center justify-center gap-2 py-2.5 border-2 border-dashed border-border hover:border-primary/80 hover:bg-blue-50/20 text-primary rounded-xl text-[13px] font-bold transition-all active:scale-[0.98]"
                                 >
                                     <Plus className="w-4 h-4" />
                                     Save Current Filter View
@@ -123,7 +123,7 @@ export const SavedViewsModal: React.FC<SavedViewsModalProps> = ({
 
                         <div className="max-h-[240px] overflow-y-auto custom-scrollbar space-y-1.5 pr-1">
                             {savedViews.length === 0 ? (
-                                <div className="py-12 text-center text-slate-400 font-medium text-[13px] italic bg-slate-50/50 rounded-xl border border-slate-100">
+                                <div className="py-12 text-center text-slate-400 font-medium text-[13px] italic bg-transparent rounded-xl border border-slate-100">
                                     No saved views yet
                                 </div>
                             ) : (
@@ -139,7 +139,7 @@ export const SavedViewsModal: React.FC<SavedViewsModalProps> = ({
                                             }}
                                             className="flex-1 text-left flex flex-col gap-0.5"
                                         >
-                                            <span className="text-[13px] font-black text-slate-800 group-hover:text-blue-600 transition-colors pr-8">
+                                            <span className="text-[13px] font-black text-slate-800 group-hover:text-primary transition-colors pr-8">
                                                 {view.name}
                                             </span>
                                             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
@@ -162,10 +162,10 @@ export const SavedViewsModal: React.FC<SavedViewsModalProps> = ({
                 </div>
 
                 {/* Footer */}
-                <div className="px-6 py-4 bg-slate-50 border-t border-slate-100 flex items-center justify-end">
+                <div className="px-6 py-4 bg-muted/50 border-t border-slate-100 flex items-center justify-end">
                     <button 
                         onClick={onClose}
-                        className="px-5 py-2 border border-slate-200 bg-white hover:bg-slate-50 rounded-lg text-[13px] font-bold text-slate-600 transition-colors shadow-sm active:scale-95"
+                        className="px-5 py-2 border border-border bg-card hover:bg-muted/50 rounded-lg text-[13px] font-bold text-slate-600 transition-colors shadow-sm active:scale-95"
                     >
                         Close
                     </button>

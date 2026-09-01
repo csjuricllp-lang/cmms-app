@@ -73,7 +73,7 @@ export const NotificationsPopover = () => {
 
     const getIcon = (type: string) => {
         switch (type) {
-            case 'WORK_ORDER_ASSIGNED': return <Workflow className="w-4 h-4 text-blue-500" />;
+            case 'WORK_ORDER_ASSIGNED': return <Workflow className="w-4 h-4 text-primary" />;
             case 'WORK_ORDER_COMPLETED':
             case 'WORK_ORDER_APPROVED': return <CircleCheck className="w-4 h-4 text-emerald-500" />;
             case 'WORK_ORDER_REJECTED': return <Clock className="w-4 h-4 text-rose-500" />;

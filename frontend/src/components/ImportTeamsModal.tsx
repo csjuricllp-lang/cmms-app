@@ -57,11 +57,11 @@ export const ImportTeamsModal: React.FC<ImportTeamsModalProps> = ({ isOpen, onCl
 
     return (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-300">
-            <div className="w-full max-w-3xl bg-white rounded-[32px] shadow-2xl overflow-hidden border border-slate-200">
+            <div className="w-full max-w-3xl bg-card rounded-[32px] shadow-2xl overflow-hidden border border-border">
                 {/* Header */}
-                <div className="flex items-center justify-between px-10 py-6 border-b border-gray-100 bg-white">
-                    <h2 className="text-[20px] font-black text-gray-900 tracking-tight">Data Migration Hub</h2>
-                    <button onClick={onClose} className="p-2.5 hover:bg-gray-50 rounded-full transition-all text-gray-400">
+                <div className="flex items-center justify-between px-10 py-6 border-b border-gray-100 bg-card">
+                    <h2 className="text-[20px] font-black text-foreground tracking-tight">Data Migration Hub</h2>
+                    <button onClick={onClose} className="p-2.5 hover:bg-muted/50 rounded-full transition-all text-gray-400">
                         <X className="w-5 h-5" />
                     </button>
                 </div>
@@ -71,14 +71,14 @@ export const ImportTeamsModal: React.FC<ImportTeamsModalProps> = ({ isOpen, onCl
                     {!results ? (
                         <div className="max-w-md mx-auto space-y-10">
                             <div className="space-y-2">
-                                <h3 className="text-[24px] font-black text-gray-900 text-center mb-10 tracking-tight italic">Bulk Import</h3>
+                                <h3 className="text-[24px] font-black text-foreground text-center mb-10 tracking-tight italic">Bulk Import</h3>
                                 
                                 <div className="space-y-6">
                                     <div className="space-y-4">
-                                        <label className="text-[13px] font-black text-gray-500 uppercase tracking-widest leading-none">Data Target</label>
+                                        <label className="text-[13px] font-black text-muted-foreground uppercase tracking-widest leading-none">Data Target</label>
                                         <div className="relative group">
                                             <select 
-                                                className="w-full px-6 py-4 bg-white border-2 border-slate-200 rounded-2xl text-[15px] font-bold focus:border-blue-500 transition-all outline-none appearance-none cursor-pointer group-hover:border-slate-300"
+                                                className="w-full px-6 py-4 bg-card border-2 border-border rounded-2xl text-[15px] font-bold focus:border-primary/80 transition-all outline-none appearance-none cursor-pointer group-hover:border-slate-300"
                                                 value={dataSet}
                                                 onChange={(e) => setDataSet(e.target.value)}
                                             >
@@ -89,12 +89,12 @@ export const ImportTeamsModal: React.FC<ImportTeamsModalProps> = ({ isOpen, onCl
                                     </div>
 
                                     <div className="space-y-4">
-                                        <label className="text-[13px] font-black text-gray-500 uppercase tracking-widest leading-none">Source File</label>
+                                        <label className="text-[13px] font-black text-muted-foreground uppercase tracking-widest leading-none">Source File</label>
                                         <div 
                                             onClick={() => fileInputRef.current?.click()}
                                             className={cn(
                                                 "w-full px-6 py-8 border-2 border-dashed rounded-[24px] flex flex-col items-center justify-center gap-3 cursor-pointer transition-all",
-                                                file ? "bg-emerald-50/50 border-emerald-200 text-emerald-700" : "bg-gray-50 border-gray-200 hover:border-blue-300 hover:bg-white"
+                                                file ? "bg-emerald-50/50 border-emerald-200 text-emerald-700" : "bg-muted/50 border-border hover:border-blue-300 hover:bg-card"
                                             )}
                                         >
                                             <input 
@@ -120,7 +120,7 @@ export const ImportTeamsModal: React.FC<ImportTeamsModalProps> = ({ isOpen, onCl
                                     className={cn(
                                         "w-full py-5 rounded-[24px] text-[15px] font-black transition-all shadow-xl active:scale-[0.98] flex items-center justify-center gap-3",
                                         isImporting || !file 
-                                            ? "bg-gray-100 text-gray-400 cursor-not-allowed" 
+                                            ? "bg-muted text-gray-400 cursor-not-allowed" 
                                             : "bg-gray-950 text-white hover:bg-gray-800 shadow-gray-500/20"
                                     )}
                                 >
@@ -140,7 +140,7 @@ export const ImportTeamsModal: React.FC<ImportTeamsModalProps> = ({ isOpen, onCl
                                             link.click();
                                             link.remove();
                                         }}
-                                        className="flex items-center gap-2 text-[12px] font-black text-blue-600 hover:text-blue-700 transition-colors uppercase tracking-widest"
+                                        className="flex items-center gap-2 text-[12px] font-black text-primary hover:text-primary/90 transition-colors uppercase tracking-widest"
                                     >
                                         <Download className="w-4 h-4" />
                                         Template
@@ -157,12 +157,12 @@ export const ImportTeamsModal: React.FC<ImportTeamsModalProps> = ({ isOpen, onCl
                                             link.click();
                                             link.remove();
                                         }}
-                                        className="flex items-center gap-2 text-[12px] font-black text-blue-600 hover:text-blue-700 transition-colors uppercase tracking-widest"
+                                        className="flex items-center gap-2 text-[12px] font-black text-primary hover:text-primary/90 transition-colors uppercase tracking-widest"
                                     >
                                         Export Current Teams
                                     </button>
                                     <div className="w-[1px] h-4 bg-gray-200" />
-                                    <button className="flex items-center gap-2 text-[12px] font-black text-blue-600 hover:text-blue-700 transition-colors uppercase tracking-widest">
+                                    <button className="flex items-center gap-2 text-[12px] font-black text-primary hover:text-primary/90 transition-colors uppercase tracking-widest">
                                         See Examples & Tutorials
                                         <ExternalLink className="w-3.5 h-3.5" />
                                     </button>
@@ -175,18 +175,18 @@ export const ImportTeamsModal: React.FC<ImportTeamsModalProps> = ({ isOpen, onCl
                                 <Check className="w-10 h-10" />
                             </div>
                             <div>
-                                <h3 className="text-[24px] font-black text-gray-900 tracking-tight italic mb-2">Migration Completed</h3>
-                                <p className="text-[15px] font-medium text-gray-500">The high-density data ingestion has finished.</p>
+                                <h3 className="text-[24px] font-black text-foreground tracking-tight italic mb-2">Migration Completed</h3>
+                                <p className="text-[15px] font-medium text-muted-foreground">The high-density data ingestion has finished.</p>
                             </div>
 
                             <div className="grid grid-cols-2 gap-4">
-                                <div className="bg-gray-50 p-6 rounded-3xl">
+                                <div className="bg-muted/50 p-6 rounded-3xl">
                                     <p className="text-[11px] font-black text-gray-400 uppercase tracking-widest mb-1">Teams</p>
-                                    <p className="text-[24px] font-black text-gray-900">+{results.teamsCreated}</p>
+                                    <p className="text-[24px] font-black text-foreground">+{results.teamsCreated}</p>
                                 </div>
-                                <div className="bg-gray-50 p-6 rounded-3xl">
+                                <div className="bg-muted/50 p-6 rounded-3xl">
                                     <p className="text-[11px] font-black text-gray-400 uppercase tracking-widest mb-1">Personnel</p>
-                                    <p className="text-[24px] font-black text-gray-900">+{results.usersCreated}</p>
+                                    <p className="text-[24px] font-black text-foreground">+{results.usersCreated}</p>
                                 </div>
                             </div>
 

@@ -58,10 +58,18 @@ export class UsersService {
             email: true,
             name: true,
             phone: true,
+            jobTitle: true,
             isActive: true,
+            createdAt: true,
+            lastLoginAt: true,
           },
         },
         role: {
+          select: {
+            name: true,
+          },
+        },
+        organization: {
           select: {
             name: true,
           },
@@ -117,7 +125,12 @@ export class UsersService {
         userOrgId: uo.id,
         roleId: uo.roleId,
         roleName: uo.role?.name || 'Technician',
+        accountType: uo.role?.name || 'User',
+        status: uo.user.isActive ? 'Active' : 'Inactive',
+        companyName: uo.organization?.name || '',
+        categories: uo.categories || [],
         hourlyRate: uo.hourlyRate,
+        companyRate: uo.companyRate,
         skills: uo.skills,
         activeWoCount: uo._count?.workOrders || 0,
         compliance: complianceRate,
@@ -151,6 +164,7 @@ export class UsersService {
         },
         role: { include: { permissions: true } },
         teams: { include: { team: true } },
+        organization: { select: { name: true } },
       },
     });
 
@@ -165,7 +179,12 @@ export class UsersService {
       userOrgId: membership.id,
       roleId: membership.roleId,
       roleName: membership.role?.name,
+      accountType: membership.role?.name || 'User',
+      status: membership.user?.isActive ? 'Active' : 'Inactive',
+      companyName: membership.organization?.name || '',
+      categories: membership.categories || [],
       hourlyRate: membership.hourlyRate,
+      companyRate: membership.companyRate,
       skills: membership.skills,
       customPermissions: membership.customPermissions,
       assignedLocationIds: membership.assignedLocationIds,

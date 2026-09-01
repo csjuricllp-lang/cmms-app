@@ -619,6 +619,20 @@ export const usePreventiveMaintenance = () => {
         },
     });
 
+    const bulkCreatePM = useMutation({
+        mutationFn: async (data: any[]) => {
+            const response = await api.post('/preventive-maintenance/bulk', data);
+            return response.data;
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['pm-schedules'] });
+            toast.success('Successfully imported PM schedules');
+        },
+        onError: (error: any) => {
+            toast.error(error.response?.data?.message || 'Failed to import PM schedules');
+        }
+    });
+
     const bulkDelete = useMutation({
         mutationFn: async (ids: string[]) => {
             const response = await api.post('/preventive-maintenance/bulk-delete', { ids });
@@ -728,6 +742,7 @@ export const usePreventiveMaintenance = () => {
         schedules,
         isLoading,
         createPM,
+        bulkCreatePM,
         updatePM,
         deletePM,
         bulkDelete,

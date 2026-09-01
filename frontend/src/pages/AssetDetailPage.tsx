@@ -53,7 +53,7 @@ const FilterDropdown = ({ label, icon: Icon, children, isOpen, onToggle, badgeVa
             onClick={onToggle}
             className={cn(
                 "flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-black transition-all active:scale-95 whitespace-nowrap border h-10",
-                isOpen || badgeValue ? "bg-primary/5 text-primary border-primary/20 shadow-sm" : "bg-white text-slate-500 border-transparent hover:bg-slate-50"
+                isOpen || badgeValue ? "bg-primary/5 text-primary border-primary/20 shadow-sm" : "bg-card text-muted-foreground border-transparent hover:bg-transparent"
             )}
         >
             <Icon className={cn("w-4 h-4", (isOpen || badgeValue) ? "text-primary" : "text-slate-400")} />
@@ -74,15 +74,15 @@ const FilterDropdown = ({ label, icon: Icon, children, isOpen, onToggle, badgeVa
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 8, scale: 0.95 }}
                         transition={{ duration: 0.15, ease: "easeOut" }}
-                        className="absolute top-full left-0 mt-2 w-64 bg-white rounded-2xl shadow-2xl ring-1 ring-black/5 z-[120] overflow-hidden"
+                        className="absolute top-full left-0 mt-2 w-64 bg-card rounded-2xl shadow-2xl ring-1 ring-black/5 z-[120] overflow-hidden"
                     >
                         <div className="p-1 max-h-[300px] overflow-y-auto custom-scrollbar">
                             {children}
                         </div>
                         {(onApply || onCancel) && (
-                            <div className="flex items-center justify-end gap-2 p-2 bg-slate-50 border-t border-slate-100">
+                            <div className="flex items-center justify-end gap-2 p-2 bg-transparent border-t border-slate-100">
                                 {onCancel && (
-                                    <button onClick={onCancel} className="px-3 py-1.5 text-[11px] font-black uppercase text-slate-500 hover:text-slate-700">
+                                    <button onClick={onCancel} className="px-3 py-1.5 text-[11px] font-black uppercase text-muted-foreground hover:text-foreground/90">
                                         Cancel
                                     </button>
                                 )}
@@ -248,7 +248,7 @@ export const AssetDetailPage = () => {
 
     if (isAssetsLoading) {
         return (
-            <div className="h-full flex flex-col items-center justify-center gap-4 bg-slate-50">
+            <div className="h-full flex flex-col items-center justify-center gap-4 bg-transparent">
                 <div className="w-12 h-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin" />
                 <span className="text-[11px] font-black uppercase tracking-widest text-slate-400">Loading Asset Data...</span>
             </div>
@@ -257,31 +257,31 @@ export const AssetDetailPage = () => {
 
     if (!asset) {
         return (
-            <div className="h-full flex flex-col items-center justify-center gap-4 bg-slate-50">
+            <div className="h-full flex flex-col items-center justify-center gap-4 bg-transparent">
                 <AlertCircle className="w-12 h-12 text-slate-300" />
-                <span className="text-slate-500 font-bold">Asset Not Found</span>
+                <span className="text-muted-foreground font-bold">Asset Not Found</span>
                 <button onClick={() => navigate('/assets')} className="text-primary font-black uppercase text-[12px]">Back to Registry</button>
             </div>
         );
     }
 
     return (
-        <div className="h-full flex flex-col bg-[#F9FAFB]">
+        <div className="h-full flex flex-col bg-background">
             {/* Header */}
-            <div className="bg-white border-b border-slate-200 px-8 pt-6">
+            <div className="bg-card border-b border-border px-8 pt-6">
                 <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center gap-4">
                         <button 
                             onClick={() => navigate('/assets')}
-                            className="p-2 hover:bg-slate-50 rounded-xl transition-colors group"
+                            className="p-2 hover:bg-transparent rounded-xl transition-colors group"
                         >
                             <ChevronLeft className="w-5 h-5 text-slate-400 group-hover:text-slate-600" />
                         </button>
-                        <div className="h-8 w-px bg-slate-100" />
+                        <div className="h-8 w-px bg-muted" />
                         <div>
                             <div className="flex items-center gap-2">
                                 <span className="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em]">Assets /</span>
-                                <h1 className="text-2xl font-black text-slate-900 tracking-tight uppercase italic">{asset.name}</h1>
+                                <h1 className="text-2xl font-black text-foreground tracking-tight uppercase italic">{asset.name}</h1>
                             </div>
                         </div>
                     </div>
@@ -296,7 +296,7 @@ export const AssetDetailPage = () => {
                         {canManageData && (
                             <button 
                                 onClick={() => setIsEditModalOpen(true)}
-                                className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-xl text-[13px] font-black text-slate-700 hover:bg-slate-50 transition-all shadow-sm active:scale-95"
+                                className="flex items-center gap-2 px-4 py-2 bg-card border border-border rounded-xl text-[13px] font-black text-foreground/90 hover:bg-transparent transition-all shadow-sm active:scale-95"
                             >
                                 <Edit2 className="w-4 h-4" />
                                 Edit
@@ -353,7 +353,7 @@ export const AssetDetailPage = () => {
                                 {/* Filter Bar */}
                                 <div className="flex items-center justify-between gap-4">
                                     <div className="flex items-center gap-3">
-                                        <button className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-xl text-[13px] font-black text-slate-600 shadow-sm">
+                                        <button className="flex items-center gap-2 px-4 py-2 bg-card border border-border rounded-xl text-[13px] font-black text-slate-600 shadow-sm">
                                             <SlidersHorizontal className="w-4 h-4 text-primary" />
                                             Filters (1)
                                         </button>
@@ -372,7 +372,7 @@ export const AssetDetailPage = () => {
                                                     <button
                                                         key={s}
                                                         onClick={() => setStagedStatus(prev => prev.includes(s) ? prev.filter(x => x !== s) : [...prev, s])}
-                                                        className={cn("w-full flex items-center justify-between px-4 py-2.5 hover:bg-slate-50 rounded-xl", stagedStatus.includes(s) ? "text-primary bg-primary/5 font-black" : "text-slate-600 font-bold")}
+                                                        className={cn("w-full flex items-center justify-between px-4 py-2.5 hover:bg-transparent rounded-xl", stagedStatus.includes(s) ? "text-primary bg-primary/5 font-black" : "text-slate-600 font-bold")}
                                                     >
                                                         {s}
                                                         {stagedStatus.includes(s) && <CircleCheck className="w-4 h-4 text-primary" />}
@@ -392,16 +392,16 @@ export const AssetDetailPage = () => {
                                                 placeholder="Search"
                                                 value={searchQuery}
                                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                                className="pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-xl text-[13px] font-bold outline-none w-64 focus:border-primary/30 shadow-sm"
+                                                className="pl-10 pr-4 py-2 bg-card border border-border rounded-xl text-[13px] font-bold outline-none w-64 focus:border-primary/30 shadow-sm"
                                             />
                                         </div>
                                     </div>
                                 </div>
 
                                 {/* Table */}
-                                <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-x-auto custom-scrollbar">
+                                <div className="bg-card rounded-2xl border border-border shadow-sm overflow-x-auto custom-scrollbar">
                                     <table className="w-full text-left min-w-full">
-                                        <thead className="bg-slate-50/50 border-b border-slate-100">
+                                        <thead className="bg-transparent/50 border-b border-slate-100">
                                             <tr>
                                                 <th className="px-6 py-4 text-[11px] font-black text-slate-400 uppercase tracking-widest">WO #</th>
                                                 <th className="px-6 py-4 text-[11px] font-black text-slate-400 uppercase tracking-widest">Work Order Title</th>
@@ -415,19 +415,19 @@ export const AssetDetailPage = () => {
                                             {filteredWorkOrders.map(wo => (
                                                 <tr 
                                                     key={wo.id} 
-                                                    className="hover:bg-slate-50/50 transition-colors cursor-pointer group"
+                                                    className="hover:bg-transparent/50 transition-colors cursor-pointer group"
                                                     onClick={() => navigate(`/work-orders?id=${wo.id}`)}
                                                 >
                                                     <td className="px-6 py-5 text-[14px] font-black text-primary">00{wo.woNumber}</td>
-                                                    <td className="px-6 py-5 text-[14px] font-bold text-slate-900">{wo.title}</td>
-                                                    <td className="px-6 py-5 text-[13px] text-slate-500 max-w-xs truncate">{wo.description || '-'}</td>
+                                                    <td className="px-6 py-5 text-[14px] font-bold text-foreground">{wo.title}</td>
+                                                    <td className="px-6 py-5 text-[13px] text-muted-foreground max-w-xs truncate">{wo.description || '-'}</td>
                                                     <td className="px-6 py-5 text-[13px] text-slate-600 font-medium">
                                                         {wo.dueDate ? format(new Date(wo.dueDate), 'MM/dd/yy - hh:mm a') : '-'}
                                                     </td>
                                                     <td className="px-6 py-5">
                                                         <div className="flex items-center gap-2">
-                                                            <div className={cn("w-4 h-4 rounded-full border-2", wo.status === 'Complete' ? "bg-emerald-500/20 border-emerald-500" : "bg-slate-100 border-slate-300")} />
-                                                            <span className="text-[13px] font-bold text-slate-700">{wo.status}</span>
+                                                            <div className={cn("w-4 h-4 rounded-full border-2", wo.status === 'Complete' ? "bg-emerald-500/20 border-emerald-500" : "bg-muted border-slate-300")} />
+                                                            <span className="text-[13px] font-bold text-foreground/90">{wo.status}</span>
                                                         </div>
                                                     </td>
                                                     <td className="px-6 py-5">
@@ -457,12 +457,12 @@ export const AssetDetailPage = () => {
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: -10 }}
-                                className="bg-white rounded-[32px] border border-slate-200 shadow-sm overflow-hidden"
+                                className="bg-card rounded-[32px] border border-border shadow-sm overflow-hidden"
                             >
                                 <div className="p-10 space-y-12">
                                     {/* Asset Information */}
                                     <div className="space-y-6">
-                                        <h3 className="text-[13px] font-black text-slate-900 uppercase tracking-[0.2em] px-2">Asset Information</h3>
+                                        <h3 className="text-[13px] font-black text-foreground uppercase tracking-[0.2em] px-2">Asset Information</h3>
                                         <div className="border-t border-slate-100">
                                             {[
                                                 { label: 'Name', value: asset.name },
@@ -472,9 +472,9 @@ export const AssetDetailPage = () => {
                                                 { label: 'Barcode', value: asset.barCode || '-' },
                                                 { label: 'Schedule', value: '-' },
                                             ].map((item, i) => (
-                                                <div key={i} className="grid grid-cols-[240px,1fr] py-5 border-b border-slate-100 items-center px-2 hover:bg-slate-50/50 transition-colors">
+                                                <div key={i} className="grid grid-cols-[240px,1fr] py-5 border-b border-slate-100 items-center px-2 hover:bg-transparent/50 transition-colors">
                                                     <span className="text-[13px] font-bold text-slate-400 italic">{item.label}</span>
-                                                    <span className="text-[14px] font-bold text-slate-700">{item.value}</span>
+                                                    <span className="text-[14px] font-bold text-foreground/90">{item.value}</span>
                                                 </div>
                                             ))}
                                         </div>
@@ -482,7 +482,7 @@ export const AssetDetailPage = () => {
 
                                     {/* Depreciation */}
                                     <div className="space-y-6">
-                                        <h3 className="text-[13px] font-black text-slate-900 uppercase tracking-[0.2em] px-2">Depreciation</h3>
+                                        <h3 className="text-[13px] font-black text-foreground uppercase tracking-[0.2em] px-2">Depreciation</h3>
                                         <div className="border-t border-slate-100">
                                             {[
                                                 { label: 'Purchase Price', value: asset.purchasePrice ? `$${Number(asset.purchasePrice).toLocaleString('en-US', { minimumFractionDigits: 2 })}` : '$10,000.00' },
@@ -490,9 +490,9 @@ export const AssetDetailPage = () => {
                                                 { label: 'Residual Value', value: asset.residualValue ? `$${Number(asset.residualValue).toLocaleString('en-US', { minimumFractionDigits: 2 })}` : '$1,000.00' },
                                                 { label: 'Useful Life', value: asset.usefulLifeYears ? `${asset.usefulLifeYears} Years` : '10 Years' },
                                             ].map((item, i) => (
-                                                <div key={i} className="grid grid-cols-[240px,1fr] py-5 border-b border-slate-100 items-center px-2 hover:bg-slate-50/50 transition-colors">
+                                                <div key={i} className="grid grid-cols-[240px,1fr] py-5 border-b border-slate-100 items-center px-2 hover:bg-transparent/50 transition-colors">
                                                     <span className="text-[13px] font-bold text-slate-400 italic">{item.label}</span>
-                                                    <span className="text-[14px] font-bold text-slate-700">{item.value}</span>
+                                                    <span className="text-[14px] font-bold text-foreground/90">{item.value}</span>
                                                 </div>
                                             ))}
                                         </div>
@@ -500,15 +500,15 @@ export const AssetDetailPage = () => {
 
                                     {/* More Information */}
                                     <div className="space-y-6">
-                                        <h3 className="text-[13px] font-black text-slate-900 uppercase tracking-[0.2em] px-2">More Information</h3>
+                                        <h3 className="text-[13px] font-black text-foreground uppercase tracking-[0.2em] px-2">More Information</h3>
                                         <div className="border-t border-slate-100">
                                             {[
                                                 { label: 'Placed In Service', value: asset.placedInService ? format(new Date(asset.placedInService), 'MMMM d, yyyy') : 'July 24, 2015' },
                                                 { label: 'Warranty Expiration', value: asset.warrantyExpiration ? format(new Date(asset.warrantyExpiration), 'MMMM d, yyyy') : 'May 11, 2026' },
                                             ].map((item, i) => (
-                                                <div key={i} className="grid grid-cols-[240px,1fr] py-5 border-b border-slate-100 items-center px-2 hover:bg-slate-50/50 transition-colors">
+                                                <div key={i} className="grid grid-cols-[240px,1fr] py-5 border-b border-slate-100 items-center px-2 hover:bg-transparent/50 transition-colors">
                                                     <span className="text-[13px] font-bold text-slate-400 italic">{item.label}</span>
-                                                    <span className="text-[14px] font-bold text-slate-700">{item.value}</span>
+                                                    <span className="text-[14px] font-bold text-foreground/90">{item.value}</span>
                                                 </div>
                                             ))}
                                         </div>
@@ -525,19 +525,19 @@ export const AssetDetailPage = () => {
                                 className="space-y-4"
                             >
                                 <div className="flex items-center justify-between">
-                                    <h3 className="text-[13px] font-black text-slate-900 uppercase tracking-[0.2em]">Spare Parts</h3>
+                                    <h3 className="text-[13px] font-black text-foreground uppercase tracking-[0.2em]">Spare Parts</h3>
                                     <button 
                                         onClick={() => setIsLinkPartModalOpen(true)}
-                                        className="px-6 py-2 bg-white border border-slate-200 rounded-xl text-[13px] font-black text-slate-600 hover:bg-slate-50 transition-all active:scale-95 shadow-sm"
+                                        className="px-6 py-2 bg-card border border-border rounded-xl text-[13px] font-black text-slate-600 hover:bg-transparent transition-all active:scale-95 shadow-sm"
                                     >
                                         Link Part
                                     </button>
                                 </div>
 
                                 {asset.spareParts && asset.spareParts.length > 0 ? (
-                                    <div className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-x-auto custom-scrollbar">
+                                    <div className="bg-card rounded-3xl border border-border shadow-sm overflow-x-auto custom-scrollbar">
                                         <table className="w-full text-left min-w-full">
-                                            <thead className="bg-slate-50/50 border-b border-slate-100">
+                                            <thead className="bg-transparent/50 border-b border-slate-100">
                                                 <tr>
                                                     <th className="px-8 py-5 text-[11px] font-black text-slate-400 uppercase tracking-widest">Part Name</th>
                                                     <th className="px-8 py-5 text-[11px] font-black text-slate-400 uppercase tracking-widest">Part #</th>
@@ -550,12 +550,12 @@ export const AssetDetailPage = () => {
                                                 {asset.spareParts.map((sparePart) => {
                                                     const part = sparePart.part;
                                                     return (
-                                                        <tr key={part.id} className="hover:bg-slate-50/50 transition-colors group">
+                                                        <tr key={part.id} className="hover:bg-transparent/50 transition-colors group">
                                                             <td className="px-8 py-6">
-                                                                <span className="text-[14px] font-black text-slate-900 italic">{part.name}</span>
+                                                                <span className="text-[14px] font-black text-foreground italic">{part.name}</span>
                                                             </td>
                                                             <td className="px-8 py-6">
-                                                                <span className="text-[13px] font-bold text-slate-500">{part.partNumber || '-'}</span>
+                                                                <span className="text-[13px] font-bold text-muted-foreground">{part.partNumber || '-'}</span>
                                                             </td>
                                                             <td className="px-8 py-6">
                                                                 <span className={cn("px-3 py-1 rounded-lg text-[12px] font-black", (part.quantity || 0) < 5 ? "bg-red-50 text-red-600" : "bg-emerald-50 text-emerald-600")}>
@@ -585,12 +585,12 @@ export const AssetDetailPage = () => {
                                         </table>
                                     </div>
                                 ) : (
-                                    <div className="bg-white rounded-3xl border border-slate-200 p-12 text-center space-y-4 shadow-sm">
-                                        <div className="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center mx-auto">
+                                    <div className="bg-card rounded-3xl border border-border p-12 text-center space-y-4 shadow-sm">
+                                        <div className="w-16 h-16 bg-transparent rounded-2xl flex items-center justify-center mx-auto">
                                             <Settings className="w-8 h-8 text-slate-200" />
                                         </div>
                                         <div>
-                                            <h4 className="text-[16px] font-black text-slate-900">No linked parts</h4>
+                                            <h4 className="text-[16px] font-black text-foreground">No linked parts</h4>
                                             <p className="text-[13px] text-slate-400 font-bold max-w-xs mx-auto">Track inventory and spare parts specifically for this asset.</p>
                                         </div>
                                         <button 
@@ -617,7 +617,7 @@ export const AssetDetailPage = () => {
                                         const fileInput = document.getElementById('asset-file-upload');
                                         fileInput?.click();
                                     }}
-                                    className="p-12 border-4 border-dashed border-slate-100 rounded-[32px] flex flex-col items-center justify-center text-center group hover:border-primary/20 hover:bg-slate-50/50 transition-all cursor-pointer"
+                                    className="p-12 border-4 border-dashed border-slate-100 rounded-[32px] flex flex-col items-center justify-center text-center group hover:border-primary/20 hover:bg-transparent/50 transition-all cursor-pointer"
                                 >
                                     <input 
                                         type="file" 
@@ -636,13 +636,13 @@ export const AssetDetailPage = () => {
                                 </div>
 
                                 {asset.attachments && asset.attachments.length > 0 && (
-                                    <div className="bg-white rounded-[32px] border border-slate-200 p-8 shadow-sm space-y-4">
-                                        <h4 className="text-[13px] font-black text-slate-900 uppercase tracking-[0.2em]">Uploaded Files</h4>
+                                    <div className="bg-card rounded-[32px] border border-border p-8 shadow-sm space-y-4">
+                                        <h4 className="text-[13px] font-black text-foreground uppercase tracking-[0.2em]">Uploaded Files</h4>
                                         <div className="divide-y divide-slate-100">
                                             {asset.attachments.map((file: any) => (
                                                 <div key={file.id} className="flex items-center justify-between py-4 group">
                                                     <div className="flex items-center gap-3">
-                                                        <div className="w-10 h-10 bg-slate-50 rounded-xl flex items-center justify-center border border-slate-100">
+                                                        <div className="w-10 h-10 bg-transparent rounded-xl flex items-center justify-center border border-slate-100">
                                                             <FileText className="w-5 h-5 text-slate-400" />
                                                         </div>
                                                         <div>
@@ -650,7 +650,7 @@ export const AssetDetailPage = () => {
                                                                 href={file.url.startsWith('http') ? file.url : `${api.defaults.baseURL}${file.url}`}
                                                                 target="_blank" 
                                                                 rel="noopener noreferrer" 
-                                                                className="text-sm font-bold text-slate-700 hover:text-primary transition-colors"
+                                                                className="text-sm font-bold text-foreground/90 hover:text-primary transition-colors"
                                                             >
                                                                 {file.filename}
                                                             </a>
@@ -691,7 +691,7 @@ export const AssetDetailPage = () => {
                                         <div className="relative">
                                             <button 
                                                 onClick={() => setIsMeterDropdownOpen(!isMeterDropdownOpen)}
-                                                className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-xl text-[14px] font-black text-slate-700 shadow-sm active:scale-95 transition-all"
+                                                className="flex items-center gap-2 px-4 py-2 bg-card border border-border rounded-xl text-[14px] font-black text-foreground/90 shadow-sm active:scale-95 transition-all"
                                             >
                                                 Meter: <span className="text-primary italic ml-1">{selectedMeter?.name || 'Select Meter'}</span>
                                                 <ChevronDown className={cn("w-4 h-4 transition-transform", isMeterDropdownOpen && "rotate-180")} />
@@ -705,14 +705,14 @@ export const AssetDetailPage = () => {
                                                             initial={{ opacity: 0, y: 8, scale: 0.95 }}
                                                             animate={{ opacity: 1, y: 0, scale: 1 }}
                                                             exit={{ opacity: 0, y: 8, scale: 0.95 }}
-                                                            className="absolute top-full left-0 mt-2 w-64 bg-white rounded-2xl shadow-2xl ring-1 ring-black/5 z-[120] overflow-hidden"
+                                                            className="absolute top-full left-0 mt-2 w-64 bg-card rounded-2xl shadow-2xl ring-1 ring-black/5 z-[120] overflow-hidden"
                                                         >
                                                             <div className="p-1">
                                                                 {meters?.map(m => (
                                                                     <button
                                                                         key={m.id}
                                                                         onClick={() => { setSelectedMeterId(m.id); setIsMeterDropdownOpen(false); }}
-                                                                        className={cn("w-full text-left px-4 py-3 rounded-xl text-[13px] font-black transition-all", selectedMeter?.id === m.id ? "bg-primary/5 text-primary italic" : "text-slate-600 hover:bg-slate-50")}
+                                                                        className={cn("w-full text-left px-4 py-3 rounded-xl text-[13px] font-black transition-all", selectedMeter?.id === m.id ? "bg-primary/5 text-primary italic" : "text-slate-600 hover:bg-transparent")}
                                                                     >
                                                                         {m.name}
                                                                     </button>
@@ -728,14 +728,14 @@ export const AssetDetailPage = () => {
                                     <div className="flex items-center gap-3">
                                         <button 
                                             onClick={() => setIsSidebarVisible(!isSidebarVisible)}
-                                            className="p-2 bg-white border border-slate-200 rounded-xl text-slate-400 hover:text-primary hover:border-primary/20 transition-all active:scale-95 shadow-sm"
+                                            className="p-2 bg-card border border-border rounded-xl text-slate-400 hover:text-primary hover:border-primary/20 transition-all active:scale-95 shadow-sm"
                                             title={isSidebarVisible ? "Hide Sidebar" : "Show Sidebar"}
                                         >
                                             {isSidebarVisible ? <PanelRightClose className="w-5 h-5" /> : <PanelRightOpen className="w-5 h-5" />}
                                         </button>
                                         <button 
                                             onClick={() => navigate('/meters')}
-                                            className="px-6 py-2 bg-white border border-slate-200 rounded-xl text-[13px] font-black text-slate-600 hover:bg-slate-50 transition-all active:scale-95 shadow-sm"
+                                            className="px-6 py-2 bg-card border border-border rounded-xl text-[13px] font-black text-slate-600 hover:bg-transparent transition-all active:scale-95 shadow-sm"
                                         >
                                             View Meter Details
                                         </button>
@@ -747,7 +747,7 @@ export const AssetDetailPage = () => {
                                                 }
                                                 setIsAddingReading(true);
                                             }}
-                                            className="px-6 py-2 bg-white border border-slate-200 rounded-xl text-[13px] font-black text-slate-600 hover:bg-slate-50 transition-all active:scale-95 shadow-sm"
+                                            className="px-6 py-2 bg-card border border-border rounded-xl text-[13px] font-black text-slate-600 hover:bg-transparent transition-all active:scale-95 shadow-sm"
                                         >
                                             Add Reading
                                         </button>
@@ -755,7 +755,7 @@ export const AssetDetailPage = () => {
                                 </div>
 
                                 {/* Readings Table */}
-                                <div className="bg-white rounded-[32px] border border-slate-200 shadow-sm overflow-x-auto custom-scrollbar min-h-[400px]">
+                                <div className="bg-card rounded-[32px] border border-border shadow-sm overflow-x-auto custom-scrollbar min-h-[400px]">
                                     {isReadingsLoading ? (
                                         <div className="h-64 flex flex-col items-center justify-center gap-3">
                                             <div className="w-8 h-8 border-4 border-primary/20 border-t-primary rounded-full animate-spin" />
@@ -763,7 +763,7 @@ export const AssetDetailPage = () => {
                                         </div>
                                     ) : readings && readings.length > 0 ? (
                                         <table className="w-full text-left min-w-full">
-                                            <thead className="bg-slate-50/50 border-b border-slate-100">
+                                            <thead className="bg-transparent/50 border-b border-slate-100">
                                                 <tr>
                                                     <th className="px-8 py-5 text-[11px] font-black text-slate-400 uppercase tracking-widest">Reading</th>
                                                     <th className="px-8 py-5 text-[11px] font-black text-slate-400 uppercase tracking-widest">Date</th>
@@ -773,9 +773,9 @@ export const AssetDetailPage = () => {
                                             </thead>
                                             <tbody className="divide-y divide-slate-50">
                                                 {readings.map((reading: MeterReading) => (
-                                                    <tr key={reading.id} className="hover:bg-slate-50/50 transition-colors group">
+                                                    <tr key={reading.id} className="hover:bg-transparent/50 transition-colors group">
                                                         <td className="px-8 py-6">
-                                                            <span className="text-[15px] font-black text-slate-900">{reading.value} <span className="text-[13px] text-slate-400 font-bold ml-1">{selectedMeter?.unit}</span></span>
+                                                            <span className="text-[15px] font-black text-foreground">{reading.value} <span className="text-[13px] text-slate-400 font-bold ml-1">{selectedMeter?.unit}</span></span>
                                                         </td>
                                                         <td className="px-8 py-6">
                                                             <span className="text-[14px] font-bold text-slate-600">{format(new Date(reading.createdAt), "MMMM d, yyyy 'at' h:mm a")}</span>
@@ -785,7 +785,7 @@ export const AssetDetailPage = () => {
                                                                 <div className="w-8 h-8 rounded-full bg-red-500 border-2 border-white shadow-sm flex items-center justify-center text-[11px] font-black text-white uppercase">
                                                                     {reading.user?.name?.[0] || 'T'}
                                                                 </div>
-                                                                <span className="text-[14px] font-bold text-slate-700 italic">{reading.user?.name || 'tester'}</span>
+                                                                <span className="text-[14px] font-bold text-foreground/90 italic">{reading.user?.name || 'tester'}</span>
                                                             </div>
                                                         </td>
                                                         <td className="px-8 py-6 text-right">
@@ -830,23 +830,23 @@ export const AssetDetailPage = () => {
                                         initial={{ opacity: 0, scale: 0.95 }}
                                         animate={{ opacity: 1, scale: 1 }}
                                         exit={{ opacity: 0, scale: 0.95 }}
-                                        className="bg-white rounded-2xl p-6 border border-slate-200 shadow-xl w-full max-w-[420px] space-y-5"
+                                        className="bg-card rounded-2xl p-6 border border-border shadow-xl w-full max-w-[420px] space-y-5"
                                     >
                                         <div className="flex items-center justify-between">
-                                            <h4 className="text-[15px] font-bold text-slate-900">Log New Reading</h4>
+                                            <h4 className="text-[15px] font-bold text-foreground">Log New Reading</h4>
                                             <button onClick={() => setIsAddingReading(false)} className="text-slate-400 hover:text-slate-600 transition-colors">
                                                 <X className="w-5 h-5" />
                                             </button>
                                         </div>
                                         <div className="space-y-4">
                                             <div className="space-y-1.5">
-                                                <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Value ({selectedMeter?.unit})</label>
+                                                <label className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider block">Value ({selectedMeter?.unit})</label>
                                                 <div className="relative">
                                                     <input 
                                                         type="number" 
                                                         value={newReadingValue}
                                                         onChange={(e) => setNewReadingValue(e.target.value === '' ? '' : Number(e.target.value))}
-                                                        className="w-full h-11 px-4 bg-slate-50 border border-slate-200 rounded-xl text-[14px] font-bold text-slate-800 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 focus:bg-white transition-all pr-12"
+                                                        className="w-full h-11 px-4 bg-transparent border border-border rounded-xl text-[14px] font-bold text-slate-800 focus:outline-none focus:border-primary/80 focus:ring-1 focus:ring-primary focus:bg-card transition-all pr-12"
                                                         placeholder={`Enter value...`}
                                                         autoFocus
                                                     />
@@ -856,14 +856,14 @@ export const AssetDetailPage = () => {
                                             <div className="flex items-center gap-3 pt-2">
                                                 <button 
                                                     onClick={() => setIsAddingReading(false)}
-                                                    className="flex-1 h-11 border border-slate-200 rounded-xl text-[13px] font-bold text-slate-600 hover:bg-slate-50 transition-colors"
+                                                    className="flex-1 h-11 border border-border rounded-xl text-[13px] font-bold text-slate-600 hover:bg-transparent transition-colors"
                                                 >
                                                     Cancel
                                                 </button>
                                                 <button 
                                                     onClick={handleLogReading}
                                                     disabled={addReadingMutation.isPending || newReadingValue === ''}
-                                                    className="flex-1 h-11 bg-blue-600 text-white rounded-xl text-[13px] font-bold hover:bg-blue-700 transition-colors disabled:opacity-50 shadow-sm"
+                                                    className="flex-1 h-11 bg-primary text-white rounded-xl text-[13px] font-bold hover:bg-primary/90 transition-colors disabled:opacity-50 shadow-sm"
                                                 >
                                                     {addReadingMutation.isPending ? 'Saving...' : 'Save Reading'}
                                                 </button>
@@ -880,11 +880,11 @@ export const AssetDetailPage = () => {
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: -10 }}
-                                className="bg-white rounded-3xl border border-slate-200 p-16 flex flex-col items-center gap-4 text-center"
+                                className="bg-card rounded-3xl border border-border p-16 flex flex-col items-center gap-4 text-center"
                             >
                                 <ActivitySquare className="w-12 h-12 text-slate-100" />
                                 <div className="space-y-1">
-                                    <h4 className="text-[15px] font-black text-slate-900 uppercase tracking-widest italic">Live Telemetry</h4>
+                                    <h4 className="text-[15px] font-black text-foreground uppercase tracking-widest italic">Live Telemetry</h4>
                                     <p className="text-[13px] text-slate-400 font-bold">Connect IoT sensors for real-time condition monitoring.</p>
                                 </div>
                                 <button className="text-primary text-[11px] font-black uppercase tracking-widest hover:underline mt-4">Connect Sensor</button>
@@ -901,20 +901,20 @@ export const AssetDetailPage = () => {
                             animate={{ width: 340, opacity: 1 }}
                             exit={{ width: 0, opacity: 0 }}
                             transition={{ duration: 0.3, ease: "easeInOut" }}
-                            className="border-l border-slate-200 bg-white overflow-y-auto p-8 space-y-10 custom-scrollbar overflow-hidden whitespace-nowrap"
+                            className="border-l border-border bg-card overflow-y-auto p-8 space-y-10 custom-scrollbar overflow-hidden whitespace-nowrap"
                         >
                             {/* Hierarchy */}
                             <div className="space-y-4">
-                                <h3 className="text-[13px] font-black text-slate-900 uppercase tracking-[0.2em]">Hierarchy</h3>
+                                <h3 className="text-[13px] font-black text-foreground uppercase tracking-[0.2em]">Hierarchy</h3>
                                 <div className="space-y-3 pl-2">
                                     <div className="flex items-center gap-3">
                                         <div className="w-2 h-2 rounded-full bg-slate-900" />
-                                        <span className="text-[13px] font-bold text-slate-900 italic">This Asset</span>
+                                        <span className="text-[13px] font-bold text-foreground italic">This Asset</span>
                                     </div>
-                                    <div className="pl-2 border-l border-slate-200 py-1 ml-1 space-y-3">
+                                    <div className="pl-2 border-l border-border py-1 ml-1 space-y-3">
                                         <div className="flex items-center gap-3 relative">
                                             <div className="absolute left-[-9px] top-1/2 w-2 h-px bg-slate-200" />
-                                            <div className="w-2 h-2 rounded-full bg-blue-400" />
+                                            <div className="w-2 h-2 rounded-full bg-primary/90" />
                                             <button className="text-[13px] font-bold text-primary hover:underline italic">1 Child Asset</button>
                                         </div>
                                     </div>
@@ -923,7 +923,7 @@ export const AssetDetailPage = () => {
 
                             {/* Location */}
                             <div className="space-y-4">
-                                <h3 className="text-[13px] font-black text-slate-900 uppercase tracking-[0.2em]">Location</h3>
+                                <h3 className="text-[13px] font-black text-foreground uppercase tracking-[0.2em]">Location</h3>
                                 <button className="text-[14px] font-bold text-primary hover:underline pl-2 italic">
                                     {asset.location?.name || 'Suite B'}
                                 </button>
@@ -931,13 +931,13 @@ export const AssetDetailPage = () => {
 
                             {/* Assigned To */}
                             <div className="space-y-4">
-                                <h3 className="text-[13px] font-black text-slate-900 uppercase tracking-[0.2em]">Assigned To</h3>
+                                <h3 className="text-[13px] font-black text-foreground uppercase tracking-[0.2em]">Assigned To</h3>
                                 <div className="flex items-center gap-3 pl-2">
-                                    <div className="w-8 h-8 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-[11px] font-black text-slate-400 uppercase">
+                                    <div className="w-8 h-8 rounded-full bg-muted border border-border flex items-center justify-center text-[11px] font-black text-slate-400 uppercase">
                                         {asset.custodian?.user?.name?.[0] || '?'}
                                     </div>
                                     <div>
-                                        <p className="text-[13px] font-bold text-slate-700 italic">
+                                        <p className="text-[13px] font-bold text-foreground/90 italic">
                                             {asset.custodian?.user?.name || 'Unassigned'}
                                             {asset.custodian && <span className="text-slate-400 ml-1">(Primary)</span>}
                                         </p>
@@ -973,10 +973,10 @@ export const AssetDetailPage = () => {
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
                             exit={{ opacity: 0, scale: 0.95 }}
-                            className="bg-white rounded-2xl p-6 border border-slate-200 shadow-xl w-full max-w-[500px] flex flex-col max-h-[80vh] space-y-5"
+                            className="bg-card rounded-2xl p-6 border border-border shadow-xl w-full max-w-[500px] flex flex-col max-h-[80vh] space-y-5"
                         >
                             <div className="flex items-center justify-between">
-                                <h4 className="text-[16px] font-black text-slate-800 uppercase tracking-wider">Link Part to Asset</h4>
+                                <h4 className="text-[16px] font-black text-white/90 uppercase tracking-widest">Link Part to Asset</h4>
                                 <button onClick={() => setIsLinkPartModalOpen(false)} className="text-slate-400 hover:text-slate-600 transition-colors">
                                     <X className="w-5 h-5" />
                                 </button>
@@ -986,7 +986,7 @@ export const AssetDetailPage = () => {
                                     <p className="text-sm text-slate-400 font-bold italic text-center py-8">No more spare parts available to link</p>
                                 ) : (
                                     allParts.filter((part: any) => !asset.spareParts?.some((sp: any) => sp.partId === part.id)).map((part: any) => (
-                                        <div key={part.id} className="flex items-center justify-between p-3 border border-slate-100 rounded-xl hover:bg-slate-50 transition-colors">
+                                        <div key={part.id} className="flex items-center justify-between p-3 border border-slate-100 rounded-xl hover:bg-transparent transition-colors">
                                             <div>
                                                 <p className="text-sm font-bold text-slate-800">{part.name}</p>
                                                 <p className="text-[11px] font-semibold text-slate-400 mt-0.5">{part.partNumber || 'No Part Number'}</p>
@@ -996,7 +996,7 @@ export const AssetDetailPage = () => {
                                                     linkPartMutation.mutate(part.id);
                                                     setIsLinkPartModalOpen(false);
                                                 }}
-                                                className="px-4 py-1.5 bg-blue-50 hover:bg-blue-600 text-blue-600 hover:text-white rounded-lg text-xs font-black transition-all active:scale-95"
+                                                className="px-4 py-1.5 bg-blue-50 hover:bg-primary text-primary hover:text-white rounded-lg text-xs font-black transition-all active:scale-95"
                                             >
                                                 Link
                                             </button>

@@ -153,7 +153,7 @@ export const MobileScanner = () => {
   return (
     <div className="min-h-screen bg-[#0d0d10] text-white flex flex-col pb-20 select-none">
       {/* Header */}
-      <div className="p-4 flex items-center justify-between border-b border-white/5 bg-slate-950/20 backdrop-blur-md">
+      <div className="p-4 flex items-center justify-between border-b border-white/5 bg-background/20 backdrop-blur-md">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-primary/20 border border-primary/40 flex items-center justify-center">
             <Maximize className="w-5 h-5 text-primary" />
@@ -208,7 +208,7 @@ export const MobileScanner = () => {
           )}
 
           {resolvingCode && (
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-slate-950/75 backdrop-blur-sm">
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-background/75 backdrop-blur-sm">
               <Loader2 className="w-8 h-8 text-primary animate-spin" />
               <p className="text-white/50 text-[10px] font-black uppercase tracking-widest">Decoding Tag...</p>
             </div>

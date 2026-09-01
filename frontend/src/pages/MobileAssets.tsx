@@ -127,7 +127,7 @@ export const MobileAssets = ({
       case 'MAINTENANCE': 
         return 'bg-orange-500/10 border-orange-500/20 text-orange-500';
       case 'STANDBY': 
-        return 'bg-blue-500/10 border-blue-500/20 text-blue-500';
+        return 'bg-primary/10 border-primary/80/20 text-primary';
       default: 
         return 'bg-muted border-border text-muted-foreground';
     }
@@ -168,17 +168,17 @@ export const MobileAssets = ({
               placeholder="Search assets, barcodes, serials..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full h-11 pl-10 pr-4 bg-slate-50 border border-transparent rounded-xl text-[14px] font-semibold text-slate-900 outline-none focus:bg-white focus:border-indigo-500/30 focus:ring-4 focus:ring-indigo-500/5 transition-all placeholder:text-slate-400"
+              className="w-full h-11 pl-10 pr-4 bg-transparent border border-transparent rounded-xl text-[14px] font-semibold text-foreground outline-none focus:bg-card focus:border-primary/80/30 focus:ring-4 focus:ring-primary/5 transition-all placeholder:text-slate-400"
             />
           </div>
           
           <button
             onClick={() => setIsFiltersDrawerOpen(true)}
             className={cn(
-              "w-11 h-11 border rounded-xl flex items-center justify-center transition-all bg-white active:scale-95 shrink-0 shadow-sm",
+              "w-11 h-11 border rounded-xl flex items-center justify-center transition-all bg-card active:scale-95 shrink-0 shadow-sm",
               (selectedLocationIds.length > 0 || activeFilters.length > 0)
                 ? "border-primary text-primary bg-primary/5"
-                : "border-slate-200/60 text-slate-500 hover:text-slate-800"
+                : "border-slate-200/60 text-muted-foreground hover:text-slate-800"
             )}
             title="Advanced Filters & Columns"
           >
@@ -277,49 +277,49 @@ export const MobileAssets = ({
                       )}
 
                       {visibleColumnIds.includes('Serial Number') && asset.serialNumber && (
-                        <div className="text-[11px] font-bold text-slate-500 truncate">
+                        <div className="text-[11px] font-bold text-muted-foreground truncate">
                           <span className="opacity-60">S/N:</span> {asset.serialNumber}
                         </div>
                       )}
 
                       {visibleColumnIds.includes('Model') && asset.model && (
-                        <div className="text-[11px] font-bold text-slate-500 truncate">
+                        <div className="text-[11px] font-bold text-muted-foreground truncate">
                           <span className="opacity-60">Model:</span> {asset.model}
                         </div>
                       )}
 
                       {visibleColumnIds.includes('Category') && asset.category && (
-                        <div className="text-[11px] font-bold text-slate-500 truncate">
+                        <div className="text-[11px] font-bold text-muted-foreground truncate">
                           <span className="opacity-60">Category:</span> {asset.category}
                         </div>
                       )}
 
                       {visibleColumnIds.includes('Area') && asset.area && (
-                        <div className="text-[11px] font-bold text-slate-500 truncate">
+                        <div className="text-[11px] font-bold text-muted-foreground truncate">
                           <span className="opacity-60">Area:</span> {asset.area}
                         </div>
                       )}
 
                       {visibleColumnIds.includes('Description') && asset.description && (
-                        <div className="text-[11px] font-bold text-slate-500 line-clamp-1">
+                        <div className="text-[11px] font-bold text-muted-foreground line-clamp-1">
                           <span className="opacity-60">Desc:</span> {asset.description}
                         </div>
                       )}
 
                       {visibleColumnIds.includes('Worker') && asset.custodian?.user?.name && (
-                        <div className="text-[11px] font-bold text-slate-500 truncate">
+                        <div className="text-[11px] font-bold text-muted-foreground truncate">
                           <span className="opacity-60">Custodian:</span> {asset.custodian.user.name}
                         </div>
                       )}
 
                       {visibleColumnIds.includes('Assigned Teams') && asset.team?.name && (
-                        <div className="text-[11px] font-bold text-slate-500 truncate">
+                        <div className="text-[11px] font-bold text-muted-foreground truncate">
                           <span className="opacity-60">Team:</span> {asset.team.name}
                         </div>
                       )}
 
                       {visibleColumnIds.includes('Assigned Vendors') && asset.vendor?.name && (
-                        <div className="text-[11px] font-bold text-slate-500 truncate">
+                        <div className="text-[11px] font-bold text-muted-foreground truncate">
                           <span className="opacity-60">Vendor:</span> {asset.vendor.name}
                         </div>
                       )}
@@ -331,43 +331,43 @@ export const MobileAssets = ({
                       )}
 
                       {visibleColumnIds.includes('Date Created') && asset.createdAt && (
-                        <div className="text-[11px] font-bold text-slate-500">
+                        <div className="text-[11px] font-bold text-muted-foreground">
                           <span className="opacity-60">Created:</span> {format(new Date(asset.createdAt), 'MM/dd/yy')}
                         </div>
                       )}
 
                       {visibleColumnIds.includes('Purchase Date') && asset.purchaseDate && (
-                        <div className="text-[11px] font-bold text-slate-500">
+                        <div className="text-[11px] font-bold text-muted-foreground">
                           <span className="opacity-60">Purchased:</span> {format(new Date(asset.purchaseDate), 'MM/dd/yy')}
                         </div>
                       )}
 
                       {visibleColumnIds.includes('Service Date') && asset.serviceDate && (
-                        <div className="text-[11px] font-bold text-slate-500">
+                        <div className="text-[11px] font-bold text-muted-foreground">
                           <span className="opacity-60">Serviced:</span> {format(new Date(asset.serviceDate), 'MM/dd/yy')}
                         </div>
                       )}
 
                       {visibleColumnIds.includes('Warranty Expiration') && asset.warrantyExpiration && (
-                        <div className="text-[11px] font-bold text-slate-500">
+                        <div className="text-[11px] font-bold text-muted-foreground">
                           <span className="opacity-60">Warranty Exp:</span> {format(new Date(asset.warrantyExpiration), 'MM/dd/yy')}
                         </div>
                       )}
 
                       {visibleColumnIds.includes('Current Value') && asset.financials?.currentBookValue && (
                         <div className="text-[11px] font-bold text-emerald-650">
-                          <span className="opacity-65 text-slate-500">Value:</span> ${Number(asset.financials.currentBookValue).toLocaleString()}
+                          <span className="opacity-65 text-muted-foreground">Value:</span> ${Number(asset.financials.currentBookValue).toLocaleString()}
                         </div>
                       )}
 
                       {visibleColumnIds.includes('Purchase Price') && asset.purchasePrice && (
-                        <div className="text-[11px] font-bold text-slate-500">
+                        <div className="text-[11px] font-bold text-muted-foreground">
                           <span className="opacity-60">Price:</span> ${Number(asset.purchasePrice).toLocaleString()}
                         </div>
                       )}
 
                       {visibleColumnIds.includes('Useful Life') && asset.usefulLifeYears && (
-                        <div className="text-[11px] font-bold text-slate-500">
+                        <div className="text-[11px] font-bold text-muted-foreground">
                           <span className="opacity-60">Useful Life:</span> {asset.usefulLifeYears} Years
                         </div>
                       )}
@@ -402,17 +402,17 @@ export const MobileAssets = ({
               animate={{ y: 0 }}
               exit={{ y: '100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 220 }}
-              className="w-full max-h-[85vh] bg-white border-t border-slate-100 rounded-t-[28px] flex flex-col overflow-hidden shadow-2xl"
+              className="w-full max-h-[85vh] bg-card border-t border-slate-100 rounded-t-[28px] flex flex-col overflow-hidden shadow-2xl"
             >
               {/* Drawer Header */}
-              <div className="px-5 py-4 border-b border-slate-150 bg-white flex items-center justify-between shrink-0">
+              <div className="px-5 py-4 border-b border-slate-150 bg-card flex items-center justify-between shrink-0">
                 <h2 className="text-[17px] font-black uppercase tracking-wider text-slate-800 flex items-center gap-2">
                   <SlidersHorizontal className="w-5 h-5 text-primary" />
                   Filter Assets & Columns
                 </h2>
                 <button 
                   onClick={() => setIsFiltersDrawerOpen(false)}
-                  className="p-1.5 hover:bg-slate-50 rounded-full text-slate-400 transition-colors"
+                  className="p-1.5 hover:bg-transparent rounded-full text-slate-400 transition-colors"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -430,7 +430,7 @@ export const MobileAssets = ({
                       setIsFiltersDrawerOpen(false);
                       onOpenLocationFilter(e.currentTarget.getBoundingClientRect());
                     }}
-                    className="w-full h-11 bg-slate-50 border border-slate-200 rounded-xl px-4 flex items-center justify-between text-xs font-bold text-slate-700 hover:bg-slate-100 transition-all cursor-pointer"
+                    className="w-full h-11 bg-transparent border border-border rounded-xl px-4 flex items-center justify-between text-xs font-bold text-foreground/90 hover:bg-muted transition-all cursor-pointer"
                   >
                     <span className="truncate flex items-center gap-2">
                       <MapPin className="w-4 h-4 text-slate-450" />
@@ -464,7 +464,7 @@ export const MobileAssets = ({
                     )}
                   >
                     <div className={cn(
-                      "w-4 h-4 bg-white rounded-full transition-all shadow-sm",
+                      "w-4 h-4 bg-card rounded-full transition-all shadow-sm",
                       activeFilters.some(f => f.type === 'Status' && f.value === 'Hide Archived') ? "translate-x-3.5" : "translate-x-0"
                     )} />
                   </button>
@@ -479,7 +479,7 @@ export const MobileAssets = ({
                       setIsFiltersDrawerOpen(false);
                       onOpenFiltersModal();
                     }}
-                    className="w-full h-11 bg-slate-50 border border-slate-200 rounded-xl px-4 flex items-center justify-between text-xs font-bold text-slate-700 hover:bg-slate-100 transition-all cursor-pointer text-left"
+                    className="w-full h-11 bg-transparent border border-border rounded-xl px-4 flex items-center justify-between text-xs font-bold text-foreground/90 hover:bg-muted transition-all cursor-pointer text-left"
                   >
                     Configure Advanced Filters...
                   </button>
@@ -487,13 +487,13 @@ export const MobileAssets = ({
               </div>
 
               {/* Drawer Footer */}
-              <div className="p-4 border-t border-slate-150 bg-slate-50/50 flex gap-3 shrink-0">
+              <div className="p-4 border-t border-slate-150 bg-transparent/50 flex gap-3 shrink-0">
                 <button
                   onClick={() => {
                     onResetFilters();
                     setIsFiltersDrawerOpen(false);
                   }}
-                  className="flex-1 py-3 bg-white border border-slate-250 text-slate-600 text-[11px] font-black uppercase tracking-wider rounded-xl transition-all active:scale-95 shadow-sm text-center"
+                  className="flex-1 py-3 bg-card border border-slate-250 text-slate-600 text-[11px] font-black uppercase tracking-wider rounded-xl transition-all active:scale-95 shadow-sm text-center"
                 >
                   Reset Filters
                 </button>
@@ -518,14 +518,14 @@ export const MobileAssets = ({
               animate={{ y: 0 }}
               exit={{ y: '100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 220 }}
-              className="w-full bg-white border-t border-slate-100 rounded-t-[28px] p-5 space-y-4 shadow-2xl flex flex-col"
+              className="w-full bg-card border-t border-slate-100 rounded-t-[28px] p-5 space-y-4 shadow-2xl flex flex-col"
             >
               {/* Drawer Header */}
               <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-                <h3 className="text-sm font-black uppercase tracking-wider text-slate-700">Registry Operations</h3>
+                <h3 className="text-sm font-black uppercase tracking-wider text-foreground/90">Registry Operations</h3>
                 <button 
                   onClick={() => setIsHeaderActionsDrawerOpen(false)}
-                  className="p-1 hover:bg-slate-50 rounded-full text-slate-400"
+                  className="p-1 hover:bg-transparent rounded-full text-slate-400"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -538,7 +538,7 @@ export const MobileAssets = ({
                     setIsHeaderActionsDrawerOpen(false);
                     onImport();
                   }}
-                  className="w-full py-3.5 px-4 rounded-xl text-xs font-bold bg-slate-50 border border-slate-200 text-slate-700 text-left hover:bg-slate-100 active:scale-[0.99] transition-all"
+                  className="w-full py-3.5 px-4 rounded-xl text-xs font-bold bg-transparent border border-border text-foreground/90 text-left hover:bg-muted active:scale-[0.99] transition-all"
                 >
                   Import Assets (CSV)
                 </button>
@@ -547,7 +547,7 @@ export const MobileAssets = ({
                     setIsHeaderActionsDrawerOpen(false);
                     onGenerateQR();
                   }}
-                  className="w-full py-3.5 px-4 rounded-xl text-xs font-bold bg-slate-50 border border-slate-200 text-slate-700 text-left hover:bg-slate-100 active:scale-[0.99] transition-all"
+                  className="w-full py-3.5 px-4 rounded-xl text-xs font-bold bg-transparent border border-border text-foreground/90 text-left hover:bg-muted active:scale-[0.99] transition-all"
                 >
                   Generate QR Codes
                 </button>
@@ -556,7 +556,7 @@ export const MobileAssets = ({
                     setIsHeaderActionsDrawerOpen(false);
                     onDownloadLabels();
                   }}
-                  className="w-full py-3.5 px-4 rounded-xl text-xs font-bold bg-slate-50 border border-slate-200 text-slate-700 text-left hover:bg-slate-100 active:scale-[0.99] transition-all"
+                  className="w-full py-3.5 px-4 rounded-xl text-xs font-bold bg-transparent border border-border text-foreground/90 text-left hover:bg-muted active:scale-[0.99] transition-all"
                 >
                   Download QR Labels (1" x 2-5/8")
                 </button>
@@ -565,7 +565,7 @@ export const MobileAssets = ({
                     setIsHeaderActionsDrawerOpen(false);
                     onExportCsv();
                   }}
-                  className="w-full py-3.5 px-4 rounded-xl text-xs font-bold bg-slate-50 border border-slate-200 text-slate-700 text-left hover:bg-slate-100 active:scale-[0.99] transition-all"
+                  className="w-full py-3.5 px-4 rounded-xl text-xs font-bold bg-transparent border border-border text-foreground/90 text-left hover:bg-muted active:scale-[0.99] transition-all"
                 >
                   Quick CSV Export
                 </button>
@@ -574,7 +574,7 @@ export const MobileAssets = ({
                     setIsHeaderActionsDrawerOpen(false);
                     onExportExcel();
                   }}
-                  className="w-full py-3.5 px-4 rounded-xl text-xs font-bold bg-slate-50 border border-slate-200 text-slate-700 text-left hover:bg-slate-100 active:scale-[0.99] transition-all"
+                  className="w-full py-3.5 px-4 rounded-xl text-xs font-bold bg-transparent border border-border text-foreground/90 text-left hover:bg-muted active:scale-[0.99] transition-all"
                 >
                   Quick Excel Export
                 </button>
@@ -601,8 +601,8 @@ export const MobileAssets = ({
                          className={cn(
                            "py-2 px-3 rounded-xl text-xs font-bold border transition-all active:scale-95 flex items-center justify-between",
                            isVisible
-                             ? "bg-indigo-50 border-indigo-200 text-indigo-705"
-                             : "bg-white border-slate-200 text-slate-500",
+                             ? "bg-primary/10 border-primary/20 text-indigo-705"
+                             : "bg-card border-border text-muted-foreground",
                            col.isMandatory && "opacity-50 cursor-not-allowed"
                          )}
                        >
@@ -617,7 +617,7 @@ export const MobileAssets = ({
               {/* Close Button */}
               <button
                 onClick={() => setIsHeaderActionsDrawerOpen(false)}
-                className="w-full py-3 bg-slate-100 hover:bg-slate-200 text-slate-655 text-xs font-black uppercase tracking-wider rounded-xl transition-all shadow-inner active:scale-95 text-center"
+                className="w-full py-3 bg-muted hover:bg-slate-200 text-slate-655 text-xs font-black uppercase tracking-wider rounded-xl transition-all shadow-inner active:scale-95 text-center"
               >
                 Close
               </button>

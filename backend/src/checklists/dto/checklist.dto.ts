@@ -25,12 +25,47 @@ class CreateChecklistItemDto {
     'NUMBER',
     'METER_READING',
     'SELECT',
+    'STATUS',
+    'TEXT',
+    'INSPECTION',
+    'MULTIPLE_CHOICE',
+    'METER',
+    'SIGNATURE',
   ])
   @IsOptional()
   type?: string;
 
   @IsOptional()
   options?: any;
+
+  @IsString()
+  @IsOptional()
+  instruction?: string;
+
+  @IsArray()
+  @IsString({ each: true })
+  @IsOptional()
+  instructionPhotos?: string[];
+
+  @IsString()
+  @IsOptional()
+  instructionUrlTitle?: string;
+
+  @IsString()
+  @IsOptional()
+  instructionUrl?: string;
+
+  @IsBoolean()
+  @IsOptional()
+  requireNotes?: boolean;
+
+  @IsBoolean()
+  @IsOptional()
+  requirePhoto?: boolean;
+
+  @IsBoolean()
+  @IsOptional()
+  requireUrl?: boolean;
 }
 
 export class CreateChecklistDto {

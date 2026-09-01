@@ -14,7 +14,7 @@ import {
 import { Widget } from './Widget';
 import type { AnalyticsData } from '../types';
 
-const COLORS = ['#6366F1', '#F43F5E', '#10B981', '#F59E0B', '#8B5CF6', '#EC4899'];
+const COLORS = ['hsl(var(--primary-raw))', '#F43F5E', '#10B981', '#F59E0B', '#8B5CF6', '#EC4899'];
 
 export const Reliability = ({ data }: { data: AnalyticsData }) => {
     const { reliability, assetDowntime } = data || {};
@@ -28,24 +28,24 @@ export const Reliability = ({ data }: { data: AnalyticsData }) => {
         <div className="space-y-12 pb-20">
             {/* Macro Stats */}
             <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5 gap-8">
-                <div className="bg-white rounded-[40px] border border-slate-100 p-12 flex flex-col items-center justify-center text-center shadow-sm">
+                <div className="bg-card rounded-[40px] border border-slate-100 p-12 flex flex-col items-center justify-center text-center shadow-sm">
                     <span className="text-[14px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">Uptime Reliability</span>
                     <span className="text-[72px] font-black text-slate-800 tracking-tighter leading-none">{reliability?.availability || 100}%</span>
                 </div>
-                <div className="bg-white rounded-[40px] border border-slate-100 p-12 flex flex-col items-center justify-center text-center shadow-sm relative overflow-hidden">
-                    <div className="absolute top-0 left-0 right-0 h-1 bg-indigo-600/10" />
+                <div className="bg-card rounded-[40px] border border-slate-100 p-12 flex flex-col items-center justify-center text-center shadow-sm relative overflow-hidden">
+                    <div className="absolute top-0 left-0 right-0 h-1 bg-primary/10" />
                     <span className="text-[14px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">Mean Time to Repair</span>
                     <span className="text-[72px] font-black text-slate-800 tracking-tighter leading-none">{reliability?.mttr || 0}h</span>
                 </div>
-                <div className="bg-white rounded-[40px] border border-slate-100 p-12 flex flex-col items-center justify-center text-center shadow-sm relative overflow-hidden">
+                <div className="bg-card rounded-[40px] border border-slate-100 p-12 flex flex-col items-center justify-center text-center shadow-sm relative overflow-hidden">
                     <span className="text-[14px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">Mean Waiting Time</span>
                     <span className="text-[72px] font-black text-slate-800 tracking-tighter leading-none">{reliability?.mwt || 0}h</span>
                 </div>
-                <div className="bg-white rounded-[40px] border border-slate-100 p-12 flex flex-col items-center justify-center text-center shadow-sm relative overflow-hidden">
+                <div className="bg-card rounded-[40px] border border-slate-100 p-12 flex flex-col items-center justify-center text-center shadow-sm relative overflow-hidden">
                     <span className="text-[14px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">Mean Time To Failure</span>
                     <span className="text-[72px] font-black text-slate-800 tracking-tighter leading-none">{reliability?.mttf || 0}h</span>
                 </div>
-                <div className="bg-white rounded-[40px] border border-slate-100 p-12 flex flex-col items-center justify-center text-center shadow-sm">
+                <div className="bg-card rounded-[40px] border border-slate-100 p-12 flex flex-col items-center justify-center text-center shadow-sm">
                     <span className="text-[14px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">Mean Time Between Failure</span>
                     <span className="text-[72px] font-black text-slate-800 tracking-tighter leading-none">{reliability?.mtbf || 0}h</span>
                 </div>
@@ -115,7 +115,7 @@ export const Reliability = ({ data }: { data: AnalyticsData }) => {
                         </div>
                     ) : (
                         <div className="h-full flex items-center justify-center flex-col gap-4">
-                            <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center">
+                            <div className="w-16 h-16 bg-transparent rounded-full flex items-center justify-center">
                                 <PieIcon className="w-8 h-8 text-slate-200" />
                             </div>
                             <span className="text-[16px] font-medium text-slate-400">No RCA data recorded yet</span>
@@ -125,7 +125,7 @@ export const Reliability = ({ data }: { data: AnalyticsData }) => {
             </div>
 
             {/* Comparison Stats */}
-            <div className="p-12 bg-indigo-600 rounded-[40px] shadow-2xl shadow-indigo-200 flex items-center justify-between overflow-hidden relative">
+            <div className="p-12 bg-primary rounded-[40px] shadow-2xl shadow-primary/20 flex items-center justify-between overflow-hidden relative">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl" />
                 <div className="space-y-2 relative z-10">
                     <h3 className="text-white text-[24px] font-black italic uppercase tracking-tight">Reliability Insights</h3>

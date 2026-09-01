@@ -89,20 +89,20 @@ export const MobileInventory = ({
   const activeFiltersCount = selectedStatuses.length + selectedLocations.length + selectedTags.length + (excludeIncoming ? 1 : 0);
 
   return (
-    <div className="flex flex-col h-full bg-[#f8fafc] font-outfit select-none relative pb-20">
+    <div className="flex flex-col h-full bg-background font-outfit select-none relative pb-20">
       {/* Sticky Header */}
-      <div className="bg-white sticky top-0 z-30 shadow-sm shrink-0">
+      <div className="bg-card sticky top-0 z-30 shadow-sm shrink-0">
         <div className="px-4 py-4 border-b border-slate-100 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600">
+            <div className="w-8 h-8 rounded-xl bg-primary/10 border border-primary/10 flex items-center justify-center text-primary">
               <Package className="w-4 h-4" />
             </div>
-            <h1 className="text-[17px] font-black text-slate-900 tracking-tight">Parts & Inventory</h1>
+            <h1 className="text-[17px] font-black text-foreground tracking-tight">Parts & Inventory</h1>
           </div>
           <div className="flex items-center gap-2">
             <button
               onClick={onOpenScanner}
-              className="p-2 hover:bg-slate-50 border border-slate-200 rounded-xl text-slate-600 transition-colors shadow-sm active:scale-95 shrink-0"
+              className="p-2 hover:bg-transparent border border-border rounded-xl text-slate-600 transition-colors shadow-sm active:scale-95 shrink-0"
               title="Scan Barcode"
             >
               <QrCode className="w-5 h-5" />
@@ -132,30 +132,30 @@ export const MobileInventory = ({
         </div>
 
         {/* Sub-Header Actions */}
-        <div className="px-4 py-3 bg-[#f8fafc] flex gap-2 items-center">
+        <div className="px-4 py-3 bg-background flex gap-2 items-center">
           <div className="relative flex-1 group">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 focus-within:text-indigo-600 transition-colors" />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 focus-within:text-primary transition-colors" />
             <input
               type="text"
               placeholder="Search inventory..."
               value={localSearchQuery}
               onChange={(e) => setLocalSearchQuery(e.target.value)}
-              className="w-full h-10 pl-10 pr-4 bg-white border border-slate-200 rounded-xl text-[13px] font-semibold text-slate-900 outline-none focus:border-indigo-500/30 focus:ring-4 focus:ring-indigo-500/5 transition-all placeholder:text-slate-400"
+              className="w-full h-10 pl-10 pr-4 bg-card border border-border rounded-xl text-[13px] font-semibold text-foreground outline-none focus:border-primary/80/30 focus:ring-4 focus:ring-primary/5 transition-all placeholder:text-slate-400"
             />
           </div>
           
           <button
             onClick={() => setIsFiltersDrawerOpen(true)}
             className={cn(
-              "p-2.5 rounded-xl border transition-all active:scale-95 flex items-center justify-center shrink-0 bg-white relative",
+              "p-2.5 rounded-xl border transition-all active:scale-95 flex items-center justify-center shrink-0 bg-card relative",
               activeFiltersCount > 0
-                ? "border-indigo-200 bg-indigo-50/50 text-indigo-600"
-                : "border-slate-200 text-slate-500"
+                ? "border-primary/20 bg-primary/10/50 text-primary"
+                : "border-border text-muted-foreground"
             )}
           >
             <SlidersHorizontal className="w-4.5 h-4.5" />
             {activeFiltersCount > 0 && (
-              <span className="absolute -top-1 -right-1 w-4.5 h-4.5 bg-indigo-600 text-white text-[9px] font-black rounded-full flex items-center justify-center border-2 border-white">
+              <span className="absolute -top-1 -right-1 w-4.5 h-4.5 bg-primary text-white text-[9px] font-black rounded-full flex items-center justify-center border-2 border-white">
                 {activeFiltersCount}
               </span>
             )}
@@ -163,7 +163,7 @@ export const MobileInventory = ({
           
           <button
             onClick={() => setIsHeaderActionsDrawerOpen(true)}
-            className="p-2.5 rounded-xl border border-slate-200 bg-white text-slate-500 hover:bg-slate-50 transition-all active:scale-95 shrink-0 flex items-center justify-center"
+            className="p-2.5 rounded-xl border border-border bg-card text-muted-foreground hover:bg-transparent transition-all active:scale-95 shrink-0 flex items-center justify-center"
           >
             <MoreHorizontal className="w-4.5 h-4.5" />
           </button>
@@ -174,15 +174,15 @@ export const MobileInventory = ({
       <div className="flex-1 px-4 py-3 overflow-y-auto">
         {isLoading ? (
           <div className="flex items-center justify-center py-20">
-            <Loader2 className="w-8 h-8 text-indigo-600 animate-spin" />
+            <Loader2 className="w-8 h-8 text-primary animate-spin" />
           </div>
         ) : parts.length === 0 ? (
-          <div className="bg-white rounded-3xl border border-slate-200 p-12 text-center my-6 space-y-4">
-            <div className="w-12 h-12 bg-slate-50 rounded-2xl border border-slate-100 flex items-center justify-center text-slate-300 mx-auto">
+          <div className="bg-card rounded-3xl border border-border p-12 text-center my-6 space-y-4">
+            <div className="w-12 h-12 bg-transparent rounded-2xl border border-slate-100 flex items-center justify-center text-slate-300 mx-auto">
               <Package className="w-6 h-6" />
             </div>
             <div className="space-y-1">
-              <p className="text-[14px] font-black text-slate-700">No Inventory Found</p>
+              <p className="text-[14px] font-black text-foreground/90">No Inventory Found</p>
               <p className="text-[11px] text-slate-400 font-medium">Try broadening your search or clear active filters.</p>
             </div>
           </div>
@@ -201,11 +201,11 @@ export const MobileInventory = ({
                   key={part.id}
                   layout
                   onClick={() => onSelectPart(part.id)}
-                  className="bg-white border border-slate-200/80 rounded-2xl p-4 flex gap-4 items-start shadow-sm active:bg-slate-50/50 active:scale-[0.99] transition-all cursor-pointer"
+                  className="bg-card border border-slate-200/80 rounded-2xl p-4 flex gap-4 items-start shadow-sm active:bg-transparent/50 active:scale-[0.99] transition-all cursor-pointer"
                 >
                   {/* Dynamic Thumbnail */}
                   {isImageVisible && (
-                    <div className="w-14 h-14 rounded-xl bg-slate-50 border border-slate-150 flex items-center justify-center shrink-0 text-slate-400 overflow-hidden shadow-inner">
+                    <div className="w-14 h-14 rounded-xl bg-transparent border border-slate-150 flex items-center justify-center shrink-0 text-slate-400 overflow-hidden shadow-inner">
                       {part.imageUrl ? (
                         <img src={part.imageUrl} alt="" className="w-full h-full object-cover" />
                       ) : (
@@ -218,7 +218,7 @@ export const MobileInventory = ({
                   <div className="flex-1 min-w-0 space-y-2">
                     <div className="flex items-start justify-between gap-2">
                       <div>
-                        <h3 className="text-[14px] font-black text-slate-900 leading-snug truncate">
+                        <h3 className="text-[14px] font-black text-foreground leading-snug truncate">
                           {part.name}
                         </h3>
                         {visibleColumns.includes('ID') && (
@@ -252,18 +252,18 @@ export const MobileInventory = ({
                         </div>
                       )}
                       {visibleColumns.includes('Area') && part.area && (
-                        <div className="text-[11px] font-bold text-slate-500">
+                        <div className="text-[11px] font-bold text-muted-foreground">
                           <span className="opacity-60">Area:</span> {part.area}
                         </div>
                       )}
                       {visibleColumns.includes('Location') && part.location?.name && (
-                        <div className="flex items-center gap-1 text-[11px] font-bold text-slate-500 bg-slate-50 border border-slate-100 px-2 py-0.5 rounded-lg w-fit">
+                        <div className="flex items-center gap-1 text-[11px] font-bold text-muted-foreground bg-transparent border border-slate-100 px-2 py-0.5 rounded-lg w-fit">
                           <MapPin className="w-3.5 h-3.5 text-slate-400 shrink-0" />
                           <span className="truncate">{part.location.name}</span>
                         </div>
                       )}
                       {visibleColumns.includes('Barcode') && part.barcode && (
-                        <div className="text-[11px] font-mono font-bold text-slate-500">
+                        <div className="text-[11px] font-mono font-bold text-muted-foreground">
                           <span className="opacity-60 font-sans">Barcode:</span> {part.barcode}
                         </div>
                       )}
@@ -273,27 +273,27 @@ export const MobileInventory = ({
                         </div>
                       )}
                       {visibleColumns.includes('Available Qty') && part.quantity !== undefined && (
-                        <div className="text-[11px] font-bold text-slate-500">
+                        <div className="text-[11px] font-bold text-muted-foreground">
                           <span className="opacity-60">Available:</span> {part.quantity.toFixed(2)}
                         </div>
                       )}
                       {visibleColumns.includes('Allocated Qty') && (
-                        <div className="text-[11px] font-bold text-slate-500">
+                        <div className="text-[11px] font-bold text-muted-foreground">
                           <span className="opacity-60">Allocated:</span> 0.00
                         </div>
                       )}
                       {visibleColumns.includes('Incoming Qty') && (
-                        <div className="text-[11px] font-bold text-slate-500">
+                        <div className="text-[11px] font-bold text-muted-foreground">
                           <span className="opacity-60">Incoming:</span> 0.00
                         </div>
                       )}
                       {visibleColumns.includes('Minimum Qty') && part.minQuantity !== undefined && (
-                        <div className="text-[11px] font-bold text-slate-500">
+                        <div className="text-[11px] font-bold text-muted-foreground">
                           <span className="opacity-60">Min Qty:</span> {part.minQuantity}
                         </div>
                       )}
                       {visibleColumns.includes('Maximum Qty') && part.maxQuantity !== undefined && (
-                        <div className="text-[11px] font-bold text-slate-500">
+                        <div className="text-[11px] font-bold text-muted-foreground">
                           <span className="opacity-60">Max Qty:</span> {part.maxQuantity}
                         </div>
                       )}
@@ -332,7 +332,7 @@ export const MobileInventory = ({
       {/* Floating Create Button */}
       <button
         onClick={onOpenCreateModal}
-        className="fixed right-6 bottom-20 z-40 w-12 h-12 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full flex items-center justify-center shadow-lg shadow-indigo-200 transition-transform active:scale-90"
+        className="fixed right-6 bottom-20 z-40 w-12 h-12 bg-primary hover:bg-primary/90 text-white rounded-full flex items-center justify-center shadow-lg shadow-primary/20 transition-transform active:scale-90"
         title="Add Part"
       >
         <Plus className="w-6 h-6" />
@@ -350,7 +350,7 @@ export const MobileInventory = ({
               animate={{ y: 0 }}
               exit={{ y: '100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 220 }}
-              className="relative w-full max-h-[85vh] bg-white border-t border-slate-100 rounded-t-[28px] shadow-2xl flex flex-col z-10"
+              className="relative w-full max-h-[85vh] bg-card border-t border-slate-100 rounded-t-[28px] shadow-2xl flex flex-col z-10"
             >
               {/* Drawer Drag bar indicator */}
               <div className="w-12 h-1.5 bg-slate-200 rounded-full mx-auto my-3 shrink-0" />
@@ -358,12 +358,12 @@ export const MobileInventory = ({
               {/* Drawer Header */}
               <div className="flex items-center justify-between px-5 pb-4 border-b border-slate-100 shrink-0">
                 <div className="flex items-center gap-2">
-                  <SlidersHorizontal className="w-4 h-4 text-slate-500" />
-                  <h3 className="text-sm font-black uppercase tracking-wider text-slate-700">Filter Inventory</h3>
+                  <SlidersHorizontal className="w-4 h-4 text-muted-foreground" />
+                  <h3 className="text-sm font-black uppercase tracking-wider text-foreground/90">Filter Inventory</h3>
                 </div>
                 <button 
                   onClick={() => setIsFiltersDrawerOpen(false)}
-                  className="p-1.5 hover:bg-slate-50 rounded-full text-slate-400 transition-colors"
+                  className="p-1.5 hover:bg-transparent rounded-full text-slate-400 transition-colors"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -390,8 +390,8 @@ export const MobileInventory = ({
                           className={cn(
                             "py-2 px-4 rounded-xl text-xs font-bold border transition-all active:scale-95",
                             isSelected
-                              ? "bg-indigo-50 border-indigo-200 text-indigo-705"
-                              : "bg-white border-slate-200 text-slate-500"
+                              ? "bg-primary/10 border-primary/20 text-indigo-705"
+                              : "bg-card border-border text-muted-foreground"
                           )}
                         >
                           {status}
@@ -412,11 +412,11 @@ export const MobileInventory = ({
                     onClick={() => setExcludeIncoming(!excludeIncoming)}
                     className={cn(
                       "w-9 h-5.5 rounded-full transition-colors relative flex items-center px-1 shrink-0",
-                      excludeIncoming ? "bg-indigo-600" : "bg-slate-200"
+                      excludeIncoming ? "bg-primary" : "bg-slate-200"
                     )}
                   >
                     <div className={cn(
-                      "w-4 h-4 bg-white rounded-full transition-all shadow-sm",
+                      "w-4 h-4 bg-card rounded-full transition-all shadow-sm",
                       excludeIncoming ? "translate-x-3.5" : "translate-x-0"
                     )} />
                   </button>
@@ -438,16 +438,16 @@ export const MobileInventory = ({
                           }}
                           className={cn(
                             "flex items-center gap-3 p-2.5 rounded-xl cursor-pointer transition-all",
-                            isSelected ? "bg-indigo-50/55" : "hover:bg-slate-50"
+                            isSelected ? "bg-primary/10/55" : "hover:bg-transparent"
                           )}
                         >
                           <div className={cn(
                             "w-4 h-4 rounded border-2 transition-all flex items-center justify-center shrink-0",
-                            isSelected ? "bg-indigo-600 border-indigo-600" : "border-slate-200"
+                            isSelected ? "bg-primary border-primary" : "border-border"
                           )}>
                             {isSelected && <Check className="w-3 h-3 text-white" />}
                           </div>
-                          <span className="text-xs font-bold text-slate-700 truncate">{loc.name}</span>
+                          <span className="text-xs font-bold text-foreground/90 truncate">{loc.name}</span>
                         </div>
                       );
                     })}
@@ -457,18 +457,18 @@ export const MobileInventory = ({
                 {/* Tags Selection List */}
                 <div className="space-y-2 border-t border-slate-50 pt-4 font-outfit">
                   <div className="flex items-center gap-2">
-                    <Tags className="w-4 h-4 text-slate-500" />
+                    <Tags className="w-4 h-4 text-muted-foreground" />
                     <label className="text-[11px] font-black uppercase text-slate-450 tracking-wider block">Tags</label>
                   </div>
                   <div className="flex flex-wrap gap-2">
                     {[
-                      { name: 'Mechanical', color: 'bg-blue-500' },
+                      { name: 'Mechanical', color: 'bg-primary' },
                       { name: 'Electrical', color: 'bg-yellow-500' },
                       { name: 'Critical', color: 'bg-red-500' },
                       { name: 'Consumable', color: 'bg-green-500' },
                       { name: 'Spare', color: 'bg-emerald-500' },
                       { name: 'Hydraulic', color: 'bg-cyan-500' },
-                      { name: 'Pneumatic', color: 'bg-violet-500' }
+                      { name: 'Pneumatic', color: 'bg-primary/80' }
                     ].map((tag) => {
                       const isSelected = selectedTags.includes(tag.name);
                       return (
@@ -483,8 +483,8 @@ export const MobileInventory = ({
                           className={cn(
                             "py-2 px-3 rounded-xl text-xs font-bold border transition-all active:scale-95 flex items-center gap-1.5",
                             isSelected
-                              ? "bg-indigo-50 border-indigo-200 text-indigo-705"
-                              : "bg-white border-slate-200 text-slate-500"
+                              ? "bg-primary/10 border-primary/20 text-indigo-705"
+                              : "bg-card border-border text-muted-foreground"
                           )}
                         >
                           <div className={cn("w-1.5 h-1.5 rounded-full", tag.color)} />
@@ -498,7 +498,7 @@ export const MobileInventory = ({
                 {/* Sort Fields & Order */}
                 <div className="space-y-3 border-t border-slate-50 pt-4">
                   <div className="flex items-center gap-2">
-                    <ArrowUpDown className="w-4 h-4 text-slate-500" />
+                    <ArrowUpDown className="w-4 h-4 text-muted-foreground" />
                     <label className="text-[11px] font-black uppercase text-slate-450 tracking-wider block">Sorting</label>
                   </div>
                   <div className="grid grid-cols-2 gap-2">
@@ -506,7 +506,7 @@ export const MobileInventory = ({
                       <select
                         value={sortBy}
                         onChange={(e) => setSortBy(e.target.value)}
-                        className="w-full h-10 px-4 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 appearance-none outline-none focus:border-indigo-500/30"
+                        className="w-full h-10 px-4 bg-transparent border border-border rounded-xl text-xs font-bold text-foreground/90 appearance-none outline-none focus:border-primary/80/30"
                       >
                         {['Name', 'Allocated Qty', 'Incoming Qty', 'Barcode', 'Area', 'Category', 'Date Created', 'Critical'].map(field => (
                           <option key={field} value={field}>{field}</option>
@@ -519,7 +519,7 @@ export const MobileInventory = ({
                       <select
                         value={sortOrder}
                         onChange={(e) => setSortOrder(e.target.value as 'asc' | 'desc')}
-                        className="w-full h-10 px-4 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 appearance-none outline-none focus:border-indigo-500/30"
+                        className="w-full h-10 px-4 bg-transparent border border-border rounded-xl text-xs font-bold text-foreground/90 appearance-none outline-none focus:border-primary/80/30"
                       >
                         <option value="desc">Descending</option>
                         <option value="asc">Ascending</option>
@@ -536,21 +536,21 @@ export const MobileInventory = ({
                     setIsFiltersDrawerOpen(false);
                     onOpenFiltersModal();
                   }}
-                  className="w-full h-11 bg-slate-50 border border-slate-200 rounded-xl px-4 flex items-center justify-between text-xs font-bold text-slate-700 hover:bg-slate-100 transition-all cursor-pointer text-left"
+                  className="w-full h-11 bg-transparent border border-border rounded-xl px-4 flex items-center justify-between text-xs font-bold text-foreground/90 hover:bg-muted transition-all cursor-pointer text-left"
                 >
                   Configure Advanced Filters...
                 </button>
               </div>
 
               {/* Drawer Footer */}
-              <div className="p-4 border-t border-slate-150 bg-slate-50/50 flex gap-3 shrink-0">
+              <div className="p-4 border-t border-slate-150 bg-transparent/50 flex gap-3 shrink-0">
                 <button
                   onClick={() => {
                     onResetFilters();
                     setLocalSearchQuery('');
                     setIsFiltersDrawerOpen(false);
                   }}
-                  className="flex-1 py-3 bg-white border border-slate-250 text-slate-600 text-[11px] font-black uppercase tracking-wider rounded-xl transition-all active:scale-95 shadow-sm text-center"
+                  className="flex-1 py-3 bg-card border border-slate-250 text-slate-600 text-[11px] font-black uppercase tracking-wider rounded-xl transition-all active:scale-95 shadow-sm text-center"
                 >
                   Reset
                 </button>
@@ -578,17 +578,17 @@ export const MobileInventory = ({
               animate={{ y: 0 }}
               exit={{ y: '100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 220 }}
-              className="relative w-full bg-white border-t border-slate-100 rounded-t-[28px] p-5 space-y-4 shadow-2xl flex flex-col z-10"
+              className="relative w-full bg-card border-t border-slate-100 rounded-t-[28px] p-5 space-y-4 shadow-2xl flex flex-col z-10"
             >
               {/* Drawer Drag bar indicator */}
               <div className="w-12 h-1.5 bg-slate-200 rounded-full mx-auto my-1 shrink-0" />
 
               {/* Drawer Header */}
               <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-                <h3 className="text-sm font-black uppercase tracking-wider text-slate-700">Registry Operations</h3>
+                <h3 className="text-sm font-black uppercase tracking-wider text-foreground/90">Registry Operations</h3>
                 <button 
                   onClick={() => setIsHeaderActionsDrawerOpen(false)}
-                  className="p-1 hover:bg-slate-50 rounded-full text-slate-400"
+                  className="p-1 hover:bg-transparent rounded-full text-slate-400"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -601,7 +601,7 @@ export const MobileInventory = ({
                     setIsHeaderActionsDrawerOpen(false);
                     onOpenScanner();
                   }}
-                  className="w-full py-3.5 px-4 rounded-xl text-xs font-bold bg-slate-50 border border-slate-200 text-slate-700 text-left hover:bg-slate-100 active:scale-[0.99] transition-all"
+                  className="w-full py-3.5 px-4 rounded-xl text-xs font-bold bg-transparent border border-border text-foreground/90 text-left hover:bg-muted active:scale-[0.99] transition-all"
                 >
                   Scan Part / Barcode
                 </button>
@@ -610,7 +610,7 @@ export const MobileInventory = ({
                     setIsHeaderActionsDrawerOpen(false);
                     onExportExcel();
                   }}
-                  className="w-full py-3.5 px-4 rounded-xl text-xs font-bold bg-slate-50 border border-slate-200 text-slate-700 text-left hover:bg-slate-100 active:scale-[0.99] transition-all flex items-center justify-between"
+                  className="w-full py-3.5 px-4 rounded-xl text-xs font-bold bg-transparent border border-border text-foreground/90 text-left hover:bg-muted active:scale-[0.99] transition-all flex items-center justify-between"
                 >
                   <span>Export Spreadsheet (Excel)</span>
                   <Download className="w-4 h-4 text-slate-400" />
@@ -638,8 +638,8 @@ export const MobileInventory = ({
                         className={cn(
                           "py-2 px-3 rounded-xl text-xs font-bold border transition-all active:scale-95 flex items-center justify-between gap-1.5",
                           isVisible
-                            ? "bg-indigo-50 border-indigo-200 text-indigo-705"
-                            : "bg-white border-slate-200 text-slate-500",
+                            ? "bg-primary/10 border-primary/20 text-indigo-705"
+                            : "bg-card border-border text-muted-foreground",
                           col === 'Name' && "opacity-50 cursor-not-allowed"
                         )}
                       >
@@ -657,7 +657,7 @@ export const MobileInventory = ({
               {/* Close Button */}
               <button
                 onClick={() => setIsHeaderActionsDrawerOpen(false)}
-                className="w-full py-3 bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-black uppercase tracking-wider rounded-xl transition-all shadow-inner active:scale-95 text-center shrink-0"
+                className="w-full py-3 bg-muted hover:bg-slate-200 text-slate-600 text-xs font-black uppercase tracking-wider rounded-xl transition-all shadow-inner active:scale-95 text-center shrink-0"
               >
                 Close
               </button>

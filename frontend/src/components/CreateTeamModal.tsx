@@ -121,21 +121,21 @@ export const CreateTeamModal: React.FC<CreateTeamModalProps> = ({ isOpen, onClos
 
     return (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-900/40 backdrop-blur-sm animate-in fade-in duration-300">
-            <div className="w-full max-w-2xl bg-white rounded-[24px] shadow-2xl overflow-hidden border border-slate-200">
+            <div className="w-full max-w-2xl bg-card rounded-[24px] shadow-2xl overflow-hidden border border-border">
                 {/* Header (Image 2 style) */}
-                <div className="flex items-center justify-between px-8 py-5 border-b border-gray-100 bg-white">
+                <div className="flex items-center justify-between px-8 py-5 border-b border-gray-100 bg-card">
                     <div className="flex items-center gap-4">
-                        <button onClick={onClose} className="p-2 hover:bg-gray-50 rounded-lg transition-all text-gray-400">
+                        <button onClick={onClose} className="p-2 hover:bg-muted/50 rounded-lg transition-all text-gray-400">
                             <X className="w-5 h-5" />
                         </button>
-                        <h2 className="text-[22px] font-black text-gray-900 tracking-tight">
+                        <h2 className="text-[22px] font-black text-foreground tracking-tight">
                             {teamToEdit ? 'Edit Team' : 'Add Team'}
                         </h2>
                     </div>
                     <div className="flex items-center gap-3">
                         <button 
                             onClick={onClose}
-                            className="px-6 py-2.5 bg-white border border-gray-200 text-gray-600 rounded-xl text-[14px] font-black hover:bg-gray-50 transition-all shadow-sm active:scale-95"
+                            className="px-6 py-2.5 bg-card border border-border text-gray-600 rounded-xl text-[14px] font-black hover:bg-muted/50 transition-all shadow-sm active:scale-95"
                         >
                             Cancel
                         </button>
@@ -144,7 +144,7 @@ export const CreateTeamModal: React.FC<CreateTeamModalProps> = ({ isOpen, onClos
                             disabled={createOrUpdateTeam.isPending || !name}
                             className={cn(
                                 "px-6 py-2.5 rounded-xl text-[14px] font-black transition-all shadow-lg active:scale-95",
-                                name ? "bg-blue-600 hover:bg-blue-700 text-white shadow-blue-500/20" : "bg-gray-100 text-gray-400 cursor-not-allowed"
+                                name ? "bg-primary hover:bg-primary/90 text-white shadow-primary/20" : "bg-muted text-gray-400 cursor-not-allowed"
                             )}
                         >
                             {createOrUpdateTeam.isPending ? 'Saving...' : teamToEdit ? 'Update Team' : 'Create Team'}
@@ -156,14 +156,14 @@ export const CreateTeamModal: React.FC<CreateTeamModalProps> = ({ isOpen, onClos
                 <div className="p-10 space-y-10">
                     {/* Team Information */}
                     <div className="space-y-6">
-                        <h3 className="text-lg font-black text-gray-900 tracking-tight">Team Information</h3>
+                        <h3 className="text-lg font-black text-foreground tracking-tight">Team Information</h3>
                         
                         <div className="space-y-2">
                             <label className="text-[13px] font-black text-gray-600 uppercase tracking-widest">Name <span className="text-red-500">*</span></label>
                             <input 
                                 type="text"
                                 placeholder="e.g. Mechanical Reliability Unit"
-                                className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl text-[15px] font-bold focus:bg-white focus:border-blue-500 transition-all outline-none"
+                                className="w-full px-5 py-4 bg-muted/50 border border-border rounded-2xl text-[15px] font-bold focus:bg-card focus:border-primary/80 transition-all outline-none"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
                             />
@@ -174,7 +174,7 @@ export const CreateTeamModal: React.FC<CreateTeamModalProps> = ({ isOpen, onClos
                             <input 
                                 type="text"
                                 placeholder="Describe the team's primary objectives..."
-                                className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl text-[15px] font-bold focus:bg-white focus:border-blue-500 transition-all outline-none"
+                                className="w-full px-5 py-4 bg-muted/50 border border-border rounded-2xl text-[15px] font-bold focus:bg-card focus:border-primary/80 transition-all outline-none"
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
                             />
@@ -183,20 +183,20 @@ export const CreateTeamModal: React.FC<CreateTeamModalProps> = ({ isOpen, onClos
 
                     {/* Assigned To */}
                     <div className="space-y-6">
-                        <h3 className="text-lg font-black text-gray-900 tracking-tight">Assigned To</h3>
+                        <h3 className="text-lg font-black text-foreground tracking-tight">Assigned To</h3>
                         
                         <div className="space-y-2 relative">
                             <label className="text-[13px] font-black text-gray-600 uppercase tracking-widest">Workers</label>
                             <button 
                                 ref={triggerRef}
                                 onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
-                                className="w-full flex items-center justify-between px-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl hover:bg-white hover:border-blue-500 transition-all group"
+                                className="w-full flex items-center justify-between px-5 py-4 bg-muted/50 border border-border rounded-2xl hover:bg-card hover:border-primary/80 transition-all group"
                             >
                                 <div className="flex items-center gap-2 overflow-hidden">
                                     {selectedUserIds.length === 0 ? (
                                         <span className="text-gray-400 font-bold">Select personnel for this unit</span>
                                     ) : (
-                                        <div className="flex gap-1 text-sm font-bold text-gray-700">
+                                        <div className="flex gap-1 text-sm font-bold text-foreground/90">
                                             {selectedUserIds.length} members selected
                                         </div>
                                     )}
@@ -215,15 +215,15 @@ export const CreateTeamModal: React.FC<CreateTeamModalProps> = ({ isOpen, onClos
                                         maxHeight: '300px',
                                         zIndex: 9999
                                     }}
-                                    className="bg-white border border-gray-100 rounded-[20px] shadow-2xl overflow-hidden animate-in fade-in duration-200 flex flex-col"
+                                    className="bg-card border border-gray-100 rounded-[20px] shadow-2xl overflow-hidden animate-in fade-in duration-200 flex flex-col"
                                 >
-                                    <div className="p-4 bg-gray-50 border-b border-gray-100 flex-shrink-0">
+                                    <div className="p-4 bg-muted/50 border-b border-gray-100 flex-shrink-0">
                                         <div className="relative">
                                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                                             <input 
                                                 type="text"
                                                 placeholder="Sift through personnel..."
-                                                className="w-full pl-10 pr-4 py-2 bg-white border border-gray-200 rounded-xl text-sm font-bold focus:border-blue-500 outline-none"
+                                                className="w-full pl-10 pr-4 py-2 bg-card border border-border rounded-xl text-sm font-bold focus:border-primary/80 outline-none"
                                                 value={userSearch}
                                                 onChange={(e) => setUserSearch(e.target.value)}
                                             />
@@ -242,16 +242,16 @@ export const CreateTeamModal: React.FC<CreateTeamModalProps> = ({ isOpen, onClos
                                                 className="w-full flex items-center justify-between px-6 py-4 hover:bg-blue-50 transition-all border-b border-gray-50 last:border-0"
                                             >
                                                 <div className="flex items-center gap-3">
-                                                    <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-[10px] font-black uppercase">
+                                                    <div className="w-8 h-8 rounded-full bg-blue-100 text-primary flex items-center justify-center text-[10px] font-black uppercase">
                                                         {user.name[0]}
                                                     </div>
                                                     <div className="flex flex-col items-start">
-                                                        <span className="text-sm font-black text-gray-900">{user.name}</span>
+                                                        <span className="text-sm font-black text-foreground">{user.name}</span>
                                                         <span className="text-[10px] font-bold text-gray-400 uppercase tracking-tighter">{user.jobTitle || 'Technician'}</span>
                                                     </div>
                                                 </div>
                                                 {selectedUserIds.includes(user.userOrgId || user.id) && (
-                                                    <Check className="w-5 h-5 text-blue-600 stroke-[3px]" />
+                                                    <Check className="w-5 h-5 text-primary stroke-[3px]" />
                                                 )}
                                             </button>
                                         ))}

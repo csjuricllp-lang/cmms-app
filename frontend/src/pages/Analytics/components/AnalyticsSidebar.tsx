@@ -70,12 +70,12 @@ export const AnalyticsSidebar = ({
                         animate={{ x: 0 }}
                         exit={{ x: -320 }}
                         transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-                        className="fixed left-0 top-0 bottom-0 w-[320px] bg-white border-r border-slate-200 shadow-2xl z-[501] flex flex-col"
+                        className="fixed left-0 top-0 bottom-0 w-[320px] bg-card border-r border-border shadow-2xl z-[501] flex flex-col"
                     >
                         {/* Header */}
                         <div className="p-6 border-b border-slate-100 flex items-center justify-between">
                             <h2 className="text-[16px] font-black text-slate-800 tracking-tight italic uppercase">All Dashboards</h2>
-                            <button onClick={onClose} className="p-2 hover:bg-slate-50 rounded-lg transition-colors">
+                            <button onClick={onClose} className="p-2 hover:bg-transparent rounded-lg transition-colors">
                                 <X className="w-5 h-5 text-slate-400" />
                             </button>
                         </div>
@@ -89,7 +89,7 @@ export const AnalyticsSidebar = ({
                                     placeholder="Search dashboards..." 
                                     value={search}
                                     onChange={(e) => setSearch(e.target.value)}
-                                    className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2.5 pl-10 pr-4 text-[13px] font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 transition-all placeholder:text-slate-400"
+                                    className="w-full bg-transparent border border-border rounded-xl py-2.5 pl-10 pr-4 text-[13px] font-medium text-foreground/90 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-slate-400"
                                 />
                             </div>
                         </div>
@@ -113,15 +113,15 @@ export const AnalyticsSidebar = ({
                                                     onClick={() => { onSelectTab(d.id); onClose(); }}
                                                     className={cn(
                                                         "group flex items-center justify-between p-2.5 rounded-xl cursor-pointer transition-all",
-                                                        activeTab === d.id ? "bg-indigo-50 text-indigo-700" : "hover:bg-slate-50 text-slate-600"
+                                                        activeTab === d.id ? "bg-primary/10 text-primary/90" : "hover:bg-transparent text-slate-600"
                                                     )}
                                                 >
                                                     <div className="flex items-center gap-3">
                                                         <div className={cn(
                                                             "w-1 h-1 rounded-full",
-                                                            activeTab === d.id ? "bg-indigo-600 shadow-[0_0_8px_rgba(79,70,229,0.5)]" : "bg-transparent"
+                                                            activeTab === d.id ? "bg-primary shadow-[0_0_8px_rgba(79,70,229,0.5)]" : "bg-transparent"
                                                         )} />
-                                                        <span className={cn("text-[13px] font-bold", activeTab === d.id ? "text-indigo-700" : "text-slate-600")}>
+                                                        <span className={cn("text-[13px] font-bold", activeTab === d.id ? "text-primary/90" : "text-slate-600")}>
                                                             {d.label}
                                                         </span>
                                                     </div>
@@ -130,7 +130,7 @@ export const AnalyticsSidebar = ({
                                                         className={cn(
                                                             "p-1.5 rounded-lg transition-all",
                                                             pinnedIds.includes(d.id) 
-                                                                ? "text-indigo-600 bg-indigo-100" 
+                                                                ? "text-primary bg-primary/15" 
                                                                 : "text-slate-300 hover:text-indigo-400 opacity-0 group-hover:opacity-100"
                                                         )}
                                                     >
@@ -145,13 +145,13 @@ export const AnalyticsSidebar = ({
                         </div>
 
                         {/* Footer */}
-                        <div className="p-6 border-t border-slate-100 bg-slate-50/50">
+                        <div className="p-6 border-t border-slate-100 bg-transparent/50">
                             <button 
                                 onClick={() => { onSelectTab('Performance'); onClose(); }}
-                                className="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-white hover:shadow-md transition-all text-slate-600 group"
+                                className="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-card hover:shadow-md transition-all text-slate-600 group"
                             >
-                                <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center shadow-sm border border-slate-100 group-hover:bg-indigo-50 group-hover:border-indigo-100 transition-colors">
-                                    <Home className="w-4 h-4 text-slate-400 group-hover:text-indigo-600" />
+                                <div className="w-8 h-8 rounded-lg bg-card flex items-center justify-center shadow-sm border border-slate-100 group-hover:bg-primary/10 group-hover:border-primary/10 transition-colors">
+                                    <Home className="w-4 h-4 text-slate-400 group-hover:text-primary" />
                                 </div>
                                 <span className="text-[13px] font-bold">Analytics Home</span>
                                 <ChevronRight className="w-4 h-4 ml-auto opacity-0 group-hover:opacity-100 transition-all" />

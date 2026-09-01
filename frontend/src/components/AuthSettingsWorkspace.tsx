@@ -97,10 +97,10 @@ export const AuthSettingsWorkspace: React.FC = () => {
 
     return (
         <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 max-w-5xl">
-            <div className="bg-white border border-gray-100 rounded-[32px] overflow-hidden shadow-[0_8px_40px_rgba(0,0,0,0.03)] p-6 md:p-12">
+            <div className="bg-card border border-gray-100 rounded-[32px] overflow-hidden shadow-[0_8px_40px_rgba(0,0,0,0.03)] p-6 md:p-12">
                 <div className="flex flex-col md:flex-row gap-8 md:gap-12">
-                    <div className="w-16 h-16 rounded-2xl bg-indigo-50 flex items-center justify-center border border-indigo-100 shrink-0 mx-auto md:mx-0">
-                        <Lock className="w-8 h-8 text-indigo-500" />
+                    <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center border border-primary/10 shrink-0 mx-auto md:mx-0">
+                        <Lock className="w-8 h-8 text-primary/80" />
                     </div>
 
                     <div className="flex-1 space-y-10 text-center md:text-left">
@@ -117,14 +117,14 @@ export const AuthSettingsWorkspace: React.FC = () => {
                                 <div key={s} className="flex items-center gap-2">
                                     <div className={cn(
                                         "w-8 h-8 rounded-full flex items-center justify-center text-[13px] font-bold transition-all",
-                                        step === s ? "bg-indigo-600 text-white shadow-lg shadow-indigo-100" :
-                                        step > s ? "bg-emerald-100 text-emerald-700" : "bg-slate-100 text-slate-400"
+                                        step === s ? "bg-primary text-white shadow-lg shadow-primary/20" :
+                                        step > s ? "bg-emerald-100 text-emerald-700" : "bg-muted text-slate-400"
                                     )}>
                                         {step > s ? <Check className="w-4 h-4" /> : s}
                                     </div>
                                     <span className={cn(
                                         "text-[13px] font-bold",
-                                        step === s ? "text-slate-700" : "text-slate-400"
+                                        step === s ? "text-foreground/90" : "text-slate-400"
                                     )}>
                                         {s === 1 && "Choose Identity Provider"}
                                         {s === 2 && "Configure details"}
@@ -151,9 +151,9 @@ export const AuthSettingsWorkspace: React.FC = () => {
                                                 setSelectedProvider(p.id);
                                                 setStep(2);
                                             }}
-                                            className="w-full flex items-center justify-between p-4 rounded-2xl border border-slate-100 bg-white hover:border-indigo-200 hover:shadow-sm transition-all"
+                                            className="w-full flex items-center justify-between p-4 rounded-2xl border border-slate-100 bg-card hover:border-primary/20 hover:shadow-sm transition-all"
                                         >
-                                            <span className="text-[14px] font-bold text-slate-700">{p.name}</span>
+                                            <span className="text-[14px] font-bold text-foreground/90">{p.name}</span>
                                             <div className="w-5 h-5 rounded-full border border-slate-300 flex items-center justify-center">
                                                 <div className="w-2.5 h-2.5 rounded-full bg-transparent" />
                                             </div>
@@ -173,7 +173,7 @@ export const AuthSettingsWorkspace: React.FC = () => {
                                             value={entryPoint}
                                             onChange={(e) => setEntryPoint(e.target.value)}
                                             placeholder="https://identity-provider.com/sso/saml"
-                                            className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-[14px] font-bold text-slate-700 outline-none focus:bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/10 transition-all"
+                                            className="w-full px-5 py-3.5 bg-muted/50 border border-border rounded-xl text-[14px] font-bold text-foreground/90 outline-none focus:bg-card focus:border-primary/80 focus:ring-2 focus:ring-primary/10 transition-all"
                                         />
                                     </div>
                                     <div className="space-y-2">
@@ -182,7 +182,7 @@ export const AuthSettingsWorkspace: React.FC = () => {
                                             type="text"
                                             value={issuer}
                                             onChange={(e) => setIssuer(e.target.value)}
-                                            className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-[14px] font-bold text-slate-700 outline-none focus:bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/10 transition-all"
+                                            className="w-full px-5 py-3.5 bg-muted/50 border border-border rounded-xl text-[14px] font-bold text-foreground/90 outline-none focus:bg-card focus:border-primary/80 focus:ring-2 focus:ring-primary/10 transition-all"
                                         />
                                     </div>
                                 </div>
@@ -194,7 +194,7 @@ export const AuthSettingsWorkspace: React.FC = () => {
                                         value={cert}
                                         onChange={(e) => setCert(e.target.value)}
                                         placeholder="MIIDdDCCAlSgAwIBAgIGAX..."
-                                        className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-[13px] font-medium text-slate-700 outline-none focus:bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/10 transition-all font-mono"
+                                        className="w-full px-5 py-3.5 bg-muted/50 border border-border rounded-xl text-[13px] font-medium text-foreground/90 outline-none focus:bg-card focus:border-primary/80 focus:ring-2 focus:ring-primary/10 transition-all font-mono"
                                     />
                                 </div>
 
@@ -207,7 +207,7 @@ export const AuthSettingsWorkspace: React.FC = () => {
                                                 type="text"
                                                 value={emailAttr}
                                                 onChange={(e) => setEmailAttr(e.target.value)}
-                                                className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-[13px] font-bold text-slate-700 outline-none focus:bg-white focus:border-indigo-500 transition-all"
+                                                className="w-full px-4 py-2.5 bg-muted/50 border border-border rounded-lg text-[13px] font-bold text-foreground/90 outline-none focus:bg-card focus:border-primary/80 transition-all"
                                             />
                                         </div>
                                         <div className="space-y-2">
@@ -216,7 +216,7 @@ export const AuthSettingsWorkspace: React.FC = () => {
                                                 type="text"
                                                 value={firstNameAttr}
                                                 onChange={(e) => setFirstNameAttr(e.target.value)}
-                                                className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-[13px] font-bold text-slate-700 outline-none focus:bg-white focus:border-indigo-500 transition-all"
+                                                className="w-full px-4 py-2.5 bg-muted/50 border border-border rounded-lg text-[13px] font-bold text-foreground/90 outline-none focus:bg-card focus:border-primary/80 transition-all"
                                             />
                                         </div>
                                         <div className="space-y-2">
@@ -225,7 +225,7 @@ export const AuthSettingsWorkspace: React.FC = () => {
                                                 type="text"
                                                 value={lastNameAttr}
                                                 onChange={(e) => setLastNameAttr(e.target.value)}
-                                                className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-[13px] font-bold text-slate-700 outline-none focus:bg-white focus:border-indigo-500 transition-all"
+                                                className="w-full px-4 py-2.5 bg-muted/50 border border-border rounded-lg text-[13px] font-bold text-foreground/90 outline-none focus:bg-card focus:border-primary/80 transition-all"
                                             />
                                         </div>
                                     </div>
@@ -234,13 +234,13 @@ export const AuthSettingsWorkspace: React.FC = () => {
                                 <div className="flex items-center justify-between pt-6 border-t border-slate-100">
                                     <button
                                         onClick={() => setStep(1)}
-                                        className="px-6 py-2.5 border border-slate-200 text-slate-500 text-[13px] font-bold rounded-xl hover:bg-slate-50 transition-all"
+                                        className="px-6 py-2.5 border border-border text-muted-foreground text-[13px] font-bold rounded-xl hover:bg-muted/50 transition-all"
                                     >
                                         Back
                                     </button>
                                     <button
                                         onClick={handleSave}
-                                        className="px-8 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-[13px] font-bold rounded-xl transition-all shadow-md shadow-indigo-100 flex items-center gap-2"
+                                        className="px-8 py-2.5 bg-primary hover:bg-primary/90 text-white text-[13px] font-bold rounded-xl transition-all shadow-md shadow-primary/20 flex items-center gap-2"
                                     >
                                         <Save className="w-4 h-4" />
                                         Save & Continue
@@ -251,9 +251,9 @@ export const AuthSettingsWorkspace: React.FC = () => {
 
                         {step === 3 && (
                             <div className="space-y-6 pt-4 text-left">
-                                <div className="bg-slate-50 border border-slate-100 rounded-2xl p-6 space-y-4">
+                                <div className="bg-muted/50 border border-slate-100 rounded-2xl p-6 space-y-4">
                                     <div className="flex items-start gap-3">
-                                        <ShieldAlert className="w-5 h-5 text-indigo-500 shrink-0 mt-0.5" />
+                                        <ShieldAlert className="w-5 h-5 text-primary/80 shrink-0 mt-0.5" />
                                         <div className="space-y-1">
                                             <h4 className="text-[14px] font-bold text-slate-800">Complete IdP configuration</h4>
                                             <p className="text-[13px] text-slate-400 font-medium leading-relaxed">
@@ -262,7 +262,7 @@ export const AuthSettingsWorkspace: React.FC = () => {
                                         </div>
                                     </div>
 
-                                    <div className="space-y-3 font-mono text-[12px] text-slate-600 bg-white border border-slate-200/60 rounded-xl p-4">
+                                    <div className="space-y-3 font-mono text-[12px] text-slate-600 bg-card border border-slate-200/60 rounded-xl p-4">
                                         <div className="flex items-center justify-between gap-4">
                                             <div className="truncate">
                                                 <span className="font-bold text-slate-400 mr-2">Assertion Consumer Service (ACS) URL:</span>
@@ -284,7 +284,7 @@ export const AuthSettingsWorkspace: React.FC = () => {
                                     </div>
                                 </div>
 
-                                <div className="flex items-center justify-between p-4 bg-indigo-50/30 border border-indigo-100 rounded-2xl">
+                                <div className="flex items-center justify-between p-4 bg-primary/10/30 border border-primary/10 rounded-2xl">
                                     <div className="space-y-0.5">
                                         <span className="text-[14px] font-bold text-slate-800">Enable SAML Single Sign-On</span>
                                         <p className="text-[12px] text-slate-400 font-medium">When enabled, users can sign in using their SAML credentials</p>
@@ -298,11 +298,11 @@ export const AuthSettingsWorkspace: React.FC = () => {
                                         }}
                                         className={cn(
                                             "w-[54px] h-[28px] rounded-full relative transition-all duration-300 outline-none shrink-0",
-                                            isEnabled ? "bg-indigo-600" : "bg-slate-200"
+                                            isEnabled ? "bg-primary" : "bg-slate-200"
                                         )}
                                     >
                                         <div className={cn(
-                                            "w-5 h-5 bg-white rounded-full absolute top-1 shadow transition-all",
+                                            "w-5 h-5 bg-card rounded-full absolute top-1 shadow transition-all",
                                             isEnabled ? "right-1" : "left-1"
                                         )} />
                                     </button>
@@ -311,7 +311,7 @@ export const AuthSettingsWorkspace: React.FC = () => {
                                 <div className="flex items-center justify-between pt-6 border-t border-slate-100">
                                     <button
                                         onClick={() => setStep(2)}
-                                        className="px-6 py-2.5 border border-slate-200 text-slate-500 text-[13px] font-bold rounded-xl hover:bg-slate-50 transition-all"
+                                        className="px-6 py-2.5 border border-border text-muted-foreground text-[13px] font-bold rounded-xl hover:bg-muted/50 transition-all"
                                     >
                                         Edit Details
                                     </button>

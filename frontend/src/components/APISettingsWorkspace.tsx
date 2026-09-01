@@ -74,55 +74,55 @@ export const APISettingsWorkspace = () => {
     return (
         <div className="space-y-8 pb-12 animate-in fade-in duration-500 slide-in-from-bottom-4">
             <div>
-                <h2 className="text-2xl font-black text-slate-900 tracking-tight">API & Developers</h2>
-                <p className="text-slate-500 font-medium mt-1 text-[15px]">Manage authentication keys and explore the interactive REST API documentation.</p>
+                <h2 className="text-2xl font-black text-foreground tracking-tight">API & Developers</h2>
+                <p className="text-muted-foreground font-medium mt-1 text-[15px]">Manage authentication keys and explore the interactive REST API documentation.</p>
             </div>
 
             {/* Tabs */}
-            <div className="flex items-center gap-6 border-b border-slate-200">
+            <div className="flex items-center gap-6 border-b border-border">
                 <button
                     onClick={() => setActiveTab('keys')}
                     className={cn(
                         "pb-3 text-[14px] font-black transition-colors relative",
-                        activeTab === 'keys' ? "text-indigo-600" : "text-slate-500 hover:text-slate-800"
+                        activeTab === 'keys' ? "text-primary" : "text-muted-foreground hover:text-slate-800"
                     )}
                 >
                     <div className="flex items-center gap-2">
                         <Key className="w-4 h-4" />
                         API Keys
                     </div>
-                    {activeTab === 'keys' && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-indigo-600 rounded-t-full" />}
+                    {activeTab === 'keys' && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary rounded-t-full" />}
                 </button>
                 <button
                     onClick={() => setActiveTab('docs')}
                     className={cn(
                         "pb-3 text-[14px] font-black transition-colors relative",
-                        activeTab === 'docs' ? "text-indigo-600" : "text-slate-500 hover:text-slate-800"
+                        activeTab === 'docs' ? "text-primary" : "text-muted-foreground hover:text-slate-800"
                     )}
                 >
                     <div className="flex items-center gap-2">
                         <BookOpen className="w-4 h-4" />
                         API Documentation
                     </div>
-                    {activeTab === 'docs' && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-indigo-600 rounded-t-full" />}
+                    {activeTab === 'docs' && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary rounded-t-full" />}
                 </button>
             </div>
 
             {isLoading ? (
-                <div className="h-[400px] flex items-center justify-center bg-white border border-slate-200 rounded-2xl shadow-sm">
-                    <div className="w-8 h-8 rounded-full border-4 border-indigo-100 border-t-indigo-600 animate-spin" />
+                <div className="h-[400px] flex items-center justify-center bg-card border border-border rounded-2xl shadow-sm">
+                    <div className="w-8 h-8 rounded-full border-4 border-primary/10 border-t-indigo-600 animate-spin" />
                 </div>
             ) : activeTab === 'keys' ? (
                 <div className="space-y-6">
-                    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-                        <div className="p-5 border-b border-slate-100 flex items-center justify-between bg-slate-50">
+                    <div className="bg-card rounded-2xl border border-border shadow-sm overflow-hidden">
+                        <div className="p-5 border-b border-slate-100 flex items-center justify-between bg-muted/50">
                             <div>
                                 <h3 className="text-[15px] font-black text-slate-800">Standard API Keys</h3>
-                                <p className="text-[13px] text-slate-500 mt-0.5">These keys allow other apps to access your CMMS data via the API.</p>
+                                <p className="text-[13px] text-muted-foreground mt-0.5">These keys allow other apps to access your CMMS data via the API.</p>
                             </div>
                             <button 
                                 onClick={() => setIsModalOpen(true)}
-                                className="flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-[13px] font-black transition-all shadow-sm active:scale-95"
+                                className="flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary/90 text-white rounded-xl text-[13px] font-black transition-all shadow-sm active:scale-95"
                             >
                                 <Plus className="w-4 h-4" />
                                 Create Secret Key
@@ -130,7 +130,7 @@ export const APISettingsWorkspace = () => {
                         </div>
                         <div className="p-0">
                             <table className="w-full text-left border-collapse">
-                                <thead className="bg-white border-b border-slate-200">
+                                <thead className="bg-primary border-b border-border">
                                     <tr>
                                         <th className="px-6 py-4 text-[11px] font-black uppercase tracking-widest text-slate-400">Name & Scope</th>
                                         <th className="px-6 py-4 text-[11px] font-black uppercase tracking-widest text-slate-400">Key Prefix</th>
@@ -140,13 +140,13 @@ export const APISettingsWorkspace = () => {
                                 </thead>
                                 <tbody className="divide-y divide-slate-100">
                                     {(keys || []).map(key => (
-                                        <tr key={key.id} className="hover:bg-slate-50/50 transition-colors">
+                                        <tr key={key.id} className="hover:bg-transparent transition-colors">
                                             <td className="px-6 py-4">
                                                 <div className="flex flex-col gap-1">
                                                     <span className="text-[14px] font-black text-slate-800">{key.name}</span>
                                                     <div className="flex gap-1.5 flex-wrap mt-1">
                                                         {key.scopes.map((s: string) => (
-                                                            <span key={s} className="px-2 py-0.5 rounded-md bg-slate-100 border border-slate-200 text-slate-600 text-[10px] font-bold tracking-tight">
+                                                            <span key={s} className="px-2 py-0.5 rounded-md bg-muted border border-border text-slate-600 text-[10px] font-bold tracking-tight">
                                                                 {s}
                                                             </span>
                                                         ))}
@@ -155,14 +155,14 @@ export const APISettingsWorkspace = () => {
                                             </td>
                                             <td className="px-6 py-4">
                                                 <div className="flex items-center gap-3">
-                                                    <code className="text-[13px] font-mono font-bold text-slate-600 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200">
+                                                    <code className="text-[13px] font-mono font-bold text-slate-600 bg-muted px-3 py-1.5 rounded-lg border border-border">
                                                         {key.prefix}...
                                                     </code>
                                                 </div>
                                             </td>
                                             <td className="px-6 py-4">
                                                 <div className="flex flex-col">
-                                                    <span className="text-[13px] font-bold text-slate-700">{format(new Date(key.createdAt), 'yyyy-MM-dd')}</span>
+                                                    <span className="text-[13px] font-bold text-foreground/90">{format(new Date(key.createdAt), 'yyyy-MM-dd')}</span>
                                                     <span className="text-[11px] font-medium text-slate-400">
                                                         {key.lastUsedAt ? `Used ${format(new Date(key.lastUsedAt), 'yyyy-MM-dd HH:mm')}` : 'Never used'}
                                                     </span>
@@ -183,7 +183,7 @@ export const APISettingsWorkspace = () => {
                                         <tr>
                                             <td colSpan={4} className="px-6 py-12 text-center">
                                                 <Key className="w-8 h-8 text-slate-300 mx-auto mb-3" />
-                                                <p className="text-[14px] font-bold text-slate-500">No API keys generated yet.</p>
+                                                <p className="text-[14px] font-bold text-muted-foreground">No API keys generated yet.</p>
                                             </td>
                                         </tr>
                                     )}
@@ -205,7 +205,7 @@ export const APISettingsWorkspace = () => {
                 </div>
             ) : (
                 <div className="bg-slate-900 rounded-2xl shadow-lg border border-slate-800 overflow-hidden min-h-[600px] flex flex-col">
-                    <div className="h-12 bg-slate-950 border-b border-slate-800 flex items-center px-4 justify-between">
+                    <div className="h-12 bg-background border-b border-slate-800 flex items-center px-4 justify-between">
                         <div className="flex items-center gap-2">
                             <Terminal className="w-4 h-4 text-emerald-400" />
                             <span className="text-[13px] font-black text-slate-300 tracking-wider">JURIC API REFERENCE v2.1</span>
@@ -221,7 +221,7 @@ export const APISettingsWorkspace = () => {
                     <div className="flex-1 flex text-slate-300">
                         <div className="w-64 border-r border-slate-800 p-4 space-y-6">
                             <div>
-                                <h4 className="text-[11px] font-black uppercase tracking-widest text-slate-500 mb-3">Core Resources</h4>
+                                <h4 className="text-[11px] font-black uppercase tracking-widest text-muted-foreground mb-3">Core Resources</h4>
                                 <ul className="space-y-2">
                                     <li className="text-[13px] font-bold text-indigo-400 cursor-pointer">Work Orders</li>
                                     <li className="text-[13px] font-medium text-slate-400 hover:text-slate-200 cursor-pointer transition-colors">Assets</li>
@@ -230,7 +230,7 @@ export const APISettingsWorkspace = () => {
                                 </ul>
                             </div>
                             <div>
-                                <h4 className="text-[11px] font-black uppercase tracking-widest text-slate-500 mb-3">Webhooks</h4>
+                                <h4 className="text-[11px] font-black uppercase tracking-widest text-muted-foreground mb-3">Webhooks</h4>
                                 <ul className="space-y-2">
                                     <li className="text-[13px] font-medium text-slate-400 hover:text-slate-200 cursor-pointer transition-colors">Events</li>
                                     <li className="text-[13px] font-medium text-slate-400 hover:text-slate-200 cursor-pointer transition-colors">Signatures</li>
@@ -263,7 +263,7 @@ export const APISettingsWorkspace = () => {
                                             <span className="ml-4 text-[13px] text-slate-400 font-medium">Create a new work order</span>
                                         </div>
                                         <div className="p-4 bg-black/20">
-                                            <h5 className="text-[11px] font-black text-slate-500 uppercase tracking-widest mb-2">Request Body (JSON)</h5>
+                                            <h5 className="text-[11px] font-black text-muted-foreground uppercase tracking-widest mb-2">Request Body (JSON)</h5>
                                             <pre className="font-mono text-[12px] text-slate-300">
 {`{
   "title": "Fix HVAC Unit in Sector 4",
@@ -293,8 +293,8 @@ export const APISettingsWorkspace = () => {
             {/* API Key Modal */}
             {isModalOpen && (
                 <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/20 backdrop-blur-sm">
-                    <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden border border-slate-200">
-                        <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50">
+                    <div className="bg-card rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden border border-border">
+                        <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-muted/50">
                             <h2 className="text-lg font-black text-slate-800">
                                 {generatedKey ? 'API Key Generated' : 'Create New API Key'}
                             </h2>
@@ -320,7 +320,7 @@ export const APISettingsWorkspace = () => {
                                     </div>
 
                                     <div className="space-y-1.5">
-                                        <label className="text-[11px] font-black uppercase tracking-widest text-slate-500">Secret Token</label>
+                                        <label className="text-[11px] font-black uppercase tracking-widest text-muted-foreground">Secret Token</label>
                                         <div className="flex items-center gap-2 bg-slate-900 p-3 rounded-xl border border-slate-800">
                                             <code className="flex-1 font-mono text-[13px] text-emerald-400 font-bold break-all select-all">
                                                 {generatedKey}
@@ -338,26 +338,26 @@ export const APISettingsWorkspace = () => {
                             ) : (
                                 <>
                                     <div className="space-y-1.5">
-                                        <label className="text-[11px] font-black uppercase tracking-widest text-slate-500">Key Name</label>
+                                        <label className="text-[11px] font-black uppercase tracking-widest text-muted-foreground">Key Name</label>
                                         <input 
                                             type="text" 
                                             value={keyName}
                                             onChange={e => setKeyName(e.target.value)}
-                                            className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-[14px] font-bold text-slate-900 outline-none focus:bg-white focus:border-indigo-500/50 transition-colors" 
+                                            className="w-full px-4 py-2 bg-muted/50 border border-border rounded-xl text-[14px] font-bold text-foreground outline-none focus:bg-card focus:border-primary/80/50 transition-colors" 
                                             placeholder="e.g. ERP Sync"
                                         />
                                     </div>
 
                                     <div className="space-y-2.5">
-                                        <label className="text-[11px] font-black uppercase tracking-widest text-slate-500">Scopes / Permissions</label>
+                                        <label className="text-[11px] font-black uppercase tracking-widest text-muted-foreground">Scopes / Permissions</label>
                                         <div className="space-y-2">
                                             {AVAILABLE_SCOPES.map(sc => (
-                                                <label key={sc.value} className="flex items-start gap-3 p-3 bg-slate-50 border border-slate-200 rounded-xl hover:bg-slate-100/50 transition-colors cursor-pointer">
+                                                <label key={sc.value} className="flex items-start gap-3 p-3 bg-muted/50 border border-border rounded-xl hover:bg-slate-100/50 transition-colors cursor-pointer">
                                                     <input 
                                                         type="checkbox" 
                                                         checked={scopes.includes(sc.value)}
                                                         onChange={() => handleToggleScope(sc.value)}
-                                                        className="w-4.5 h-4.5 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500 mt-0.5"
+                                                        className="w-4.5 h-4.5 rounded border-slate-300 text-primary focus:ring-primary mt-0.5"
                                                     />
                                                     <div>
                                                         <p className="text-[13px] font-bold text-slate-800">{sc.label}</p>
@@ -371,11 +371,11 @@ export const APISettingsWorkspace = () => {
                             )}
                         </div>
 
-                        <div className="p-4 bg-slate-50 border-t border-slate-100 flex items-center justify-end gap-3">
+                        <div className="p-4 bg-muted/50 border-t border-slate-100 flex items-center justify-end gap-3">
                             {generatedKey ? (
                                 <button 
                                     onClick={handleCloseModal}
-                                    className="px-6 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-[13px] font-black rounded-xl shadow-sm transition-colors"
+                                    className="px-6 py-2 bg-primary hover:bg-primary/90 text-white text-[13px] font-black rounded-xl shadow-sm transition-colors"
                                 >
                                     I have copied the key
                                 </button>
@@ -390,7 +390,7 @@ export const APISettingsWorkspace = () => {
                                     <button 
                                         onClick={handleCreateKey}
                                         disabled={createApiKey.isPending}
-                                        className="px-6 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-[13px] font-black rounded-xl shadow-sm transition-colors disabled:opacity-50"
+                                        className="px-6 py-2 bg-primary hover:bg-primary/90 text-white text-[13px] font-black rounded-xl shadow-sm transition-colors disabled:opacity-50"
                                     >
                                         {createApiKey.isPending ? 'Generating...' : 'Generate Secret Key'}
                                     </button>

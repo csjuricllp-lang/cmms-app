@@ -23,7 +23,7 @@ export const RowActionsPopover: React.FC<RowActionsPopoverProps> = ({
         <>
             <div className="fixed inset-0 z-[250]" onClick={onClose} />
             <div 
-                className="fixed z-[260] w-48 bg-white border border-slate-100 rounded-xl shadow-2xl overflow-hidden py-1 animate-in fade-in zoom-in-95 duration-200"
+                className="fixed z-[260] w-48 bg-card border border-slate-100 rounded-xl shadow-2xl overflow-hidden py-1 animate-in fade-in zoom-in-95 duration-200"
                 style={{ 
                     top: anchorRect.bottom + 8, 
                     right: window.innerWidth - anchorRect.right 
@@ -32,14 +32,14 @@ export const RowActionsPopover: React.FC<RowActionsPopoverProps> = ({
                 {onEdit && (
                     <button
                         onClick={() => { onEdit(); onClose(); }}
-                        className="w-full text-left px-5 py-3 text-[15px] font-medium text-slate-700 hover:bg-slate-50 transition-colors"
+                        className="w-full text-left px-5 py-3 text-[15px] font-medium text-foreground/90 hover:bg-muted/50 transition-colors"
                     >
                         Edit Location
                     </button>
                 )}
                 <button
                     onClick={() => { onAddSubLocation(); onClose(); }}
-                    className="w-full text-left px-5 py-3 text-[15px] font-medium text-slate-700 hover:bg-slate-50 transition-colors"
+                    className="w-full text-left px-5 py-3 text-[15px] font-medium text-foreground/90 hover:bg-muted/50 transition-colors"
                 >
                     Add Sub Location
                 </button>

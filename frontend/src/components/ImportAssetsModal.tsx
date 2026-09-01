@@ -72,14 +72,14 @@ export const ImportAssetsModal: React.FC<ImportAssetsModalProps> = ({
                 initial={{ opacity: 0, scale: 0.95, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                className="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-hidden"
+                className="relative w-full max-w-lg bg-card rounded-3xl shadow-2xl border border-slate-100 overflow-hidden"
             >
                 <div className="p-8 space-y-6">
                     <div className="flex items-center justify-between">
                         <h2 className="text-[20px] font-black text-slate-800 tracking-tight">Import Assets</h2>
                         <button 
                             onClick={onClose}
-                            className="p-2 hover:bg-slate-50 rounded-xl transition-all"
+                            className="p-2 hover:bg-muted/50 rounded-xl transition-all"
                         >
                             <X className="w-5 h-5 text-slate-400" />
                         </button>
@@ -91,7 +91,7 @@ export const ImportAssetsModal: React.FC<ImportAssetsModalProps> = ({
                                 Upload your Excel/CSV file containing your corporate asset registry. Make sure your file matches the required headers (Asset Name, Status, Location Name, etc.).
                             </p>
 
-                            <div className="border-2 border-dashed border-slate-200 hover:border-indigo-400 rounded-2xl p-8 flex flex-col items-center justify-center transition-all bg-slate-50/50 relative">
+                            <div className="border-2 border-dashed border-border hover:border-primary/80 rounded-2xl p-8 flex flex-col items-center justify-center transition-all bg-transparent relative">
                                 <Upload className="w-10 h-10 text-slate-300 mb-3" />
                                 <span className="text-[14px] font-bold text-slate-600 mb-1">
                                     {file ? file.name : 'Choose file or drag & drop'}
@@ -111,7 +111,7 @@ export const ImportAssetsModal: React.FC<ImportAssetsModalProps> = ({
                             <div className="flex items-center justify-end gap-4 pt-2">
                                 <button 
                                     onClick={onClose}
-                                    className="px-6 py-3 text-slate-500 text-[14px] font-bold hover:bg-slate-50 rounded-2xl transition-all"
+                                    className="px-6 py-3 text-muted-foreground text-[14px] font-bold hover:bg-muted/50 rounded-2xl transition-all"
                                     disabled={isUploading}
                                 >
                                     Cancel
@@ -119,7 +119,7 @@ export const ImportAssetsModal: React.FC<ImportAssetsModalProps> = ({
                                 <button 
                                     disabled={!file || isUploading}
                                     onClick={handleUpload}
-                                    className="px-8 py-3 bg-indigo-600 text-white text-[14px] font-black rounded-2xl shadow-xl shadow-indigo-500/20 hover:bg-indigo-700 disabled:opacity-50 disabled:shadow-none transition-all flex items-center gap-2"
+                                    className="px-8 py-3 bg-primary text-white text-[14px] font-black rounded-2xl shadow-xl shadow-primary/20 hover:bg-primary/90 disabled:opacity-50 disabled:shadow-none transition-all flex items-center gap-2"
                                 >
                                     {isUploading ? (
                                         <>

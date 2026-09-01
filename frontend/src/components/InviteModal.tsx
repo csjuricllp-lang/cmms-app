@@ -66,8 +66,8 @@ const RoleSelect = ({ value, onChange, roles }: { value: string, onChange: (id: 
                 type="button"
                 onClick={() => setIsOpen(!isOpen)}
                 className={cn(
-                    "w-full pl-10 pr-4 py-2.5 border-2 border-slate-100 rounded-lg text-[14px] font-medium text-left flex items-center justify-between transition-all bg-white",
-                    isOpen ? "border-indigo-500 ring-4 ring-indigo-500/10" : "hover:border-slate-200"
+                    "w-full pl-10 pr-4 py-2.5 border-2 border-slate-100 rounded-lg text-[14px] font-medium text-left flex items-center justify-between transition-all bg-card",
+                    isOpen ? "border-primary/80 ring-4 ring-primary/10" : "hover:border-border"
                 )}
             >
                 <div className="flex items-center gap-2 overflow-hidden">
@@ -96,7 +96,7 @@ const RoleSelect = ({ value, onChange, roles }: { value: string, onChange: (id: 
                             left: coords.left,
                             width: coords.width,
                         }}
-                        className="bg-white rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] border border-slate-100 z-[9999] overflow-hidden py-2"
+                        className="bg-card rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] border border-slate-100 z-[9999] overflow-hidden py-2"
                     >
                         <div className="max-h-[300px] overflow-y-auto custom-scrollbar">
                             {roles.map((role) => (
@@ -108,8 +108,8 @@ const RoleSelect = ({ value, onChange, roles }: { value: string, onChange: (id: 
                                         setIsOpen(false);
                                     }}
                                     className={cn(
-                                        "w-full px-4 py-3 text-left hover:bg-slate-50 transition-colors border-b border-slate-50 last:border-0 group",
-                                        value === role.id && "bg-indigo-50/50"
+                                        "w-full px-4 py-3 text-left hover:bg-muted/50 transition-colors border-b border-slate-50 last:border-0 group",
+                                        value === role.id && "bg-primary/10/50"
                                     )}
                                 >
                                     <div className="flex items-center justify-between mb-1">
@@ -121,9 +121,9 @@ const RoleSelect = ({ value, onChange, roles }: { value: string, onChange: (id: 
                                                 </div>
                                             )}
                                         </div>
-                                        {value === role.id && <Check className="w-4 h-4 text-indigo-600" />}
+                                        {value === role.id && <Check className="w-4 h-4 text-primary" />}
                                     </div>
-                                    <p className="text-[12px] text-slate-500 leading-relaxed font-medium">
+                                    <p className="text-[12px] text-muted-foreground leading-relaxed font-medium">
                                         {role.description}
                                     </p>
                                 </button>
@@ -237,20 +237,20 @@ export const InviteModal = ({ isOpen, onClose }: InviteModalProps) => {
                 initial={{ opacity: 0, scale: 0.95, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                className="relative w-full max-w-[650px] bg-white rounded-xl shadow-[0_20px_70px_rgba(0,0,0,0.2)]"
+                className="relative w-full max-w-[650px] bg-card rounded-xl shadow-[0_20px_70px_rgba(0,0,0,0.2)]"
             >
                 {/* Header */}
                 <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between">
                     <h2 className="text-[20px] font-bold text-slate-800">Invite Users</h2>
-                    <button onClick={onClose} className="p-2 hover:bg-slate-50 rounded-full text-slate-400 transition-colors">
+                    <button onClick={onClose} className="p-2 hover:bg-muted/50 rounded-full text-slate-400 transition-colors">
                         <X className="w-5 h-5" />
                     </button>
                 </div>
 
                 {/* Sub-Header */}
-                <div className="px-8 py-4 bg-slate-50 border-b border-slate-100 flex items-center justify-between">
-                    <span className="text-[13px] text-slate-500 font-medium">Unused paid seats: 9</span>
-                    <a href="#" className="text-[13px] text-indigo-600 font-medium hover:underline">
+                <div className="px-8 py-4 bg-muted/50 border-b border-slate-100 flex items-center justify-between">
+                    <span className="text-[13px] text-muted-foreground font-medium">Unused paid seats: 9</span>
+                    <a href="#" className="text-[13px] text-primary font-medium hover:underline">
                         Learn more about seats, inviting, and roles
                     </a>
                 </div>
@@ -259,24 +259,24 @@ export const InviteModal = ({ isOpen, onClose }: InviteModalProps) => {
                 <div className="p-8 space-y-4 max-h-[60vh] overflow-y-auto custom-scrollbar">
                     {generatedLinks ? (
                         <div className="space-y-4">
-                            <p className="text-[13px] text-slate-500 font-medium">
+                            <p className="text-[13px] text-muted-foreground font-medium">
                                 Copy these links and share them with the users directly:
                             </p>
                             {generatedLinks.map((item, idx) => (
-                                <div key={idx} className="p-4 bg-slate-50 rounded-xl border border-slate-100 space-y-2">
+                                <div key={idx} className="p-4 bg-muted/50 rounded-xl border border-slate-100 space-y-2">
                                     <span className="text-[12px] font-bold text-slate-600 block">{item.email}</span>
                                     <div className="flex items-center gap-2">
                                         <input 
                                             readOnly 
                                             value={item.link} 
-                                            className="flex-1 px-4 py-2 border-2 border-slate-100 rounded-lg text-[13px] font-medium outline-none bg-white text-slate-800"
+                                            className="flex-1 px-4 py-2 border-2 border-slate-100 rounded-lg text-[13px] font-medium outline-none bg-card text-slate-800"
                                         />
                                         <button 
                                             onClick={() => {
                                                 navigator.clipboard.writeText(item.link);
                                                 toast.success('Link copied to clipboard');
                                             }}
-                                            className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-[13px] font-bold transition-all"
+                                            className="px-4 py-2 bg-primary hover:bg-primary/90 text-white rounded-lg text-[13px] font-bold transition-all"
                                         >
                                             Copy
                                         </button>
@@ -296,13 +296,13 @@ export const InviteModal = ({ isOpen, onClose }: InviteModalProps) => {
                                         className="flex items-center gap-4 group"
                                     >
                                         <div className="flex-1 space-y-1">
-                                            <label className="text-[12px] font-bold text-slate-500 block">Email</label>
+                                            <label className="text-[12px] font-bold text-muted-foreground block">Email</label>
                                             <div className="relative">
                                                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                                                 <input 
                                                     type="email"
                                                     placeholder="Enter email address"
-                                                    className="w-full pl-10 pr-4 py-2.5 border-2 border-slate-100 rounded-lg text-[14px] font-medium focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all"
+                                                    className="w-full pl-10 pr-4 py-2.5 border-2 border-slate-100 rounded-lg text-[14px] font-medium focus:border-primary/80 focus:ring-4 focus:ring-primary/10 outline-none transition-all"
                                                     value={row.email}
                                                     onChange={(e) => updateRow(row.id, 'email', e.target.value)}
                                                 />
@@ -310,7 +310,7 @@ export const InviteModal = ({ isOpen, onClose }: InviteModalProps) => {
                                         </div>
                                         
                                         <div className="w-[240px] space-y-1">
-                                            <label className="text-[12px] font-bold text-slate-500 block">Role</label>
+                                            <label className="text-[12px] font-bold text-muted-foreground block">Role</label>
                                             <RoleSelect 
                                                 value={row.roleId} 
                                                 onChange={(id) => updateRow(row.id, 'roleId', id)} 
@@ -333,7 +333,7 @@ export const InviteModal = ({ isOpen, onClose }: InviteModalProps) => {
 
                             <button 
                                 onClick={addRow}
-                                className="flex items-center gap-2 text-indigo-600 font-bold text-[14px] hover:text-indigo-700 transition-colors pt-2"
+                                className="flex items-center gap-2 text-primary font-bold text-[14px] hover:text-primary/90 transition-colors pt-2"
                             >
                                 <Plus className="w-4 h-4" />
                                 Add User
@@ -343,11 +343,11 @@ export const InviteModal = ({ isOpen, onClose }: InviteModalProps) => {
                 </div>
 
                 {/* Footer */}
-                <div className="px-8 py-6 bg-slate-50 border-t border-slate-100 flex items-center justify-end gap-3">
+                <div className="px-8 py-6 bg-muted/50 border-t border-slate-100 flex items-center justify-end gap-3">
                     {generatedLinks ? (
                         <button 
                             onClick={onClose}
-                            className="px-8 py-2.5 bg-indigo-600 text-white rounded-lg text-[15px] font-bold shadow-lg shadow-indigo-100 transition-all hover:bg-indigo-700 active:scale-95"
+                            className="px-8 py-2.5 bg-primary text-white rounded-lg text-[15px] font-bold shadow-lg shadow-primary/20 transition-all hover:bg-primary/90 active:scale-95"
                         >
                             Close
                         </button>
@@ -355,7 +355,7 @@ export const InviteModal = ({ isOpen, onClose }: InviteModalProps) => {
                         <>
                             <button 
                                 onClick={onClose}
-                                className="px-6 py-2.5 border border-slate-200 rounded-lg text-[15px] font-bold text-slate-500 hover:bg-slate-50 transition-colors"
+                                className="px-6 py-2.5 border border-border rounded-lg text-[15px] font-bold text-muted-foreground hover:bg-muted/50 transition-colors"
                             >
                                 Cancel
                             </button>
@@ -363,7 +363,7 @@ export const InviteModal = ({ isOpen, onClose }: InviteModalProps) => {
                                 disabled={linkMutation.isPending || inviteMutation.isPending || rows.some(r => !r.email || !r.roleId)}
                                 onClick={() => linkMutation.mutate(rows)}
                                 className={cn(
-                                    "px-6 py-2.5 border border-indigo-600 text-indigo-600 rounded-lg text-[15px] font-bold transition-all hover:bg-indigo-50 active:scale-95 disabled:opacity-50 disabled:pointer-events-none flex items-center gap-2"
+                                    "px-6 py-2.5 border border-primary text-primary rounded-lg text-[15px] font-bold transition-all hover:bg-primary/10 active:scale-95 disabled:opacity-50 disabled:pointer-events-none flex items-center gap-2"
                                 )}
                             >
                                 {linkMutation.isPending && <Loader2 className="w-4 h-4 animate-spin" />}
@@ -373,7 +373,7 @@ export const InviteModal = ({ isOpen, onClose }: InviteModalProps) => {
                                 disabled={inviteMutation.isPending || linkMutation.isPending || rows.some(r => !r.email || !r.roleId)}
                                 onClick={() => inviteMutation.mutate(rows)}
                                 className={cn(
-                                    "px-10 py-2.5 bg-indigo-600 text-white rounded-lg text-[15px] font-bold shadow-lg shadow-indigo-100 transition-all hover:bg-indigo-700 active:scale-95 disabled:opacity-50 disabled:pointer-events-none flex items-center gap-2"
+                                    "px-10 py-2.5 bg-primary text-white rounded-lg text-[15px] font-bold shadow-lg shadow-primary/20 transition-all hover:bg-primary/90 active:scale-95 disabled:opacity-50 disabled:pointer-events-none flex items-center gap-2"
                                 )}
                             >
                                 {inviteMutation.isPending && <Loader2 className="w-4 h-4 animate-spin" />}
