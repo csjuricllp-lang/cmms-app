@@ -10,14 +10,14 @@ export class LocationsService {
   constructor(private prisma: PrismaService) {}
 
   private async logAudit(action: string, entityId: string, previousData: any, newData: any) {
-    const userOrgId = TenancyContext.userOrgId;
+    const userId = TenancyContext.userId;
     const organizationId = TenancyContext.organizationId;
-    if (!userOrgId || !organizationId) return;
+    if (!userId || !organizationId) return;
 
     await this.prisma.auditLog.create({
       data: {
         organizationId,
-        userId: userOrgId,
+        userId,
         action,
         model: 'Location',
         entityId,

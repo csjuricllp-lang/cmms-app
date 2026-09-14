@@ -225,7 +225,7 @@ export class PurchaseOrdersService {
         action: 'SENT_PO_TO_VENDOR',
         model: 'PurchaseOrder',
         entityId: po.id,
-        userId: TenancyContext.userId || '',
+        userId: TenancyContext.userId || null,
         organizationId: organizationId,
         ipAddress: '127.0.0.1',
         userAgent: `Vendor PO Sent: ${po.vendor.email}`,
