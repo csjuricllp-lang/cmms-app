@@ -14,7 +14,9 @@ import {
     Phone,
     Loader2,
     CircleCheck,
-    AlertCircle
+    AlertCircle,
+    Eye,
+    EyeOff
 } from 'lucide-react';
 import { authApi } from '../api/auth';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -48,6 +50,7 @@ export const RegisterPage = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
 
     const {
@@ -310,12 +313,19 @@ export const RegisterPage = () => {
                                         <div className="relative group">
                                             <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-primary transition-colors" />
                                             <input 
-                                                type="password"
+                                                type={showPassword ? "text" : "password"}
                                                 {...register("password")}
                                                 autoComplete="new-password"
-                                                className="w-full bg-transparent border border-border rounded-xl py-2.5 pl-9 pr-3 text-sm font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/40 transition-all placeholder:text-slate-400"
+                                                className="w-full bg-transparent border border-border rounded-xl py-2.5 pl-9 pr-10 text-sm font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/40 transition-all placeholder:text-slate-400"
                                                 placeholder="••••••••"
                                             />
+                                            <button 
+                                                type="button"
+                                                onClick={() => setShowPassword(!showPassword)}
+                                                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-primary transition-colors focus:outline-none"
+                                            >
+                                                {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                                            </button>
                                         </div>
                                         {errors.password && <span className="text-[9px] text-rose-500 font-bold italic ml-1">{errors.password.message}</span>}
                                     </motion.div>

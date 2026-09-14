@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Shield, Lock, Mail, AlertCircle, ArrowRight, Loader2 } from 'lucide-react';
+import { Shield, Lock, Mail, AlertCircle, ArrowRight, Loader2, Eye, EyeOff } from 'lucide-react';
 import { api } from '../lib/api';
 import { useThemeStore } from '../store/useThemeStore';
 
 export const LoginPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const [rememberMe, setRememberMe] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -111,13 +112,20 @@ export const LoginPage = () => {
                             <div className="relative group">
                                 <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-primary transition-colors" />
                                 <input 
-                                    type="password"
+                                    type={showPassword ? "text" : "password"}
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="w-full bg-transparent border border-border rounded-xl py-2.5 pl-11 pr-4 text-sm font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/40 transition-all placeholder:text-slate-400"
+                                    className="w-full bg-transparent border border-border rounded-xl py-2.5 pl-11 pr-11 text-sm font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/40 transition-all placeholder:text-slate-400"
                                     placeholder="••••••••"
                                     required
                                 />
+                                <button 
+                                    type="button"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-primary transition-colors focus:outline-none"
+                                >
+                                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                                </button>
                             </div>
                         </div>
 
