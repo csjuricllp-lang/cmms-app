@@ -10,6 +10,7 @@ datasource db {
 model Organization {
   id                    String                 @id @default(uuid())
   name                  String
+  status                OrganizationStatus     @default(ACTIVE)
   plan                  String                 @default("FREE")
   featureFlags          Json?
   businessHours         Json?
@@ -243,6 +244,7 @@ model Location {
   id             String               @id @default(uuid())
   name           String
   description    String?
+  version        Int                  @default(1)
   address        String?
   type           LocationType         @default(SITE)
   parentId       String?
@@ -271,6 +273,7 @@ model Location {
   vendors        Vendor[]             @relation("LocationVendors")
   workers        UserOrganization[]   @relation("LocationWorkers")
   permits        Permit[]
+  pmSchedules    PMSchedule[]
 }
 
 model LocationFile {
@@ -442,6 +445,7 @@ model WorkOrder {
   id                   String                       @id @default(uuid())
   workOrderNo          Int                          @default(autoincrement())
   title                String
+  idempotencyKey       String?                      @unique
   version              Int                          @default(1)
   updatedByDeviceId    String?
   description          String?
@@ -1139,6 +1143,8 @@ model WorkOrderChecklistResponse {
 model PMSchedule {
   id                String                     @id @default(uuid())
   name              String
+  locationId        String?
+  location          Location?                  @relation(fields: [locationId], references: [id])
   description       String?
   woTitle           String?
   woDescription     String?
@@ -1456,7 +1462,7 @@ model SyncQueue {
   status          SyncStatus   @default(PENDING)
   error           String?
   organizationId  String
-  createdAt       DateTime     @default(now())
+  createdAt      DateTime     @default(now())
   processedAt     DateTime?
   organization    Organization @relation(fields: [organizationId], references: [id])
 
@@ -1591,6 +1597,8 @@ model Tag {
 model SavedView {
   id             String       @id @default(uuid())
   name           String
+  description    String?
+  isShared       Boolean      @default(false)
   entityType     String
   config         Json
   userId         String
@@ -1827,4 +1835,63 @@ enum PermitType {
   WORKING_AT_HEIGHT
   EXCAVATION
   CUSTOM
+}
+
+enum OrganizationStatus {
+  ACTIVE
+  SUSPENDED
+  PENDING_DELETION
+}
+
+enum SystemRole {
+  SUPER_ADMIN
+  SUPPORT
+  SALES
+  NONE
+}
+
+model SystemAuditLog {
+  id             String   @id @default(uuid())
+  actionType     String
+  model          String?
+  targetEntity   String
+  targetId       String?
+  actorId        String?
+  organizationId String?
+  oldData        Json?
+  newData        Json?
+  snapshot       Json?
+  ipAddress      String?
+  userAgent      String?
+  createdAt      DateTime @default(now())
+}
+
+model ImpersonationSession {
+  id                   String   @id @default(uuid())
+  systemAdminUserId    String
+  userId               String?
+  targetOrganizationId String
+  reason               String?
+  ipAddress            String?
+  createdAt            DateTime @default(now())
+  expiresAt            DateTime?
+  endedAt              DateTime?
+  isActive             Boolean  @default(true)
+}
+
+model SubscriptionPlan {
+  id       String @id @default(uuid())
+  name     String
+  price    Decimal
+  features Json?
+}
+
+model OrganizationSubscription {
+  id               String   @id @default(uuid())
+  organizationId   String   @unique
+  planId           String
+  status           String   @default("ACTIVE")
+  forceSetByAdmin  Boolean  @default(false)
+  startDate        DateTime @default(now())
+  endDate          DateTime?
 }

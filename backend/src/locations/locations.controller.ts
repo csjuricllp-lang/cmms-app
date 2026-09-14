@@ -10,6 +10,7 @@ import {
   Query,
   UploadedFile,
   UseInterceptors,
+  Res,
 } from '@nestjs/common';
 import { LocationsService } from './locations.service';
 import { CreateLocationDto } from './dto/create-location.dto';
@@ -40,10 +41,39 @@ export class LocationsController {
     return this.locationsService.findAll(query);
   }
 
+  @RequirePermissions(Permission.CREATE_LOCATION)
+  @Post('import')
+  @UseInterceptors(FileInterceptor('file'))
+  async importCsv(@UploadedFile() file: Express.Multer.File) {
+    return this.locationsService.importCsv(file);
+  }
+
+  @RequirePermissions(Permission.READ_LOCATION)
+  @Get('export')
+  async exportCsv(@Res() res: any) {
+    const buffer = await this.locationsService.exportCsv();
+    res.set({
+      'Content-Type': 'text/csv',
+      'Content-Disposition': 'attachment; filename="locations.csv"',
+    });
+    res.send(buffer);
+  }
+
   @RequirePermissions(Permission.READ_LOCATION)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.locationsService.findOne(id);
+  }
+
+  @RequirePermissions(Permission.READ_LOCATION)
+  @Get(':id/breadcrumbs')
+  async getBreadcrumbs(@Param('id') id: string) {
+    return this.locationsService.getBreadcrumbs(id);
+  }
+
+  @Get(':id/metrics')
+  async getRollupMetrics(@Param('id') id: string) {
+    return this.locationsService.getRollupMetrics(id);
   }
 
   @RequirePermissions(Permission.UPDATE_LOCATION)

@@ -1655,18 +1655,18 @@ export const WorkOrdersPage = () => {
             </div>
 
             {/* Right side: Action links */}
-            <div className="flex items-center gap-4 shrink-0 pl-2">
+            <div className="flex items-center gap-4 shrink-0 pl-4">
                 <button 
                     onClick={handleResetFilters}
-                    className="text-[13px] font-black text-muted-foreground hover:text-slate-800 transition-colors whitespace-nowrap"
+                    className="text-[17px] font-[900] text-[#7D6B56] hover:text-[#5c4e3f] transition-colors whitespace-nowrap"
                 >
                     Reset Filters
                 </button>
                 <button 
                     onClick={() => queryClient.invalidateQueries({ queryKey: ['work-orders'] })}
-                    className="p-1.5 hover:bg-muted rounded-lg transition-colors text-slate-400 hover:text-primary animate-none"
+                    className="p-1.5 hover:bg-muted rounded-lg transition-colors text-[#9FA9BB] hover:text-[#7f8897] animate-none"
                 >
-                    <RefreshCcw className="w-3.5 h-3.5" />
+                    <RefreshCcw className="w-5 h-5" />
                 </button>
             </div>
         </div>

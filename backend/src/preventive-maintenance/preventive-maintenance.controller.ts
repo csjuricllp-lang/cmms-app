@@ -10,6 +10,7 @@ import {
   UploadedFile,
   UseInterceptors,
   Query,
+  BadRequestException,
 } from '@nestjs/common';
 import { PreventiveMaintenanceService } from './preventive-maintenance.service';
 import {
@@ -88,6 +89,18 @@ export class PreventiveMaintenanceController {
         },
       }),
       limits: { fileSize: 20 * 1024 * 1024 }, // 20MB
+      fileFilter: (req, file, cb) => {
+        const allowedMimeTypes = [
+          'image/jpeg', 'image/png', 'image/gif', 'application/pdf', 
+          'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+          'text/csv', 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        ];
+        if (allowedMimeTypes.includes(file.mimetype)) {
+          cb(null, true);
+        } else {
+          cb(new BadRequestException('Invalid file type uploaded. Executables and scripts are forbidden.'), false);
+        }
+      },
     }),
   )
   addAttachment(

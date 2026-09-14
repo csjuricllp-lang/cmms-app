@@ -1,11 +1,13 @@
-import { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
     Search, Plus, MoreHorizontal, ChevronRight, 
     Filter, Users, ChevronDown, List, Map as MapIcon,
-    Columns, ArrowUpDown, Settings2
+    Columns, ArrowUpDown, Settings2, Upload, Download
 } from 'lucide-react';
-import { useLocations, useDeleteLocation, useSavedViews } from '../hooks/useData';
+import { usePaginatedLocations, useDeleteLocation, useSavedViews } from '../hooks/useData';
+import { useQueryClient } from '@tanstack/react-query';
+import { toast } from 'react-hot-toast';
 import { cn } from '../lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CreateLocationModal } from '../components/CreateLocationModal';
@@ -39,6 +41,7 @@ import { useUserRole } from '../hooks/useUserRole';
 export const LocationsPage = () => {
     const navigate = useNavigate();
     const { canManageData } = useUserRole();
+    const queryClient = useQueryClient();
     const [searchQuery, setSearchQuery] = useState('');
     
     const [activeFilters, setActiveFilters] = useState({
@@ -73,7 +76,10 @@ export const LocationsPage = () => {
     const [isHeaderActionsOpen, setIsHeaderActionsOpen] = useState(false);
     const [headerActionsAnchorRect, setHeaderActionsAnchorRect] = useState<DOMRect | undefined>();
 
-    const { data: locations, isLoading } = useLocations({ 
+    const [page, setPage] = useState(1);
+    const limit = 20;
+
+    const { data, isLoading } = usePaginatedLocations({ 
         search: searchQuery || activeFilters.name, 
         sortBy,
         sortOrder,
@@ -81,36 +87,54 @@ export const LocationsPage = () => {
         teamIds: activeFilters.selectedTeams,
         customerId: activeFilters.customerId,
         vendorIds: activeFilters.vendorIds,
+        page,
+        limit,
     });
 
-    const handleExport = () => {
-        if (!locations?.length) return;
-        
-        const headers = ['Name', 'Address', 'Parent', 'Workers', 'Teams', 'Created At'];
-        const csvContent = [
-            headers.join(','),
-            ...locations.map(l => [
-                `"${l.name}"`,
-                `"${l.address || ''}"`,
-                `"${l.parent?.name || ''}"`,
-                l._count?.workers || 0,
-                l._count?.teams || 0,
-                format(new Date(l.createdAt), 'yyyy-MM-dd')
-            ].join(','))
-        ].join('\n');
+    const locations = data?.items;
+    const meta = data?.meta;
 
-        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-        const link = document.createElement('a');
-        const url = URL.createObjectURL(blob);
-        link.setAttribute('href', url);
-        link.setAttribute('download', `locations_export_${format(new Date(), 'yyyyMMdd')}.csv`);
-        link.style.visibility = 'hidden';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+    const handleExport = async () => {
+        try {
+            const response = await import('../lib/api').then(m => m.api.get('/locations/export', { responseType: 'blob' }));
+            const url = URL.createObjectURL(new Blob([response.data], { type: 'text/csv' }));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `locations_export_${format(new Date(), 'yyyyMMdd')}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+        } catch {
+            toast.error('Export failed');
+        }
     };
 
-    const [activeTab, setActiveTab] = useState<'List' | 'Map'>('List');
+    const importInputRef = useRef<HTMLInputElement>(null);
+    const [isImporting, setIsImporting] = useState(false);
+
+    const handleImport = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+        setIsImporting(true);
+        try {
+            const formData = new FormData();
+            formData.append('file', file);
+            const { api } = await import('../lib/api');
+            const res = await api.post('/locations/import', formData, { headers: { 'Content-Type': 'multipart/form-data' } });
+            toast.success(res.data?.message || 'Import successful!');
+            queryClient.invalidateQueries({ queryKey: ['locations'] });
+        } catch (err: any) {
+            toast.error(err?.response?.data?.message || 'Import failed');
+        } finally {
+            setIsImporting(false);
+            e.target.value = '';
+        }
+    };
+
+
+
+    const [isImportMenuOpen, setIsImportMenuOpen] = useState(false);
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const [isFiltersModalOpen, setIsFiltersModalOpen] = useState(false);
     const [isAssignedToModalOpen, setIsAssignedToModalOpen] = useState(false);
@@ -278,6 +302,29 @@ export const LocationsPage = () => {
                 <div className="flex items-center gap-3">
                     {canManageData && (
                         <div className="flex items-center gap-2">
+                            {/* Hidden import input */}
+                            <input
+                                ref={importInputRef}
+                                type="file"
+                                accept=".csv,.xlsx,.xls"
+                                className="hidden"
+                                onChange={handleImport}
+                            />
+                            <button
+                                onClick={() => importInputRef.current?.click()}
+                                disabled={isImporting}
+                                className="bg-card border border-border h-10 px-4 rounded-lg flex items-center gap-2 text-[13px] font-semibold text-slate-600 hover:bg-muted transition-all shadow-sm active:scale-95"
+                            >
+                                <Upload className="w-4 h-4" />
+                                {isImporting ? 'Importing...' : 'Import'}
+                            </button>
+                            <button 
+                                onClick={handleExport}
+                                className="bg-card border border-border h-10 px-4 rounded-lg flex items-center gap-2 text-[13px] font-semibold text-slate-600 hover:bg-muted transition-all shadow-sm active:scale-95"
+                            >
+                                <Download className="w-4 h-4" />
+                                Export
+                            </button>
                             <button 
                                 onClick={() => {
                                     setEditingLocation(null);
@@ -529,6 +576,33 @@ export const LocationsPage = () => {
                                 </AnimatePresence>
                             </tbody>
                         </table>
+                        
+                        {meta && meta.totalPages > 1 && (
+                            <div className="flex items-center justify-between px-6 py-4 border-t border-slate-100 bg-card">
+                                <div className="text-[13px] text-slate-500">
+                                    Showing {((meta.currentPage - 1) * meta.itemsPerPage) + 1} to {Math.min(meta.currentPage * meta.itemsPerPage, meta.totalItems)} of {meta.totalItems} entries
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <button
+                                        onClick={() => setPage(p => Math.max(1, p - 1))}
+                                        disabled={meta.currentPage === 1}
+                                        className="px-3 py-1.5 border border-border rounded-md text-[13px] font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:bg-muted transition-colors"
+                                    >
+                                        Previous
+                                    </button>
+                                    <div className="text-[13px] font-medium px-2">
+                                        Page {meta.currentPage} of {meta.totalPages}
+                                    </div>
+                                    <button
+                                        onClick={() => setPage(p => Math.min(meta.totalPages, p + 1))}
+                                        disabled={meta.currentPage === meta.totalPages}
+                                        className="px-3 py-1.5 border border-border rounded-md text-[13px] font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:bg-muted transition-colors"
+                                    >
+                                        Next
+                                    </button>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 ) : (
                     <LocationsMapView locations={locations || []} isLoading={isLoading} />

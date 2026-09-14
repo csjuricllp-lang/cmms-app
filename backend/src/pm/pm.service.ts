@@ -22,6 +22,7 @@ export class PMService {
       where: { organizationId, deletedAt: null },
       include: {
         asset: { include: { location: true } },
+        location: true,
         meter: true,
         checklist: true,
         category: true,
@@ -87,6 +88,9 @@ export class PMService {
                 select: { timezone: true }
               }
             }
+          },
+          location: {
+            select: { timezone: true }
           }
         }
       });
@@ -97,7 +101,7 @@ export class PMService {
         if (!schedule.nextDueDate) continue;
 
         // Facility Timezone Fallback (default to UTC or Organization default)
-        const facilityTimezone = (schedule.asset as any)?.location?.timezone || 'UTC';
+        const facilityTimezone = (schedule.location as any)?.timezone || (schedule.asset as any)?.location?.timezone || 'UTC';
         
         // Calculate the "Current Time" in the facility's specific location
         // formatInTimeZone gives us a string representation of the time there.
@@ -158,6 +162,8 @@ export class PMService {
         reading: currentReading,
       });
     }
+
+    return schedules;
   }
 
   calculateNextDueDate(

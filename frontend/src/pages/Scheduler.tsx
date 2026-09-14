@@ -228,7 +228,7 @@ export const Scheduler = () => {
         });
     }, [users, roleFilter, locationFilter, teamFilter]);
 
-    const visibleUserIds = useMemo(() => visibleUsers.map((u: any) => u.id), [visibleUsers]);
+    const visibleUserIds = useMemo(() => visibleUsers.map((u: any) => u.userOrgId || u.id), [visibleUsers]);
 
     // ─── Query 2: Scheduled WOs — only those within the current view's date window ─
     const {

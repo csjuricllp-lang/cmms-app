@@ -10,6 +10,7 @@ import {
   UploadedFile,
   UseInterceptors,
   Query,
+  BadRequestException,
 } from '@nestjs/common';
 import { WorkOrderQueryDto } from './dto/work-order-query.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -178,6 +179,21 @@ export class WorkOrdersController {
         },
       }),
       limits: { fileSize: 20 * 1024 * 1024 },
+      fileFilter: (req, file, cb) => {
+        const allowed = new Set([
+          'image/jpeg', 'image/png', 'image/gif', 'image/webp',
+          'application/pdf', 'application/msword', 
+          'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+          'application/vnd.ms-excel', 
+          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+          'text/plain', 'text/csv',
+          'video/mp4', 'video/webm', 'audio/mpeg', 'audio/webm', 'audio/ogg'
+        ]);
+        if (!allowed.has(file.mimetype)) {
+          return cb(new BadRequestException(`File type '${file.mimetype}' is not allowed for security reasons.`), false);
+        }
+        cb(null, true);
+      },
     }),
   )
   addFile(@Param('id') id: string, @UploadedFile() file: Express.Multer.File) {

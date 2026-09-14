@@ -703,7 +703,7 @@ export const PurchaseOrdersPage = () => {
                     </button>
                     <button
                         onClick={() => setShowCreateModal(true)}
-                        className="px-6 py-2 bg-[#4F7CFF] hover:bg-primary/90 text-white rounded-md text-[13px] font-bold shadow-sm transition-all active:scale-95"
+                        className="px-6 py-2 bg-primary hover:bg-primary/90 text-white rounded-md text-[13px] font-bold shadow-sm transition-all active:scale-95"
                     >
                         Create Purchase Order
                     </button>

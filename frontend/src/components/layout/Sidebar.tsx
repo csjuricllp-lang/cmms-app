@@ -30,7 +30,7 @@ const navGroups = [
     {
         title: "Maintenance",
         items: [
-            { name: "Dashboard", path: "/", icon: LayoutDashboard, end: true },
+            { name: "Dashboard", path: "/dashboard", icon: LayoutDashboard },
             { name: "Work Orders", path: "/work-orders", icon: ClipboardList, permission: "work-orders.read" },
             { name: "Preventive Maintenance", path: "/pm", icon: RefreshCcw, permission: "pm.read", roles: ['ADMINISTRATOR', 'OWNER', 'MANAGER', 'ADMIN', 'LIMITED ADMINISTRATOR', 'MAINTENANCE MANAGER'] },
             { name: "Scheduler", path: "/scheduler", icon: CheckSquare, permission: "pm.read", roles: ['ADMINISTRATOR', 'OWNER', 'MANAGER', 'ADMIN', 'LIMITED ADMINISTRATOR', 'MAINTENANCE MANAGER'] },
@@ -117,13 +117,18 @@ export const Sidebar = () => {
         )}>
             {/* Logo */}
             <div className="px-6 py-5 border-b border-border/40 shrink-0">
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 relative">
                     <div className="w-8 h-8 rounded-xl bg-primary flex items-center justify-center shadow-lg shadow-primary/30 shrink-0">
                         <span className="text-white font-black text-lg italic leading-none pr-0.5">J</span>
                     </div>
                     <h1 className="text-[15px] font-black bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent tracking-tighter uppercase italic">
                         CMMS Juric
                     </h1>
+                    {user?.systemRole === 'SUPER_ADMIN' && (
+                        <NavLink to="/super-admin" className="absolute right-0 opacity-0 hover:opacity-100 transition-opacity" title="Control Center">
+                            <Zap className="w-3.5 h-3.5 text-primary cursor-pointer" />
+                        </NavLink>
+                    )}
                 </div>
             </div>
 

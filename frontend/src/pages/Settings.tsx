@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 import { 
     Settings2, Box, Package, Bell, 
     UserCircle, Cpu, ClipboardList, ShoppingCart, Gauge, Tag, 
@@ -11,6 +12,7 @@ import { PurchaseOrderSettingsWorkspace } from '../components/PurchaseOrderSetti
 import { RolesWorkspace } from '../components/RolesWorkspace';
 import { WorkOrderSettingsWorkspace } from '../components/WorkOrderSettingsWorkspace';
 import { SLASettingsWorkspace } from '../components/SLASettingsWorkspace';
+import { RequestsSettingsWorkspace } from '../components/RequestsSettingsWorkspace';
 import { ApprovalChainsWorkspace } from '../components/ApprovalChainsWorkspace';
 import { APISettingsWorkspace } from '../components/APISettingsWorkspace';
 import { IntegrationsWorkspace } from '../components/IntegrationsWorkspace';
@@ -109,7 +111,9 @@ export const SettingsPage = () => {
                     <button className="px-6 py-2.5 bg-card border border-[#E2E8F0] text-[#64748B] text-[13px] font-black rounded-xl hover:bg-[#F1F5F9] transition-all">
                         Back to Registry
                     </button>
-                    <button className="px-8 py-2.5 bg-primary text-white text-[13px] font-black rounded-xl shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all">
+                    <button 
+                        onClick={() => toast.success('Changes saved successfully!')}
+                        className="px-8 py-2.5 bg-primary text-white text-[13px] font-black rounded-xl shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all">
                         Save Changes
                     </button>
                 </div>
@@ -127,8 +131,9 @@ export const SettingsPage = () => {
                         {activeModule === 'api' && <APISettingsWorkspace />}
                         {activeModule === 'integrations' && <IntegrationsWorkspace />}
                         {activeModule === 'auditlog' && <AuditLogSettingsWorkspace />}
+                        {activeModule === 'requests' && <RequestsSettingsWorkspace />}
                         
-                        {!['assets', 'parts', 'workorders', 'roles', 'purchaseorders', 'sla', 'approvals', 'api', 'integrations', 'auditlog'].includes(activeModule) && (
+                        {!['assets', 'parts', 'workorders', 'roles', 'requests', 'purchaseorders', 'sla', 'approvals', 'api', 'integrations', 'auditlog'].includes(activeModule) && (
                             <div className="py-20 flex flex-col items-center justify-center text-center space-y-6">
                                 <div className="w-16 h-16 rounded-2xl bg-transparent flex items-center justify-center border border-slate-100 animate-pulse">
                                     <Settings2 className="w-8 h-8 text-slate-200" />

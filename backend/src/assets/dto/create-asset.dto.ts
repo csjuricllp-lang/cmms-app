@@ -111,6 +111,14 @@ export class CreateAssetDto {
   @IsOptional()
   additionalWorkerIds?: string[];
 
+  @IsOptional()
+  @IsNumber()
+  floorPlanX?: number;
+
+  @IsOptional()
+  @IsNumber()
+  floorPlanY?: number;
+
   // Flexible Data
   @IsObject()
   @IsOptional()

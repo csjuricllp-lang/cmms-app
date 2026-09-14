@@ -12,20 +12,24 @@ import {
     LayoutGrid,
     Plus,
     Trash2,
-    Download
+    Download,
+    ChevronRight,
+    BarChart3,
+    Upload
 } from 'lucide-react';
-import { useLocationDetail } from '../hooks/useData';
+import { useLocationDetail, useLocationBreadcrumbs } from '../hooks/useData';
 import { cn } from '../lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 import { format } from 'date-fns';
 import { PriorityBadge } from '../components/PriorityBadge';
-import { useQueryClient, useMutation } from '@tanstack/react-query';
+import { useQueryClient, useMutation, useQuery } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
 import { api } from '../lib/api';
 import { CreateLocationModal } from '../components/CreateLocationModal';
 import { CreateAssetModal } from '../components/CreateAssetModal';
 import { CreateWorkOrderModal } from '../components/CreateWorkOrderModal';
 import { useUserRole } from '../hooks/useUserRole';
+import React from 'react';
 
 
 export const LocationDetailPage = () => {
@@ -83,6 +87,15 @@ export const LocationDetailPage = () => {
     
     // Fetch Data
     const { data: location, isLoading } = useLocationDetail(id);
+    const { data: breadcrumbs } = useLocationBreadcrumbs(id);
+    const { data: metrics } = useQuery({
+        queryKey: ['location-metrics', id],
+        queryFn: async () => {
+            const res = await api.get(`/locations/${id}/metrics`);
+            return res.data;
+        },
+        enabled: !!id,
+    });
 
     const tabs = [
         { id: 'details', label: 'Details', icon: FileText },
@@ -126,9 +139,21 @@ export const LocationDetailPage = () => {
                         </button>
                         <div className="h-8 w-px bg-slate-200" />
                         <div>
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-2 mb-1">
                                 <h1 className="text-xl font-semibold text-foreground tracking-tight">{location.name}</h1>
                             </div>
+                            {breadcrumbs && breadcrumbs.length > 1 && (
+                                <div className="flex items-center gap-1.5 text-[13px] font-medium text-slate-500">
+                                    {breadcrumbs.map((crumb, index) => (
+                                        <React.Fragment key={crumb.id}>
+                                            <button onClick={() => navigate(`/locations/${crumb.id}`)} className="hover:text-primary transition-colors">
+                                                {crumb.name}
+                                            </button>
+                                            {index < breadcrumbs.length - 1 && <ChevronRight className="w-3.5 h-3.5" />}
+                                        </React.Fragment>
+                                    ))}
+                                </div>
+                            )}
                         </div>
                     </div>
 
@@ -187,6 +212,28 @@ export const LocationDetailPage = () => {
                             exit={{ opacity: 0, y: -10 }}
                             className="space-y-6"
                         >
+                            {/* Rollup Metrics Card */}
+                            {metrics && (
+                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                    {[
+                                        { label: 'Total Assets', value: metrics.totalAssets, icon: LayoutGrid, color: 'text-blue-500', bg: 'bg-blue-50' },
+                                        { label: 'Total Work Orders', value: metrics.totalWorkOrders, icon: ActivitySquare, color: 'text-violet-500', bg: 'bg-violet-50' },
+                                        { label: 'Open Work Orders', value: metrics.openWorkOrders, icon: BarChart3, color: 'text-amber-500', bg: 'bg-amber-50' },
+                                        { label: 'Sub-Locations', value: metrics.descendantLocationCount, icon: MapPin, color: 'text-emerald-500', bg: 'bg-emerald-50' },
+                                    ].map((stat) => (
+                                        <div key={stat.label} className="bg-card rounded-2xl border border-border p-5 flex items-center gap-4 shadow-sm">
+                                            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0', stat.bg)}>
+                                                <stat.icon className={cn('w-5 h-5', stat.color)} />
+                                            </div>
+                                            <div>
+                                                <p className="text-[22px] font-black text-foreground leading-none">{stat.value ?? '—'}</p>
+                                                <p className="text-[11px] font-bold text-muted-foreground uppercase tracking-widest mt-1">{stat.label}</p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+
                             {/* Details Card */}
                             <div className="bg-card rounded-3xl border border-border shadow-sm overflow-hidden">
                                 <div className="p-8 space-y-6">

@@ -11,6 +11,11 @@ import helmet from 'helmet';
 
 
 
+// Patch BigInt serialization for Prisma
+(BigInt.prototype as any).toJSON = function () {
+  return this.toString();
+};
+
 async function bootstrap() {
   const isProduction = process.env.NODE_ENV === 'production';
 
@@ -58,7 +63,7 @@ async function bootstrap() {
     new ValidationPipe({
       whitelist: true,
       transform: true,
-      forbidNonWhitelisted: true,
+      forbidNonWhitelisted: true, // Fix 3: Reject unexpected fields (e.g. "role", "organizationId", "isAdmin") with 400
     }),
   );
 

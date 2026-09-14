@@ -1,13 +1,14 @@
 import { IsOptional, IsString, IsEnum, IsDateString, IsBoolean } from 'class-validator';
+import { Priority } from '@prisma/client';
 
 export class ApproveRequestDto {
   @IsOptional()
   @IsString()
   assignedToId?: string;
 
+  @IsEnum(Priority) // Medium Fix: Require strict priority matching
   @IsOptional()
-  @IsString()
-  priority?: string;
+  priority?: Priority;
 
   @IsOptional()
   @IsDateString()

@@ -50,7 +50,7 @@ export const MeterSettingsWorkspace: React.FC = () => {
                             setNewName('');
                             setIsAddModalOpen(true);
                         }}
-                        className="px-6 py-2.5 bg-[#4F7CFF] text-white text-[13px] font-bold rounded-lg hover:bg-primary transition-all shadow-md shadow-primary/20"
+                        className="px-6 py-2.5 bg-primary text-white text-[13px] font-bold rounded-lg hover:bg-primary transition-all shadow-md shadow-primary/20"
                     >
                         Add
                     </button>

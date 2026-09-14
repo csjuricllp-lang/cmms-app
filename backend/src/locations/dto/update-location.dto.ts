@@ -53,4 +53,8 @@ export class UpdateLocationDto {
 
   @IsOptional()
   customerId?: string;
+
+  @IsNumber()
+  @IsOptional()
+  version?: number;
 }

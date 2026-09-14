@@ -68,7 +68,7 @@ export const WebhookSettingsWorkspace: React.FC = () => {
                         setWebhookData({ title: '', url: '', eventMode: 'individual', selectedEvents: [], isActive: true });
                         setIsAddModalOpen(true);
                     }}
-                    className="flex items-center gap-2 px-6 py-3 bg-[#4F7CFF] text-white text-[14px] font-bold rounded-xl hover:bg-primary transition-all shadow-lg shadow-primary/20"
+                    className="flex items-center gap-2 px-6 py-3 bg-primary text-white text-[14px] font-bold rounded-xl hover:bg-primary transition-all shadow-lg shadow-primary/20"
                 >
                     <Plus className="w-5 h-5" />
                     Add Webhook

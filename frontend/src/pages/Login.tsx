@@ -39,7 +39,7 @@ export const LoginPage = () => {
             useThemeStore.getState().setAccentColor('346.8 77.2% 49.8%');
             useThemeStore.setState({ sidebarCollapsed: false });
             
-            navigate('/');
+            navigate('/dashboard');
         } catch (err: any) {
             setError(err.response?.data?.message || 'Connection to CMMS Engine failed.');
         } finally {

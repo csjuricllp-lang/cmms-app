@@ -1,4 +1,4 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException, ForbiddenException } from '@nestjs/common';
 import { OnEvent, EventEmitter2 } from '@nestjs/event-emitter';
 import { PrismaService } from '../prisma/prisma.service';
 import { Cron, CronExpression } from '@nestjs/schedule';
@@ -187,7 +187,7 @@ export class PreventiveMaintenanceService {
     if (!organizationId) throw new Error("No organization ID found");
     
     let createdCount = 0;
-    const errors = [];
+    const errors: string[] = [];
 
     for (const [index, row] of data.entries()) {
       try {
@@ -195,7 +195,7 @@ export class PreventiveMaintenanceService {
         if (!name) throw new Error("Name is required");
 
         const assetName = row['Asset Name (Exact Match)'] || row['Asset Name'];
-        let assetId = null;
+        let assetId: string | null = null;
         if (assetName) {
            const asset = await this.prisma.asset.findFirst({
              where: { organizationId, name: { equals: String(assetName).trim(), mode: 'insensitive' } }
@@ -206,7 +206,7 @@ export class PreventiveMaintenanceService {
         if (!assetId) throw new Error(`Asset '${assetName}' not found`);
 
         const assignedEmail = row['Assigned To Email'];
-        let assignedToId = null;
+        let assignedToId: string | null = null;
         if (assignedEmail) {
             const user = await this.prisma.user.findFirst({
                 where: { email: { equals: String(assignedEmail).trim(), mode: 'insensitive' } },
@@ -459,83 +459,64 @@ export class PreventiveMaintenanceService {
     throw new Error('Transaction failed after maximum retries');
   }
 
-  async processDueSchedules() {
+    async processDueSchedules() {
     this.logger.log('Checking for due Time-based PM schedules...');
     const now = this.dateService.now();
+    let processed = 0;
+    let hasMore = true;
+    let batches = 0;
+    const skippedIds = new Set<string>();
 
-    const activeSchedules = await this.prisma.pMSchedule.findMany({
-      where: {
-        isActive: true,
-        status: 'ACTIVE',
-        frequencyType: { in: ['DAYS', 'WEEKS', 'MONTHS', 'YEARS', 'HYBRID'] },
-        nextDueDate: { lte: now },
-        asset: {
-          deletedAt: null,
-          status: { notIn: ['DISPOSED' as any] },
-        },
-      },
-      include: {
-        plannedParts: true,
-        plannedTasks: true,
-        asset: {
-          include: {
-            location: true,
+    while (hasMore && batches < 5) {
+      batches++;
+      const activeSchedules = await this.prisma.pMSchedule.findMany({
+        where: {
+          isActive: true,
+          status: 'ACTIVE',
+          frequencyType: { in: ['DAYS', 'WEEKS', 'MONTHS', 'YEARS', 'HYBRID'] },
+          nextDueDate: { lte: now },
+          id: skippedIds.size > 0 ? { notIn: Array.from(skippedIds) } : undefined,
+          organization: { deletedAt: null },
+          asset: {
+            deletedAt: null,
+            status: { notIn: ['DISPOSED' as any, 'DECOMMISSIONED' as any] },
           },
         },
-      },
-    });
+        take: 100,
+        include: {
+          plannedParts: true,
+          plannedTasks: true,
+          asset: {
+            include: {
+              location: true,
+            },
+          },
+        },
+      });
 
-    let processed = 0;
+      if (activeSchedules.length < 100) hasMore = false;
 
-    for (const schedule of activeSchedules) {
-      // 1. SEASONALITY GUARD
-      if (schedule.isSeasonal && schedule.startMonth && schedule.endMonth) {
-        const currentMonth = now.getMonth() + 1;
-        const inSeason =
-          schedule.startMonth <= schedule.endMonth
-            ? currentMonth >= schedule.startMonth &&
-              currentMonth <= schedule.endMonth
-            : currentMonth >= schedule.startMonth ||
-              currentMonth <= schedule.endMonth;
+      for (const schedule of activeSchedules) {
+        skippedIds.add(schedule.id);
+        // 1. SEASONALITY GUARD
+        if (schedule.isSeasonal && schedule.startMonth && schedule.endMonth) {
+          const currentMonth = now.getMonth() + 1;
+          const inSeason =
+            schedule.startMonth <= schedule.endMonth
+              ? currentMonth >= schedule.startMonth &&
+                currentMonth <= schedule.endMonth
+              : currentMonth >= schedule.startMonth ||
+                currentMonth <= schedule.endMonth;
 
-        if (!inSeason) {
-          const baseDate = (schedule.isFloating ? now : schedule.nextDueDate) as Date;
-          const timezone = (schedule as any).asset?.location?.timezone || 'UTC';
-          const localizedBase = this.dateService.toTimezone(baseDate, timezone);
-          const localizedNext = this.dateService.calculateNextDueDate(
-            localizedBase,
-            schedule.frequencyType as any,
-            schedule.frequencyValue!,
-          );
-          const localizedNextWithTime = this.applyTime(localizedNext, schedule.dueDateTime);
-          const nextDueDate = this.dateService.toUTC(localizedNextWithTime, timezone);
-          
-          await this.prisma.pMSchedule.update({
-            where: { id: schedule.id },
-            data: { nextDueDate: nextDueDate },
-          });
-          continue;
+          if (!inSeason) {
+            continue;
+          }
         }
-      }
 
-      // 2. OVERDUE TRACKER
-      if (schedule.nextDueDate && now > new Date(schedule.nextDueDate)) {
-        await this.prisma.pMSchedule.update({
-          where: { id: schedule.id },
-          data: { overdueCount: { increment: 1 } },
-        });
-      }
-
-      const advanceNoticeDays = schedule.advanceNoticeDays || 7;
-      const triggerDate = new Date(schedule.nextDueDate!);
-      triggerDate.setDate(triggerDate.getDate() - advanceNoticeDays);
-
-      // 3. GENERATION TRIGGER
-      if (now >= triggerDate) {
         try {
           await this.withRetry(async () => {
             await this.prisma.$transaction(async (tx) => {
-              // 1. Pessimistic Row Locking to prevent race conditions on multi-instance setups (like Render)
+              // 1. Pessimistic Row Locking to prevent race conditions on multi-instance setups
               try {
                 await tx.$queryRaw`SELECT id FROM "PMSchedule" WHERE id = ${schedule.id} FOR UPDATE`;
               } catch (e) {
@@ -603,101 +584,127 @@ export class PreventiveMaintenanceService {
     return processed;
   }
 
-  async processMeterSchedules() {
+    async processMeterSchedules() {
     this.logger.log('Checking for due Meter-based PM schedules...');
-
-    const meterSchedules = await this.prisma.pMSchedule.findMany({
-      where: {
-        isActive: true,
-        status: 'ACTIVE',
-        frequencyType: { in: ['METER', 'HYBRID'] },
-        meterId: { not: null },
-        asset: {
-          deletedAt: null,
-          status: { notIn: ['DISPOSED' as any] },
-        },
-      },
-      include: { 
-        meter: true,
-        plannedParts: true,
-        plannedTasks: true,
-        asset: {
-          include: { location: true }
-        }
-      },
-    });
-
     let processed = 0;
+    let hasMore = true;
+    let batches = 0;
+    const skippedIds = new Set<string>();
 
-    for (const schedule of meterSchedules) {
-      const meterObj = (schedule as any).meter;
-      if (!meterObj || schedule.nextMeterReading === null) continue;
+    while (hasMore && batches < 5) {
+      batches++;
+      const meterSchedules = await this.prisma.pMSchedule.findMany({
+        where: {
+          isActive: true,
+          status: 'ACTIVE',
+          frequencyType: { in: ['METER', 'HYBRID'] },
+          meterId: { not: null },
+          id: skippedIds.size > 0 ? { notIn: Array.from(skippedIds) } : undefined,
+          organization: { deletedAt: null },
+          asset: {
+            deletedAt: null,
+            status: { notIn: ['DISPOSED' as any, 'DECOMMISSIONED' as any] },
+          },
+        },
+        take: 100,
+        include: { 
+          meter: true,
+          plannedParts: true,
+          plannedTasks: true,
+          asset: {
+            include: { location: true }
+          }
+        },
+      });
 
-      const currentValue = new Prisma.Decimal(meterObj.currentValue || 0);
-      const nextMeterReading = schedule.nextMeterReading ? new Prisma.Decimal(schedule.nextMeterReading) : null;
+      if (meterSchedules.length < 100) hasMore = false;
 
-      if (nextMeterReading && currentValue.gte(nextMeterReading)) {
-        try {
-          await this.withRetry(async () => {
-            await this.prisma.$transaction(async (tx) => {
-              // 1. Pessimistic Row Locking to prevent race conditions on multi-instance setups (like Render)
-              try {
-                await tx.$queryRaw`SELECT id FROM "PMSchedule" WHERE id = ${schedule.id} FOR UPDATE`;
-              } catch (e) {
-                // Fallback for mock environments
-              }
+      for (const schedule of meterSchedules) {
+        skippedIds.add(schedule.id);
+        const meterObj = (schedule as any).meter;
+        if (!meterObj || schedule.nextMeterReading === null) continue;
 
-              // 2. Fetch fresh schedule inside locked transaction
-              const freshSchedule = await tx.pMSchedule.findUnique({
-                where: { id: schedule.id },
-                include: {
-                  meter: true,
-                  asset: {
-                    include: { location: true }
+        const currentValue = new Prisma.Decimal(meterObj.currentValue || 0);
+        const nextMeterReading = schedule.nextMeterReading ? new Prisma.Decimal(schedule.nextMeterReading) : null;
+
+        if (nextMeterReading && currentValue.gte(nextMeterReading)) {
+          try {
+            await this.withRetry(async () => {
+              await this.prisma.$transaction(async (tx) => {
+                // 1. Pessimistic Row Locking
+                try {
+                  await tx.$queryRaw`SELECT id FROM "PMSchedule" WHERE id = ${schedule.id} FOR UPDATE`;
+                } catch (e) {
+                  // Fallback for mock environments
+                }
+
+                // 2. Fetch fresh schedule inside locked transaction
+                const freshSchedule = await tx.pMSchedule.findUnique({
+                  where: { id: schedule.id },
+                  include: {
+                    meter: true,
+                    asset: {
+                      include: { location: true }
+                    }
+                  }
+                });
+
+                if (!freshSchedule || !freshSchedule.isActive || freshSchedule.status !== 'ACTIVE') {
+                  return;
+                }
+
+                const freshMeter = (freshSchedule as any).meter;
+                if (!freshMeter || freshSchedule.nextMeterReading === null) return;
+
+                const freshCurrentValue = new Prisma.Decimal(freshMeter.currentValue || 0);
+                const freshNextMeterReading = freshSchedule.nextMeterReading ? new Prisma.Decimal(freshSchedule.nextMeterReading) : null;
+
+                const triggerType = freshSchedule.meterTriggerType || 'INTERVAL';
+
+                let shouldTrigger = false;
+                if (triggerType.includes('FALLS_BELOW')) {
+                  if (freshNextMeterReading && freshCurrentValue.lte(freshNextMeterReading)) {
+                    shouldTrigger = true;
+                  }
+                } else {
+                  if (freshNextMeterReading && freshCurrentValue.gte(freshNextMeterReading)) {
+                    shouldTrigger = true;
                   }
                 }
-              });
 
-              if (!freshSchedule || !freshSchedule.isActive || freshSchedule.status !== 'ACTIVE') {
-                return;
-              }
+                if (!shouldTrigger) {
+                  return;
+                }
 
-              const freshMeter = (freshSchedule as any).meter;
-              if (!freshMeter || freshSchedule.nextMeterReading === null) return;
+                await this.generateWorkOrder(freshSchedule, tx);
 
-              const freshCurrentValue = new Prisma.Decimal(freshMeter.currentValue || 0);
-              const freshNextMeterReading = freshSchedule.nextMeterReading ? new Prisma.Decimal(freshSchedule.nextMeterReading) : null;
+                let nextReading: Prisma.Decimal | null = freshNextMeterReading;
+                
+                if (triggerType.includes('INCREASES_BY') || triggerType === 'INTERVAL' || triggerType === 'RELATIVE') {
+                  nextReading = freshCurrentValue.plus(new Prisma.Decimal(freshSchedule.meterInterval || 0));
+                }
 
-              // Guard: Check if another instance already updated the nextMeterReading target
-              if (!freshNextMeterReading || freshCurrentValue.lt(freshNextMeterReading)) {
-                return;
-              }
+                let isActive: boolean = freshSchedule.isActive;
+                if (triggerType.includes('ONE_TIME') || triggerType.includes('ONETIME') || triggerType === 'THRESHOLD') {
+                  isActive = false;
+                  nextReading = null;
+                }
 
-              await this.generateWorkOrder(freshSchedule, tx);
-
-              let nextReading: Prisma.Decimal | null = freshNextMeterReading;
-              const triggerType = freshSchedule.meterTriggerType || 'INTERVAL';
-
-              if (triggerType === 'INTERVAL' || triggerType === 'RELATIVE') {
-                nextReading = freshCurrentValue.plus(new Prisma.Decimal(freshSchedule.meterInterval || 0));
-              } else if (triggerType === 'THRESHOLD') {
-                nextReading = null; 
-              }
-
-              await tx.pMSchedule.update({
-                where: { id: freshSchedule.id },
-                data: {
-                  lastGenerated: this.dateService.now(),
-                  lastMeterReading: freshMeter.currentValue,
-                  nextMeterReading: nextReading,
-                  isActive: triggerType === 'THRESHOLD' ? false : freshSchedule.isActive
-                },
+                await tx.pMSchedule.update({
+                  where: { id: freshSchedule.id },
+                  data: {
+                    lastGenerated: this.dateService.now(),
+                    lastMeterReading: freshMeter.currentValue,
+                    nextMeterReading: nextReading,
+                    isActive
+                  },
+                });
               });
             });
-          });
-          processed++;
-        } catch (error: any) {
-          this.logger.error(`Failed to generate meter WO for PM Schedule ${schedule.id}: ${error.message}`);
+            processed++;
+          } catch (error: any) {
+            this.logger.error(`Failed to generate meter WO for PM Schedule ${schedule.id}: ${error.message}`);
+          }
         }
       }
     }
@@ -721,6 +728,18 @@ export class PreventiveMaintenanceService {
   }
 
   private async generateWorkOrder(schedule: any, tx: any = this.prisma) {
+    const existingOpen = await tx.workOrder.findFirst({
+      where: {
+        pmScheduleId: schedule.id,
+        status: { in: ['OPEN', 'IN_PROGRESS', 'ON_HOLD'] }
+      }
+    });
+
+    if (existingOpen) {
+      this.logger.warn(`Skipping Work Order generation for PM Schedule ${schedule.id} because Work Order ${existingOpen.workOrderNo || existingOpen.id} is still open.`);
+      return null;
+    }
+
     let dueDate = schedule.nextDueDate ? new Date(schedule.nextDueDate) : new Date();
     if (!schedule.nextDueDate || schedule.frequencyType === 'METER') {
       dueDate = this.applyTime(dueDate, schedule.dueDateTime);

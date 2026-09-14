@@ -20,9 +20,18 @@ export const useWorkflows = () => {
     const workflowsQuery = useQuery<WorkflowRule[]>({
         queryKey: ['workflows'],
         queryFn: async () => {
-            const response = await api.get('/workflow-rules');
-            return Array.isArray(response.data) ? response.data : response.data.items || [];
+            try {
+                const response = await api.get('/workflow-rules');
+                return Array.isArray(response.data) ? response.data : response.data.items || [];
+            } catch (err: any) {
+                if (err.response?.status === 403) return [];
+                throw err;
+            }
         },
+        retry: (failureCount, error: any) => {
+            if (error.response?.status === 403) return false;
+            return failureCount < 3;
+        }
     });
 
     const createWorkflow = useMutation({

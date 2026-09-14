@@ -1,19 +1,42 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, ConflictException, ForbiddenException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateLocationDto } from './dto/create-location.dto';
 import { UpdateLocationDto } from './dto/update-location.dto';
 import { TenancyContext } from '../common/tenancy.context';
+import * as xlsx from 'xlsx';
 
 @Injectable()
 export class LocationsService {
   constructor(private prisma: PrismaService) {}
 
+  private async logAudit(action: string, entityId: string, previousData: any, newData: any) {
+    const userOrgId = TenancyContext.userOrgId;
+    const organizationId = TenancyContext.organizationId;
+    if (!userOrgId || !organizationId) return;
+
+    await this.prisma.auditLog.create({
+      data: {
+        organizationId,
+        userId: userOrgId,
+        action,
+        model: 'Location',
+        entityId,
+        oldData: previousData ? JSON.parse(JSON.stringify(previousData)) : undefined,
+        newData: newData ? JSON.parse(JSON.stringify(newData)) : undefined,
+      }
+    });
+  }
+
+  private applyRBAC(where: any) {
+    if (!TenancyContext.hasPermission('ALL')) {
+      where.workers = { some: { id: TenancyContext.userOrgId } };
+    }
+  }
+
   async create(createLocationDto: CreateLocationDto) {
     const { workerIds, teamIds, vendorIds, customerId, parentId, ...rest } = createLocationDto;
     const organizationId = TenancyContext.organizationId;
     
-    console.log("CreateLocationDto: ", JSON.stringify(createLocationDto, null, 2));
-
     // Map User IDs to UserOrganization IDs since Location.workers relates to UserOrganization
     let userOrgIds: string[] = [];
     if (workerIds && workerIds.length > 0) {
@@ -27,7 +50,7 @@ export class LocationsService {
       userOrgIds = userOrgs.map(uo => uo.id);
     }
 
-    return this.prisma.location.create({
+    const created = await this.prisma.location.create({
       data: { 
         ...rest, 
         organizationId,
@@ -39,9 +62,11 @@ export class LocationsService {
       } as any,
       include: { parent: true },
     });
+
+    await this.logAudit('CREATE', created.id, null, created);
+    return created;
   }
 
-  /** Returns the full hierarchical tree of locations for the org */
   async findAll(params?: { 
     search?: string; 
     sortBy?: string;
@@ -53,10 +78,14 @@ export class LocationsService {
     types?: string[];
     customerId?: string;
     vendorIds?: string[];
+    page?: number;
+    limit?: number;
   }) {
-    const { search, sortBy, sortOrder = 'desc', workerIds, teamIds, statuses, priorities, types, customerId, vendorIds } = params || {};
+    const { search, sortBy, sortOrder = 'desc', workerIds, teamIds, statuses, priorities, types, customerId, vendorIds, page, limit } = params || {};
     const organizationId = TenancyContext.organizationId;
     const where: any = { organizationId, deletedAt: null };
+
+    this.applyRBAC(where);
 
     if (search) {
       where.OR = [
@@ -66,7 +95,8 @@ export class LocationsService {
     }
 
     if (workerIds?.length) {
-      where.workers = { some: { id: { in: workerIds } } };
+      if (!where.workers) where.workers = {};
+      where.workers.some = { ...where.workers.some, id: { in: workerIds } };
     }
 
     if (teamIds?.length) {
@@ -104,7 +134,34 @@ export class LocationsService {
         orderBy = { name: sortOrder };
     }
 
-    return this.prisma.location.findMany({
+    if (page && limit) {
+      const skip = (page - 1) * limit;
+      const [items, totalItems] = await Promise.all([
+        this.prisma.location.findMany({
+          where,
+          include: {
+            parent: { select: { id: true, name: true } },
+            _count: { select: { children: true, assets: true, workers: true, teams: true, vendors: true, customers: true } },
+          },
+          orderBy,
+          skip,
+          take: Number(limit),
+        }),
+        this.prisma.location.count({ where })
+      ]);
+
+      return {
+        items,
+        meta: {
+          totalItems,
+          itemsPerPage: Number(limit),
+          totalPages: Math.ceil(totalItems / Number(limit)),
+          currentPage: Number(page),
+        }
+      };
+    }
+
+    const items = await this.prisma.location.findMany({
       where,
       include: {
         parent: { select: { id: true, name: true } },
@@ -112,13 +169,98 @@ export class LocationsService {
       },
       orderBy,
     });
+    
+    return {
+      items,
+      meta: {
+        totalItems: items.length,
+        itemsPerPage: items.length,
+        totalPages: 1,
+        currentPage: 1
+      }
+    };
   }
 
-  /** Returns a single location with its full tree of children and assets */
+  async getBreadcrumbs(id: string) {
+    const organizationId = TenancyContext.organizationId;
+    const breadcrumbs: { id: string; name: string }[] = [];
+    let currentId: string | null = id;
+
+    // RBAC check on initial requested ID
+    const initialLoc = await this.findOne(id).catch(() => null);
+    if (!initialLoc) throw new ForbiddenException();
+
+    while (currentId) {
+      const loc = await this.prisma.location.findFirst({
+        where: { id: currentId, organizationId, deletedAt: null },
+        select: { id: true, name: true, parentId: true },
+      });
+
+      if (!loc) break;
+      
+      breadcrumbs.unshift({ id: loc.id, name: loc.name });
+      currentId = loc.parentId;
+    }
+
+    return breadcrumbs;
+  }
+
+  async getRollupMetrics(id: string) {
+    const orgId = TenancyContext.organizationId;
+    
+    // RBAC check
+    await this.findOne(id);
+    
+    // Recursive CTE to get all child location IDs
+    const hierarchyQuery: any[] = await this.prisma.$queryRaw`
+      WITH RECURSIVE LocationHierarchy AS (
+        SELECT id FROM "Location" 
+        WHERE id = ${id} AND "organizationId" = ${orgId}
+        UNION ALL
+        SELECT l.id FROM "Location" l
+        INNER JOIN LocationHierarchy lh ON l."parentId" = lh.id
+        WHERE l."deletedAt" IS NULL
+      )
+      SELECT id FROM LocationHierarchy;
+    `;
+
+    const locationIds = hierarchyQuery.map((row) => row.id);
+
+    if (locationIds.length === 0) {
+      return { totalAssets: 0, totalWorkOrders: 0, openWorkOrders: 0 };
+    }
+
+    const [totalAssets, totalWorkOrders, openWorkOrders] = await Promise.all([
+      this.prisma.asset.count({
+        where: { locationId: { in: locationIds }, deletedAt: null }
+      }),
+      this.prisma.workOrder.count({
+        where: { locationId: { in: locationIds }, deletedAt: null }
+      }),
+      this.prisma.workOrder.count({
+        where: { 
+          locationId: { in: locationIds }, 
+          status: { in: ['OPEN', 'IN_PROGRESS', 'ON_HOLD'] },
+          deletedAt: null 
+        }
+      })
+    ]);
+
+    return {
+      totalAssets,
+      totalWorkOrders,
+      openWorkOrders,
+      descendantLocationCount: locationIds.length - 1
+    };
+  }
+
   async findOne(id: string) {
     const organizationId = TenancyContext.organizationId;
+    const where: any = { id, organizationId, deletedAt: null };
+    this.applyRBAC(where);
+
     const location = await this.prisma.location.findFirst({
-      where: { id, organizationId, deletedAt: null },
+      where,
       include: {
         parent: { select: { id: true, name: true } },
         children: { select: { id: true, name: true, type: true } },
@@ -139,13 +281,13 @@ export class LocationsService {
       },
     });
     if (!location) {
-      throw new NotFoundException(`Location with ID ${id} not found`);
+      throw new NotFoundException(`Location with ID ${id} not found or access denied`);
     }
     return location;
   }
 
   async addFile(locationId: string, file: Express.Multer.File) {
-    await this.findOne(locationId);
+    await this.findOne(locationId); // Enforces RBAC
     const userOrgId = TenancyContext.userOrgId;
 
     return this.prisma.locationFile.create({
@@ -161,6 +303,7 @@ export class LocationsService {
   }
 
   async removeFile(locationId: string, fileId: string) {
+    await this.findOne(locationId); // Enforces RBAC
     const file = await this.prisma.locationFile.findFirst({
       where: { id: fileId, locationId },
     });
@@ -174,16 +317,22 @@ export class LocationsService {
   }
 
   async update(id: string, updateLocationDto: UpdateLocationDto) {
-    await this.findOne(id);
-    const { workerIds, teamIds, vendorIds, customerId, parentId, ...rest } = updateLocationDto;
-    const organizationId = TenancyContext.organizationId;
+    const existing = await this.findOne(id); // Enforces RBAC
+    const orgId = TenancyContext.organizationId;
     
-    // Map User IDs to UserOrganization IDs
+    if (updateLocationDto.version !== undefined) {
+      if (existing.version !== updateLocationDto.version) {
+        throw new ConflictException(`Location has been modified by someone else. Please refresh and try again. (v${existing.version} vs v${updateLocationDto.version})`);
+      }
+    }
+
+    const { workerIds, teamIds, vendorIds, customerId, parentId, ...rest } = updateLocationDto;
+    
     let userOrgIds: string[] = [];
     if (workerIds && workerIds.length > 0) {
       const userOrgs = await this.prisma.userOrganization.findMany({
         where: {
-          organizationId,
+          organizationId: orgId,
           userId: { in: workerIds }
         },
         select: { id: true }
@@ -191,13 +340,11 @@ export class LocationsService {
       userOrgIds = userOrgs.map(uo => uo.id);
     }
 
-    return this.prisma.location.update({
-      where: { 
-        id,
-        organizationId 
-      },
+    const updated = await this.prisma.location.update({
+      where: { id, organizationId: orgId },
       data: {
         ...rest,
+        version: { increment: 1 },
         parentId: parentId || undefined,
         workers: workerIds !== undefined ? { set: userOrgIds.map(id => ({ id })) } : undefined,
         teams: teamIds !== undefined ? { set: teamIds.map(id => ({ id })) } : undefined,
@@ -206,16 +353,101 @@ export class LocationsService {
       } as any,
       include: { parent: true },
     });
+
+    await this.logAudit('UPDATE', updated.id, existing, updated);
+    return updated;
   }
 
   async remove(id: string) {
-    await this.findOne(id);
-    const organizationId = TenancyContext.organizationId;
-    await this.prisma.location.update({
-      where: { id, organizationId },
-      data: { deletedAt: new Date() },
+    const existing = await this.findOne(id); // Enforces RBAC
+    const orgId = TenancyContext.organizationId;
+    
+    // Cascading soft deletes
+    const hierarchyQuery: any[] = await this.prisma.$queryRaw`
+      WITH RECURSIVE LocationHierarchy AS (
+        SELECT id FROM "Location" 
+        WHERE id = ${id} AND "organizationId" = ${orgId}
+        UNION ALL
+        SELECT l.id FROM "Location" l
+        INNER JOIN LocationHierarchy lh ON l."parentId" = lh.id
+        WHERE l."deletedAt" IS NULL
+      )
+      SELECT id FROM LocationHierarchy;
+    `;
+    const descendantIds = hierarchyQuery.map((row) => row.id);
+
+    const now = new Date();
+
+    // Soft delete locations
+    await this.prisma.location.updateMany({
+      where: { id: { in: descendantIds } },
+      data: { deletedAt: now }
     });
-    return { message: 'Location deleted successfully' };
+
+    // Soft delete assets
+    await this.prisma.asset.updateMany({
+      where: { locationId: { in: descendantIds }, deletedAt: null },
+      data: { deletedAt: now }
+    });
+
+    // Cancel Work Orders
+    await this.prisma.workOrder.updateMany({
+      where: { locationId: { in: descendantIds }, deletedAt: null },
+      data: { status: 'CANCELLED', deletedAt: now }
+    });
+
+    // Inactivate PM Schedules
+    await this.prisma.pMSchedule.updateMany({
+      where: { locationId: { in: descendantIds }, deletedAt: null },
+      data: { isActive: false, deletedAt: now }
+    });
+
+    await this.logAudit('DELETE', id, existing, null);
+    return { message: 'Location and its dependents deleted successfully' };
+  }
+
+  async importCsv(file: Express.Multer.File) {
+    const orgId = TenancyContext.organizationId;
+    const workbook = xlsx.read(file.buffer, { type: 'buffer' });
+    const sheetName = workbook.SheetNames[0];
+    const sheet = workbook.Sheets[sheetName];
+    const data: any[] = xlsx.utils.sheet_to_json(sheet);
+
+    let importedCount = 0;
+    for (const row of data) {
+      if (!row.name) continue;
+      await this.prisma.location.create({
+        data: {
+          organizationId: orgId,
+          name: row.name,
+          description: row.description,
+          address: row.address,
+          type: row.type || 'BUILDING',
+        } as any
+      });
+      importedCount++;
+    }
+    return { message: `Successfully imported ${importedCount} locations.` };
+  }
+
+  async exportCsv() {
+    const orgId = TenancyContext.organizationId;
+    const where: any = { organizationId: orgId, deletedAt: null };
+    this.applyRBAC(where);
+
+    const locations = await this.prisma.location.findMany({ where });
+    const data = locations.map(l => ({
+      ID: l.id,
+      Name: l.name,
+      Type: l.type,
+      Address: l.address,
+      Description: l.description,
+      CreatedAt: l.createdAt
+    }));
+
+    const worksheet = xlsx.utils.json_to_sheet(data);
+    const workbook = xlsx.utils.book_new();
+    xlsx.utils.book_append_sheet(workbook, worksheet, 'Locations');
+    return xlsx.write(workbook, { type: 'buffer', bookType: 'csv' });
   }
 }
-

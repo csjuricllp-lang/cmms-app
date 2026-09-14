@@ -499,7 +499,7 @@ export const POInspector = ({ order: initialOrder, onClose }: POInspectorProps) 
                         {(order.status === 'APPROVED' || order.status === 'ORDERED') && order.items?.some((i: any) => (i.fulfilledQuantity || 0) < i.quantity) && (
                             <button 
                                 onClick={() => setIsFulfillModalOpen(true)}
-                                className="px-5 py-2 bg-[#4F7CFF] text-white rounded-xl hover:bg-primary/90 active:scale-[0.97] transition-all font-bold text-[13px] shadow-sm shadow-primary/20 flex items-center gap-2"
+                                className="px-5 py-2 bg-primary text-white rounded-xl hover:bg-primary/90 active:scale-[0.97] transition-all font-bold text-[13px] shadow-sm shadow-primary/20 flex items-center gap-2"
                             >
                                 <Truck className="w-4 h-4" />
                                 Fulfill

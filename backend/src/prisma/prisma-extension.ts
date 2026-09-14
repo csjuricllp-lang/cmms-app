@@ -46,6 +46,8 @@ export const multiTenancyModels = [
   'ChecklistResponse',
   'PMSchedule',
   'PMScheduleTemplate',
+  'PMScheduleTask',
+  'PMSchedulePlannedPart',
   'MaintenanceRequest',
   'Notification',
   'NotificationTemplate',

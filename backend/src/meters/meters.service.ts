@@ -3,6 +3,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { CreateMeterDto } from './dto/create-meter.dto';
 import { UpdateMeterDto } from './dto/update-meter.dto';
 import { PMService } from '../pm/pm.service';
+import { PreventiveMaintenanceService } from '../preventive-maintenance/preventive-maintenance.service';
 import { TenancyContext } from '../common/tenancy.context';
 
 @Injectable()
@@ -10,6 +11,7 @@ export class MetersService {
   constructor(
     private prisma: PrismaService,
     private pmService: PMService,
+    private preventiveMaintenanceService: PreventiveMaintenanceService,
   ) {}
 
   async create(createMeterDto: CreateMeterDto) {
@@ -77,7 +79,7 @@ export class MetersService {
           data: { meterId: null },
         }),
         this.prisma.meter.delete({
-          where: { id, forceHardDelete: true } as any,
+          where: { id },
         }),
       ]);
       return { message: 'Meter permanently deleted successfully' };
@@ -87,8 +89,9 @@ export class MetersService {
           where: { meterId: id },
           data: { meterId: null },
         }),
-        this.prisma.meter.delete({
+        this.prisma.meter.update({
           where: { id },
+          data: { deletedAt: new Date() },
         }),
       ]);
       return { message: 'Meter archived successfully' };
@@ -138,7 +141,8 @@ export class MetersService {
     });
 
     // --- Preventive Maintenance Trigger Check ---
-    await this.pmService.checkMeterTriggers(
+    // Log the event to pmQueue (which is mocked), then actually generate WOs synchronously
+    const triggeredPMs = await this.pmService.checkMeterTriggers(
       createMeterReadingDto.meterId,
       createMeterReadingDto.value,
     );
@@ -149,6 +153,23 @@ export class MetersService {
       data: { currentValue: createMeterReadingDto.value },
     });
 
-    return reading;
+    // Actually generate the Work Orders synchronously since BullMQ is disabled
+    if (triggeredPMs.length > 0) {
+      // Execute in background so it doesn't delay the API response
+      TenancyContext.runAsync(
+        {
+          organizationId: TenancyContext.organizationId || '',
+          userId: 'SYSTEM',
+          userOrgId: 'SYSTEM',
+          role: 'SYSTEM',
+          teamIds: [],
+          locationIds: [],
+          permissions: [],
+        },
+        () => this.preventiveMaintenanceService.processSchedules(),
+      ).catch(e => console.error("Error processing PM schedules", e));
+    }
+
+    return { ...reading, triggeredPMs };
   }
 }

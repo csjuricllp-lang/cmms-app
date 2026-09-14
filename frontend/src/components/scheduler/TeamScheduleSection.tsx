@@ -433,14 +433,15 @@ export const TeamScheduleSection = ({
 
                                 return (
                                     <DroppableSlot key={slotId} slotId={slotId} userId={user.userOrgId} time={time}>
-                                        {wosInSlot.map((wo: WorkOrderSync) => (
+                                        {wosInSlot.map((wo: WorkOrderSync, idx: number) => (
                                             <TimelineCard 
-                                                key={wo.id} 
+                                                key={`wo-${wo.id || 'temp'}-${idx}`} 
                                                 wo={wo} 
                                                 onClick={() => setSelectedWo(wo)} 
                                                 onEdit={() => setEditingWo(wo)}
                                                 tagConfig={tagConfig} 
                                                 hasConflict={wosInSlot.length > 1}
+                                                activeView={activeView}
                                             />
                                         ))}
                                     </DroppableSlot>

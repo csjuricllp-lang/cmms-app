@@ -93,85 +93,8 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
             tasks: [
                 {
                     id: crypto.randomUUID(),
-                    task: 'Clean air filter & check its condition',
+                    task: 'New Task',
                     type: 'Status',
-                    isRequired: false,
-                    requirements: { notes: false, photo: false, url: false, signature: false, reading: false, barcode: false }
-                },
-                {
-                    id: crypto.randomUUID(),
-                    task: 'Check & Clean the Evaporator coil',
-                    type: 'Status',
-                    isRequired: false,
-                    requirements: { notes: false, photo: false, url: false, signature: false, reading: false, barcode: false }
-                },
-                {
-                    id: crypto.randomUUID(),
-                    task: 'Check the condenser coil and clean',
-                    type: 'Status',
-                    isRequired: false,
-                    requirements: { notes: false, photo: false, url: false, signature: false, reading: false, barcode: false }
-                },
-                {
-                    id: crypto.randomUUID(),
-                    task: 'Check the operation of evaporator fan motor',
-                    type: 'Inspection',
-                    isRequired: false,
-                    requirements: { notes: false, photo: false, url: false, signature: false, reading: false, barcode: false }
-                },
-                {
-                    id: crypto.randomUUID(),
-                    task: 'Check the operation of condenser fan motor',
-                    type: 'Inspection',
-                    isRequired: false,
-                    requirements: { notes: false, photo: false, url: false, signature: false, reading: false, barcode: false }
-                },
-                {
-                    id: crypto.randomUUID(),
-                    task: 'Check and record operating voltage and Amperes.',
-                    type: 'Number',
-                    isRequired: false,
-                    requirements: { notes: false, photo: false, url: false, signature: false, reading: false, barcode: false }
-                },
-                {
-                    id: crypto.randomUUID(),
-                    task: 'Check and service drain pump,if any',
-                    type: 'Inspection',
-                    isRequired: false,
-                    requirements: { notes: false, photo: false, url: false, signature: false, reading: false, barcode: false }
-                },
-                {
-                    id: crypto.randomUUID(),
-                    task: 'Perform functional test of thermostat',
-                    type: 'Status',
-                    isRequired: false,
-                    requirements: { notes: false, photo: false, url: false, signature: false, reading: false, barcode: false }
-                },
-                {
-                    id: crypto.randomUUID(),
-                    task: 'Check refrigerant leak in the system',
-                    type: 'Inspection',
-                    isRequired: false,
-                    requirements: { notes: false, photo: false, url: false, signature: false, reading: false, barcode: false }
-                },
-                {
-                    id: crypto.randomUUID(),
-                    task: 'Check the refrigerant pressure',
-                    type: 'Number',
-                    isRequired: false,
-                    requirements: { notes: false, photo: false, url: false, signature: false, reading: false, barcode: false }
-                },
-                {
-                    id: crypto.randomUUID(),
-                    task: 'check and comb dented fins of cooling coil',
-                    type: 'Inspection',
-                    isRequired: false,
-                    requirements: { notes: false, photo: false, url: false, signature: false, reading: false, barcode: false }
-                },
-                {
-                    id: crypto.randomUUID(),
-                    task: 'Check the Insulation of the refrigerant pipe',
-                    type: 'Inspection',
                     isRequired: false,
                     requirements: { notes: false, photo: false, url: false, signature: false, reading: false, barcode: false }
                 }
@@ -284,7 +207,7 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
     const [freqValue, setFreqValue] = useState(1);
     const { data: assets } = useAssets();
     const { data: locations } = useLocations();
-    const { createPM, updatePM, uploadAttachment } = usePreventiveMaintenance();
+    const { createPM, updatePM, uploadAttachment, deletePM } = usePreventiveMaintenance();
     const { data: categories } = useCategories('WORK_ORDER');
     const { data: parts } = useParts();
     // const { data: checklists } = useChecklists();
@@ -413,18 +336,7 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                         title: 'Misc',
                         isCollapsed: false,
                         tasks: [
-                            { id: crypto.randomUUID(), task: 'Clean air filter & check its condition', type: 'Status', isRequired: false, requirements: { notes: false, photo: false, url: false, signature: false, reading: false, barcode: false } },
-                            { id: crypto.randomUUID(), task: 'Check & Clean the Evaporator coil', type: 'Status', isRequired: false, requirements: { notes: false, photo: false, url: false, signature: false, reading: false, barcode: false } },
-                            { id: crypto.randomUUID(), task: 'Check the condenser coil and clean', type: 'Status', isRequired: false, requirements: { notes: false, photo: false, url: false, signature: false, reading: false, barcode: false } },
-                            { id: crypto.randomUUID(), task: 'Check the operation of evaporator fan motor', type: 'Inspection', isRequired: false, requirements: { notes: false, photo: false, url: false, signature: false, reading: false, barcode: false } },
-                            { id: crypto.randomUUID(), task: 'Check the operation of condenser fan motor', type: 'Inspection', isRequired: false, requirements: { notes: false, photo: false, url: false, signature: false, reading: false, barcode: false } },
-                            { id: crypto.randomUUID(), task: 'Check and record operating voltage and Amperes.', type: 'Number', isRequired: false, requirements: { notes: false, photo: false, url: false, signature: false, reading: false, barcode: false } },
-                            { id: crypto.randomUUID(), task: 'Check and service drain pump,if any', type: 'Inspection', isRequired: false, requirements: { notes: false, photo: false, url: false, signature: false, reading: false, barcode: false } },
-                            { id: crypto.randomUUID(), task: 'Perform functional test of thermostat', type: 'Status', isRequired: false, requirements: { notes: false, photo: false, url: false, signature: false, reading: false, barcode: false } },
-                            { id: crypto.randomUUID(), task: 'Check refrigerant leak in the system', type: 'Inspection', isRequired: false, requirements: { notes: false, photo: false, url: false, signature: false, reading: false, barcode: false } },
-                            { id: crypto.randomUUID(), task: 'Check the refrigerant pressure', type: 'Number', isRequired: false, requirements: { notes: false, photo: false, url: false, signature: false, reading: false, barcode: false } },
-                            { id: crypto.randomUUID(), task: 'check and comb dented fins of cooling coil', type: 'Inspection', isRequired: false, requirements: { notes: false, photo: false, url: false, signature: false, reading: false, barcode: false } },
-                            { id: crypto.randomUUID(), task: 'Check the Insulation of the refrigerant pipe', type: 'Inspection', isRequired: false, requirements: { notes: false, photo: false, url: false, signature: false, reading: false, barcode: false } }
+                            { id: crypto.randomUUID(), task: 'New Task', type: 'Status', isRequired: false, requirements: { notes: false, photo: false, url: false, signature: false, reading: false, barcode: false } }
                         ]
                     }
                 ]);
@@ -453,9 +365,9 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                 return;
             }
             
-            const validRows = assetRows.filter(row => row.assetId);
+            const validRows = assetRows.filter(row => row.assetId || row.locationId);
             if (validRows.length === 0) {
-                toast.error('You must select at least one Asset');
+                toast.error('You must select at least one Asset or Location');
                 return;
             }
 
@@ -468,30 +380,31 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
                     woDescription: woDescription || undefined,
                     categoryId: categoryId || undefined,
                     priority: priority,
-                    assetId: row.assetId,
+                    assetId: row.assetId || undefined,
+                    locationId: row.locationId || undefined,
                     assignedToId: row.assignedToId || undefined,
                     checklistId: checklistId || undefined,
                     frequencyType: freqType,
                     // Calendar fields: used by Calendar & Hybrid
-                    frequencyValue: (freqType === 'METER') ? undefined : freqValue,
-                    advanceNoticeDays: advanceNoticeDays,
+                    frequencyValue: (freqType === 'METER') ? undefined : Number(freqValue),
+                    advanceNoticeDays: Number(advanceNoticeDays),
                     nextDueDate: (freqType === 'METER') ? undefined : new Date(row.startDate).toISOString(),
                     status: 'ACTIVE' as any,
-                    durationHours,
+                    durationHours: Number(durationHours),
                     requiresSignature,
                     createNow,
                     dueDateTime,
                     createWOType,
                     // Meter fields: used by Meter & Hybrid
-                    meterWODueValue: (freqType === 'METER' || freqType === 'HYBRID') ? meterWODueValue : undefined,
+                    meterWODueValue: (freqType === 'METER' || freqType === 'HYBRID') ? Number(meterWODueValue) : undefined,
                     meterWODueUnit: (freqType === 'METER' || freqType === 'HYBRID') ? meterWODueUnit : undefined,
                     meterTriggerType: (freqType === 'METER' || freqType === 'HYBRID') ? meterTriggerType : undefined,
-                    meterInterval: (freqType === 'METER' || freqType === 'HYBRID') ? meterInterval : undefined,
-                    meterId: (freqType === 'METER' || freqType === 'HYBRID') ? meterId : undefined,
+                    meterInterval: (freqType === 'METER' || freqType === 'HYBRID') ? Number(meterInterval) : undefined,
+                    meterId: (freqType === 'METER' || freqType === 'HYBRID') ? (assetRows[0]?.meterId || undefined) : undefined,
                     inactivePeriods,
                     assets: assetRows.map(row => ({
-                        assetId: row.assetId,
-                        locationId: row.locationId,
+                        assetId: row.assetId || undefined,
+                        locationId: row.locationId || undefined,
                         meterId: row.meterId,
                         startDate: row.startDate,
                         assignedToId: row.assignedToId || undefined
@@ -911,44 +824,7 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
 
     if (!isOpen) return null;
 
-    if (schedule) {
-        // Edit mode directly renders the centered Edit Work Order Details modal
-        return (
-            <div className="fixed inset-0 z-[1000] bg-black/50 flex items-center justify-center p-4 animate-in fade-in duration-200">
-                <div className="bg-card w-full max-w-2xl rounded-3xl shadow-2xl flex flex-col max-h-[90vh] overflow-hidden animate-in zoom-in-95 duration-200">
-                    {/* Header */}
-                    <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between">
-                        <h3 className="text-[20px] font-bold text-foreground">Edit Work Order Details</h3>
-                        <button onClick={onClose} className="p-2 hover:bg-muted/50 rounded-xl transition-colors text-slate-400 hover:text-slate-600">
-                            <X className="w-5 h-5" />
-                        </button>
-                    </div>
 
-                    {/* Content */}
-                    <div className="flex-1 overflow-y-auto p-8 pb-24 space-y-8 custom-scrollbar">
-                        {renderModalContent()}
-                    </div>
-
-                    {/* Footer */}
-                    <div className="px-8 py-6 border-t border-border bg-card flex items-center justify-end gap-3">
-                        <button onClick={onClose} className="px-6 py-2.5 bg-card border border-border rounded-xl text-[14px] font-bold text-slate-600 hover:bg-muted/50 transition-all">Cancel</button>
-                        <button 
-                            onClick={handleCreate}
-                            disabled={updatePM.isPending || !pmName}
-                            className={cn(
-                                "px-8 py-2.5 rounded-xl text-[14px] font-black transition-all border shadow-sm",
-                                (updatePM.isPending || !pmName)
-                                ? "bg-muted/50 text-slate-300 cursor-not-allowed border-slate-100"
-                                : "bg-primary text-white border-transparent hover:opacity-90 active:scale-[0.98]"
-                            )}
-                        >
-                            Save Changes
-                        </button>
-                    </div>
-                </div>
-            </div>
-        );
-    }
 
     return (
         <div className="fixed inset-0 z-[1000] bg-card flex flex-col animate-in fade-in zoom-in-95 duration-300">
@@ -1609,6 +1485,24 @@ export const CreatePMModal: React.FC<CreatePMModalProps> = ({ isOpen, onClose, s
             <div className="mt-auto px-4 md:px-10 py-6 md:py-8 border-t border-slate-100 bg-card flex items-center justify-between">
                 <button onClick={onClose} className="text-[14px] font-black uppercase tracking-widest text-slate-400 hover:text-foreground transition-colors">Cancel</button>
                 <div className="flex items-center gap-4">
+                    {schedule && (
+                        <button 
+                            onClick={() => {
+                                if (window.confirm('Are you sure you want to delete this Preventive Maintenance schedule? This action cannot be undone.')) {
+                                    deletePM.mutate(schedule.id, {
+                                        onSuccess: () => {
+                                            onClose();
+                                            window.location.href = '/preventive-maintenance';
+                                        }
+                                    });
+                                }
+                            }}
+                            className="flex items-center gap-2 px-6 py-4 bg-rose-50 border border-rose-200 text-rose-600 rounded-2xl text-[14px] font-black uppercase tracking-widest hover:bg-rose-100 transition-all active:scale-[0.98]"
+                        >
+                            <Trash2 className="w-4 h-4" />
+                            Delete PM
+                        </button>
+                    )}
                     <button 
                         onClick={handleCreate}
                         disabled={schedule ? updatePM.isPending : createPM.isPending}

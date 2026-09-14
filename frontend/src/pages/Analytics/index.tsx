@@ -17,6 +17,8 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '../../lib/utils';
 import { useAnalytics } from '../../hooks/useData';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { api } from '../../lib/api';
 
 // Types & Constants
 import { ALL_DASHBOARDS } from './dashboards';
@@ -69,18 +71,48 @@ export const AnalyticsPage = () => {
     };
     const companyName = getTenantCompany();
 
-    const [pinnedIds, setPinnedIds] = useState<string[]>(() => {
-        const saved = localStorage.getItem('juric_pinned_dashboards');
-        const initialIds = saved ? JSON.parse(saved) : ['Performance', 'Cost', 'Uptime'];
-        return initialIds.slice(0, 3);
+    const queryClient = useQueryClient();
+    const ENTITY_TYPE = 'PINNED_DASHBOARDS';
+
+    const { data: pinnedView } = useQuery({
+        queryKey: ['saved-views', ENTITY_TYPE],
+        queryFn: async () => {
+            const res = await api.get('/saved-views', { params: { entityType: ENTITY_TYPE } });
+            return res.data?.[0]; // Assuming one config per user
+        },
+        staleTime: 30_000,
+    });
+
+    const pinnedIds = pinnedView?.config?.ids || ['Performance', 'Cost', 'Uptime'];
+
+    const pinMutation = useMutation({
+        mutationFn: async (ids: string[]) => {
+            if (pinnedView?.id) {
+                return api.patch(`/saved-views/${pinnedView.id}`, { config: { ids } });
+            }
+            return api.post('/saved-views', {
+                name: 'Pinned Dashboards',
+                entityType: ENTITY_TYPE,
+                config: { ids },
+                isShared: false
+            });
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['saved-views', ENTITY_TYPE] });
+        }
     });
 
     const savePinnedIds = (ids: string[]) => {
-        setPinnedIds(ids);
-        localStorage.setItem('juric_pinned_dashboards', JSON.stringify(ids));
+        pinMutation.mutate(ids.slice(0, 3));
     };
 
-    const [activeTab, setActiveTab] = useState<string>(pinnedIds[0]);
+    const [activeTab, setActiveTab] = useState<string>('Performance');
+    
+    useEffect(() => {
+        if (pinnedIds && pinnedIds.length > 0 && !pinnedIds.includes(activeTab) && activeTab !== 'CustomReport' && activeTab !== 'AllDashboards') {
+            setActiveTab(pinnedIds[0]);
+        }
+    }, [pinnedIds, activeTab]);
     const [showPinModal, setShowPinModal] = useState(false);
     const [showAnalyticsSidebar, setShowAnalyticsSidebar] = useState(false);
     const [showMoreMenu, setShowMoreMenu] = useState(false);

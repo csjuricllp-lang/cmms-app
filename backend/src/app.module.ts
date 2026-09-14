@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { SuperAdminModule } from './super-admin/super-admin.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { APP_INTERCEPTOR, APP_GUARD, APP_FILTER } from '@nestjs/core';
 import { ThrottlerGuard } from '@nestjs/throttler';
@@ -51,7 +52,7 @@ import { ShiftsModule } from './shifts/shifts.module';
 import { SsoModule } from './sso/sso.module';
 import { ApprovalChainsModule } from './approval-chains/approval-chains.module';
 import { PermitsModule } from './permits/permits.module';
-
+import { ScheduledReportsModule } from './scheduled-reports/scheduled-reports.module';
 import { ThrottlerModule } from '@nestjs/throttler';
 
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
@@ -67,6 +68,7 @@ import { PermissionsGuard } from './auth/guards/permissions.guard';
       },
     ]),
     PrismaModule,
+    SuperAdminModule,
     UsersModule,
     AuthModule,
     LocationsModule,
@@ -111,6 +113,7 @@ import { PermissionsGuard } from './auth/guards/permissions.guard';
     ApprovalChainsModule,
     SsoModule,
     PermitsModule,
+    ScheduledReportsModule,
   ],
   controllers: [AppController],
   providers: [

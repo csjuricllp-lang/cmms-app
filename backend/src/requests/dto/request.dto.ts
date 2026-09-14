@@ -1,4 +1,5 @@
-import { IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsOptional, IsString, Matches } from 'class-validator';
+import { Priority } from '@prisma/client';
 
 export enum RequestStatus {
   PENDING = 'PENDING',
@@ -38,15 +39,17 @@ export class CreateRequestDto {
 
   @IsString()
   @IsOptional()
+  // Medium Fix: Restrict imageUrl to server-relative paths only — prevents SSRF via external URLs
+  @Matches(/^\/files\//, { message: 'imageUrl must be a valid server-relative file path.' })
   imageUrl?: string;
 
   @IsString()
   @IsOptional()
   organizationId?: string; // Required for guest submission
 
-  @IsString()
+  @IsEnum(Priority) // Medium Fix: Require strict priority matching
   @IsOptional()
-  priority?: string;
+  priority?: Priority;
 }
 
 export class UpdateRequestDto {
@@ -58,9 +61,9 @@ export class UpdateRequestDto {
   @IsOptional()
   description?: string;
 
-  @IsEnum(RequestStatus)
-  @IsOptional()
-  status?: RequestStatus;
+  // High Fix: status field REMOVED from UpdateRequestDto.
+  // Status transitions must go through approve() or reject() dedicated endpoints only.
+  // This prevents any user with UPDATE_REQUEST from bypassing the approval workflow.
 
   @IsString()
   @IsOptional()
@@ -70,7 +73,7 @@ export class UpdateRequestDto {
   @IsOptional()
   locationId?: string;
 
-  @IsString()
+  @IsEnum(Priority) // Medium Fix: Require strict priority matching
   @IsOptional()
-  priority?: string;
+  priority?: Priority;
 }

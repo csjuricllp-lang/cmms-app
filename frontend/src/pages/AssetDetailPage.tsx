@@ -304,7 +304,7 @@ export const AssetDetailPage = () => {
                         )}
                         <button 
                             onClick={() => setIsCreateWorkOrderModalOpen(true)}
-                            className="flex items-center gap-2 px-6 py-2.5 bg-primary text-white rounded-xl text-[14px] font-black shadow-lg shadow-primary/20 hover:bg-black transition-all active:scale-95"
+                            className="flex items-center gap-2 px-6 py-2.5 bg-primary text-white rounded-xl text-[14px] font-black shadow-lg shadow-primary/20 hover:brightness-110 transition-all active:scale-95"
                         >
                             Create Work Order
                         </button>

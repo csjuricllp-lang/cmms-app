@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+html, body {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
 @variant dark (html:not([data-theme^="light"]) &);
 
 :root {
@@ -605,3 +610,7 @@ input[type="checkbox"], input[type="radio"] {
   box-shadow: 6px 0 16px -4px rgba(0, 0, 0, 0.08) !important;
 }
 
+
+@keyframes marquee { 0% { transform: translateX(0%); } 100% { transform: translateX(-50%); } }
+.animate-marquee { animation: marquee 20s linear infinite; }
+.hover\:pause:hover { animation-play-state: paused; }

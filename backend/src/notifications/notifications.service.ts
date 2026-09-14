@@ -319,4 +319,10 @@ export class NotificationsService {
       data: { isRead: true },
     });
   }
+
+  async deleteAllForUser(userId: string) {
+    return this.prisma.notification.deleteMany({
+      where: { userId },
+    });
+  }
 }

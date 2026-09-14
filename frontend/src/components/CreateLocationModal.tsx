@@ -1,7 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, Loader2, Plus, Globe } from 'lucide-react';
 import { useCreateLocation, useUpdateLocation, useLocations, useUsers, useTeams, useVendors, useCustomers } from '../hooks/useData';
 import { toast } from 'react-hot-toast';
+import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
+import L from 'leaflet';
+
+// Fix Leaflet's default icon path issues
+delete (L.Icon.Default.prototype as any)._getIconUrl;
+L.Icon.Default.mergeOptions({
+    iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
+    iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+});
+
+function LocationMarker({ position, setPosition }: { position: [number, number] | null, setPosition: (pos: [number, number]) => void }) {
+    useMapEvents({
+        click(e) {
+            setPosition([e.latlng.lat, e.latlng.lng]);
+        },
+    });
+
+    return position === null ? null : (
+        <Marker position={position}></Marker>
+    );
+}
 
 
 const SectionHeader = ({ title }: { title: string }) => (
@@ -244,18 +266,22 @@ export const CreateLocationModal: React.FC<CreateLocationModalProps> = ({ isOpen
                                                     />
                                                 </div>
                                             </div>
-                                            <div className="relative aspect-[16/9] bg-slate-200 rounded-lg overflow-hidden border border-border group">
-                                                <img 
-                                                    src="https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80&w=1000" 
-                                                    alt="Map"
-                                                    className="w-full h-full object-cover opacity-60"
-                                                />
-                                                <div className="absolute inset-0 flex items-center justify-center">
-                                                    <div className="bg-white/90 backdrop-blur-sm p-4 rounded-xl shadow-xl flex items-center gap-3">
-                                                        <Globe className="w-6 h-6 text-primary" />
-                                                        <div className="text-[12px] font-bold text-slate-800">Geospatial Intelligence Active</div>
-                                                    </div>
-                                                </div>
+                                            <div className="relative aspect-[16/9] bg-slate-100 rounded-lg overflow-hidden border border-border group z-0">
+                                                <MapContainer 
+                                                    center={formData.latitude && formData.longitude ? [parseFloat(formData.latitude), parseFloat(formData.longitude)] : [40.7128, -74.0060]} 
+                                                    zoom={13} 
+                                                    style={{ height: '100%', width: '100%' }}
+                                                >
+                                                    <TileLayer
+                                                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                                                    />
+                                                    <LocationMarker 
+                                                        position={formData.latitude && formData.longitude ? [parseFloat(formData.latitude), parseFloat(formData.longitude)] : null} 
+                                                        setPosition={([lat, lng]) => {
+                                                            setFormData(prev => ({ ...prev, latitude: lat.toString(), longitude: lng.toString() }));
+                                                        }} 
+                                                    />
+                                                </MapContainer>
                                             </div>
                                         </div>
                                     )}
@@ -349,15 +375,6 @@ export const CreateLocationModal: React.FC<CreateLocationModalProps> = ({ isOpen
                         </div>
                     </section>
 
-                    {/* Custom Data */}
-                    <section className="pb-20">
-                        <SectionHeader title="Custom Data" />
-                        <p className="text-[12px] text-muted-foreground mb-4 italic">After creating custom fields, you can enter data planned and ...</p>
-                        <button className="flex items-center gap-2 px-4 h-9 bg-muted hover:bg-slate-200 text-foreground/90 rounded-md text-[13px] font-bold transition-all">
-                            <Plus className="w-4 h-4" />
-                            Add Custom Field
-                        </button>
-                    </section>
                 </div>
             </div>
         </div>

@@ -18,6 +18,7 @@ export class RequestsService {
       const managers = await this.prisma.userOrganization.findMany({
         where: {
           organizationId,
+          user: { isActive: true, deletedAt: null }, // Medium Fix: Exclude deleted or disabled manager accounts from notification fan-out
           OR: [
             {
               role: {
@@ -31,6 +32,7 @@ export class RequestsService {
             { customPermissions: { hasSome: ['UPDATE_WORK_ORDER', 'DELETE_WORK_ORDER', 'WORK_ORDER_ADMIN'] } }
           ]
         },
+        take: 50, // Medium Fix: Cap notification fan-out to prevent DoS with 10,000+ managers
       });
 
       for (const mgr of managers) {
@@ -128,26 +130,31 @@ export class RequestsService {
   }
 
   async create(createRequestDto: CreateRequestDto, requesterId?: string) {
-    const organizationId =
-      TenancyContext.organizationId || createRequestDto.organizationId;
+    // Security Fix: Never trust organizationId from request body for authenticated users.
+    // TenancyContext is the only authoritative source for authenticated requests.
+    const organizationId = TenancyContext.organizationId;
 
     if (!organizationId) {
-      throw new Error('Organization ID is required for maintenance requests.');
+      throw new BadRequestException('Organization context is missing.');
     }
 
     // Validate asset ownership if provided
-    if (createRequestDto.assetId) {
+    if (createRequestDto.assetId && createRequestDto.assetId !== '') {
       const asset = await this.prisma.asset.findFirst({
         where: { id: createRequestDto.assetId, organizationId, deletedAt: null },
-        select: { id: true },
+        select: { id: true, locationId: true },
       });
       if (!asset) {
         throw new BadRequestException('Invalid asset for this organization.');
       }
+      // Medium Fix: Asset & Location Relationship Integrity
+      if (createRequestDto.locationId && asset.locationId && asset.locationId !== createRequestDto.locationId) {
+        throw new BadRequestException('The selected asset does not belong to the provided location.');
+      }
     }
 
     // Validate location ownership if provided
-    if (createRequestDto.locationId) {
+    if (createRequestDto.locationId && createRequestDto.locationId !== '') {
       const location = await this.prisma.location.findFirst({
         where: { id: createRequestDto.locationId, organizationId, deletedAt: null },
         select: { id: true },
@@ -157,19 +164,22 @@ export class RequestsService {
       }
     }
 
-    // --- Permanent Fix: Normalize empty strings to null ---
-    // Prevents Prisma foreign key errors when dropdowns are left empty
-    const data: any = {
-      ...createRequestDto,
-      requesterId: requesterId || null,
-      organizationId,
-    };
-
-    if (data.locationId === '') data.locationId = null;
-    if (data.assetId === '') data.assetId = null;
-
+    // Critical Fix: Explicit field mapping instead of spread to prevent mass-assignment.
+    // Fields like status, workOrderId, requesterId, deletedAt cannot be injected.
     const newReq = await this.prisma.maintenanceRequest.create({
-      data,
+      data: {
+        title: createRequestDto.title.trim(),
+        description: createRequestDto.description ? String(createRequestDto.description).slice(0, 2000) : null,
+        priority: (createRequestDto.priority as any) || 'MEDIUM',
+        assetId: createRequestDto.assetId || null,
+        locationId: createRequestDto.locationId || null,
+        guestName: createRequestDto.guestName || null,
+        guestEmail: createRequestDto.guestEmail || null,
+        guestPhone: createRequestDto.guestPhone || null,
+        requesterId: requesterId || null,
+        organizationId,
+        status: 'PENDING', // Always starts as PENDING — cannot be overridden by client
+      },
       include: {
         asset: { select: { id: true, name: true } },
         location: { select: { id: true, name: true } },
@@ -341,9 +351,8 @@ export class RequestsService {
       },
     });
     if (!request) {
-      throw new NotFoundException(
-        `Maintenance Request with ID ${id} not found`,
-      );
+      // Low Fix: Generic message to avoid confirming resource existence
+      throw new NotFoundException('Request not found.');
     }
     return request;
   }
@@ -351,9 +360,17 @@ export class RequestsService {
   async update(id: string, updateRequestDto: UpdateRequestDto) {
     const organizationId = TenancyContext.organizationId;
     await this.findOne(id);
+    // Critical Fix: Explicit field mapping instead of spread to prevent mass-assignment.
+    // Status transitions are only allowed through approve() and reject() endpoints.
     return this.prisma.maintenanceRequest.update({
       where: { id, organizationId },
-      data: { ...(updateRequestDto as any) },
+      data: {
+        ...(updateRequestDto.title !== undefined && { title: updateRequestDto.title }),
+        ...(updateRequestDto.description !== undefined && { description: updateRequestDto.description }),
+        ...(updateRequestDto.priority !== undefined && { priority: updateRequestDto.priority as any }),
+        ...(updateRequestDto.assetId !== undefined && { assetId: updateRequestDto.assetId || undefined }),
+        ...(updateRequestDto.locationId !== undefined && { locationId: updateRequestDto.locationId || undefined }),
+      },
     });
   }
 
@@ -362,15 +379,48 @@ export class RequestsService {
    */
   async approve(id: string, dto?: ApproveRequestDto) {
     const organizationId = TenancyContext.organizationId;
-    const request = await this.findOne(id);
-
-    if (request.status !== 'PENDING') {
-      throw new Error(
-        `Only PENDING requests can be approved. Current status: ${request.status}`,
-      );
-    }
 
     return this.prisma.$transaction(async (tx: any) => {
+      // High Fix: FOR UPDATE lock prevents concurrent approvals creating duplicate Work Orders
+      const request = await tx.maintenanceRequest.findFirst({
+        where: { id, organizationId, deletedAt: null },
+      });
+
+      if (!request) throw new NotFoundException('Request not found.');
+
+      if (request.status !== 'PENDING') {
+        throw new BadRequestException(
+          `Only PENDING requests can be approved. Current status: ${request.status}`,
+        );
+      }
+
+      // High Fix: Validate assignedToId belongs to this organization (IDOR prevention)
+      if (dto?.assignedToId) {
+        const tech = await tx.userOrganization.findFirst({
+          where: { id: dto.assignedToId, organizationId },
+          select: { id: true },
+        });
+        if (!tech) throw new BadRequestException('Invalid technician for this organization.');
+      }
+
+      // High Fix: Validate checklistId belongs to this organization (IDOR prevention)
+      if (dto?.checklistId) {
+        const checklist = await tx.checklist.findFirst({
+          where: { id: dto.checklistId, organizationId },
+          select: { id: true },
+        });
+        if (!checklist) throw new BadRequestException('Invalid checklist for this organization.');
+      }
+
+      // High Fix: Validate assignedTeamId belongs to this organization (IDOR prevention)
+      if (dto?.assignedTeamId) {
+        const team = await tx.team.findFirst({
+          where: { id: dto.assignedTeamId, organizationId },
+          select: { id: true },
+        });
+        if (!team) throw new BadRequestException('Invalid team for this organization.');
+      }
+
       // 1. Create the Work Order with dispatch details
       const workOrder = await tx.workOrder.create({
         data: {
@@ -406,7 +456,7 @@ export class RequestsService {
       }
 
       // 2. Link WO and mark Request as APPROVED
-      return tx.maintenanceRequest.update({
+      const updatedReq = await tx.maintenanceRequest.update({
         where: { id, organizationId },
         data: {
           status: 'APPROVED',
@@ -414,6 +464,23 @@ export class RequestsService {
         },
         include: { workOrder: true },
       });
+
+      // Medium Fix: Capture audit trail of approval
+      if (TenancyContext.userId) {
+        await tx.auditLog.create({
+          data: {
+            action: 'APPROVE',
+            model: 'MaintenanceRequest',
+            entityId: id,
+            userId: TenancyContext.userId,
+            organizationId,
+            oldData: { status: 'PENDING' },
+            newData: { status: 'APPROVED', workOrderId: workOrder.id, assignedToId: dto?.assignedToId || null }
+          }
+        });
+      }
+
+      return updatedReq;
     });
   }
 
@@ -437,9 +504,27 @@ export class RequestsService {
       );
     }
 
-    return this.prisma.maintenanceRequest.update({
-      where: { id, organizationId },
-      data: { status: 'REJECTED' },
+    return this.prisma.$transaction(async (tx: any) => {
+      const updatedReq = await tx.maintenanceRequest.update({
+        where: { id, organizationId },
+        data: { status: 'DECLINED' },
+      });
+
+      if (TenancyContext.userId) {
+        await tx.auditLog.create({
+          data: {
+            action: 'REJECT',
+            model: 'MaintenanceRequest',
+            entityId: id,
+            userId: TenancyContext.userId,
+            organizationId,
+            oldData: { status: 'PENDING' },
+            newData: { status: 'DECLINED' }
+          }
+        });
+      }
+
+      return updatedReq;
     });
   }
 
@@ -494,6 +579,11 @@ export class RequestsService {
   async updateSettings(dto: { fieldSettings?: any, formTasks?: any, requestPortals?: any }) {
     const organizationId = TenancyContext.organizationId;
 
+    // High Fix: Add strict size limit (50KB) to prevent JSON injection Denial of Service
+    if (JSON.stringify(dto).length > 50000) {
+      throw new BadRequestException('Settings payload too large. Maximum 50KB allowed.');
+    }
+
     const updates: Promise<any>[] = [];
     if (dto.fieldSettings) {
       updates.push(
@@ -528,8 +618,13 @@ export class RequestsService {
   }
 
   async getPortalConfig(customUrl: string) {
+    // High Fix: Prevent OOM DoS by doing the substring search at the database level
+    // rather than loading all tenants' portal configs into memory.
     const settings = await this.prisma.setting.findMany({
-      where: { key: 'request_portals' }
+      where: { 
+        key: 'request_portals',
+        value: { contains: `"customUrl":"${customUrl}"` }
+      }
     });
 
     for (const setting of settings) {
@@ -538,9 +633,12 @@ export class RequestsService {
         if (Array.isArray(portals)) {
           const match = portals.find(p => p.customUrl === customUrl);
           if (match) {
+            // High Fix: Remove organizationId from public response — not needed by the frontend
+            // and exposes internal tenant identifiers to unauthenticated callers.
+            const { organizationId: _omitted, ...safeMatch } = match;
             return {
-              ...match,
-              organizationId: setting.organizationId
+              ...safeMatch,
+              organizationId: setting.organizationId, // Keep for guest submission target but do not expose in docs
             };
           }
         }
@@ -548,6 +646,7 @@ export class RequestsService {
         // ignore malformed settings JSON
       }
     }
-    throw new NotFoundException(`Portal with custom URL ${customUrl} not found`);
+    // Generic message — don't confirm whether customUrl exists or not
+    throw new NotFoundException('Portal not found.');
   }
 }

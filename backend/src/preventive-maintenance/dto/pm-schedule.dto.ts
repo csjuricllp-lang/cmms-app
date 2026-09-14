@@ -200,6 +200,10 @@ export class UpdatePMScheduleDto {
   @IsOptional()
   categoryId?: string;
 
+  @IsString()
+  @IsOptional()
+  checklistId?: string;
+
   @IsEnum(Priority)
   @IsOptional()
   priority?: Priority;
@@ -274,6 +278,10 @@ export class UpdatePMScheduleDto {
   @IsOptional()
   meterWODueUnit?: string;
 
+  @IsString()
+  @IsOptional()
+  meterTriggerType?: string;
+
   @IsOptional()
   inactivePeriods?: { startDate: string; endDate: string; reason?: string }[];
 
@@ -290,4 +298,17 @@ export class UpdatePMScheduleDto {
 
   @IsOptional()
   plannedTasks?: { task: string; order: number }[];
+
+  @IsString()
+  @IsOptional()
+  assetId?: string;
+
+  @IsOptional()
+  assets?: {
+    assetId: string;
+    locationId?: string;
+    meterId?: string;
+    startDate?: string;
+    assignedToId?: string;
+  }[];
 }

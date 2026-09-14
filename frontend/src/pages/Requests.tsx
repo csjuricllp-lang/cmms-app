@@ -556,7 +556,8 @@ export const RequestsPage = () => {
     }, [user]);
 
     const isRestrictedRole = ['LIMITED TECHNICIAN', 'LIMITED_TECHNICIAN', 'REQUESTER', 'CUSTOMER DEPARTMENT MANAGER', 'CUSTOMER_DEPARTMENT_MANAGER'].includes(currentUserRole);
-    const isReadOnly = selectedRequest?.status === 'APPROVED' || isRestrictedRole;
+    const isOwnerOrAdmin = ['OWNER', 'ADMIN', 'MANAGER'].includes(currentUserRole);
+    const isReadOnly = isRestrictedRole || (selectedRequest?.status === 'APPROVED' && !isOwnerOrAdmin);
 
     const getInitials = (name: string) => {
         if (!name) return '?';
@@ -1331,7 +1332,7 @@ export const RequestsPage = () => {
                                                 <td className="px-4 py-4">
                                                     {request.imageUrl ? (
                                                         <div className="relative w-8 h-8 rounded overflow-hidden bg-muted group/img">
-                                                            <img src={request.imageUrl.startsWith('/files') ? `http://localhost:3000${request.imageUrl}` : request.imageUrl} alt="" className="w-full h-full object-cover" />
+                                                            <img src={request.imageUrl.startsWith('/files') ? `http://localhost:3001${request.imageUrl}` : request.imageUrl} alt="" className="w-full h-full object-cover" />
                                                         </div>
                                                     ) : (
                                                         <div className="w-8 h-8 rounded border border-gray-100 bg-muted/50 flex items-center justify-center text-gray-300 shrink-0">
@@ -3221,7 +3222,7 @@ export const RequestsPage = () => {
                                             <div className="relative border border-border rounded-lg p-3 bg-muted/50 flex items-center justify-between group">
                                                 <div className="flex items-center gap-3">
                                                     <img 
-                                                        src={detailImageUrl.startsWith('/files') ? `http://localhost:3000${detailImageUrl}` : detailImageUrl} 
+                                                        src={detailImageUrl.startsWith('/files') ? `http://localhost:3001${detailImageUrl}` : detailImageUrl} 
                                                         alt="Request Thumbnail" 
                                                         className="w-12 h-12 object-cover rounded-md border border-border bg-card" 
                                                     />

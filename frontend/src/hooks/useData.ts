@@ -345,8 +345,82 @@ export const useLocations = (params?: {
                     return searchParams.toString();
                 }
             });
+            // if we hit paginated route by accident (which we shouldn't here), handle it
             return Array.isArray(response.data) ? response.data : response.data.items || [];
         }
+    });
+};
+
+export const usePaginatedLocations = (params?: { 
+    search?: string, 
+    sortBy?: string,
+    sortOrder?: 'asc' | 'desc',
+    workerIds?: string[],
+    teamIds?: string[],
+    statuses?: string[],
+    priorities?: string[],
+    types?: string[],
+    customerId?: string,
+    vendorIds?: string[],
+    page?: number,
+    limit?: number
+}) => {
+    return useQuery<{ items: Location[], meta: any }>({
+        queryKey: ['locations-paginated', params],
+        queryFn: async () => {
+            const response = await api.get('/locations', { 
+                params,
+                paramsSerializer: (p) => {
+                    const searchParams = new URLSearchParams();
+                    Object.entries(p).forEach(([key, value]) => {
+                        if (Array.isArray(value)) {
+                            value.forEach(v => searchParams.append(`${key}[]`, v));
+                        } else if (value !== undefined && value !== null) {
+                            searchParams.append(key, value as string);
+                        }
+                    });
+                    return searchParams.toString();
+                }
+            });
+            if (Array.isArray(response.data)) {
+                 return { items: response.data, meta: { currentPage: 1, totalPages: 1, totalItems: response.data.length, itemsPerPage: response.data.length } };
+            }
+            return response.data;
+        }
+    });
+};
+
+export const useInfiniteLocations = (filters?: any) => {
+    return useInfiniteQuery({
+        queryKey: ['locations', 'infinite', filters],
+        queryFn: async ({ pageParam = 1 }) => {
+            const response = await api.get('/locations', {
+                params: {
+                    ...filters,
+                    page: pageParam,
+                    limit: filters?.limit || 50,
+                },
+                paramsSerializer: (p) => {
+                    const searchParams = new URLSearchParams();
+                    Object.entries(p).forEach(([key, value]) => {
+                        if (Array.isArray(value)) {
+                            value.forEach(v => searchParams.append(`${key}[]`, v));
+                        } else if (value !== undefined && value !== null) {
+                            searchParams.append(key, value as string);
+                        }
+                    });
+                    return searchParams.toString();
+                }
+            });
+            return response.data;
+        },
+        getNextPageParam: (lastPage) => {
+            if (lastPage.meta && lastPage.meta.currentPage < lastPage.meta.totalPages) {
+                return lastPage.meta.currentPage + 1;
+            }
+            return undefined;
+        },
+        initialPageParam: 1,
     });
 };
 
@@ -356,6 +430,18 @@ export const useLocationDetail = (id: string | undefined) => {
         queryFn: async () => {
             if (!id) throw new Error('ID is required');
             const response = await api.get(`/locations/${id}`);
+            return response.data;
+        },
+        enabled: !!id
+    });
+};
+
+export const useLocationBreadcrumbs = (id: string | undefined) => {
+    return useQuery<{ id: string, name: string }[]>({
+        queryKey: ['location-breadcrumbs', id],
+        queryFn: async () => {
+            if (!id) throw new Error('ID is required');
+            const response = await api.get(`/locations/${id}/breadcrumbs`);
             return response.data;
         },
         enabled: !!id

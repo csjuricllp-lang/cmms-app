@@ -175,7 +175,8 @@ export class AuthService {
         id: user.id,
         email: user.email,
         name: user.name,
-        roleName: activeOrgMembership.role?.name, // Flattening for the frontend
+        roleName: activeOrgMembership.role?.name,
+        systemRole: user.systemRole,
         permissions: payload.permissions, // Added permissions for frontend UI RBAC
         organizations: user.organizations.map((org: any) => ({
           id: org.organization.id,
@@ -257,6 +258,7 @@ export class AuthService {
       userOrgId: membership.id,
       organizationId: membership.organizationId,
       role: membership.role?.name,
+      systemRole: user.systemRole,
       permissions: effectivePermissions,
       teamIds,
       locationIds,

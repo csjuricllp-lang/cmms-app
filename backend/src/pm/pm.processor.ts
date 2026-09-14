@@ -35,7 +35,7 @@ export class PMProcessor extends WorkerHost {
       // Fetch Schedule inside locked transaction
       const schedule = await tx.pMSchedule.findFirst({
         where: { id: scheduleId, organizationId },
-        include: { asset: true },
+        include: { asset: true, location: true },
       });
 
       if (!schedule || !schedule.isActive || schedule.status !== 'ACTIVE') {
@@ -93,17 +93,17 @@ export class PMProcessor extends WorkerHost {
       // 4. Create the WorkOrder inside transaction
       const workOrder = await tx.workOrder.create({
         data: {
-          title: `PM: ${schedule.name} - ${schedule.asset?.name || 'Asset'}`,
+          title: `PM: ${schedule.name} - ${schedule.asset?.name || schedule.location?.name || 'Facility'}`,
           description:
             schedule.description ||
-            `Preventive Maintenance for ${schedule.asset?.name || 'Asset'}`,
+            `Preventive Maintenance for ${schedule.asset?.name || schedule.location?.name || 'Facility'}`,
           status: 'OPEN',
           priority: 'MEDIUM',
           maintenanceType: 'PREVENTIVE',
           startDate: new Date(),
           dueDate: woDueDate,
-          assetId: schedule.assetId,
-          locationId: schedule.asset?.locationId || null,
+          assetId: schedule.assetId || null,
+          locationId: schedule.locationId || schedule.asset?.locationId || null,
           assignedToId: schedule.assignedToId || null,
           checklistId: schedule.checklistId || null,
           pmScheduleId: schedule.id,

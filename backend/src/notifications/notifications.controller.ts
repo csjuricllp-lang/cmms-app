@@ -46,4 +46,11 @@ export class NotificationsController {
     const userId = TenancyContext.userOrgId;
     return this.notificationsService.markAllAsRead(userId);
   }
+
+  @AllowAnyRole()
+  @Patch('clear-all')
+  async clearAll() {
+    const userId = TenancyContext.userOrgId;
+    return this.notificationsService.deleteAllForUser(userId);
+  }
 }

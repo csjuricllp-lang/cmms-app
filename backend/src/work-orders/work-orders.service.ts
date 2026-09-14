@@ -185,32 +185,51 @@ export class WorkOrdersService {
       parts,
       assetId,
       locationId,
+      idempotencyKey,
       ...rest
     } = createWorkOrderDto;
-
-    // Validate asset and location existence if provided
-    if (assetId) {
-      const asset = await this.prisma.asset.findUnique({
-        where: { id: assetId },
-        select: { id: true },
-      });
-      if (!asset) {
-        throw new NotFoundException(`Asset with id ${assetId} not found`);
-      }
-    }
-    if (locationId) {
-      const location = await this.prisma.location.findUnique({
-        where: { id: locationId },
-        select: { id: true },
-      });
-      if (!location) {
-        throw new NotFoundException(`Location with id ${locationId} not found`);
-      }
-    }
 
     const organizationId = TenancyContext.organizationId || '';
     const userId = TenancyContext.userId;
     const priority = createWorkOrderDto.priority || 'MEDIUM';
+
+    // --- Enterprise: Idempotency Guard ---
+    if (idempotencyKey) {
+      const existing = await this.prisma.workOrder.findUnique({
+        where: { idempotencyKey },
+        include: WO_INCLUDES,
+      });
+      if (existing) {
+        this.logger.log(`Idempotency guard triggered: returning existing Work Order for key ${idempotencyKey}`);
+        return existing;
+      }
+    }
+
+    // Validate asset and location existence if provided
+    if (assetId) {
+      const asset = await this.prisma.asset.findUnique({
+        where: { id: assetId, organizationId },
+        select: { id: true, locationId: true },
+      });
+      if (!asset) {
+        throw new NotFoundException(`Asset with id ${assetId} not found or does not belong to your organization`);
+      }
+      
+      // Dependency Validation
+      if (locationId && asset.locationId && asset.locationId !== locationId) {
+        throw new BadRequestException(`The specified Asset does not belong to the specified Location`);
+      }
+    }
+    
+    if (locationId) {
+      const location = await this.prisma.location.findUnique({
+        where: { id: locationId, organizationId },
+        select: { id: true },
+      });
+      if (!location) {
+        throw new NotFoundException(`Location with id ${locationId} not found or does not belong to your organization`);
+      }
+    }
 
     // --- SLA: Fetch Vendor & Calculate Targets ---
     let vendorData: any = undefined;
@@ -338,6 +357,7 @@ export class WorkOrdersService {
         ...rest,
         workOrderNo: nextWorkOrderNo,
         organizationId,
+        idempotencyKey,
         status: initialStatus as any,
         ...slaTargets,
         ...inheritedSafety,
@@ -373,6 +393,17 @@ export class WorkOrdersService {
       assignedToId: workOrder.assignedToId,
     };
     this.eventEmitter.emit(AppEvents.WORKORDER_CREATED, createdPayload);
+
+    // --- Enterprise: Initial Audit Log ---
+    await this.prisma.workOrderStatusHistory.create({
+      data: {
+        workOrderId: workOrder.id,
+        fromStatus: 'CREATED',
+        toStatus: workOrder.status,
+        changedById: userId || 'SYSTEM',
+        reason: 'Work Order Initial Creation',
+      } as any
+    }).catch(err => this.logger.error('Failed to create initial status history', err));
 
     // --- EMERGENCY LOGIC: Paging, Halt Production, and LOTO ---
     if (workOrder.maintenanceType === 'EMERGENCY' || createWorkOrderDto.haltProduction) {
@@ -529,6 +560,11 @@ export class WorkOrdersService {
 
   async addLink(sourceId: string, dto: AddLinkDto) {
     const organizationId = TenancyContext.organizationId || '';
+    
+    // --- Enterprise: Verify both ends belong to the same organization & user has access ---
+    await this.findOne(sourceId);
+    await this.findOne(dto.targetId);
+
     return this.prisma.workOrderLink.create({
       data: {
         sourceId,
@@ -543,8 +579,9 @@ export class WorkOrdersService {
   }
 
   async removeLink(linkId: string) {
+    const organizationId = TenancyContext.organizationId || '';
     return this.prisma.workOrderLink.delete({
-      where: { id: linkId },
+      where: { id: linkId, organizationId },
     });
   }
 
@@ -1130,6 +1167,16 @@ export class WorkOrdersService {
       }
 
       if (to === 'COMPLETED') {
+        // FDA Compliance: Signature Guard
+        if (
+          existing.signatureRequired &&
+          !(updateWorkOrderDto.signatureUrl || existing.signatureUrl || updateWorkOrderDto.signedById || existing.signedById)
+        ) {
+          throw new BadRequestException(
+            'Signature Guard: A digital signature is required before this work order can be completed.',
+          );
+        }
+
         if (!(updateWorkOrderDto.resolutionNotes || existing.resolutionNotes)) {
           throw new BadRequestException(
             'Resolution notes are required to complete.',
@@ -1457,7 +1504,8 @@ export class WorkOrdersService {
       throw new NotFoundException(`Work Order with ID ${id} not found`);
     }
 
-    if (wo.status === 'OPEN') {
+    if (wo.status === 'OPEN' || wo.status === 'ON_HOLD') {
+      const fromStatus = wo.status;
       await this.prisma.workOrder.update({
         where: { id },
         data: { status: 'IN_PROGRESS', startDate: wo.startDate || new Date() },
@@ -1466,7 +1514,7 @@ export class WorkOrdersService {
       await this.prisma.workOrderStatusHistory.create({
         data: {
           workOrderId: id,
-          fromStatus: 'OPEN',
+          fromStatus,
           toStatus: 'IN_PROGRESS',
           changedById: userOrgId,
           reason: 'Timer Started',
@@ -1476,7 +1524,7 @@ export class WorkOrdersService {
       // Emit status change event
       const statusPayload = {
         id,
-        fromStatus: 'OPEN',
+        fromStatus,
         toStatus: 'IN_PROGRESS',
         userId: userOrgId,
         organizationId: TenancyContext.organizationId || '',
@@ -1540,6 +1588,7 @@ export class WorkOrdersService {
   }
 
   async consumePart(workOrderId: string, dto: AddWorkOrderPartDto) {
+    await this.findOne(workOrderId);
     return this.financeService.consumePart(workOrderId, dto);
   }
 

@@ -34,16 +34,24 @@ export class AllExceptionsFilter implements ExceptionFilter {
       errorMessage = 'An unexpected internal server error occurred.';
     }
 
+    let detailedMessage = errorMessage;
+    if (isHttpException) {
+      const response = (exception as HttpException).getResponse();
+      if (typeof response === 'object' && response !== null && 'message' in response) {
+        detailedMessage = (response as any).message;
+      }
+    }
+
     const responseBody = {
       statusCode: httpStatus,
       timestamp: new Date().toISOString(),
       path: httpAdapter.getRequestUrl(ctx.getRequest()),
-      message: errorMessage,
+      message: detailedMessage,
     };
 
     // Standardized Logging for "Blind Spots" - always logs full stack internally
     this.logger.error(
-      `[${httpStatus}] ${httpAdapter.getRequestMethod(ctx.getRequest())} ${httpAdapter.getRequestUrl(ctx.getRequest())} - Error: ${(exception as any)?.message}`,
+      `[${httpStatus}] ${httpAdapter.getRequestMethod(ctx.getRequest())} ${httpAdapter.getRequestUrl(ctx.getRequest())} - Error: ${JSON.stringify(detailedMessage)}`,
       (exception as any)?.stack,
     );
 

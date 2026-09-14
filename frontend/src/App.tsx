@@ -29,6 +29,7 @@ import { RequestsPage } from './pages/Requests';
 import { MetersPage } from './pages/Meters';
 import { AnalyticsPage } from './pages/Analytics';
 import { RegisterPage } from './pages/Register';
+import { LandingPage } from './pages/LandingPage';
 import { PublicRequestPortal } from './pages/PublicRequestPortal';
 import { SharedOrders } from './pages/SharedOrders';
 import { VendorWorkOrderView } from './pages/VendorWorkOrderView';
@@ -45,6 +46,12 @@ import { usePushNotifications } from './hooks/usePushNotifications';
 import { PWAUpdateNotification } from './components/PWAUpdateNotification';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { ErrorBoundary } from './components/common/ErrorBoundary';
+import { RequireSystemAdmin } from './components/RequireSystemAdmin';
+import { SuperAdminLayout } from './features/super-admin/routes/SuperAdminLayout';
+import { OverviewPage } from './features/super-admin/routes/OverviewPage';
+import { OrganizationsPage } from './features/super-admin/routes/OrganizationsPage';
+import { UsersPage } from './features/super-admin/routes/UsersPage';
+import { ImpersonationBanner } from './features/super-admin/routes/ImpersonationBanner';
 
 function App() {
   const { theme, accentColor } = useThemeStore();
@@ -69,6 +76,7 @@ function App() {
       <ErrorBoundary>
         <PWAUpdateNotification />
         <BrowserRouter>
+        <ImpersonationBanner />
         <Toaster position="top-right" reverseOrder={false} />
         <Routes>
           <Route path="/login" element={<LoginPage />} />
@@ -79,12 +87,14 @@ function App() {
           <Route path="/report-issue/:orgId" element={<PublicRequestPortal />} />
           <Route path="/vendor-portal/:token" element={<VendorWorkOrderView />} />
           
+          <Route path="/" element={<LandingPage />} />
+          
           <Route element={
             <ProtectedRoute>
               <Layout />
             </ProtectedRoute>
           }>
-            <Route path="/" element={<Dashboard />} />
+            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/work-orders" element={
               <ProtectedRoute requiredPermission="work-orders.read">
                 <WorkOrdersPage />
@@ -209,6 +219,17 @@ function App() {
                 <Workflows />
               </ProtectedRoute>
             } />
+          </Route>
+
+          {/* Super Admin Control Center */}
+          <Route path="/super-admin" element={
+            <RequireSystemAdmin>
+              <SuperAdminLayout />
+            </RequireSystemAdmin>
+          }>
+            <Route index element={<OverviewPage />} />
+            <Route path="organizations" element={<OrganizationsPage />} />
+            <Route path="users" element={<UsersPage />} />
           </Route>
 
           {/* Public Onboarding */}

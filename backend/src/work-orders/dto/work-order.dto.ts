@@ -22,6 +22,10 @@ export class CreateWorkOrderDto {
   status?: WorkOrderStatus;
 
   @IsOptional()
+  @IsString()
+  idempotencyKey?: string;
+
+  @IsOptional()
   priority?: Priority;
 
   @IsOptional()

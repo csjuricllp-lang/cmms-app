@@ -268,7 +268,7 @@ export const Dashboard = () => {
                         <div className="flex items-center gap-3">
                             <button 
                                  onClick={() => setIsCreateWoModalOpen(true)}
-                                 className="flex items-center gap-3 px-8 h-12 rounded-[24px] bg-primary hover:bg-black text-white transition-all font-black italic text-[11px] tracking-widest uppercase shadow-2xl shadow-primary/20 hover:scale-[1.02] active:scale-[0.98]"
+                                 className="flex items-center gap-3 px-8 h-12 rounded-[24px] bg-primary hover:brightness-110 text-white transition-all font-black italic text-[11px] tracking-widest uppercase shadow-2xl shadow-primary/20 hover:scale-[1.02] active:scale-[0.98]"
                             >
                                  <Hammer className="w-4 h-4" /> Create Work Order
                             </button>

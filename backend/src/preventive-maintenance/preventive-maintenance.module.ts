@@ -5,5 +5,6 @@ import { PreventiveMaintenanceService } from './preventive-maintenance.service';
 @Module({
   controllers: [PreventiveMaintenanceController],
   providers: [PreventiveMaintenanceService],
+  exports: [PreventiveMaintenanceService],
 })
 export class PreventiveMaintenanceModule {}

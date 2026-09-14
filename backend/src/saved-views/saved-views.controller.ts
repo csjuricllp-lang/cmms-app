@@ -1,10 +1,8 @@
-import { Controller, Get, Post, Body, Param, Delete, Query, UseGuards, Request, UnauthorizedException } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Body, Param, Delete, Query, UseGuards, Request, UnauthorizedException } from '@nestjs/common';
 import { SavedViewsService } from './saved-views.service';
-import { CreateSavedViewDto } from './dto/saved-view.dto';
+import { CreateSavedViewDto, UpdateSavedViewDto } from './dto/saved-view.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { PermissionsGuard } from '../auth/guards/permissions.guard';
-import { RequirePermissions } from '../auth/decorators/permissions.decorator';
-import { Permission } from '../auth/permissions/permission.enum';
 
 import { AllowAnyRole } from '../auth/decorators/allow-any-role.decorator';
 
@@ -17,8 +15,9 @@ export class SavedViewsController {
   @Post()
   create(@Request() req, @Body() createSavedViewDto: CreateSavedViewDto) {
     const userId = req.user?.id;
+    const userRole = req.user?.role;
     if (!userId) throw new UnauthorizedException('User identity is required.');
-    return this.savedViewsService.create(userId, createSavedViewDto);
+    return this.savedViewsService.create(userId, userRole, createSavedViewDto);
   }
 
   @AllowAnyRole()
@@ -30,10 +29,20 @@ export class SavedViewsController {
   }
 
   @AllowAnyRole()
+  @Patch(':id')
+  update(@Request() req, @Param('id') id: string, @Body() updateDto: UpdateSavedViewDto) {
+    const userId = req.user?.id;
+    const userRole = req.user?.role;
+    if (!userId) throw new UnauthorizedException('User identity is required.');
+    return this.savedViewsService.update(userId, userRole, id, updateDto);
+  }
+
+  @AllowAnyRole()
   @Delete(':id')
   remove(@Request() req, @Param('id') id: string) {
     const userId = req.user?.id;
+    const userRole = req.user?.role;
     if (!userId) throw new UnauthorizedException('User identity is required.');
-    return this.savedViewsService.remove(userId, id);
+    return this.savedViewsService.remove(userId, userRole, id);
   }
 }

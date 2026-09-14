@@ -161,13 +161,13 @@ export const CompletionWizard: React.FC<Props> = ({ isOpen, onClose, onComplete,
                     )}
 
                     {step === 3 && (
-                        <div className="space-y-8 animate-in slide-in-from-right-8 duration-500">
-                            <div className="flex flex-col items-center text-center space-y-6 py-4">
-                                <div className="w-24 h-24 rounded-[40px] bg-emerald-500 shadow-[0_20px_40px_rgba(16,185,129,0.3)] flex items-center justify-center text-white scale-110 mb-4">
-                                    <ShieldCheck className="w-12 h-12" />
+                        <div className="space-y-4 animate-in slide-in-from-right-8 duration-500">
+                            <div className="flex flex-col items-center text-center space-y-3 py-2">
+                                <div className="w-16 h-16 rounded-[24px] bg-emerald-500 shadow-[0_10px_20px_rgba(16,185,129,0.3)] flex items-center justify-center text-white mb-2">
+                                    <ShieldCheck className="w-8 h-8" />
                                 </div>
-                                <h3 className="text-[28px] font-black italic uppercase tracking-tight leading-none">Technician Sign-Off</h3>
-                                <p className="text-slate-400 font-bold italic text-[14px] max-w-sm">
+                                <h3 className="text-[24px] font-black italic uppercase tracking-tight leading-none">Technician Sign-Off</h3>
+                                <p className="text-slate-400 font-bold italic text-[13px] max-w-sm">
                                     By clicking complete, you certify that all safety protocols were followed and the equipment is restored to optimal status.
                                 </p>
                             </div>
@@ -175,26 +175,26 @@ export const CompletionWizard: React.FC<Props> = ({ isOpen, onClose, onComplete,
                             {!signature ? (
                                 <button
                                     onClick={() => setIsPadOpen(true)}
-                                    className="w-full p-10 rounded-[32px] border-2 border-dashed border-border bg-muted/50 hover:bg-muted hover:border-primary/40 transition-all flex flex-col items-center gap-4 group cursor-pointer"
+                                    className="w-full p-6 rounded-[24px] border-2 border-dashed border-border bg-muted/50 hover:bg-muted hover:border-primary/40 transition-all flex flex-col items-center gap-3 group cursor-pointer"
                                 >
-                                    <div className="w-14 h-14 rounded-2xl bg-card flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
-                                        <PenTool className="w-7 h-7 text-slate-400 group-hover:text-primary transition-colors" />
+                                    <div className="w-12 h-12 rounded-xl bg-card flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
+                                        <PenTool className="w-6 h-6 text-slate-400 group-hover:text-primary transition-colors" />
                                     </div>
-                                    <span className="text-[13px] font-black italic uppercase tracking-[0.1em] text-slate-400 group-hover:text-slate-600 transition-colors">
+                                    <span className="text-[12px] font-black italic uppercase tracking-[0.1em] text-slate-400 group-hover:text-slate-600 transition-colors">
                                         Capture Official Signature
                                     </span>
                                 </button>
                             ) : (
-                                <div className="space-y-4 animate-in zoom-in-95 duration-500">
-                                    <div className="relative aspect-[2/1] bg-slate-900 rounded-[32px] overflow-hidden border-2 border-emerald-500/20 shadow-xl group">
+                                <div className="space-y-3 animate-in zoom-in-95 duration-500">
+                                    <div className="relative h-[160px] bg-slate-900 rounded-[24px] overflow-hidden border-2 border-emerald-500/20 shadow-xl group">
                                         <img src={signature} alt="Signature" className="w-full h-full object-contain p-4" />
                                         <button 
                                             onClick={() => setSignature(null)}
-                                            className="absolute top-4 right-4 p-2 bg-black/40 hover:bg-black/60 rounded-full text-white backdrop-blur-md transition-all opacity-0 group-hover:opacity-100"
+                                            className="absolute top-3 right-3 p-1.5 bg-black/40 hover:bg-black/60 rounded-full text-white backdrop-blur-md transition-all opacity-0 group-hover:opacity-100"
                                         >
                                             <X className="w-4 h-4" />
                                         </button>
-                                        <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/60 to-transparent flex items-center justify-between">
+                                        <div className="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-black/60 to-transparent flex items-center justify-between">
                                             <span className="text-[10px] font-black text-emerald-400 uppercase tracking-widest italic">Authenticity Verified</span>
                                             <ShieldCheck className="w-4 h-4 text-emerald-400" />
                                         </div>
@@ -206,14 +206,14 @@ export const CompletionWizard: React.FC<Props> = ({ isOpen, onClose, onComplete,
                             <div className="flex gap-4">
                                 <button 
                                     onClick={() => setStep(2)}
-                                    className="px-8 py-6 bg-muted/50 hover:bg-muted text-slate-600 rounded-[24px] text-[15px] font-black uppercase tracking-widest italic transition-all"
+                                    className="px-6 py-4 bg-muted/50 hover:bg-muted text-slate-600 rounded-[20px] text-[14px] font-black uppercase tracking-widest italic transition-all"
                                 >
                                     Back
                                 </button>
                                 <button 
                                     onClick={handleFinish}
                                     disabled={!signature}
-                                    className="flex-1 py-6 bg-emerald-500 hover:bg-emerald-600 text-white rounded-[24px] text-[15px] font-black uppercase tracking-widest italic flex items-center justify-center gap-3 transition-all active:scale-95 disabled:opacity-20 shadow-2xl shadow-emerald-500/20"
+                                    className="flex-1 py-4 bg-emerald-500 hover:bg-emerald-600 text-white rounded-[20px] text-[14px] font-black uppercase tracking-widest italic flex items-center justify-center gap-3 transition-all active:scale-95 disabled:opacity-20 shadow-xl shadow-emerald-500/20"
                                 >
                                     Finalize Mission
                                     <CircleCheck className="w-5 h-5" />

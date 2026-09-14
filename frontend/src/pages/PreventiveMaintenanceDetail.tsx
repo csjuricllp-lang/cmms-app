@@ -647,7 +647,7 @@ export const PreventiveMaintenanceDetailPage = () => {
                                                     </td>
                                                 )}
                                                 <td className="px-6 py-5 text-right whitespace-nowrap w-[80px] min-w-[80px] max-w-[80px]">
-                                                    <button className="p-2 text-muted-foreground/60 hover:text-foreground transition-colors">
+                                                    <button onClick={(e) => { e.stopPropagation(); setIsEditModalOpen(true); }} className="p-2 text-muted-foreground/60 hover:text-foreground transition-colors">
                                                         <MoreVertical className="w-4 h-4" />
                                                     </button>
                                                 </td>
@@ -1068,6 +1068,8 @@ export const PreventiveMaintenanceDetailPage = () => {
                     </div>
                 )}
             </AnimatePresence>
+            
+            <CreatePMModal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)} schedule={pm} />
         </div>
     );
 };

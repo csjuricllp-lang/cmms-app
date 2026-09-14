@@ -17,6 +17,7 @@ import { AnimatePresence, Reorder } from 'framer-motion';
 import { PartInspector } from './PartInspector';
 import { useQuery } from '@tanstack/react-query';
 import { api } from '../lib/api';
+import { format } from 'date-fns';
 
 interface CreateWorkOrderModalProps {
     isOpen: boolean;
@@ -69,7 +70,7 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
         }
     }, [isOpen, defaultAssetId, defaultLocationId]);
 
-    const [startDate, setStartDate] = useState('');
+    const [startDate, setStartDate] = useState<string>(format(new Date(), "yyyy-MM-dd'T'HH:mm"));
     const [dueDate, setDueDate] = useState('');
     const [duration, setDuration] = useState<number | ''>('');
     const [primaryAssigneeId, setPrimaryAssigneeId] = useState<string | null>(null);
@@ -173,7 +174,7 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
         setPriority('Medium');
         setSelectedAssetId(null);
         setSelectedLocationId(null);
-        setStartDate('');
+        setStartDate(format(new Date(), "yyyy-MM-dd'T'HH:mm"));
         setDueDate('');
         setDuration('');
         setPrimaryAssigneeId(null);
@@ -310,6 +311,7 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
 
         try {
             const createdWo = await createWorkOrder.mutateAsync({
+                idempotencyKey: crypto.randomUUID(),
                 title, 
                 description, 
                 priority: finalPriority as any,

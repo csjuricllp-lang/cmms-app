@@ -61,13 +61,13 @@ export const NotificationsPopover = () => {
         }
     };
 
-    const markAllRead = async () => {
+    const clearAll = async () => {
         try {
-            await api.patch('/notifications/read-all');
-            setNotifications(prev => prev.map(n => ({ ...n, isRead: true })));
+            await api.patch('/notifications/clear-all');
+            setNotifications([]);
             setUnreadCount(0);
         } catch (err) {
-            console.error('Failed to mark all as read', err);
+            console.error('Failed to clear all notifications', err);
         }
     };
 
@@ -117,7 +117,7 @@ export const NotificationsPopover = () => {
                                     <p className="text-[10px] font-black text-primary uppercase tracking-[0.3em] mt-1">Operational Readiness</p>
                                 </div>
                                 <button
-                                    onClick={markAllRead}
+                                    onClick={clearAll}
                                     className="px-4 py-2 hover:bg-foreground/5 rounded-xl text-[10px] font-black text-muted-foreground hover:text-primary uppercase tracking-widest transition-all border border-border hover:border-primary/20"
                                 >
                                     Clear All

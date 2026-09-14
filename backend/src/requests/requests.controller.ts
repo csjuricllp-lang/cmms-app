@@ -26,6 +26,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import * as os from 'os';
 import { extname } from 'path';
+import { Throttle } from '@nestjs/throttler';
 
 @UseGuards(AuthGuard('jwt'), PermissionsGuard)
 @Controller('requests')
@@ -44,6 +45,16 @@ export class RequestsController {
           cb(null, `${uniqueSuffix}${extname(file.originalname)}`);
         },
       }),
+      // Medium Fix: Only allow image MIME types to prevent upload of executables/scripts
+      fileFilter: (req, file, cb) => {
+        const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+        if (allowedMimeTypes.includes(file.mimetype)) {
+          cb(null, true);
+        } else {
+          cb(new Error('Only image files (jpeg, png, gif, webp) are allowed.'), false);
+        }
+      },
+      limits: { fileSize: 10 * 1024 * 1024 }, // 10MB max file size
     }),
   )
   create(
@@ -57,15 +68,8 @@ export class RequestsController {
     return this.requestsService.create(createRequestDto, req.user.userOrgId);
   }
 
-  /**
-   * Public Guest Portal Endpoint: Allows anyone to submit a request
-   * without an account, provided they have the organization ID.
-   */
-  @Public()
-  @Post('portal')
-  createGuest(@Body() createRequestDto: CreateRequestDto) {
-    return this.requestsService.create(createRequestDto);
-  }
+  // High Fix: Removed unprotected createGuest endpoint.
+  // Guest requests must go through public-requests.controller.ts which enforces @Throttle rate limits.
 
   @RequirePermissions(Permission.READ_REQUEST)
   @Get()
@@ -88,6 +92,7 @@ export class RequestsController {
   }
 
   @Public()
+  @Throttle({ default: { limit: 10, ttl: 60000 } }) // High Fix: Prevent DoS/Enumeration of valid portal URLs
   @Get('portal-config/:customUrl')
   getPortalConfig(@Param('customUrl') customUrl: string) {
     return this.requestsService.getPortalConfig(customUrl);

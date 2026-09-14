@@ -6,7 +6,7 @@ import toast from 'react-hot-toast';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip as ChartTooltip, CartesianGrid } from 'recharts';
 import { EditMeterModal } from './EditMeterModal';
-import { CreatePMModal } from './CreatePMModal';
+import { CreateMeterTriggerModal } from './CreateMeterTriggerModal';
 
 interface MeterInspectorProps {
     meter: any;
@@ -23,6 +23,7 @@ export const MeterInspector = ({ meter, onClose }: MeterInspectorProps) => {
     // New Reading State
     const [isAddingReading, setIsAddingReading] = useState(false);
     const [newReadingValue, setNewReadingValue] = useState<number | ''>('');
+    const [readingMode, setReadingMode] = useState<'TOTAL' | 'ADDED'>('TOTAL');
 
     // Fetch full meter details to get readings
     const { data: fullMeter, isLoading } = useQuery({
@@ -50,29 +51,7 @@ export const MeterInspector = ({ meter, onClose }: MeterInspectorProps) => {
  
     const isHoursOrTime = unit.toLowerCase().includes('hour') || unit.toLowerCase().includes('time') || unit.toLowerCase() === 'h';
  
-    // High fidelity template triggers to match screenshot exactly if none configured yet
-    const displayTriggers = meterTriggers.length > 0 ? meterTriggers : [
-        {
-            id: 'mock-high',
-            name: `${displayMeter.name} High`,
-            meterTriggerType: 'THRESHOLD',
-            meterInterval: displayMeter.threshold ? Number(displayMeter.threshold) : 78,
-            lastMeterReading: displayMeter.currentValue ? Number(displayMeter.currentValue) : 81,
-            createdAt: displayMeter.createdAt || new Date().toISOString(),
-            isMock: true
-        },
-        ...(isHoursOrTime ? [] : [
-            {
-                id: 'mock-low',
-                name: `${displayMeter.name} Low`,
-                meterTriggerType: 'THRESHOLD',
-                meterInterval: displayMeter.threshold ? Math.round(Number(displayMeter.threshold) * 0.9) : 72,
-                lastMeterReading: null,
-                createdAt: displayMeter.createdAt || new Date().toISOString(),
-                isMock: true
-            }
-        ])
-    ];
+    const displayTriggers = meterTriggers;
 
     const isAlreadyArchived = !!(displayMeter?.deletedAt);
 
@@ -106,9 +85,16 @@ export const MeterInspector = ({ meter, onClose }: MeterInspectorProps) => {
         mutationFn: async (value: number) => {
             return api.post(`/meters/${meter.id}/readings`, { value });
         },
-        onSuccess: () => {
+        onSuccess: (response: any) => {
             queryClient.invalidateQueries({ queryKey: ['meters'] });
             toast.success('Reading logged successfully');
+            
+            const data = response?.data;
+            if (data?.triggeredPMs && data.triggeredPMs.length > 0) {
+                const names = data.triggeredPMs.map((pm: any) => pm.name).join(', ');
+                toast.success(`Work Order queued for: ${names}`, { duration: 6000, icon: '⚡' });
+            }
+
             setIsAddingReading(false);
             setNewReadingValue('');
         },
@@ -122,7 +108,13 @@ export const MeterInspector = ({ meter, onClose }: MeterInspectorProps) => {
             toast.error('Please enter a reading value');
             return;
         }
-        addReadingMutation.mutate(Number(newReadingValue));
+        
+        let finalValue = Number(newReadingValue);
+        if (readingMode === 'ADDED') {
+            finalValue = Number(displayMeter.currentValue || 0) + finalValue;
+        }
+        
+        addReadingMutation.mutate(finalValue);
     };
 
     const formatTriggerValue = (pm: any) => {
@@ -141,8 +133,9 @@ export const MeterInspector = ({ meter, onClose }: MeterInspectorProps) => {
     };
 
     const formatDate = (dateStr: any) => {
-        if (!dateStr) return '05/18/26';
+        if (!dateStr) return '-';
         const d = new Date(dateStr);
+        if (isNaN(d.getTime())) return '-';
         const mm = String(d.getMonth() + 1).padStart(2, '0');
         const dd = String(d.getDate()).padStart(2, '0');
         const yy = String(d.getFullYear()).slice(-2);
@@ -531,12 +524,13 @@ export const MeterInspector = ({ meter, onClose }: MeterInspectorProps) => {
 
             <AnimatePresence>
                 {isCreateTriggerOpen && (
-                    <CreatePMModal 
+                    <CreateMeterTriggerModal
                         isOpen={isCreateTriggerOpen}
                         onClose={() => {
                             setIsCreateTriggerOpen(false);
                             queryClient.invalidateQueries({ queryKey: ['pm-schedules'] });
                         }}
+                        meter={displayMeter}
                     />
                 )}
             </AnimatePresence>
@@ -557,9 +551,26 @@ export const MeterInspector = ({ meter, onClose }: MeterInspectorProps) => {
                                     <X className="w-5 h-5" />
                                 </button>
                             </div>
-                            <div className="space-y-4">
+                            <div className="space-y-5">
+                                <div className="flex items-center p-1 bg-muted rounded-xl">
+                                    <button
+                                        onClick={() => setReadingMode('TOTAL')}
+                                        className={`flex-1 py-1.5 text-[12px] font-bold rounded-lg transition-all ${readingMode === 'TOTAL' ? 'bg-white shadow-sm text-slate-800' : 'text-slate-500 hover:text-slate-700'}`}
+                                    >
+                                        Total Reading
+                                    </button>
+                                    <button
+                                        onClick={() => setReadingMode('ADDED')}
+                                        className={`flex-1 py-1.5 text-[12px] font-bold rounded-lg transition-all ${readingMode === 'ADDED' ? 'bg-white shadow-sm text-slate-800' : 'text-slate-500 hover:text-slate-700'}`}
+                                    >
+                                        Amount Added
+                                    </button>
+                                </div>
+                                
                                 <div className="space-y-1.5">
-                                    <label className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider block">Value ({unit})</label>
+                                    <label className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider block">
+                                        {readingMode === 'TOTAL' ? `New Total Value (${unit})` : `Amount to Add (${unit})`}
+                                    </label>
                                     <div className="relative">
                                         <input 
                                             type="number" 

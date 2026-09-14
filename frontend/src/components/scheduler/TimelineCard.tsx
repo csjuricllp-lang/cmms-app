@@ -1,7 +1,9 @@
 import { useDraggable } from '@dnd-kit/core';
-import { Edit3, AlertTriangle } from 'lucide-react';
+import { Edit3, AlertTriangle, Clock } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { type WorkOrderSync } from '../../lib/db';
+import { parseISO, format } from 'date-fns';
+import { type TagConfig } from './ConfigureTagsModal';
 
 interface TimelineCardProps {
     wo: WorkOrderSync;
@@ -9,30 +11,44 @@ interface TimelineCardProps {
     onEdit: () => void;
     tagConfig: TagConfig[];
     hasConflict?: boolean;
+    activeView?: string;
 }
 
-import { type TagConfig } from './ConfigureTagsModal';
-
-export const TimelineCard = ({ wo, onClick, onEdit, tagConfig, hasConflict }: TimelineCardProps) => {
+export const TimelineCard = ({ wo, onClick, onEdit, tagConfig, hasConflict, activeView }: TimelineCardProps) => {
     const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
         id: `scheduled-${wo.id}`,
         data: { wo }
     });
 
-    const style = transform ? {
+    let dynamicStyle: React.CSSProperties = transform ? {
         transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
         zIndex: 1000
-    } : undefined;
+    } : {};
+
+    if (activeView === 'Day') {
+        const startDate = wo.startDate ? parseISO(wo.startDate) : new Date();
+        const minutes = startDate.getMinutes();
+        const leftPercent = (minutes / 60) * 100;
+        const durationHours = Number(wo.estimatedHours) || 1;
+        const widthPercent = durationHours * 100;
+        
+        dynamicStyle = {
+            ...dynamicStyle,
+            left: `${leftPercent}%`,
+            width: `calc(${widthPercent}% - 8px)`,
+        };
+    }
 
     return (
         <div 
             ref={setNodeRef}
-            style={style}
+            style={dynamicStyle}
             {...listeners}
             {...attributes}
             onClick={onClick}
             className={cn(
-                "absolute inset-1 m-1 bg-card border-l-4 border-primary shadow-sm rounded-lg p-3 flex flex-col justify-center cursor-grab active:cursor-grabbing hover:shadow-md transition-all z-10 overflow-hidden",
+                "absolute inset-y-1 bg-card border-l-4 border-primary shadow-sm rounded-lg p-3 flex flex-col justify-center cursor-grab active:cursor-grabbing hover:shadow-md transition-all z-10 overflow-hidden",
+                activeView !== 'Day' && "inset-x-1", // For week/month view, take up full width
                 hasConflict && "border border-amber-200 bg-amber-50/60 border-l-4 border-l-amber-500 shadow-sm shadow-amber-50",
                 isDragging && "opacity-50"
             )}
@@ -46,6 +62,13 @@ export const TimelineCard = ({ wo, onClick, onEdit, tagConfig, hasConflict }: Ti
                 <span className="truncate">#{wo.woNumber?.padStart(3, '0')}: {wo.title}</span>
             </div>
             <div className="flex flex-col gap-0.5 mt-1">
+                {wo.startDate && (
+                    <div className="text-[9px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-1 mb-0.5">
+                        <Clock className="w-2.5 h-2.5" />
+                        {format(parseISO(wo.startDate), 'h:mm a')}
+                        {wo.estimatedHours ? ` - ${format(new Date(parseISO(wo.startDate).getTime() + Number(wo.estimatedHours) * 60 * 60 * 1000), 'h:mm a')}` : ''}
+                    </div>
+                )}
                 {tagConfig?.filter(t => t.visible).map(tag => {
                     if (tag.id === 'asset' && wo.assetName) {
                         return <div key={tag.id} className="text-[9px] font-bold text-gray-400 uppercase tracking-widest truncate">{wo.assetName}</div>;

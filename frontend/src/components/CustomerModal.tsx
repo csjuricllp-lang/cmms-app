@@ -42,7 +42,6 @@ export const CustomerModal = ({ onClose, customer }: CustomerModalProps) => {
                 billingAddress: data.billingAddress || undefined,
                 addressLine2: data.addressLine2 || undefined,
                 addressLine3: data.addressLine3 || undefined,
-                addressLine3: data.addressLine3 || undefined,
                 hourlyRate: data.hourlyRate ? parseFloat(data.hourlyRate) : undefined,
                 customFields: data.customFields
             };
