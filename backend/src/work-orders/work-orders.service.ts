@@ -355,6 +355,8 @@ export class WorkOrdersService {
     const workOrder = await this.prisma.workOrder.create({
       data: {
         ...rest,
+        assetId,
+        locationId,
         workOrderNo: nextWorkOrderNo,
         organizationId,
         idempotencyKey,
