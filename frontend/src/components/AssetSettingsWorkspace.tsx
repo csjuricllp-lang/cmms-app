@@ -55,7 +55,7 @@ export const AssetSettingsWorkspace: React.FC = () => {
     const tabs = [
         { id: 'fields', label: 'Fields' },
         { id: 'hours', label: 'Operating Hours' },
-        { id: 'status', label: 'Asset Status' },
+        { id: 'categories', label: 'Categories' },
         { id: 'checkin', label: 'Check In/Out' }
     ];
 
@@ -264,7 +264,7 @@ export const AssetSettingsWorkspace: React.FC = () => {
                     </div>
                 )
             )}
-            {activeTab === 'status' && (
+            {activeTab === 'categories' && (
                 <div className="space-y-6">
                     <div className="flex justify-end">
                         <button 
