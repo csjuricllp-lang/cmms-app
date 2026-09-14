@@ -58,6 +58,7 @@ import { type WorkOrderSync } from '../lib/db';
 import { cn } from '../lib/utils';
 import { motion } from 'framer-motion';
 import { toast } from 'react-hot-toast';
+import { DebouncedSearchInput } from '../components/DebouncedSearchInput';
 import { useThemeStore } from '../store/useThemeStore';
 import { CreateWorkOrderModal } from '../components/CreateWorkOrderModal';
 import { AdvancedFiltersModal } from '../components/AdvancedFiltersModal';
@@ -407,18 +408,10 @@ export const WorkOrdersPage = () => {
     const queryClient = useQueryClient();
     const [searchParams, setSearchParams] = useSearchParams();
     const [searchQuery, setSearchQuery] = useState('');
-    const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
-
-    useEffect(() => {
-        const handler = setTimeout(() => {
-            setDebouncedSearchQuery(searchQuery);
-        }, 300);
-        return () => clearTimeout(handler);
-    }, [searchQuery]);
 
     useEffect(() => {
         setCurrentPage(1);
-    }, [debouncedSearchQuery]);
+    }, [searchQuery]);
     const [selectedRows, setSelectedRows] = useState<string[]>([]);
     const [activeStatuses, setActiveStatuses] = useState<string[]>(['Open', 'PENDING_APPROVAL', 'In Progress', 'On Hold']);
     
@@ -538,7 +531,7 @@ export const WorkOrdersPage = () => {
     const { workOrders: apiWorkOrders, meta, isLoading } = useWorkOrders({
         page: currentPage,
         limit: (currentView === 'Column' || currentView === 'Calendar') ? 100 : 20,
-        search: debouncedSearchQuery,
+        search: searchQuery,
         status: activeStatuses.length > 0 ? activeStatuses.map(mapStatusToBackend).join(',') : undefined,
         priority: selectedPriorities.length > 0 ? selectedPriorities.map(p => p.toUpperCase()).join(',') : undefined,
         assignedToId: selectedAssigneeIds.length > 0 ? selectedAssigneeIds.join(',') : undefined,
@@ -710,7 +703,7 @@ export const WorkOrdersPage = () => {
         try {
             const params = {
                 limit: 1000, // Large limit for exports
-                search: debouncedSearchQuery,
+                search: searchQuery,
                 status: activeStatuses.length > 0 ? activeStatuses.map(mapStatusToBackend).join(',') : undefined,
                 priority: selectedPriorities.length > 0 ? selectedPriorities.map(p => p.toUpperCase()).join(',') : undefined,
                 assignedToId: selectedAssigneeIds.length > 0 ? selectedAssigneeIds.join(',') : undefined,
@@ -928,16 +921,12 @@ export const WorkOrdersPage = () => {
 
             <div className="flex items-center gap-3">
                 {renderSavedViews()}
-                <div className="relative group/search">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
-                    <input 
-                        type="text" 
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        placeholder="Search assets, work orders..." 
-                        className="w-64 h-9 pl-9 pr-4 bg-muted border border-border rounded-xl text-[13px] text-foreground focus:outline-none focus:bg-background focus:border-primary/30 transition-all placeholder:text-muted-foreground"
-                    />
-                </div>
+                <DebouncedSearchInput
+                    value={searchQuery}
+                    onChange={setSearchQuery}
+                    placeholder="Search assets, work orders..."
+                    className="w-64"
+                />
                 
                 {canCreateWorkOrders && (
                     <button 
@@ -1782,16 +1771,12 @@ export const WorkOrdersPage = () => {
 
                 <div className="h-6 w-px bg-muted mx-2" />
                 
-                <div className="relative w-64">
-                    <input
-                        type="text"
-                        placeholder="Search current view..."
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        className="w-full pl-3 pr-10 py-1.5 bg-muted/50 border border-transparent rounded-lg text-[13px] text-foreground outline-none focus:bg-card focus:border-primary/40 transition-all font-medium"
-                    />
-                    <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                </div>
+                <DebouncedSearchInput
+                    value={searchQuery}
+                    onChange={setSearchQuery}
+                    placeholder="Search assignees, assets..."
+                    className="w-64"
+                />
             </div>
         </div>
     );

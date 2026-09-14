@@ -21,6 +21,7 @@ import { QRScannerModal } from '../components/QRScannerModal';
 import { useMediaQuery } from '../hooks/useMediaQuery';
 import { MobileInventory } from './MobileInventory';
 import { useUserRole } from '../hooks/useUserRole';
+import { DebouncedSearchInput } from '../components/DebouncedSearchInput';
 
 export const InventoryPage = () => {
     const { canManageData } = useUserRole();

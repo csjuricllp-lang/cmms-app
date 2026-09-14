@@ -23,6 +23,7 @@ import { format } from 'date-fns';
 import { TableEmptyState } from '../components/EmptyState';
 import { useMediaQuery } from '../hooks/useMediaQuery';
 import { MobileLocations } from './MobileLocations';
+import { DebouncedSearchInput } from '../components/DebouncedSearchInput';
 
 const ALL_COLUMNS = [
     { id: 'Name', label: 'Name', isMandatory: true },
@@ -377,16 +378,12 @@ export const LocationsPage = () => {
                         <Columns className="w-4 h-4 text-slate-400" />
                         Columns
                     </button>
-                    <div className="relative group">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                        <input 
-                            type="text"
-                            placeholder="Search"
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            className="h-9 w-64 bg-muted border border-transparent rounded-lg pl-10 pr-4 text-[13px] focus:bg-card focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/80 transition-all"
-                        />
-                    </div>
+                    <DebouncedSearchInput
+                        value={searchQuery}
+                        onChange={setSearchQuery}
+                        placeholder="Search locations, codes..."
+                        className="w-[280px]"
+                    />
                 </div>
             </div>
 

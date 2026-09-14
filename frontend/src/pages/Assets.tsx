@@ -20,6 +20,7 @@ import { cn } from '../lib/utils';
 import { useMediaQuery } from '../hooks/useMediaQuery';
 import { MobileAssets } from './MobileAssets';
 import { ColumnPickerPopover } from '../components/ColumnPickerPopover';
+import { DebouncedSearchInput } from '../components/DebouncedSearchInput';
 
 
 const ALL_COLUMNS = [
@@ -259,16 +260,12 @@ export const AssetsPage = () => {
                         Columns
                     </button>
                     </div>
-                    <div className="relative group">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
-                        <input 
-                            type="text" 
-                            placeholder="Search assets..." 
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                            className="pl-10 pr-4 py-2 bg-muted border border-transparent focus:bg-background focus:border-primary focus:ring-4 focus:ring-primary/10 rounded-md text-sm w-64 text-foreground placeholder:text-muted-foreground transition-all outline-none"
-                        />
-                    </div>
+                    <DebouncedSearchInput
+                        value={searchTerm}
+                        onChange={setSearchTerm}
+                        placeholder="Search assets..."
+                        className="w-64"
+                    />
                     {canManageAssets && (
                         <div className="flex items-center gap-2">
                             <button 
