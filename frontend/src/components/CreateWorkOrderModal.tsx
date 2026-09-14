@@ -267,8 +267,11 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
         return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
     };
 
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
     const handleSubmit = async () => {
         if (!title) return;
+        setIsSubmitting(true);
 
         // Validate fields that are marked Required in Configuration settings
         if (fieldConf('description') === 'Required' && !description) {
@@ -380,6 +383,8 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
             console.error("Failed to create work order:", error);
             const errMsg = error.response?.data?.message || error.message || 'Unknown error';
             toast.error(`System Blockade: ${Array.isArray(errMsg) ? errMsg.join(', ') : errMsg}`);
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -1617,14 +1622,14 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
                                 <button onClick={onClose} className="px-4 sm:px-8 py-3 text-[13px] sm:text-[14px] font-black text-slate-950 hover:bg-muted rounded-2xl transition-all border border-border sm:border-0">Discard</button>
                                 <button
                                     onClick={handleSubmit}
-                                    disabled={!title || createWorkOrder.isPending}
+                                    disabled={isSubmitting || !title || createWorkOrder.isPending}
                                     className={cn(
                                         "flex-1 sm:flex-none px-6 sm:px-12 py-3 sm:py-4 bg-primary text-white rounded-[16px] sm:rounded-[20px] text-[13px] sm:text-[14px] font-black shadow-xl shadow-primary/20 transition-all active:scale-95 group",
-                                        (!title || createWorkOrder.isPending) && "opacity-50 cursor-not-allowed"
+                                        (isSubmitting || !title || createWorkOrder.isPending) && "opacity-50 cursor-not-allowed"
                                     )}
                                 >
                                     <span className="flex items-center justify-center gap-2">
-                                        {createWorkOrder.isPending ? "Syncing..." : "Publish Work Order"}
+                                        {(isSubmitting || createWorkOrder.isPending) ? "Validating..." : "Publish Work Order"}
                                         <ChevronDown className="w-4 h-4 group-hover:translate-y-0.5 transition-transform" />
                                     </span>
                                 </button>

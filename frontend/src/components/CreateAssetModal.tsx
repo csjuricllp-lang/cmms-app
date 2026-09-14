@@ -148,6 +148,8 @@ export const CreateAssetModal: React.FC<CreateAssetModalProps> = ({ isOpen, onCl
             toast.error(error.response?.data?.message || 'Verification Error. Check required fields.');
         }
     });
+    
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const resetForm = () => {
         setName(''); setDescription(''); setModel(''); setManufacturer(''); setSerialNumber(''); setCategory('');
@@ -176,6 +178,8 @@ export const CreateAssetModal: React.FC<CreateAssetModalProps> = ({ isOpen, onCl
             toast.error('Location is required. Please select a Location from the right sidebar.');
             return;
         }
+        
+        setIsSubmitting(true);
         const payload = {
             name, 
             description, 
@@ -202,9 +206,9 @@ export const CreateAssetModal: React.FC<CreateAssetModalProps> = ({ isOpen, onCl
         };
 
         if (asset) {
-            updateAsset.mutate({ id: asset.id, data: payload });
+            updateAsset.mutate({ id: asset.id, data: payload }, { onSettled: () => setIsSubmitting(false) });
         } else {
-            createAsset.mutate(payload);
+            createAsset.mutate(payload, { onSettled: () => setIsSubmitting(false) });
         }
     };
 
@@ -228,13 +232,10 @@ export const CreateAssetModal: React.FC<CreateAssetModalProps> = ({ isOpen, onCl
                     </button>
                     <button 
                         onClick={handleSubmit}
-                        disabled={createAsset.isPending || updateAsset.isPending}
-                        className={cn(
-                            "px-8 py-2.5 rounded-xl bg-primary text-white text-[14px] font-black shadow-lg shadow-primary/20 active:scale-95 transition-all flex items-center gap-2",
-                            (createAsset.isPending || updateAsset.isPending) && "opacity-50 grayscale cursor-not-allowed"
-                        )}
+                        disabled={isSubmitting || createAsset.isPending || updateAsset.isPending}
+                        className="px-6 py-2.5 bg-primary text-white text-[13px] font-black rounded-xl shadow-xl shadow-primary/20 hover:bg-primary/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                        {createAsset.isPending || updateAsset.isPending ? "Validating..." : asset ? "Save Changes" : "Create Asset"}
+                        {isSubmitting || createAsset.isPending || updateAsset.isPending ? 'Saving...' : (asset ? 'Save Changes' : 'Create Asset')}
                     </button>
                 </div>
             </header>

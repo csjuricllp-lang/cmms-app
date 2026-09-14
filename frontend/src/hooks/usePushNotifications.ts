@@ -10,6 +10,10 @@ export const usePushNotifications = () => {
                 return;
             }
 
+            if (Notification.permission === 'denied') {
+                return;
+            }
+
             const registration = await navigator.serviceWorker.ready;
             
             // Generate or retrieve persistent Device ID

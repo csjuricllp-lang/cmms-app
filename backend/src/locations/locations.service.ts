@@ -29,7 +29,10 @@ export class LocationsService {
 
   private applyRBAC(where: any) {
     if (!TenancyContext.hasPermission('ALL')) {
-      where.workers = { some: { id: TenancyContext.userOrgId } };
+      where.OR = [
+        { workers: { some: { id: TenancyContext.userOrgId } } },
+        { teams: { some: { id: { in: TenancyContext.teamIds || [] } } } }
+      ];
     }
   }
 

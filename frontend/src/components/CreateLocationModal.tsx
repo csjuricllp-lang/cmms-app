@@ -115,6 +115,7 @@ export const CreateLocationModal: React.FC<CreateLocationModalProps> = ({ isOpen
             }
         }
     }, [isOpen, initialParentId, location]);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const createLocation = useCreateLocation();
     const updateLocation = useUpdateLocation();
     const { data: parentLocations } = useLocations();
@@ -131,7 +132,8 @@ export const CreateLocationModal: React.FC<CreateLocationModalProps> = ({ isOpen
             toast.error('Location name is required');
             return;
         }
-
+        
+        setIsSubmitting(true);
         try {
             const payload: any = {
                 name: formData.name,
@@ -158,6 +160,9 @@ export const CreateLocationModal: React.FC<CreateLocationModalProps> = ({ isOpen
             onClose();
         } catch (error) {
             toast.error(location?.id ? 'Failed to update location' : 'Failed to create location');
+            console.error(error);
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -200,11 +205,10 @@ export const CreateLocationModal: React.FC<CreateLocationModalProps> = ({ isOpen
                     </button>
                     <button 
                         onClick={handleSubmit}
-                        disabled={createLocation.isPending || updateLocation.isPending}
-                        className="h-9 px-6 bg-primary hover:bg-primary/90 text-white rounded-md text-[13px] font-bold transition-all shadow-sm flex items-center gap-2 disabled:opacity-50"
+                        disabled={isSubmitting || createLocation.isPending || updateLocation.isPending}
+                        className="px-6 py-2.5 bg-primary text-white text-[13px] font-black rounded-xl shadow-xl shadow-primary/20 hover:bg-primary/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                        {(createLocation.isPending || updateLocation.isPending) && <Loader2 className="w-4 h-4 animate-spin" />}
-                        {location ? 'Save Changes' : 'Create Location'}
+                        {isSubmitting || createLocation.isPending || updateLocation.isPending ? 'Saving...' : (location?.id ? 'Save Changes' : 'Create Location')}
                     </button>
                 </div>
             </header>
