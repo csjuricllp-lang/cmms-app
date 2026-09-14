@@ -162,6 +162,8 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
         category: false, priority: false, asset: false, location: false, assignee: false, team: false, additionalAssignee: false, checklist: false, po: false, parts: false
     });
 
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
     const [assetSearch, setAssetSearch] = useState('');
     const [locationSearch, setLocationSearch] = useState('');
 
@@ -266,8 +268,6 @@ export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOp
         if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
         return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
     };
-
-    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const handleSubmit = async () => {
         if (!title) return;
