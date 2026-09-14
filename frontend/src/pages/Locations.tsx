@@ -77,6 +77,7 @@ export const LocationsPage = () => {
     const [headerActionsAnchorRect, setHeaderActionsAnchorRect] = useState<DOMRect | undefined>();
 
     const [page, setPage] = useState(1);
+    const [activeTab, setActiveTab] = useState<'List' | 'Map'>('List');
     const limit = 20;
 
     const { data, isLoading } = usePaginatedLocations({ 
