@@ -388,8 +388,8 @@ export class PurchaseOrdersService {
           data: { quantity: { increment: item.quantityReceived } },
         });
 
-        // 3. Log Audit Trail for Warehouse
-        await this.prisma.inventoryTransaction.create({
+        // 3. Log Audit Trail for Warehouse (Fixed: use tx instead of this.prisma)
+        await tx.inventoryTransaction.create({
           data: {
             partId: poItem.partId,
             quantity: item.quantityReceived,
@@ -411,11 +411,16 @@ export class PurchaseOrdersService {
         (i: any) => i.fulfilledQuantity >= i.quantity,
       );
 
-      return tx.purchaseOrder.update({
-        where: { id },
-        data: { status: 'RECEIVED' },
-        include: { items: true },
-      });
+      // Only close the PO if ALL items are fully received
+      if (allFulfilled) {
+        return tx.purchaseOrder.update({
+          where: { id },
+          data: { status: 'RECEIVED' },
+          include: { items: true },
+        });
+      }
+      
+      return updatedPo;
     });
   }
 
