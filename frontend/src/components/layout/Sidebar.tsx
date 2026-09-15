@@ -142,7 +142,10 @@ export const Sidebar = () => {
             const route = genericRoutes[path];
             queryClient.prefetchQuery({
                 queryKey: [route.key],
-                queryFn: async () => (await api.get(route.endpoint)).data,
+                queryFn: async () => {
+                    const response = await api.get(route.endpoint);
+                    return Array.isArray(response.data) ? response.data : (response.data.items || []);
+                },
                 staleTime: 1000 * 60 * 5
             });
         }
