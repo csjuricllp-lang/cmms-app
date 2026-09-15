@@ -57,7 +57,7 @@ export const MobileWorkOrderDetail: React.FC<MobileWorkOrderDetailProps> = ({ id
     removeLink,
     deferWorkOrder,
     resumeWorkOrder
-  } = useWorkOrders();
+  } = useWorkOrders({ enabled: false });
 
   const { data: usersData } = useUsers();
   const { data: partsData } = useParts();

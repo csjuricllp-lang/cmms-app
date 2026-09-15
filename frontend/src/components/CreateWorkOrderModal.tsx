@@ -27,7 +27,7 @@ interface CreateWorkOrderModalProps {
 }
 
 export const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ isOpen, onClose, defaultAssetId, defaultLocationId }) => {
-    const { createWorkOrder, uploadFile: uploadWorkOrderFile } = useWorkOrders();
+    const { createWorkOrder, uploadFile: uploadWorkOrderFile } = useWorkOrders({ enabled: false });
     const { data: assets = [] } = useAssets();
     const { data: locations = [] } = useLocations();
     const { data: users = [] } = useUsers();

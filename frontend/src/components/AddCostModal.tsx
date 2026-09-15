@@ -12,8 +12,8 @@ interface AddCostModalProps {
     defaultUserId?: string;
 }
 
-const AddCostModal: React.FC<AddCostModalProps> = ({ isOpen, onClose, workOrderId, defaultUserId }) => {
-    const { addExpense } = useWorkOrders();
+export const AddCostModal: React.FC<AddCostModalProps> = ({ isOpen, onClose, workOrderId, defaultUserId }) => {
+    const { addExpense } = useWorkOrders({ enabled: false });
     const { data: usersData } = useUsers();
     
     const users = (Array.isArray(usersData) ? usersData : (usersData as any)?.items || []) as any[];

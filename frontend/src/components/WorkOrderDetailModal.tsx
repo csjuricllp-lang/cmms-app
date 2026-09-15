@@ -86,7 +86,7 @@ export const WorkOrderDetailModal: React.FC<WorkOrderDetailModalProps> = ({ isOp
         pauseTimer,
         deferWorkOrder,
         resumeWorkOrder
-    } = useWorkOrders();
+    } = useWorkOrders({ enabled: false });
 
     const [isEditingCloseoutNotes, setIsEditingCloseoutNotes] = useState(false);
     const [closeoutNotesValue, setCloseoutNotesValue] = useState('');

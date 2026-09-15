@@ -180,7 +180,7 @@ export const Scheduler = () => {
         bulkUnassign,
         smartSchedule,
         refetchWorkOrders: refetchScheduledOnly,
-    } = useWorkOrders();
+    } = useWorkOrders({ enabled: false });
 
     const infiniteUnscheduled = useInfiniteWorkOrders({
         isScheduled:    'false',

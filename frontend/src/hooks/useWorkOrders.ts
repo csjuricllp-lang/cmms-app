@@ -23,14 +23,11 @@ export const useWorkOrders = (params?: {
     sortOrder?: string;
     dueDateStart?: string;
     dueDateEnd?: string;
-    /** 'true' = scheduled (has startDate+assignee), 'false' = unscheduled */
     isScheduled?: string;
-    /** Filter WOs whose startDate >= this ISO string (timeline range start) */
     startDateStart?: string;
-    /** Filter WOs whose startDate <= this ISO string (timeline range end) */
     startDateEnd?: string;
-    /** Filter by exact category (case-insensitive) */
     category?: string;
+    enabled?: boolean;
 }) => {
     const queryClient = useQueryClient();
 
@@ -49,11 +46,14 @@ export const useWorkOrders = (params?: {
         params?.startDateEnd || params?.category
     );
 
+    const isQueryEnabled = params?.enabled !== undefined ? params.enabled : true;
+
 
     // 1. FETCH & SYNC: Get from API, save to Local DB, return Data + Meta
     const { data, isLoading, refetch } = useQuery<{ items: WorkOrderSync[]; meta?: any }>({
         queryKey: ['work-orders', cleanParams],
         placeholderData: keepPreviousData,
+        enabled: isQueryEnabled,
         queryFn: async () => {
             try {
                 // Try to get fresh data from server

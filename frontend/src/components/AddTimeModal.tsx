@@ -13,7 +13,7 @@ interface AddTimeModalProps {
 }
 
 const AddTimeModal: React.FC<AddTimeModalProps> = ({ isOpen, onClose, workOrderId, defaultWorkerId }) => {
-    const { addTimeLog } = useWorkOrders();
+    const { addTimeLog } = useWorkOrders({ enabled: false });
     const { data: usersData } = useUsers();
     
     const users = (Array.isArray(usersData) ? usersData : (usersData as any)?.items || []) as any[];

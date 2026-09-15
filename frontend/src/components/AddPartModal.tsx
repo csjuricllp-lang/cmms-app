@@ -19,7 +19,7 @@ const AddPartModal: React.FC<AddPartModalProps> = ({ isOpen, onClose, workOrderI
     
     const { data: partsData, isLoading } = useParts({ search: searchTerm });
     const parts = (Array.isArray(partsData) ? partsData : (partsData as any)?.items || []) as any[];
-    const { consumeParts } = useWorkOrders();
+    const { consumeParts } = useWorkOrders({ enabled: false });
 
 
     if (!isOpen) return null;

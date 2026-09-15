@@ -20,7 +20,7 @@ interface SmartScheduleModalProps {
 export const SmartScheduleModal: React.FC<SmartScheduleModalProps> = ({ isOpen, onClose, currentDate }) => {
     const { data: users = [] } = useUsers();
     const { shifts = [] } = useShifts();
-    const { workOrders = [], bulkUpdate, smartSchedule } = useWorkOrders({ limit: 500 });
+    const { workOrders = [], bulkUpdate, smartSchedule } = useWorkOrders({ limit: 500, enabled: isOpen });
 
     // Formatting date helper
     const formatDateToYYYYMMDD = (d: Date) => {

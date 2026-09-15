@@ -23,7 +23,7 @@ interface EditWorkOrderModalProps {
 }
 
 export const EditWorkOrderModal: React.FC<EditWorkOrderModalProps> = ({ isOpen, onClose, workOrder }) => {
-    const { updateWorkOrder, uploadFile: uploadWorkOrderFile } = useWorkOrders();
+    const { updateWorkOrder, uploadFile: uploadWorkOrderFile } = useWorkOrders({ enabled: false });
     const { data: assets = [] } = useAssets();
     const { data: locations = [] } = useLocations();
     const { data: users = [] } = useUsers();
