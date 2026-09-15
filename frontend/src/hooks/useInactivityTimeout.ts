@@ -28,8 +28,14 @@ export const useInactivityTimeout = (timeoutMs: number = 15 * 60 * 1000) => {
         // Events that indicate activity
         const events = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart'];
         
+        // Throttle activity resets to max once every 5 seconds to prevent main thread starvation
+        let lastActivity = 0;
         const handleActivity = () => {
-            resetTimer();
+            const now = Date.now();
+            if (now - lastActivity > 5000) {
+                lastActivity = now;
+                resetTimer();
+            }
         };
 
         // Attach listeners
