@@ -23,78 +23,77 @@ async function main() {
         'Administrator': [
             'assets.read', 'assets.create', 'assets.update', 'assets.delete',
             'pm.read', 'pm.create', 'pm.update', 'pm.delete',
-            'users.manage', 'roles.manage',
+            'users.manage', 'roles.manage', 'settings.manage',
             'work-orders.read', 'work-orders.read-all', 'work-orders.create', 'work-orders.update', 'work-orders.delete',
             'requests.read', 'requests.create', 'requests.update', 'requests.delete',
             'locations.read', 'locations.create', 'locations.update', 'locations.delete',
             'parts.read', 'parts.create', 'parts.update', 'parts.delete',
-            'analytics.view', 'analytics.read', 'dashboard.access',
+            'analytics.view', 'analytics.read', 'dashboard.access', 'reports.view',
             'checklists.read', 'checklists.create', 'checklists.update', 'checklists.delete',
             'po.read', 'po.create', 'po.update', 'po.delete',
-            'vendors.read', 'customers.read', 'data.manage',
-            'workflows.manage', 'workflows.read'
+            'vendors.read', 'vendors.create', 'vendors.update', 'vendors.delete',
+            'customers.read', 'customers.create', 'customers.update', 'customers.delete',
+            'data.manage', 'data.import-export', 'workflows.manage', 'workflows.read'
         ],
         'Limited Administrator': [
-            'assets.read', 'assets.create', 'assets.update', 'assets.delete',
+            'assets.read', 'assets.create', 'assets.update',
             'pm.read', 'pm.create', 'pm.update', 'pm.delete',
-            'work-orders.read', 'work-orders.create', 'work-orders.update', 'work-orders.delete',
+            'work-orders.read', 'work-orders.read-all', 'work-orders.create', 'work-orders.update', 'work-orders.delete',
             'requests.read', 'requests.create', 'requests.update', 'requests.delete',
             'locations.read', 'locations.create', 'locations.update', 'locations.delete',
             'parts.read', 'parts.create', 'parts.update', 'parts.delete',
-            'analytics.view', 'analytics.read', 'dashboard.access',
-            'checklists.read',
+            'analytics.view', 'analytics.read', 'dashboard.access', 'reports.view',
+            'checklists.read', 'checklists.create', 'checklists.update', 'checklists.delete',
             'po.read', 'po.create', 'po.update', 'po.delete',
-            'vendors.read', 'customers.read', 'workflows.read'
+            'vendors.read', 'vendors.create', 'vendors.update', 'vendors.delete',
+            'customers.read', 'customers.create', 'customers.update', 'customers.delete',
+            'workflows.read'
         ],
         'Technician': [
-            'assets.read', 'assets.create', 'assets.update',
+            'assets.read', 'locations.read',
             'pm.read',
             'work-orders.read', 'work-orders.create', 'work-orders.update',
-            'requests.read', 'requests.create', 'requests.update',
-            'locations.read', 'locations.create', 'locations.update',
-            'parts.read', 'parts.create', 'parts.update',
-            'analytics.read', 'dashboard.access',
-            'checklists.read',
+            'requests.read', 'requests.create',
+            'parts.read', 'parts.update',
+            'po.update',
+            'dashboard.access', 'checklists.read',
             'vendors.read', 'customers.read'
         ],
         'Limited Technician': [
-            'assets.read',
-            'pm.read',
+            'assets.read', 'locations.read',
             'work-orders.read', 'work-orders.update',
             'requests.read', 'requests.create',
-            'locations.read',
-            'parts.read',
-            'analytics.read', 'dashboard.access',
-            'checklists.read',
+            'parts.update',
+            'dashboard.access', 'checklists.read',
             'vendors.read', 'customers.read'
         ],
         'View Only': [
-            'assets.read',
+            'assets.read', 'locations.read',
             'pm.read',
-            'work-orders.read',
-            'requests.read', 'requests.create',
-            'locations.read',
+            'work-orders.read', 'work-orders.read-all',
+            'requests.read',
             'parts.read',
-            'analytics.read', 'dashboard.access',
+            'analytics.view', 'analytics.read', 'dashboard.access', 'reports.view',
             'checklists.read',
             'vendors.read', 'customers.read'
         ],
         'Requester': [
-            'requests.create', 'requests.read'
+            'requests.create', 'requests.read', 'dashboard.access'
         ],
         'Maintenance Manager': [
             'assets.read', 'assets.create', 'assets.update', 'assets.delete',
             'pm.read', 'pm.create', 'pm.update', 'pm.delete',
-            'users.manage', 'roles.manage',
+            'users.manage', 'roles.manage', 'settings.manage',
             'work-orders.read', 'work-orders.read-all', 'work-orders.create', 'work-orders.update', 'work-orders.delete',
             'requests.read', 'requests.create', 'requests.update', 'requests.delete',
             'locations.read', 'locations.create', 'locations.update', 'locations.delete',
             'parts.read', 'parts.create', 'parts.update', 'parts.delete',
-            'analytics.view', 'analytics.read', 'dashboard.access',
+            'analytics.view', 'analytics.read', 'dashboard.access', 'reports.view',
             'checklists.read', 'checklists.create', 'checklists.update', 'checklists.delete',
             'po.read', 'po.create', 'po.update', 'po.delete',
-            'vendors.read', 'customers.read', 'data.manage',
-            'workflows.manage', 'workflows.read'
+            'vendors.read', 'vendors.create', 'vendors.update', 'vendors.delete',
+            'customers.read', 'customers.create', 'customers.update', 'customers.delete',
+            'data.manage', 'data.import-export', 'workflows.manage', 'workflows.read'
         ],
         'Customer Department Manager': [
             'requests.create', 'requests.read', 'assets.read', 'locations.read', 'dashboard.access'
