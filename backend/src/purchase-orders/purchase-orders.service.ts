@@ -377,13 +377,13 @@ export class PurchaseOrdersService {
         if (!poItem) continue;
 
         // 1. Update Fulfillment Counters
-        await tx.purchaseOrderItem.update({
+        await tx.purchaseOrderItem.updateMany({
           where: { id: item.itemId },
           data: { fulfilledQuantity: { increment: item.quantityReceived } },
         });
 
         // 2. Increase Physical Inventory
-        await tx.part.update({
+        await tx.part.updateMany({
           where: { id: poItem.partId },
           data: { quantity: { increment: item.quantityReceived } },
         });
@@ -413,10 +413,13 @@ export class PurchaseOrdersService {
 
       // Only close the PO if ALL items are fully received
       if (allFulfilled) {
-        return tx.purchaseOrder.update({
+        await tx.purchaseOrder.updateMany({
           where: { id },
           data: { status: 'RECEIVED' },
-          include: { items: true },
+        });
+        return tx.purchaseOrder.findUnique({
+          where: { id },
+          include: { items: true }
         });
       }
       
