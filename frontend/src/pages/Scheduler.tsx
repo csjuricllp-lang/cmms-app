@@ -405,12 +405,7 @@ export const Scheduler = () => {
         });
     };
 
-    if (woLoading || userLoading) return (
-        <div className="flex items-center justify-center h-full">
-            <RotateCcw className="w-8 h-8 text-primary animate-spin" />
-        </div>
-    );
-
+    // Render App Shell instantly without blocking for data
     return (
         <DndContext sensors={sensors} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
             <div className="flex flex-col h-full bg-background overflow-hidden w-full">

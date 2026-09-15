@@ -68,11 +68,15 @@ const navGroups = [
     }
 ];
 
+import { useQueryClient } from '@tanstack/react-query';
+import { api } from '../../lib/api';
+
 export const Sidebar = () => {
     const { sidebarCollapsed, toggleSidebar } = useThemeStore();
     const { isInstallable, isInstalled, install } = usePWAInstall();
     const { role, hasPermission } = useUserRole();
     const navigate = useNavigate();
+    const queryClient = useQueryClient();
     const userStr = localStorage.getItem('user');
     const user = userStr && userStr !== 'undefined' ? JSON.parse(userStr) : { name: "Guest User", email: "guest@example.com" };
 
@@ -108,6 +112,33 @@ export const Sidebar = () => {
         if (permission) return hasPermission(permission);
         if (requiredRoles) return requiredRoles.includes(userRole);
         return true;
+    };
+
+    const handlePrefetch = (path: string) => {
+        if (path === '/work-orders' || path === '/scheduler') {
+            queryClient.prefetchQuery({
+                queryKey: ['work-orders', undefined],
+                queryFn: async () => {
+                    const thirtyDaysAgo = new Date();
+                    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+                    const res = await api.get('/work-orders', { params: { createdAtStart: thirtyDaysAgo.toISOString() } });
+                    return { items: Array.isArray(res.data) ? res.data : (res.data.items || []) };
+                },
+                staleTime: 1000 * 60 * 5,
+            });
+        }
+        if (path === '/assets') {
+            queryClient.prefetchQuery({ queryKey: ['assets'], queryFn: async () => (await api.get('/assets')).data, staleTime: 1000 * 60 * 5 });
+        }
+        if (path === '/locations') {
+            queryClient.prefetchQuery({ queryKey: ['locations'], queryFn: async () => (await api.get('/locations')).data, staleTime: 1000 * 60 * 5 });
+        }
+        if (path === '/inventory') {
+            queryClient.prefetchQuery({ queryKey: ['parts'], queryFn: async () => (await api.get('/parts')).data, staleTime: 1000 * 60 * 5 });
+        }
+        if (path === '/people') {
+            queryClient.prefetchQuery({ queryKey: ['users'], queryFn: async () => (await api.get('/users')).data, staleTime: 1000 * 60 * 5 });
+        }
     };
 
     return (
@@ -151,7 +182,9 @@ export const Sidebar = () => {
                                         to={item.path}
                                         end={item.end}
                                         draggable={false}
+                                        onMouseEnter={() => handlePrefetch(item.path)}
                                         onClick={() => {
+                                            handlePrefetch(item.path);
                                             if (window.innerWidth < 768) {
                                                 toggleSidebar();
                                             }
