@@ -85,13 +85,13 @@ export class NotificationsService {
     // One for the bell icon/intelligence hub
     this.gateway.notifyNotification(workOrder.assignedToId, notification);
 
-    // Native PWA Push Notification
-    await this.pushService.sendNotification(
+    // Native PWA Push Notification - Fire and forget
+    this.pushService.sendNotification(
       workOrder.assignedToId,
       '🚀 New Mission Assigned',
       `You have been assigned to: ${workOrder.title}`,
       `/work-orders/${workOrder.id}`
-    );
+    ).catch(err => this.logger.error(`Push error: ${err.message}`));
 
     // 3. Send Email Notification (Mocked)
     const assignee = await this.prisma.userOrganization.findUnique({
@@ -100,7 +100,7 @@ export class NotificationsService {
     });
 
     if (assignee?.user?.email) {
-      await this.mailService.sendWorkOrderNotification(
+      this.mailService.sendWorkOrderNotification(
         assignee.user.email,
         'Mission Assigned',
         `Engineer, you have been assigned a new mission: "${workOrder.title}". Priority: ${workOrder.priority}.`,
@@ -147,17 +147,17 @@ export class NotificationsService {
         // 2. Emit real-time WebSocket event specifically to this manager
         this.gateway.notifyNotification(manager.id, notification);
 
-        // Native PWA Push Notification
-        await this.pushService.sendNotification(
+        // Native PWA Push Notification - Fire and forget
+        this.pushService.sendNotification(
           manager.id,
           '⚠️ Low Stock Alert',
           `Part "${part.name}" is low on stock (Qty: ${part.quantity}).`,
           `/inventory`
-        );
+        ).catch(err => this.logger.error(`Push error: ${err.message}`));
 
-        // 3. Send Email Notification
+        // 3. Send Email Notification - Fire and forget
         if (manager.user?.email) {
-          await this.mailService.sendInventoryAlert(
+          this.mailService.sendInventoryAlert(
             manager.user.email,
             'Low Stock Alert',
             `Part "${part.name}" is running low on stock. Current Quantity: ${part.quantity}. Minimum Required: ${part.minQuantity}. Please review inventory and consider generating a Purchase Order.`,
@@ -202,17 +202,17 @@ export class NotificationsService {
         // 2. Emit real-time WebSocket event specifically to this manager
         this.gateway.notifyNotification(manager.id, notification);
 
-        // Native PWA Push Notification
-        await this.pushService.sendNotification(
+        // Native PWA Push Notification - Fire and forget
+        this.pushService.sendNotification(
           manager.id,
           '✅ Mission Completed',
           `Work Order: ${workOrder.title} has been completed.`,
           `/work-orders/${workOrder.id}`
-        );
+        ).catch(err => this.logger.error(`Push error: ${err.message}`));
 
-        // 3. Send Email Notification
+        // 3. Send Email Notification - Fire and forget
         if (manager.user?.email) {
-          await this.mailService.sendWorkOrderNotification(
+          this.mailService.sendWorkOrderNotification(
             manager.user.email,
             'Mission Completed',
             `Work Order #${workOrder.workOrderNo || workOrder.id.substring(0, 8)}: "${workOrder.title}" has been successfully completed.`,
@@ -256,15 +256,15 @@ export class NotificationsService {
 
       this.gateway.notifyNotification(userOrg.id, notification);
 
-      await this.pushService.sendNotification(
+      this.pushService.sendNotification(
         userOrg.id,
         isApproved ? '🎉 Mission Approved' : '⚠️ Mission Returned',
         content,
         `/work-orders/${workOrder.id}`
-      );
+      ).catch(err => this.logger.error(`Push error: ${err.message}`));
 
       if (userOrg.user?.email) {
-        await this.mailService.sendWorkOrderNotification(
+        this.mailService.sendWorkOrderNotification(
           userOrg.user.email,
           title,
           content,
