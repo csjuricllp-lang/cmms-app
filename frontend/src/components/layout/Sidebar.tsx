@@ -115,14 +115,31 @@ export const Sidebar = () => {
     };
 
     const handlePrefetch = (path: string) => {
-        if (path === '/work-orders' || path === '/scheduler') {
+        if (path === '/work-orders') {
+            const defaultParams = {
+                page: 1,
+                limit: 20,
+                search: "",
+                status: "OPEN,PENDING_APPROVAL,IN_PROGRESS,ON_HOLD",
+                sortBy: "createdAt",
+                sortOrder: "desc"
+            };
             queryClient.prefetchQuery({
-                queryKey: ['work-orders', undefined],
+                queryKey: ['work-orders', defaultParams],
                 queryFn: async () => {
-                    const thirtyDaysAgo = new Date();
-                    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-                    const res = await api.get('/work-orders', { params: { createdAtStart: thirtyDaysAgo.toISOString() } });
-                    return { items: Array.isArray(res.data) ? res.data : (res.data.items || []) };
+                    const res = await api.get('/work-orders', { params: defaultParams });
+                    return { items: Array.isArray(res.data) ? res.data : (res.data.items || []), meta: res.data.meta };
+                },
+                staleTime: 1000 * 60 * 5,
+            });
+        }
+        if (path === '/scheduler') {
+            const unscheduledParams = { isScheduled: 'false', limit: 50 };
+            queryClient.prefetchQuery({
+                queryKey: ['work-orders-infinite', unscheduledParams],
+                queryFn: async () => {
+                    const res = await api.get('/work-orders', { params: unscheduledParams });
+                    return { items: Array.isArray(res.data) ? res.data : (res.data.items || []), meta: res.data.meta };
                 },
                 staleTime: 1000 * 60 * 5,
             });

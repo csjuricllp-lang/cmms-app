@@ -1,4 +1,4 @@
-import { useQuery, useMutation, useQueryClient, useInfiniteQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient, useInfiniteQuery, keepPreviousData } from '@tanstack/react-query';
 import { api } from '../lib/api';
 import { db, type WorkOrderSync } from '../lib/db';
 import toast from 'react-hot-toast';
@@ -50,6 +50,7 @@ export const useWorkOrders = (params?: {
     // 1. FETCH & SYNC: Get from API, save to Local DB, return Data + Meta
     const { data, isLoading, refetch } = useQuery<{ items: WorkOrderSync[]; meta?: any }>({
         queryKey: ['work-orders', params],
+        placeholderData: keepPreviousData,
         queryFn: async () => {
             try {
                 // Try to get fresh data from server
