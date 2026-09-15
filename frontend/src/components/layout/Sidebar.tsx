@@ -115,46 +115,36 @@ export const Sidebar = () => {
     };
 
     const handlePrefetch = (path: string) => {
+        // Precise prefetch for Work Orders and Scheduler (already handles specific default params)
         if (path === '/work-orders') {
-            const defaultParams = {
-                page: 1,
-                limit: 20,
-                search: "",
-                status: "OPEN,PENDING_APPROVAL,IN_PROGRESS,ON_HOLD",
-                sortBy: "createdAt",
-                sortOrder: "desc"
-            };
-            queryClient.prefetchQuery({
-                queryKey: ['work-orders', defaultParams],
-                queryFn: async () => {
-                    const res = await api.get('/work-orders', { params: defaultParams });
-                    return { items: Array.isArray(res.data) ? res.data : (res.data.items || []), meta: res.data.meta };
-                },
-                staleTime: 1000 * 60 * 5,
-            });
+            const defaultParams = { page: 1, limit: 20, search: "", status: "OPEN,PENDING_APPROVAL,IN_PROGRESS,ON_HOLD", sortBy: "createdAt", sortOrder: "desc" };
+            queryClient.prefetchQuery({ queryKey: ['work-orders', defaultParams], queryFn: async () => { const res = await api.get('/work-orders', { params: defaultParams }); return { items: Array.isArray(res.data) ? res.data : (res.data.items || []), meta: res.data.meta }; }, staleTime: 1000 * 60 * 5 });
         }
         if (path === '/scheduler') {
             const unscheduledParams = { isScheduled: 'false', limit: 50 };
+            queryClient.prefetchQuery({ queryKey: ['work-orders-infinite', unscheduledParams], queryFn: async () => { const res = await api.get('/work-orders', { params: unscheduledParams }); return { items: Array.isArray(res.data) ? res.data : (res.data.items || []), meta: res.data.meta }; }, staleTime: 1000 * 60 * 5 });
+        }
+        // Generic Array Prefetches for all other routes (used by placeholderData in useData.ts)
+        const genericRoutes: Record<string, { key: string, endpoint: string }> = {
+            '/assets': { key: 'assets', endpoint: '/assets' },
+            '/locations': { key: 'locations', endpoint: '/locations' },
+            '/inventory': { key: 'parts', endpoint: '/parts' },
+            '/people': { key: 'users', endpoint: '/users' },
+            '/vendors': { key: 'vendors', endpoint: '/vendors' },
+            '/customers': { key: 'customers', endpoint: '/customers' },
+            '/po': { key: 'purchase-orders', endpoint: '/purchase-orders' },
+            '/pm': { key: 'preventive-maintenance', endpoint: '/preventive-maintenance' },
+            '/meters': { key: 'meters', endpoint: '/meters' },
+            '/checklists': { key: 'checklists', endpoint: '/checklists' }
+        };
+
+        if (genericRoutes[path]) {
+            const route = genericRoutes[path];
             queryClient.prefetchQuery({
-                queryKey: ['work-orders-infinite', unscheduledParams],
-                queryFn: async () => {
-                    const res = await api.get('/work-orders', { params: unscheduledParams });
-                    return { items: Array.isArray(res.data) ? res.data : (res.data.items || []), meta: res.data.meta };
-                },
-                staleTime: 1000 * 60 * 5,
+                queryKey: [route.key],
+                queryFn: async () => (await api.get(route.endpoint)).data,
+                staleTime: 1000 * 60 * 5
             });
-        }
-        if (path === '/assets') {
-            queryClient.prefetchQuery({ queryKey: ['assets'], queryFn: async () => (await api.get('/assets')).data, staleTime: 1000 * 60 * 5 });
-        }
-        if (path === '/locations') {
-            queryClient.prefetchQuery({ queryKey: ['locations'], queryFn: async () => (await api.get('/locations')).data, staleTime: 1000 * 60 * 5 });
-        }
-        if (path === '/inventory') {
-            queryClient.prefetchQuery({ queryKey: ['parts'], queryFn: async () => (await api.get('/parts')).data, staleTime: 1000 * 60 * 5 });
-        }
-        if (path === '/people') {
-            queryClient.prefetchQuery({ queryKey: ['users'], queryFn: async () => (await api.get('/users')).data, staleTime: 1000 * 60 * 5 });
         }
     };
 

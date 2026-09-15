@@ -391,8 +391,10 @@ export const usePaginatedLocations = (params?: {
 };
 
 export const useInfiniteLocations = (filters?: any) => {
+    const queryClient = useQueryClient();
     return useInfiniteQuery({
         queryKey: ['locations', 'infinite', filters],
+        placeholderData: keepPreviousData,
         queryFn: async ({ pageParam = 1 }) => {
             const response = await api.get('/locations', {
                 params: {
@@ -421,6 +423,16 @@ export const useInfiniteLocations = (filters?: any) => {
             return undefined;
         },
         initialPageParam: 1,
+        initialData: () => {
+            const genericData = queryClient.getQueryData<any[]>(['locations']);
+            if (genericData) {
+                return {
+                    pages: [{ items: genericData, meta: { currentPage: 1, totalPages: 1, total: genericData.length } }],
+                    pageParams: [1]
+                };
+            }
+            return undefined;
+        }
     });
 };
 
@@ -460,8 +472,10 @@ export const useAssets = () => {
 };
 
 export const useInfiniteAssets = (filters?: any) => {
+    const queryClient = useQueryClient();
     return useInfiniteQuery({
         queryKey: ['assets', 'infinite', filters],
+        placeholderData: keepPreviousData,
         queryFn: async ({ pageParam = 1 }) => {
             const response = await api.get('/assets', {
                 params: {
@@ -482,6 +496,16 @@ export const useInfiniteAssets = (filters?: any) => {
             return undefined;
         },
         initialPageParam: 1,
+        initialData: () => {
+            const genericData = queryClient.getQueryData<any[]>(['assets']);
+            if (genericData) {
+                return {
+                    pages: [{ items: genericData, meta: { currentPage: 1, totalPages: 1, total: genericData.length } }],
+                    pageParams: [1]
+                };
+            }
+            return undefined;
+        }
     });
 };
 
@@ -660,12 +684,19 @@ export const useParts = (params?: {
     sortOrder?: string,
     limit?: number 
 }) => {
+    const queryClient = useQueryClient();
     return useQuery<Part[]>({
         queryKey: ['parts', params],
+        placeholderData: keepPreviousData,
         queryFn: async () => {
             const response = await api.get('/parts', { params });
             const data = response.data;
             return Array.isArray(data) ? data : data.items || [];
+        },
+        initialData: () => {
+            const genericData = queryClient.getQueryData<Part[]>(['parts']);
+            if (genericData) return genericData;
+            return undefined;
         }
     });
 };
