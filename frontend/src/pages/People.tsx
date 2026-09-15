@@ -9,6 +9,7 @@ import { useUserRole } from '../hooks/useUserRole';
 import type { User, Team } from '../types';
 import { cn } from '../lib/utils';
 import { AnimatePresence } from 'framer-motion';
+import { DebouncedSearchInput } from '../components/DebouncedSearchInput';
 
 import { InviteModal } from '../components/InviteModal';
 import { CreateTeamModal } from '../components/CreateTeamModal';
@@ -191,16 +192,12 @@ export const PeoplePage = () => {
                         <Columns className="w-4 h-4" />
                         Columns
                     </div >
-                    <div className="relative">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 focus-within:text-primary transition-colors" />
-                        <input 
-                            type="text" 
-                            placeholder="Search" 
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                            className="pl-10 pr-4 py-2.5 bg-gray-100/60 border-transparent rounded-xl text-[14px] font-bold w-72 focus:bg-card focus:ring-4 focus:ring-primary/10 outline-none transition-all"
-                        />
-                    </div>
+                    <DebouncedSearchInput
+                        value={searchTerm}
+                        onChange={setSearchTerm}
+                        placeholder={`Search ${activeTab}...`}
+                        className="w-[280px]"
+                    />
                     {activeTab === 'teams' && (
                         <div className="flex items-center gap-1 bg-muted p-1 rounded-xl border border-border">
                             <button 

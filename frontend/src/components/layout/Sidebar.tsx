@@ -150,6 +150,7 @@ export const Sidebar = () => {
                                         key={item.name}
                                         to={item.path}
                                         end={item.end}
+                                        draggable={false}
                                         onClick={() => {
                                             if (window.innerWidth < 768) {
                                                 toggleSidebar();
@@ -157,7 +158,7 @@ export const Sidebar = () => {
                                         }}
                                         className={({ isActive }) => cn(
                                             // Base
-                                            "relative flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-semibold transition-all duration-200 group/nav",
+                                            "relative flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-semibold transition-all duration-200 group/nav select-none",
                                             isActive
                                                 // Active: vivid left-accent bar + tinted bg + primary text
                                                 ? "bg-primary/10 text-primary border border-primary/20 shadow-sm shadow-primary/5 pl-[calc(0.75rem+3px)]"
