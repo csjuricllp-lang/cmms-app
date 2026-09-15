@@ -102,6 +102,33 @@ export type WorkOrderWithRelations = Prisma.WorkOrderGetPayload<{
   include: typeof WO_INCLUDES;
 }>;
 
+const WO_LIST_INCLUDES = {
+  asset: { select: { id: true, name: true, status: true, criticality: true } },
+  location: { select: { id: true, name: true } },
+  assignedTo: {
+    include: { user: { select: { id: true, name: true, email: true } } },
+  },
+  assignedTeam: { select: { id: true, name: true } },
+  checklist: { select: { id: true, title: true } },
+  request: {
+    include: {
+      requester: {
+        include: { user: { select: { name: true } } }
+      }
+    }
+  },
+  technicians: {
+    include: {
+      user: {
+        include: { user: { select: { id: true, name: true, email: true } } },
+      },
+    },
+  },
+  customStatus: {
+    select: { id: true, label: true, color: true, systemStatus: true },
+  }
+} as const;
+
 const WO_DETAILED_INCLUDES = {
   ...WO_INCLUDES,
   checklist: { include: { items: true } },
@@ -797,7 +824,7 @@ export class WorkOrdersService {
     ) {
       return this.prisma.workOrder.findMany({
         where,
-        include: WO_INCLUDES,
+        include: WO_LIST_INCLUDES,
         orderBy,
       });
     }
@@ -812,7 +839,7 @@ export class WorkOrdersService {
     const [items, total, statusCountsRaw] = await Promise.all([
       this.prisma.workOrder.findMany({
         where,
-        include: WO_INCLUDES,
+        include: WO_LIST_INCLUDES,
         orderBy,
         skip,
         take: currentLimit,
