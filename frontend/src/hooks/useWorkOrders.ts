@@ -34,6 +34,9 @@ export const useWorkOrders = (params?: {
 }) => {
     const queryClient = useQueryClient();
 
+    // Strip undefined values so React Query caching keys match perfectly with the prefetcher
+    const cleanParams = params ? Object.fromEntries(Object.entries(params).filter(([_, v]) => v !== undefined)) : undefined;
+
     // Determine if we are doing a paginated server query or a full-sync fetch
     const isPaginated = !!(
         params?.page || params?.limit || params?.search ||
@@ -49,7 +52,7 @@ export const useWorkOrders = (params?: {
 
     // 1. FETCH & SYNC: Get from API, save to Local DB, return Data + Meta
     const { data, isLoading, refetch } = useQuery<{ items: WorkOrderSync[]; meta?: any }>({
-        queryKey: ['work-orders', params],
+        queryKey: ['work-orders', cleanParams],
         placeholderData: keepPreviousData,
         queryFn: async () => {
             try {
